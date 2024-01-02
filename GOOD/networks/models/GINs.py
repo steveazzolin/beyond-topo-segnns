@@ -67,6 +67,7 @@ class GINFeatExtractor(GNNBasic):
     """
     def __init__(self, config: Union[CommonArgs, Munch], **kwargs):
         super(GINFeatExtractor, self).__init__(config)
+        print("#D#Init GINFeatExtractor")
         num_layer = config.model.model_layer
         if config.dataset.dataset_type == 'mol':
             self.encoder = GINMolEncoder(config, **kwargs)

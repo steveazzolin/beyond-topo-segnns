@@ -16,15 +16,24 @@ from .BaseGNN import GNNBasic
 from .Classifiers import Classifier
 from .GINs import GINFeatExtractor
 from .GINvirtualnode import vGINFeatExtractor
-
+import copy
 
 @register.model_register
 class GSATGIN(GNNBasic):
 
     def __init__(self, config: Union[CommonArgs, Munch]):
         super(GSATGIN, self).__init__(config)
+        
+        config = copy.deepcopy(config)
+
         self.gnn = GINFeatExtractor(config)
         self.extractor = ExtractorMLP(config)
+
+        if config.mitigation_sampling == "raw":
+            config.mitigation_backbone = None
+            self.gnn_clf = GINFeatExtractor(config)
+        else:
+            self.gnn_clf = None
 
         self.classifier = Classifier(config)
         self.learn_edge_att = config.ood.extra_param[0]
@@ -59,7 +68,10 @@ class GSATGIN(GNNBasic):
             edge_att = self.lift_node_att_to_edge_att(att, data.edge_index)
 
         set_masks(edge_att, self)
-        logits = self.classifier(self.gnn(*args, **kwargs))
+        if self.gnn_clf:
+            logits = self.classifier(self.gnn_clf(*args, **kwargs))
+        else:
+            logits = self.classifier(self.gnn(*args, **kwargs))
         clear_masks(self)
         self.edge_mask = edge_att
         return logits, att, edge_att
@@ -95,6 +107,12 @@ class GSATvGIN(GSATGIN):
     def __init__(self, config: Union[CommonArgs, Munch]):
         super(GSATvGIN, self).__init__(config)
         self.gnn = vGINFeatExtractor(config)
+
+        if config.mitigation_sampling == "raw":
+            config.mitigation_backbone = None
+            self.gnn_clf = vGINFeatExtractor(config)
+        else:
+            self.gnn_clf = None
 
 
 class ExtractorMLP(nn.Module):

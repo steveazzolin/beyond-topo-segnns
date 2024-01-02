@@ -57,6 +57,7 @@ class vGINFeatExtractor(GINFeatExtractor):
     """
     def __init__(self, config: Union[CommonArgs, Munch], **kwargs):
         super(vGINFeatExtractor, self).__init__(config)
+        print("#D#Init vGINFeatExtractor")
         num_layer = config.model.model_layer
         if config.dataset.dataset_type == 'mol':
             self.encoder = vGINMolEncoder(config, **kwargs)
@@ -212,14 +213,41 @@ class vGINMolEncoder(GINMolEncoder, VirtualNodeEncoder):
         layer_feat = [self.atom_encoder(x)]
         for i, (conv, batch_norm, relu, dropout) in enumerate(
                 zip(self.convs, self.batch_norms, self.relus, self.dropouts)):
+            
             # --- Add global info ---
             post_conv = layer_feat[-1] + virtual_node_feat[-1][batch]
             post_conv = batch_norm(conv(post_conv, edge_index, edge_attr))
             if i < len(self.convs) - 1:
                 post_conv = relu(post_conv)
             layer_feat.append(dropout(post_conv))
+
             # --- update global info ---
             if i < len(self.convs) - 1:
                 virtual_node_feat.append(
-                    self.virtual_mlp(self.virtual_pool(layer_feat[-1], batch, batch_size) + virtual_node_feat[-1]))
+                    self.virtual_mlp(self.virtual_pool(layer_feat[-1], batch, None) + virtual_node_feat[-1]))
+                # try:
+                #     tmp0 = self.virtual_pool(layer_feat[-1], batch, None)
+                #     tmp = tmp0 + virtual_node_feat[-1]
+                # except RuntimeError as e:
+                #     print("\n\nDEBUG:")
+                #     print(batch_size)
+                #     print(x.shape, edge_index.shape)
+                #     print(torch.unique(batch, return_counts=True))
+                #     print(layer_feat[-1].shape, )
+                #     print(tmp0.shape)     
+                #     print("\nlayer_feat")               
+                #     for k in range(len(layer_feat)):
+                #         print(layer_feat[k].shape)
+                #     print("\nvirtual_node_feat")               
+                #     for k in range(len(virtual_node_feat)):
+                #         print(virtual_node_feat[k].shape)
+                #     print(e)
+                #     raise e
+                
+                # try:
+                #     virtual_node_feat.append(self.virtual_mlp(tmp))
+                # except RuntimeError as e:
+                #     print(tmp.shape)
+                #     print(e)
+                #     raise e
         return layer_feat[-1]

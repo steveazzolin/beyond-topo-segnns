@@ -23,6 +23,8 @@ class CIGAGIN(GNNBasic):
 
     def __init__(self, config: Union[CommonArgs, Munch]):
         super(CIGAGIN, self).__init__(config)
+        print("#D# Init CIGAGIN")
+
         self.contrast_rep = config.mitigation_sampling
         assert self.contrast_rep in ["feat", "raw"], self.contrast_rep
 
@@ -101,7 +103,7 @@ class CIGAGIN(GNNBasic):
             #     causal_h, _, __, ___ = relabel(node_h, causal_edge_index, data.batch)
             # if self.contrast_rep == "raw":
             #     causal_x, _, __, ___ = relabel(orig_x, causal_edge_index, data.batch)
-            causal_rep_out = global_add_pool(causal_x, batch=causal_batch, size=batch_size)
+            causal_rep_out = global_add_pool(causal_x.to(causal_rep.dtype), batch=causal_batch, size=batch_size)
             # print(data)
             # print(causal_x.size(),causal_edge_index.size(),causal_rep.size())
             # print(spu_x.size(),spu_edge_index.size(),spu_rep.size())
@@ -133,9 +135,11 @@ class CIGAvGINNC(CIGAGIN):
     """
     def __init__(self, config: Union[CommonArgs, Munch]):
         super(CIGAvGINNB, self).__init__(config)
+        assert False
         self.att_net = GAEAttNet(config.ood.ood_param, config, virtual_node=True, no_bn=True)
         config_fe = copy.deepcopy(config)
         config_fe.model.model_layer = config.model.model_layer - 2
+        config_fe.mitigation_backbone = None
         self.feat_encoder = vGINFeatExtractor(config_fe, without_embed=True)
         spu_gnn_config = copy.deepcopy(config_fe)
         spu_gnn_config.model.model_layer = 1
@@ -145,27 +149,36 @@ class CIGAvGINNC(CIGAGIN):
 
 @register.model_register
 class CIGAvGIN(CIGAGIN):
-
     def __init__(self, config: Union[CommonArgs, Munch]):
         super(CIGAvGIN, self).__init__(config)
+        print("#D#Init CIGAvGIN")
+        print("#D#Init Backbone: ", config.model.model_layer)
+
         self.att_net = GAEAttNet(config.ood.ood_param, config, virtual_node=True)
         config_fe = copy.deepcopy(config)
-        config_fe.model.model_layer = config.model.model_layer - 2
-        self.feat_encoder = vGINFeatExtractor(config_fe, without_embed=True)
+        
+        print("#D#Init CLF: ", config.model.model_layer)        
+        config_fe.mitigation_backbone = None
+        if self.contrast_rep == "feat":
+            config_fe.model.model_layer = config.model.model_layer - 2
+        elif self.contrast_rep == "raw":
+            config_fe.model.model_layer = config.model.model_layer
+
+        self.feat_encoder = vGINFeatExtractor(config_fe, without_embed=True if self.contrast_rep == "feat" else False)
     
 @register.model_register
 class CIGAvGINNB(CIGAGIN):
-
     def __init__(self, config: Union[CommonArgs, Munch]):
         super(CIGAvGINNB, self).__init__(config)
+        assert False
         self.att_net = GAEAttNet(config.ood.ood_param, config, virtual_node=True, no_bn=True)
         config_fe = copy.deepcopy(config)
+        config_fe.mitigation_backbone = None
         config_fe.model.model_layer = config.model.model_layer - 2
-        self.feat_encoder = vGINFeatExtractor(config_fe, without_embed=True)
+        self.feat_encoder = vGINFeatExtractor(config_fe, without_embed=True if self.contrast_rep == "feat" else False)
 
 
 class GAEAttNet(nn.Module):
-
     def __init__(self, causal_ratio, config, **kwargs):
         super(GAEAttNet, self).__init__()
         config_catt = copy.deepcopy(config)
@@ -195,6 +208,7 @@ class GAEAttNet(nn.Module):
             causal_x, causal_edge_index, causal_batch, _ = relabel(node_h, causal_edge_index, data.batch)
             spu_x, spu_edge_index, spu_batch, _ = relabel(node_h, spu_edge_index, data.batch)
         else:
+            assert False
             causal_x, causal_edge_index, causal_edge_attr, causal_edge_weight, causal_batch = \
                 node_h, data.edge_index, data.edge_attr, \
                 float('inf') * torch.ones(data.edge_index.shape[1], device=data.x.device), \
