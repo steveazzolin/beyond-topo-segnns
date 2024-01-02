@@ -220,6 +220,8 @@ class vGINMolEncoder(GINMolEncoder, VirtualNodeEncoder):
             layer_feat.append(dropout(post_conv))
             # --- update global info ---
             if i < len(self.convs) - 1:
+                tmp = self.virtual_pool(layer_feat[-1], batch, batch_size)
+                # print(tmp.shape, virtual_node_feat[-1].shape)
                 virtual_node_feat.append(
                     self.virtual_mlp(self.virtual_pool(layer_feat[-1], batch, batch_size) + virtual_node_feat[-1]))
         return layer_feat[-1]

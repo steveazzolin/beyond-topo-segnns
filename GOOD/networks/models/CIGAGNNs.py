@@ -23,6 +23,8 @@ class CIGAGIN(GNNBasic):
 
     def __init__(self, config: Union[CommonArgs, Munch]):
         super(CIGAGIN, self).__init__(config)
+        print("#D# Init CIGAGIN")
+
         self.contrast_rep = config.mitigation_sampling
         assert self.contrast_rep in ["feat", "raw"], self.contrast_rep
 
@@ -34,7 +36,7 @@ class CIGAGIN(GNNBasic):
         elif self.contrast_rep == "raw":
             config_fe.model.model_layer = config.model.model_layer
 
-        print("Using ", config_fe.model.model_layer, " layers for classifier")
+        print("#D#Using ", config_fe.model.model_layer, " layers for classifier")
         
         config_fe.mitigation_backbone = None
         self.feat_encoder = GINFeatExtractor(config_fe, without_embed=True if self.contrast_rep == "feat" else False)
@@ -43,7 +45,7 @@ class CIGAGIN(GNNBasic):
         self.causal_lin = torch.nn.Linear(config.model.dim_hidden, self.num_tasks)
         self.spu_lin = torch.nn.Linear(config.model.dim_hidden, self.num_tasks)
 
-        print(f"Using feature sampling = {self.contrast_rep}")
+        print(f"#D#Using feature sampling = {self.contrast_rep}")
         if type(config.ood.extra_param[-1]) == str:
             assert False
             self.contrast_rep = config.ood.extra_param[-1]
@@ -101,7 +103,7 @@ class CIGAGIN(GNNBasic):
             #     causal_h, _, __, ___ = relabel(node_h, causal_edge_index, data.batch)
             # if self.contrast_rep == "raw":
             #     causal_x, _, __, ___ = relabel(orig_x, causal_edge_index, data.batch)
-            causal_rep_out = global_add_pool(causal_x, batch=causal_batch, size=batch_size)
+            causal_rep_out = global_add_pool(causal_x.to(causal_rep.dtype), batch=causal_batch, size=batch_size)
             # print(data)
             # print(causal_x.size(),causal_edge_index.size(),causal_rep.size())
             # print(spu_x.size(),spu_edge_index.size(),spu_rep.size())
@@ -125,6 +127,24 @@ class CIGAGIN(GNNBasic):
         causal_pred = self.causal_lin(causal_graph_x)
         spu_pred = self.spu_lin(spu_graph_x).detach()
         return torch.sigmoid(spu_pred) * causal_pred
+    
+    def get_subgraph(self, *args, **kwargs):
+        data = kwargs.get('data')
+        
+        data.x_debug = torch.zeros_like(data.x)
+        for i in range(data.x.shape[0]):
+            data.x_debug[i] = torch.tensor([i]*data.x.shape[1])
+
+        batch_size = data.batch[-1].item() + 1
+
+        (causal_x, causal_edge_index, causal_edge_attr, causal_edge_weight, causal_batch), \
+        (spu_x, spu_edge_index, spu_edge_attr, spu_edge_weight, spu_batch), \
+        pred_edge_weight, node_h, orig_x = self.att_net(*args, **kwargs)
+
+        causal_x = data.x_debug[torch.unique(causal_edge_index)] # DEBUG STEVE
+        spu_x = data.x_debug[torch.unique(spu_edge_index)] # DEBUG STEVE
+        return (causal_edge_index, causal_x, causal_batch, causal_edge_weight), (spu_edge_index, spu_x, spu_batch, causal_edge_weight)
+
 
 @register.model_register
 class CIGAvGINNC(CIGAGIN):
@@ -133,9 +153,13 @@ class CIGAvGINNC(CIGAGIN):
     """
     def __init__(self, config: Union[CommonArgs, Munch]):
         super(CIGAvGINNB, self).__init__(config)
+        assert False
         self.att_net = GAEAttNet(config.ood.ood_param, config, virtual_node=True, no_bn=True)
         config_fe = copy.deepcopy(config)
         config_fe.model.model_layer = config.model.model_layer - 2
+        
+        config_fe.mitigation_backbone = None
+
         self.feat_encoder = vGINFeatExtractor(config_fe, without_embed=True)
         spu_gnn_config = copy.deepcopy(config_fe)
         spu_gnn_config.model.model_layer = 1
@@ -148,32 +172,49 @@ class CIGAvGIN(CIGAGIN):
 
     def __init__(self, config: Union[CommonArgs, Munch]):
         super(CIGAvGIN, self).__init__(config)
+        print("#D#Init CIGAvGIN")
+        print("#D#Init Backbone: ", config.model.model_layer)
         self.att_net = GAEAttNet(config.ood.ood_param, config, virtual_node=True)
+        print("#D#Init CLF: ", config.model.model_layer)
         config_fe = copy.deepcopy(config)
-        config_fe.model.model_layer = config.model.model_layer - 2
-        self.feat_encoder = vGINFeatExtractor(config_fe, without_embed=True)
+
+        config_fe.mitigation_backbone = None
+
+        if self.contrast_rep == "feat":
+            config_fe.model.model_layer = config.model.model_layer - 2
+        elif self.contrast_rep == "raw":
+            config_fe.model.model_layer = config.model.model_layer
+        self.feat_encoder = vGINFeatExtractor(config_fe, without_embed=True if self.contrast_rep == "feat" else False)
     
 @register.model_register
 class CIGAvGINNB(CIGAGIN):
 
     def __init__(self, config: Union[CommonArgs, Munch]):
         super(CIGAvGINNB, self).__init__(config)
+        assert False
         self.att_net = GAEAttNet(config.ood.ood_param, config, virtual_node=True, no_bn=True)
         config_fe = copy.deepcopy(config)
-        config_fe.model.model_layer = config.model.model_layer - 2
-        self.feat_encoder = vGINFeatExtractor(config_fe, without_embed=True)
+        
+        config_fe.mitigation_backbone = None
+
+        if self.contrast_rep == "feat":
+            config_fe.model.model_layer = config.model.model_layer - 2
+        elif self.contrast_rep == "raw":
+            config_fe.model.model_layer = config.model.model_layer
+        self.feat_encoder = vGINFeatExtractor(config_fe, without_embed=True if self.contrast_rep == "feat" else False)
 
 
 class GAEAttNet(nn.Module):
-
     def __init__(self, causal_ratio, config, **kwargs):
         super(GAEAttNet, self).__init__()
         config_catt = copy.deepcopy(config)
         config_catt.model.model_layer = 2
         config_catt.model.dropout_rate = 0
         if kwargs.get('virtual_node'):
+            print("#D#Creating vGINFeatExtractor: ", config.model.model_layer)
             self.gnn_node = vGINFeatExtractor(config_catt, without_readout=True, **kwargs)
         else:
+            print("#D#Creating GINFeatExtractor: ", config.model.model_layer)
             self.gnn_node = GINFeatExtractor(config_catt, without_readout=True, **kwargs)
         self.linear = nn.Linear(config_catt.model.dim_hidden * 2, 1)
         self.ratio = causal_ratio
@@ -192,9 +233,16 @@ class GAEAttNet(nn.Module):
             (causal_edge_index, causal_edge_attr, causal_edge_weight), \
             (spu_edge_index, spu_edge_attr, spu_edge_weight) = split_graph(data, edge_score, self.ratio)
 
-            causal_x, causal_edge_index, causal_batch, _ = relabel(node_h, causal_edge_index, data.batch)
-            spu_x, spu_edge_index, spu_batch, _ = relabel(node_h, spu_edge_index, data.batch)
+            if kwargs.get('do_relabel', True):
+                causal_x, causal_edge_index, causal_batch, _ = relabel(node_h, causal_edge_index, data.batch)
+                spu_x, spu_edge_index, spu_batch, _ = relabel(node_h, spu_edge_index, data.batch)
+            else:
+                causal_x = None
+                spu_x = None
+                causal_batch = None
+                spu_batch = None
         else:
+            assert False
             causal_x, causal_edge_index, causal_edge_attr, causal_edge_weight, causal_batch = \
                 node_h, data.edge_index, data.edge_attr, \
                 float('inf') * torch.ones(data.edge_index.shape[1], device=data.x.device), \
@@ -209,8 +257,9 @@ class GAEAttNet(nn.Module):
 def set_masks(mask: Tensor, model: nn.Module):
     for module in model.modules():
         if isinstance(module, MessagePassing):
-            module.__explain__ = True
-            module._explain = True
+            # module.__explain__ = True
+            # module._explain = True
+            module._steve_explain = True
             module.__edge_mask__ = mask
             module._edge_mask = mask
 
@@ -218,8 +267,9 @@ def set_masks(mask: Tensor, model: nn.Module):
 def clear_masks(model: nn.Module):
     for module in model.modules():
         if isinstance(module, MessagePassing):
-            module.__explain__ = False
-            module._explain = False
+            # module.__explain__ = False
+            # module._explain = False
+            module._steve_explain = False
             module.__edge_mask__ = None
             module._edge_mask = None
 

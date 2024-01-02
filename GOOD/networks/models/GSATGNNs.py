@@ -45,6 +45,7 @@ class GSATGIN(GNNBasic):
 
         """
         data = kwargs.get('data')
+        print(data)
         emb = self.gnn(*args, without_readout=True, **kwargs)
         att_log_logits = self.extractor(emb, data.edge_index, data.batch)
         att = self.sampling(att_log_logits, self.training)
@@ -59,6 +60,8 @@ class GSATGIN(GNNBasic):
             edge_att = self.lift_node_att_to_edge_att(att, data.edge_index)
 
         set_masks(edge_att, self)
+        print(kwargs.get('data'))
+        exit()
         logits = self.classifier(self.gnn(*args, **kwargs))
         clear_masks(self)
         self.edge_mask = edge_att

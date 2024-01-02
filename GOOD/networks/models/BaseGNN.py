@@ -78,6 +78,10 @@ class GNNBasic(torch.nn.Module):
     def probs(self, *args, **kwargs):
         # nodes x classes
         return self(*args, **kwargs).softmax(dim=1)
+    
+    def log_probs(self, *args, **kwargs):
+        # nodes x classes
+        return self(*args, **kwargs).log_softmax(dim=1)
 
     def at_stage(self, i):
         r"""
