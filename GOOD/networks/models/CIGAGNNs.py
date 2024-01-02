@@ -157,9 +157,7 @@ class CIGAvGINNC(CIGAGIN):
         self.att_net = GAEAttNet(config.ood.ood_param, config, virtual_node=True, no_bn=True)
         config_fe = copy.deepcopy(config)
         config_fe.model.model_layer = config.model.model_layer - 2
-        
         config_fe.mitigation_backbone = None
-
         self.feat_encoder = vGINFeatExtractor(config_fe, without_embed=True)
         spu_gnn_config = copy.deepcopy(config_fe)
         spu_gnn_config.model.model_layer = 1
@@ -169,34 +167,31 @@ class CIGAvGINNC(CIGAGIN):
 
 @register.model_register
 class CIGAvGIN(CIGAGIN):
-
     def __init__(self, config: Union[CommonArgs, Munch]):
         super(CIGAvGIN, self).__init__(config)
         print("#D#Init CIGAvGIN")
         print("#D#Init Backbone: ", config.model.model_layer)
+
         self.att_net = GAEAttNet(config.ood.ood_param, config, virtual_node=True)
-        print("#D#Init CLF: ", config.model.model_layer)
         config_fe = copy.deepcopy(config)
-
+        
+        print("#D#Init CLF: ", config.model.model_layer)        
         config_fe.mitigation_backbone = None
-
         if self.contrast_rep == "feat":
             config_fe.model.model_layer = config.model.model_layer - 2
         elif self.contrast_rep == "raw":
             config_fe.model.model_layer = config.model.model_layer
+
         self.feat_encoder = vGINFeatExtractor(config_fe, without_embed=True if self.contrast_rep == "feat" else False)
     
 @register.model_register
 class CIGAvGINNB(CIGAGIN):
-
     def __init__(self, config: Union[CommonArgs, Munch]):
         super(CIGAvGINNB, self).__init__(config)
         assert False
         self.att_net = GAEAttNet(config.ood.ood_param, config, virtual_node=True, no_bn=True)
-        config_fe = copy.deepcopy(config)
-        
+        config_fe = copy.deepcopy(config)        
         config_fe.mitigation_backbone = None
-
         if self.contrast_rep == "feat":
             config_fe.model.model_layer = config.model.model_layer - 2
         elif self.contrast_rep == "raw":

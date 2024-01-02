@@ -50,7 +50,7 @@ class LECIGIN(GNNBasic):
         # --- Build networks ---
         self.sub_gnn = GINFeatExtractor(self.config, **fe_kwargs)
         self.config.mitigation_backbone = None
-        print(f"Using feature sampling = {self.config.mitigation_sampling}")
+        print(f"Using feature sampling := {self.config.mitigation_sampling}")
         print(f"self.EF = {self.EF}")
 
 
@@ -78,7 +78,6 @@ class LECIGIN(GNNBasic):
                                                   'dataset': {'num_classes': self.config.dataset.num_envs}}))
 
         self.edge_mask = None
-        exit("debug")
 
 
 
@@ -186,13 +185,12 @@ class LECIvGIN(LECIGIN):
 
     def __init__(self, config: Union[CommonArgs, Munch]):
         super(LECIvGIN, self).__init__(config)
-        assert False
         fe_kwargs = {'without_embed': True if self.EF else False}
-        self.sub_gnn = vGINFeatExtractor(config, **fe_kwargs)
-        self.lc_gnn = vGINFeatExtractor(config, **fe_kwargs)
-        self.la_gnn = vGINFeatExtractor(config, **fe_kwargs)
-        self.ec_gnn = vGINFeatExtractor(config, **fe_kwargs) # Never used
-        self.ea_gnn = vGINFeatExtractor(config, **fe_kwargs)
+        self.sub_gnn = vGINFeatExtractor(self.config, **fe_kwargs)
+        self.lc_gnn = vGINFeatExtractor(self.config, **fe_kwargs)
+        self.la_gnn = vGINFeatExtractor(self.config, **fe_kwargs)
+        self.ec_gnn = vGINFeatExtractor(self.config, **fe_kwargs) # Never used
+        self.ea_gnn = vGINFeatExtractor(self.config, **fe_kwargs)
 
 
 class EFMLP(nn.Module):
