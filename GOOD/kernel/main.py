@@ -56,6 +56,7 @@ def main():
     assert not args.seeds is None, args.seeds
 
     test_scores = []
+    test_suff = []
     for i, seed in enumerate(args.seeds.split("/")):
         seed = int(seed)
         print(f"\n\n#D#Running with seed = {seed}")
@@ -74,15 +75,24 @@ def main():
         ood_algorithm = load_ood_alg(config.ood.ood_alg, config)
 
         pipeline = load_pipeline(config.pipeline, config.task, model, loader, ood_algorithm, config)
-        pipeline.load_task()
 
         if config.task == 'train':
+            pipeline.load_task() # train model
             pipeline.task = 'test'
             test_score, test_loss = pipeline.load_task()
             test_scores.append(test_score)
+        elif config.task == 'test':
+            test_score, test_loss = pipeline.load_task(load_param=True)
+            # test_scores.append(test_score)
+            sa = pipeline.evaluate("test")
+            test_scores.append(sa['score'])
+            test_suff.append(sa["suff"])
+            print(f"Printing obtained and stored scores: {sa['score']} !=? {test_score}")
+            print(f"SUFF = {sa['suff']}")
     print()
     print()
     print("Final OOD Test scores: ", round(np.mean(test_scores), 4), "+-", round(np.std(test_scores), 4))
+    print("Final SUFF scores: ", round(np.mean(test_suff), 4), "+-", round(np.std(test_suff), 4))
     print()
 
 

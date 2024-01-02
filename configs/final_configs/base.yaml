@@ -10,7 +10,9 @@ other_saved: null
 clean_save: False
 pytest: False
 pipeline: Pipeline
-num_workers: 0
+num_workers: 4
+expval_budget: 5 # Added by Steve
+numsamples_budget: all
 train:
   weight_decay: 0.
   save_gap: 10
