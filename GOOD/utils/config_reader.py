@@ -168,7 +168,7 @@ def args2config(config: Union[CommonArgs, Munch], args: CommonArgs):
                               f'modification by adding command arguments.')
 
 
-def process_configs(config: Union[CommonArgs, Munch]):
+def process_configs(config: Union[CommonArgs, Munch], args=None):
     r"""
     Process loaded configs.
     This process includes setting storage places for datasets, tensorboard logs, logs, and checkpoints. In addition,
@@ -200,7 +200,12 @@ def process_configs(config: Union[CommonArgs, Munch]):
     dataset_dirname = config.dataset.dataset_name + '_' + config.dataset.domain
     if config.dataset.shift_type:
         dataset_dirname += '_' + config.dataset.shift_type
-    model_dirname = f'{config.model.model_name}_{config.model.model_layer}l_{config.model.global_pool}pool_{config.model.dropout_rate}dp'
+    model_dirname = f'{config.model.model_name}_' \
+                    f'{config.model.model_layer}l_' \
+                    f'{config.model.global_pool}pool_' \
+                    f'{config.model.dropout_rate}dp_' \
+                    f'mitig_backbone{args.mitigation_backbone}_' \
+                    f'mitig_sampling{args.mitigation_sampling}'
     train_dirname = f'{config.train.lr}lr_{config.train.weight_decay}wd'
     ood_dirname = config.ood.ood_alg
     if config.ood.ood_param is not None and config.ood.ood_param >= 0:
@@ -252,5 +257,5 @@ def config_summoner(args: CommonArgs) -> Union[CommonArgs, Munch]:
     config, duplicate_warnings, duplicate_errors = load_config(args.config_path)
     args2config(config, args)
     config = munchify(config)
-    process_configs(config)
+    process_configs(config, args)
     return config
