@@ -84,7 +84,7 @@ def main():
         elif config.task == 'test':
             test_score, test_loss = pipeline.load_task(load_param=True)
             # test_scores.append(test_score)
-            sa = pipeline.evaluate("test")
+            sa = pipeline.evaluate("test", compute_suff=False)
             test_scores.append(sa['score'])
             test_suff.append(sa["suff"])
             print(f"Printing obtained and stored scores: {sa['score']} !=? {test_score}")
