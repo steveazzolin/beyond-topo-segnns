@@ -25,7 +25,7 @@ def reset_random_seed(config: Union[CommonArgs, Munch]):
     torch.cuda.manual_seed(config.random_seed)
     torch.cuda.manual_seed_all(config.random_seed)
     torch.backends.cudnn.deterministic = True
-    torch.backends.cudnn.benchmark = False
+    torch.backends.cudnn.benchmark = True
 
     # Default state is a training state
     torch.enable_grad()

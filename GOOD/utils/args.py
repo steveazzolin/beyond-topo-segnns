@@ -108,6 +108,9 @@ class CommonArgs(Tap):
     seeds: str = None # Added by Steve
     mitigation_backbone: str = None # Added by Steve
     mitigation_sampling: str = "feat" # Added by Steve
+    expval_budget: int = None # Added by Steve
+    numsamples_budget: int = None # Added by Steve
+    
     pytest: bool = None
     pipeline: str = None  #: Training/test controller.
 
