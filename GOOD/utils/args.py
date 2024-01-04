@@ -102,12 +102,17 @@ class CommonArgs(Tap):
     """
     config_path: str = None  #: (Required) The path for the config file.
 
-    task: Literal['train', 'test'] = None  #: Running mode. Allowed: 'train' and 'test'.
+    task: Literal['train', 'test', 'debug_suff'] = None  #: Running mode. Allowed: 'train' and 'test'.
     random_seed: int = None  #: Fixed random seed for reproducibility.
     exp_round: int = None  #: Current experiment round.
+
     seeds: str = None # Added by Steve
     mitigation_backbone: str = None # Added by Steve
     mitigation_sampling: str = "feat" # Added by Steve
+    expval_budget: int = None # Added by Steve
+    numsamples_budget: int = None # Added by Steve
+    fidelity_alpha_2: float = None # Added by Steve
+
     pytest: bool = None
     pipeline: str = None  #: Training/test controller.
 
