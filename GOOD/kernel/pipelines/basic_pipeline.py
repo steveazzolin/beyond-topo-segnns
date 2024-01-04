@@ -403,143 +403,143 @@ class Pipeline:
 
     # @torch.no_grad()
     # def compute_sufficiency(self, split: str, debug=True):
-        """
-            Algorithm:
-            1. compute and store P(Y|G')
-            2. extract explanation and complement for each sample
-            3. for each sample (or subset thereof)
-                3.1 for a certain budget
-                    3.1.1 replace its complement with the complement of another sample
-                    3.1.2 compute P(Y|G')
-                    3.1.3 compute d_i = d(P(Y|G'), P(Y|G))
-            4. average d_i across all samples
-        """
-        colors = {
-            "inv": "green",
-            "spu": "blue",
-            "added": "red"
-        }
-        print(f"#D#Computing SUFF over {split}")
-        print(self.loader[split].dataset)
+    #     """
+    #         Algorithm:
+    #         1. compute and store P(Y|G')
+    #         2. extract explanation and complement for each sample
+    #         3. for each sample (or subset thereof)
+    #             3.1 for a certain budget
+    #                 3.1.1 replace its complement with the complement of another sample
+    #                 3.1.2 compute P(Y|G')
+    #                 3.1.3 compute d_i = d(P(Y|G'), P(Y|G))
+    #         4. average d_i across all samples
+    #     """
+    #     colors = {
+    #         "inv": "green",
+    #         "spu": "blue",
+    #         "added": "red"
+    #     }
+    #     print(f"#D#Computing SUFF over {split}")
+    #     print(self.loader[split].dataset)
 
-        loader = DataLoader(self.loader[split].dataset[:5], batch_size=1, shuffle=False)
+    #     loader = DataLoader(self.loader[split].dataset[:5], batch_size=1, shuffle=False)
 
-        self.model.eval()
+    #     self.model.eval()
 
-        pbar_setting["disable"] = False
-        pbar = tqdm(loader, desc=f'Eval {split.capitalize()}', total=len(loader), **pbar_setting)
-        preds_ori = []
-        graphs = []
-        causal_subgraphs = []
-        compl_subgraphs = []
-        causal_xs = []
-        labels = []
-        for data in pbar:
-            data: Batch = data.to(self.config.device)
-            output = self.model.probs(data=data, edge_weight=None, ood_algorithm=self.ood_algorithm)
-            preds_ori.append(output.detach().cpu().numpy().tolist())
-            labels.extend(data.y.detach().cpu().numpy().tolist())
+    #     pbar_setting["disable"] = False
+    #     pbar = tqdm(loader, desc=f'Eval {split.capitalize()}', total=len(loader), **pbar_setting)
+    #     preds_ori = []
+    #     graphs = []
+    #     causal_subgraphs = []
+    #     compl_subgraphs = []
+    #     causal_xs = []
+    #     labels = []
+    #     for data in pbar:
+    #         data: Batch = data.to(self.config.device)
+    #         output = self.model.probs(data=data, edge_weight=None, ood_algorithm=self.ood_algorithm)
+    #         preds_ori.append(output.detach().cpu().numpy().tolist())
+    #         labels.extend(data.y.detach().cpu().numpy().tolist())
 
-            (causal_edge_index, causal_x, causal_batch, causal_edge_weight), \
-                (spu_edge_index, spu_x, spu_batch, causal_edge_weight) = self.model.get_subgraph(data=data, edge_weight=None, ood_algorithm=self.ood_algorithm, do_relabel=False)
+    #         (causal_edge_index, causal_x, causal_batch, causal_edge_weight), \
+    #             (spu_edge_index, spu_x, spu_batch, causal_edge_weight) = self.model.get_subgraph(data=data, edge_weight=None, ood_algorithm=self.ood_algorithm, do_relabel=False)
 
-            graphs.append(data.edge_index.detach().cpu())
-            causal_subgraphs.append(causal_edge_index.detach().cpu())
-            compl_subgraphs.append(spu_edge_index.detach().cpu())
-            causal_xs.append(causal_x.detach().cpu())
+    #         graphs.append(data.edge_index.detach().cpu())
+    #         causal_subgraphs.append(causal_edge_index.detach().cpu())
+    #         compl_subgraphs.append(spu_edge_index.detach().cpu())
+    #         causal_xs.append(causal_x.detach().cpu())
 
-        labels = np.array(labels)
+    #     labels = np.array(labels)
 
-        if debug and False:
-            causal_subgraphs[0] = torch.tensor([
-                [14,15],[15,14],[15,16],[16,15],[16,17],[17,16],[17,18],[18,17],[18,14],[14,18],
-            ]).T
-            compl_subgraphs[0] = torch.tensor([
-                [0,7],[7,0],[7,8],[8,7],[8,1],[1,8],[1,0],[0,1],
-                [8,9],[9,8],[9,10],[10,9],[10,1],[1,10],
-                [9,2],[2,9],[2,3],[3,2],[3,10],[10,3],
-                [3,4],[4,3],[4,11],[11,4],[11,10],[10,11],
-                [4,5],[5,4],[5,12],[12,5],[12,11],[11,12],
-                [5,6],[6,5],[6,13],[13,6],[13,12],[12,13],
-                [13,14],[14,13],
-            ]).T
+    #     if debug and False:
+    #         causal_subgraphs[0] = torch.tensor([
+    #             [14,15],[15,14],[15,16],[16,15],[16,17],[17,16],[17,18],[18,17],[18,14],[14,18],
+    #         ]).T
+    #         compl_subgraphs[0] = torch.tensor([
+    #             [0,7],[7,0],[7,8],[8,7],[8,1],[1,8],[1,0],[0,1],
+    #             [8,9],[9,8],[9,10],[10,9],[10,1],[1,10],
+    #             [9,2],[2,9],[2,3],[3,2],[3,10],[10,3],
+    #             [3,4],[4,3],[4,11],[11,4],[11,10],[10,11],
+    #             [4,5],[5,4],[5,12],[12,5],[12,11],[11,12],
+    #             [5,6],[6,5],[6,13],[13,6],[13,12],[12,13],
+    #             [13,14],[14,13],
+    #         ]).T
         
-        for i in range(1): #insert max budget
-            G_s_inv = to_networkx(
-                Data(edge_index=causal_subgraphs[i], x=causal_xs[i]), 
-                node_attrs=["x"]
-            )
-            print(causal_xs[i])
-            print(nx.get_node_attributes(G_s_inv, 'x'))
+    #     for i in range(1): #insert max budget
+    #         G_s_inv = to_networkx(
+    #             Data(edge_index=causal_subgraphs[i], x=causal_xs[i]), 
+    #             node_attrs=["x"]
+    #         )
+    #         print(causal_xs[i])
+    #         print(nx.get_node_attributes(G_s_inv, 'x'))
             
-            G_s_inv.remove_nodes_from(list(nx.isolates(G_s_inv)))
+    #         G_s_inv.remove_nodes_from(list(nx.isolates(G_s_inv)))
             
-            if debug:
-                G_s = to_networkx(Data(edge_index=graphs[i]))
-                pos = nx.kamada_kawai_layout(G_s)
-                nx.draw(G_s, with_labels = True, pos=pos, edge_color=["green" if e in G_s_inv.edges() else "blue" for e in G_s.edges()],)
-                plt.savefig(f'GOOD/kernel/pipelines/plots/graph_{i}.png')
-                plt.close()
-                nx.draw(G_s_inv, with_labels = True, pos=pos, edge_color="green")
-                plt.savefig(f'GOOD/kernel/pipelines/plots/inv_graph_{i}.png')
-                plt.close()
+    #         if debug:
+    #             G_s = to_networkx(Data(edge_index=graphs[i]))
+    #             pos = nx.kamada_kawai_layout(G_s)
+    #             nx.draw(G_s, with_labels = True, pos=pos, edge_color=["green" if e in G_s_inv.edges() else "blue" for e in G_s.edges()],)
+    #             plt.savefig(f'GOOD/kernel/pipelines/plots/graph_{i}.png')
+    #             plt.close()
+    #             nx.draw(G_s_inv, with_labels = True, pos=pos, edge_color="green")
+    #             plt.savefig(f'GOOD/kernel/pipelines/plots/inv_graph_{i}.png')
+    #             plt.close()
             
-            idxs = np.random.permutation(np.arange(5)[labels == labels[i]]) #pick from same class
-            for j in idxs[:5]: #insert max budget
-                G_test = G_s_inv.copy()
-                # j = j + 0
+    #         idxs = np.random.permutation(np.arange(5)[labels == labels[i]]) #pick from same class
+    #         for j in idxs[:5]: #insert max budget
+    #             G_test = G_s_inv.copy()
+    #             # j = j + 0
                 
-                sort_compl_subgraphs, _ = torch.sort(compl_subgraphs[i].T, dim=1)
-                sort_compl_subgraphs, count_sort_compl_subgraphs = sort_compl_subgraphs.unique(dim=0, return_counts=True)
-                common = torch.cat((causal_subgraphs[i].unique(), sort_compl_subgraphs[count_sort_compl_subgraphs > 1].unique())).unique(return_counts=True) # should contain only elments that have both incoming and outgoing edges in G_spu
-                frontier_nodes = common[0][common[1] > 1] 
-                if debug:
-                    print("Frontier nodes = ", frontier_nodes)
+    #             sort_compl_subgraphs, _ = torch.sort(compl_subgraphs[i].T, dim=1)
+    #             sort_compl_subgraphs, count_sort_compl_subgraphs = sort_compl_subgraphs.unique(dim=0, return_counts=True)
+    #             common = torch.cat((causal_subgraphs[i].unique(), sort_compl_subgraphs[count_sort_compl_subgraphs > 1].unique())).unique(return_counts=True) # should contain only elments that have both incoming and outgoing edges in G_spu
+    #             frontier_nodes = common[0][common[1] > 1] 
+    #             if debug:
+    #                 print("Frontier nodes = ", frontier_nodes)
 
-                G_t_spu = to_networkx(Data(edge_index=compl_subgraphs[j]), )
-                G_t_spu.remove_edges_from([(v,u) for v,u in G_t_spu.edges() if not G_t_spu.has_edge(u,v)])
-                G_t_spu.remove_nodes_from(list(nx.isolates(G_t_spu)))
+    #             G_t_spu = to_networkx(Data(edge_index=compl_subgraphs[j]), )
+    #             G_t_spu.remove_edges_from([(v,u) for v,u in G_t_spu.edges() if not G_t_spu.has_edge(u,v)])
+    #             G_t_spu.remove_nodes_from(list(nx.isolates(G_t_spu)))
 
-                if debug:
-                    pos = nx.kamada_kawai_layout(to_networkx(Data(edge_index=graphs[j]), ))
-                    nx.draw(G_t_spu, with_labels = True, pos=pos)
-                    plt.savefig(f'GOOD/kernel/pipelines/plots/spu_graph_{j}.png')
-                    plt.close()
+    #             if debug:
+    #                 pos = nx.kamada_kawai_layout(to_networkx(Data(edge_index=graphs[j]), ))
+    #                 nx.draw(G_t_spu, with_labels = True, pos=pos)
+    #                 plt.savefig(f'GOOD/kernel/pipelines/plots/spu_graph_{j}.png')
+    #                 plt.close()
 
-                # join graphs
-                upper_num_nodes = max(G_test.nodes())
-                G_t_spu = nx.relabel_nodes(G_t_spu, {n: upper_num_nodes + i + 1 for i, n in enumerate(G_t_spu.nodes())})
-                nx.set_edge_attributes(G_t_spu, name="origin", values="spu")
-                nx.set_edge_attributes(G_test, name="origin", values="inv")
-                G_test = nx.union(G_test, G_t_spu)
-                for n in frontier_nodes:
-                    # pick random node v in G_t_spu
-                    # add edge (u,v) and (v,u) maybe
-                    v = randint(1, len(G_t_spu.nodes()) + 1)
-                    G_test.add_edge(n.item(), upper_num_nodes + v, origin="added")
-                    G_test.add_edge(upper_num_nodes + v, n.item(), origin="added")
+    #             # join graphs
+    #             upper_num_nodes = max(G_test.nodes())
+    #             G_t_spu = nx.relabel_nodes(G_t_spu, {n: upper_num_nodes + i + 1 for i, n in enumerate(G_t_spu.nodes())})
+    #             nx.set_edge_attributes(G_t_spu, name="origin", values="spu")
+    #             nx.set_edge_attributes(G_test, name="origin", values="inv")
+    #             G_test = nx.union(G_test, G_t_spu)
+    #             for n in frontier_nodes:
+    #                 # pick random node v in G_t_spu
+    #                 # add edge (u,v) and (v,u) maybe
+    #                 v = randint(1, len(G_t_spu.nodes()) + 1)
+    #                 G_test.add_edge(n.item(), upper_num_nodes + v, origin="added")
+    #                 G_test.add_edge(upper_num_nodes + v, n.item(), origin="added")
 
-                if debug:
-                    nx.draw(
-                        G_test,
-                        with_labels = True,
-                        edge_color=list(map(lambda x: colors[x], nx.get_edge_attributes(G_test,'origin').values())),
-                        pos=nx.kamada_kawai_layout(G_test)
-                    )
-                    plt.savefig(f'GOOD/kernel/pipelines/plots/joined_graph_{i}_{j}.png')
-                    plt.close()
-
-
+    #             if debug:
+    #                 nx.draw(
+    #                     G_test,
+    #                     with_labels = True,
+    #                     edge_color=list(map(lambda x: colors[x], nx.get_edge_attributes(G_test,'origin').values())),
+    #                     pos=nx.kamada_kawai_layout(G_test)
+    #                 )
+    #                 plt.savefig(f'GOOD/kernel/pipelines/plots/joined_graph_{i}_{j}.png')
+    #                 plt.close()
 
 
 
 
-        print(preds_ori[:2], labels[:2])
+
+
+    #     print(preds_ori[:2], labels[:2])
 
 
 
     @torch.no_grad()
-    def evaluate(self, split: str):
+    def evaluate(self, split: str, compute_suff=False):
         r"""
         This function is design to collect data results and calculate scores and loss given a dataset subset.
         (For project use only)
@@ -595,7 +595,10 @@ class Pipeline:
         # --------------- Metric calculation including ROC_AUC, Accuracy, AP.  --------------------
         stat['score'] = eval_score(pred_all, target_all, self.config)
         # --------------- Metric SUFF  --------------------
-        suff = self.compute_sufficiency2("id_val")
+        if compute_suff:
+            suff = self.compute_sufficiency2("id_val")
+        else:
+            suff = None
 
         print(f'{split.capitalize()} {self.config.metric.score_name}: {stat["score"]:.4f}'
               f'{split.capitalize()} Loss: {stat["loss"]:.4f}')

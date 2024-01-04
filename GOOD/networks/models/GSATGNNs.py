@@ -54,7 +54,7 @@ class GSATGIN(GNNBasic):
 
         """
         data = kwargs.get('data')
-        print(data)
+        
         emb = self.gnn(*args, without_readout=True, **kwargs)
         att_log_logits = self.extractor(emb, data.edge_index, data.batch)
         att = self.sampling(att_log_logits, self.training)
