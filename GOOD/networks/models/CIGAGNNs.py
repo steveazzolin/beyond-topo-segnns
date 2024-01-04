@@ -252,9 +252,9 @@ class GAEAttNet(nn.Module):
 def set_masks(mask: Tensor, model: nn.Module):
     for module in model.modules():
         if isinstance(module, MessagePassing):
-            # module.__explain__ = True
-            # module._explain = True
-            module._steve_explain = True
+            module.__explain__ = True
+            module._explain = True
+            # module._steve_explain = True
             module.__edge_mask__ = mask
             module._edge_mask = mask
 
@@ -262,9 +262,9 @@ def set_masks(mask: Tensor, model: nn.Module):
 def clear_masks(model: nn.Module):
     for module in model.modules():
         if isinstance(module, MessagePassing):
-            # module.__explain__ = False
-            # module._explain = False
-            module._steve_explain = False
+            module.__explain__ = False
+            module._explain = False
+            # module._steve_explain = False
             module.__edge_mask__ = None
             module._edge_mask = None
 

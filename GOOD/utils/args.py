@@ -112,7 +112,7 @@ class CommonArgs(Tap):
     expval_budget: int = None # Added by Steve
     numsamples_budget: int = None # Added by Steve
     fidelity_alpha_2: float = None # Added by Steve
-
+    
     pytest: bool = None
     pipeline: str = None  #: Training/test controller.
 

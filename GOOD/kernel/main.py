@@ -83,7 +83,7 @@ def main():
             test_scores.append(test_score)
         elif config.task == 'test':
             test_score, test_loss = pipeline.load_task(load_param=True)
-            sa = pipeline.evaluate("test", compute_suff=True)
+            sa = pipeline.evaluate("test", compute_suff=False)
             test_scores.append(sa['score'])
             test_suff.append(sa["suff"])
             test_fid.append(sa["fid"])

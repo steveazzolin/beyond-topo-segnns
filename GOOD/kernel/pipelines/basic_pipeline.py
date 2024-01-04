@@ -472,10 +472,7 @@ class Pipeline:
         #         c += 1
         #     if c == 10:
         #         break
-
-
         return div_aggr.mean(), div_aggr.std()
-
 
 
 
