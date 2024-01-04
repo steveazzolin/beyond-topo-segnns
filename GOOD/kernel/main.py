@@ -56,7 +56,7 @@ def main():
     assert not args.seeds is None, args.seeds
 
     test_scores = []
-    test_suff = []
+    test_suff, test_fid = [], []
     for i, seed in enumerate(args.seeds.split("/")):
         seed = int(seed)
         print(f"\n\n#D#Running with seed = {seed}")
@@ -67,7 +67,7 @@ def main():
         config = config_summoner(args)
         config["mitigation_backbone"] = args.mitigation_backbone
         config["mitigation_sampling"] = args.mitigation_sampling
-        print(config)
+        print(config.random_seed, config.exp_round)
         if i == 0:
             load_logger(config)
         
@@ -83,16 +83,35 @@ def main():
             test_scores.append(test_score)
         elif config.task == 'test':
             test_score, test_loss = pipeline.load_task(load_param=True)
-            # test_scores.append(test_score)
-            sa = pipeline.evaluate("test")
+            sa = pipeline.evaluate("test", compute_suff=True)
             test_scores.append(sa['score'])
             test_suff.append(sa["suff"])
+            test_fid.append(sa["fid"])
             print(f"Printing obtained and stored scores: {sa['score']} !=? {test_score}")
-            print(f"SUFF = {sa['suff']}")
+            print(f"SUFF = {sa['suff']} +- {sa['suff_devstd']}")
+            print(f"FID_ = {sa['fid']} +- {sa['fid_devstd']}")
+        elif config.task == 'debug_suff':
+            config.task = 'test'
+            
+            model, loader = initialize_model_dataset(config)
+            ood_algorithm = load_ood_alg(config.ood.ood_alg, config)
+            pipeline = load_pipeline(config.pipeline, config.task, model, loader, ood_algorithm, config)
+            pipeline.load_task(load_param=True)
+
+            for sample_budget, explval_budget in zip([100, 1000, 1000, "all", "all"], [5, 5, 20, 5, 20]):
+                config["expval_budget"] = explval_budget
+                config["numsamples_budget"] = sample_budget
+
+                sa = pipeline.evaluate("test")
+                test_suff.append(sa["suff"])
+                test_fid.append(sa["fid"])
+                print(f"SUFF = {sa['suff']} +- {sa['suff_devstd']}")
+            print(test_suff)
     print()
     print()
     print("Final OOD Test scores: ", round(np.mean(test_scores), 4), "+-", round(np.std(test_scores), 4))
     print("Final SUFF scores: ", round(np.mean(test_suff), 4), "+-", round(np.std(test_suff), 4))
+    print("Final SUFF scores: ", round(np.mean(test_fid), 4), "+-", round(np.std(test_fid), 4))
     print()
 
 
