@@ -6,12 +6,13 @@ import shutil
 from typing import Dict
 from typing import Union
 from random import randint
+from scipy.stats import pearsonr
 
 import numpy as np
 import torch
 import torch.nn
 import torch.nn.functional as F
-from torch_scatter import scatter_mean
+from torch_scatter import scatter_mean, scatter_std
 from munch import Munch
 # from torch.utils.data import DataLoader
 from torch_geometric.loader import DataLoader
@@ -27,6 +28,7 @@ from GOOD.utils.evaluation import eval_data_preprocess, eval_score
 from GOOD.utils.logger import pbar_setting
 from GOOD.utils.register import register
 from GOOD.utils.train import nan2zero_get_mask
+import GOOD.kernel.pipelines.xai_metric_utils as xai_utils
 
 
 class CustomDataset(InMemoryDataset):
@@ -36,14 +38,6 @@ class CustomDataset(InMemoryDataset):
         for i , G in enumerate(samples):
             data = from_networkx(G)
             data.belonging = belonging[i]
-            # data = Data(x=features, 
-            #             edge_index=t.edge_index, 
-            #             edge_attr=torch.tensor(t.weight).reshape(-1, 1),
-            #             num_nodes=adj.shape[0],
-            #             y=torch.tensor(int(y[i]), dtype=torch.long) if y is not None else None, # the type of local explanation
-            #             task_y=torch.tensor(int(task_y[belonging[i]]), dtype=torch.long) if y is not None else None, # the class of the original input graph
-            #             le_id=torch.tensor(i, dtype=torch.long),
-            #             graph_id=belonging[i])
             data_list.append(data)
 
         if self.pre_filter is not None:
@@ -183,7 +177,7 @@ class Pipeline:
             test_stat = self.evaluate('test')
 
             # checkpoints save
-            self.save_epoch(epoch, epoch_train_stat, id_val_stat, id_test_stat, val_stat, test_stat, self.config)
+            # self.save_epoch(epoch, epoch_train_stat, id_val_stat, id_test_stat, val_stat, test_stat, self.config)
 
             # --- scheduler step ---
             self.ood_algorithm.scheduler.step()
@@ -191,7 +185,103 @@ class Pipeline:
         print('\nTraining end.\n')
 
 
-    def compute_sufficiency2(self, split: str, debug=False):
+    @torch.no_grad()
+    def compute_robust_fidelity_m(self, split: str, debug=False):
+        self.model.eval()
+        pbar_setting["disable"] = False
+
+        print(f"#D#Computing ROBUST FIDELITY MINUS over {split}")
+        print(self.loader[split].dataset)
+        print("Label distribution: ", self.loader[split].dataset.y.unique(return_counts=True))
+
+        loader = DataLoader(self.loader[split].dataset, batch_size=1, shuffle=False)
+        if self.config.numsamples_budget == "all":
+            self.config.numsamples_budget = len(loader)
+       
+        pbar = tqdm(loader, desc=f'Eval {split.capitalize()}', total=len(loader), **pbar_setting)
+        preds_all = []
+        graphs = []
+        causal_subgraphs = []
+        spu_subgraphs = []
+        labels = []
+        for data in pbar:
+            data: Batch = data.to(self.config.device)
+            output = self.model.probs(data=data, edge_weight=None, ood_algorithm=self.ood_algorithm)
+            preds_all.append(output[0].detach().cpu().numpy().tolist())
+            labels.extend(data.y.detach().cpu().numpy().tolist())
+
+            (causal_edge_index, causal_x, causal_batch, causal_edge_weight), \
+                (spu_edge_index, spu_x, spu_batch, causal_edge_weight) = self.model.get_subgraph(data=data, edge_weight=None, ood_algorithm=self.ood_algorithm, do_relabel=False)
+
+            graphs.append(data.detach().cpu())
+            causal_subgraphs.append(causal_edge_index.detach().cpu())
+            spu_subgraphs.append(spu_edge_index.detach().cpu())
+        labels = torch.tensor(labels)
+
+        ##
+        # Create interventional distribution
+        ##
+        
+        eval_samples = []
+        belonging = []
+        preds_ori, labels_ori = [], []
+        pbar = tqdm(range(self.config.numsamples_budget), desc=f'Subsamling explanations', total=self.config.numsamples_budget, **pbar_setting)
+        for i in pbar:
+            preds_ori.append(preds_all[i])
+            labels_ori.append(labels[i])
+
+            G = to_networkx(
+                graphs[i],
+                node_attrs=["x", "x_debug"]
+            )
+            xai_utils.mark_edges(G, causal_subgraphs[i], spu_subgraphs[i])
+
+            for m in range(self.config.expval_budget):
+                G_c = xai_utils.sample_edges(G, "spu", self.config.fidelity_alpha_2)
+                belonging.append(i)
+                eval_samples.append(G_c)
+                # xai_utils.draw(G_c, name=f"plots_rob_fid_examples/graph_{i}_{m}.png")
+
+        ##
+        # Compute new prediction and evaluate KL
+        ##
+        dataset = CustomDataset("", eval_samples, belonging)
+        loader = DataLoader(dataset, batch_size=256, shuffle=False, num_workers=2)
+            
+        pbar = tqdm(loader, desc=f'Eval intervened graphs', total=len(loader), **pbar_setting)
+        preds_eval = []
+        belonging = []
+        for data in pbar:
+            data: Batch = data.to(self.config.device)
+            output = self.model.probs(data=data, edge_weight=None, ood_algorithm=self.ood_algorithm)
+            preds_eval.extend(output.detach().cpu().numpy().tolist())
+            belonging.extend(data.belonging.detach().cpu().numpy().tolist())
+
+        labels_ori_ori = torch.tensor(labels_ori)
+        preds_eval = torch.tensor(preds_eval)
+        preds_ori_ori = torch.tensor(preds_ori)
+        preds_ori = preds_ori_ori.repeat_interleave(self.config.expval_budget, dim=0)
+        labels_ori = labels_ori_ori.repeat_interleave(self.config.expval_budget, dim=0)
+
+        print(preds_ori.shape, preds_eval.shape)
+
+        # kl = torch.nn.KLDivLoss(reduction="none", log_target=True)(preds_ori, preds_eval).sum(-1)
+        # kl_aggr = scatter_mean(kl, torch.tensor(belonging), dim=0)
+        # kl_aggr_std = scatter_std(kl, torch.tensor(belonging), dim=0)
+        l1 = torch.abs(preds_eval.gather(1, labels_ori.unsqueeze(1)) - preds_ori.gather(1, labels_ori.unsqueeze(1)))
+        l1_aggr = scatter_mean(l1, torch.tensor(belonging), dim=0)
+        l1_aggr_std = scatter_std(l1, torch.tensor(belonging), dim=0)
+
+        # print(f"Robust Fidelity with KL divergence = {kl_aggr.mean()} +- {kl_aggr.std()} (in-sample avg dev_std = {(kl_aggr_std**2).mean().sqrt()})")
+        print(f"Robust Fidelity with L1 = {l1_aggr.mean()} +- {l1_aggr.std()} (in-sample avg dev_std = {(l1_aggr_std**2).mean().sqrt()})")
+        return l1_aggr.mean(), l1_aggr.std()
+            
+            
+                
+
+
+    @torch.no_grad()
+    def compute_sufficiency(self, split: str, debug=False):
         """
             Algorithm:
             1. compute and store P(Y|G')
@@ -203,104 +293,30 @@ class Pipeline:
                     3.1.3 compute d_i = d(P(Y|G'), P(Y|G))
             4. average d_i across all samples
         """
-        def remove_from_graph(G, what_to_remove):
-            G = G.copy()
-            edge_remove = []
-            for (u,v), val in nx.get_edge_attributes(G, 'origin').items():
-                if val == what_to_remove:
-                    edge_remove.append((u,v))
-            G.remove_edges_from(edge_remove)
-            G.remove_edges_from([(v,u) for v,u in G.edges() if not G.has_edge(u,v)])
-            G.remove_nodes_from(list(nx.isolates(G)))
-            return G
-
-        def mark_edges(G, inv_edge_index, spu_edge_index):
-            nx.set_edge_attributes(
-                G,
-                name="origin",
-                values={(u.item(), v.item()): "inv" for u,v in inv_edge_index.T}
-            )
-            nx.set_edge_attributes(
-                G,
-                name="origin",
-                values={(u.item(), v.item()): "spu" for u,v in spu_edge_index.T}
-            )
-
-        def mark_frontier(G, G_filt):
-            # mark frontier nodes as nodes attached to both inv and spu parts
-            # to mark nodes check which nodes have a change in the degree between original and filtered graph
-            frontier = []
-            for n in G_filt.nodes():
-                if G.degree[n] != G_filt.degree[n]:                    
-                    frontier.append(n)            
-            nx.set_node_attributes(G_filt, name="frontier", values=False)
-            nx.set_node_attributes(G_filt, name="frontier", values={n: True for n in frontier})
-            return len(frontier)
-
-        def draw(G, name, pos=None):
-            if pos is None:
-                pos = nx.kamada_kawai_layout(G)
-            nx.draw(
-                G,
-                with_labels = True,
-                pos=pos,
-                edge_color=list(map(lambda x: edge_colors[x], nx.get_edge_attributes(G,'origin').values())),
-                node_color=list(map(lambda x: node_colors[x], [nx.get_node_attributes(G,'frontier').get(n, False) for n in G.nodes()])),
-            )
-            plt.savefig(f'GOOD/kernel/pipelines/plots/{name}.png')
-            plt.close()
-            return pos
-        
-        def random_attach(S, T):
-            # random attach frontier nodes in S and T
-
-            S_frontier = list(filter(lambda x: nx.get_node_attributes(S,'frontier').get(x, False), S.nodes()))
-            T_frontier = list(filter(lambda x: nx.get_node_attributes(T,'frontier').get(x, False), T.nodes()))
-
-            ret = nx.union(S, T, rename=("", "T"))
-            for n in S_frontier:
-                # pick random node v in G_t_spu
-                # add edge (u,v) and (v,u)
-                idx = randint(0, len(T_frontier)-1)
-                v = "T" + str(T_frontier[idx])
-
-                assert str(n) in ret.nodes() and v in ret.nodes()
-
-                ret.add_edge(str(n), v, origin="added")
-                ret.add_edge(v, str(n), origin="added")
-            return ret
-        
-        edge_colors = {
-            "inv": "green",
-            "spu": "blue",
-            "added": "red"
-        }
-        node_colors = {
-            True: "red",
-            False: "#1f78b4"
-        }
+        self.model.eval()
+        pbar_setting["disable"] = False
 
         print(f"#D#Computing SUFF over {split}")
         print(self.loader[split].dataset)
+        print("Label distribution: ", self.loader[split].dataset.y.unique(return_counts=True))
 
-        loader = DataLoader(self.loader[split].dataset[:100], batch_size=1, shuffle=False)
+        loader = DataLoader(self.loader[split].dataset, batch_size=1, shuffle=False)
         if self.config.numsamples_budget == "all":
             self.config.numsamples_budget = len(loader)
 
-        self.model.eval()
-
-        pbar_setting["disable"] = False
-        pbar = tqdm(loader, desc=f'Eval {split.capitalize()}', total=len(loader), **pbar_setting)
+        pbar = tqdm(loader, desc=f'Extracting subgraphs {split.capitalize()}', total=len(loader), **pbar_setting)
         preds_all = []
         graphs = []
         causal_subgraphs = []
         spu_subgraphs = []
         labels = []
+        expl_accs = []
         for data in pbar:
             data: Batch = data.to(self.config.device)
             output = self.model.log_probs(data=data, edge_weight=None, ood_algorithm=self.ood_algorithm)
             preds_all.append(output[0].detach().cpu().numpy().tolist())
             labels.extend(data.y.detach().cpu().numpy().tolist())
+
 
             (causal_edge_index, causal_x, causal_batch, causal_edge_weight), \
                 (spu_edge_index, spu_x, spu_batch, causal_edge_weight) = self.model.get_subgraph(data=data, edge_weight=None, ood_algorithm=self.ood_algorithm, do_relabel=False)
@@ -308,7 +324,8 @@ class Pipeline:
             graphs.append(data.detach().cpu())
             causal_subgraphs.append(causal_edge_index.detach().cpu())
             spu_subgraphs.append(spu_edge_index.detach().cpu())
-        labels = np.array(labels)
+            expl_accs.append(xai_utils.expl_acc(causal_subgraphs[-1], data))
+        labels = torch.tensor(labels)
 
 
         ##
@@ -317,64 +334,75 @@ class Pipeline:
         
         eval_samples = []
         belonging = []
-        preds_ori= []
-        for i in range(self.config.numsamples_budget):
+        preds_ori, labels_ori, expl_acc_ori = [], [], []
+        pbar = tqdm(range(self.config.numsamples_budget), desc=f'Int. distrib', total=self.config.numsamples_budget, **pbar_setting)
+        for i in pbar:
             preds_ori.append(preds_all[i])
+            labels_ori.append(labels[i])
+            expl_acc_ori.append(expl_accs[i])
+
             G = to_networkx(
                 graphs[i],
                 node_attrs=["x", "x_debug"]
             )
-            mark_edges(G, causal_subgraphs[i], spu_subgraphs[i])                
-
-            G_filt = remove_from_graph(G, "spu")
-            num_elem = mark_frontier(G, G_filt)
+            xai_utils.mark_edges(G, causal_subgraphs[i], spu_subgraphs[i])
+            G_filt = xai_utils.remove_from_graph(G, "spu")
+            num_elem = xai_utils.mark_frontier(G, G_filt)
 
             if num_elem == 0:
                 print("\nZero frontier here ", i)
-                draw(G_filt, name=f"debug_graph_{i}")
-
+                xai_utils.draw(G_filt, name=f"debug_graph_{i}")
             if debug:
-                pos = draw(G, name=f"graph_{i}")
-                draw(G, name=f"inv_graph_{i}", pos=pos)
-
+                pos = xai_utils.draw(G, name=f"graph_{i}")
+                xai_utils.draw(G_filt, name=f"inv_graph_{i}", pos=pos)
             
             z, c = -1, 0
             idxs = np.random.permutation(np.arange(len(labels))[labels == labels[i]]) #pick random from same class
+            invalid_idxs = set()
             while c < self.config.expval_budget:
-            # for j in idxs[:self.config.expval_budget]:
                 z += 1
                 j = idxs[z]
+                if z == len(idxs) - 1:
+                    z = -1
+                if j in invalid_idxs:
+                    continue
+
                 G_t = to_networkx(
                     graphs[j],
                     node_attrs=["x", "x_debug"]
                 )
 
-                mark_edges(G_t, causal_subgraphs[j], spu_subgraphs[j])
+                xai_utils.mark_edges(G_t, causal_subgraphs[j], spu_subgraphs[j])
+                G_t_filt = xai_utils.remove_from_graph(G_t, "inv")
+                num_elem = xai_utils.mark_frontier(G_t, G_t_filt)
 
-                G_t_filt = remove_from_graph(G_t, "inv")
-                num_elem = mark_frontier(G_t, G_t_filt)
                 if num_elem == 0:
-                    print("\nZero frontier here2 ", i)
+                    invalid_idxs.add(j)
+                    # print("\nZero frontier here2 ", i)
                     # draw(G_t, name=f"debug2_graph_{i}")
                     # draw(G_t_filt, name=f"debug2_filtgraph_{i}")
                     continue
 
-                G_union = random_attach(G_filt, G_t_filt)
+                
+                if i < 5 and c < 4:
+                    xai_utils.draw(G, name=f"plots_of_suff_scores/debug2_graph_{j}")
+                    xai_utils.draw(G_t_filt, name=f"plots_of_suff_scores/debug2_filtgraph_{j}")
+
+                G_union = xai_utils.random_attach(G_filt, G_t_filt)
                 eval_samples.append(G_union)
                 belonging.append(i)
                 c += 1
 
                 if debug:
-                    draw(G_t_filt, name=f"spu_graph_{j}")
-                    draw(G_union, name=f"joined_graph_{i}_{j}")
+                    xai_utils.draw(G_t_filt, name=f"spu_graph_{j}")
+                    xai_utils.draw(G_union, name=f"joined_graph_{i}_{j}")
 
 
         ##
         # Compute new prediction and evaluate KL
         ##
-
         dataset = CustomDataset("", eval_samples, belonging)
-        loader = DataLoader(dataset, batch_size=256, shuffle=False)
+        loader = DataLoader(dataset, batch_size=256, shuffle=False, num_workers=2)
             
         pbar = tqdm(loader, desc=f'Eval intervened graphs', total=len(loader), **pbar_setting)
         preds_eval = []
@@ -384,157 +412,63 @@ class Pipeline:
             output = self.model.log_probs(data=data, edge_weight=None, ood_algorithm=self.ood_algorithm)
             preds_eval.extend(output.detach().cpu().numpy().tolist())
             belonging.extend(data.belonging.detach().cpu().numpy().tolist())
-        
-        # assert len(preds_eval) == len(preds_ori) * self.config.expval_budget, f"{len(preds_eval)}_{len(preds_ori)}"
 
+        expl_acc_ori = torch.tensor(expl_acc_ori)
+        labels_ori = torch.tensor(labels_ori)
         preds_eval = torch.tensor(preds_eval)
-        preds_ori = torch.tensor(preds_ori)
-        preds_ori = preds_ori.repeat_interleave(self.config.expval_budget, dim=0)
+        preds_ori_ori = torch.tensor(preds_ori)
+        preds_ori = preds_ori_ori.repeat_interleave(self.config.expval_budget, dim=0)
 
         print(preds_ori.shape, preds_eval.shape)
 
         div = torch.nn.KLDivLoss(reduction="none", log_target=True)(preds_ori, preds_eval).sum(-1)
         div_aggr = scatter_mean(div, torch.tensor(belonging), dim=0)
-        print(div_aggr)
-        return div_aggr.mean()
+        div_aggr_std = scatter_std(div, torch.tensor(belonging), dim=0)
+        # print("Mean val. of div_aggr = ", div_aggr)
+        # print("Dev std. of div_aggr = ", div_aggr_std)
 
+        correct_samples = preds_ori_ori.argmax(-1) == labels_ori        
+        print(f"for correct samples: {div_aggr[correct_samples].mean()} +- {div_aggr[correct_samples].std()}")
 
+        incorrect_samples = preds_ori_ori.argmax(-1) != labels_ori
+        print(f"for incorrect samples: {div_aggr[incorrect_samples].mean()} +- {div_aggr[incorrect_samples].std()}")
 
+        for c in range(3):
+            class_c = labels_ori == c
+            acc = (preds_ori_ori.argmax(-1)[class_c] == labels_ori[class_c]).sum() / class_c.sum()
+            print(f"for samples of class {c} (acc={acc:.2f}): {div_aggr[class_c].mean()} +- {div_aggr[class_c].std()}")
 
-    # @torch.no_grad()
-    # def compute_sufficiency(self, split: str, debug=True):
-    #     """
-    #         Algorithm:
-    #         1. compute and store P(Y|G')
-    #         2. extract explanation and complement for each sample
-    #         3. for each sample (or subset thereof)
-    #             3.1 for a certain budget
-    #                 3.1.1 replace its complement with the complement of another sample
-    #                 3.1.2 compute P(Y|G')
-    #                 3.1.3 compute d_i = d(P(Y|G'), P(Y|G))
-    #         4. average d_i across all samples
-    #     """
-    #     colors = {
-    #         "inv": "green",
-    #         "spu": "blue",
-    #         "added": "red"
-    #     }
-    #     print(f"#D#Computing SUFF over {split}")
-    #     print(self.loader[split].dataset)
+        div_aggr_mean = div_aggr.mean()
+        print(f"Pearson corr between SUFF and expl_acc = {pearsonr(expl_acc_ori, div_aggr)}")
+        print(f"Mean expl_acc for above avg SUFF = {expl_acc_ori[div_aggr >= div_aggr_mean].mean():.3f} +- {expl_acc_ori[div_aggr >= div_aggr_mean].std():.3f}", )
+        print(f"Mean expl_acc for below avg SUFF = {expl_acc_ori[div_aggr < div_aggr_mean].mean():.3f} +- {expl_acc_ori[div_aggr < div_aggr_mean].std():.3f}", )
 
-    #     loader = DataLoader(self.loader[split].dataset[:5], batch_size=1, shuffle=False)
+        print(f"Mean of the dev_std computed for the int_distrib of each sample = {(div_aggr_std**2).mean().sqrt()}")
 
-    #     self.model.eval()
+        plt.hist(div_aggr.numpy(), density=False)
+        plt.savefig("GOOD/kernel/pipelines/plots/plots_of_suff_scores/hist_div_aggr.png")
+        plt.close()
 
-    #     pbar_setting["disable"] = False
-    #     pbar = tqdm(loader, desc=f'Eval {split.capitalize()}', total=len(loader), **pbar_setting)
-    #     preds_ori = []
-    #     graphs = []
-    #     causal_subgraphs = []
-    #     compl_subgraphs = []
-    #     causal_xs = []
-    #     labels = []
-    #     for data in pbar:
-    #         data: Batch = data.to(self.config.device)
-    #         output = self.model.probs(data=data, edge_weight=None, ood_algorithm=self.ood_algorithm)
-    #         preds_ori.append(output.detach().cpu().numpy().tolist())
-    #         labels.extend(data.y.detach().cpu().numpy().tolist())
-
-    #         (causal_edge_index, causal_x, causal_batch, causal_edge_weight), \
-    #             (spu_edge_index, spu_x, spu_batch, causal_edge_weight) = self.model.get_subgraph(data=data, edge_weight=None, ood_algorithm=self.ood_algorithm, do_relabel=False)
-
-    #         graphs.append(data.edge_index.detach().cpu())
-    #         causal_subgraphs.append(causal_edge_index.detach().cpu())
-    #         compl_subgraphs.append(spu_edge_index.detach().cpu())
-    #         causal_xs.append(causal_x.detach().cpu())
-
-    #     labels = np.array(labels)
-
-    #     if debug and False:
-    #         causal_subgraphs[0] = torch.tensor([
-    #             [14,15],[15,14],[15,16],[16,15],[16,17],[17,16],[17,18],[18,17],[18,14],[14,18],
-    #         ]).T
-    #         compl_subgraphs[0] = torch.tensor([
-    #             [0,7],[7,0],[7,8],[8,7],[8,1],[1,8],[1,0],[0,1],
-    #             [8,9],[9,8],[9,10],[10,9],[10,1],[1,10],
-    #             [9,2],[2,9],[2,3],[3,2],[3,10],[10,3],
-    #             [3,4],[4,3],[4,11],[11,4],[11,10],[10,11],
-    #             [4,5],[5,4],[5,12],[12,5],[12,11],[11,12],
-    #             [5,6],[6,5],[6,13],[13,6],[13,12],[12,13],
-    #             [13,14],[14,13],
-    #         ]).T
-        
-    #     for i in range(1): #insert max budget
-    #         G_s_inv = to_networkx(
-    #             Data(edge_index=causal_subgraphs[i], x=causal_xs[i]), 
-    #             node_attrs=["x"]
-    #         )
-    #         print(causal_xs[i])
-    #         print(nx.get_node_attributes(G_s_inv, 'x'))
-            
-    #         G_s_inv.remove_nodes_from(list(nx.isolates(G_s_inv)))
-            
-    #         if debug:
-    #             G_s = to_networkx(Data(edge_index=graphs[i]))
-    #             pos = nx.kamada_kawai_layout(G_s)
-    #             nx.draw(G_s, with_labels = True, pos=pos, edge_color=["green" if e in G_s_inv.edges() else "blue" for e in G_s.edges()],)
-    #             plt.savefig(f'GOOD/kernel/pipelines/plots/graph_{i}.png')
-    #             plt.close()
-    #             nx.draw(G_s_inv, with_labels = True, pos=pos, edge_color="green")
-    #             plt.savefig(f'GOOD/kernel/pipelines/plots/inv_graph_{i}.png')
-    #             plt.close()
-            
-    #         idxs = np.random.permutation(np.arange(5)[labels == labels[i]]) #pick from same class
-    #         for j in idxs[:5]: #insert max budget
-    #             G_test = G_s_inv.copy()
-    #             # j = j + 0
-                
-    #             sort_compl_subgraphs, _ = torch.sort(compl_subgraphs[i].T, dim=1)
-    #             sort_compl_subgraphs, count_sort_compl_subgraphs = sort_compl_subgraphs.unique(dim=0, return_counts=True)
-    #             common = torch.cat((causal_subgraphs[i].unique(), sort_compl_subgraphs[count_sort_compl_subgraphs > 1].unique())).unique(return_counts=True) # should contain only elments that have both incoming and outgoing edges in G_spu
-    #             frontier_nodes = common[0][common[1] > 1] 
-    #             if debug:
-    #                 print("Frontier nodes = ", frontier_nodes)
-
-    #             G_t_spu = to_networkx(Data(edge_index=compl_subgraphs[j]), )
-    #             G_t_spu.remove_edges_from([(v,u) for v,u in G_t_spu.edges() if not G_t_spu.has_edge(u,v)])
-    #             G_t_spu.remove_nodes_from(list(nx.isolates(G_t_spu)))
-
-    #             if debug:
-    #                 pos = nx.kamada_kawai_layout(to_networkx(Data(edge_index=graphs[j]), ))
-    #                 nx.draw(G_t_spu, with_labels = True, pos=pos)
-    #                 plt.savefig(f'GOOD/kernel/pipelines/plots/spu_graph_{j}.png')
-    #                 plt.close()
-
-    #             # join graphs
-    #             upper_num_nodes = max(G_test.nodes())
-    #             G_t_spu = nx.relabel_nodes(G_t_spu, {n: upper_num_nodes + i + 1 for i, n in enumerate(G_t_spu.nodes())})
-    #             nx.set_edge_attributes(G_t_spu, name="origin", values="spu")
-    #             nx.set_edge_attributes(G_test, name="origin", values="inv")
-    #             G_test = nx.union(G_test, G_t_spu)
-    #             for n in frontier_nodes:
-    #                 # pick random node v in G_t_spu
-    #                 # add edge (u,v) and (v,u) maybe
-    #                 v = randint(1, len(G_t_spu.nodes()) + 1)
-    #                 G_test.add_edge(n.item(), upper_num_nodes + v, origin="added")
-    #                 G_test.add_edge(upper_num_nodes + v, n.item(), origin="added")
-
-    #             if debug:
-    #                 nx.draw(
-    #                     G_test,
-    #                     with_labels = True,
-    #                     edge_color=list(map(lambda x: colors[x], nx.get_edge_attributes(G_test,'origin').values())),
-    #                     pos=nx.kamada_kawai_layout(G_test)
-    #                 )
-    #                 plt.savefig(f'GOOD/kernel/pipelines/plots/joined_graph_{i}_{j}.png')
-    #                 plt.close()
-
-
-
-
-
-
-    #     print(preds_ori[:2], labels[:2])
+        # c = 0
+        # for j in range(500):
+        #     if div_aggr[j] > 0.2 and labels_ori[j] == 1:
+        #         G = to_networkx(graphs[j])
+        #         xai_utils.mark_edges(G, causal_subgraphs[j], spu_subgraphs[j])
+        #         xai_utils.draw(G, f"plots_of_suff_scores/bad_{j}.png")
+        #         print(f"suff bad sample {j} (with pred={preds_ori_ori.argmax(-1)[j]}) = {div_aggr[j]} +- {div_aggr_std[j]}")
+        #         c += 1
+        #     if c == 10:
+        #         break
+        # c = 0
+        # for j in range(100):
+        #     if div_aggr[j] < 0.09 and labels_ori[j] == 1:
+        #         G = to_networkx(graphs[j])
+        #         xai_utils.mark_edges(G, causal_subgraphs[j], spu_subgraphs[j])
+        #         xai_utils.draw(G, f"plots_of_suff_scores/good_{j}.png")
+        #         c += 1
+        #     if c == 10:
+        #         break
+        return div_aggr.mean().item(), div_aggr.std().item()
 
 
 
@@ -596,18 +530,29 @@ class Pipeline:
         stat['score'] = eval_score(pred_all, target_all, self.config)
         # --------------- Metric SUFF  --------------------
         if compute_suff:
-            suff = self.compute_sufficiency2("id_val")
+            suff, suff_devstd = 0, 0
+            fid, fid_devstd = 0, 0
+            suff, suff_devstd = self.compute_sufficiency("id_val")            
+            fid, fid_devstd = self.compute_robust_fidelity_m("val")
         else:
-            suff = None
+            suff, suff_devstd = 0,0
+            fid, fid_devstd = 0,0
 
         print(f'{split.capitalize()} {self.config.metric.score_name}: {stat["score"]:.4f}'
               f'{split.capitalize()} Loss: {stat["loss"]:.4f}')
 
         self.model.train()
 
-        return {'score': stat['score'], 'loss': stat['loss'], 'suff': suff}
+        return {
+            'score': stat['score'],
+            'loss': stat['loss'],
+            'suff': suff,
+            'suff_devstd': suff_devstd,
+            'fid': fid,
+            'fid_devstd': fid_devstd
+        }
 
-    def load_task(self, load_param=False):
+    def load_task(self, load_param=False, load_split="ood"):
         r"""
         Launch a training or a test.
         """
@@ -617,10 +562,10 @@ class Pipeline:
         elif self.task == 'test':
             # config model
             print('#D#Config model and output the best checkpoint info...')
-            test_score, test_loss = self.config_model('test', load_param=load_param)
+            test_score, test_loss = self.config_model('test', load_param=load_param, load_split=load_split)
             return test_score, test_loss
 
-    def config_model(self, mode: str, load_param=False):
+    def config_model(self, mode: str, load_param=False, load_split="ood"):
         r"""
         A model configuration utility. Responsible for transiting model from CPU -> GPU and loading checkpoints.
         Args:
@@ -696,7 +641,12 @@ class Pipeline:
                     f'#IN#ChartInfo {ckpt["test_score"]:.4f} {ckpt["val_score"]:.4f}', end='')
             if load_param:
                 if self.config.ood.ood_alg != 'EERM':
-                    self.model.load_state_dict(ckpt['state_dict'])
+                    if load_split == "ood":
+                        self.model.load_state_dict(ckpt['state_dict'])
+                    elif load_split == "id":
+                        self.model.load_state_dict(id_ckpt['state_dict'])
+                    else:
+                        raise ValueError(f"{load_split} not supported")
                 else:
                     self.model.gnn.load_state_dict(ckpt['state_dict'])
             return ckpt["test_score"], ckpt["test_loss"]

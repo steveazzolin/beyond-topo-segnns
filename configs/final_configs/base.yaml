@@ -11,8 +11,9 @@ clean_save: False
 pytest: False
 pipeline: Pipeline
 num_workers: 0
-expval_budget: 5 # Added by Steve
-numsamples_budget: all
+expval_budget: 10 # Added by Steve
+numsamples_budget: all # Added by Steve
+fidelity_alpha_2: 0.9 # Added by Steve
 train:
   weight_decay: 0.
   save_gap: 10
