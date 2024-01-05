@@ -15,6 +15,7 @@ import torch.nn.functional as F
 from torch_scatter import scatter_mean, scatter_std
 from munch import Munch
 # from torch.utils.data import DataLoader
+import torch_geometric
 from torch_geometric.loader import DataLoader
 from torch_geometric.data import Batch, Data, InMemoryDataset
 from torch_geometric.utils import to_networkx, from_networkx
@@ -37,6 +38,8 @@ class CustomDataset(InMemoryDataset):
         data_list = []
         for i , G in enumerate(samples):
             data = from_networkx(G)
+            if len(data.x.shape) == 1:
+                data.x = data.x.unsqueeze(1)
             data.belonging = belonging[i]
             data_list.append(data)
 
@@ -188,11 +191,14 @@ class Pipeline:
     @torch.no_grad()
     def compute_robust_fidelity_m(self, split: str, debug=False):
         self.model.eval()
-        pbar_setting["disable"] = False
+        pbar_setting["disable"] = True
 
         print(f"#D#Computing ROBUST FIDELITY MINUS over {split}")
         print(self.loader[split].dataset)
-        print("Label distribution: ", self.loader[split].dataset.y.unique(return_counts=True))
+        if torch_geometric.__version__ == "2.4.0":
+            print("Label distribution: ", self.loader[split].dataset.y.unique(return_counts=True))
+        else:
+            print("Label distribution: ", self.loader[split].dataset.data.y.unique(return_counts=True))
 
         loader = DataLoader(self.loader[split].dataset, batch_size=1, shuffle=False)
         if self.config.numsamples_budget == "all":
@@ -294,11 +300,14 @@ class Pipeline:
             4. average d_i across all samples
         """
         self.model.eval()
-        pbar_setting["disable"] = False
+        pbar_setting["disable"] = True
 
         print(f"#D#Computing SUFF over {split}")
         print(self.loader[split].dataset)
-        print("Label distribution: ", self.loader[split].dataset.y.unique(return_counts=True))
+        if torch_geometric.__version__ == "2.4.0":
+            print("Label distribution: ", self.loader[split].dataset.y.unique(return_counts=True))
+        else:
+            print("Label distribution: ", self.loader[split].dataset.data.y.unique(return_counts=True))
 
         loader = DataLoader(self.loader[split].dataset, batch_size=1, shuffle=False)
         if self.config.numsamples_budget == "all":
@@ -384,9 +393,9 @@ class Pipeline:
                     continue
 
                 
-                if i < 5 and c < 4:
-                    xai_utils.draw(G, name=f"plots_of_suff_scores/debug2_graph_{j}")
-                    xai_utils.draw(G_t_filt, name=f"plots_of_suff_scores/debug2_filtgraph_{j}")
+                # if i < 5 and c < 4:
+                #     xai_utils.draw(G, name=f"plots_of_suff_scores/debug2_graph_{j}")
+                #     xai_utils.draw(G_t_filt, name=f"plots_of_suff_scores/debug2_filtgraph_{j}")
 
                 G_union = xai_utils.random_attach(G_filt, G_t_filt)
                 eval_samples.append(G_union)
@@ -402,7 +411,7 @@ class Pipeline:
         # Compute new prediction and evaluate KL
         ##
         dataset = CustomDataset("", eval_samples, belonging)
-        loader = DataLoader(dataset, batch_size=256, shuffle=False, num_workers=2)
+        loader = DataLoader(dataset, batch_size=256, shuffle=False, num_workers=0)
             
         pbar = tqdm(loader, desc=f'Eval intervened graphs', total=len(loader), **pbar_setting)
         preds_eval = []

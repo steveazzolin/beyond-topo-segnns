@@ -104,7 +104,7 @@ def main():
 
     if args.task == 'eval_suff':
         evaluate_suff(args)
-        exit("Evaluated SUFF and ROB FID_")
+        exit(0)
 
     test_scores = []
     test_suff, test_fid = [], []
