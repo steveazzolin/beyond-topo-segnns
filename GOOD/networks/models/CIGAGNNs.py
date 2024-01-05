@@ -233,7 +233,6 @@ class GAEAttNet(nn.Module):
                 causal_x, causal_edge_index, causal_batch, _ = relabel(node_h, causal_edge_index, data.batch)
                 spu_x, spu_edge_index, spu_batch, _ = relabel(node_h, spu_edge_index, data.batch)
             else:
-                assert False
                 causal_x = None
                 spu_x = None
                 causal_batch = None
