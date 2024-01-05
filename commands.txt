@@ -1,0 +1,1000 @@
+ 1026  rm -r install-tl-unx.tar.gz 
+ 1027  ls
+ 1028  htop
+ 1029  exit
+ 1030  ls
+ 1031  cd relrep_prompts/
+ 1032  ls
+ 1033  cd ..
+ 1034  git clone https://github.com/MANGA-UOFA/PTfer.git
+ 1035  cd PTfer/
+ 1036  cd PTfer/
+ 1037  ls
+ 1038  conda activate optiprompt
+ 1039  conda list | grep trans
+ 1040  conda deactivate
+ 1041  conda create -n ptfer python=3.8
+ 1042  conda activate ptfer
+ 1043  pip install -r requirement.txt
+ 1044  conda list
+ 1045  bash get_emb.sh 
+ 1046  ls
+ 1047  mkdir output
+ 1048  bash get_emb.sh 
+ 1049  mkdir output/bert_base2bert_large_log’
+ 1050  bash get_emb.sh 
+ 1051  ls /home/azzolin/relrep_prompts/optiprompt-outputs/bert-base-cased_cmp_lms_data/6/P17/
+ 1052  bash get_emb.sh 
+ 1053  conda list
+ 1054  bash get_emb.sh 
+ 1055  python
+ 1056  bash get_emb.sh 
+ 1057  exit
+ 1058  htop
+ 1059  cd relrep_prompts/
+ 1060  conda activate optiprompt
+ 1061  python code/accumulate_results.py optiprompt-outputs/bert-base-cased_cmp_lms_data/6/
+ 1062  python code/accumulate_results.py optiprompt-outputs/roberta-base_cmp_lms_data/6/
+ 1063  exit
+ 1064  lscpu
+ 1065  dmidecode
+ 1066  lshw -short -C memory
+ 1067  htop
+ 1068  lshw
+ 1069  lshw | grep ddr
+ 1070  lshw -c memory
+ 1071  codna activate digress
+ 1072  conda activate digress
+ 1073  conda list --envs
+ 1074  conda list envs
+ 1075  conda list env
+ 1076  conda activate optiprompt
+ 1077  python
+ 1078  conda activate gnn3.9
+ 1079  python
+ 1080  cd relrep_prompts/
+ 1081  conda activate optiprompt
+ 1082  git status
+ 1083  git pull
+ 1084  htop
+ 1085  bash scripts/sanity_check_knn.sh 
+ 1086  cd relrep_prompts/
+ 1087  conda activate optiprompt
+ 1088  bash scripts/sanity_check_knn.sh 
+ 1089  python
+ 1090  cd relrep_prompts/
+ 1091  conda activate optiprompt
+ 1092  bash scripts/sanity_check_knn.sh 
+ 1093  clear
+ 1094  bash scripts/sanity_check_knn.sh 
+ 1095  clear
+ 1096  bash scripts/sanity_check_knn.sh 
+ 1097  clear
+ 1098  bash scripts/sanity_check_knn.sh 
+ 1099  clear
+ 1100  bash scripts/sanity_check_knn.sh 
+ 1101  CLEAR
+ 1102  bash scripts/sanity_check_knn.sh 
+ 1103  clear
+ 1104  bash scripts/sanity_check_knn.sh 
+ 1105  clear
+ 1106  bash scripts/sanity_check_knn.sh 
+ 1107  clear
+ 1108  bash scripts/sanity_check_knn.sh 
+ 1109  cd relrep_prompts/
+ 1110  conda activate optiprompt
+ 1111  bash scripts/plot_transfer_acc.sh 
+ 1112  cd relrep_prompts/
+ 1113  conda activate optiprompt
+ 1114  bash scripts/sanity_check_knn.sh 
+ 1115  git status
+ 1116  git pull
+ 1117  git push
+ 1118  cd relrep_prompts/
+ 1119  conda activate optiprompt
+ 1120  git pull
+ 1121  git add code/perturbation_analysis.py 
+ 1122  git commit -m "Fix json indexing"
+ 1123  git push
+ 1124  git status
+ 1125  git add code/perturbation_analysis.py 
+ 1126  git commit -m "DirectionStep perturbation"
+ 1127  git push
+ 1128  cd relrep_prompts/
+ 1129  git status
+ 1130  git pull
+ 1131  git checkout HEAD -- analysis_output/perturbation_analysis.json
+ 1132  git pull
+ 1133  bash scripts/perturbation.sh 
+ 1134  conda activate optiprompt
+ 1135  bash scripts/perturbation.sh 
+ 1136  python
+ 1137  bash scripts/perturbation.sh 
+ 1138  git status
+ 1139  git add code/perturbation_analysis.py 
+ 1140  git commit -m "Vector perturbation"
+ 1141  git push
+ 1142  git pull
+ 1143  cd relrep_prompts/
+ 1144  conda activate optiprompt
+ 1145  git pull
+ 1146  bash scripts/perturbation.sh 
+ 1147  bash scripts/perturbation.sh optiprompt-outputs/bert-base-cased_cmp_lms_data/6
+ 1148  python code/accumulate_results.py optiprompt-outputs/bert-base-cased_cmp_lms_data/6
+ 1149  git pull
+ 1150  bash scripts/perturbation.sh 
+ 1151  git pull
+ 1152  bash scripts/perturbation.sh 
+ 1153  python
+ 1154  bash scripts/perturbation.sh 
+ 1155  exit
+ 1156  cd relrep_prompts/
+ 1157  git pull
+ 1158  git add code/perturbation_analysis.py 
+ 1159  git add scripts/perturbation.sh 
+ 1160  git pull
+ 1161  git commit -m "Fixes"
+ 1162  git pull
+ 1163  git push
+ 1164  conda activate optiprompt
+ 1165  bash scripts/perturbation.sh 
+ 1166  conda activate optiprompt
+ 1167  cd relrep_prompts/
+ 1168  bash scripts/plot_transfer_acc.sh 
+ 1169  bash scripts/sanity_check_knn.sh 
+ 1170  git status
+ 1171  git add code/perturbation_analysis.py 
+ 1172  git pull
+ 1173  git commit -m "Fix"
+ 1174  git pull
+ 1175  git push
+ 1176  exit
+ 1177  cd relrep_prompts/
+ 1178  conda activate optiprompt
+ 1179  git pull
+ 1180  python
+ 1181  bash scripts/perturbation.sh 
+ 1182  git pull
+ 1183  git add code/perturbation_analysis.py 
+ 1184  git commit -m "Improved plot"
+ 1185  git pull
+ 1186  git push
+ 1187  bash scripts/perturbation.sh 
+ 1188  ls
+ 1189  cd AHK/
+ 1190  git status
+ 1191  git log --oneline
+ 1192  git fetch
+ 1193  git log --oneline
+ 1194  git checkout HEAD
+ 1195  git pull
+ 1196  git checkout HEAD
+ 1197  git status
+ 1198  cd ..
+ 1199  mv AHK AHK_old
+ 1200  ls
+ 1201  git clone https://github.com/manfred-jaeger-aalborg/AHK.git
+ 1202  htop
+ 1203  htop
+ 1204  cd relrep_prompts/
+ 1205  git status
+ 1206  git push
+ 1207  conda activate optiprompt
+ 1208  bahs scripts/perturbation.sh 
+ 1209  bash scripts/perturbation.sh 
+ 1210  git pull
+ 1211  git add code/perturbation_analysis.py 
+ 1212  git commit -m "Including direction_prompt in perturbation"
+ 1213  git pull
+ 1214  git push
+ 1215  bash scripts/perturbation.sh 
+ 1216  python
+ 1217  bash scripts/perturbation.sh 
+ 1218  bash scripts/run_optiprompt.sh 
+ 1219  git pull
+ 1220  python
+ 1221  conda install -c anaconda pandas
+ 1222  python
+ 1223  bash scripts/perturbation.sh 
+ 1224  htop
+ 1225  bash scripts/perturbation.sh 
+ 1226  cd relrep_prompts/
+ 1227  conda activate optiprompt
+ 1228  ls
+ 1229  ls scripts/
+ 1230  nohup scripts/perturbation.sh &
+ 1231  bash scripts/perturbation.sh 
+ 1232  nohup scripts/perturbation.sh 
+ 1233  cat scripts/perturbation.sh 
+ 1234  nohup code/perturbation.py
+ 1235  ls
+ 1236  cat nohup.out 
+ 1237  cd scripts/
+ 1238  nohup help
+ 1239  nohup -help
+ 1240  nohup --help
+ 1241  cd ..
+ 1242  nohup python --version
+ 1243  cat nohup.out 
+ 1244  nohup ./scripts/perturbation.sh
+ 1245  nohup scripts/perturbation.sh
+ 1246  bash scripts/perturbation.sh
+ 1247  clear
+ 1248  bash scripts/perturbation.sh
+ 1249  nohup scripts/perturbation.sh &
+ 1250  nohup scripts/perturbation.sh
+ 1251  nohup bash scripts/perturbation.sh &
+ 1252  cat nohup.out 
+ 1253  exit
+ 1254  cd relrep_prompts/
+ 1255  git status
+ 1256  git add code/perturbation_analysis.py 
+ 1257  git add scripts/perturbation.sh 
+ 1258  git commit -m "Save pert CSV"
+ 1259  git push
+ 1260  htop
+ 1261  cd relrep_prompts/
+ 1262  conda activate optiprompt
+ 1263  bash scripts/analyze_trajectory.sh 
+ 1264  python
+ 1265  bash scripts/analyze_trajectory.sh 
+ 1266  python code/accumulate_results.py optiprompt-outputs/bert-base-cased_cmp_lms_data/6
+ 1267  python code/accumulate_results.py optiprompt-outputs/bert-base-cased_cmp_lms_data_1V_2_10epochs/6
+ 1268  python code/accumulate_results.py optiprompt-outputs/bert-base-cased_cmp_lms_data_1V_2_10epochs/7
+ 1269  python code/accumulate_results.py optiprompt-outputs/bert-base-cased_cmp_lms_data_1V_2_10epochs/8
+ 1270  python code/accumulate_results.py optiprompt-outputs/bert-base-cased_cmp_lms_data_1V_manual_10epochs/6
+ 1271  python code/accumulate_results.py optiprompt-outputs/bert-base-cased_cmp_lms_data_1V_manual_10epochs/7
+ 1272  git pull
+ 1273  cd relrep_prompts/
+ 1274  conda activate optiprompt
+ 1275  nohup python --version
+ 1276  python code/accumulate_results.py optiprompt-outputs/bert-base-cased_cmp_lms_data_1V/6
+ 1277  python code/accumulate_results.py optiprompt-outputs/bert-base-cased_cmp_lms_data_1V/501
+ 1278  python code/accumulate_results.py optiprompt-outputs/bert-base-cased_cmp_lms_data_1V/502
+ 1279  python code/accumulate_results.py optiprompt-outputs/bert-base-cased_cmp_lms_data_1V/6
+ 1280  python code/accumulate_results.py optiprompt-outputs/bert-base-cased_cmp_lms_data/6
+ 1281  git pull
+ 1282  clear
+ 1283  python
+ 1284  clear
+ 1285  bash scripts/analyze_trajectory.sh 
+ 1286  cd relrep_prompts/
+ 1287  conda activate optiprompt
+ 1288  bash scripts/run_optiprompt.sh 
+ 1289  python
+ 1290  git pull
+ 1291  bash scripts/analyze_task_vectors.sh 
+ 1292  conda install -c anaconda seaborn
+ 1293  bash scripts/analyze_task_vectors.sh 
+ 1294  python
+ 1295  bash scripts/analyze_task_vectors.sh 
+ 1296  git status
+ 1297  git add analysis_output/initial_experiments/
+ 1298  git add analysis_output/task_vectors/
+ 1299  git add analysis_output/perturbation/
+ 1300  git add analysis_output/trajectory/
+ 1301  git add analysis_output/transferability/
+ 1302  git add analysis_output/distances/
+ 1303  git add analysis_output/comblin_matrices_convex/
+ 1304  git add analysis_output/comblin_matrices/
+ 1305  git add analysis_output/densities/
+ 1306  git commit -m "Added plots"
+ 1307  git status
+ 1308  git add scripts/analyze_task_vectors.sh 
+ 1309  git add code/analyze_task_vectors.sh 
+ 1310  git add code/analyze_task_vectors.py 
+ 1311  git add code/analyze_trajectory.py 
+ 1312  git add scripts/analyze_trajectory.py 
+ 1313  git add scripts/analyze_trajectory.sh 
+ 1314  git commit -m "Analyze traj and task vectors"
+ 1315  git status
+ 1316  git add analysis_output/*.png
+ 1317  git commit -m "Sync plots generated"
+ 1318  git pull
+ 1319  git push
+ 1320  git status
+ 1321  git pull
+ 1322  git push
+ 1323  git status
+ 1324  git pull
+ 1325  bash scripts/analyze_trajectory.sh
+ 1326  python code/accumulate_results.py optiprompt-outputs/bert-base-cased_cmp_lms_data_1V_manual_10epochs/6
+ 1327  python code/accumulate_results.py optiprompt-outputs/bert-base-cased_cmp_lms_data_1V_manual_10epochs/7
+ 1328  bash scripts/analyze_task_vectors.sh
+ 1329  exit
+ 1330  cd PTfer/
+ 1331  conda activate optiprompt
+ 1332  conda env list
+ 1333  codna activate ptfer
+ 1334  conda activate ptfer
+ 1335  bash get_emb.sh 
+ 1336  htop
+ 1337  bash get_emb.sh 
+ 1338  exit
+ 1339  cd relrep_prompts/
+ 1340  git pull
+ 1341  conda activate optiprompt
+ 1342  bash scripts/analyze_task_vectors.sh 
+ 1343  exit
+ 1344  cd relrep_prompts/
+ 1345  conda activate optiprompt
+ 1346  git status
+ 1347  git pull
+ 1348  bash scripts/eval_prompts.sh 
+ 1349  cd relrep_prompts/
+ 1350  conda activate optiprompt
+ 1351  git status
+ 1352  bash scripts/run_eval_prompts.sh 
+ 1353  bash scripts/eval_prompts.sh 
+ 1354  clear
+ 1355  bash scripts/eval_prompts.sh 
+ 1356  clear
+ 1357  bash scripts/eval_prompts.sh 
+ 1358  clear
+ 1359  bash scripts/eval_prompts.sh 
+ 1360  clear
+ 1361  bash scripts/eval_prompts.sh 
+ 1362  clear
+ 1363  bash scripts/eval_prompts.sh 
+ 1364  clear
+ 1365  bash scripts/eval_prompts.sh 
+ 1366  clear
+ 1367  bash scripts/eval_prompts.sh 
+ 1368  clear
+ 1369  bash scripts/eval_prompts.sh 
+ 1370  git pull
+ 1371  bash scripts/plot_transfer_acc.sh 
+ 1372  diff bert-base-cased_cmp_lms_data_1V_manual_10epochs_SGD_absto_roberta-base_cmp_lms_data_manual_1V_manual_10epochs_SGD
+ 1373  diff bert-base-cased_cmp_lms_data_1V_manual_10epochs_SGD_absto_roberta-base_cmp_lms_data_manual_1V_manual_10epochs_SGD bert-base-cased_cmp_lms_data_1V_manual_10epochs_SGD_absto_roberta-base_cmp_lms_data_1V_manual_10epochs_SGD
+ 1374  bash scripts/plot_transfer_acc.sh 
+ 1375  exit
+ 1376  cd relrep_prompts/
+ 1377  bash scripts/run_optiprompt.sh 
+ 1378  cd relrep_prompts/
+ 1379  conda activate optiprompt
+ 1380  htop
+ 1381  git status
+ 1382  git pull
+ 1383  bash scripts/plot_transfer_acc.sh 
+ 1384  python code/accumulate_results.py optiprompt-outputs/bert-base-cased_cmp_lms_data_1V_manual_10epochs_SGD/6/
+ 1385  python code/accumulate_results.py optiprompt-outputs/roberta-base_cmp_lms_data_1V_manual_10epochs_SGD/6/
+ 1386  clear
+ 1387  bash scripts/plot_transfer_acc.sh 
+ 1388  bash scripts/eval_prompts.sh 
+ 1389  clear
+ 1390  bash scripts/eval_prompts.sh 
+ 1391  clear
+ 1392  bash scripts/eval_prompts.sh 
+ 1393  clear
+ 1394  bash scripts/eval_prompts.sh 
+ 1395  bash scripts/run_optiprompt.sh 
+ 1396  git status
+ 1397  git commit --log --oneline
+ 1398  git log --oneline
+ 1399  git push
+ 1400  git pull
+ 1401  git push
+ 1402  git status
+ 1403  cd relrep_prompts/
+ 1404  conda activate optiprompt
+ 1405  python code/accumulate_results.py optiprompt-outputs/roberta-base_cmp_lms_data_1V_manual_10epochs_SGD/6/
+ 1406  python code/accumulate_results.py optiprompt-outputs/bert-base-cased_cmp_lms_data_1V_manual_10epochs_SGD/6/
+ 1407  python code/accumulate_results.py optiprompt-outputs/bert-base-cased_cmp_lms_data_1V/6/
+ 1408  python code/accumulate_results.py optiprompt-outputs/roberta-base_cmp_lms_data_1V/6/
+ 1409  python code/accumulate_results.py optiprompt-outputs/bert-base-cased_cmp_lms_data_1V_manual_10epochs/6/
+ 1410  htop
+ 1411  python code/accumulate_results.py optiprompt-outputs/bert-base-cased_cmp_lms_data_1V_manual_10epochs/6/
+ 1412  python code/accumulate_results.py optiprompt-outputs/roberta-base_cmp_lms_data_1V_manual_10epochs_SGD/6/
+ 1413  cd relrep_prompts/
+ 1414  git statuss
+ 1415  git status
+ 1416  cat scripts/analyze_task_vectors.sh 
+ 1417  htop
+ 1418  conda activate optiprompt
+ 1419  cd relrep_prompts/
+ 1420  git status
+ 1421  git pull
+ 1422  bash scripts/plot_transfer_acc.sh 
+ 1423  git pull
+ 1424  bash scripts/plot_transfer_acc.sh 
+ 1425  bash scripts/eval_swapped_prompts.sh 
+ 1426  cd relrep_prompts/
+ 1427  git status
+ 1428  git pull
+ 1429  bash scripts/plot_transfer_acc.sh 
+ 1430  conda activate optiprompt
+ 1431  bash scripts/plot_transfer_acc.sh 
+ 1432  bash scripts/eval_swapped_prompts.sh 
+ 1433  bash scripts/eval_swapped_prompts.sh
+ 1434  python
+ 1435  bash scripts/eval_swapped_prompts.sh
+ 1436  git add scripts/eval_swapped_prompts.sh 
+ 1437  git add code/eval_swapped_prompts.py 
+ 1438  git commit -m "eval swapped prompt"
+ 1439  git push
+ 1440  bash scripts/eval_prompts.sh 
+ 1441  clear
+ 1442  bash scripts/eval_prompts.sh 
+ 1443  git status
+ 1444  git add analysis_output/transferability/*
+ 1445  git commit -m "transfer plots"
+ 1446  git status
+ 1447  git push
+ 1448  git pull
+ 1449  git status
+ 1450  git pull
+ 1451  git status
+ 1452  git pull
+ 1453  git status
+ 1454  git add code/eval_prompts.py 
+ 1455  git add scripts/eval_prompts.sh
+ 1456  git commit -m "transfer with decomposition"
+ 1457  git push
+ 1458  git status
+ 1459  git pull
+ 1460  bash scripts/eval_swapped_prompts.sh 
+ 1461  cd relrep_prompts/
+ 1462  conda activate optiprompt
+ 1463  git status
+ 1464  git pull
+ 1465  git add analysis_output/eval_swapped_prompts.csv 
+ 1466  git commit -m "removed csv redundant after rename"
+ 1467  bash scripts/eval_swapped_prompts.sh 
+ 1468  bash scripts/plot_transfer_acc.sh 
+ 1469  cd sedignn/
+ 1470  conda create -n dignn_2.1.1 python=3.9
+ 1471  conda activate dignn_2.1.1
+ 1472  conda install pytorch==2.1.1 torchvision==0.16.1 torchaudio==2.1.1 cpuonly -c pytorch
+ 1473  pip install pyg_lib torch_scatter torch_sparse torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-2.1.0+cpu.html
+ 1474  cd DrugOOD_fork/
+ 1475  python setup.py install
+ 1476  cd ..
+ 1477  cd CIGA_fork/
+ 1478  pip install -U openmim
+ 1479  mim list
+ 1480  mim install -h
+ 1481  mim install mmcv==1.5.0
+ 1482  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3,4,5]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 8 --spu_coe 0 --model 'gcn' --dropout 0.
+ 1483  conda list | grep dgl
+ 1484  pip uninstall dgl
+ 1485  pip uninstall dgl-cu110
+ 1486  pip install  dgl==0.9.0 -f https://data.dgl.ai/wheels/repo.html
+ 1487  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3,4,5]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 8 --spu_coe 0 --model 'gcn' --dropout 0.
+ 1488  pip install texttable
+ 1489  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3,4,5]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 8 --spu_coe 0 --model 'gcn' --dropout 0.
+ 1490  cd dataset_gen/
+ 1491  python gen_struc.py 
+ 1492  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3,4,5]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 8 --spu_coe 0 --model 'gcn' --dropout 0.
+ 1493  clear
+ 1494  cd ..
+ 1495  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3,4,5]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 8 --spu_coe 0 --model 'gcn' --dropout 0.
+ 1496  conda list | grep pyg
+ 1497  conda list | grep geome
+ 1498  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3,4,5]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 8 --spu_coe 0 --model 'gcn' --dropout 0.
+ 1499  conda create --name dignn_2.1.1_1.7.2 --clone dignn_2.1.1
+ 1500  conda activate dignn_2.1.1_1.7.2
+ 1501  conda env list
+ 1502  exit
+ 1503  conda activate dignn
+ 1504  cd sedignn/CIGA_fork/
+ 1505  python main.py --erm
+ 1506  conda deactivate
+ 1507  cd ..
+ 1508  cd DrugOOD_fork/
+ 1509  conda env create --name drugood --file=drugood.yaml
+ 1510  conda remove --name drugood --all
+ 1511  conda env create --name drugood --file=drugood.yaml
+ 1512  conda activate gnn
+ 1513  conda list
+ 1514  conda list | grep torch
+ 1515  conda activate gnn_3.9
+ 1516  conda activate nsd
+ 1517  conda list | grep torch
+ 1518  conda deactivate
+ 1519  conda env create --name drugood --file=drugood.yaml
+ 1520  conda env list
+ 1521  conda activate dignn
+ 1522  python setup.py install
+ 1523  python
+ 1524  conda activate dignn_dgl
+ 1525  python
+ 1526  pip install torch-scatter -f https://data.pyg.org/whl/torch-1.9.0+cpu.html
+ 1527  pip cache list
+ 1528  pip install torch-scatter -f https://data.pyg.org/whl/torch-1.9.0+cpu.html
+ 1529  pip install torch-scatter -f https://data.pyg.org/whl/torch-1.8.0+cpu.html
+ 1530  pip install torch-scatter==2.0.2 -f https://data.pyg.org/whl/torch-1.9.0+cpu.html
+ 1531  pip install torch-sparse -f https://data.pyg.org/whl/torch-1.9.0+cpu.html
+ 1532  pip install torch_cluster -f https://data.pyg.org/whl/torch-1.9.0+cpu.html
+ 1533  pip install torch_spline_conv -f https://data.pyg.org/whl/torch-1.9.0+cpu.html
+ 1534  conda activate (dignn_2.1.1
+ 1535  conda activate dignn_2.1.1
+ 1536  cd ..
+ 1537  cd CIGA_fork/dataset_gen/
+ 1538  python gen_mixed.py 
+ 1539  htop
+ 1540  conda list | grep ogb
+ 1541  conda deactivate
+ 1542  ls
+ 1543  mkdir sedignn
+ 1544  cd sedignn/
+ 1545  git clone https://github.com/steveazzolin/CIGA_fork.git
+ 1546  cd CIGA_fork/
+ 1547  conda create -n dignn python=3.9
+ 1548  conda activate dignn
+ 1549  conda install pytorch==1.9.0 torchvision==0.10.0 torchaudio==0.9.0 cpuonly -c pytorch
+ 1550  pip install pyg_lib torch_scatter torch_sparse torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-1.9.0+cpu.html
+ 1551  conda install pyg -c pyg
+ 1552  pip install torch_geometric==1.7.2
+ 1553  git status
+ 1554  pip install scikit-image==0.19.1
+ 1555  python main.py --erm
+ 1556  cd ..
+ 1557  git clone https://github.com/steveazzolin/DrugOOD_fork.git
+ 1558  cd DrugOOD_fork/
+ 1559  python setup.py  install
+ 1560  cd ..
+ 1561  cd CIGA_fork/
+ 1562  python main.py --erm
+ 1563  conda list | grep torch
+ 1564  conda list | grep ood
+ 1565  pip install mmcv==1.5.0
+ 1566  python main.py --erm
+ 1567  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3,4,5]' --num_layers 3 --dataset 'MSPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 0 --model 'gcn' --dropout 0.
+ 1568  conda list | grep dgl
+ 1569  conda uninstall dgl-cu110
+ 1570  conda remove dgl-cu110
+ 1571  conda remove dgl
+ 1572  conda install -c dglteam dgl
+ 1573  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3,4,5]' --num_layers 3 --dataset 'MSPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 0 --model 'gcn' --dropout 0.
+ 1574  conda remove dgl
+ 1575  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3,4,5]' --num_layers 3 --dataset 'MSPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 0 --model 'gcn' --dropout 0.
+ 1576  conda install -c anaconda scipy
+ 1577  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3,4,5]' --num_layers 3 --dataset 'MSPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 0 --model 'gcn' --dropout 0.
+ 1578  pip install requests
+ 1579  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3,4,5]' --num_layers 3 --dataset 'MSPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 0 --model 'gcn' --dropout 0.
+ 1580  pip install urllib3
+ 1581  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3,4,5]' --num_layers 3 --dataset 'MSPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 0 --model 'gcn' --dropout 0.
+ 1582  conda deactivate
+ 1583  conda remove --name dignn --all
+ 1584  conda create -n dignn python=3.9
+ 1585  conda activate dignn
+ 1586  conda install pytorch==1.7.0 torchvision==0.8.2 torchaudio==0.7.2 cpuonly -c pytorch
+ 1587  conda list
+ 1588  conda install pytorch==1.9.0 torchvision==0.10.0 torchaudio==0.9.0 cpuonly -c pytorch
+ 1589  pip install torch_geometric==1.7.2
+ 1590  conda list | grep scatter
+ 1591  pip install pyg_lib torch_scatter torch_sparse torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-1.7.2+cpu.html
+ 1592  pip install pyg_lib torch_scatter torch_sparse torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-1.7.1+cpu.html
+ 1593  pip install pyg_lib torch_scatter torch_sparse torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-1.7.0+cpu.html
+ 1594  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3,4,5]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 8 --spu_coe 0 --model 'gcn' --dropout 0.
+ 1595  cd ..
+ 1596  cd DrugOOD_fork/
+ 1597  python setup.py  install
+ 1598  cd ..
+ 1599  cd CIGA_fork/
+ 1600  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3,4,5]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 8 --spu_coe 0 --model 'gcn' --dropout 0.
+ 1601  conda list | grep openmim
+ 1602  conda list | grep mmcv
+ 1603  mim
+ 1604  pip install -U openmim
+ 1605  openmim -h
+ 1606  mim -h
+ 1607  mim -list
+ 1608  mim -l
+ 1609  mim --list
+ 1610  mim list
+ 1611  mim install mmcv==1.5.0
+ 1612  mim list
+ 1613  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3,4,5]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 8 --spu_coe 0 --model 'gcn' --dropout 0.
+ 1614  conda list | grep dgl
+ 1615  conda create --name dignn_dgl --clone dignn
+ 1616  conda activate dignn_dgl
+ 1617  pip uninstall dgl-cu110
+ 1618  pip install  dgl -f https://data.dgl.ai/wheels/repo.html
+ 1619  conda list | grep dgl
+ 1620  pip uninstall dgl
+ 1621  pip install  dgl==0.9.0 -f https://data.dgl.ai/wheels/repo.html
+ 1622  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3,4,5]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 8 --spu_coe 0 --model 'gcn' --dropout 0.
+ 1623  conda list | grep torch
+ 1624  conda install pytorch-scatter -c pyg
+ 1625  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3,4,5]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 8 --spu_coe 0 --model 'gcn' --dropout 0.
+ 1626  python
+ 1627  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3,4,5]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 8 --spu_coe 0 --model 'gcn' --dropout 0.
+ 1628  htop
+ 1629  conda deactivate
+ 1630  conda remove --name dignn --all
+ 1631  conda remove --name dignn_dgl --all
+ 1632  conda activate dignn_2.1.1_1.7.2
+ 1633  pip uninstall torch_geometric
+ 1634  pip uninstall torch_sparse
+ 1635  pip uninstall torch_cluster
+ 1636  pip uninstall torch-spline-conv
+ 1637  pip install torch-geometric==1.7.2
+ 1638  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3,4,5]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 8 --spu_coe 0 --model 'gcn' --dropout 0.
+ 1639  pip install torch_sparse
+ 1640  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3,4,5]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 8 --spu_coe 0 --model 'gcn' --dropout 0.
+ 1641  conda list | grep geometric
+ 1642  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3,4,5]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 8 --spu_coe 0 --model 'gcn' --dropout 0.
+ 1643  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3,4,5]' --num_layers 3 --dataset 'MSPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 0 --model 'gcn' --dropout 0.
+ 1644  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3]' --num_layers 3 --dataset 'MSPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 0 --model 'gcn' --dropout 0.
+ 1645  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3]' --num_layers 3 --dataset 'mSPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 0 --model 'gcn' --dropout 0.
+ 1646  python
+ 1647  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 0 --model 'gcn' --dropout 0.
+ 1648  pip install wandb
+ 1649  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 0 --model 'gcn' --dropout 0.
+ 1650  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 0 --model 'gcn' --dropout 0. --log_wandb
+ 1651  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 0 --model 'gcn' --dropout 0.
+ 1652  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 0 --model 'gcn' --dropout 0. --log_wandb
+ 1653  conda activate optiprompt
+ 1654  conda deactivate
+ 1655  conda env list
+ 1656  conda activate dignn_2.1.1_1.7.2
+ 1657  cd sedignn/CIGA_fork/
+ 1658  git status
+ 1659  git pull
+ 1660  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 0 --model 'gcn' --dropout 0.
+ 1661  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 0 --model 'gin' --dropout 0.
+ 1662  clear
+ 1663  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 0 --model 'gin' --dropout 0.
+ 1664  clear
+ 1665  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 0 --model 'gin' --dropout 0.
+ 1666  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 0 --model 'gin' --dropout 0. --batch_size 1
+ 1667  python
+ 1668  clear
+ 1669  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 0 --model 'gin' --dropout 0. --batch_size 1
+ 1670  clear
+ 1671  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 0 --model 'gin' --dropout 0. --batch_size 1
+ 1672  clear
+ 1673  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 0 --model 'gin' --dropout 0. --batch_size 1
+ 1674  clear
+ 1675  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 0 --model 'gin' --dropout 0. --batch_size 1
+ 1676  clear
+ 1677  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 0 --model 'gin' --dropout 0. --batch_size 1
+ 1678  clear
+ 1679  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 0 --model 'gin' --dropout 0. --batch_size 1
+ 1680  python
+ 1681  clear
+ 1682  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 0 --model 'gin' --dropout 0. --batch_size 1
+ 1683  clear
+ 1684  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 0 --model 'gin' --dropout 0. --batch_size 1
+ 1685  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 0 --model 'gin' --dropout 0. --batch_size 1 --mitigation_backbone yes
+ 1686  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 0 --model 'gin' --dropout 0. --batch_size 1
+ 1687  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 0 --model 'gin' --dropout 0. --batch_size 1 --mitigation_backbone yes
+ 1688  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 0 --model 'gin' --dropout 0. --mitigation_backbone yes
+ 1689  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 0 --model 'gin' --dropout 0. 
+ 1690  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 0 --model 'gin' --dropout 0. --mitigation_backbone yes
+ 1691  git status
+ 1692  git add main.py 
+ 1693  git add models/conv.py 
+ 1694  git commit -m "first try mitigation"
+ 1695  git push
+ 1696  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 0 --model 'gin' --dropout 0. --mitigation_backbone yes
+ 1697  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 0 --model 'gin' --dropout 0.
+ 1698  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 0 --model 'gin' --dropout 0. --mitigation_backbone yes
+ 1699  conda activate optiprompt
+ 1700  conda env list
+ 1701  conda activate dignn_2.1.1_1.7.2
+ 1702  cd sedignn/CIGA_fork/
+ 1703  htop
+ 1704  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 0 --model 'gin' --dropout 0. --mitigation_backbone yes
+ 1705  git status
+ 1706  git add main.py 
+ 1707  git add models/ciga.py 
+ 1708  git add models/conv.py 
+ 1709  git commit -m "Added attn_distrib"
+ 1710  git push
+ 1711  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 0 --model 'gin' --dropout 0. --mitigation_backbone yes
+ 1712  git pull
+ 1713  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 0 --model 'gcn' --dropout 0. --mitigation_backbone yes
+ 1714  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 0 --model 'gcn' --dropout 0.
+ 1715  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 0 --model 'gcn' --dropout 0. --mitigation_backbone yes
+ 1716  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 1 --model 'gcn' --dropout 0. --mitigation_backbone yes
+ 1717  cd sedignn/CIGA_fork/
+ 1718  conda env list
+ 1719  conda activate dignn_2.1.1_1.7.2
+ 1720  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 1 --model 'gcn' --dropout 0. --mitigation_backbone soft
+ 1721  conda remove --name disentangle --all
+ 1722  conda remove --name disentagle --all
+ 1723  conda remove --name tangos --all
+ 1724  conda remove --name test --all
+ 1725  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 1 --model 'gcn' --dropout 0. --mitigation_backbone soft2
+ 1726  conda clean -a
+ 1727  htop
+ 1728  3}7exit
+ 1729  exit
+ 1730  conda activate optiprompt
+ 1731  cd sedignn/LECI_fork/
+ 1732  conda activate leci
+ 1733  goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml
+ 1734  pip install -e .
+ 1735  goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml
+ 1736  pip install -e .
+ 1737  goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml
+ 1738  conda clean -a
+ 1739  goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml
+ 1740  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml
+ 1741  cd sedignn/CIGA_fork/
+ 1742  conda activate dignn_2.1.1_1.7.2
+ 1743  pip install scikit-image
+ 1744  cd dataset_gen/
+ 1745  python prepare_mnist.py  --dataset 'cmnist'  -t 8 -s 'train'
+ 1746  python prepare_mnist.py  --dataset 'cmnist'  -t 8 -s 'test'
+ 1747  python main.py --r 0.8 --num_layers 3  --batch_size 32 --emb_dim 32 --model 'gcn' -c_dim 128 --dataset 'CMNIST' --seed '[1,2,3,4,5]' --contrast 16 --spu_coe 16 -c_in 'raw'  -c_rep 'feat'
+ 1748  cd ..
+ 1749  python main.py --r 0.8 --num_layers 3  --batch_size 32 --emb_dim 32 --model 'gcn' -c_dim 128 --dataset 'CMNIST' --seed '[1,2,3,4,5]' --contrast 16 --spu_coe 16 -c_in 'raw'  -c_rep 'feat'
+ 1750  cd ..
+ 1751  conda deactivate
+ 1752  git clone https://github.com/steveazzolin/LECI_fork.git
+ 1753  cd LECI_fork/
+ 1754  conda env create -n leci python=3.8
+ 1755  conda create -n leci python=3.8
+ 1756  conda activatee leci
+ 1757  conda activate leci
+ 1758  conda install pytorch==1.10.1 torchvision==0.11.2 torchaudio==0.10.1 cpuonly -c pytorch -c conda-forge
+ 1759  pip install torch_scatter==2.0.9 torch_sparse==0.6.13 torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-1.10.1+cpu.html
+ 1760  pip install torch_geometric==2.0.4
+ 1761  pip install ogb
+ 1762  pip install -e .
+ 1763  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml
+ 1764  htop
+ 1765  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml
+ 1766  cd sedignn/CIGA_fork/
+ 1767  conda env list
+ 1768  conda activate dignn_2.1.1_1.7.2
+ 1769  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 1 --model 'gcn' --dropout 0. --mitigation_backbone soft
+ 1770  python main.py  -c_in 'feat' -c_rep 'feat'  --seed '[1,2,3]' --num_layers 3 --dataset 'SPMotif' --bias 0.33 --r 0.25 --contrast 16 --spu_coe 1 --model 'gcn' --dropout 0. --mitigation_backbone hard
+ 1771  cd sedignn/LECI_fork/
+ 1772  conda activate leci
+ 1773  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml
+ 1774  pip install -e .
+ 1775  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml
+ 1776  python
+ 1777  conda list | grep gwodn
+ 1778  conda list | grep gdown
+ 1779  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml
+ 1780  conda deactivate
+ 1781  conda remove --name leci --all
+ 1782  conda create -n leci python=3.8
+ 1783  conda activate leci
+ 1784  conda install pytorch==1.10.1 torchvision==0.11.2 torchaudio==0.10.1 cpuonly -c pytorch -c conda-forge
+ 1785  pip install torch_scatter==2.0.9 torch_sparse==0.6.13 torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-1.10.1+cpu.html
+ 1786  pip install torch-geometric==2.0.4
+ 1787  pip install networkx
+ 1788  pip install PyYAML
+ 1789  pip install torch-geometric==2.0.4
+ 1790  pip install ogb
+ 1791  pip install -e .
+ 1792  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml
+ 1793  pip install protobuf
+ 1794  pip install protobuf==3.20.3
+ 1795  pip install -e .
+ 1796  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml
+ 1797  cd sedignn/LECI_fork/
+ 1798  conda acconda activate optiprompt
+ 1799  tivate leci
+ 1800  conda activate leci
+ 1801  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml
+ 1802  pip install -e .
+ 1803  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml
+ 1804  conda list | grep torch
+ 1805  pip uninstall graph-ood
+ 1806  pip install -e .
+ 1807  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml
+ 1808  conda deactivate
+ 1809  conda remove --name leci --all
+ 1810  history > commands.txt
+ 1811  conda create -n leci python=3.8
+ 1812  conda activate leci
+ 1813  conda install pytorch==1.10.1 torchvision==0.11.2 torchaudio==0.10.1 cpuonly -c pytorch -c conda-forge
+ 1814  pip install torch_scatter==2.0.9 torch_sparse==0.6.13 torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-1.10.1+cpu.html
+ 1815  pip install pyg_lib -f https://data.pyg.org/whl/torch-1.10.1+cpu.html
+ 1816  pip install pyg_lib
+ 1817  pip install torch_spline_conv 
+ 1818  pip install torch_geometric
+ 1819  pip install ogb
+ 1820  pip install -e .
+ 1821  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml
+ 1822  pip uninstall torch_geometric
+ 1823  pip install torch_geometric==2.0.4
+ 1824  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml
+ 1825  pip uninstall torch_geometric
+ 1826  pip install torch_geometric==2.0.3
+ 1827  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml
+ 1828  pip uninstall torch_geometric
+ 1829  pip install torch_geometric==2.1.0
+ 1830  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml
+ 1831  pip uninstall torch_geometric
+ 1832  pip install torch_geometric==2.2.0
+ 1833  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml
+ 1834  pip uninstall torch_geometric
+ 1835  pip install torch_geometric==2.3.0
+ 1836  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml
+ 1837  pip uninstall torch_geometric
+ 1838  pip install torch_geometric==2.3.1
+ 1839  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml
+ 1840  pip uninstall torch_geometric
+ 1841  pip install torch_geometric==2.4.0
+ 1842  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml
+ 1843  cd ..
+ 1844  rm -rf LECI_fork/
+ 1845  ls
+ 1846  git clone https://github.com/steveazzolin/LECI_fork.git
+ 1847  cd LECI_fork/
+ 1848  pip install -e .
+ 1849  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml
+ 1850  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1"
+ 1851  conda list | grep geome
+ 1852  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1"
+ 1853  goodtg --config_path final_configs/GOODMotif/basis/covariate/GSAT.yaml --seeds "1"
+ 1854  htop
+ 1855  conda activate optiprompt
+ 1856  cd sedignn/LECI_fork/
+ 1857  conda activate leci
+ 1858  goodtg --config_path final_configs/GOODHIV/scaffold/covariate/CIGA.yaml --seeds "1/2/3" --mitigation_sampling raw 
+ 1859  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1"
+ 1860  goodtg --config_path final_configs/GOODHIV/scaffold/covariate/CIGA.yaml --seeds "1" --mitigation_sampling raw 
+ 1861  cd sedignn/LECI_fork/
+ 1862  conda activate leci
+ 1863  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1"
+ 1864  python
+ 1865  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1"
+ 1866  python
+ 1867  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1"
+ 1868  conda activate optiprompt
+ 1869  cd sedignn/LECI_fork/
+ 1870  conda activate leci
+ 1871  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1"
+ 1872  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_backbone soft
+ 1873  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_backbone hard
+ 1874  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_backbone soft
+ 1875  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_backbone soft 
+ 1876  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_backbone soft  --task test
+ 1877  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_backbone soft  
+ 1878  python
+ 1879  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_backbone soft  
+ 1880  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling raw --task test
+ 1881  ls /home/azzolin/sedignn/LECI_fork/storage/checkpoints/round1/GOODMotif_basis_covariate/CIGAGIN_3l_meanpool_0.5dp_mitig_backbone
+ 1882  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --task test
+ 1883  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2" --mitigation_sampling feat --task test
+ 1884  python
+ 1885  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2" --mitigation_sampling feat --task test
+ 1886  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2" --mitigation_sampling feat
+ 1887  clear
+ 1888  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2" --mitigation_sampling feat
+ 1889  cd sedignn/LECI_fork/
+ 1890  conda activate leci
+ 1891  git status
+ 1892  cd ..
+ 1893  cp LECI_fork/ LECI_fork_backup/ -r
+ 1894  cd LECI_fork
+ 1895  git remote rm origin
+ 1896  git remote add origin https://github.com/steveazzolin/leci_private_fork.git
+ 1897  git branch
+ 1898  git pull
+ 1899  git status
+ 1900  git push -u origin LECI-1.0.0
+ 1901  git pull
+ 1902  git pull -u origin LECI-1.0.0
+ 1903  git pull  origin LECI-1.0.0
+ 1904  git add GOOD/networks/
+ 1905  git add GOOD/utils/config_reader.py 
+ 1906  git pull  origin LECI-1.0.0
+ 1907  git commit -m "local changes"
+ 1908  git pull  origin LECI-1.0.0
+ 1909  git push -u origin LECI-1.0.0
+ 1910  git status
+ 1911  git add GOOD/kernel/pipelines/plots/
+ 1912  git add configs/final_configs/base.yaml 
+ 1913  git commit -m "params for SUFF"
+ 1914  git push
+ 1915  git status
+ 1916  git add GOOD/kernel/pipelines/basic_pipeline.py 
+ 1917  git commit -m "suff2"
+ 1918  git push
+ 1919  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2" --mitigation_sampling feat
+ 1920  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2" --mitigation_sampling feat --task test
+ 1921  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2" --mitigation_sampling raw --task test
+ 1922  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2" --mitigation_sampling feat --task test
+ 1923  htop
+ 1924  cd sedignn/LECI_fork/
+ 1925  conda activate leci
+ 1926  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2" --mitigation_sampling feat
+ 1927  python
+ 1928  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2" --mitigation_sampling feat
+ 1929  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2" --mitigation_sampling feat --task test
+ 1930  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2" --mitigation_backbone soft  --mitigation_sampling feat --task test
+ 1931  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2" --mitigation_sampling feat --task test
+ 1932  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2" --mitigation_sampling raw --task test
+ 1933  clear
+ 1934  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2" --mitigation_sampling raw --task test
+ 1935  clear
+ 1936  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2" --mitigation_sampling raw --task test
+ 1937  clear
+ 1938  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2" --mitigation_sampling raw --task test
+ 1939  cd sedignn/LECI_fork
+ 1940  conda activate leci
+ 1941  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2" --mitigation_sampling raw --task test
+ 1942  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "3" --mitigation_sampling raw --task test
+ 1943  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2" --mitigation_sampling raw --task test
+ 1944  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2" --mitigation_sampling feat --task test
+ 1945  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2" --mitigation_sampling raw --task test
+ 1946  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --task test
+ 1947  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2" --mitigation_sampling raw --task test
+ 1948  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling raw --task test
+ 1949  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "2" --mitigation_sampling raw --task test
+ 1950  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling raw --task test
+ 1951  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --task test
+ 1952  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "2" --mitigation_sampling feat --task test
+ 1953  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --task test
+ 1954  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling raw --task test
+ 1955  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "2" --mitigation_sampling raw --task test
+ 1956  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling raw --task test
+ 1957  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "2" --mitigation_sampling raw --task test
+ 1958  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --task test
+ 1959  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "2" --mitigation_sampling feat --task test
+ 1960  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling raw --task test
+ 1961  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "3" --mitigation_sampling raw --task test
+ 1962  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling raw --task test
+ 1963  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling raw --task debug_suff
+ 1964  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling raw --task test
+ 1965  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling raw --task debug_suff
+ 1966  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --task debug_suff
+ 1967  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling raw --task test
+ 1968  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "2" --mitigation_sampling raw --task test
+ 1969  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2" --mitigation_sampling feat --task test
+ 1970  htop
+ 1971  conda activate leci
+ 1972  python
+ 1973  cd sedignn/LECI_fork
+ 1974  conda activate leci
+ 1975  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --mitigation_backbone None --task eval_suff
+ 1976  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --task eval_suff
+ 1977  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --mitigation_backbone soft2 --task eval_suff
+ 1978  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat  --task eval_suff
+ 1979  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --mitigation_backbone soft --task eval_suff
+ 1980  cd sedignn/LECI_fork
+ 1981  conda activate leci
+ 1982  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --task train
+ 1983  git status
+ 1984  git add GOOD/kernel/pipelines/plots/
+ 1985  git status
+ 1986  git commit -m "Sync plots"
+ 1987  python
+ 1988  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling raw --task test
+ 1989  python
+ 1990  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling raw --task test
+ 1991  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --task test
+ 1992  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --mitigation_backbone soft --task test
+ 1993  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --task test
+ 1994  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --task eval_suff
+ 1995  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --mitigation_backbone soft --task eval_suff
+ 1996  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --mitigation_backbone soft2 --task eval_suff
+ 1997  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2/3" --mitigation_sampling feat --mitigation_backbone soft2 --task test
+ 1998  cd sedignn/LECI_fork
+ 1999  conda activate leci
+ 2000  cd ..
+ 2001  ls
+ 2002  cd LECI_fork
+ 2003  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --mitigation_backbone soft2 --task eval_suff
+ 2004  htop
+ 2005  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --mitigation_backbone soft2 --task eval_suff
+ 2006  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --mitigation_backbone soft --task eval_suff
+ 2007  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --mitigation_backbone soft2 --task eval_suff
+ 2008  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --task eval_suff
+ 2009  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --mitigation_backbone soft2 --task eval_suff
+ 2010  grep -B1 "^# cmd" ${CONDA_PREFIX}/conda-meta/history
+ 2011  conda list --revisions
+ 2012  conda install --revision 1
+ 2013  conda list --revisions
+ 2014  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --mitigation_backbone soft2 --task eval_suff
+ 2015  pip install Sphinx
+ 2016  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --mitigation_backbone soft2 --task eval_suff
+ 2017  conda list --revisions
+ 2018  conda install --revision 0
+ 2019  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --mitigation_backbone soft2 --task eval_suff
+ 2020  git pull
+ 2021  goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --mitigation_backbone soft2 --task eval_suff
+ 2022  conda list
+ 2023  conda install pytorch==1.10.1
+ 2024  conda install pytorch==1.10.1 -c pytorch -c conda-forge
+ 2025  history > commands.txt
