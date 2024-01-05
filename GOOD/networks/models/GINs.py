@@ -6,6 +6,7 @@ from typing import Callable, Optional
 
 import torch
 import torch.nn as nn
+import torch_geometric
 import torch_geometric.nn as gnn
 from torch import Tensor
 from torch_geometric.nn.inits import reset
@@ -203,8 +204,10 @@ class GINEncoder(BasicEncoder):
 class GINConvAttn(gnn.MessagePassing):
     def __init__(self, mlp, emb_dim, mitigation_backbone=None):
         super(GINConvAttn, self).__init__(aggr="add")
-
-        # self._steve_explain = False
+        
+        if torch_geometric.__version__ == "2.4.0":
+            print("#D#Using the fixed _explain_ functionality")
+            self._fixed_explain = False
 
         self.mlp = mlp
         self.eps = torch.nn.Parameter(torch.Tensor([0]))
@@ -245,14 +248,10 @@ class GINConvAttn(gnn.MessagePassing):
 
         # return F.relu(x_j)
             
-        # if self._steve_explain:
-        #     assert False
-        #     edge_mask = self.__edge_mask__.sigmoid()
-        #     # if out.size(self.node_dim) != edge_mask.size(0):
-        #     #     loop = edge_mask.new_ones(size[0])
-        #     #     edge_mask = torch.cat([edge_mask, loop], dim=0)
-        #     # assert out.size(self.node_dim) == edge_mask.size(0)
-        #     x_j = x_j * edge_mask.view([-1] + [1] * (x_j.dim() - 1))
+        if torch_geometric.__version__ == "2.4.0" and self._fixed_explain:
+            assert torch_geometric.__version__ == "2.4.0"
+            edge_mask = self.__edge_mask__.sigmoid()
+            x_j = x_j * edge_mask.view([-1] + [1] * (x_j.dim() - 1))
         return x_j
 
     def update(self, aggr_out):

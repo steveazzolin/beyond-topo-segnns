@@ -190,19 +190,9 @@ class Pipeline:
         self.model.eval()
         pbar_setting["disable"] = False
 
-        edge_colors = {
-            "inv": "green",
-            "spu": "blue",
-            "added": "red"
-        }
-        node_colors = {
-            True: "red",
-            False: "#1f78b4"
-        }
-
         print(f"#D#Computing ROBUST FIDELITY MINUS over {split}")
         print(self.loader[split].dataset)
-        print("Label distribution: ", self.loader[split].dataset.data.y.unique(return_counts=True))
+        print("Label distribution: ", self.loader[split].dataset.y.unique(return_counts=True))
 
         loader = DataLoader(self.loader[split].dataset, batch_size=1, shuffle=False)
         if self.config.numsamples_budget == "all":
@@ -303,18 +293,18 @@ class Pipeline:
                     3.1.3 compute d_i = d(P(Y|G'), P(Y|G))
             4. average d_i across all samples
         """
+        self.model.eval()
+        pbar_setting["disable"] = False
+
         print(f"#D#Computing SUFF over {split}")
         print(self.loader[split].dataset)
-        print("Label distribution: ", self.loader[split].dataset.data.y.unique(return_counts=True))
+        print("Label distribution: ", self.loader[split].dataset.y.unique(return_counts=True))
 
         loader = DataLoader(self.loader[split].dataset, batch_size=1, shuffle=False)
         if self.config.numsamples_budget == "all":
             self.config.numsamples_budget = len(loader)
 
-        self.model.eval()
-
-        pbar_setting["disable"] = False
-        pbar = tqdm(loader, desc=f'Eval {split.capitalize()}', total=len(loader), **pbar_setting)
+        pbar = tqdm(loader, desc=f'Extracting subgraphs {split.capitalize()}', total=len(loader), **pbar_setting)
         preds_all = []
         graphs = []
         causal_subgraphs = []
@@ -385,12 +375,18 @@ class Pipeline:
                 xai_utils.mark_edges(G_t, causal_subgraphs[j], spu_subgraphs[j])
                 G_t_filt = xai_utils.remove_from_graph(G_t, "inv")
                 num_elem = xai_utils.mark_frontier(G_t, G_t_filt)
+
                 if num_elem == 0:
                     invalid_idxs.add(j)
                     # print("\nZero frontier here2 ", i)
                     # draw(G_t, name=f"debug2_graph_{i}")
                     # draw(G_t_filt, name=f"debug2_filtgraph_{i}")
                     continue
+
+                
+                if i < 5 and c < 4:
+                    xai_utils.draw(G, name=f"plots_of_suff_scores/debug2_graph_{j}")
+                    xai_utils.draw(G_t_filt, name=f"plots_of_suff_scores/debug2_filtgraph_{j}")
 
                 G_union = xai_utils.random_attach(G_filt, G_t_filt)
                 eval_samples.append(G_union)
@@ -472,7 +468,7 @@ class Pipeline:
         #         c += 1
         #     if c == 10:
         #         break
-        return div_aggr.mean(), div_aggr.std()
+        return div_aggr.mean().item(), div_aggr.std().item()
 
 
 
@@ -534,8 +530,9 @@ class Pipeline:
         stat['score'] = eval_score(pred_all, target_all, self.config)
         # --------------- Metric SUFF  --------------------
         if compute_suff:
-            # suff, suff_devstd = self.compute_sufficiency("val")
-            suff, suff_devstd = 0,0
+            suff, suff_devstd = 0, 0
+            fid, fid_devstd = 0, 0
+            suff, suff_devstd = self.compute_sufficiency("id_val")            
             fid, fid_devstd = self.compute_robust_fidelity_m("val")
         else:
             suff, suff_devstd = 0,0
@@ -555,7 +552,7 @@ class Pipeline:
             'fid_devstd': fid_devstd
         }
 
-    def load_task(self, load_param=False):
+    def load_task(self, load_param=False, load_split="ood"):
         r"""
         Launch a training or a test.
         """
@@ -565,10 +562,10 @@ class Pipeline:
         elif self.task == 'test':
             # config model
             print('#D#Config model and output the best checkpoint info...')
-            test_score, test_loss = self.config_model('test', load_param=load_param)
+            test_score, test_loss = self.config_model('test', load_param=load_param, load_split=load_split)
             return test_score, test_loss
 
-    def config_model(self, mode: str, load_param=False):
+    def config_model(self, mode: str, load_param=False, load_split="ood"):
         r"""
         A model configuration utility. Responsible for transiting model from CPU -> GPU and loading checkpoints.
         Args:
@@ -644,7 +641,12 @@ class Pipeline:
                     f'#IN#ChartInfo {ckpt["test_score"]:.4f} {ckpt["val_score"]:.4f}', end='')
             if load_param:
                 if self.config.ood.ood_alg != 'EERM':
-                    self.model.load_state_dict(ckpt['state_dict'])
+                    if load_split == "ood":
+                        self.model.load_state_dict(ckpt['state_dict'])
+                    elif load_split == "id":
+                        self.model.load_state_dict(id_ckpt['state_dict'])
+                    else:
+                        raise ValueError(f"{load_split} not supported")
                 else:
                     self.model.gnn.load_state_dict(ckpt['state_dict'])
             return ckpt["test_score"], ckpt["test_loss"]

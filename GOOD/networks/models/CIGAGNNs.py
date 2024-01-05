@@ -5,6 +5,7 @@ from GOOD.networks.models.Pooling import GlobalAddPool
 import torch
 import torch.nn as nn
 from torch import Tensor
+import torch_geometric
 from torch_geometric.data import Data
 from torch_geometric.nn.conv import MessagePassing
 from torch_geometric.utils import degree
@@ -252,9 +253,11 @@ class GAEAttNet(nn.Module):
 def set_masks(mask: Tensor, model: nn.Module):
     for module in model.modules():
         if isinstance(module, MessagePassing):
-            module.__explain__ = True
-            module._explain = True
-            # module._steve_explain = True
+            if torch_geometric.__version__ == "2.4.0":
+                module._fixed_explain = True
+            else:
+                module.__explain__ = True
+                module._explain = True            
             module.__edge_mask__ = mask
             module._edge_mask = mask
 
@@ -262,9 +265,11 @@ def set_masks(mask: Tensor, model: nn.Module):
 def clear_masks(model: nn.Module):
     for module in model.modules():
         if isinstance(module, MessagePassing):
-            module.__explain__ = False
-            module._explain = False
-            # module._steve_explain = False
+            if torch_geometric.__version__ == "2.4.0":
+                module._fixed_explain = False
+            else:
+                module.__explain__ = False
+                module._explain = False   
             module.__edge_mask__ = None
             module._edge_mask = None
 
