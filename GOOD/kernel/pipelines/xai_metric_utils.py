@@ -4,6 +4,7 @@ from random import randint
 from scipy.stats import bernoulli
 import matplotlib.pyplot as plt
 import numpy as np
+import os
 
 edge_colors = {
     "inv": "green",
@@ -50,7 +51,7 @@ def mark_frontier(G, G_filt):
     nx.set_node_attributes(G_filt, name="frontier", values={n: True for n in frontier})
     return len(frontier)
 
-def draw(G, name, pos=None):
+def draw(config, G, name, subfolder="", pos=None):
     if pos is None:
         pos = nx.kamada_kawai_layout(G)
     nx.draw(
@@ -60,7 +61,10 @@ def draw(G, name, pos=None):
         edge_color=list(map(lambda x: edge_colors[x], nx.get_edge_attributes(G,'origin').values())),
         node_color=list(map(lambda x: node_colors[x], [nx.get_node_attributes(G,'frontier').get(n, False) for n in G.nodes()])),
     )
-    plt.savefig(f'GOOD/kernel/pipelines/plots/{name}.png')
+    path = f'GOOD/kernel/pipelines/plots/{subfolder}/{config.load_split}_{config.util_model_dirname}/'
+    if not os.path.exists(path):
+        os.makedirs(path)
+    plt.savefig(f'{path}/{name}.png')
     plt.close()
     return pos
 

@@ -303,7 +303,7 @@ class Pipeline:
         """
         reset_random_seed(self.config)
         self.model.eval()
-        pbar_setting["disable"] = True
+        pbar_setting["disable"] = False
 
         print(f"#D#Computing SUFF over {split}")
         print(self.loader[split].dataset)
@@ -396,9 +396,9 @@ class Pipeline:
                     continue
 
                 
-                # if i < 5 and c < 4:
-                #     xai_utils.draw(G, name=f"plots_of_suff_scores/debug2_graph_{j}")
-                #     xai_utils.draw(G_t_filt, name=f"plots_of_suff_scores/debug2_filtgraph_{j}")
+                if i < 3 and c < 4:
+                    xai_utils.draw(self.config, G_t, subfolder="plots_of_suff_scores", name=f"graph_{j}")
+                    xai_utils.draw(self.config, G_t_filt, subfolder="plots_of_suff_scores", name=f"filtgraph_{j}")
 
                 G_union = xai_utils.random_attach(G_filt, G_t_filt)
                 eval_samples.append(G_union)
