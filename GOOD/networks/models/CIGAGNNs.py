@@ -8,7 +8,7 @@ from torch import Tensor
 import torch_geometric
 from torch_geometric.data import Data
 from torch_geometric.nn.conv import MessagePassing
-from torch_geometric.utils import degree
+from torch_geometric.utils import degree, to_undirected
 
 from GOOD import register
 from GOOD.utils.config_reader import Union, CommonArgs, Munch
@@ -214,6 +214,7 @@ class GAEAttNet(nn.Module):
             self.gnn_node = GINFeatExtractor(config_catt, without_readout=True, **kwargs)
         self.linear = nn.Linear(config_catt.model.dim_hidden * 2, 1)
         self.ratio = causal_ratio
+        self.config = config_catt
 
     def forward(self, *args, **kwargs):
         data = kwargs.get('data') or None
@@ -224,6 +225,10 @@ class GAEAttNet(nn.Module):
         row, col = data.edge_index
         edge_rep = torch.cat([node_h[row], node_h[col]], dim=-1)
         edge_score = self.linear(edge_rep).view(-1)
+
+        if self.config.average_edge_attn != "default":
+            data.ori_edge_index = data.edge_index.detach().clone() #for backup and debug
+            data.edge_index, edge_score = to_undirected(data.edge_index, edge_score.squeeze(-1), reduce="mean")
 
         if data.edge_index.shape[1] != 0:
             (causal_edge_index, causal_edge_attr, causal_edge_weight), \

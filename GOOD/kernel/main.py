@@ -63,6 +63,7 @@ def evaluate_suff(args):
         config["mitigation_backbone"] = args.mitigation_backbone
         config["mitigation_sampling"] = args.mitigation_sampling
         config["task"] = "test"
+        config["load_split"] = load_split
         if i == 0:
             load_logger(config)
         
@@ -76,15 +77,15 @@ def evaluate_suff(args):
         test_scores.append((sa['score'], test_score))
 
         suff_id, suff_devstd_id = pipeline.compute_sufficiency("id_val")
-        suff_ood, suff_devstd_ood = pipeline.compute_sufficiency("val")
+        # suff_ood, suff_devstd_ood = pipeline.compute_sufficiency("val")
         
-        fid_id, fid_devstd_id = pipeline.compute_robust_fidelity_m("id_val")
-        fid_ood, fid_devstd_ood = pipeline.compute_robust_fidelity_m("val")        
+        # fid_id, fid_devstd_id = pipeline.compute_robust_fidelity_m("id_val")
+        # fid_ood, fid_devstd_ood = pipeline.compute_robust_fidelity_m("val")        
 
         test_suff_id.append((suff_id, suff_devstd_id))
-        test_suff_ood.append((suff_ood, suff_devstd_ood))
-        test_fid_id.append((fid_id, fid_devstd_id))
-        test_fid_ood.append((fid_ood, fid_devstd_ood))
+        # test_suff_ood.append((suff_ood, suff_devstd_ood))
+        # test_fid_id.append((fid_id, fid_devstd_id))
+        # test_fid_ood.append((fid_ood, fid_devstd_ood))
     print()
     print()
     print("Final OOD Test scores: ", test_scores)

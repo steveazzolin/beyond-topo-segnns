@@ -207,6 +207,7 @@ def process_configs(config: Union[CommonArgs, Munch], args=None):
                     f'mitig_backbone{args.mitigation_backbone}_' \
                     f'mitig_sampling{args.mitigation_sampling}'
     train_dirname = f'{config.train.lr}lr_{config.train.weight_decay}wd'
+    config.util_model_dirname = model_dirname
     ood_dirname = config.ood.ood_alg
     if config.ood.ood_param is not None and config.ood.ood_param >= 0:
         ood_dirname += f'_{config.ood.ood_param}'

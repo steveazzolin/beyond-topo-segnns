@@ -14,6 +14,7 @@ num_workers: 0
 expval_budget: 10 # Added by Steve
 numsamples_budget: all # Added by Steve
 fidelity_alpha_2: 0.9 # Added by Steve
+average_edge_attn: default # Added by Steve
 train:
   weight_decay: 0.
   save_gap: 10

@@ -6,10 +6,11 @@ import torch
 import torch.nn as nn
 from torch import Tensor
 from torch.autograd import Function
+from torch_geometric import __version__ as pyg_v
 from torch_geometric.nn import InstanceNorm
 from torch_geometric.nn.conv import MessagePassing
-from torch_geometric.utils import is_undirected
-from torch_sparse import transpose
+from torch_geometric.utils import is_undirected, to_undirected
+from torch_sparse import transpose, coalesce
 
 from GOOD import register
 from GOOD.utils.config_reader import Union, CommonArgs, Munch
@@ -113,7 +114,11 @@ class LECIGIN(GNNBasic):
         if self.learn_edge_att:
             if is_undirected(data.edge_index):
                 nodesize = data.x.shape[0]
-                edge_att = (att + transpose(data.edge_index, att, nodesize, nodesize, coalesced=False)[1]) / 2
+                if self.config.average_edge_attn == "default":
+                    edge_att = (att + transpose(data.edge_index, att, nodesize, nodesize, coalesced=False)[1]) / 2
+                else:
+                    data.ori_edge_index = data.edge_index.detach().clone() #for backup and debug
+                    data.edge_index, edge_att = to_undirected(data.edge_index, att.squeeze(-1), reduce="mean")
             else:
                 edge_att = att
         else:
@@ -309,8 +314,11 @@ def set_masks(mask: Tensor, model: nn.Module):
     for module in model.modules():
         if isinstance(module, MessagePassing):
             module._apply_sigmoid = False
-            module.__explain__ = True
-            module._explain = True
+            if pyg_v == "2.4.0":
+                module._fixed_explain = True
+            else:
+                module.__explain__ = True
+                module._explain = True    
             module.__edge_mask__ = mask
             module._edge_mask = mask
 
@@ -321,7 +329,10 @@ def clear_masks(model: nn.Module):
     """
     for module in model.modules():
         if isinstance(module, MessagePassing):
-            module.__explain__ = False
-            module._explain = False
+            if pyg_v == "2.4.0":
+                module._fixed_explain = False
+            else:
+                module.__explain__ = False
+                module._explain = False
             module.__edge_mask__ = None
             module._edge_mask = None
