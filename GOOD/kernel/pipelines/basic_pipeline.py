@@ -29,6 +29,7 @@ from GOOD.utils.evaluation import eval_data_preprocess, eval_score
 from GOOD.utils.logger import pbar_setting
 from GOOD.utils.register import register
 from GOOD.utils.train import nan2zero_get_mask
+from GOOD.utils.initial import reset_random_seed
 import GOOD.kernel.pipelines.xai_metric_utils as xai_utils
 
 
@@ -190,6 +191,7 @@ class Pipeline:
 
     @torch.no_grad()
     def compute_robust_fidelity_m(self, split: str, debug=False):
+        reset_random_seed(self.config)
         self.model.eval()
         pbar_setting["disable"] = True
 
@@ -299,6 +301,7 @@ class Pipeline:
                     3.1.3 compute d_i = d(P(Y|G'), P(Y|G))
             4. average d_i across all samples
         """
+        reset_random_seed(self.config)
         self.model.eval()
         pbar_setting["disable"] = True
 
