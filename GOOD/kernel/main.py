@@ -125,6 +125,7 @@ def main():
         config["mitigation_backbone"] = args.mitigation_backbone
         config["mitigation_sampling"] = args.mitigation_sampling
         print(config.random_seed, config.exp_round)
+        print(args)
         if i == 0:
             load_logger(config)
         
