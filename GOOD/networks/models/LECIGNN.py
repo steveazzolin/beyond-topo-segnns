@@ -119,10 +119,15 @@ class LECIGIN(GNNBasic):
                 else:
                     data.ori_edge_index = data.edge_index.detach().clone() #for backup and debug
                     data.edge_index, edge_att = to_undirected(data.edge_index, att.squeeze(-1), reduce="mean")
+
+                for i, (u,v) in enumerate(data.edge_index.T):
+                    if u == 0 or v == 0:
+                        print((u,v), edge_att[i])
             else:
                 edge_att = att
         else:
             edge_att = self.lift_node_att_to_edge_att(att, data.edge_index)
+        exit(0)
 
 
         set_masks(edge_att, self.lc_gnn)
