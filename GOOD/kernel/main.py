@@ -50,51 +50,56 @@ def initialize_model_dataset(config: Union[CommonArgs, Munch]) -> Tuple[torch.nn
 
 
 def evaluate_suff(args):
-    load_split = "id"
-    test_scores = []
-    test_suff_id, test_suff_ood = [], []
-    test_fid_id, test_fid_ood = [], []
-    for i, seed in enumerate(args.seeds.split("/")):
-        seed = int(seed)        
-        args.random_seed = seed
-        args.exp_round = seed
-        
-        config = config_summoner(args)
-        config["mitigation_backbone"] = args.mitigation_backbone
-        config["mitigation_sampling"] = args.mitigation_sampling
-        config["task"] = "test"
-        config["load_split"] = load_split
-        if i == 0:
-            load_logger(config)
-        
-        model, loader = initialize_model_dataset(config)
-        ood_algorithm = load_ood_alg(config.ood.ood_alg, config)
-        pipeline = load_pipeline(config.pipeline, config.task, model, loader, ood_algorithm, config)
+    load_splits = ["id", "ood"]
+    for load_split in load_splits:
+        print("\n\n")
+        print(f"#D# USING LOAD SPLIT = {load_split}")
+        print("\n\n")
 
-        test_score, test_loss = pipeline.load_task(load_param=True, load_split=load_split)
-        sa = pipeline.evaluate("test", compute_suff=False)
+        test_scores = []
+        test_suff_id, test_suff_ood = [], []
+        test_fid_id, test_fid_ood = [], []
+        for i, seed in enumerate(args.seeds.split("/")):
+            seed = int(seed)        
+            args.random_seed = seed
+            args.exp_round = seed
+            
+            config = config_summoner(args)
+            config["mitigation_backbone"] = args.mitigation_backbone
+            config["mitigation_sampling"] = args.mitigation_sampling
+            config["task"] = "test"
+            config["load_split"] = load_split
+            if i == 0:
+                load_logger(config)
+            
+            model, loader = initialize_model_dataset(config)
+            ood_algorithm = load_ood_alg(config.ood.ood_alg, config)
+            pipeline = load_pipeline(config.pipeline, config.task, model, loader, ood_algorithm, config)
 
-        test_scores.append((sa['score'], test_score))
+            test_score, test_loss = pipeline.load_task(load_param=True, load_split=load_split)
+            sa = pipeline.evaluate("test", compute_suff=False)
 
-        suff_id, suff_devstd_id = pipeline.compute_sufficiency("id_val")
-        # suff_ood, suff_devstd_ood = pipeline.compute_sufficiency("val")
-        
-        # fid_id, fid_devstd_id = pipeline.compute_robust_fidelity_m("id_val")
-        # fid_ood, fid_devstd_ood = pipeline.compute_robust_fidelity_m("val")        
+            test_scores.append((sa['score'], test_score))
 
-        test_suff_id.append((suff_id, suff_devstd_id))
-        # test_suff_ood.append((suff_ood, suff_devstd_ood))
-        # test_fid_id.append((fid_id, fid_devstd_id))
-        # test_fid_ood.append((fid_ood, fid_devstd_ood))
-    print()
-    print()
-    print("Final OOD Test scores: ", test_scores)
-    print("Final SUFF_ID scores: ", test_suff_id)
-    print("Final SUFF_OOD scores: ", test_suff_ood)
-    print("Final FID_ID scores: ", test_fid_id)
-    print("Final FID_OOD scores: ", test_fid_ood)
-    print(f"Computed for split load_split = {load_split}")
-    print()
+            suff_id, suff_devstd_id = pipeline.compute_sufficiency("id_val")
+            suff_ood, suff_devstd_ood = pipeline.compute_sufficiency("val")
+            
+            fid_id, fid_devstd_id = pipeline.compute_robust_fidelity_m("id_val")
+            fid_ood, fid_devstd_ood = pipeline.compute_robust_fidelity_m("val")        
+
+            test_suff_id.append((suff_id, suff_devstd_id))
+            test_suff_ood.append((suff_ood, suff_devstd_ood))
+            test_fid_id.append((fid_id, fid_devstd_id))
+            test_fid_ood.append((fid_ood, fid_devstd_ood))
+        print()
+        print()
+        print("Final OOD Test scores: ", test_scores)
+        print("Final SUFF_ID scores: ", test_suff_id)
+        print("Final SUFF_OOD scores: ", test_suff_ood)
+        print("Final FID_ID scores: ", test_fid_id)
+        print("Final FID_OOD scores: ", test_fid_ood)
+        print(f"Computed for split load_split = {load_split}")
+        print()
 
 
 

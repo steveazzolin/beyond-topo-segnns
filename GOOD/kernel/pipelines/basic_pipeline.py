@@ -396,9 +396,9 @@ class Pipeline:
                     continue
 
                 
-                if i < 3 and c < 4:
-                    xai_utils.draw(self.config, G_t, subfolder="plots_of_suff_scores", name=f"graph_{j}")
-                    xai_utils.draw(self.config, G_t_filt, subfolder="plots_of_suff_scores", name=f"filtgraph_{j}")
+                # if i < 3 and c < 4:
+                #     xai_utils.draw(self.config, G_t, subfolder="plots_of_suff_scores", name=f"graph_{j}")
+                #     xai_utils.draw(self.config, G_t_filt, subfolder="plots_of_suff_scores", name=f"filtgraph_{j}")
 
                 G_union = xai_utils.random_attach(G_filt, G_t_filt)
                 eval_samples.append(G_union)
@@ -457,9 +457,9 @@ class Pipeline:
 
         print(f"Mean of the dev_std computed for the int_distrib of each sample = {(div_aggr_std**2).mean().sqrt()}")
 
-        plt.hist(div_aggr.numpy(), density=False)
-        plt.savefig("GOOD/kernel/pipelines/plots/plots_of_suff_scores/hist_div_aggr.png")
-        plt.close()
+        # plt.hist(div_aggr.numpy(), density=False)
+        # plt.savefig("GOOD/kernel/pipelines/plots/plots_of_suff_scores/hist_div_aggr.png")
+        # plt.close()
 
         # c = 0
         # for j in range(500):
