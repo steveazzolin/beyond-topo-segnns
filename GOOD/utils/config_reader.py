@@ -205,7 +205,8 @@ def process_configs(config: Union[CommonArgs, Munch], args=None):
                     f'{config.model.global_pool}pool_' \
                     f'{config.model.dropout_rate}dp_' \
                     f'mitig_backbone{args.mitigation_backbone}_' \
-                    f'mitig_sampling{args.mitigation_sampling}'
+                    f'mitig_sampling{args.mitigation_sampling}' \
+                    f'avgedgeattn{args.average_edge_attn}'
     train_dirname = f'{config.train.lr}lr_{config.train.weight_decay}wd'
     config.util_model_dirname = model_dirname
     ood_dirname = config.ood.ood_alg
