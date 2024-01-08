@@ -181,7 +181,7 @@ class Pipeline:
             test_stat = self.evaluate('test')
 
             # checkpoints save
-            # self.save_epoch(epoch, epoch_train_stat, id_val_stat, id_test_stat, val_stat, test_stat, self.config)
+            self.save_epoch(epoch, epoch_train_stat, id_val_stat, id_test_stat, val_stat, test_stat, self.config)
 
             # --- scheduler step ---
             self.ood_algorithm.scheduler.step()
