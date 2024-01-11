@@ -700,7 +700,7 @@ class Pipeline:
         # Compute new prediction and evaluate KL
         ##
         dataset = CustomDataset("", eval_samples, belonging)
-        loader = DataLoader(dataset, batch_size=256, shuffle=False, num_workers=0)
+        loader = DataLoader(dataset, batch_size=1, shuffle=False, num_workers=0)
             
         pbar = tqdm(loader, desc=f'Eval intervened graphs', total=len(loader), **pbar_setting)
         preds_eval = []
