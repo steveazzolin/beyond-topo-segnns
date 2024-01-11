@@ -129,12 +129,12 @@ class CIGAGIN(GNNBasic):
         spu_pred = self.spu_lin(spu_graph_x).detach()
         return torch.sigmoid(spu_pred) * causal_pred
     
-    def get_subgraph(self, *args, **kwargs):
+    def get_subgraph(self, get_pred=False, log_pred=False, *args, **kwargs):
         data = kwargs.get('data')
         
-        data.x_debug = torch.zeros_like(data.x)
-        for i in range(data.x.shape[0]):
-            data.x_debug[i] = torch.tensor([i]*data.x.shape[1])
+        # data.x_debug = torch.zeros_like(data.x)
+        # for i in range(data.x.shape[0]):
+        #     data.x_debug[i] = torch.tensor([i]*data.x.shape[1])
 
         batch_size = data.batch[-1].item() + 1
 
@@ -142,9 +142,10 @@ class CIGAGIN(GNNBasic):
         (spu_x, spu_edge_index, spu_edge_attr, spu_edge_weight, spu_batch), \
         pred_edge_weight, node_h, orig_x = self.att_net(*args, **kwargs)
 
-        causal_x = data.x_debug[torch.unique(causal_edge_index)] # DEBUG STEVE
-        spu_x = data.x_debug[torch.unique(spu_edge_index)] # DEBUG STEVE
-        return (causal_edge_index, causal_x, causal_batch, causal_edge_weight), (spu_edge_index, spu_x, spu_batch, causal_edge_weight)
+        if kwargs.get('return_attn', False):
+            self.attn_distrib = self.att_net.gnn_node.encoder.get_attn_distrib()
+            self.att_net.gnn_node.encoder.reset_attn_distrib()
+        return (causal_edge_index, causal_x, causal_batch, causal_edge_weight), (spu_edge_index, spu_x, spu_batch, spu_edge_weight), pred_edge_weight
 
 
 @register.model_register

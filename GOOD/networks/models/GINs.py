@@ -156,6 +156,16 @@ class GINEncoder(BasicEncoder):
             ]
         )
 
+    def get_attn_distrib(self):
+        ret = []
+        for conv in self.convs:
+            ret.append(conv.attn_distrib)
+        return ret
+
+    def reset_attn_distrib(self):
+        for conv in self.convs:
+            conv.attn_distrib = []
+
     def forward(self, x, edge_index, batch, batch_size, **kwargs):
         r"""
         The GIN encoder for non-molecule data.
@@ -194,7 +204,7 @@ class GINEncoder(BasicEncoder):
         layer_feat = [x]
         for i, (conv, batch_norm, relu, dropout) in enumerate(
                 zip(self.convs, self.batch_norms, self.relus, self.dropouts)):
-            post_conv = batch_norm(conv(layer_feat[-1], edge_index))
+            post_conv = batch_norm(conv(layer_feat[-1], edge_index, return_attn_distrib=kwargs.get('return_attn', False)))
             if i != len(self.convs) - 1:
                 post_conv = relu(post_conv)
             layer_feat.append(dropout(post_conv))
@@ -211,6 +221,7 @@ class GINConvAttn(gnn.MessagePassing):
 
         self.mlp = mlp
         self.eps = torch.nn.Parameter(torch.Tensor([0]))
+        self.attn_distrib = []
 
         self.mitigation_backbone = mitigation_backbone
         if mitigation_backbone == "soft" or mitigation_backbone == "hard":
@@ -237,12 +248,13 @@ class GINConvAttn(gnn.MessagePassing):
         if self.mitigation_backbone:
             attn = self.mitigation_attn(torch.cat([x_i, x_j], dim=-1))
             attn = torch.sigmoid(attn)
-            
-            if return_attn_distrib:
-                self.attn.extend(attn.detach().cpu().squeeze().numpy().tolist())
+
             if self.mitigation_backbone in ["hard", "hard2"]:
                 attn_hard = (attn > 0.5).float()
                 attn = attn_hard - attn.detach() + attn
+
+            if return_attn_distrib:
+                self.attn_distrib.extend(attn.detach().cpu().squeeze().numpy().tolist())
 
             x_j = x_j * attn
 
