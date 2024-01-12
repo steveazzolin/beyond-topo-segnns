@@ -31,7 +31,9 @@ from GOOD.utils.register import register
 from GOOD.utils.train import nan2zero_get_mask
 from GOOD.utils.initial import reset_random_seed
 import GOOD.kernel.pipelines.xai_metric_utils as xai_utils
+from GOOD.utils.splitting import split_graph
 
+pbar_setting["disable"] = True
 
 class CustomDataset(InMemoryDataset):
     def __init__(self, root, samples, belonging, transform=None, pre_transform=None, pre_filter=None):
@@ -191,27 +193,17 @@ class Pipeline:
 
     @torch.no_grad()
     def compute_robust_fidelity_m(self, split: str, debug=False):
-        reset_random_seed(self.config)
-        self.model.eval()
-        pbar_setting["disable"] = True
-
         print(f"#D#Computing ROBUST FIDELITY MINUS over {split}")
-        print(self.loader[split].dataset)
-        if torch_geometric.__version__ == "2.4.0":
-            print("Label distribution: ", self.loader[split].dataset.y.unique(return_counts=True))
-        else:
-            print("Label distribution: ", self.loader[split].dataset.data.y.unique(return_counts=True))
-
-        loader = DataLoader(self.loader[split].dataset, batch_size=1, shuffle=False)
+        reset_random_seed(self.config)
+        self.model.eval()        
+        
         if self.config.numsamples_budget == "all":
             self.config.numsamples_budget = len(loader)
-       
+
+        loader = DataLoader(self.loader[split].dataset, batch_size=1, shuffle=False)
         pbar = tqdm(loader, desc=f'Eval {split.capitalize()}', total=len(loader), **pbar_setting)
-        preds_all = []
-        graphs = []
-        causal_subgraphs = []
-        spu_subgraphs = []
-        labels = []
+        preds_all, labels, graphs = [], [], []
+        causal_subgraphs, spu_subgraphs = [], []
         for data in pbar:
             data: Batch = data.to(self.config.device)
             output = self.model.probs(data=data, edge_weight=None, ood_algorithm=self.ood_algorithm)
@@ -246,8 +238,7 @@ class Pipeline:
         # Create interventional distribution
         ##
         
-        eval_samples = []
-        belonging = []
+        eval_samples, belonging = [], []
         preds_ori, labels_ori = [], []
         pbar = tqdm(range(self.config.numsamples_budget), desc=f'Subsamling explanations', total=self.config.numsamples_budget, **pbar_setting)
         for i in pbar:
@@ -288,16 +279,11 @@ class Pipeline:
         preds_ori = preds_ori_ori.repeat_interleave(self.config.expval_budget, dim=0)
         labels_ori = labels_ori_ori.repeat_interleave(self.config.expval_budget, dim=0)
 
-        print(preds_ori.shape, preds_eval.shape)
-
-        # kl = torch.nn.KLDivLoss(reduction="none", log_target=True)(preds_ori, preds_eval).sum(-1)
-        # kl_aggr = scatter_mean(kl, torch.tensor(belonging), dim=0)
-        # kl_aggr_std = scatter_std(kl, torch.tensor(belonging), dim=0)
+        print(preds_ori.shape, preds_eval.shape)        
         l1 = torch.abs(preds_eval.gather(1, labels_ori.unsqueeze(1)) - preds_ori.gather(1, labels_ori.unsqueeze(1)))
         l1_aggr = scatter_mean(l1, torch.tensor(belonging), dim=0)
         l1_aggr_std = scatter_std(l1, torch.tensor(belonging), dim=0)
 
-        # print(f"Robust Fidelity with KL divergence = {kl_aggr.mean()} +- {kl_aggr.std()} (in-sample avg dev_std = {(kl_aggr_std**2).mean().sqrt()})")
         print(f"Robust Fidelity with L1 = {l1_aggr.mean()} +- {l1_aggr.std()} (in-sample avg dev_std = {(l1_aggr_std**2).mean().sqrt()})")
         return l1_aggr.mean(), l1_aggr.std()
 
@@ -306,7 +292,6 @@ class Pipeline:
     def compute_debug(self, split: str, debug=False):
         reset_random_seed(self.config)
         self.model.eval()
-        pbar_setting["disable"] = True
 
         print(f"#D#Computing ROBUST FIDELITY MINUS over {split}")
         print(self.loader[split].dataset)
@@ -448,7 +433,6 @@ class Pipeline:
     def compute_edge_score_divergence(self, split: str, debug=False):
         reset_random_seed(self.config)
         self.model.eval()
-        pbar_setting["disable"] = False
 
         print(f"#D#Computing L1 Divergence of Detector over {split}")
         print(self.loader[split].dataset)
@@ -534,7 +518,7 @@ class Pipeline:
         return np.nanmean(tmp), np.nanstd(tmp)                
 
 
-    def plot_attn_distrib(self, attn_distrib):
+    def plot_attn_distrib(self, attn_distrib, edge_scores=None):
         arrange_attn_distrib = []
         for l in range(len(attn_distrib[0])):
             arrange_attn_distrib.append([])
@@ -548,6 +532,10 @@ class Pipeline:
         for l in range(len(arrange_attn_distrib)):
             plt.hist(arrange_attn_distrib[l], density=False)
             plt.savefig(path + f"l{l}.png")
+            plt.close()
+        if not edge_scores is None:
+            plt.hist(edge_scores, density=True)
+            plt.savefig(path + f"edge_scores.png")
             plt.close()
 
 
@@ -566,7 +554,6 @@ class Pipeline:
         """
         reset_random_seed(self.config)
         self.model.eval()
-        pbar_setting["disable"] = False
 
         print(f"#D#Computing SUFF over {split}")
         print(self.loader[split].dataset)
@@ -585,7 +572,7 @@ class Pipeline:
         causal_subgraphs = []
         spu_subgraphs = []
         causal_edge_weights, spu_edge_weights = [], []
-        attn_distrib = []
+        attn_distrib, edge_scores = [], []
         labels = []
         expl_accs = []
         for data in pbar:
@@ -602,21 +589,23 @@ class Pipeline:
                     ood_algorithm=self.ood_algorithm,
                     do_relabel=False,
                     return_attn=True,
+                    ratio=0.3
                 )
             
             attn_distrib.append(self.model.attn_distrib)
+            edge_scores.extend(edge_score.detach().cpu().numpy().tolist())
             causal_subgraphs.append(causal_edge_index.detach().cpu())
             spu_subgraphs.append(spu_edge_index.detach().cpu())
             causal_edge_weights.append(causal_edge_weight.detach().cpu())
             spu_edge_weights.append(spu_edge_weight.detach().cpu())
             expl_accs.append(xai_utils.expl_acc(causal_subgraphs[-1], graphs[-1]))
         labels = torch.tensor(labels)
-
+        
 
         ##
         # Log attention distribution
         ## 
-        self.plot_attn_distrib(attn_distrib)
+        self.plot_attn_distrib(attn_distrib, edge_scores)
 
 
         ##
@@ -641,7 +630,6 @@ class Pipeline:
 
             if num_elem == 0:
                 print("\nZero frontier here ", i)
-                xai_utils.draw(G_filt, name=f"debug_graph_{i}")
             if debug and i < 3:
                 pos = xai_utils.draw(self.config, G, subfolder="plots_of_suff_scores", name=f"graph_{i}")                
                 xai_utils.draw(self.config, G_filt, subfolder="plots_of_suff_scores", name=f"inv_graph_{i}", pos=pos)
@@ -657,45 +645,20 @@ class Pipeline:
                 if j in invalid_idxs:
                     continue
 
-                G_t = to_networkx(
-                    graphs[j],
-                    node_attrs=["x"]
+                G_union = self.get_intervened_graph(
+                        graphs[j],
+                        invalid_idxs,
+                        causal_subgraphs[j],
+                        spu_subgraphs[j],
+                        G_filt,
+                        debug,
+                        (i, j, c)
                 )
-
-                xai_utils.mark_edges(G_t, causal_subgraphs[j], spu_subgraphs[j])
-                G_t_filt = xai_utils.remove_from_graph(G_t, "inv")
-                num_elem = xai_utils.mark_frontier(G_t, G_t_filt)
-
-                if num_elem == 0:
-                    invalid_idxs.add(j)
-                    # print("\nZero frontier here2 ", i)
-                    # draw(G_t, name=f"debug2_graph_{i}")
-                    # draw(G_t_filt, name=f"debug2_filtgraph_{i}")
+                if G_union is None:
                     continue
-
-                G_union = xai_utils.random_attach(G_filt, G_t_filt)
-                # G_union = xai_utils.random_attach_no_target_frontier(G_filt, G_t_filt)
                 eval_samples.append(G_union)
                 belonging.append(i)
                 c += 1
-
-                # if i > 3 and i < 6 and c < 3:
-                #     xai_utils.draw(self.config, G_t, subfolder="plots_of_suff_scores", name=f"graph_{j}")
-                #     xai_utils.draw(self.config, G_t_filt, subfolder="plots_of_suff_scores", name=f"filtgraph_{j}")
-                #     xai_utils.draw(self.config, G_union, subfolder="plots_of_suff_scores", name=f"union_{i}_{j}")
-
-                # if i == 1:
-                #     xai_utils.draw(self.config, G_filt, subfolder="plots_of_suff_scores", name=f"invgraph_{i}")
-                #     xai_utils.draw(self.config, G_t, subfolder="plots_of_suff_scores", name=f"graph_{j}")
-                #     xai_utils.draw(self.config, G_t_filt, subfolder="plots_of_suff_scores", name=f"spugraph_{j}")
-                #     xai_utils.draw(self.config, G_union, subfolder="plots_of_suff_scores", name=f"union_{i}_{j}")
-
-                if debug and c <= 3:
-                    pos = xai_utils.draw(self.config, G_t, subfolder="plots_of_suff_scores", name=f"graph_{j}")
-                    xai_utils.draw(self.config, G_t_filt, subfolder="plots_of_suff_scores", name=f"spu_graph_{j}", pos=pos)
-                    xai_utils.draw(self.config, G_union, subfolder="plots_of_suff_scores", name=f"nofront_joined_graph_{i}_{j}")
-
-
         ##
         # Compute new prediction and evaluate KL
         ##
@@ -771,7 +734,256 @@ class Pipeline:
         #     if c == 10:
         #         break
         return div_aggr.mean().item(), div_aggr.std().item()
+    
 
+    @torch.no_grad()
+    def get_subragphs_ratio(self, graphs, ratio, edge_scores):
+        spu_subgraphs, causal_subgraphs = [], []
+        expl_accs = []
+        # Select relevant subgraph
+        for i in range(len(graphs)):
+            (causal_edge_index, causal_edge_attr, causal_edge_weight), \
+                (spu_edge_index, spu_edge_attr, spu_edge_weight) = split_graph(
+                    graphs[i],
+                    edge_scores[i],
+                    ratio
+                )
+            causal_subgraphs.append(causal_edge_index.detach().cpu())
+            spu_subgraphs.append(spu_edge_index.detach().cpu())
+            expl_accs.append(xai_utils.expl_acc(causal_subgraphs[-1], graphs[i]))
+        return causal_subgraphs, spu_subgraphs, expl_accs
+    
+
+    @torch.no_grad()
+    def evaluate_graphs(self, loader, log=False):
+        pbar = tqdm(loader, desc=f'Eval intervened graphs', total=len(loader), **pbar_setting)
+        preds_eval, belonging = [], []
+        for data in pbar:
+            data: Batch = data.to(self.config.device)
+            if log:
+                output = self.model.log_probs(data=data, edge_weight=None, ood_algorithm=self.ood_algorithm)
+            else:
+                output = self.model.probs(data=data, edge_weight=None, ood_algorithm=self.ood_algorithm)
+            preds_eval.extend(output.detach().cpu().numpy().tolist())
+            belonging.extend(data.belonging.detach().cpu().numpy().tolist())
+        preds_eval = torch.tensor(preds_eval)
+        return preds_eval, belonging
+
+    def get_intervened_graph(self, graph, invalid_idxs, causal, spu, source, debug, idx):
+        G_t = to_networkx(
+            graph,
+            node_attrs=["x"]
+        )
+        xai_utils.mark_edges(G_t, causal, spu)
+        G_t_filt = xai_utils.remove_from_graph(G_t, "inv")
+        num_elem = xai_utils.mark_frontier(G_t, G_t_filt)
+
+        if num_elem == 0:
+            invalid_idxs.add(j)
+            return None
+
+        # G_union = xai_utils.random_attach(source, G_t_filt)
+        G_union = xai_utils.random_attach_no_target_frontier(source, G_t_filt)
+        i, j, c = idx
+        if debug and c <= 3 and i < 3:
+            pos = xai_utils.draw(self.config, G_t, subfolder="plots_of_suff_scores", name=f"graph_{j}")
+            xai_utils.draw(self.config, G_t_filt, subfolder="plots_of_suff_scores", name=f"spu_graph_{j}", pos=pos)
+            xai_utils.draw(self.config, G_union, subfolder="plots_of_suff_scores", name=f"joined_graph_{i}_{j}")
+        return G_union
+
+    @torch.no_grad()
+    def compute_sufficiency_ratio(self, split: str, debug=False):
+        reset_random_seed(self.config)
+        self.model.eval()
+
+        print(f"#D#Computing SUFF over {split} divided by ratio")
+        print(self.loader[split].dataset)
+        if torch_geometric.__version__ == "2.4.0":
+            print("Label distribution: ", self.loader[split].dataset.y.unique(return_counts=True))
+        else:
+            print("Label distribution: ", self.loader[split].dataset.data.y.unique(return_counts=True))
+
+        loader = DataLoader(self.loader[split].dataset, batch_size=1, shuffle=False)
+        if self.config.numsamples_budget == "all":
+            self.config.numsamples_budget = len(loader)
+
+        pbar = tqdm(loader, desc=f'Extracting subgraphs {split.capitalize()}', total=len(loader), **pbar_setting)
+        preds_all = []
+        graphs = []
+        attn_distrib, edge_scores = [], []
+        labels = []
+        for data in pbar:
+            data: Batch = data.to(self.config.device)
+            output = self.model.log_probs(data=data, edge_weight=None, ood_algorithm=self.ood_algorithm)
+            preds_all.append(output[0].detach().cpu().numpy().tolist())
+            labels.extend(data.y.detach().cpu().numpy().tolist())
+            graphs.append(data.detach().cpu())
+
+            edge_score = self.model.get_subgraph(
+                        data=data,
+                        edge_weight=None,
+                        ood_algorithm=self.ood_algorithm,
+                        do_relabel=False,
+                        return_attn=True,
+                        ratio=None
+                    )
+            
+            edge_scores.append(edge_score.detach().cpu())
+            attn_distrib.append(self.model.attn_distrib)
+        labels = torch.tensor(labels)
+
+        # Log attention distribution
+        self.plot_attn_distrib(attn_distrib, edge_scores)
+
+        suff_scores = []
+        for ratio in [0.3, 0.6, 0.9]:
+            print(f"\n\nratio={ratio}\n\n")
+
+            eval_samples, belonging = [], []
+            preds_ori, labels_ori, expl_acc_ori = [], [], []
+            
+            # Select relevant subgraph
+            causal_subgraphs, spu_subgraphs, expl_accs = self.get_subragphs_ratio(graphs, ratio, edge_scores)
+
+            # Create interventional distribution     
+            pbar = tqdm(range(self.config.numsamples_budget), desc=f'Int. distrib', total=self.config.numsamples_budget, **pbar_setting)
+            for i in pbar:                
+                G = to_networkx(graphs[i], node_attrs=["x"])
+                xai_utils.mark_edges(G, causal_subgraphs[i], spu_subgraphs[i])
+                G_filt = xai_utils.remove_from_graph(G, "spu")
+                num_elem = xai_utils.mark_frontier(G, G_filt)
+
+                if num_elem == 0:
+                    print(f"\nZero frontier here. Idx {i} Num nodes {len(G_filt.nodes())}")
+                    continue
+                if debug and i < 3:
+                    pos = xai_utils.draw(self.config, G, subfolder="plots_of_suff_scores", name=f"graph_{i}")                
+                    xai_utils.draw(self.config, G_filt, subfolder="plots_of_suff_scores", name=f"inv_graph_{i}", pos=pos)
+                
+                preds_ori.append(preds_all[i])
+                labels_ori.append(labels[i])
+                expl_acc_ori.append(expl_accs[i])
+
+                z, c = -1, 0
+                idxs = np.random.permutation(np.arange(len(labels))) #pick random from every class
+                invalid_idxs = set()
+                while c < self.config.expval_budget:
+                    z += 1
+                    j = idxs[z]
+                    if z == len(idxs) - 1:
+                        z = -1
+                    if j in invalid_idxs:
+                        continue
+
+                    G_union = self.get_intervened_graph(
+                        graphs[j],
+                        invalid_idxs,
+                        causal_subgraphs[j],
+                        spu_subgraphs[j],
+                        G_filt,
+                        debug,
+                        (i, j, c)
+                    )
+                    if G_union is None:
+                        continue
+                    eval_samples.append(G_union)
+                    belonging.append(i)
+                    c += 1
+
+            ##
+            # Compute new prediction and evaluate KL
+            ##
+            loader = DataLoader(CustomDataset("", eval_samples, belonging), batch_size=1, shuffle=False, num_workers=0)
+            preds_eval, belonging = self.evaluate_graphs(loader, log=True)
+
+            expl_acc_ori = torch.tensor(expl_acc_ori)
+            labels_ori_ori = torch.tensor(labels_ori)            
+            preds_ori_ori = torch.tensor(preds_ori)
+            preds_ori = preds_ori_ori.repeat_interleave(self.config.expval_budget, dim=0)
+            labels_ori = labels_ori_ori.repeat_interleave(self.config.expval_budget, dim=0)
+
+            div = torch.nn.KLDivLoss(reduction="none", log_target=True)(preds_ori, preds_eval).sum(-1)
+            div_aggr = scatter_mean(div, torch.tensor(belonging), dim=0)
+            suff = div_aggr.mean().item()
+            suff_scores.append(suff)
+
+            print(div_aggr)
+            print(f"Model Accuracy for ratio={ratio}: ", (labels_ori == preds_eval.argmax(-1)).sum() / preds_eval.shape[0])
+            print(f"Explanation F1 score for ratio={ratio}: {np.mean(expl_accs)}")
+            print(f"SUFF results for ratio={ratio}: ", suff, div_aggr.std().item())
+        return np.mean(suff_scores), np.std(suff_scores)
+
+
+    @torch.no_grad()
+    def compute_robust_fidelity_m_ratio(self, split: str, debug=False):
+        print(f"#D#Computing ROBUST FIDELITY MINUS over {split} across ratios")
+        reset_random_seed(self.config)
+        self.model.eval()        
+        
+        if self.config.numsamples_budget == "all":
+            self.config.numsamples_budget = len(loader)
+
+        loader = DataLoader(self.loader[split].dataset, batch_size=1, shuffle=False)
+        pbar = tqdm(loader, desc=f'Eval {split.capitalize()}', total=len(loader), **pbar_setting)
+        preds_all, labels, graphs = [], [], []
+        edge_scores = []
+        for data in pbar:
+            data: Batch = data.to(self.config.device)
+            output = self.model.probs(data=data, edge_weight=None, ood_algorithm=self.ood_algorithm)
+            graphs.append(data.detach().cpu())
+            preds_all.append(output[0].detach().cpu().numpy().tolist())
+            labels.extend(data.y.detach().cpu().numpy().tolist())
+
+            edge_score = self.model.get_subgraph(
+                data=data,
+                edge_weight=None,
+                ood_algorithm=self.ood_algorithm,
+                do_relabel=False,
+                ratio=None
+            )
+            edge_scores.append(edge_score)            
+        labels = torch.tensor(labels)
+
+        fid_scores = []
+        for ratio in [0.3, 0.6, 0.9]:
+            print(f"\n\nratio={ratio}\n\n")
+
+            eval_samples, belonging = [], []
+            preds_ori, labels_ori = [], []            
+            # Select relevant subgraph
+            causal_subgraphs, spu_subgraphs, _ = self.get_subragphs_ratio(graphs, ratio, edge_scores)
+
+            # Create interventional distribution     
+            pbar = tqdm(range(self.config.numsamples_budget), desc=f'Int. distrib', total=self.config.numsamples_budget, **pbar_setting)
+            for i in pbar:                
+                G = to_networkx(graphs[i], node_attrs=["x"])
+                xai_utils.mark_edges(G, causal_subgraphs[i], spu_subgraphs[i])                
+                preds_ori.append(preds_all[i])
+                labels_ori.append(labels[i])
+
+                for m in range(self.config.expval_budget):
+                    G_c = xai_utils.sample_edges(G, "spu", self.config.fidelity_alpha_2)
+                    belonging.append(i)
+                    eval_samples.append(G_c)
+
+            # Compute new prediction and evaluate KL
+            loader = DataLoader(CustomDataset("", eval_samples, belonging), batch_size=1, shuffle=False, num_workers=2)
+            preds_eval, belonging = self.evaluate_graphs(loader, log=False)
+
+            labels_ori_ori = torch.tensor(labels_ori)
+            preds_ori_ori = torch.tensor(preds_ori)
+            preds_ori = preds_ori_ori.repeat_interleave(self.config.expval_budget, dim=0)
+            labels_ori = labels_ori_ori.repeat_interleave(self.config.expval_budget, dim=0)
+
+            print(preds_ori.shape, preds_eval.shape)        
+            l1 = torch.abs(preds_eval.gather(1, labels_ori.unsqueeze(1)) - preds_ori.gather(1, labels_ori.unsqueeze(1)))
+            l1_aggr = scatter_mean(l1, torch.tensor(belonging), dim=0)
+            l1_aggr_std = scatter_std(l1, torch.tensor(belonging), dim=0)
+            fid = l1_aggr.mean().item()
+            fid_scores.append(fid)
+
+            print(f"Robust Fidelity with L1 for ratio={ratio} = {fid} +- {l1_aggr.std()} (in-sample avg dev_std = {(l1_aggr_std**2).mean().sqrt()})")
+        return np.mean(fid_scores), np.std(fid_scores)
 
 
     @torch.no_grad()

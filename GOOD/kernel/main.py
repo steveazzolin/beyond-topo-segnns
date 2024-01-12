@@ -20,6 +20,7 @@ from GOOD.definitions import OOM_CODE
 
 import numpy as np
 
+# torch.set_num_threads(6)
 
 def initialize_model_dataset(config: Union[CommonArgs, Munch]) -> Tuple[torch.nn.Module, Union[dict, DataLoader]]:
     r"""
@@ -84,13 +85,18 @@ def evaluate_suff(args):
 
             # suff_id, suff_devstd_id = pipeline.compute_debug("id_val")
             
-            suff_id, suff_devstd_id = pipeline.compute_sufficiency("id_val", debug=False)
-            suff_ood, suff_devstd_ood = pipeline.compute_sufficiency("val")
-            
-            fid_id, fid_devstd_id = pipeline.compute_robust_fidelity_m("id_val")
-            fid_ood, fid_devstd_ood = pipeline.compute_robust_fidelity_m("val")        
+            if "LECI" in config.model.model_name:
+                suff_id, suff_devstd_id = pipeline.compute_sufficiency_ratio("id_val")    
+                suff_ood, suff_devstd_ood = pipeline.compute_sufficiency_ratio("val")
+                fid_id, fid_devstd_id = pipeline.compute_robust_fidelity_m_ratio("id_val")
+                fid_ood, fid_devstd_ood = pipeline.compute_robust_fidelity_m_ratio("val")      
+            else:
+                suff_id, suff_devstd_id = pipeline.compute_sufficiency("id_val", debug=False)
+                suff_ood, suff_devstd_ood = pipeline.compute_sufficiency("val")
+                fid_id, fid_devstd_id = pipeline.compute_robust_fidelity_m("id_val")
+                fid_ood, fid_devstd_ood = pipeline.compute_robust_fidelity_m("val")  
 
-            div_detect, _ = pipeline.compute_edge_score_divergence("id_val")
+            # div_detect, _ = pipeline.compute_edge_score_divergence("id_val")
 
             test_suff_id.append((suff_id, suff_devstd_id))
             test_suff_ood.append((suff_ood, suff_devstd_ood))
