@@ -9,7 +9,7 @@ from torch.autograd import Function
 from torch_geometric import __version__ as pyg_v
 from torch_geometric.nn import InstanceNorm
 from torch_geometric.nn.conv import MessagePassing
-from torch_geometric.utils import is_undirected, to_undirected
+from torch_geometric.utils import is_undirected, to_undirected, degree
 from torch_sparse import transpose, coalesce
 
 from GOOD import register
@@ -22,6 +22,7 @@ from .Pooling import GlobalMeanPool
 from munch import munchify
 from .MolEncoders import AtomEncoder, BondEncoder
 from GOOD.utils.fast_pytorch_kmeans import KMeans
+from GOOD.utils.splitting import split_graph
 
 import copy
 
@@ -184,6 +185,58 @@ class LECIGIN(GNNBasic):
         else:
             att_bern = (att_log_logit).sigmoid()
         return att_bern
+
+    @torch.no_grad()
+    def probs(self, *args, **kwargs):
+        # nodes x classes
+        (lc_logits, la_logits, _, ea_logits, ef_logits), att, edge_att = self(*args, **kwargs)
+        return lc_logits.softmax(dim=1)
+    
+    @torch.no_grad()
+    def log_probs(self, *args, **kwargs):
+        # nodes x classes
+        (lc_logits, la_logits, _, ea_logits, ef_logits), att, edge_att = self(*args, **kwargs)
+        return lc_logits.log_softmax(dim=1)
+    
+    @torch.no_grad()
+    def get_subgraph(self, get_pred=False, log_pred=False, ratio=None, *args, **kwargs):
+        data = kwargs.get('data')
+
+        if self.EF:
+            filtered_features = self.ef_mlp(data.x, data.batch)
+            data.x = filtered_features
+            kwargs['data'] = data
+
+        node_repr = self.sub_gnn.get_node_repr(*args, **kwargs)
+        att_log_logits = self.extractor(node_repr, data.edge_index, data.batch)
+        att = self.sampling(att_log_logits, self.training)
+
+        if self.learn_edge_att:
+            if is_undirected(data.edge_index):
+                nodesize = data.x.shape[0]
+                if self.config.average_edge_attn == "default":
+                    edge_att = (att + transpose(data.edge_index, att, nodesize, nodesize, coalesced=False)[1]) / 2
+                else:
+                    assert False
+                    data.ori_edge_index = data.edge_index.detach().clone() #for backup and debug
+                    data.edge_index, edge_att = to_undirected(data.edge_index, att.squeeze(-1), reduce="mean")
+            else:
+                edge_att = att
+        else:
+            edge_att = self.lift_node_att_to_edge_att(att, data.edge_index)
+
+        if kwargs.get('return_attn', False):
+            self.attn_distrib = self.sub_gnn.encoder.get_attn_distrib()
+            self.sub_gnn.encoder.reset_attn_distrib()
+
+        edge_att = edge_att.view(-1)
+        if not ratio is None:
+            (causal_edge_index, causal_edge_attr, causal_edge_weight), \
+                (spu_edge_index, spu_edge_attr, spu_edge_weight) = split_graph(data, edge_att, ratio)
+            return (causal_edge_index, None, None, causal_edge_weight), \
+                    (spu_edge_index, None, None, spu_edge_weight), edge_att
+        return edge_att
+
 
 
 @register.model_register
