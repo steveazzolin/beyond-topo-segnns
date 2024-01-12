@@ -71,6 +71,7 @@ def evaluate_suff(args):
             config["mitigation_sampling"] = args.mitigation_sampling
             config["task"] = "test"
             config["load_split"] = load_split
+            config["device"] = "cpu"
             if l == 0 and i == 0:
                 load_logger(config)
             

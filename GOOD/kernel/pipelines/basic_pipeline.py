@@ -195,6 +195,7 @@ class Pipeline:
     def compute_robust_fidelity_m(self, split: str, debug=False):
         print(f"#D#Computing ROBUST FIDELITY MINUS over {split}")
         reset_random_seed(self.config)
+        self.model.to("cpu")
         self.model.eval()        
         
         if self.config.numsamples_budget == "all":
@@ -432,6 +433,7 @@ class Pipeline:
     @torch.no_grad()
     def compute_edge_score_divergence(self, split: str, debug=False):
         reset_random_seed(self.config)
+        self.model.to("cpu")
         self.model.eval()
 
         print(f"#D#Computing L1 Divergence of Detector over {split}")
@@ -553,6 +555,7 @@ class Pipeline:
             4. average d_i across all samples
         """
         reset_random_seed(self.config)
+        self.model.to("cpu")
         self.model.eval()
 
         print(f"#D#Computing SUFF over {split}")
@@ -794,6 +797,7 @@ class Pipeline:
     @torch.no_grad()
     def compute_sufficiency_ratio(self, split: str, debug=False):
         reset_random_seed(self.config)
+        self.model.to("cpu")
         self.model.eval()
 
         print(f"#D#Computing SUFF over {split} divided by ratio")
@@ -918,6 +922,7 @@ class Pipeline:
     def compute_robust_fidelity_m_ratio(self, split: str, debug=False):
         print(f"#D#Computing ROBUST FIDELITY MINUS over {split} across ratios")
         reset_random_seed(self.config)
+        self.model.to("cpu")
         self.model.eval()        
         
         if self.config.numsamples_budget == "all":
