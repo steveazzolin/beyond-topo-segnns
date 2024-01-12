@@ -16,3 +16,4 @@ docs/build
 /debug_log.py
 /GOOD/kernel/launchers/ada_launcher.py
 *.pyc
+*.png
