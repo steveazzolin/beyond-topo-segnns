@@ -217,7 +217,6 @@ class LECIGIN(GNNBasic):
                 if self.config.average_edge_attn == "default":
                     edge_att = (att + transpose(data.edge_index, att, nodesize, nodesize, coalesced=False)[1]) / 2
                 else:
-                    assert False
                     data.ori_edge_index = data.edge_index.detach().clone() #for backup and debug
                     data.edge_index, edge_att = to_undirected(data.edge_index, att.squeeze(-1), reduce="mean")
             else:
