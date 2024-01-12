@@ -773,6 +773,8 @@ class Pipeline:
         return preds_eval, belonging
 
     def get_intervened_graph(self, graph, invalid_idxs, causal, spu, source, debug, idx):
+        i, j, c = idx
+        
         G_t = to_networkx(
             graph,
             node_attrs=["x"]
@@ -787,7 +789,6 @@ class Pipeline:
 
         # G_union = xai_utils.random_attach(source, G_t_filt)
         G_union = xai_utils.random_attach_no_target_frontier(source, G_t_filt)
-        i, j, c = idx
         if debug and c <= 3 and i < 3:
             pos = xai_utils.draw(self.config, G_t, subfolder="plots_of_suff_scores", name=f"graph_{j}")
             xai_utils.draw(self.config, G_t_filt, subfolder="plots_of_suff_scores", name=f"spu_graph_{j}", pos=pos)
