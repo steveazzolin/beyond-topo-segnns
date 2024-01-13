@@ -77,8 +77,8 @@ def draw(config, G, name, subfolder="", pos=None):
     )
     if nx.get_edge_attributes(G, 'attn_weight') != {}:
         nx.draw_networkx_edge_labels(G, pos, edge_labels=nx.get_edge_attributes(G, 'attn_weight'), font_size=6, alpha=0.8)
-    plt.title(f"Selected {sum(np.array(edge_color) == 'green')} relevant edges")
-    print(f"Selected {sum(np.array(edge_color) == 'green')} relevant edges over {len(G.edges())}")
+    plt.title(f"Selected {sum([e == 'green' for e in edge_color])} relevant edges")
+    print(f"Selected {sum([e == 'green' for e in edge_color])} relevant edges over {len(G.edges())}")
     path = f'GOOD/kernel/pipelines/plots/{subfolder}/{config.load_split}_{config.util_model_dirname}/'
     if not os.path.exists(path):
         try:
