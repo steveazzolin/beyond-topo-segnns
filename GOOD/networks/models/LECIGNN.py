@@ -136,6 +136,8 @@ class LECIGIN(GNNBasic):
         else:
             edge_att = self.lift_node_att_to_edge_att(att, data.edge_index)
 
+        # data.edge_index = (data.edge_index.T[edge_att >= 1.0]).T
+        # edge_att = edge_att[edge_att >= 1.0]
 
         set_masks(edge_att, self.lc_gnn)
         lc_logits = self.lc_classifier(self.lc_gnn(*args, **kwargs))
@@ -233,6 +235,13 @@ class LECIGIN(GNNBasic):
                                       for i in range(len(data.edge_index.T))])
                     )
                     data.edge_attr = edge_attr_sorted
+
+                    edge_index_sorted, edge_gt_sorted = coalesce(data.ori_edge_index, data.edge_gt, is_sorted=False)
+                    data.edge_gt = edge_gt_sorted
+
+                    # for i, (u,v) in enumerate(data.edge_index.T):
+                    #     print((u,v), edge_att[i])
+                    # exit()
                     
                     # edge_weights = {(u, v): att.squeeze(-1)[k] for k, (u,v) in enumerate(data.edge_index.T)}
                     # edge_weights_avg = {(u, v): (edge_weights[(u,v)] + edge_weights[(v,u)])/2 for u,v in edge_weights.keys()}

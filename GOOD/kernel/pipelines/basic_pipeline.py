@@ -746,6 +746,7 @@ class Pipeline:
     def get_subragphs_ratio(self, graphs, ratio, edge_scores):
         spu_subgraphs, causal_subgraphs = [], []
         expl_accs = []
+        spu_edge_weights = []
         # Select relevant subgraph
         for i in range(len(graphs)):
             (causal_edge_index, causal_edge_attr, causal_edge_weight), \
@@ -757,19 +758,25 @@ class Pipeline:
             causal_subgraphs.append(causal_edge_index.detach().cpu())
             spu_subgraphs.append(spu_edge_index.detach().cpu())
             expl_accs.append(xai_utils.expl_acc(causal_subgraphs[-1], graphs[i]))
+            spu_edge_weights.extend(spu_edge_weight.detach().cpu().numpy().tolist())
         return causal_subgraphs, spu_subgraphs, expl_accs
     
     @torch.no_grad()
     def get_subragphs_weight(self, graphs, weight, edge_scores):
-        spu_subgraphs, causal_subgraphs = [], []
+        spu_subgraphs, causal_subgraphs, cau_idxs, spu_idxs = [], [], [], []
+        expl_accs = []
         # Select relevant subgraph
         for i in range(len(graphs)):
-            spu = (graphs[i].edge_index.T[edge_scores[i] < weight]).T
-            cau = (graphs[i].edge_index.T[edge_scores[i] >= weight]).T
+            cau_idxs.append(edge_scores[i] >= weight)
+            spu_idxs.append(edge_scores[i] < weight)
+
+            spu = (graphs[i].edge_index.T[spu_idxs[-1]]).T
+            cau = (graphs[i].edge_index.T[cau_idxs[-1]]).T
 
             causal_subgraphs.append(cau)
             spu_subgraphs.append(spu)
-        return causal_subgraphs, spu_subgraphs, None
+            expl_accs.append(xai_utils.expl_acc(cau, graphs[i]))
+        return causal_subgraphs, spu_subgraphs, expl_accs, cau_idxs, spu_idxs
     
 
     @torch.no_grad()
@@ -838,8 +845,6 @@ class Pipeline:
         labels = []
         for data in pbar:
             data: Batch = data.to(self.config.device)
-            labels.extend(data.y.detach().cpu().numpy().tolist())
-            graphs.append(data.detach().cpu())
 
             edge_score = self.model.get_subgraph(
                         data=data,
@@ -850,11 +855,18 @@ class Pipeline:
                         ratio=None
                     )            
             edge_scores.append(edge_score.detach().cpu())
+            labels.extend(data.y.detach().cpu().numpy().tolist())
+            graphs.append(data.detach().cpu())
             attn_distrib.append(self.model.attn_distrib)
         labels = torch.tensor(labels)
 
         # Plot attention distribution
         self.plot_attn_distrib(attn_distrib, edge_scores)
+
+        # compute the ratio between gt edges and all edges (gold cut ratio)
+        num_gt_edges = torch.tensor([data.edge_gt.sum() for data in graphs])
+        num_all_edges = torch.tensor([data.edge_index.shape[1] for data in graphs])
+        print("\nGold ratio = ", torch.mean(num_gt_edges / num_all_edges), torch.std(num_gt_edges / num_all_edges))
 
         suff_scores = []
         for ratio in [0.6]:
@@ -942,7 +954,7 @@ class Pipeline:
             suff = div_aggr.mean().item()
             suff_scores.append(suff)
 
-            print(f"Model Val Acc of binarized graphs for ratio={ratio} = ", (torch.tensor(labels_ori_ori) == preds_ori_ori.argmax(-1)).sum() / preds_ori_ori.shape[0])
+            print(f"\nModel Val Acc of binarized graphs for ratio={ratio} = ", (torch.tensor(labels_ori_ori) == preds_ori_ori.argmax(-1)).sum() / preds_ori_ori.shape[0])
             print(f"Model Accuracy over intervened graphs for ratio={ratio}: ", (labels_ori == preds_eval.argmax(-1)).sum() / preds_eval.shape[0])
             print(f"Explanation F1 score for ratio={ratio}: {np.mean(expl_accs)}")
             print(f"SUFF results for ratio={ratio}: ", suff, div_aggr.std().item())
@@ -1029,7 +1041,7 @@ class Pipeline:
         self.model.to("cpu")
         self.model.eval()
 
-        print(f"#D#Computing accuracy under post-hoc binarization")
+        print(f"#D#Computing accuracy under post-hoc binarization for {split}")
         print(self.loader[split].dataset)
         if self.config.numsamples_budget == "all":
             self.config.numsamples_budget = len(self.loader[split].dataset)
@@ -1041,10 +1053,6 @@ class Pipeline:
         labels = []
         for data in pbar:
             data: Batch = data.to(self.config.device)            
-
-            labels.extend(data.y.detach().cpu().numpy().tolist())
-            graphs.append(data.detach().cpu())
-
             edge_score = self.model.get_subgraph(
                         data=data,
                         edge_weight=None,
@@ -1054,18 +1062,25 @@ class Pipeline:
                         ratio=None
                     )   
             edge_scores.append(edge_score.detach().cpu())
+            labels.extend(data.y.detach().cpu().numpy().tolist())
+            graphs.append(data.detach().cpu())
         labels = torch.tensor(labels)
 
+        # plt.hist(torch.cat(edge_scores, dim=0), density=False)
+        # plt.savefig(f"edge_scores.png")
+        # plt.close()
+
         acc_scores = []
-        for weight in [1.0]:
-            print(f"\n\nweight={weight}\n\n")
+        for weight in [0., 0.5, 0.8, 1.0]:
+            print(f"\n\nweight={weight}\n")
 
             eval_samples = []
             labels_ori = []
             empty_graphs = 0
             
             # Select relevant subgraph based on ratio
-            causal_subgraphs, spu_subgraphs, _ = self.get_subragphs_weight(graphs, weight, edge_scores)
+            causal_subgraphs, spu_subgraphs, expl_accs, causal_idxs, spu_idxs = self.get_subragphs_weight(graphs, weight, edge_scores)
+            # causal_subgraphs, spu_subgraphs, expl_accs = self.get_subragphs_ratio(graphs, 0.6, edge_scores)
 
             # Create interventional distribution     
             pbar = tqdm(range(self.config.numsamples_budget), desc=f'Int. distrib', total=self.config.numsamples_budget, **pbar_setting)
@@ -1089,6 +1104,7 @@ class Pipeline:
             acc = (torch.tensor(labels_ori) == preds.argmax(-1)).sum() / preds.shape[0]
             acc_scores.append(acc)
             print(f"\nModel Val Acc of binarized graphs for weight={weight} = ", acc)
+            print(f"Model XAI Acc of binarized graphs for weight={weight} = ", np.mean(expl_accs))
             print("Num empty graphs = ", empty_graphs)
         return np.mean(acc_scores), np.std(acc_scores)
 

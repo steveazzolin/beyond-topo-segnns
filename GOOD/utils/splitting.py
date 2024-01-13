@@ -41,7 +41,6 @@ def sparse_topk(src: torch.Tensor, index: torch.Tensor, ratio: float, dim=0, des
     mask = [torch.arange(k[i], dtype=torch.long, device=src.device) + start_indices[i] for i in range(len(num_nodes))]
     mask = torch.cat(mask, dim=0)
     mask = torch.zeros_like(index, device=index.device).index_fill(0, mask, 1).bool()
-    topk_perm = perm[mask]
+    topk_perm = perm[mask] #topk edges selected
     exc_perm = perm[~mask]
-
     return topk_perm, exc_perm, rank, perm, mask

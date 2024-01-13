@@ -6,6 +6,7 @@ from typing import Tuple, Union
 
 import torch.nn
 from torch.utils.data import DataLoader
+from torch_geometric import __version__ as pyg_v
 
 from GOOD import config_summoner
 from GOOD.data import load_dataset, create_dataloader
@@ -20,7 +21,8 @@ from GOOD.definitions import OOM_CODE
 
 import numpy as np
 
-# torch.set_num_threads(6)
+if pyg_v == "2.4.0":
+    torch.set_num_threads(6)
 
 def initialize_model_dataset(config: Union[CommonArgs, Munch]) -> Tuple[torch.nn.Module, Union[dict, DataLoader]]:
     r"""
@@ -39,6 +41,7 @@ def initialize_model_dataset(config: Union[CommonArgs, Munch]) -> Tuple[torch.nn
     dataset = load_dataset(config.dataset.dataset_name, config)
     print(f"#D#Dataset: {dataset}")
     print('#D#', dataset['train'][0] if type(dataset) is dict else dataset[0])
+    print(dataset["id_val"].data)
 
     loader = create_dataloader(dataset, config)
 
@@ -48,6 +51,53 @@ def initialize_model_dataset(config: Union[CommonArgs, Munch]) -> Tuple[torch.nn
 
     return model, loader
 
+
+def evaluate_acc(args):
+    load_splits = ["id", "ood"]
+    for l, load_split in enumerate(load_splits):
+        print("\n\n")
+        print("-"*50)
+        print(f"USING LOAD SPLIT = {load_split}")
+        print("\n\n")
+
+        test_scores = []
+        test_acc_id, test_acc_ood = [], []
+        for i, seed in enumerate(args.seeds.split("/")):
+            seed = int(seed)        
+            args.random_seed = seed
+            args.exp_round = seed
+            
+            config = config_summoner(args)
+            config["mitigation_backbone"] = args.mitigation_backbone
+            config["mitigation_sampling"] = args.mitigation_sampling
+            config["task"] = "test"
+            config["load_split"] = load_split
+            config["device"] = "cpu"
+            if l == 0 and i == 0:
+                load_logger(config)
+            
+            model, loader = initialize_model_dataset(config)
+            ood_algorithm = load_ood_alg(config.ood.ood_alg, config)
+            pipeline = load_pipeline(config.pipeline, config.task, model, loader, ood_algorithm, config)
+
+            test_score, test_loss = pipeline.load_task(load_param=True, load_split=load_split)
+            sa = pipeline.evaluate("train", compute_suff=False)
+            sa = pipeline.evaluate("id_val", compute_suff=False)
+            test_scores.append((sa['score'], test_score))
+
+            if "LECI" in config.model.model_name:
+                acc_id, _ = pipeline.compute_accuracy_binarizing("id_val")
+                # acc_ood, _ = pipeline.compute_accuracy_binarizing("val")
+
+                test_acc_id.append((acc_id, 0.))
+                # test_acc_ood.append((acc_ood, 0.))
+        print()
+        print()
+        print("Final OOD Test scores: ", test_scores)
+        print(f"Computed for split load_split = {load_split}")
+        print("Final ACC_ID scores: ", test_acc_id)
+        print("Final ACC_ID scores: ", test_acc_ood)
+        print()
 
 
 def evaluate_suff(args):
@@ -81,13 +131,12 @@ def evaluate_suff(args):
 
             test_score, test_loss = pipeline.load_task(load_param=True, load_split=load_split)
             sa = pipeline.evaluate("test", compute_suff=False)
-
             test_scores.append((sa['score'], test_score))
 
-            # suff_id, suff_devstd_id = pipeline.compute_debug("id_val")
-            
+            # suff_id, suff_devstd_id = pipeline.compute_debug("id_val")            
             if "LECI" in config.model.model_name:
-                suff_id, suff_devstd_id = pipeline.compute_sufficiency_ratio("id_val")    
+                suff_id, suff_devstd_id = pipeline.compute_sufficiency_ratio("id_val")   
+                exit() 
                 suff_ood, suff_devstd_ood = pipeline.compute_sufficiency_ratio("val")
                 fid_id, fid_devstd_id = pipeline.compute_robust_fidelity_m_ratio("id_val")
                 fid_ood, fid_devstd_ood = pipeline.compute_robust_fidelity_m_ratio("val")      
@@ -122,6 +171,9 @@ def main():
 
     if args.task == 'eval_suff':
         evaluate_suff(args)
+        exit(0)
+    if args.task == 'eval_acc':
+        evaluate_acc(args)
         exit(0)
 
     test_scores = []
