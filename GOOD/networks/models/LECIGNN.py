@@ -9,8 +9,8 @@ from torch.autograd import Function
 from torch_geometric import __version__ as pyg_v
 from torch_geometric.nn import InstanceNorm
 from torch_geometric.nn.conv import MessagePassing
-from torch_geometric.utils import is_undirected, to_undirected, degree
-from torch_sparse import transpose, coalesce
+from torch_geometric.utils import is_undirected, to_undirected, degree, coalesce
+from torch_sparse import transpose
 
 from GOOD import register
 from GOOD.utils.config_reader import Union, CommonArgs, Munch
@@ -121,6 +121,13 @@ class LECIGIN(GNNBasic):
                     data.ori_edge_index = data.edge_index.detach().clone() #for backup and debug
                     data.edge_index, edge_att = to_undirected(data.edge_index, att.squeeze(-1), reduce="mean")
 
+                    edge_index_sorted, edge_attr_sorted = coalesce(data.ori_edge_index, data.edge_attr, is_sorted=False)
+                    assert torch.all(
+                        torch.tensor([edge_index_sorted.T[i][0] == data.edge_index.T[i][0] and edge_index_sorted.T[i][1] == data.edge_index.T[i][1] 
+                                      for i in range(len(data.edge_index.T))])
+                    )
+                    data.edge_attr = edge_attr_sorted
+                    
                 # for i, (u,v) in enumerate(data.edge_index.T):
                 #     if u == 0 or v == 0:
                 #         print((u,v), edge_att[i])
@@ -219,6 +226,23 @@ class LECIGIN(GNNBasic):
                 else:
                     data.ori_edge_index = data.edge_index.detach().clone() #for backup and debug
                     data.edge_index, edge_att = to_undirected(data.edge_index, att.squeeze(-1), reduce="mean")
+
+                    edge_index_sorted, edge_attr_sorted = coalesce(data.ori_edge_index, data.edge_attr, is_sorted=False)
+                    assert torch.all(
+                        torch.tensor([edge_index_sorted.T[i][0] == data.edge_index.T[i][0] and edge_index_sorted.T[i][1] == data.edge_index.T[i][1] 
+                                      for i in range(len(data.edge_index.T))])
+                    )
+                    data.edge_attr = edge_attr_sorted
+                    
+                    # edge_weights = {(u, v): att.squeeze(-1)[k] for k, (u,v) in enumerate(data.edge_index.T)}
+                    # edge_weights_avg = {(u, v): (edge_weights[(u,v)] + edge_weights[(v,u)])/2 for u,v in edge_weights.keys()}
+                    # edge_att = torch.tensor([edge_weights_avg[u,v] for u,v in data.edge_index.T])
+
+                    # sparse_tensor = torch.sparse_coo_tensor(data.edge_index, att.squeeze(-1))
+                    # sparse_tensor = (sparse_tensor + sparse_tensor.T) / 2
+                    # sparse_tensor._coalesced_(True)
+                    # edge_att = sparse_tensor.values()
+                    # edge_att = torch.tensor([(sparse_tensor[u,v] + sparse_tensor[v,u])/2 for u,v in data.edge_index.T])
             else:
                 edge_att = att
         else:
