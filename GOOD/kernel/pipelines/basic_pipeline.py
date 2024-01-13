@@ -799,7 +799,7 @@ class Pipeline:
         return preds_eval, belonging
 
     def get_intervened_graph(self, metric, intervention_distrib, graph, empty_idx=None, causal=None, spu=None, source=None, debug=None, idx=None):
-        if metric == "fid":
+        if metric == "fid" or (metric == "suff" and intervention_distrib != "fixed" and causal is None):
             return xai_utils.sample_edges(graph, "spu", self.config.fidelity_alpha_2)
         if metric == "suff" and intervention_distrib == "fixed":
             # random attach fixed graph to the explanation
