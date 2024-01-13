@@ -33,7 +33,7 @@ from GOOD.utils.initial import reset_random_seed
 import GOOD.kernel.pipelines.xai_metric_utils as xai_utils
 from GOOD.utils.splitting import split_graph
 
-pbar_setting["disable"] = False
+pbar_setting["disable"] = True
 
 class CustomDataset(InMemoryDataset):
     def __init__(self, root, samples, belonging, transform=None, pre_transform=None, pre_filter=None):

@@ -121,13 +121,13 @@ class LECIGIN(GNNBasic):
                     data.ori_edge_index = data.edge_index.detach().clone() #for backup and debug
                     data.edge_index, edge_att = to_undirected(data.edge_index, att.squeeze(-1), reduce="mean")
 
-                    edge_index_sorted, edge_attr_sorted = coalesce(data.ori_edge_index, data.edge_attr, is_sorted=False)
-                    assert torch.all(
-                        torch.tensor([edge_index_sorted.T[i][0] == data.edge_index.T[i][0] and edge_index_sorted.T[i][1] == data.edge_index.T[i][1] 
-                                      for i in range(len(data.edge_index.T))])
-                    )
-                    data.edge_attr = edge_attr_sorted
-                    
+                    if not data.edge_attr is None:
+                        edge_index_sorted, edge_attr_sorted = coalesce(data.ori_edge_index, data.edge_attr, is_sorted=False)                    
+                        assert torch.all(
+                            torch.tensor([edge_index_sorted.T[i][0] == data.edge_index.T[i][0] and edge_index_sorted.T[i][1] == data.edge_index.T[i][1] 
+                                        for i in range(len(data.edge_index.T))])
+                        )
+                        data.edge_attr = edge_attr_sorted                    
                 # for i, (u,v) in enumerate(data.edge_index.T):
                 #     if u == 0 or v == 0:
                 #         print((u,v), edge_att[i])
@@ -229,15 +229,17 @@ class LECIGIN(GNNBasic):
                     data.ori_edge_index = data.edge_index.detach().clone() #for backup and debug
                     data.edge_index, edge_att = to_undirected(data.edge_index, att.squeeze(-1), reduce="mean")
 
-                    edge_index_sorted, edge_attr_sorted = coalesce(data.ori_edge_index, data.edge_attr, is_sorted=False)
-                    assert torch.all(
-                        torch.tensor([edge_index_sorted.T[i][0] == data.edge_index.T[i][0] and edge_index_sorted.T[i][1] == data.edge_index.T[i][1] 
-                                      for i in range(len(data.edge_index.T))])
-                    )
-                    data.edge_attr = edge_attr_sorted
+                    if not data.edge_attr is None:
+                        edge_index_sorted, edge_attr_sorted = coalesce(data.ori_edge_index, data.edge_attr, is_sorted=False)
+                        assert torch.all(
+                            torch.tensor([edge_index_sorted.T[i][0] == data.edge_index.T[i][0] and edge_index_sorted.T[i][1] == data.edge_index.T[i][1] 
+                                        for i in range(len(data.edge_index.T))])
+                        )
+                        data.edge_attr = edge_attr_sorted
 
-                    edge_index_sorted, edge_gt_sorted = coalesce(data.ori_edge_index, data.edge_gt, is_sorted=False)
-                    data.edge_gt = edge_gt_sorted
+                    if not data.edge_gt is None:
+                        edge_index_sorted, edge_gt_sorted = coalesce(data.ori_edge_index, data.edge_gt, is_sorted=False)
+                        data.edge_gt = edge_gt_sorted
 
                     # for i, (u,v) in enumerate(data.edge_index.T):
                     #     print((u,v), edge_att[i])
