@@ -196,7 +196,7 @@ class Pipeline:
 
     @torch.no_grad()
     def compute_robust_fidelity_m(self, split: str, debug=False):
-        print(f"#D#Computing ROBUST FIDELITY MINUS over {split}")
+        print(f"\n\n#D#Computing ROBUST FIDELITY MINUS over {split}")
         reset_random_seed(self.config)
         self.model.to("cpu")
         self.model.eval()        
@@ -297,7 +297,7 @@ class Pipeline:
         reset_random_seed(self.config)
         self.model.eval()
 
-        print(f"#D#Computing ROBUST FIDELITY MINUS over {split}")
+        print(f"\n\n#D#Computing ROBUST FIDELITY MINUS over {split}")
         print(self.loader[split].dataset)
         if torch_geometric.__version__ == "2.4.0":
             print("Label distribution: ", self.loader[split].dataset.y.unique(return_counts=True))
@@ -439,7 +439,7 @@ class Pipeline:
         self.model.to("cpu")
         self.model.eval()
 
-        print(f"#D#Computing L1 Divergence of Detector over {split}")
+        print(f"\n\n#D#Computing L1 Divergence of Detector over {split}")
         print(self.loader[split].dataset)
         if torch_geometric.__version__ == "2.4.0":
             print("Label distribution: ", self.loader[split].dataset.y.unique(return_counts=True))
@@ -561,7 +561,7 @@ class Pipeline:
         self.model.to("cpu")
         self.model.eval()
 
-        print(f"#D#Computing SUFF over {split}")
+        print(f"\n\n#D#Computing SUFF over {split}")
         print(self.loader[split].dataset)
         if torch_geometric.__version__ == "2.4.0":
             print("Label distribution: ", self.loader[split].dataset.y.unique(return_counts=True))
@@ -828,7 +828,7 @@ class Pipeline:
         self.model.to("cpu")
         self.model.eval()
 
-        print(f"#D#Computing SUFF over {split} divided by ratio")
+        print(f"\n\n#D#Computing SUFF over {split} divided by ratio")
         print(self.loader[split].dataset)
         if torch_geometric.__version__ == "2.4.0":
             print("Label distribution: ", self.loader[split].dataset.y.unique(return_counts=True))
@@ -963,7 +963,7 @@ class Pipeline:
 
     @torch.no_grad()
     def compute_robust_fidelity_m_ratio(self, split: str, debug=False):
-        print(f"#D#Computing ROBUST FIDELITY MINUS over {split} across ratios")
+        print(f"\n\n#D#Computing ROBUST FIDELITY MINUS over {split} across ratios")
         reset_random_seed(self.config)
         self.model.to("cpu")
         self.model.eval()        
