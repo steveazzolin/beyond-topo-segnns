@@ -81,16 +81,15 @@ def evaluate_acc(args):
             pipeline = load_pipeline(config.pipeline, config.task, model, loader, ood_algorithm, config)
 
             test_score, test_loss = pipeline.load_task(load_param=True, load_split=load_split)
-            sa = pipeline.evaluate("train", compute_suff=False)
-            sa = pipeline.evaluate("id_val", compute_suff=False)
-            test_scores.append((sa['score'], test_score))
+            # sa = pipeline.evaluate("id_val", compute_suff=False)
+            # test_scores.append((sa['score'], test_score))
 
             if "LECI" in config.model.model_name:
                 acc_id, _ = pipeline.compute_accuracy_binarizing("id_val")
-                # acc_ood, _ = pipeline.compute_accuracy_binarizing("val")
+                acc_ood, _ = pipeline.compute_accuracy_binarizing("test")
 
                 test_acc_id.append((acc_id, 0.))
-                # test_acc_ood.append((acc_ood, 0.))
+                test_acc_ood.append((acc_ood, 0.))
         print()
         print()
         print("Final OOD Test scores: ", test_scores)
@@ -130,16 +129,18 @@ def evaluate_suff(args):
             pipeline = load_pipeline(config.pipeline, config.task, model, loader, ood_algorithm, config)
 
             test_score, test_loss = pipeline.load_task(load_param=True, load_split=load_split)
-            sa = pipeline.evaluate("test", compute_suff=False)
-            test_scores.append((sa['score'], test_score))
+            # sa = pipeline.evaluate("test", compute_suff=False)
+            # test_scores.append((sa['score'], test_score))
 
             # suff_id, suff_devstd_id = pipeline.compute_debug("id_val")            
             if "LECI" in config.model.model_name:
-                suff_id, suff_devstd_id = pipeline.compute_sufficiency_ratio("id_val")   
+                # suff_id, suff_devstd_id = pipeline.compute_sufficiency_ratio("id_val")                   
+                # suff_ood, suff_devstd_ood = pipeline.compute_sufficiency_ratio("val")
+                fid_id, fid_devstd_id = pipeline.compute_metric_ratio("id_val", metric="suff", intervention_distrib="fixed")
                 exit() 
-                suff_ood, suff_devstd_ood = pipeline.compute_sufficiency_ratio("val")
-                fid_id, fid_devstd_id = pipeline.compute_robust_fidelity_m_ratio("id_val")
-                fid_ood, fid_devstd_ood = pipeline.compute_robust_fidelity_m_ratio("val")      
+                fid_id, fid_devstd_id = pipeline.compute_metric_ratio("id_val", metric="suff")
+
+                # fid_ood, fid_devstd_ood = pipeline.compute_robust_fidelity_m_ratio("val")      
             else:
                 suff_id, suff_devstd_id = pipeline.compute_sufficiency("id_val", debug=False)
                 suff_ood, suff_devstd_ood = pipeline.compute_sufficiency("val")

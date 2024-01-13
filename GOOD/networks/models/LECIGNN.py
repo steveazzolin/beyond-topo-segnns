@@ -136,8 +136,10 @@ class LECIGIN(GNNBasic):
         else:
             edge_att = self.lift_node_att_to_edge_att(att, data.edge_index)
 
-        # data.edge_index = (data.edge_index.T[edge_att >= 1.0]).T
-        # edge_att = edge_att[edge_att >= 1.0]
+        if kwargs.get('weight', None):
+            data.edge_index = (data.edge_index.T[edge_att >= kwargs.get('weight')]).T
+            edge_att = edge_att[edge_att >= kwargs.get('weight')]
+            #TODO check for batch etc
 
         set_masks(edge_att, self.lc_gnn)
         lc_logits = self.lc_classifier(self.lc_gnn(*args, **kwargs))
