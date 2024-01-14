@@ -136,8 +136,8 @@ def evaluate_suff(args):
             if "LECI" in config.model.model_name:
                 # suff_id, suff_devstd_id = pipeline.compute_sufficiency_ratio("id_val")                   
                 # suff_ood, suff_devstd_ood = pipeline.compute_sufficiency_ratio("val")
-                fid_id, fid_devstd_id = pipeline.compute_metric_ratio("id_val", metric="suff")
-                fid_id, fid_devstd_id = pipeline.compute_metric_ratio("val", metric="suff")
+                suff_id, suff_devstd_id = pipeline.compute_metric_ratio("id_val", metric="suff")
+                suff_ood, suff_devstd_ood = pipeline.compute_metric_ratio("val", metric="suff")
 
                 # fid_ood, fid_devstd_ood = pipeline.compute_robust_fidelity_m_ratio("val")      
             else:
@@ -150,8 +150,8 @@ def evaluate_suff(args):
 
             test_suff_id.append((suff_id, suff_devstd_id))
             test_suff_ood.append((suff_ood, suff_devstd_ood))
-            test_fid_id.append((fid_id, fid_devstd_id))
-            test_fid_ood.append((fid_ood, fid_devstd_ood))
+            # test_fid_id.append((fid_id, fid_devstd_id))
+            # test_fid_ood.append((fid_ood, fid_devstd_ood))
         print()
         print()
         print("Final OOD Test scores: ", test_scores)
