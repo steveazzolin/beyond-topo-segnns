@@ -137,8 +137,6 @@ class LECIGIN(GNNBasic):
             edge_att = self.lift_node_att_to_edge_att(att, data.edge_index)
 
         if kwargs.get('weight', None):
-            print(data)
-
             data.edge_index = (data.edge_index.T[edge_att >= kwargs.get('weight')]).T
             if not data.edge_attr is None:
                 data.edge_attr = data.edge_attr[edge_att >= kwargs.get('weight')]
