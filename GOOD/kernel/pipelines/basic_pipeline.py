@@ -805,7 +805,7 @@ class Pipeline:
             # random attach fixed graph to the explanation
             G = graph.copy()
             
-            I = nx.DiGraph(nx.barabasi_albert_graph(randint(5, max(len(G), 8)), randint(1, 3)))
+            I = nx.DiGraph(nx.barabasi_albert_graph(randint(5, max(int(len(G)/2), 8)), randint(1, 3)), seed=42)
             nx.set_edge_attributes(I, name="origin", values="spu")
             nx.set_node_attributes(I, name="x", values=[1.0])
             # nx.set_node_attributes(I, name="frontier", values=False)
@@ -988,6 +988,8 @@ class Pipeline:
     @torch.no_grad()
     def compute_metric_ratio(self, split: str, metric: str, intervention_distrib:str = "model_dependent", debug=False):
         assert metric in ["suff", "fid"]
+        print(f"\n\n")
+        print("-"*50)
         print(f"\n\n#D#Computing {metric.upper()} over {split} across ratios")
         reset_random_seed(self.config)
         self.model.to("cpu")
@@ -1045,7 +1047,7 @@ class Pipeline:
                     num_elem = xai_utils.mark_frontier(G, G_filt)
                     if len(G_filt) == 0: #TODO
                         continue
-                    G = G_filt #TODO
+                    # G = G_filt #TODO
                 
                 eval_samples.append(G)
                 reference.append(len(eval_samples)-1)
