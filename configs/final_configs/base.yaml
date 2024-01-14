@@ -11,8 +11,8 @@ clean_save: False
 pytest: False
 pipeline: Pipeline
 num_workers: 0
-expval_budget: 5 # Added by Steve
-numsamples_budget: all # Added by Steve
+expval_budget: 3 # Added by Steve
+numsamples_budget: 1000 # Added by Steve
 fidelity_alpha_2: 0.9 # Added by Steve
 average_edge_attn: default # Added by Steve
 train:

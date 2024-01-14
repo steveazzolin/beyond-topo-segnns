@@ -542,7 +542,7 @@ class Pipeline:
             scores = []
             for e in edge_scores:
                 scores.extend(e.numpy().tolist())
-            plt.hist(edge_scores, density=True)
+            plt.hist(scores, density=True)
             plt.savefig(path + f"edge_scores.png")
             plt.close()
 
@@ -1030,6 +1030,7 @@ class Pipeline:
             eval_samples, belonging, reference = [], [], []
             preds_ori, labels_ori, expl_acc_ori = [], [], []
             empty_idx = set()
+            num_changes_int = []
 
             # causal_subgraphs, spu_subgraphs, expl_accs = self.get_subragphs_ratio(graphs, ratio, edge_scores)
             causal_subgraphs, spu_subgraphs, expl_accs, causal_idxs, spu_idxs = self.get_subragphs_weight(graphs, ratio, edge_scores)
@@ -1044,7 +1045,7 @@ class Pipeline:
                     num_elem = xai_utils.mark_frontier(G, G_filt)
                     if len(G_filt) == 0: #TODO
                         continue
-                    G = G_filt
+                    G = G_filt #TODO
                 
                 eval_samples.append(G)
                 reference.append(len(eval_samples)-1)
@@ -1090,6 +1091,7 @@ class Pipeline:
                         eval_samples.append(G_union)
                         belonging.append(i)
                         c += 1
+                        # num_changes_int.append(abs(len(G), ))
                     for k in range(c, self.config.expval_budget): # if not enough interventions, pad with sub-sampling
                         G_c = xai_utils.sample_edges(G, "spu", self.config.fidelity_alpha_2)
                         belonging.append(i)

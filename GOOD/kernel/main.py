@@ -100,7 +100,7 @@ def evaluate_acc(args):
 
 
 def evaluate_suff(args):
-    load_splits = ["id", "ood"]
+    load_splits = ["id"]
     for l, load_split in enumerate(load_splits):
         print("\n\n")
         print("-"*50)
@@ -136,9 +136,8 @@ def evaluate_suff(args):
             if "LECI" in config.model.model_name:
                 # suff_id, suff_devstd_id = pipeline.compute_sufficiency_ratio("id_val")                   
                 # suff_ood, suff_devstd_ood = pipeline.compute_sufficiency_ratio("val")
-                fid_id, fid_devstd_id = pipeline.compute_metric_ratio("id_val", metric="suff", intervention_distrib="fixed")
-                exit() 
                 fid_id, fid_devstd_id = pipeline.compute_metric_ratio("id_val", metric="suff")
+                fid_id, fid_devstd_id = pipeline.compute_metric_ratio("val", metric="suff")
 
                 # fid_ood, fid_devstd_ood = pipeline.compute_robust_fidelity_m_ratio("val")      
             else:
