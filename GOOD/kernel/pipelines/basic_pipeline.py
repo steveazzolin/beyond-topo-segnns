@@ -800,11 +800,11 @@ class Pipeline:
 
     def get_intervened_graph(self, metric, intervention_distrib, graph, empty_idx=None, causal=None, spu=None, source=None, debug=None, idx=None, bank=None):
         i, j, c = idx
-        if metric == "fid" or (metric == "suff" and intervention_distrib != "fixed" and causal is None):
+        if metric == "fid" or (metric == "suff" and intervention_distrib == "model_dependent" and causal is None):
             return xai_utils.sample_edges(graph, "spu", self.config.fidelity_alpha_2)
         elif metric == "suff" and intervention_distrib == "bank":
-            G = graph
-            I = bank[j]
+            G = graph.copy()
+            I = bank[j].copy()
             ret = nx.union(G, I, rename=("", "T"))
             for n in range(random.randint(3, max(10, int(len(I) / 2)))):
                 s_idx = random.randint(0, len(G) - 1)
