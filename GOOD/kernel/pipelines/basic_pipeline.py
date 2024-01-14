@@ -1079,7 +1079,7 @@ class Pipeline:
                 if metric == "fid" or len(empty_idx) == len(graphs) or intervention_distrib in ("fixed", "bank"):
                     if metric == "suff" and intervention_distrib in ("fixed", "bank") and i == 0:
                         print(f"Using {intervention_distrib} interventional distribution")
-                    elif metric == "suff" and intervention_distrib != "fixed" and i < 2:
+                    elif metric == "suff" and intervention_distrib == "model_dependent" and i < 2:
                         print("Empty graphs for SUFF. Rolling-back to FID")
 
                     for m in range(self.config.expval_budget):                        
