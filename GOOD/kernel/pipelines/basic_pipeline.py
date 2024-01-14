@@ -1126,6 +1126,7 @@ class Pipeline:
             scores.append(score)
 
             print(f"\nModel Val Acc of binarized graphs for ratio={ratio} = ", (labels_ori_ori == preds_ori_ori.argmax(-1)).sum() / preds_ori_ori.shape[0])
+            print(f"Model XAI Acc of binarized graphs for weight={ratio} = ", np.mean(expl_accs))
             print(f"{metric.upper()} for ratio={ratio} = {score} +- {aggr.std()} (in-sample avg dev_std = {(aggr_std**2).mean().sqrt()})")
         return np.mean(scores), np.std(scores)
 
