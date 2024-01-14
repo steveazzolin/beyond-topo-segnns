@@ -803,10 +803,10 @@ class Pipeline:
         if metric == "fid" or (metric == "suff" and intervention_distrib != "fixed" and causal is None):
             return xai_utils.sample_edges(graph, "spu", self.config.fidelity_alpha_2)
         elif metric == "suff" and intervention_distrib == "bank":
-            G = graph.copy()            
+            G = graph
             I = bank[j]
             ret = nx.union(G, I, rename=("", "T"))
-            for n in range(random.randint(3, max(10, int(len(G) / 2)))):
+            for n in range(random.randint(3, max(10, int(len(I) / 2)))):
                 s_idx = random.randint(0, len(G) - 1)
                 t_idx = random.randint(0, len(I) - 1)
                 u = str(list(G.nodes())[s_idx])
