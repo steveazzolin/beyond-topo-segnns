@@ -5,7 +5,7 @@ import os
 import shutil
 from typing import Dict
 from typing import Union
-from random import randint
+import random
 from scipy.stats import pearsonr
 
 import numpy as np
@@ -798,30 +798,41 @@ class Pipeline:
         belonging = torch.tensor(belonging, dtype=int)
         return preds_eval, belonging
 
-    def get_intervened_graph(self, metric, intervention_distrib, graph, empty_idx=None, causal=None, spu=None, source=None, debug=None, idx=None):
+    def get_intervened_graph(self, metric, intervention_distrib, graph, empty_idx=None, causal=None, spu=None, source=None, debug=None, idx=None, bank=None):
+        i, j, c = idx
         if metric == "fid" or (metric == "suff" and intervention_distrib != "fixed" and causal is None):
             return xai_utils.sample_edges(graph, "spu", self.config.fidelity_alpha_2)
-        if metric == "suff" and intervention_distrib == "fixed":
+        elif metric == "suff" and intervention_distrib == "bank":
+            G = graph.copy()            
+            I = bank[j]
+            ret = nx.union(G, I, rename=("", "T"))
+            for n in range(random.randint(3, max(10, int(len(G) / 2)))):
+                s_idx = random.randint(0, len(G) - 1)
+                t_idx = random.randint(0, len(I) - 1)
+                u = str(list(G.nodes())[s_idx])
+                v = "T" + str(list(I.nodes())[t_idx])
+                ret.add_edge(u, v, origin="added")
+                ret.add_edge(v, u, origin="added")
+            return ret
+        elif metric == "suff" and intervention_distrib == "fixed":
             # random attach fixed graph to the explanation
             G = graph.copy()
             
-            I = nx.DiGraph(nx.barabasi_albert_graph(randint(5, max(int(len(G)/2), 8)), randint(1, 3)), seed=42)
+            I = nx.DiGraph(nx.barabasi_albert_graph(random.randint(5, max(len(G), 8)), random.randint(1, 3)), seed=42) #BA1 -> nx.barabasi_albert_graph(randint(5, max(len(G), 8)), randint(1, 3))
             nx.set_edge_attributes(I, name="origin", values="spu")
             nx.set_node_attributes(I, name="x", values=[1.0])
             # nx.set_node_attributes(I, name="frontier", values=False)
 
             ret = nx.union(G, I, rename=("", "T"))
-            for n in range(randint(3, max(10, int(len(G) / 2)))):
-                s_idx = randint(0, len(G) - 1)
-                t_idx = randint(0, len(I) - 1)
+            for n in range(random.randint(3, max(10, int(len(G) / 2)))):
+                s_idx = random.randint(0, len(G) - 1)
+                t_idx = random.randint(0, len(I) - 1)
                 u = str(list(G.nodes())[s_idx])
                 v = "T" + str(list(I.nodes())[t_idx])
                 ret.add_edge(u, v, origin="added")
                 ret.add_edge(v, u, origin="added")
             return ret
         else:
-            i, j, c = idx
-
             G_t = to_networkx(
                 graph,
                 node_attrs=["x"]
@@ -994,6 +1005,16 @@ class Pipeline:
         reset_random_seed(self.config)
         self.model.to("cpu")
         self.model.eval()        
+
+        if intervention_distrib == "bank":
+            print(f"Creating interventional bank with {self.config.expval_budget} elements")
+            intervent_bank = []
+            max_g_size = max([d.num_nodes for d in self.loader[split].dataset])
+            for i in range(self.config.expval_budget):
+                I = nx.DiGraph(nx.barabasi_albert_graph(random.randint(5, max(int(max_g_size/2), 8)), random.randint(1, 3)), seed=42) #BA1 -> nx.barabasi_albert_graph(randint(5, max(len(G), 8)), randint(1, 3))
+                nx.set_edge_attributes(I, name="origin", values="spu")
+                nx.set_node_attributes(I, name="x", values=[1.0])
+                intervent_bank.append(I)
         
         if self.config.numsamples_budget == "all":
             self.config.numsamples_budget = len(self.loader[split].dataset)
@@ -1038,16 +1059,16 @@ class Pipeline:
             causal_subgraphs, spu_subgraphs, expl_accs, causal_idxs, spu_idxs = self.get_subragphs_weight(graphs, ratio, edge_scores)
 
             pbar = tqdm(range(self.config.numsamples_budget), desc=f'Creating Intervent. distrib.', total=self.config.numsamples_budget, **pbar_setting)
-            for i in pbar:                
+            for i in pbar:
                 G = to_networkx(graphs[i], node_attrs=["x"])
                 xai_utils.mark_edges(G, causal_subgraphs[i], spu_subgraphs[i])
 
-                if metric == "suff" and intervention_distrib != "fixed":
+                if metric == "suff" and intervention_distrib == "model_dependent":
                     G_filt = xai_utils.remove_from_graph(G, "spu")
                     num_elem = xai_utils.mark_frontier(G, G_filt)
-                    if len(G_filt) == 0: #TODO
+                    if len(G_filt) == 0 or num_elem == 0:
                         continue
-                    # G = G_filt #TODO
+                    # G = G_filt # P(Y|G) vs P(Y|R)
                 
                 eval_samples.append(G)
                 reference.append(len(eval_samples)-1)
@@ -1055,14 +1076,14 @@ class Pipeline:
                 labels_ori.append(labels[i])
                 expl_acc_ori.append(expl_accs[i])
 
-                if metric == "fid" or len(empty_idx) == len(graphs) or intervention_distrib == "fixed":
-                    if metric == "suff" and intervention_distrib == "fixed" and i == 0:
-                        print("Using fixed interventional distribution")
+                if metric == "fid" or len(empty_idx) == len(graphs) or intervention_distrib in ("fixed", "bank"):
+                    if metric == "suff" and intervention_distrib in ("fixed", "bank") and i == 0:
+                        print(f"Using {intervention_distrib} interventional distribution")
                     elif metric == "suff" and intervention_distrib != "fixed" and i < 2:
                         print("Empty graphs for SUFF. Rolling-back to FID")
 
                     for m in range(self.config.expval_budget):                        
-                        G_c = self.get_intervened_graph(metric, intervention_distrib, G)
+                        G_c = self.get_intervened_graph(metric, intervention_distrib, G, idx=(i,m,-1), bank=intervent_bank)
                         # xai_utils.draw(self.config, G_c, subfolder="plots_of_suff_scores", name=f"fixed_int_{i}_{m}")                
                         belonging.append(i)
                         eval_samples.append(G_c)
