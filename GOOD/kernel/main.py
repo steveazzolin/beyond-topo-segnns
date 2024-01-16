@@ -3,6 +3,7 @@ r"""Kernel pipeline: main pipeline, initialization, task loading, etc.
 import os
 import time
 from typing import Tuple, Union
+import json
 
 import torch.nn
 from torch.utils.data import DataLoader
@@ -53,7 +54,7 @@ def initialize_model_dataset(config: Union[CommonArgs, Munch]) -> Tuple[torch.nn
 
 
 def evaluate_acc(args):
-    load_splits = ["id", "ood"]
+    load_splits = ["id"]
     for l, load_split in enumerate(load_splits):
         print("\n\n")
         print("-"*50)
@@ -102,14 +103,11 @@ def evaluate_acc(args):
 def evaluate_suff(args):
     load_splits = ["id"]
     for l, load_split in enumerate(load_splits):
-        print("\n\n")
-        print("-"*50)
-        print(f"USING LOAD SPLIT = {load_split}")
-        print("\n\n")
+        print("\n\n" + "-"*50)
+        print(f"USING LOAD SPLIT = {load_split}\n\n")
 
         test_scores = []
         test_suff_id, test_suff_ood = [], []
-        test_fid_id, test_fid_ood = [], []
         for i, seed in enumerate(args.seeds.split("/")):
             seed = int(seed)        
             args.random_seed = seed
@@ -132,36 +130,80 @@ def evaluate_suff(args):
             # sa = pipeline.evaluate("test", compute_suff=False)
             # test_scores.append((sa['score'], test_score))
 
-            # suff_id, suff_devstd_id = pipeline.compute_debug("id_val")            
             if "LECI" in config.model.model_name:
-                # suff_id, suff_devstd_id = pipeline.compute_sufficiency_ratio("id_val")                   
-                # suff_ood, suff_devstd_ood = pipeline.compute_sufficiency_ratio("val")
-                suff_id, suff_devstd_id = pipeline.compute_metric_ratio("id_val", metric="suff", intervention_distrib="bank")
-                suff_ood, suff_devstd_ood = pipeline.compute_metric_ratio("val", metric="suff", intervention_distrib="bank")
-
-                # fid_ood, fid_devstd_ood = pipeline.compute_robust_fidelity_m_ratio("val")      
+                suff_id, suff_devstd_id, results_id = pipeline.compute_metric_ratio("id_val", metric="suff")
+                suff_ood, suff_devstd_ood, results_ood = pipeline.compute_metric_ratio("val", metric="suff")    
             else:
                 suff_id, suff_devstd_id = pipeline.compute_sufficiency("id_val", debug=False)
                 suff_ood, suff_devstd_ood = pipeline.compute_sufficiency("val")
-                fid_id, fid_devstd_id = pipeline.compute_robust_fidelity_m("id_val")
-                fid_ood, fid_devstd_ood = pipeline.compute_robust_fidelity_m("val")  
-
-            # div_detect, _ = pipeline.compute_edge_score_divergence("id_val")
 
             test_suff_id.append((suff_id, suff_devstd_id))
             test_suff_ood.append((suff_ood, suff_devstd_ood))
-            # test_fid_id.append((fid_id, fid_devstd_id))
-            # test_fid_ood.append((fid_ood, fid_devstd_ood))
-        print()
-        print()
-        print("Final OOD Test scores: ", test_scores)
+
+            expname = f"{config.load_split}_{config.util_model_dirname}_{config.random_seed}_suff_idval"
+            with open(f"storage/metric_results/{expname}.json", "w") as f:
+                json.dump(results_id, f)
+            expname = f"{config.load_split}_{config.util_model_dirname}_{config.random_seed}_suff_val"
+            with open(f"storage/metric_results/{expname}.json", "w") as f:
+                json.dump(results_ood, f)
+
+        print("\n\nFinal OOD Test scores: ", test_scores)
         print("Final SUFF_ID scores: ", test_suff_id)
         print("Final SUFF_OOD scores: ", test_suff_ood)
+        print(f"Computed for split load_split = {load_split}")
+
+def evaluate_fid(args):
+    load_splits = ["id"]
+    for l, load_split in enumerate(load_splits):
+        print("\n\n" + "-"*50)
+        print(f"USING LOAD SPLIT = {load_split}\n\n")
+
+        test_scores = []
+        test_fid_id, test_fid_ood = [], []
+        for i, seed in enumerate(args.seeds.split("/")):
+            seed = int(seed)        
+            args.random_seed = seed
+            args.exp_round = seed
+            
+            config = config_summoner(args)
+            config["mitigation_backbone"] = args.mitigation_backbone
+            config["mitigation_sampling"] = args.mitigation_sampling
+            config["task"] = "test"
+            config["load_split"] = load_split
+            config["device"] = "cpu"
+            if l == 0 and i == 0:
+                load_logger(config)
+            
+            model, loader = initialize_model_dataset(config)
+            ood_algorithm = load_ood_alg(config.ood.ood_alg, config)
+            pipeline = load_pipeline(config.pipeline, config.task, model, loader, ood_algorithm, config)
+
+            test_score, test_loss = pipeline.load_task(load_param=True, load_split=load_split)
+            sa = pipeline.evaluate("test", compute_suff=False)
+            test_scores.append((sa['score'], test_score))
+
+            if "LECI" in config.model.model_name:
+                fid_id, fid_devstd_id, results_id = pipeline.compute_metric_ratio("id_val", metric="fid")
+                fid_ood, fid_devstd_ood, results_ood = pipeline.compute_metric_ratio("val", metric="fid")
+            else:
+                fid_id, fid_devstd_id = pipeline.compute_robust_fidelity_m("id_val")
+                fid_ood, fid_devstd_ood = pipeline.compute_robust_fidelity_m("val")  
+
+            test_fid_id.append((fid_id, fid_devstd_id))
+            test_fid_ood.append((fid_ood, fid_devstd_ood))
+
+            expname = f"{config.load_split}_{config.util_model_dirname}_{config.random_seed}_fid_idval"
+            with open(f"storage/metric_results/{expname}.json", "w") as f:
+                json.dump(results_id, f)
+            expname = f"{config.load_split}_{config.util_model_dirname}_{config.random_seed}_fid_val"
+            with open(f"storage/metric_results/{expname}.json", "w") as f:
+                json.dump(results_ood, f)
+
+        print("\n\nFinal OOD Test scores: ", test_scores)
         print("Final FID_ID scores: ", test_fid_id)
         print("Final FID_OOD scores: ", test_fid_ood)
         print(f"Computed for split load_split = {load_split}")
         print()
-
 
 
 def main():
@@ -171,6 +213,9 @@ def main():
 
     if args.task == 'eval_suff':
         evaluate_suff(args)
+        exit(0)
+    if args.task == 'eval_fid':
+        evaluate_fid(args)
         exit(0)
     if args.task == 'eval_acc':
         evaluate_acc(args)

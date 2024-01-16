@@ -865,9 +865,12 @@ class Pipeline:
             G_union = xai_utils.random_attach_no_target_frontier(source, G_t_filt)
             if debug:
                 if c <= 3 and i < 3:
+                    xai_utils.draw(self.config, source, subfolder="plots_of_suff_scores", name=f"graph_{i}")
                     pos = xai_utils.draw(self.config, G_t, subfolder="plots_of_suff_scores", name=f"graph_{j}")
                     xai_utils.draw(self.config, G_t_filt, subfolder="plots_of_suff_scores", name=f"spu_graph_{j}", pos=pos)
                     xai_utils.draw(self.config, G_union, subfolder="plots_of_suff_scores", name=f"joined_graph_{i}_{j}")
+                else:
+                    exit()
         return G_union
 
 
@@ -1069,7 +1072,7 @@ class Pipeline:
         num_all_edges = torch.tensor([data.edge_index.shape[1] for data in graphs])
         print("\nGold ratio = ", torch.mean(num_gt_edges / num_all_edges), torch.std(num_gt_edges / num_all_edges))
 
-        scores = []
+        scores, results = [], {}
         for ratio in [0.0, 0.3, 0.5, 0.8, 1.0]:
             reset_random_seed(self.config)
             # print(f"\n\nratio={ratio}\n\n")
@@ -1078,7 +1081,6 @@ class Pipeline:
             eval_samples, belonging, reference = [], [], []
             preds_ori, labels_ori, expl_acc_ori = [], [], []
             empty_idx = set()
-            num_changes_int = []
 
             # causal_subgraphs, spu_subgraphs, expl_accs = self.get_subragphs_ratio(graphs, ratio, edge_scores)
             causal_subgraphs, spu_subgraphs, expl_accs, causal_idxs, spu_idxs = self.get_subragphs_weight(graphs, ratio, edge_scores)
@@ -1139,11 +1141,14 @@ class Pipeline:
                         eval_samples.append(G_union)
                         belonging.append(i)
                         c += 1
-                        # num_changes_int.append(abs(len(G), ))
                     for k in range(c, self.config.expval_budget): # if not enough interventions, pad with sub-sampling
                         G_c = xai_utils.sample_edges(G, "spu", self.config.fidelity_alpha_2)
                         belonging.append(i)
                         eval_samples.append(G_c)
+
+            if len(eval_samples) == 0:
+                print(f"\nZero intervened samples, skipping weight={ratio}")
+                continue
 
             int_dataset = CustomDataset("", eval_samples, belonging)
 
@@ -1168,6 +1173,8 @@ class Pipeline:
 
             if metric == "suff":
                 div = torch.nn.KLDivLoss(reduction="none", log_target=True)(preds_ori, preds_eval).sum(-1)
+                results[ratio] = div.numpy().tolist()
+                div = torch.exp(-div)
                 aggr = scatter_mean(div, belonging, dim=0)
                 aggr_std = scatter_std(div, belonging, dim=0)
                 score = aggr.mean().item()
@@ -1182,7 +1189,7 @@ class Pipeline:
             print(f"Model XAI Acc of binarized graphs for weight={ratio} = ", np.mean(expl_accs))
             print(f"Model Val Acc over intervened graphs for ratio={ratio} = ", (labels_ori == preds_eval.argmax(-1)).sum() / preds_eval.shape[0])
             print(f"{metric.upper()} for ratio={ratio} = {score} +- {aggr.std()} (in-sample avg dev_std = {(aggr_std**2).mean().sqrt()})")
-        return np.mean(scores), np.std(scores)
+        return np.mean(scores), np.std(scores), results
 
 
     def debug_edge_scores(self, int_dataset, reference, ratio):
@@ -1247,7 +1254,15 @@ class Pipeline:
         print(self.loader[split].dataset)
         if self.config.numsamples_budget == "all":
             self.config.numsamples_budget = len(self.loader[split].dataset)
-        loader = DataLoader(self.loader[split].dataset[:self.config.numsamples_budget], batch_size=1, shuffle=False)
+        
+        idx, _ = train_test_split(
+            np.arange(len(self.loader[split].dataset)),
+            train_size=self.config.numsamples_budget / len(self.loader[split].dataset),
+            random_state=42,
+            shuffle=True,
+            stratify=self.loader[split].dataset.y if torch_geometric.__version__ == "2.4.0" else self.loader[split].dataset.data.y
+        )
+        loader = DataLoader(self.loader[split].dataset[idx], batch_size=1, shuffle=False)
 
         pbar = tqdm(loader, desc=f'Extracting edge_scores {split.capitalize()}', total=len(loader), **pbar_setting)
         graphs = []

@@ -102,7 +102,7 @@ class CommonArgs(Tap):
     """
     config_path: str = None  #: (Required) The path for the config file.
 
-    task: Literal['train', 'test', 'debug_suff', 'eval_suff', 'eval_acc'] = None  #: Running mode. Allowed: 'train' and 'test'.
+    task: Literal['train', 'test', 'debug_suff', 'eval_suff', 'eval_acc', 'eval_fid'] = None  #: Running mode. Allowed: 'train' and 'test'.
     random_seed: int = None  #: Fixed random seed for reproducibility.
     exp_round: int = None  #: Current experiment round.
 

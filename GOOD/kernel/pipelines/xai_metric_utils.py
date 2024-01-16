@@ -35,10 +35,12 @@ def mark_edges(G, inv_edge_index, spu_edge_index, inv_edge_w=None, spu_edge_w=No
         values={(u.item(), v.item()): "inv" for u,v in inv_edge_index.T}
     )
     if not inv_edge_w is None:
+        d = {(u.item(), v.item()): round(inv_edge_w[i].item(),2) for i, (u,v) in enumerate(inv_edge_index.T)}
+        assert np.all([d[u,v] == d[v,u] for u,v in d.keys()])
         nx.set_edge_attributes(
             G,
             name="attn_weight",
-            values={(u.item(), v.item()): round(inv_edge_w[i].item(),2) for i, (u,v) in enumerate(inv_edge_index.T)}
+            values=d
         )
     nx.set_edge_attributes(
         G,
@@ -46,10 +48,12 @@ def mark_edges(G, inv_edge_index, spu_edge_index, inv_edge_w=None, spu_edge_w=No
         values={(u.item(), v.item()): "spu" for u,v in spu_edge_index.T}
     )
     if not spu_edge_w is None:
+        d = {(u.item(), v.item()): round(spu_edge_w[i].item(),2) for i, (u,v) in enumerate(spu_edge_index.T)}
+        assert np.all([d[u,v] == d[v,u] for u,v in d.keys()])
         nx.set_edge_attributes(
             G,
             name="attn_weight",
-            values={(u.item(), v.item()): round(spu_edge_w[i].item(),2) for i, (u,v) in enumerate(spu_edge_index.T)}
+            values=d
         )
 
 def mark_frontier(G, G_filt):
