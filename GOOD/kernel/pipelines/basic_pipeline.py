@@ -963,8 +963,7 @@ class Pipeline:
                 reference.append(len(eval_samples)-1)
                 belonging.append(-1)
                 labels_ori.append(labels[i])
-                expl_acc_ori.append(expl_accs[i])                
-                
+                expl_acc_ori.append(expl_accs[i])
 
                 if metric in ("fid", "nec") or len(empty_idx) == len(graphs) or intervention_distrib in ("fixed", "bank"):
                     if metric == "suff" and intervention_distrib in ("fixed", "bank") and i == 0:

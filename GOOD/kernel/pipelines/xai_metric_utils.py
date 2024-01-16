@@ -1,6 +1,6 @@
 import networkx as nx
 import torch
-from random import randint
+from random import randint, shuffle
 from scipy.stats import bernoulli
 import matplotlib.pyplot as plt
 import numpy as np
@@ -206,10 +206,16 @@ def sample_edges(G, where_to_sample, alpha):
     # keep each spu/inv edge with probability alpha
     G = G.copy()
     edge_remove = []
+    edges = set()
     for (u,v), val in nx.get_edge_attributes(G, 'origin').items():
         if val == where_to_sample:
-            if np.random.binomial(1, alpha, 1)[0] == 0:
-                edge_remove.append((u,v))
+            edges.add((u,v))
+            # if where_to_sample == "spu" and np.random.binomial(1, alpha, 1)[0] == 0:
+            #     edge_remove.append((u,v))
+    # if where_to_sample == "inv":
+    edges = list(edges)
+    shuffle(edges)
+    edge_remove = edges[:int(len(G) * (1-alpha))] #remove the 1-alpha% of the undirected edges
     G.remove_edges_from(edge_remove)
     G.remove_edges_from([(v,u) for v,u in G.edges() if not G.has_edge(u,v)])
     G.remove_nodes_from(list(nx.isolates(G)))
