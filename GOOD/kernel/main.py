@@ -127,8 +127,8 @@ def evaluate_suff(args):
             pipeline = load_pipeline(config.pipeline, config.task, model, loader, ood_algorithm, config)
 
             test_score, test_loss = pipeline.load_task(load_param=True, load_split=load_split)
-            # sa = pipeline.evaluate("test", compute_suff=False)
-            # test_scores.append((sa['score'], test_score))
+            sa = pipeline.evaluate("test", compute_suff=False)
+            test_scores.append((sa['score'], test_score))
 
             if "LECI" in config.model.model_name:
                 suff_id, suff_devstd_id, results_id = pipeline.compute_metric_ratio("id_val", metric="suff")
@@ -140,12 +140,13 @@ def evaluate_suff(args):
             test_suff_id.append((suff_id, suff_devstd_id))
             test_suff_ood.append((suff_ood, suff_devstd_ood))
 
-            # expname = f"{config.load_split}_{config.util_model_dirname}_{config.random_seed}_suff_idval"
-            # with open(f"storage/metric_results/{expname}.json", "w") as f:
-            #     json.dump(results_id, f)
-            # expname = f"{config.load_split}_{config.util_model_dirname}_{config.random_seed}_suff_val"
-            # with open(f"storage/metric_results/{expname}.json", "w") as f:
-            #     json.dump(results_ood, f)
+            if config.save_metrics:
+                expname = f"{config.load_split}_{config.util_model_dirname}_{config.random_seed}_suff_idval_budgetsamples{config.numsamples_budget}_expbudget{config.expval_budget}"
+                with open(f"storage/metric_results/{expname}.json", "w") as f:
+                    json.dump(results_id, f)
+                expname = f"{config.load_split}_{config.util_model_dirname}_{config.random_seed}_suff_val_budgetsamples{config.numsamples_budget}_expbudget{config.expval_budget}"
+                with open(f"storage/metric_results/{expname}.json", "w") as f:
+                    json.dump(results_ood, f)
 
         print("\n\nFinal OOD Test scores: ", test_scores)
         print("Final SUFF_ID scores: ", test_suff_id)

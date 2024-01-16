@@ -1090,12 +1090,6 @@ class Pipeline:
                 G = to_networkx(graphs[i], node_attrs=["x"])
                 xai_utils.mark_edges(G, causal_subgraphs[i], spu_subgraphs[i])
 
-                eval_samples.append(G)
-                reference.append(len(eval_samples)-1)
-                belonging.append(-1)
-                labels_ori.append(labels[i])
-                expl_acc_ori.append(expl_accs[i])
-
                 if metric == "suff" and intervention_distrib == "model_dependent":
                     G_filt = xai_utils.remove_from_graph(G, "spu")
                     num_elem = xai_utils.mark_frontier(G, G_filt)
@@ -1103,6 +1097,11 @@ class Pipeline:
                         continue
                     # G = G_filt # P(Y|G) vs P(Y|R)
                 
+                eval_samples.append(G)
+                reference.append(len(eval_samples)-1)
+                belonging.append(-1)
+                labels_ori.append(labels[i])
+                expl_acc_ori.append(expl_accs[i])                
                 
 
                 if metric == "fid" or len(empty_idx) == len(graphs) or intervention_distrib in ("fixed", "bank"):
@@ -1148,9 +1147,9 @@ class Pipeline:
                         belonging.append(i)
                         eval_samples.append(G_c)
 
-            # if len(eval_samples) == 0:
-            #     print(f"\nZero intervened samples, skipping weight={ratio}")
-            #     continue
+            if len(eval_samples) == 0:
+                print(f"\nZero intervened samples, skipping weight={ratio}")
+                continue
 
             int_dataset = CustomDataset("", eval_samples, belonging)
 
@@ -1185,16 +1184,15 @@ class Pipeline:
                 aggr = scatter_mean(l1, belonging, dim=0)
                 aggr_std = scatter_std(l1, belonging, dim=0)
                 score = aggr.mean().item()
-            elif preds_eval.shape[0] == 0:
-                score = 0.0
-                print(f"\nModel Val Acc of binarized graphs for ratio={ratio} = ", (labels_ori_ori == preds_ori_ori.argmax(-1)).sum() / preds_ori_ori.shape[0])
-                continue
+            else:
+                score = 0.
             scores.append(score)
 
             print(f"\nModel Val Acc of binarized graphs for ratio={ratio} = ", (labels_ori_ori == preds_ori_ori.argmax(-1)).sum() / preds_ori_ori.shape[0])
             print(f"Model XAI Acc of binarized graphs for weight={ratio} = ", np.mean(expl_accs))
-            print(f"Model Val Acc over intervened graphs for ratio={ratio} = ", (labels_ori == preds_eval.argmax(-1)).sum() / preds_eval.shape[0])
-            print(f"{metric.upper()} for ratio={ratio} = {score} +- {aggr.std()} (in-sample avg dev_std = {(aggr_std**2).mean().sqrt()})")
+            if preds_eval.shape[0] > 0:
+                print(f"Model Val Acc over intervened graphs for ratio={ratio} = ", (labels_ori == preds_eval.argmax(-1)).sum() / preds_eval.shape[0])
+                print(f"{metric.upper()} for ratio={ratio} = {score} +- {aggr.std()} (in-sample avg dev_std = {(aggr_std**2).mean().sqrt()})")
         return np.mean(scores), np.std(scores), results
 
 
