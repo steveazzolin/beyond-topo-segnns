@@ -6,6 +6,7 @@ import shutil
 from typing import Dict
 from typing import Union
 import random
+from collections import defaultdict
 from scipy.stats import pearsonr
 
 import numpy as np
@@ -38,6 +39,13 @@ pbar_setting["disable"] = True
 class CustomDataset(InMemoryDataset):
     def __init__(self, root, samples, belonging, transform=None, pre_transform=None, pre_filter=None):
         super().__init__(root, transform, pre_transform, pre_filter)
+        self.edge_types = {
+            "inv": 0,
+            "spu": 1,
+            "added": 2,
+            "BA": 3
+        }
+        
         data_list = []
         for i , G in enumerate(samples):
             data = from_networkx(G)
@@ -47,6 +55,7 @@ class CustomDataset(InMemoryDataset):
             if len(data.x.shape) == 1:
                 data.x = data.x.unsqueeze(1)
             data.belonging = belonging[i]
+            data.origin = torch.tensor(list(map(lambda x: self.edge_types[x], data.origin)), dtype=int)
             data_list.append(data)
 
         if self.pre_filter is not None:
@@ -530,7 +539,7 @@ class Pipeline:
             for i in range(len(attn_distrib)):
                 arrange_attn_distrib[l].extend(attn_distrib[i][l])
         
-        path = f'GOOD/kernel/pipelines/plots/attn_distrib/{self.config.load_split}_{self.config.util_model_dirname}/'
+        path = f'GOOD/kernel/pipelines/plots/attn_distrib/{self.config.load_split}_{self.config.util_model_dirname}_{self.config.random_seed}/'
         if not os.path.exists(path):
             os.makedirs(path)
         
@@ -542,10 +551,14 @@ class Pipeline:
             scores = []
             for e in edge_scores:
                 scores.extend(e.numpy().tolist())
-            plt.hist(scores, density=True)
-            plt.savefig(path + f"edge_scores.png")
-            plt.close()
+            self.plot_hist_score(scores, density=False, log=True, name="edge_scores.png")
 
+    def plot_hist_score(self, data, density=False, log=False, name="noname.png"):        
+        path = f'GOOD/kernel/pipelines/plots/attn_distrib/{self.config.load_split}_{self.config.util_model_dirname}_{self.config.random_seed}/'            
+        plt.hist(data, density=density, bins=100, log=log)
+        plt.xlim(0.0,1.1)
+        plt.savefig(path + name)
+        plt.close()
 
     @torch.no_grad()
     def compute_sufficiency(self, split: str, debug=False):
@@ -993,7 +1006,8 @@ class Pipeline:
     #         print(f"Model Accuracy over intervened graphs for ratio={ratio}: ", (labels_ori == preds_eval.argmax(-1)).sum() / preds_eval.shape[0])
     #         print(f"Explanation F1 score for ratio={ratio}: {np.mean(expl_accs)}")
     #         print(f"SUFF results for ratio={ratio}: ", suff, div_aggr.std().item())
-    #     return np.mean(suff_scores), np.std(suff_scores)
+    #     return np.m
+    # ean(suff_scores), np.std(suff_scores)
 
 
     @torch.no_grad()
@@ -1012,7 +1026,7 @@ class Pipeline:
             max_g_size = max([d.num_nodes for d in self.loader[split].dataset])
             for i in range(self.config.expval_budget):
                 I = nx.DiGraph(nx.barabasi_albert_graph(random.randint(5, max(int(max_g_size/2), 8)), random.randint(1, 3)), seed=42) #BA1 -> nx.barabasi_albert_graph(randint(5, max(len(G), 8)), randint(1, 3))
-                nx.set_edge_attributes(I, name="origin", values="spu")
+                nx.set_edge_attributes(I, name="origin", values="BA")
                 nx.set_node_attributes(I, name="x", values=[1.0])
                 intervent_bank.append(I)
         
@@ -1120,8 +1134,13 @@ class Pipeline:
                         belonging.append(i)
                         eval_samples.append(G_c)
 
+            int_dataset = CustomDataset("", eval_samples, belonging)
+
+            # # Inspect edge_scores of intervened edges
+            # self.debug_edge_scores(int_dataset, reference, ratio)            
+            
             # Compute new prediction and evaluate KL
-            loader = DataLoader(CustomDataset("", eval_samples, belonging), batch_size=1, shuffle=False)
+            loader = DataLoader(int_dataset, batch_size=1, shuffle=False)
             preds_eval, belonging = self.evaluate_graphs(loader, log=False if metric == "fid" else True, weight=ratio)
             preds_ori = preds_eval[reference]
             
@@ -1150,8 +1169,60 @@ class Pipeline:
 
             print(f"\nModel Val Acc of binarized graphs for ratio={ratio} = ", (labels_ori_ori == preds_ori_ori.argmax(-1)).sum() / preds_ori_ori.shape[0])
             print(f"Model XAI Acc of binarized graphs for weight={ratio} = ", np.mean(expl_accs))
+            print(f"Model Val Acc over intervened graphs for ratio={ratio} = ", (labels_ori == preds_eval.argmax(-1)).sum() / preds_eval.shape[0])
             print(f"{metric.upper()} for ratio={ratio} = {score} +- {aggr.std()} (in-sample avg dev_std = {(aggr_std**2).mean().sqrt()})")
         return np.mean(scores), np.std(scores)
+
+
+    def debug_edge_scores(self, int_dataset, reference, ratio):
+        loader = DataLoader(int_dataset[:1000], batch_size=1, shuffle=False)
+
+        int_edge_scores, int_samples, ref_samples = [], [], []
+        for i, data in enumerate(loader):
+            if i in reference:
+                ref_samples.append(i)
+            else:
+                int_samples.append(i)
+            data: Batch = data.to(self.config.device)
+            edge_score = self.model.get_subgraph(
+                data=data,
+                edge_weight=None,
+                ood_algorithm=self.ood_algorithm,
+                do_relabel=False,
+                return_attn=False,
+                ratio=None
+            )
+            int_edge_scores.append(edge_score)
+
+        c = 0
+        for k1, s1 in enumerate(ref_samples):
+            assert c in ref_samples
+            num_inv_ref = sum(int_dataset[s1].origin == 0)
+            c+=1
+            for k2 in range(self.config.expval_budget):
+                assert c in int_samples
+                assert sum(int_dataset[c].origin == 0) == num_inv_ref
+                c+=1
+                    
+        attns = defaultdict(list)
+        for i in range(len(int_samples)):
+            for key, val in int_dataset.edge_types.items():
+                original_mask = torch.zeros(int_edge_scores[int_samples[i]].shape[0], dtype=bool)
+                original_mask[int_dataset[int_samples[i]].origin == val] = True
+
+                attns[key].extend(int_edge_scores[int_samples[i]][original_mask].numpy().tolist())
+        for key, _ in int_dataset.edge_types.items():
+            self.plot_hist_score(attns[key], density=False, log=False, name=f"{key}_edge_scores_w{ratio}.png")
+        
+        attns = defaultdict(list)
+        for i in range(len(ref_samples)):
+            for key, val in int_dataset.edge_types.items():
+                original_mask = torch.zeros(int_edge_scores[ref_samples[i]].shape[0], dtype=bool)
+                original_mask[int_dataset[ref_samples[i]].origin == val] = True
+
+                attns[key].extend(int_edge_scores[ref_samples[i]][original_mask].numpy().tolist())
+        for key, _ in int_dataset.edge_types.items():
+            self.plot_hist_score(attns[key], density=False, log=False, name=f"ref_{key}_edge_scores_w{ratio}.png")
 
 
 

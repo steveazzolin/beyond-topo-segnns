@@ -240,7 +240,7 @@ class LECIGIN(GNNBasic):
                         )
                         data.edge_attr = edge_attr_sorted
 
-                    if not data.edge_gt is None:
+                    if hasattr(data, "edge_gt") and not data.edge_gt is None:
                         edge_index_sorted, edge_gt_sorted = coalesce(data.ori_edge_index, data.edge_gt, is_sorted=False)
                         data.edge_gt = edge_gt_sorted
 
