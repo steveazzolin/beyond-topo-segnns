@@ -205,7 +205,6 @@ def expl_acc(expl, data):
 def sample_edges(G, where_to_sample, alpha):
     # keep each spu/inv edge with probability alpha
     G = G.copy()
-    edge_remove = []
     edges = set()
     for (u,v), val in nx.get_edge_attributes(G, 'origin').items():
         if val == where_to_sample:
