@@ -1073,7 +1073,7 @@ class Pipeline:
         print("\nGold ratio = ", torch.mean(num_gt_edges / num_all_edges), torch.std(num_gt_edges / num_all_edges))
 
         scores, results = [], {}
-        for ratio in [0.0, 0.3, 0.5, 0.8, 1.0]:
+        for ratio in [0.0, 0.3]:
             reset_random_seed(self.config)
             # print(f"\n\nratio={ratio}\n\n")
             print(f"\n\nweight={ratio}\n\n")
@@ -1090,6 +1090,12 @@ class Pipeline:
                 G = to_networkx(graphs[i], node_attrs=["x"])
                 xai_utils.mark_edges(G, causal_subgraphs[i], spu_subgraphs[i])
 
+                eval_samples.append(G)
+                reference.append(len(eval_samples)-1)
+                belonging.append(-1)
+                labels_ori.append(labels[i])
+                expl_acc_ori.append(expl_accs[i])
+
                 if metric == "suff" and intervention_distrib == "model_dependent":
                     G_filt = xai_utils.remove_from_graph(G, "spu")
                     num_elem = xai_utils.mark_frontier(G, G_filt)
@@ -1097,11 +1103,7 @@ class Pipeline:
                         continue
                     # G = G_filt # P(Y|G) vs P(Y|R)
                 
-                eval_samples.append(G)
-                reference.append(len(eval_samples)-1)
-                belonging.append(-1)
-                labels_ori.append(labels[i])
-                expl_acc_ori.append(expl_accs[i])
+                
 
                 if metric == "fid" or len(empty_idx) == len(graphs) or intervention_distrib in ("fixed", "bank"):
                     if metric == "suff" and intervention_distrib in ("fixed", "bank") and i == 0:
@@ -1146,9 +1148,9 @@ class Pipeline:
                         belonging.append(i)
                         eval_samples.append(G_c)
 
-            if len(eval_samples) == 0:
-                print(f"\nZero intervened samples, skipping weight={ratio}")
-                continue
+            # if len(eval_samples) == 0:
+            #     print(f"\nZero intervened samples, skipping weight={ratio}")
+            #     continue
 
             int_dataset = CustomDataset("", eval_samples, belonging)
 
@@ -1171,18 +1173,22 @@ class Pipeline:
             preds_ori = preds_ori_ori.repeat_interleave(self.config.expval_budget, dim=0)
             labels_ori = labels_ori_ori.repeat_interleave(self.config.expval_budget, dim=0)
 
-            if metric == "suff":
+            if metric == "suff" and preds_eval.shape[0] > 0:
                 div = torch.nn.KLDivLoss(reduction="none", log_target=True)(preds_ori, preds_eval).sum(-1)
                 results[ratio] = div.numpy().tolist()
                 div = torch.exp(-div)
                 aggr = scatter_mean(div, belonging, dim=0)
                 aggr_std = scatter_std(div, belonging, dim=0)
                 score = aggr.mean().item()
-            elif metric == "fid":
+            elif metric == "fid" and preds_eval.shape[0] > 0:
                 l1 = torch.abs(preds_eval.gather(1, labels_ori.unsqueeze(1)) - preds_ori.gather(1, labels_ori.unsqueeze(1)))
                 aggr = scatter_mean(l1, belonging, dim=0)
                 aggr_std = scatter_std(l1, belonging, dim=0)
                 score = aggr.mean().item()
+            elif preds_eval.shape[0] == 0:
+                score = 0.0
+                print(f"\nModel Val Acc of binarized graphs for ratio={ratio} = ", (labels_ori_ori == preds_ori_ori.argmax(-1)).sum() / preds_ori_ori.shape[0])
+                continue
             scores.append(score)
 
             print(f"\nModel Val Acc of binarized graphs for ratio={ratio} = ", (labels_ori_ori == preds_ori_ori.argmax(-1)).sum() / preds_ori_ori.shape[0])
@@ -1246,6 +1252,9 @@ class Pipeline:
 
     @torch.no_grad()
     def compute_accuracy_binarizing(self, split: str, debug=False):
+        """
+            Computes the Accuracy of P(Y|R)
+        """
         reset_random_seed(self.config)
         self.model.to("cpu")
         self.model.eval()
@@ -1283,14 +1292,9 @@ class Pipeline:
             graphs.append(data.detach().cpu())
         labels = torch.tensor(labels)
 
-        # plt.hist(torch.cat(edge_scores, dim=0), density=False)
-        # plt.savefig(f"edge_scores.png")
-        # plt.close()
-
         acc_scores = []
-        for weight in [0.3, 0.6, 0.9]: #[0., 0.5, 0.8, 1.0]
+        for weight in [0.0, 0.3, 0.5, 0.8, 1.0]:
             print(f"\n\nweight={weight}\n")
-            # print(f"\n\nratio={weight}\n")
 
             eval_samples = []
             labels_ori = []
