@@ -1029,7 +1029,7 @@ class Pipeline:
             for i in range(self.config.expval_budget):
                 I = nx.DiGraph(nx.barabasi_albert_graph(random.randint(5, max(int(max_g_size/2), 8)), random.randint(1, 3)), seed=42) #BA1 -> nx.barabasi_albert_graph(randint(5, max(len(G), 8)), randint(1, 3))
                 nx.set_edge_attributes(I, name="origin", values="BA")
-                nx.set_node_attributes(I, name="x", values=[1.0])
+                nx.set_node_attributes(I, name="x", values=1.0)
                 intervent_bank.append(I)
         
         if self.config.numsamples_budget == "all":
@@ -1040,7 +1040,7 @@ class Pipeline:
             train_size=self.config.numsamples_budget / len(self.loader[split].dataset),
             random_state=42,
             shuffle=True,
-            stratify=self.loader[split].dataset.y
+            stratify=self.loader[split].dataset.y if torch_geometric.__version__ == "2.4.0" else self.loader[split].dataset.data.y
         )
         loader = DataLoader(self.loader[split].dataset[idx], batch_size=1, shuffle=False)
 
@@ -1064,7 +1064,7 @@ class Pipeline:
         labels = torch.tensor(labels)
 
         # plot attn_distrib and compute the ratio between gt edges and all edges (gold cut ratio)
-        self.plot_attn_distrib(attn_distrib, edge_scores)
+        # self.plot_attn_distrib(attn_distrib, edge_scores)
         num_gt_edges = torch.tensor([data.edge_gt.sum() for data in graphs])
         num_all_edges = torch.tensor([data.edge_index.shape[1] for data in graphs])
         print("\nGold ratio = ", torch.mean(num_gt_edges / num_all_edges), torch.std(num_gt_edges / num_all_edges))
