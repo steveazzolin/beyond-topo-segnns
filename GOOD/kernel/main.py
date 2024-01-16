@@ -140,12 +140,12 @@ def evaluate_suff(args):
             test_suff_id.append((suff_id, suff_devstd_id))
             test_suff_ood.append((suff_ood, suff_devstd_ood))
 
-            expname = f"{config.load_split}_{config.util_model_dirname}_{config.random_seed}_suff_idval"
-            with open(f"storage/metric_results/{expname}.json", "w") as f:
-                json.dump(results_id, f)
-            expname = f"{config.load_split}_{config.util_model_dirname}_{config.random_seed}_suff_val"
-            with open(f"storage/metric_results/{expname}.json", "w") as f:
-                json.dump(results_ood, f)
+            # expname = f"{config.load_split}_{config.util_model_dirname}_{config.random_seed}_suff_idval"
+            # with open(f"storage/metric_results/{expname}.json", "w") as f:
+            #     json.dump(results_id, f)
+            # expname = f"{config.load_split}_{config.util_model_dirname}_{config.random_seed}_suff_val"
+            # with open(f"storage/metric_results/{expname}.json", "w") as f:
+            #     json.dump(results_ood, f)
 
         print("\n\nFinal OOD Test scores: ", test_scores)
         print("Final SUFF_ID scores: ", test_suff_id)
@@ -183,21 +183,14 @@ def evaluate_fid(args):
             test_scores.append((sa['score'], test_score))
 
             if "LECI" in config.model.model_name:
-                fid_id, fid_devstd_id, results_id = pipeline.compute_metric_ratio("id_val", metric="fid")
-                fid_ood, fid_devstd_ood, results_ood = pipeline.compute_metric_ratio("val", metric="fid")
+                fid_id, fid_devstd_id, _ = pipeline.compute_metric_ratio("id_val", metric="fid")
+                fid_ood, fid_devstd_ood, _ = pipeline.compute_metric_ratio("val", metric="fid")
             else:
                 fid_id, fid_devstd_id = pipeline.compute_robust_fidelity_m("id_val")
                 fid_ood, fid_devstd_ood = pipeline.compute_robust_fidelity_m("val")  
 
             test_fid_id.append((fid_id, fid_devstd_id))
             test_fid_ood.append((fid_ood, fid_devstd_ood))
-
-            expname = f"{config.load_split}_{config.util_model_dirname}_{config.random_seed}_fid_idval"
-            with open(f"storage/metric_results/{expname}.json", "w") as f:
-                json.dump(results_id, f)
-            expname = f"{config.load_split}_{config.util_model_dirname}_{config.random_seed}_fid_val"
-            with open(f"storage/metric_results/{expname}.json", "w") as f:
-                json.dump(results_ood, f)
 
         print("\n\nFinal OOD Test scores: ", test_scores)
         print("Final FID_ID scores: ", test_fid_id)
