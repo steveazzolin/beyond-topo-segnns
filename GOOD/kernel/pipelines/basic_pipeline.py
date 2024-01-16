@@ -23,6 +23,7 @@ from torch_geometric.utils import to_networkx, from_networkx, to_undirected
 from tqdm import tqdm
 import networkx as nx
 import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
 
 from GOOD.ood_algorithms.algorithms.BaseOOD import BaseOODAlg
 from GOOD.utils.args import CommonArgs
@@ -1020,6 +1021,7 @@ class Pipeline:
         self.model.to("cpu")
         self.model.eval()        
 
+        intervent_bank = None
         if intervention_distrib == "bank":
             print(f"Creating interventional bank with {self.config.expval_budget} elements")
             intervent_bank = []
@@ -1032,7 +1034,16 @@ class Pipeline:
         
         if self.config.numsamples_budget == "all":
             self.config.numsamples_budget = len(self.loader[split].dataset)
-        loader = DataLoader(self.loader[split].dataset[:self.config.numsamples_budget], batch_size=1, shuffle=False)
+        
+        idx, _ = train_test_split(
+            np.arange(len(self.loader[split].dataset)),
+            train_size=self.config.numsamples_budget / len(self.loader[split].dataset),
+            random_state=42,
+            shuffle=True,
+            stratify=self.loader[split].dataset.y
+        )
+        loader = DataLoader(self.loader[split].dataset[idx], batch_size=1, shuffle=False)
+
         pbar = tqdm(loader, desc=f'Exctracting edge_scores {split.capitalize()}', total=len(loader), **pbar_setting)
         labels, graphs = [], []
         attn_distrib, edge_scores = [], []
