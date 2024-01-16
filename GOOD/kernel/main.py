@@ -199,7 +199,7 @@ def evaluate_nec(args):
                 expname = f"{config.load_split}_{config.util_model_dirname}_{config.random_seed}_nec_idval_budgetsamples{config.numsamples_budget}_expbudget{config.expval_budget}"
                 with open(f"storage/metric_results/{expname}.json", "w") as f:
                     json.dump(results_id, f)
-                expname = f"{config.load_split}_{config.util_model_dirname}_{config.random_seed}_nec_val_budgetsamples{config.numsamples_budget}_expbudget{config.expval_budget}"
+                expname = f"{config.load_split}_{config.util_model_dirname}_{config.random_seed}_nec_val_budgetsamples{config.numsamples_budget}_expbudget{config.expval_budget}_alpha{config.nec_alpha_1}"
                 with open(f"storage/metric_results/{expname}.json", "w") as f:
                     json.dump(results_ood, f)
 
