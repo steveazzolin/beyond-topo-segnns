@@ -2,7 +2,8 @@ import json
 import numpy as np
 import torch
 
-file = "/home/azzolin/sedignn/LECI_fork/storage/metric_results/id_repr_LECIGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingfeatavgedgeattnmean_110_suff_val.json"
+expval_budget = 3
+file = "/home/azzolin/sedignn/LECI_fork/storage/metric_results/id_repr_LECIGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingfeatavgedgeattnmean_110_suff_idval_budgetsamples1000_expbudget3.json"
 with open(f"{file}", "r") as f:
     results = json.load(f)
 
@@ -12,4 +13,12 @@ for w in results.keys():
     sa = torch.tensor(results[w])
 
     suff = torch.exp(-sa)
-    print(f"SUFF for w>={w}: {suff.mean()}")
+    c = 0
+    means = []
+    while c < len(suff):
+        samples = []
+        for e in range(expval_budget):
+            samples.append(suff[c+e])
+        means.append(np.mean(samples))
+        c+= expval_budget
+    print(f"SUFF for w>={w}: {np.mean(means)}")
