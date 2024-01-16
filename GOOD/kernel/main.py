@@ -82,14 +82,15 @@ def evaluate_acc(args):
             pipeline = load_pipeline(config.pipeline, config.task, model, loader, ood_algorithm, config)
 
             test_score, test_loss = pipeline.load_task(load_param=True, load_split=load_split)
-            # sa = pipeline.evaluate("id_val", compute_suff=False)
-            # test_scores.append((sa['score'], test_score))
+            sa = pipeline.evaluate("test", compute_suff=False)
+            test_scores.append((sa['score'], test_score))
+            print(sa)
 
             if "LECI" in config.model.model_name:
-                acc_id, _ = pipeline.compute_accuracy_binarizing("id_val")
+                # acc_id, _ = pipeline.compute_accuracy_binarizing("id_val")
                 acc_ood, _ = pipeline.compute_accuracy_binarizing("test")
 
-                test_acc_id.append((acc_id, 0.))
+                # test_acc_id.append((acc_id, 0.))
                 test_acc_ood.append((acc_ood, 0.))
         print()
         print()
@@ -153,6 +154,60 @@ def evaluate_suff(args):
         print("Final SUFF_OOD scores: ", test_suff_ood)
         print(f"Computed for split load_split = {load_split}")
 
+def evaluate_nec(args):
+    load_splits = ["id"]
+    for l, load_split in enumerate(load_splits):
+        print("\n\n" + "-"*50)
+        print(f"USING LOAD SPLIT = {load_split}\n\n")
+
+        test_scores = []
+        test_nec_id, test_nec_ood = [], []
+        for i, seed in enumerate(args.seeds.split("/")):
+            seed = int(seed)        
+            args.random_seed = seed
+            args.exp_round = seed
+            
+            config = config_summoner(args)
+            config["mitigation_backbone"] = args.mitigation_backbone
+            config["mitigation_sampling"] = args.mitigation_sampling
+            config["task"] = "test"
+            config["load_split"] = load_split
+            config["device"] = "cpu"
+            if l == 0 and i == 0:
+                load_logger(config)
+            
+            model, loader = initialize_model_dataset(config)
+            ood_algorithm = load_ood_alg(config.ood.ood_alg, config)
+            pipeline = load_pipeline(config.pipeline, config.task, model, loader, ood_algorithm, config)
+
+            test_score, test_loss = pipeline.load_task(load_param=True, load_split=load_split)
+            sa = pipeline.evaluate("test", compute_suff=False)
+            test_scores.append((sa['score'], test_score))
+
+            if "LECI" in config.model.model_name:
+                nec_id, nec_devstd_id, results_id = pipeline.compute_metric_ratio("id_val", metric="nec")
+                nec_ood, nec_devstd_ood, results_ood = pipeline.compute_metric_ratio("val", metric="nec")    
+            else:
+                pass
+                # suff_id, suff_devstd_id = pipeline.compute_sufficiency("id_val", debug=False)
+                # suff_ood, suff_devstd_ood = pipeline.compute_sufficiency("val")
+
+            test_nec_id.append((nec_id, nec_devstd_id))
+            test_nec_ood.append((nec_ood, nec_devstd_ood))
+
+            if config.save_metrics:
+                expname = f"{config.load_split}_{config.util_model_dirname}_{config.random_seed}_nec_idval_budgetsamples{config.numsamples_budget}_expbudget{config.expval_budget}"
+                with open(f"storage/metric_results/{expname}.json", "w") as f:
+                    json.dump(results_id, f)
+                expname = f"{config.load_split}_{config.util_model_dirname}_{config.random_seed}_nec_val_budgetsamples{config.numsamples_budget}_expbudget{config.expval_budget}"
+                with open(f"storage/metric_results/{expname}.json", "w") as f:
+                    json.dump(results_ood, f)
+
+        print("\n\nFinal OOD Test scores: ", test_scores)
+        print("Final SUFF_ID scores: ", test_nec_id)
+        print("Final SUFF_OOD scores: ", test_nec_ood)
+        print(f"Computed for split load_split = {load_split}")
+
 def evaluate_fid(args):
     load_splits = ["id"]
     for l, load_split in enumerate(load_splits):
@@ -210,6 +265,9 @@ def main():
         exit(0)
     if args.task == 'eval_fid':
         evaluate_fid(args)
+        exit(0)
+    if args.task == 'eval_nec':
+        evaluate_nec(args)
         exit(0)
     if args.task == 'eval_acc':
         evaluate_acc(args)

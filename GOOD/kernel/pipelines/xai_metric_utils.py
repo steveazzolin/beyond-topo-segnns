@@ -202,13 +202,13 @@ def expl_acc(expl, data):
     # assert (tp + fp + tn + fn) == len(edge_gt)
     return round(f1, 3)
 
-def sample_edges(G, where_to_sample, alpha_2):
-    # keep each spu edge with probability alpha_2
+def sample_edges(G, where_to_sample, alpha):
+    # keep each spu/inv edge with probability alpha
     G = G.copy()
     edge_remove = []
     for (u,v), val in nx.get_edge_attributes(G, 'origin').items():
         if val == where_to_sample:
-            if np.random.binomial(1, alpha_2, 1)[0] == 0:
+            if np.random.binomial(1, alpha, 1)[0] == 0:
                 edge_remove.append((u,v))
     G.remove_edges_from(edge_remove)
     G.remove_edges_from([(v,u) for v,u in G.edges() if not G.has_edge(u,v)])
