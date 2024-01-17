@@ -8,7 +8,7 @@ from torch import Tensor
 import torch_geometric
 from torch_geometric.data import Data
 from torch_geometric.nn.conv import MessagePassing
-from torch_geometric.utils import degree, to_undirected
+from torch_geometric.utils import is_undirected, to_undirected, degree, coalesce
 
 from GOOD import register
 from GOOD.utils.config_reader import Union, CommonArgs, Munch
@@ -129,23 +129,62 @@ class CIGAGIN(GNNBasic):
         spu_pred = self.spu_lin(spu_graph_x).detach()
         return torch.sigmoid(spu_pred) * causal_pred
     
-    def get_subgraph(self, get_pred=False, log_pred=False, *args, **kwargs):
-        data = kwargs.get('data')
-        
-        # data.x_debug = torch.zeros_like(data.x)
-        # for i in range(data.x.shape[0]):
-        #     data.x_debug[i] = torch.tensor([i]*data.x.shape[1])
-
+    def get_subgraph(self, get_pred=False, log_pred=False, ratio=None, *args, **kwargs):
+        data = kwargs.get('data') or None
+        data.ori_x = data.x
         batch_size = data.batch[-1].item() + 1
 
-        (causal_x, causal_edge_index, causal_edge_attr, causal_edge_weight, causal_batch), \
-        (spu_x, spu_edge_index, spu_edge_attr, spu_edge_weight, spu_batch), \
-        pred_edge_weight, node_h, orig_x = self.att_net(*args, **kwargs)
+        node_h = self.att_net.gnn_node(*args, **kwargs)
+        row, col = data.edge_index
+        edge_rep = torch.cat([node_h[row], node_h[col]], dim=-1)
+        edge_score = self.att_net.linear(edge_rep).view(-1)
+
+        if self.config.average_edge_attn != "default":
+            data.ori_edge_index = data.edge_index.detach().clone()
+            data.edge_index, edge_score = to_undirected(data.edge_index, edge_score.squeeze(-1), reduce="mean")
 
         if kwargs.get('return_attn', False):
             self.attn_distrib = self.att_net.gnn_node.encoder.get_attn_distrib()
             self.att_net.gnn_node.encoder.reset_attn_distrib()
-        return (causal_edge_index, causal_x, causal_batch, causal_edge_weight), (spu_edge_index, spu_x, spu_batch, spu_edge_weight), pred_edge_weight
+
+            # if not data.edge_attr is None:
+            #     edge_index_sorted, edge_attr_sorted = coalesce(data.ori_edge_index, data.edge_attr, is_sorted=False)
+            #     assert torch.all(
+            #         torch.tensor([edge_index_sorted.T[i][0] == data.edge_index.T[i][0] and edge_index_sorted.T[i][1] == data.edge_index.T[i][1] 
+            #                     for i in range(len(data.edge_index.T))])
+            #     )
+            #     data.edge_attr = edge_attr_sorted
+
+            # if hasattr(data, "edge_gt") and not data.edge_gt is None:
+            #     edge_index_sorted, edge_gt_sorted = coalesce(data.ori_edge_index, data.edge_gt, is_sorted=False)
+            #     data.edge_gt = edge_gt_sorted
+
+        if ratio is None:
+            return edge_score
+        
+        if data.edge_index.shape[1] != 0:
+            assert ratio == self.ratio
+            (causal_edge_index, causal_edge_attr, causal_edge_weight), \
+            (spu_edge_index, spu_edge_attr, spu_edge_weight) = split_graph(data, edge_score, ratio)
+
+            if kwargs.get('do_relabel', True):
+                causal_x, causal_edge_index, causal_batch, _ = relabel(node_h, causal_edge_index, data.batch)
+                spu_x, spu_edge_index, spu_batch, _ = relabel(node_h, spu_edge_index, data.batch)
+            else:
+                causal_x = None
+                spu_x = None
+                causal_batch = None
+                spu_batch = None
+        else:
+            assert False
+
+        # (causal_x, causal_edge_index, causal_edge_attr, causal_edge_weight, causal_batch), \
+        # (spu_x, spu_edge_index, spu_edge_attr, spu_edge_weight, spu_batch), \
+        # pred_edge_weight, node_h, orig_x = self.att_net(*args, **kwargs)
+
+        return (causal_edge_index, causal_x, causal_batch, causal_edge_weight), \
+                (spu_edge_index, spu_x, spu_batch, spu_edge_weight), \
+                    edge_score
 
 
 @register.model_register
