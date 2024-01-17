@@ -88,10 +88,11 @@ def evaluate_acc(args):
 
             if "LECI" in config.model.model_name:
                 # acc_id, _ = pipeline.compute_accuracy_binarizing("id_val")
-                acc_ood, _ = pipeline.compute_accuracy_binarizing("test")
-
                 # test_acc_id.append((acc_id, 0.))
-                test_acc_ood.append((acc_ood, 0.))
+                acc_ood, _ = pipeline.compute_accuracy_binarizing("test")
+            else:
+                acc_ood, _ = pipeline.compute_accuracy_binarizing("test")
+            test_acc_ood.append((acc_ood, 0.))
         print()
         print()
         print("Final OOD Test scores: ", test_scores)
@@ -135,8 +136,8 @@ def evaluate_suff(args):
                 suff_id, suff_devstd_id, results_id = pipeline.compute_metric_ratio("id_val", metric="suff")
                 suff_ood, suff_devstd_ood, results_ood = pipeline.compute_metric_ratio("val", metric="suff")    
             else:
-                suff_id, suff_devstd_id = pipeline.compute_sufficiency("id_val", debug=False)
-                suff_ood, suff_devstd_ood = pipeline.compute_sufficiency("val")
+                suff_id, suff_devstd_id, results_id = pipeline.compute_metric_ratio("id_val", metric="suff")
+                suff_ood, suff_devstd_ood, results_ood = pipeline.compute_metric_ratio("val", metric="suff")
 
             test_suff_id.append((suff_id, suff_devstd_id))
             test_suff_ood.append((suff_ood, suff_devstd_ood))
@@ -188,9 +189,8 @@ def evaluate_nec(args):
                 nec_id, nec_devstd_id, results_id = pipeline.compute_metric_ratio("id_val", metric="nec")
                 nec_ood, nec_devstd_ood, results_ood = pipeline.compute_metric_ratio("val", metric="nec")    
             else:
-                pass
-                # suff_id, suff_devstd_id = pipeline.compute_sufficiency("id_val", debug=False)
-                # suff_ood, suff_devstd_ood = pipeline.compute_sufficiency("val")
+                nec_id, nec_devstd_id, results_id = pipeline.compute_metric_ratio("id_val", metric="nec")
+                nec_ood, nec_devstd_ood, results_ood = pipeline.compute_metric_ratio("val", metric="nec")    
 
             test_nec_id.append((nec_id, nec_devstd_id))
             test_nec_ood.append((nec_ood, nec_devstd_ood))
@@ -242,8 +242,8 @@ def evaluate_fid(args):
                 fid_id, fid_devstd_id, _ = pipeline.compute_metric_ratio("id_val", metric="fid")
                 fid_ood, fid_devstd_ood, _ = pipeline.compute_metric_ratio("val", metric="fid")
             else:
-                fid_id, fid_devstd_id = pipeline.compute_robust_fidelity_m("id_val")
-                fid_ood, fid_devstd_ood = pipeline.compute_robust_fidelity_m("val")  
+                fid_id, fid_devstd_id, _ = pipeline.compute_metric_ratio("id_val", metric="fid")
+                fid_ood, fid_devstd_ood, _ = pipeline.compute_metric_ratio("val", metric="fid")
 
             test_fid_id.append((fid_id, fid_devstd_id))
             test_fid_ood.append((fid_ood, fid_devstd_ood))
