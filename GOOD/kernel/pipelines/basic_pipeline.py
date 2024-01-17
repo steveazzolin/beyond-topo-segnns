@@ -50,11 +50,14 @@ class CustomDataset(InMemoryDataset):
         data_list = []
         for i , G in enumerate(samples):
             data = from_networkx(G)
-            if data.x is None:
-                print(i)
-                print(data)
-            if len(data.x.shape) == 1:
-                data.x = data.x.unsqueeze(1)
+            # if data.ori_x is None:
+            #     print(i)
+            #     print(data)
+            # if len(data.x.shape) == 1:
+            #     data.x = data.x.unsqueeze(1)
+            if len(data.ori_x.shape) == 1:
+                data.ori_x = data.ori_x.unsqueeze(1)
+            data.x = data.ori_x
             data.belonging = belonging[i]
             data.origin = torch.tensor(list(map(lambda x: self.edge_types[x], data.origin)), dtype=int)
             data_list.append(data)
@@ -540,7 +543,7 @@ class Pipeline:
             for i in range(len(attn_distrib)):
                 arrange_attn_distrib[l].extend(attn_distrib[i][l])
         
-        path = f'GOOD/kernel/pipelines/plots/attn_distrib/{self.config.load_split}_{self.config.util_model_dirname}_{self.config.random_seed}/'
+        path = f'GOOD/kernel/pipelines/plots/attn_distrib/{self.config.load_split}_{self.config.dataset.dataset_name}_{self.config.util_model_dirname}_{self.config.random_seed}/'
         if not os.path.exists(path):
             os.makedirs(path)
         
@@ -555,9 +558,10 @@ class Pipeline:
             self.plot_hist_score(scores, density=False, log=True, name="edge_scores.png")
 
     def plot_hist_score(self, data, density=False, log=False, name="noname.png"):        
-        path = f'GOOD/kernel/pipelines/plots/attn_distrib/{self.config.load_split}_{self.config.util_model_dirname}_{self.config.random_seed}/'            
+        path = f'GOOD/kernel/pipelines/plots/attn_distrib/{self.config.load_split}_{self.config.dataset.dataset_name}_{self.config.util_model_dirname}_{self.config.random_seed}/'            
         plt.hist(data, density=density, bins=100, log=log)
         plt.xlim(0.0,1.1)
+        plt.title(f"distrib. edge_scores (min={round(min(data), 2)}, max={round(max(data), 2)})")
         plt.savefig(path + name)
         plt.close()
 
@@ -792,7 +796,8 @@ class Pipeline:
 
             causal_subgraphs.append(cau)
             spu_subgraphs.append(spu)
-            expl_accs.append(xai_utils.expl_acc(cau, graphs[i]))
+            if hasattr(graphs[i], "edge_gt"):
+                expl_accs.append(xai_utils.expl_acc(cau, graphs[i]))
         return causal_subgraphs, spu_subgraphs, expl_accs, cau_idxs, spu_idxs
 
     @torch.no_grad()
@@ -850,7 +855,7 @@ class Pipeline:
         else:
             G_t = to_networkx(
                 graph,
-                node_attrs=["x"]
+                node_attrs=["ori_x"]
             )
             xai_utils.mark_edges(G_t, causal, spu)
             G_t_filt = xai_utils.remove_from_graph(G_t, "inv")
@@ -1057,9 +1062,22 @@ class Pipeline:
     @torch.no_grad()
     def compute_metric_ratio(self, split: str, metric: str, intervention_distrib:str = "model_dependent", debug=False):
         assert metric in ["suff", "fid", "nec"]
+
+        if "LECI" in self.config.model.model_name:
+            is_ratio = False
+            if "Twitter" in self.config.dataset.dataset_name:
+                weights = [0.85, 0.87, 0.9, 0.93, 0.97]
+            else:
+                weights = [0., 0.01, 0.3, 0.5, 0.8, 1.0]
+        else:
+            is_ratio = True
+            weights = [0.6]
+
         print(f"\n\n")
         print("-"*50)
         print(f"\n\n#D#Computing {metric.upper()} over {split} across ratios")
+        print(self.loader[split].dataset)
+        print(self.loader[split].dataset.data)
         reset_random_seed(self.config)
         self.model.to("cpu")
         self.model.eval()        
@@ -1072,7 +1090,7 @@ class Pipeline:
             for i in range(self.config.expval_budget):
                 I = nx.DiGraph(nx.barabasi_albert_graph(random.randint(5, max(int(max_g_size/2), 8)), 1), seed=42) #BA1 -> nx.barabasi_albert_graph(randint(5, max(len(G), 8)), randint(1, 3))
                 nx.set_edge_attributes(I, name="origin", values="BA")
-                nx.set_node_attributes(I, name="x", values=1.0)
+                nx.set_node_attributes(I, name="ori_x", values=[1.0])
                 intervent_bank.append(I)
         
         if self.config.numsamples_budget == "all":
@@ -1086,6 +1104,7 @@ class Pipeline:
             stratify=self.loader[split].dataset.y if torch_geometric.__version__ == "2.4.0" else self.loader[split].dataset.data.y
         )
         loader = DataLoader(self.loader[split].dataset[idx], batch_size=1, shuffle=False)
+        print(self.loader[split].dataset[idx].y.unique(return_counts=True))
 
         pbar = tqdm(loader, desc=f'Exctracting edge_scores {split.capitalize()}', total=len(loader), **pbar_setting)
         labels, graphs = [], []
@@ -1113,23 +1132,27 @@ class Pipeline:
         print("\nGold ratio = ", torch.mean(num_gt_edges / num_all_edges), torch.std(num_gt_edges / num_all_edges))
 
         scores, results = [], {}
-        for ratio in [0.0, 0.3, 0.5, 0.8, 1.0]:
+        for ratio in weights: #[0.0, 0.3, 0.5, 0.8, 1.0] for LECI
             reset_random_seed(self.config)
-            # print(f"\n\nratio={ratio}\n\n")
-            print(f"\n\nweight={ratio}\n\n")
+            if is_ratio:
+                print(f"\n\nratio={ratio}\n\n")
+            else:
+                print(f"\n\nweight={ratio}\n\n")
 
             eval_samples, belonging, reference = [], [], []
             preds_ori, labels_ori, expl_acc_ori = [], [], []
             empty_idx = set()
 
-            # causal_subgraphs, spu_subgraphs, expl_accs = self.get_subragphs_ratio(graphs, ratio, edge_scores)
-            causal_subgraphs, spu_subgraphs, expl_accs, causal_idxs, spu_idxs = self.get_subragphs_weight(graphs, ratio, edge_scores)
+            if is_ratio:
+                causal_subgraphs, spu_subgraphs, expl_accs = self.get_subragphs_ratio(graphs, ratio, edge_scores)
+            else:
+                causal_subgraphs, spu_subgraphs, expl_accs, causal_idxs, spu_idxs = self.get_subragphs_weight(graphs, ratio, edge_scores)
 
             pbar = tqdm(range(self.config.numsamples_budget), desc=f'Creating Intervent. distrib.', total=self.config.numsamples_budget, **pbar_setting)
             for i in pbar:
-                G = to_networkx(graphs[i], node_attrs=["x"])
+                G = to_networkx(graphs[i], node_attrs=["ori_x"])
                 xai_utils.mark_edges(G, causal_subgraphs[i], spu_subgraphs[i])
-
+                
                 if metric == "suff" and intervention_distrib == "model_dependent":
                     G_filt = xai_utils.remove_from_graph(G, "spu")
                     num_elem = xai_utils.mark_frontier(G, G_filt)
@@ -1138,7 +1161,7 @@ class Pipeline:
                     # G = G_filt # P(Y|G) vs P(Y|R)
                 
                 eval_samples.append(G)
-                reference.append(len(eval_samples)-1)
+                reference.append(len(eval_samples) - 1)
                 belonging.append(-1)
                 labels_ori.append(labels[i])
                 expl_acc_ori.append(expl_accs[i])
@@ -1295,7 +1318,20 @@ class Pipeline:
         """
             Either computes the Accuracy of P(Y|R) or P(Y|G) under different weight/ratio binarizations
         """
-        GIVENR = False
+        print(self.loader[split].dataset)
+        print(self.loader[split].dataset.data)
+        print(self.loader[split].dataset.y.unique(return_counts=True))
+
+        GIVENR = True
+        if "LECI" in self.config.model.model_name:
+            is_ratio = False
+            if "Twitter" in self.config.dataset.dataset_name:
+                weights = [0.85, 0.87, 0.9, 0.93, 0.97]
+            else:
+                weights = [0., 0.01, 0.3, 0.5, 0.8, 1.0]
+        else:
+            is_ratio = True
+            weights = [0.6]
 
         reset_random_seed(self.config)
         self.model.to("cpu")
@@ -1338,8 +1374,10 @@ class Pipeline:
             graphs.append(data.detach().cpu())
         labels = torch.tensor(labels)
 
+        # self.plot_attn_distrib([[]], edge_scores)
+
         acc_scores = []
-        for weight in [0.0, 0.3, 0.5, 0.8, 1.0]:
+        for weight in weights:
             print(f"\n\nweight={weight}\n")
 
             eval_samples = []
@@ -1347,13 +1385,16 @@ class Pipeline:
             empty_graphs = 0
             
             # Select relevant subgraph based on ratio
-            causal_subgraphs, spu_subgraphs, expl_accs, causal_idxs, spu_idxs = self.get_subragphs_weight(graphs, weight, edge_scores)
-            # causal_subgraphs, spu_subgraphs, expl_accs = self.get_subragphs_ratio(graphs, weight, edge_scores)
+            if is_ratio:
+                causal_subgraphs, spu_subgraphs, expl_accs = self.get_subragphs_ratio(graphs, weight, edge_scores)
+            else:
+                causal_subgraphs, spu_subgraphs, expl_accs, causal_idxs, spu_idxs = self.get_subragphs_weight(graphs, weight, edge_scores)
+            
 
             # Create interventional distribution     
             pbar = tqdm(range(self.config.numsamples_budget), desc=f'Int. distrib', total=self.config.numsamples_budget, **pbar_setting)
             for i in pbar:                
-                G = to_networkx(graphs[i], node_attrs=["x"])
+                G = to_networkx(graphs[i], node_attrs=["ori_x"])
                 xai_utils.mark_edges(G, causal_subgraphs[i], spu_subgraphs[i])
                 G_filt = xai_utils.remove_from_graph(G, "spu")
 
@@ -1368,6 +1409,7 @@ class Pipeline:
             # Compute accuracy
             ##
             loader = DataLoader(CustomDataset("", eval_samples, torch.arange(len(eval_samples))), batch_size=1, shuffle=False)
+            print(loader.dataset.data)
             preds, _ = self.evaluate_graphs(loader, log=True, weight=None if GIVENR else weight)
             acc = (torch.tensor(labels_ori) == preds.argmax(-1)).sum() / preds.shape[0]
             acc_scores.append(acc)
