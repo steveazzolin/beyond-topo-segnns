@@ -1066,7 +1066,7 @@ class Pipeline:
         if "LECI" in self.config.model.model_name:
             is_ratio = False
             if "Twitter" in self.config.dataset.dataset_name:
-                weights = [0.85, 0.87, 0.9, 0.93, 0.97]
+                weights = [0., 0.01, 0.85, 0.87, 0.9, 0.93, 0.97]
             else:
                 weights = [0., 0.01, 0.3, 0.5, 0.8, 1.0]
         else:
@@ -1326,7 +1326,7 @@ class Pipeline:
         if "LECI" in self.config.model.model_name:
             is_ratio = False
             if "Twitter" in self.config.dataset.dataset_name:
-                weights = [0.85, 0.87, 0.9, 0.93, 0.97]
+                weights = [0., 0.01, 0.85, 0.87, 0.9, 0.93, 0.97]
             else:
                 weights = [0., 0.01, 0.3, 0.5, 0.8, 1.0]
         else:
