@@ -214,6 +214,7 @@ class LECIGIN(GNNBasic):
     def get_subgraph(self, get_pred=False, log_pred=False, ratio=None, *args, **kwargs):
         data = kwargs.get('data')
 
+        data.ori_x = data.x
         if self.EF:
             filtered_features = self.ef_mlp(data.x, data.batch)
             data.x = filtered_features
