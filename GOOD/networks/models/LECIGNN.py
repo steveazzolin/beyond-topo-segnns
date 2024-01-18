@@ -137,10 +137,20 @@ class LECIGIN(GNNBasic):
             edge_att = self.lift_node_att_to_edge_att(att, data.edge_index)
 
         if kwargs.get('weight', None):
-            data.edge_index = (data.edge_index.T[edge_att >= kwargs.get('weight')]).T
-            if not data.edge_attr is None:
-                data.edge_attr = data.edge_attr[edge_att >= kwargs.get('weight')]
-            edge_att = edge_att[edge_att >= kwargs.get('weight')]
+            if kwargs.get('is_ratio'):
+                (causal_edge_index, causal_edge_attr, causal_edge_weight), _ = split_graph(data, edge_att, kwargs.get('weight'))
+                causal_x, causal_edge_index, causal_batch, _ = relabel(data.x, causal_edge_index, data.batch)
+                data.x = causal_x
+                data.batch = causal_batch
+                data.edge_index = causal_edge_index
+                if not data.edge_attr is None:
+                    data.edge_attr = causal_edge_attr
+                edge_att = causal_edge_weight                
+            else:
+                data.edge_index = (data.edge_index.T[edge_att >= kwargs.get('weight')]).T
+                if not data.edge_attr is None:
+                    data.edge_attr = data.edge_attr[edge_att >= kwargs.get('weight')]
+                edge_att = edge_att[edge_att >= kwargs.get('weight')]
 
         set_masks(edge_att, self.lc_gnn)
         lc_logits = self.lc_classifier(self.lc_gnn(*args, **kwargs))
@@ -248,16 +258,6 @@ class LECIGIN(GNNBasic):
                     # for i, (u,v) in enumerate(data.edge_index.T):
                     #     print((u,v), edge_att[i])
                     # exit()
-                    
-                    # edge_weights = {(u, v): att.squeeze(-1)[k] for k, (u,v) in enumerate(data.edge_index.T)}
-                    # edge_weights_avg = {(u, v): (edge_weights[(u,v)] + edge_weights[(v,u)])/2 for u,v in edge_weights.keys()}
-                    # edge_att = torch.tensor([edge_weights_avg[u,v] for u,v in data.edge_index.T])
-
-                    # sparse_tensor = torch.sparse_coo_tensor(data.edge_index, att.squeeze(-1))
-                    # sparse_tensor = (sparse_tensor + sparse_tensor.T) / 2
-                    # sparse_tensor._coalesced_(True)
-                    # edge_att = sparse_tensor.values()
-                    # edge_att = torch.tensor([(sparse_tensor[u,v] + sparse_tensor[v,u])/2 for u,v in data.edge_index.T])
             else:
                 edge_att = att
         else:
@@ -269,6 +269,7 @@ class LECIGIN(GNNBasic):
 
         edge_att = edge_att.view(-1)
         if not ratio is None:
+            assert False
             (causal_edge_index, causal_edge_attr, causal_edge_weight), \
                 (spu_edge_index, spu_edge_attr, spu_edge_weight) = split_graph(data, edge_att, ratio)
             return (causal_edge_index, None, None, causal_edge_weight), \
@@ -431,3 +432,17 @@ def clear_masks(model: nn.Module):
                 module._explain = False
             module.__edge_mask__ = None
             module._edge_mask = None
+
+def relabel(x, edge_index, batch, pos=None):
+    num_nodes = x.size(0)
+    sub_nodes = torch.unique(edge_index)
+    x = x[sub_nodes]
+    batch = batch[sub_nodes]
+    row, col = edge_index
+    # remapping the nodes in the explanatory subgraph to new ids.
+    node_idx = row.new_full((num_nodes,), -1)
+    node_idx[sub_nodes] = torch.arange(sub_nodes.size(0), device=row.device)
+    edge_index = node_idx[edge_index]
+    if pos is not None:
+        pos = pos[sub_nodes]
+    return x, edge_index, batch, pos
