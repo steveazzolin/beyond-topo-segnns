@@ -778,7 +778,7 @@ class Pipeline:
                 )
             causal_subgraphs.append(causal_edge_index.detach().cpu())
             spu_subgraphs.append(spu_edge_index.detach().cpu())
-            expl_accs.append(xai_utils.expl_acc(causal_subgraphs[-1], graphs[i]))
+            expl_accs.append(xai_utils.expl_acc(causal_subgraphs[-1], graphs[i]) if hasattr(graphs[i], "edge_gt") else np.nan)
             spu_edge_weights.extend(spu_edge_weight.detach().cpu().numpy().tolist())
         return causal_subgraphs, spu_subgraphs, expl_accs
     
@@ -796,8 +796,7 @@ class Pipeline:
 
             causal_subgraphs.append(cau)
             spu_subgraphs.append(spu)
-            if hasattr(graphs[i], "edge_gt"):
-                expl_accs.append(xai_utils.expl_acc(cau, graphs[i]))
+            expl_accs.append(xai_utils.expl_acc(cau, graphs[i]) if hasattr(graphs[i], "edge_gt") else np.nan)
         return causal_subgraphs, spu_subgraphs, expl_accs, cau_idxs, spu_idxs
 
     @torch.no_grad()
@@ -1062,11 +1061,10 @@ class Pipeline:
     @torch.no_grad()
     def compute_metric_ratio(self, split: str, metric: str, intervention_distrib:str = "model_dependent", debug=False):
         assert metric in ["suff", "fid", "nec"]
-
         if "LECI" in self.config.model.model_name:
             is_ratio = False
             if "Twitter" in self.config.dataset.dataset_name:
-                weights = [0., 0.01, 0.85, 0.87, 0.9, 0.93, 0.97]
+                weights = [0., 0.01, 0.85, 0.87, 0.9, 0.93]
             else:
                 weights = [0., 0.01, 0.3, 0.5, 0.8, 1.0]
         else:
@@ -1091,21 +1089,20 @@ class Pipeline:
                 I = nx.DiGraph(nx.barabasi_albert_graph(random.randint(5, max(int(max_g_size/2), 8)), 1), seed=42) #BA1 -> nx.barabasi_albert_graph(randint(5, max(len(G), 8)), randint(1, 3))
                 nx.set_edge_attributes(I, name="origin", values="BA")
                 nx.set_node_attributes(I, name="ori_x", values=[1.0])
-                intervent_bank.append(I)
-        
-        if self.config.numsamples_budget == "all":
+                intervent_bank.append(I)        
+        if self.config.numsamples_budget == "all" or self.config.numsamples_budget >= len(self.loader[split].dataset):
             self.config.numsamples_budget = len(self.loader[split].dataset)
-        
-        idx, _ = train_test_split(
-            np.arange(len(self.loader[split].dataset)),
-            train_size=self.config.numsamples_budget / len(self.loader[split].dataset),
-            random_state=42,
-            shuffle=True,
-            stratify=self.loader[split].dataset.y if torch_geometric.__version__ == "2.4.0" else self.loader[split].dataset.data.y
-        )
+            idx = np.arange(len(self.loader[split].dataset))        
+        if self.config.numsamples_budget < len(self.loader[split].dataset):        
+            idx, _ = train_test_split(
+                np.arange(len(self.loader[split].dataset)),
+                train_size=min(self.config.numsamples_budget, len(self.loader[split].dataset)) / len(self.loader[split].dataset),
+                random_state=42,
+                shuffle=True,
+                stratify=self.loader[split].dataset.y if torch_geometric.__version__ == "2.4.0" else self.loader[split].dataset.data.y
+            )
+            
         loader = DataLoader(self.loader[split].dataset[idx], batch_size=1, shuffle=False)
-        print(self.loader[split].dataset[idx].y.unique(return_counts=True))
-
         pbar = tqdm(loader, desc=f'Exctracting edge_scores {split.capitalize()}', total=len(loader), **pbar_setting)
         labels, graphs = [], []
         attn_distrib, edge_scores = [], []
@@ -1126,10 +1123,11 @@ class Pipeline:
         labels = torch.tensor(labels)
 
         # plot attn_distrib and compute the ratio between gt edges and all edges (gold cut ratio)
-        # self.plot_attn_distrib(attn_distrib, edge_scores)
-        num_gt_edges = torch.tensor([data.edge_gt.sum() for data in graphs])
-        num_all_edges = torch.tensor([data.edge_index.shape[1] for data in graphs])
-        print("\nGold ratio = ", torch.mean(num_gt_edges / num_all_edges), torch.std(num_gt_edges / num_all_edges))
+        self.plot_attn_distrib(attn_distrib, edge_scores)
+        if hasattr(graphs[0], "edge_gt"):
+            num_gt_edges = torch.tensor([data.edge_gt.sum() for data in graphs])
+            num_all_edges = torch.tensor([data.edge_index.shape[1] for data in graphs])
+            print("\nGold ratio = ", torch.mean(num_gt_edges / num_all_edges), torch.std(num_gt_edges / num_all_edges))
 
         scores, results = [], {}
         for ratio in weights: #[0.0, 0.3, 0.5, 0.8, 1.0] for LECI
@@ -1255,6 +1253,7 @@ class Pipeline:
 
             print(f"\nModel Val Acc of binarized graphs for ratio={ratio} = ", (labels_ori_ori == preds_ori_ori.argmax(-1)).sum() / preds_ori_ori.shape[0])
             print(f"Model XAI Acc of binarized graphs for weight={ratio} = ", np.mean(expl_accs))
+            print(f"len(reference) = {len(reference)}")
             if preds_eval.shape[0] > 0:
                 print(f"Model Val Acc over intervened graphs for ratio={ratio} = ", (labels_ori == preds_eval.argmax(-1)).sum() / preds_eval.shape[0])
                 print(f"{metric.upper()} for ratio={ratio} = {score} +- {aggr.std()} (in-sample avg dev_std = {(aggr_std**2).mean().sqrt()})")
@@ -1322,7 +1321,7 @@ class Pipeline:
         print(self.loader[split].dataset.data)
         print(self.loader[split].dataset.y.unique(return_counts=True))
 
-        GIVENR = True
+        GIVENR = False
         if "LECI" in self.config.model.model_name:
             is_ratio = False
             if "Twitter" in self.config.dataset.dataset_name:
@@ -1343,7 +1342,7 @@ class Pipeline:
         else:
             print("Accuracy computed as P(Y|G)\n")
         print(self.loader[split].dataset)
-        if self.config.numsamples_budget == "all":
+        if self.config.numsamples_budget == "all" or self.config.numsamples_budget >= len(self.loader[split].dataset):
             self.config.numsamples_budget = len(self.loader[split].dataset)
         
         # idx, _ = train_test_split(
@@ -1408,10 +1407,13 @@ class Pipeline:
             ##
             # Compute accuracy
             ##
-            loader = DataLoader(CustomDataset("", eval_samples, torch.arange(len(eval_samples))), batch_size=1, shuffle=False)
-            print(loader.dataset.data)
-            preds, _ = self.evaluate_graphs(loader, log=True, weight=None if GIVENR else weight)
-            acc = (torch.tensor(labels_ori) == preds.argmax(-1)).sum() / preds.shape[0]
+            if len(eval_samples) == 0:
+                acc = 0.
+            else:
+                loader = DataLoader(CustomDataset("", eval_samples, torch.arange(len(eval_samples))), batch_size=1, shuffle=False)
+                print(loader.dataset.data)
+                preds, _ = self.evaluate_graphs(loader, log=True, weight=None if GIVENR else weight)
+                acc = (torch.tensor(labels_ori) == preds.argmax(-1)).sum() / (preds.shape[0] + empty_graphs)
             acc_scores.append(acc)
             print(f"\nModel Acc of binarized graphs for weight={weight} = ", acc)
             print(f"Model XAI Acc of binarized graphs for weight={weight} = ", np.mean(expl_accs))
