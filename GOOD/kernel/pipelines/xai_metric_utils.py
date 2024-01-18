@@ -219,3 +219,16 @@ def sample_edges(G, where_to_sample, alpha):
     G.remove_edges_from([(v,u) for v,u in G.edges() if not G.has_edge(u,v)])
     G.remove_nodes_from(list(nx.isolates(G)))
     return G
+
+def feature_intervention(G, feature_bank, feat_int_alpha):
+    """Randomly swap feature of spurious graph with features sampled from a fixed bank"""
+    assert feature_bank .shape[0] > 0
+
+
+    G = G.copy()
+    probs = np.random.binomial(1, feat_int_alpha, len(G))
+    for i, n in enumerate(G):
+        if probs[i] == 1:
+            new_feature = feature_bank[randint(0, feature_bank.shape[0]-1)].tolist()
+            nx.set_node_attributes(G, {n: new_feature}, name="ori_x")
+    return G

@@ -815,7 +815,7 @@ class Pipeline:
         belonging = torch.tensor(belonging, dtype=int)
         return preds_eval, belonging
 
-    def get_intervened_graph(self, metric, intervention_distrib, graph, empty_idx=None, causal=None, spu=None, source=None, debug=None, idx=None, bank=None):
+    def get_intervened_graph(self, metric, intervention_distrib, graph, empty_idx=None, causal=None, spu=None, source=None, debug=None, idx=None, bank=None, feature_intervention=False, feature_bank=None):
         i, j, c = idx
         if metric == "fid" or (metric == "suff" and intervention_distrib == "model_dependent" and causal is None):
             return xai_utils.sample_edges(graph, "spu", self.config.fidelity_alpha_2)
@@ -840,6 +840,7 @@ class Pipeline:
             I = nx.DiGraph(nx.barabasi_albert_graph(random.randint(5, max(len(G), 8)), random.randint(1, 3)), seed=42) #BA1 -> nx.barabasi_albert_graph(randint(5, max(len(G), 8)), randint(1, 3))
             nx.set_edge_attributes(I, name="origin", values="spu")
             nx.set_node_attributes(I, name="x", values=[1.0])
+            print("remebder to check values here for non-motif datasets")
             # nx.set_node_attributes(I, name="frontier", values=False)
 
             ret = nx.union(G, I, rename=("", "T"))
@@ -865,6 +866,11 @@ class Pipeline:
                 # pos = xai_utils.draw(self.config, G_t, subfolder="plots_of_suff_scores", name=f"debug_graph_{j}")
                 # xai_utils.draw(self.config, G_t_filt, subfolder="plots_of_suff_scores", name=f"spu_graph_{j}", pos=pos)
                 return None
+
+            if feature_intervention:
+                if i == 0 and j == 0:
+                    print(f"Applying feature interventions with alpha = {self.config.feat_int_alpha}")
+                G_t_filt = xai_utils.feature_intervention(G_t_filt, feature_bank, self.config.feat_int_alpha)
 
             # G_union = xai_utils.random_attach(source, G_t_filt)
             G_union = xai_utils.random_attach_no_target_frontier(source, G_t_filt)
@@ -1061,15 +1067,20 @@ class Pipeline:
     @torch.no_grad()
     def compute_metric_ratio(self, split: str, metric: str, intervention_distrib:str = "model_dependent", debug=False):
         assert metric in ["suff", "fid", "nec"]
-        if "LECI" in self.config.model.model_name:
-            is_ratio = False
-            if "Twitter" in self.config.dataset.dataset_name:
-                weights = [0., 0.01, 0.85, 0.87, 0.9, 0.93]
-            else:
-                weights = [0., 0.01, 0.3, 0.5, 0.8, 1.0]
-        else:
+        if "LECI" in self.config.model.model_name and "motif" in self.config.dataset.dataset_name.lower():
+            do_feature_intervention = False
+            # is_ratio = False   
+            # weights = [0., 0.01, 0.3, 0.5, 0.8, 1.0]
             is_ratio = True
-            weights = [0.6]
+            weights = [0.3, 0.6, 0.9, 1.0]
+        elif "LECI" in self.config.model.model_name and "twitter" in self.config.dataset.dataset_name.lower():
+            do_feature_intervention = False
+            is_ratio = True
+            weights = [0.3, 0.6, 0.9, 1.0]
+        else:
+            do_feature_intervention = False
+            is_ratio = True
+            weights = [0.6] #CIGA
 
         print(f"\n\n")
         print("-"*50)
@@ -1080,7 +1091,10 @@ class Pipeline:
         self.model.to("cpu")
         self.model.eval()        
 
+        
         intervent_bank = None
+        features_bank = self.loader[split].dataset.x.unique(dim=0).cpu()
+        print(f"Shape of feature bank = {features_bank.shape}")
         if intervention_distrib == "bank":
             print(f"Creating interventional bank with {self.config.expval_budget} elements")
             intervent_bank = []
@@ -1088,8 +1102,9 @@ class Pipeline:
             for i in range(self.config.expval_budget):
                 I = nx.DiGraph(nx.barabasi_albert_graph(random.randint(5, max(int(max_g_size/2), 8)), 1), seed=42) #BA1 -> nx.barabasi_albert_graph(randint(5, max(len(G), 8)), randint(1, 3))
                 nx.set_edge_attributes(I, name="origin", values="BA")
-                nx.set_node_attributes(I, name="ori_x", values=[1.0])
-                intervent_bank.append(I)        
+                nx.set_node_attributes(I, name="ori_x", values=features_bank[random.randint(0, features_bank.shape[0]-1)].tolist())
+                intervent_bank.append(I)  
+        
         if self.config.numsamples_budget == "all" or self.config.numsamples_budget >= len(self.loader[split].dataset):
             self.config.numsamples_budget = len(self.loader[split].dataset)
             idx = np.arange(len(self.loader[split].dataset))        
@@ -1101,7 +1116,8 @@ class Pipeline:
                 shuffle=True,
                 stratify=self.loader[split].dataset.y if torch_geometric.__version__ == "2.4.0" else self.loader[split].dataset.data.y
             )
-            
+        
+
         loader = DataLoader(self.loader[split].dataset[idx], batch_size=1, shuffle=False)
         pbar = tqdm(loader, desc=f'Exctracting edge_scores {split.capitalize()}', total=len(loader), **pbar_setting)
         labels, graphs = [], []
@@ -1174,7 +1190,7 @@ class Pipeline:
                         G_c = self.get_intervened_graph(metric, intervention_distrib, G, idx=(i,m,-1), bank=intervent_bank)
                         # xai_utils.draw(self.config, G_c, subfolder="plots_of_suff_scores", name=f"nec_{i}_{m}")                
                         belonging.append(i)
-                        eval_samples.append(G_c)               
+                        eval_samples.append(G_c)
                 elif metric == "suff":
                     z, c = -1, 0
                     idxs = np.random.permutation(np.arange(len(labels))) #pick random from every class
@@ -1195,7 +1211,9 @@ class Pipeline:
                             spu_subgraphs[j],
                             G_filt,
                             debug,
-                            (i, j, c)
+                            (i, j, c),
+                            feature_intervention=do_feature_intervention,
+                            feature_bank=features_bank
                         )
                         if G_union is None:
                             continue
@@ -1218,7 +1236,7 @@ class Pipeline:
             
             # Compute new prediction and evaluate KL
             loader = DataLoader(int_dataset, batch_size=1, shuffle=False)
-            preds_eval, belonging = self.evaluate_graphs(loader, log=False if metric == "fid" else True, weight=ratio)
+            preds_eval, belonging = self.evaluate_graphs(loader, log=False if metric == "fid" else True, weight=ratio, is_ratio=is_ratio)
             preds_ori = preds_eval[reference]
             
             mask = torch.ones(preds_eval.shape[0], dtype=bool)
@@ -1313,7 +1331,7 @@ class Pipeline:
 
 
     @torch.no_grad()
-    def compute_accuracy_binarizing(self, split: str, debug=False):
+    def compute_accuracy_binarizing(self, split: str, givenR, debug=False):
         """
             Either computes the Accuracy of P(Y|R) or P(Y|G) under different weight/ratio binarizations
         """
@@ -1321,23 +1339,25 @@ class Pipeline:
         print(self.loader[split].dataset.data)
         print(self.loader[split].dataset.y.unique(return_counts=True))
 
-        GIVENR = False
-        if "LECI" in self.config.model.model_name:
-            is_ratio = False
-            if "Twitter" in self.config.dataset.dataset_name:
-                weights = [0., 0.01, 0.85, 0.87, 0.9, 0.93, 0.97]
-            else:
-                weights = [0., 0.01, 0.3, 0.5, 0.8, 1.0]
+        if "LECI" in self.config.model.model_name and "motif" in self.config.dataset.dataset_name.lower():
+            # is_ratio = False   
+            # weights = [0., 0.01, 0.3, 0.5, 0.8, 1.0]
+            is_ratio = True
+            weights = [0.3, 0.6, 0.9, 1.0]
+        elif "LECI" in self.config.model.model_name and "twitter" in self.config.dataset.dataset_name.lower():
+            is_ratio = True
+            weights = [1.0]
         else:
             is_ratio = True
             weights = [0.6]
+            assert weights[0] == self.model.att_net.ratio
 
         reset_random_seed(self.config)
         self.model.to("cpu")
         self.model.eval()
 
         print(f"#D#Computing accuracy under post-hoc binarization for {split}")
-        if GIVENR:
+        if givenR:
             print("Accuracy computed as P(Y|R)\n")
         else:
             print("Accuracy computed as P(Y|G)\n")
@@ -1401,7 +1421,7 @@ class Pipeline:
                     empty_graphs += 1
                     continue
 
-                eval_samples.append(G_filt if GIVENR else G) #G_filt for P(Y|R), G for P(Y|G)
+                eval_samples.append(G_filt if givenR else G) #G_filt for P(Y|R), G for P(Y|G)
                 labels_ori.append(labels[i])
 
             ##
@@ -1412,7 +1432,7 @@ class Pipeline:
             else:
                 loader = DataLoader(CustomDataset("", eval_samples, torch.arange(len(eval_samples))), batch_size=1, shuffle=False)
                 print(loader.dataset.data)
-                preds, _ = self.evaluate_graphs(loader, log=True, weight=None if GIVENR else weight)
+                preds, _ = self.evaluate_graphs(loader, log=True, weight=None if givenR else weight, is_ratio=is_ratio)
                 acc = (torch.tensor(labels_ori) == preds.argmax(-1)).sum() / (preds.shape[0] + empty_graphs)
             acc_scores.append(acc)
             print(f"\nModel Acc of binarized graphs for weight={weight} = ", acc)
