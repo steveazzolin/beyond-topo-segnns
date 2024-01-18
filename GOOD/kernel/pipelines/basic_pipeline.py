@@ -1336,8 +1336,9 @@ class Pipeline:
             Either computes the Accuracy of P(Y|R) or P(Y|G) under different weight/ratio binarizations
         """
         print(self.loader[split].dataset)
-        print(self.loader[split].dataset.data)
-        print(self.loader[split].dataset.y.unique(return_counts=True))
+        if torch_geometric.__version__ == "2.4.0":
+            print(self.loader[split].dataset.data)
+            print(self.loader[split].dataset.y.unique(return_counts=True))
 
         if "LECI" in self.config.model.model_name and "motif" in self.config.dataset.dataset_name.lower():
             # is_ratio = False   
@@ -1431,7 +1432,6 @@ class Pipeline:
                 acc = 0.
             else:
                 loader = DataLoader(CustomDataset("", eval_samples, torch.arange(len(eval_samples))), batch_size=1, shuffle=False)
-                print(loader.dataset.data)
                 preds, _ = self.evaluate_graphs(loader, log=True, weight=None if givenR else weight, is_ratio=is_ratio)
                 acc = (torch.tensor(labels_ori) == preds.argmax(-1)).sum() / (preds.shape[0] + empty_graphs)
             acc_scores.append(acc)
