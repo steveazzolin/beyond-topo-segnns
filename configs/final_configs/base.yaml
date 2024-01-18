@@ -15,8 +15,11 @@ expval_budget: 10 # Added by Steve
 numsamples_budget: 1000 # Added by Steve
 fidelity_alpha_2: 0.9 # Added by Steve
 nec_alpha_1: 0.9 # Added by Steve
+feat_int_alpha: 0.2 # Added by Steve
 average_edge_attn: default # Added by Steve
 save_metrics: False # Added by Steve
+intervention_distrib: model_dependent # Added by Steve
+acc_givenR: False # Added by Steve
 train:
   weight_decay: 0.
   save_gap: 10

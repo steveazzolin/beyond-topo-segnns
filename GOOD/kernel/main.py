@@ -86,13 +86,10 @@ def evaluate_acc(args):
             test_scores.append((sa['score'], test_score))
             print(sa)
 
-            if "LECI" in config.model.model_name:
-                # acc_id, _ = pipeline.compute_accuracy_binarizing("id_val")
-                # test_acc_id.append((acc_id, 0.))
-                acc_ood, _ = pipeline.compute_accuracy_binarizing("test")
-            else:
-                acc_ood, _ = pipeline.compute_accuracy_binarizing("test")
-            test_acc_ood.append((acc_ood, 0.))
+            acc_id, _ = pipeline.compute_accuracy_binarizing("id_val", givenR=config.acc_givenR)
+            acc_id, _ = pipeline.compute_accuracy_binarizing("val", givenR=config.acc_givenR)
+            acc_ood, _ = pipeline.compute_accuracy_binarizing("test", givenR=config.acc_givenR)
+            # test_acc_ood.append((acc_ood, 0.))
         print()
         print()
         print("Final OOD Test scores: ", test_scores)
@@ -133,11 +130,11 @@ def evaluate_suff(args):
             test_scores.append((sa['score'], test_score))
 
             if "LECI" in config.model.model_name:
-                suff_id, suff_devstd_id, results_id = pipeline.compute_metric_ratio("id_val", metric="suff")
-                suff_ood, suff_devstd_ood, results_ood = pipeline.compute_metric_ratio("val", metric="suff")    
+                suff_id, suff_devstd_id, results_id = pipeline.compute_metric_ratio("id_val", metric="suff", intervention_distrib=config.intervention_distrib)
+                suff_ood, suff_devstd_ood, results_ood = pipeline.compute_metric_ratio("val", metric="suff", intervention_distrib=config.intervention_distrib)
             else:
-                suff_id, suff_devstd_id, results_id = pipeline.compute_metric_ratio("id_val", metric="suff")
-                suff_ood, suff_devstd_ood, results_ood = pipeline.compute_metric_ratio("val", metric="suff")
+                suff_id, suff_devstd_id, results_id = pipeline.compute_metric_ratio("id_val", metric="suff", intervention_distrib=config.intervention_distrib)
+                suff_ood, suff_devstd_ood, results_ood = pipeline.compute_metric_ratio("val", metric="suff", intervention_distrib=config.intervention_distrib)
 
             test_suff_id.append((suff_id, suff_devstd_id))
             test_suff_ood.append((suff_ood, suff_devstd_ood))
@@ -185,12 +182,8 @@ def evaluate_nec(args):
             sa = pipeline.evaluate("test", compute_suff=False)
             test_scores.append((sa['score'], test_score))
 
-            if "LECI" in config.model.model_name:
-                nec_id, nec_devstd_id, results_id = pipeline.compute_metric_ratio("id_val", metric="nec")
-                nec_ood, nec_devstd_ood, results_ood = pipeline.compute_metric_ratio("val", metric="nec")    
-            else:
-                nec_id, nec_devstd_id, results_id = pipeline.compute_metric_ratio("id_val", metric="nec")
-                nec_ood, nec_devstd_ood, results_ood = pipeline.compute_metric_ratio("val", metric="nec")    
+            nec_id, nec_devstd_id, results_id = pipeline.compute_metric_ratio("id_val", metric="nec")
+            nec_ood, nec_devstd_ood, results_ood = pipeline.compute_metric_ratio("val", metric="nec")  
 
             test_nec_id.append((nec_id, nec_devstd_id))
             test_nec_ood.append((nec_ood, nec_devstd_ood))
