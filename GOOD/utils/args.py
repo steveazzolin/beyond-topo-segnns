@@ -113,8 +113,11 @@ class CommonArgs(Tap):
     numsamples_budget: int = None # Added by Steve
     fidelity_alpha_2: float = None # Added by Steve
     nec_alpha_1: float = None # Added by Steve
+    feat_int_alpha: float = None # Added by Steve
     average_edge_attn: str = "default" # Added by Steve
     save_metrics: bool = False # Added by Steve
+    intervention_distrib:str = "model_dependent" # Added by Steve
+    acc_givenR: bool = False # Added by Steve
     
     pytest: bool = None
     pipeline: str = None  #: Training/test controller.
