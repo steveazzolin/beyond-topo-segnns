@@ -7,8 +7,9 @@ import torch.nn as nn
 from torch import Tensor
 from torch_geometric.nn import InstanceNorm
 from torch_geometric.nn.conv import MessagePassing
-from torch_geometric.utils import is_undirected
+from torch_geometric.utils import is_undirected, to_undirected, degree, coalesce
 from torch_sparse import transpose
+from torch_geometric import __version__ as pyg_v
 
 from GOOD import register
 from GOOD.utils.config_reader import Union, CommonArgs, Munch
@@ -61,8 +62,20 @@ class GSATGIN(GNNBasic):
 
         if self.learn_edge_att:
             if is_undirected(data.edge_index):
-                nodesize = data.x.shape[0]
-                edge_att = (att + transpose(data.edge_index, att, nodesize, nodesize, coalesced=False)[1]) / 2
+                if self.config.average_edge_attn == "default":
+                    nodesize = data.x.shape[0]
+                    edge_att = (att + transpose(data.edge_index, att, nodesize, nodesize, coalesced=False)[1]) / 2
+                else:
+                    data.ori_edge_index = data.edge_index.detach().clone() #for backup and debug
+                    data.edge_index, edge_att = to_undirected(data.edge_index, att.squeeze(-1), reduce="mean")
+
+                    if not data.edge_attr is None:
+                        edge_index_sorted, edge_attr_sorted = coalesce(data.ori_edge_index, data.edge_attr, is_sorted=False)                    
+                        assert torch.all(
+                            torch.tensor([edge_index_sorted.T[i][0] == data.edge_index.T[i][0] and edge_index_sorted.T[i][1] == data.edge_index.T[i][1] 
+                                        for i in range(len(data.edge_index.T))])
+                        )
+                        data.edge_attr = edge_attr_sorted    
             else:
                 edge_att = att
         else:
@@ -98,6 +111,56 @@ class GSATGIN(GNNBasic):
         else:
             att_bern = (att_log_logit).sigmoid()
         return att_bern
+    
+    # def get_subgraph(self, get_pred=False, log_pred=False, ratio=None, *args, **kwargs):
+    #     data = kwargs.get('data') or None
+    #     data.ori_x = data.x
+    #     batch_size = data.batch[-1].item() + 1
+
+    #     node_h = self.att_net.gnn_node(*args, **kwargs)
+    #     row, col = data.edge_index
+    #     edge_rep = torch.cat([node_h[row], node_h[col]], dim=-1)
+    #     edge_score = self.att_net.linear(edge_rep).view(-1)
+
+    #     if self.config.average_edge_attn != "default":
+    #         data.ori_edge_index = data.edge_index.detach().clone()
+    #         data.edge_index, edge_score = to_undirected(data.edge_index, edge_score.squeeze(-1), reduce="mean")
+
+    #         if not data.edge_attr is None:
+    #             edge_index_sorted, edge_attr_sorted = coalesce(data.ori_edge_index, data.edge_attr, is_sorted=False)                    
+    #             assert torch.all(
+    #                 torch.tensor([edge_index_sorted.T[i][0] == data.edge_index.T[i][0] and edge_index_sorted.T[i][1] == data.edge_index.T[i][1] 
+    #                             for i in range(len(data.edge_index.T))])
+    #             )
+    #             data.edge_attr = edge_attr_sorted   
+
+    #     if kwargs.get('return_attn', False):
+    #         self.attn_distrib = self.att_net.gnn_node.encoder.get_attn_distrib()
+    #         self.att_net.gnn_node.encoder.reset_attn_distrib()
+
+
+    #     if ratio is None:
+    #         return edge_score
+        
+    #     if data.edge_index.shape[1] != 0:
+    #         assert ratio == self.ratio
+    #         (causal_edge_index, causal_edge_attr, causal_edge_weight), \
+    #         (spu_edge_index, spu_edge_attr, spu_edge_weight) = split_graph(data, edge_score, ratio)
+
+    #         if kwargs.get('do_relabel', True):
+    #             causal_x, causal_edge_index, causal_batch, _ = relabel(node_h, causal_edge_index, data.batch)
+    #             spu_x, spu_edge_index, spu_batch, _ = relabel(node_h, spu_edge_index, data.batch)
+    #         else:
+    #             causal_x = None
+    #             spu_x = None
+    #             causal_batch = None
+    #             spu_batch = None
+    #     else:
+    #         assert False
+
+    #     return (causal_edge_index, causal_x, causal_batch, causal_edge_weight), \
+    #             (spu_edge_index, spu_x, spu_batch, spu_edge_weight), \
+    #                 edge_score
 
 
 @register.model_register
@@ -172,9 +235,12 @@ def set_masks(mask: Tensor, model: nn.Module):
     """
     for module in model.modules():
         if isinstance(module, MessagePassing):
-            module._apply_sigmoid = False
-            module.__explain__ = True
-            module._explain = True
+            if pyg_v == "2.4.0":
+                module._fixed_explain = True
+            else:
+                module.__explain__ = True
+                module._explain = True
+            module._apply_sigmoid = False    
             module.__edge_mask__ = mask
             module._edge_mask = mask
 
@@ -185,7 +251,10 @@ def clear_masks(model: nn.Module):
     """
     for module in model.modules():
         if isinstance(module, MessagePassing):
-            module.__explain__ = False
-            module._explain = False
+            if pyg_v == "2.4.0":
+                module._fixed_explain = False
+            else:
+                module.__explain__ = False
+                module._explain = False
             module.__edge_mask__ = None
             module._edge_mask = None
