@@ -143,6 +143,14 @@ class CIGAGIN(GNNBasic):
             data.ori_edge_index = data.edge_index.detach().clone()
             data.edge_index, edge_score = to_undirected(data.edge_index, edge_score.squeeze(-1), reduce="mean")
 
+            if not data.edge_attr is None:
+                edge_index_sorted, edge_attr_sorted = coalesce(data.ori_edge_index, data.edge_attr, is_sorted=False)                    
+                assert torch.all(
+                    torch.tensor([edge_index_sorted.T[i][0] == data.edge_index.T[i][0] and edge_index_sorted.T[i][1] == data.edge_index.T[i][1] 
+                                for i in range(len(data.edge_index.T))])
+                )
+                data.edge_attr = edge_attr_sorted   
+
         if kwargs.get('return_attn', False):
             self.attn_distrib = self.att_net.gnn_node.encoder.get_attn_distrib()
             self.att_net.gnn_node.encoder.reset_attn_distrib()
@@ -269,6 +277,14 @@ class GAEAttNet(nn.Module):
         if self.config.average_edge_attn != "default":
             data.ori_edge_index = data.edge_index.detach().clone() #for backup and debug
             data.edge_index, edge_score = to_undirected(data.edge_index, edge_score.squeeze(-1), reduce="mean")
+
+            if not data.edge_attr is None:
+                edge_index_sorted, edge_attr_sorted = coalesce(data.ori_edge_index, data.edge_attr, is_sorted=False)                    
+                assert torch.all(
+                    torch.tensor([edge_index_sorted.T[i][0] == data.edge_index.T[i][0] and edge_index_sorted.T[i][1] == data.edge_index.T[i][1] 
+                                for i in range(len(data.edge_index.T))])
+                )
+                data.edge_attr = edge_attr_sorted   
 
         if data.edge_index.shape[1] != 0:
             (causal_edge_index, causal_edge_attr, causal_edge_weight), \
