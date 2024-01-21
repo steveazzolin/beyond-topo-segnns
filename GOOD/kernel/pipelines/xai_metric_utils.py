@@ -187,24 +187,39 @@ def random_attach_no_target_frontier(S, T):
         ret.add_edge(v, str(n), origin="added")
     return ret
 
-def expl_acc(expl, data):
+def expl_acc(expl, data, expl_weight=None):
     edge_gt = {(u.item(),v.item()): data.edge_gt[i] for i, (u,v) in enumerate(data.edge_index.T)} 
     edge_expl = set([(u.item(),v.item()) for u,v in expl.T])
-
     
-    tp = int(sum([edge_gt[(u.item(),v.item())] for u,v in expl.T]))
-    fp = int(sum([not edge_gt[(u.item(),v.item())] for u,v in expl.T]))
-    tn = int(sum([not (u.item(),v.item()) in edge_expl and not edge_gt[(u.item(),v.item())] for u,v in data.edge_index.T]))
-    fn = int(sum([not (u.item(),v.item()) in edge_expl and edge_gt[(u.item(),v.item())] for u,v in data.edge_index.T]))
+    # tp = int(sum([edge_gt[(u.item(),v.item())] for u,v in expl.T]))
+    # fp = int(sum([not edge_gt[(u.item(),v.item())] for u,v in expl.T]))
+    # tn = int(sum([not (u.item(),v.item()) in edge_expl and not edge_gt[(u.item(),v.item())] for u,v in data.edge_index.T]))
+    # fn = int(sum([not (u.item(),v.item()) in edge_expl and edge_gt[(u.item(),v.item())] for u,v in data.edge_index.T]))
     
-    acc = (tp + tn) / (tp + fp + tn + fn)
-    f1 = 2*tp / (2*tp + fp + fn)
+    # acc = (tp + tn) / (tp + fp + tn + fn)
+    # f1 = 2*tp / (2*tp + fp + fn)
     # assert (tp + fp + tn + fn) == len(edge_gt)
-    return round(f1, 3)
 
-def sample_edges(G, where_to_sample, alpha):
+    wiou, den = 0, 0
+    for i, (u,v) in enumerate((data.edge_index.T)):
+        u, v = u.item(), v.item()
+        if edge_gt[(u,v)]:
+            if (u,v) in edge_expl:
+                # print((u,v), " GT & Expl")
+                wiou += expl_weight[i].item()
+                den += expl_weight[i].item()
+            else:
+                # print((u,v), " GT")
+                den += expl_weight[i].item()
+        elif (u,v) in edge_expl:
+            # print((u,v), " Expl")
+            den += expl_weight[i].item()
+    wiou = wiou / den
+    return round(wiou, 3)
+
+def sample_edges(G_ori, where_to_sample, alpha):
     # keep each spu/inv edge with probability alpha
-    G = G.copy()
+    G = G_ori.copy()
     edges = set()
     for (u,v), val in nx.get_edge_attributes(G, 'origin').items():
         if val == where_to_sample:
@@ -214,7 +229,7 @@ def sample_edges(G, where_to_sample, alpha):
     # if where_to_sample == "inv":
     edges = list(edges)
     shuffle(edges)
-    edge_remove = edges[:int(len(G) * (1-alpha))] #remove the 1-alpha% of the undirected edges
+    edge_remove = edges[:int(len(G.edges()) * (1-alpha))] #remove the 1-alpha% of the undirected edges
     G.remove_edges_from(edge_remove)
     G.remove_edges_from([(v,u) for v,u in G.edges() if not G.has_edge(u,v)])
     G.remove_nodes_from(list(nx.isolates(G)))
