@@ -1092,9 +1092,10 @@ class Pipeline:
 
         
         intervent_bank = None
-        features_bank = self.loader[split].dataset.x.unique(dim=0).cpu()
-        print(f"Shape of feature bank = {features_bank.shape}")
+        features_bank = None
         if intervention_distrib == "bank":
+            features_bank = self.loader[split].dataset.x.unique(dim=0).cpu()
+            print(f"Shape of feature bank = {features_bank.shape}")
             print(f"Creating interventional bank with {self.config.expval_budget} elements")
             intervent_bank = []
             max_g_size = max([d.num_nodes for d in self.loader[split].dataset])
