@@ -137,6 +137,7 @@ class LECIGIN(GNNBasic):
             edge_att = self.lift_node_att_to_edge_att(att, data.edge_index)
 
         if kwargs.get('weight', None):
+            assert False
             if kwargs.get('is_ratio'):
                 (causal_edge_index, causal_edge_attr, causal_edge_weight), _ = split_graph(data, edge_att, kwargs.get('weight'))
                 causal_x, causal_edge_index, causal_batch, _ = relabel(data.x, causal_edge_index, data.batch)
