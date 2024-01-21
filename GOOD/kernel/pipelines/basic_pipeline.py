@@ -1074,7 +1074,7 @@ class Pipeline:
         assert metric in ["suff", "fid", "nec"]
 
         do_feature_intervention = False
-        if "CIGA" in self.config.model.model_name and "motif" in self.config.dataset.dataset_name.lower() or "twitter" in self.config.dataset.dataset_name.lower():
+        if "CIGA" in self.config.model.model_name and ("motif" in self.config.dataset.dataset_name.lower() or "twitter" in self.config.dataset.dataset_name.lower()):
             is_ratio = True
             weights = [0.6]
             assert weights[0] == self.model.att_net.ratio
