@@ -767,7 +767,12 @@ class Pipeline:
     def get_subragphs_ratio(self, graphs, ratio, edge_scores):
         spu_subgraphs, causal_subgraphs = [], []
         expl_accs = []
-        spu_edge_weights = []
+
+        if "CIGA" in self.config.model.model_name:
+            norm_edge_scores = [e.sigmoid() for e in edge_scores]
+        else:
+            norm_edge_scores = edge_scores
+
         # Select relevant subgraph
         for i in range(len(graphs)):
             (causal_edge_index, causal_edge_attr, causal_edge_weight), \
@@ -778,8 +783,7 @@ class Pipeline:
                 )
             causal_subgraphs.append(causal_edge_index.detach().cpu())
             spu_subgraphs.append(spu_edge_index.detach().cpu())
-            expl_accs.append(xai_utils.expl_acc(causal_subgraphs[-1], graphs[i]) if hasattr(graphs[i], "edge_gt") else np.nan)
-            spu_edge_weights.extend(spu_edge_weight.detach().cpu().numpy().tolist())
+            expl_accs.append(xai_utils.expl_acc(causal_subgraphs[-1], graphs[i], norm_edge_scores[i]) if hasattr(graphs[i], "edge_gt") else np.nan)
         return causal_subgraphs, spu_subgraphs, expl_accs
     
     @torch.no_grad()
@@ -1067,20 +1071,15 @@ class Pipeline:
     @torch.no_grad()
     def compute_metric_ratio(self, split: str, metric: str, intervention_distrib:str = "model_dependent", debug=False):
         assert metric in ["suff", "fid", "nec"]
-        if "LECI" in self.config.model.model_name and "motif" in self.config.dataset.dataset_name.lower():
-            do_feature_intervention = False
-            # is_ratio = False   
-            # weights = [0., 0.01, 0.3, 0.5, 0.8, 1.0]
+
+        do_feature_intervention = False
+        if "CIGA" in self.config.model.model_name and "motif" in self.config.dataset.dataset_name.lower() or "twitter" in self.config.dataset.dataset_name.lower():
             is_ratio = True
-            weights = [0.3, 0.6, 0.9, 1.0]
-        elif "LECI" in self.config.model.model_name and "twitter" in self.config.dataset.dataset_name.lower():
-            do_feature_intervention = False
-            is_ratio = True
-            weights = [0.3, 0.6, 0.9, 1.0]
+            weights = [0.6]
+            assert weights[0] == self.model.att_net.ratio
         else:
-            do_feature_intervention = False
             is_ratio = True
-            weights = [0.6] #CIGA
+            weights = [0.3, 0.6, 0.9, 1.0]
 
         print(f"\n\n")
         print("-"*50)
@@ -1158,7 +1157,7 @@ class Pipeline:
             empty_idx = set()
 
             if is_ratio:
-                causal_subgraphs, spu_subgraphs, expl_accs = self.get_subragphs_ratio(graphs, ratio, edge_scores)
+                causal_subgraphs, spu_subgraphs, expl_accs = self.get_subragphs_ratio(graphs, ratio, edge_scores)  
             else:
                 causal_subgraphs, spu_subgraphs, expl_accs, causal_idxs, spu_idxs = self.get_subragphs_weight(graphs, ratio, edge_scores)
 
@@ -1186,9 +1185,10 @@ class Pipeline:
                     elif metric == "suff" and intervention_distrib == "model_dependent" and i < 2:
                         print("Empty graphs for SUFF. Rolling-back to FID")
 
+                    # pos = xai_utils.draw(self.config, G, subfolder="plots_of_suff_scores", name=f"graph_{i}")                
                     for m in range(self.config.expval_budget):                        
                         G_c = self.get_intervened_graph(metric, intervention_distrib, G, idx=(i,m,-1), bank=intervent_bank)
-                        # xai_utils.draw(self.config, G_c, subfolder="plots_of_suff_scores", name=f"nec_{i}_{m}")                
+                        # xai_utils.draw(self.config, G_c, subfolder="plots_of_suff_scores", name=f"nec_{i}_{m}", pos=pos)                
                         belonging.append(i)
                         eval_samples.append(G_c)
                 elif metric == "suff":
@@ -1236,7 +1236,7 @@ class Pipeline:
             
             # Compute new prediction and evaluate KL
             loader = DataLoader(int_dataset, batch_size=1, shuffle=False)
-            preds_eval, belonging = self.evaluate_graphs(loader, log=False if metric == "fid" else True, weight=ratio, is_ratio=is_ratio)
+            preds_eval, belonging = self.evaluate_graphs(loader, log=False if metric == "fid" else True) # weight=ratio, is_ratio=is_ratio
             preds_ori = preds_eval[reference]
             
             mask = torch.ones(preds_eval.shape[0], dtype=bool)
@@ -1340,18 +1340,13 @@ class Pipeline:
             print(self.loader[split].dataset.data)
             print(self.loader[split].dataset.y.unique(return_counts=True))
 
-        if "LECI" in self.config.model.model_name and "motif" in self.config.dataset.dataset_name.lower():
-            # is_ratio = False   
-            # weights = [0., 0.01, 0.3, 0.5, 0.8, 1.0]
-            is_ratio = True
-            weights = [0.3, 0.6, 0.9, 1.0]
-        elif "LECI" in self.config.model.model_name and "twitter" in self.config.dataset.dataset_name.lower():
-            is_ratio = True
-            weights = [1.0]
-        else:
+        if "CIGA" in self.config.model.model_name and "motif" in self.config.dataset.dataset_name.lower() or "twitter" in self.config.dataset.dataset_name.lower():
             is_ratio = True
             weights = [0.6]
             assert weights[0] == self.model.att_net.ratio
+        else:
+            is_ratio = True
+            weights = [0.3, 0.6, 0.9, 1.0]
 
         reset_random_seed(self.config)
         self.model.to("cpu")
@@ -1394,7 +1389,7 @@ class Pipeline:
             graphs.append(data.detach().cpu())
         labels = torch.tensor(labels)
 
-        # self.plot_attn_distrib([[]], edge_scores)
+        self.plot_attn_distrib([[]], edge_scores)
 
         acc_scores = []
         for weight in weights:
@@ -1432,7 +1427,7 @@ class Pipeline:
                 acc = 0.
             else:
                 loader = DataLoader(CustomDataset("", eval_samples, torch.arange(len(eval_samples))), batch_size=1, shuffle=False)
-                preds, _ = self.evaluate_graphs(loader, log=True, weight=None if givenR else weight, is_ratio=is_ratio)
+                preds, _ = self.evaluate_graphs(loader, log=True) #, weight=None if givenR else weight, is_ratio=is_ratio
                 acc = (torch.tensor(labels_ori) == preds.argmax(-1)).sum() / (preds.shape[0] + empty_graphs)
             acc_scores.append(acc)
             print(f"\nModel Acc of binarized graphs for weight={weight} = ", acc)
