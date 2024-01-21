@@ -20,6 +20,7 @@ average_edge_attn: default # Added by Steve
 save_metrics: False # Added by Steve
 intervention_distrib: model_dependent # Added by Steve
 acc_givenR: False # Added by Steve
+mask: False # Added by Steve
 train:
   weight_decay: 0.
   save_gap: 10

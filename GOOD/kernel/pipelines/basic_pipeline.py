@@ -824,7 +824,8 @@ class Pipeline:
         if metric == "fid" or (metric == "suff" and intervention_distrib == "model_dependent" and causal is None):
             return xai_utils.sample_edges(graph, "spu", self.config.fidelity_alpha_2)
         elif metric == "nec":
-            return xai_utils.sample_edges(graph, "inv", self.config.nec_alpha_1)
+            alpha = max(self.config.nec_alpha_1 - 0.1 * (j // 3), 0.1)
+            return xai_utils.sample_edges(graph, "inv", alpha)
         elif metric == "suff" and intervention_distrib == "bank":
             G = graph.copy()
             I = bank[j].copy()
@@ -1237,7 +1238,11 @@ class Pipeline:
             
             # Compute new prediction and evaluate KL
             loader = DataLoader(int_dataset, batch_size=1, shuffle=False)
-            preds_eval, belonging = self.evaluate_graphs(loader, log=False if metric == "fid" else True) # weight=ratio, is_ratio=is_ratio
+            if self.config.mask:
+                print("Computing with masking")
+                preds_eval, belonging = self.evaluate_graphs(loader, log=False if metric == "fid" else True, weight=ratio, is_ratio=is_ratio)
+            else:
+                preds_eval, belonging = self.evaluate_graphs(loader, log=False if metric == "fid" else True)
             preds_ori = preds_eval[reference]
             
             mask = torch.ones(preds_eval.shape[0], dtype=bool)
@@ -1341,7 +1346,7 @@ class Pipeline:
             print(self.loader[split].dataset.data)
             print(self.loader[split].dataset.y.unique(return_counts=True))
 
-        if "CIGA" in self.config.model.model_name and "motif" in self.config.dataset.dataset_name.lower() or "twitter" in self.config.dataset.dataset_name.lower():
+        if "CIGA" in self.config.model.model_name and ("motif" in self.config.dataset.dataset_name.lower() or "twitter" in self.config.dataset.dataset_name.lower()):
             is_ratio = True
             weights = [0.6]
             assert weights[0] == self.model.att_net.ratio
@@ -1428,7 +1433,11 @@ class Pipeline:
                 acc = 0.
             else:
                 loader = DataLoader(CustomDataset("", eval_samples, torch.arange(len(eval_samples))), batch_size=1, shuffle=False)
-                preds, _ = self.evaluate_graphs(loader, log=True) #, weight=None if givenR else weight, is_ratio=is_ratio
+                if self.config.mask:
+                    print("Computing with masking")
+                    preds, _ = self.evaluate_graphs(loader, log=True, weight=None if givenR else weight, is_ratio=is_ratio)
+                else:                    
+                    preds, _ = self.evaluate_graphs(loader, log=True)
                 acc = (torch.tensor(labels_ori) == preds.argmax(-1)).sum() / (preds.shape[0] + empty_graphs)
             acc_scores.append(acc)
             print(f"\nModel Acc of binarized graphs for weight={weight} = ", acc)

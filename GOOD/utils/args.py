@@ -118,6 +118,7 @@ class CommonArgs(Tap):
     save_metrics: bool = False # Added by Steve
     intervention_distrib:str = "model_dependent" # Added by Steve
     acc_givenR: bool = False # Added by Steve
+    mask: bool = False  # Added by Steve
     
     pytest: bool = None
     pipeline: str = None  #: Training/test controller.
