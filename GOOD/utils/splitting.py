@@ -44,3 +44,17 @@ def sparse_topk(src: torch.Tensor, index: torch.Tensor, ratio: float, dim=0, des
     topk_perm = perm[mask] #topk edges selected
     exc_perm = perm[~mask]
     return topk_perm, exc_perm, rank, perm, mask
+
+def relabel(x, edge_index, batch, pos=None):
+    num_nodes = x.size(0)
+    sub_nodes = torch.unique(edge_index)
+    x = x[sub_nodes]
+    batch = batch[sub_nodes]
+    row, col = edge_index
+    # remapping the nodes in the explanatory subgraph to new ids.
+    node_idx = row.new_full((num_nodes,), -1)
+    node_idx[sub_nodes] = torch.arange(sub_nodes.size(0), device=row.device)
+    edge_index = node_idx[edge_index]
+    if pos is not None:
+        pos = pos[sub_nodes]
+    return x, edge_index, batch, pos

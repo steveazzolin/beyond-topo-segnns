@@ -18,6 +18,7 @@ from .Classifiers import Classifier
 from .GINs import GINFeatExtractor
 from .GINvirtualnode import vGINFeatExtractor
 import copy
+from GOOD.utils.splitting import split_graph, relabel
 
 @register.model_register
 class GSATGIN(GNNBasic):
@@ -80,6 +81,22 @@ class GSATGIN(GNNBasic):
                 edge_att = att
         else:
             edge_att = self.lift_node_att_to_edge_att(att, data.edge_index)
+
+        if kwargs.get('weight', None):
+            if kwargs.get('is_ratio'):
+                (causal_edge_index, causal_edge_attr, causal_edge_weight), _ = split_graph(data, edge_att, kwargs.get('weight'))
+                causal_x, causal_edge_index, causal_batch, _ = relabel(data.x, causal_edge_index, data.batch)
+                data.x = causal_x
+                data.batch = causal_batch
+                data.edge_index = causal_edge_index
+                if not data.edge_attr is None:
+                    data.edge_attr = causal_edge_attr
+                edge_att = causal_edge_weight                
+            else:
+                data.edge_index = (data.edge_index.T[edge_att >= kwargs.get('weight')]).T
+                if not data.edge_attr is None:
+                    data.edge_attr = data.edge_attr[edge_att >= kwargs.get('weight')]
+                edge_att = edge_att[edge_att >= kwargs.get('weight')]
 
         set_masks(edge_att, self)
         logits = self.classifier(self.gnn(*args, **kwargs))

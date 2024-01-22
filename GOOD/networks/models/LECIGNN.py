@@ -22,7 +22,7 @@ from .Pooling import GlobalMeanPool
 from munch import munchify
 from .MolEncoders import AtomEncoder, BondEncoder
 from GOOD.utils.fast_pytorch_kmeans import KMeans
-from GOOD.utils.splitting import split_graph
+from GOOD.utils.splitting import split_graph, relabel
 
 import copy
 
@@ -137,7 +137,6 @@ class LECIGIN(GNNBasic):
             edge_att = self.lift_node_att_to_edge_att(att, data.edge_index)
 
         if kwargs.get('weight', None):
-            assert False
             if kwargs.get('is_ratio'):
                 (causal_edge_index, causal_edge_attr, causal_edge_weight), _ = split_graph(data, edge_att, kwargs.get('weight'))
                 causal_x, causal_edge_index, causal_batch, _ = relabel(data.x, causal_edge_index, data.batch)
@@ -433,17 +432,3 @@ def clear_masks(model: nn.Module):
                 module._explain = False
             module.__edge_mask__ = None
             module._edge_mask = None
-
-def relabel(x, edge_index, batch, pos=None):
-    num_nodes = x.size(0)
-    sub_nodes = torch.unique(edge_index)
-    x = x[sub_nodes]
-    batch = batch[sub_nodes]
-    row, col = edge_index
-    # remapping the nodes in the explanatory subgraph to new ids.
-    node_idx = row.new_full((num_nodes,), -1)
-    node_idx[sub_nodes] = torch.arange(sub_nodes.size(0), device=row.device)
-    edge_index = node_idx[edge_index]
-    if pos is not None:
-        pos = pos[sub_nodes]
-    return x, edge_index, batch, pos
