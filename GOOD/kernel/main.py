@@ -86,8 +86,9 @@ def evaluate_acc(args):
             test_scores.append((sa['score'], test_score))
             print(sa)
 
-            acc_id, _ = pipeline.compute_accuracy_binarizing("id_val", givenR=config.acc_givenR)
-            acc_id, _ = pipeline.compute_accuracy_binarizing("val", givenR=config.acc_givenR)
+            if not config.acc_givenR:
+                acc_id, _ = pipeline.compute_accuracy_binarizing("id_val", givenR=config.acc_givenR)
+                acc_id, _ = pipeline.compute_accuracy_binarizing("val", givenR=config.acc_givenR)
             acc_ood, _ = pipeline.compute_accuracy_binarizing("test", givenR=config.acc_givenR)
             # test_acc_ood.append((acc_ood, 0.))
         print()
