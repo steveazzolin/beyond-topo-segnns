@@ -543,7 +543,7 @@ class Pipeline:
             for i in range(len(attn_distrib)):
                 arrange_attn_distrib[l].extend(attn_distrib[i][l])
         
-        path = f'GOOD/kernel/pipelines/plots/attn_distrib/{self.config.load_split}_{self.config.dataset.dataset_name}_{self.config.util_model_dirname}_{self.config.random_seed}/'
+        path = f'GOOD/kernel/pipelines/plots/attn_distrib/{self.config.load_split}_{self.config.dataset.dataset_name}_{self.config.dataset.domain}_{self.config.util_model_dirname}_{self.config.random_seed}/'
         if not os.path.exists(path):
             os.makedirs(path)
         
@@ -558,7 +558,7 @@ class Pipeline:
             self.plot_hist_score(scores, density=False, log=True, name="edge_scores.png")
 
     def plot_hist_score(self, data, density=False, log=False, name="noname.png"):        
-        path = f'GOOD/kernel/pipelines/plots/attn_distrib/{self.config.load_split}_{self.config.dataset.dataset_name}_{self.config.util_model_dirname}_{self.config.random_seed}/'            
+        path = f'GOOD/kernel/pipelines/plots/attn_distrib/{self.config.load_split}_{self.config.dataset.dataset_name}_{self.config.dataset.domain}_{self.config.util_model_dirname}_{self.config.random_seed}/'            
         plt.hist(data, density=density, bins=100, log=log)
         plt.xlim(0.0,1.1)
         plt.title(f"distrib. edge_scores (min={round(min(data), 2)}, max={round(max(data), 2)})")
