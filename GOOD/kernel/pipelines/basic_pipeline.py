@@ -1095,7 +1095,10 @@ class Pipeline:
         intervent_bank = None
         features_bank = None
         if intervention_distrib == "bank":
-            features_bank = self.loader[split].dataset.x.unique(dim=0).cpu()
+            if torch_geometric.__version__ == "2.4.0": 
+                features_bank = self.loader[split].dataset.x.unique(dim=0).cpu()
+            else:
+                features_bank = self.loader[split].dataset.data.x.unique(dim=0).cpu()
             print(f"Shape of feature bank = {features_bank.shape}")
             print(f"Creating interventional bank with {self.config.expval_budget} elements")
             intervent_bank = []
@@ -1103,7 +1106,10 @@ class Pipeline:
             for i in range(self.config.expval_budget):
                 I = nx.DiGraph(nx.barabasi_albert_graph(random.randint(5, max(int(max_g_size/2), 8)), 1), seed=42) #BA1 -> nx.barabasi_albert_graph(randint(5, max(len(G), 8)), randint(1, 3))
                 nx.set_edge_attributes(I, name="origin", values="BA")
-                nx.set_node_attributes(I, name="ori_x", values=features_bank[random.randint(0, features_bank.shape[0]-1)].tolist())
+                if "motif" in self.config.dataset.dataset_name.lower():
+                    nx.set_node_attributes(I, name="ori_x", values=1.0)
+                else:
+                    nx.set_node_attributes(I, name="ori_x", values=features_bank[random.randint(0, features_bank.shape[0]-1)].tolist())
                 intervent_bank.append(I)  
         
         if self.config.numsamples_budget == "all" or self.config.numsamples_budget >= len(self.loader[split].dataset):
