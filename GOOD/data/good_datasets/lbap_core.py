@@ -16,7 +16,7 @@ from tqdm import tqdm
 class DummyDataset(InMemoryDataset):
 
     def __init__(self, root: str, domain: str, shift: str = 'no_shift', subset: str = 'train', transform=None,
-                 pre_transform=None, generate: bool = False):
+                 pre_transform=None, generate: bool = False, debias=False):
         super().__init__(root, transform, pre_transform)
 
 

@@ -75,7 +75,7 @@ class GOODHIV(InMemoryDataset):
     """
 
     def __init__(self, root: str, domain: str, shift: str = 'no_shift', subset: str = 'train', transform=None,
-                 pre_transform=None, generate: bool = False):
+                 pre_transform=None, generate: bool = False, debias=False):
 
         self.name = self.__class__.__name__
         self.mol_name = 'HIV'

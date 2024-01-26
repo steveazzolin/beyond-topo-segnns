@@ -11,12 +11,14 @@ import gdown
 import torch
 from munch import Munch
 from torch_geometric.data import InMemoryDataset, extract_zip
-from torch_geometric.utils import from_networkx
+from torch_geometric.utils import from_networkx, shuffle_node
+from torch_geometric.data.separate import separate
 from tqdm import tqdm
 
 from GOOD import register
 from GOOD.utils.synthetic_data.BA3_loc import *
 from GOOD.utils.synthetic_data import synthetic_structsim
+from GOOD.data.good_datasets.shuffle_nodes import ShuffleGraph
 
 
 @register.dataset_register
@@ -35,7 +37,7 @@ class GOODMotif(InMemoryDataset):
     """
 
     def __init__(self, root: str, domain: str, shift: str = 'no_shift', subset: str = 'train', transform=None,
-                 pre_transform=None, generate: bool = False):
+                 pre_transform=None, generate: bool = False, debias=False):
 
         self.name = self.__class__.__name__
         self.domain = domain
@@ -72,6 +74,32 @@ class GOODMotif(InMemoryDataset):
             subset_pt += 4
 
         self.data, self.slices = torch.load(self.processed_paths[subset_pt])
+
+        if debias:
+            print(f"#D#Permuting node indices to remove explanation bias for {subset}")
+
+            sa = []
+            for i in range(self.len()):
+                data = self.get(i)
+                data.x, perm = shuffle_node(data.x, data.batch)
+                dict_perm = {p.item(): j for j, p in enumerate(perm)}
+                data.ori_edge_index = data.edge_index.clone()
+                data.edge_index = torch.tensor([ [dict_perm[x.item()], dict_perm[y.item()]] for x,y in data.edge_index.T ]).T
+                data.node_perm = perm
+                sa.append(data)
+
+            self.data, self.slices = self.collate(sa)
+
+            # for i in range(self.len()):
+            #     data = self.get(i)
+            #     print(data.ori_edge_index)
+            #     print(data.edge_index)
+            #     print(data.node_perm)
+
+            #     dict_perm = {j: p.item() for j, p in enumerate(data.node_perm)}
+            #     print(torch.tensor([ [dict_perm[x.item()], dict_perm[y.item()]] for x,y in data.edge_index.T ]).T)
+            #     exit()
+
 
     @property
     def raw_dir(self):
@@ -368,7 +396,6 @@ class GOODMotif(InMemoryDataset):
         return all_env_list
 
     def process(self):
-
         no_shift_list = self.get_no_shift_list(self.num_data)
         print("#IN#No shift done!")
         if self.domain == 'basis':
@@ -390,7 +417,7 @@ class GOODMotif(InMemoryDataset):
             torch.save((data, slices), self.processed_paths[i])
 
     @staticmethod
-    def load(dataset_root: str, domain: str, shift: str = 'no_shift', generate: bool = False):
+    def load(dataset_root: str, domain: str, shift: str = 'no_shift', generate: bool = False, debias: bool =False):
         r"""
         A staticmethod for dataset loading. This method instantiates dataset class, constructing train, id_val, id_test,
         ood_val (val), and ood_test (test) splits. Besides, it collects several dataset meta information for further
@@ -410,16 +437,21 @@ class GOODMotif(InMemoryDataset):
         meta_info.dataset_type = 'syn'
         meta_info.model_level = 'graph'
 
+        if debias:
+            shuffle_trans = ShuffleGraph()
+        else:
+            shuffle_trans = None
+
         train_dataset = GOODMotif(root=dataset_root,
-                                  domain=domain, shift=shift, subset='train', generate=generate)
+                                  domain=domain, shift=shift, subset='train', generate=generate, debias=debias)
         id_val_dataset = GOODMotif(root=dataset_root,
-                                   domain=domain, shift=shift, subset='id_val', generate=generate) if shift != 'no_shift' else None
+                                   domain=domain, shift=shift, subset='id_val', generate=generate, debias=debias) if shift != 'no_shift' else None
         id_test_dataset = GOODMotif(root=dataset_root,
-                                    domain=domain, shift=shift, subset='id_test', generate=generate) if shift != 'no_shift' else None
+                                    domain=domain, shift=shift, subset='id_test', generate=generate, debias=debias) if shift != 'no_shift' else None
         val_dataset = GOODMotif(root=dataset_root,
-                                domain=domain, shift=shift, subset='val', generate=generate)
+                                domain=domain, shift=shift, subset='val', generate=generate, debias=debias)
         test_dataset = GOODMotif(root=dataset_root,
-                                 domain=domain, shift=shift, subset='test', generate=generate)
+                                 domain=domain, shift=shift, subset='test', generate=generate, debias=debias)
 
         meta_info.dim_node = train_dataset.num_node_features
         meta_info.dim_edge = train_dataset.num_edge_features

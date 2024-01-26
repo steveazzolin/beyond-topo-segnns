@@ -48,7 +48,8 @@ def load_dataset(name: str, config: Union[CommonArgs, Munch]) -> dir:
         dataset, meta_info = register.datasets[name].load(dataset_root=config.dataset.dataset_root,
                                                           domain=config.dataset.domain,
                                                           shift=config.dataset.shift_type,
-                                                          generate=config.dataset.generate)
+                                                          generate=config.dataset.generate,
+                                                          debias=config.debias)
     except KeyError as e:
         print('Dataset not found.')
         raise e
