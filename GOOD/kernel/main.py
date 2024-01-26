@@ -136,10 +136,10 @@ def evaluate_metric(args):
 
             test_score, test_loss = pipeline.load_task(load_param=True, load_split=load_split)
             
-            for e in ["train", "id_val", "val", "test"]:
-                sa = pipeline.evaluate(e, compute_suff=False)
-                print(e, sa)
-            exit()
+            # for e in ["train", "id_val", "val", "test"]:
+            #     sa = pipeline.evaluate(e, compute_suff=False)
+            #     print(e, sa)
+            # exit()
 
             for metric in args.metrics.split("/"):
                 print(f"\n\nEvaluating {metric.upper()} for seed {seed} with load_split {load_split}\n")
@@ -147,9 +147,9 @@ def evaluate_metric(args):
                 if metric == "acc":
                     assert not (config.acc_givenR and config.mask)
 
-                    # if not config.acc_givenR:
-                    #     acc_id, _ = pipeline.compute_accuracy_binarizing("id_val", givenR=config.acc_givenR)
-                    #     acc_id, _ = pipeline.compute_accuracy_binarizing("val", givenR=config.acc_givenR)
+                    if not config.acc_givenR:
+                        acc_id, _ = pipeline.compute_accuracy_binarizing("id_val", givenR=config.acc_givenR)
+                        acc_id, _ = pipeline.compute_accuracy_binarizing("val", givenR=config.acc_givenR)
                     acc_ood, _ = pipeline.compute_accuracy_binarizing("test", givenR=config.acc_givenR)
                     continue
 

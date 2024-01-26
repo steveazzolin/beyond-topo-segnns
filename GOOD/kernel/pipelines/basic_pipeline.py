@@ -35,7 +35,7 @@ from GOOD.utils.initial import reset_random_seed
 import GOOD.kernel.pipelines.xai_metric_utils as xai_utils
 from GOOD.utils.splitting import split_graph, sparse_sort
 
-pbar_setting["disable"] = False
+pbar_setting["disable"] = True
 
 class CustomDataset(InMemoryDataset):
     def __init__(self, root, samples, belonging, transform=None, pre_transform=None, pre_filter=None):
@@ -1334,7 +1334,7 @@ class Pipeline:
         # self.loader[split].dataset[0].edge_index[:, 0] = self.loader[split].dataset[0].edge_index[:, -1]
         # self.loader[split].dataset[0].edge_index[:, -1] = swap
 
-        loader = DataLoader(self.loader[split].dataset[:], batch_size=256, shuffle=False, num_workers=2)
+        loader = DataLoader(self.loader[split].dataset, batch_size=256, shuffle=False, num_workers=2)
         pbar = tqdm(loader, desc=f'Extracting edge_scores {split.capitalize()} batched', total=len(loader), **pbar_setting)
         graphs = []
         edge_scores = []
@@ -1392,23 +1392,25 @@ class Pipeline:
             pbar = tqdm(range(self.config.numsamples_budget), desc=f'Int. distrib', total=self.config.numsamples_budget, **pbar_setting)
             for i in pbar:                
                 G = graphs_nx[i].copy() #to_networkx(graphs[i], node_attrs=["ori_x"])
-                xai_utils.mark_edges(G, causal_subgraphs[i], spu_subgraphs[i])
-                G_filt = xai_utils.remove_from_graph(G, "spu")
-                # xai_utils.draw(self.config, G, subfolder="plots_of_suff_scores", name=f"graph_{i}_topk")
+                G_filt = G
 
-                if givenR and len(G_filt) == 0:
-                    empty_graphs += 1
-                    continue
+                if givenR: # for P(Y|R)
+                    xai_utils.mark_edges(G, causal_subgraphs[i], spu_subgraphs[i])
+                    G_filt = xai_utils.remove_from_graph(G, "spu")
+                    # xai_utils.draw(self.config, G, subfolder="plots_of_suff_scores", name=f"graph_{i}_topk")
+                    if len(G_filt) == 0:
+                        empty_graphs += 1
+                        continue
 
-                eval_samples.append(G_filt if givenR else G) #G_filt for P(Y|R), G for P(Y|G)
+                eval_samples.append(G_filt)
                 labels_ori.append(labels[i])
 
             # Compute accuracy
             if len(eval_samples) == 0:
                 acc = 0.
             else:
-                loader = DataLoader(CustomDataset("", eval_samples, torch.arange(len(eval_samples))), batch_size=128, shuffle=False)
-                if self.config.mask:
+                loader = DataLoader(CustomDataset("", eval_samples, torch.arange(len(eval_samples))), batch_size=256, shuffle=False)
+                if self.config.mask and weight <= 1.:
                     print("Computing with masking")
                     preds, _ = self.evaluate_graphs(loader, log=True, weight=None if givenR else weight, is_ratio=is_ratio)
                 else:                    
@@ -1479,6 +1481,7 @@ class Pipeline:
         stat['score'] = eval_score(pred_all, target_all, self.config)
         # --------------- Metric SUFF  --------------------
         if compute_suff:
+            assert False
             suff, suff_devstd = 0, 0
             fid, fid_devstd = 0, 0
             suff, suff_devstd = self.compute_sufficiency("id_val")            
