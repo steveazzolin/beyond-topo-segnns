@@ -1396,7 +1396,7 @@ class Pipeline:
                 G_filt = xai_utils.remove_from_graph(G, "spu")
                 # xai_utils.draw(self.config, G, subfolder="plots_of_suff_scores", name=f"graph_{i}_topk")
 
-                if len(G_filt) == 0:
+                if givenR and len(G_filt) == 0:
                     empty_graphs += 1
                     continue
 
