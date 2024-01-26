@@ -44,6 +44,14 @@ def initialize_model_dataset(config: Union[CommonArgs, Munch]) -> Tuple[torch.nn
     print('#D#', dataset['train'][0] if type(dataset) is dict else dataset[0])
     print(dataset["id_val"].data)
 
+    # print(dataset["test"].data)
+    # print(dataset["test"][0].edge_index)
+    # print(dataset["test"][0].node_perm)
+    # dict_perm = {j: p.item() for j, p in enumerate(dataset["test"][0].node_perm)}
+    # tmp = torch.tensor([ [dict_perm[x.item()], dict_perm[y.item()]] for x,y in dataset["test"][0].edge_index.T ]).T
+    # print(tmp)
+    # print(dataset["test"][0].ori_edge_index)
+
     loader = create_dataloader(dataset, config)
 
     # Load model
@@ -73,7 +81,7 @@ def evaluate_acc(args):
             config["mitigation_sampling"] = args.mitigation_sampling
             config["task"] = "test"
             config["load_split"] = load_split
-            config["device"] = "cpu"
+            config["device"] = "cuda:0"
             if l == 0 and i == 0:
                 load_logger(config)
             
@@ -100,6 +108,71 @@ def evaluate_acc(args):
         print()
 
 
+def evaluate_metric(args):
+    load_splits = ["id"]
+    for l, load_split in enumerate(load_splits):
+        print("\n\n" + "-"*50)
+        print(f"USING LOAD SPLIT = {load_split}\n\n")
+
+        test_scores = []
+        test_suff_id, test_suff_ood = [], []
+        for i, seed in enumerate(args.seeds.split("/")):
+            seed = int(seed)        
+            args.random_seed = seed
+            args.exp_round = seed
+            
+            config = config_summoner(args)
+            config["mitigation_backbone"] = args.mitigation_backbone
+            config["mitigation_sampling"] = args.mitigation_sampling
+            config["task"] = "test"
+            config["load_split"] = load_split
+            config["device"] = "cuda:0"
+            if l == 0 and i == 0:
+                load_logger(config)
+            
+            model, loader = initialize_model_dataset(config)
+            ood_algorithm = load_ood_alg(config.ood.ood_alg, config)
+            pipeline = load_pipeline(config.pipeline, config.task, model, loader, ood_algorithm, config)
+
+            test_score, test_loss = pipeline.load_task(load_param=True, load_split=load_split)
+            
+            for e in ["train", "id_val", "val", "test"]:
+                sa = pipeline.evaluate(e, compute_suff=False)
+                print(e, sa)
+            exit()
+
+            for metric in args.metrics.split("/"):
+                print(f"\n\nEvaluating {metric.upper()} for seed {seed} with load_split {load_split}\n")
+
+                if metric == "acc":
+                    assert not (config.acc_givenR and config.mask)
+
+                    # if not config.acc_givenR:
+                    #     acc_id, _ = pipeline.compute_accuracy_binarizing("id_val", givenR=config.acc_givenR)
+                    #     acc_id, _ = pipeline.compute_accuracy_binarizing("val", givenR=config.acc_givenR)
+                    acc_ood, _ = pipeline.compute_accuracy_binarizing("test", givenR=config.acc_givenR)
+                    continue
+
+                suff_id, suff_devstd_id, results_id, edge_scores_id, graphs_id = pipeline.compute_metric_ratio("test", metric=metric, intervention_distrib=config.intervention_distrib)
+                suff_ood, suff_devstd_ood, results_ood, edge_scores_ood, graphs_ood = pipeline.compute_metric_ratio("val", metric=metric, intervention_distrib=config.intervention_distrib)
+
+                test_suff_id.append((suff_id, suff_devstd_id))
+                test_suff_ood.append((suff_ood, suff_devstd_ood))
+
+                if metric.lower() in ("suff", "nec") and config.save_metrics:
+                    expname = f"{config.load_split}_{config.util_model_dirname}_{config.random_seed}_suff_idval_budgetsamples{config.numsamples_budget}_expbudget{config.expval_budget}"
+                    with open(f"storage/metric_results/{expname}.json", "w") as f:
+                        json.dump(results_id, f)
+                    expname = f"{config.load_split}_{config.util_model_dirname}_{config.random_seed}_suff_val_budgetsamples{config.numsamples_budget}_expbudget{config.expval_budget}"
+                    with open(f"storage/metric_results/{expname}.json", "w") as f:
+                        json.dump(results_ood, f)
+
+        print("\n\nFinal OOD Test scores: ", test_scores)
+        print("Final SUFF_ID scores: ", test_suff_id)
+        print("Final SUFF_OOD scores: ", test_suff_ood)
+        print(f"Computed for split load_split = {load_split}")
+
+
 def evaluate_suff(args):
     load_splits = ["id"]
     for l, load_split in enumerate(load_splits):
@@ -118,7 +191,7 @@ def evaluate_suff(args):
             config["mitigation_sampling"] = args.mitigation_sampling
             config["task"] = "test"
             config["load_split"] = load_split
-            config["device"] = "cpu"
+            config["device"] = "cuda"
             if l == 0 and i == 0:
                 load_logger(config)
             
@@ -127,8 +200,8 @@ def evaluate_suff(args):
             pipeline = load_pipeline(config.pipeline, config.task, model, loader, ood_algorithm, config)
 
             test_score, test_loss = pipeline.load_task(load_param=True, load_split=load_split)
-            sa = pipeline.evaluate("test", compute_suff=False)
-            test_scores.append((sa['score'], test_score))
+            # sa = pipeline.evaluate("test", compute_suff=False)
+            # test_scores.append((sa['score'], test_score))
 
             if "LECI" in config.model.model_name:
                 suff_id, suff_devstd_id, results_id = pipeline.compute_metric_ratio("id_val", metric="suff", intervention_distrib=config.intervention_distrib)
@@ -171,7 +244,7 @@ def evaluate_nec(args):
             config["mitigation_sampling"] = args.mitigation_sampling
             config["task"] = "test"
             config["load_split"] = load_split
-            config["device"] = "cpu"
+            config["device"] = "cuda"
             if l == 0 and i == 0:
                 load_logger(config)
             
@@ -180,8 +253,8 @@ def evaluate_nec(args):
             pipeline = load_pipeline(config.pipeline, config.task, model, loader, ood_algorithm, config)
 
             test_score, test_loss = pipeline.load_task(load_param=True, load_split=load_split)
-            sa = pipeline.evaluate("test", compute_suff=False)
-            test_scores.append((sa['score'], test_score))
+            # sa = pipeline.evaluate("test", compute_suff=False)
+            # test_scores.append((sa['score'], test_score))
 
             nec_id, nec_devstd_id, results_id = pipeline.compute_metric_ratio("id_val", metric="nec")
             nec_ood, nec_devstd_ood, results_ood = pipeline.compute_metric_ratio("val", metric="nec")  
@@ -253,6 +326,7 @@ def main():
     args = args_parser()
 
     assert not args.seeds is None, args.seeds
+    assert args.metrics != ""
 
     if args.task == 'eval_suff':
         evaluate_suff(args)
@@ -265,6 +339,9 @@ def main():
         exit(0)
     if args.task == 'eval_acc':
         evaluate_acc(args)
+        exit(0)
+    if args.task == 'eval_metric':
+        evaluate_metric(args)
         exit(0)
 
     test_scores = []
