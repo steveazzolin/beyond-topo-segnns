@@ -21,6 +21,8 @@ save_metrics: False # Added by Steve
 intervention_distrib: model_dependent # Added by Steve
 acc_givenR: False # Added by Steve
 mask: False # Added by Steve
+metrics: "" # Added by Steve
+debias: True # Added by Steve
 train:
   weight_decay: 0.
   save_gap: 10

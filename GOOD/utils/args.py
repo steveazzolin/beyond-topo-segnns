@@ -102,7 +102,7 @@ class CommonArgs(Tap):
     """
     config_path: str = None  #: (Required) The path for the config file.
 
-    task: Literal['train', 'test', 'debug_suff', 'eval_suff', 'eval_acc', 'eval_fid', 'eval_nec'] = None  #: Running mode. Allowed: 'train' and 'test'.
+    task: Literal['train', 'test', 'debug_suff', 'eval_suff', 'eval_acc', 'eval_fid', 'eval_nec','eval_metric'] = None  #: Running mode. Allowed: 'train' and 'test'.
     random_seed: int = None  #: Fixed random seed for reproducibility.
     exp_round: int = None  #: Current experiment round.
 
@@ -119,6 +119,8 @@ class CommonArgs(Tap):
     intervention_distrib:str = "model_dependent" # Added by Steve
     acc_givenR: bool = False # Added by Steve
     mask: bool = False  # Added by Steve
+    metrics:str = "" # Added by Steve
+    debias:bool = False # Added by Steve
     
     pytest: bool = None
     pipeline: str = None  #: Training/test controller.
