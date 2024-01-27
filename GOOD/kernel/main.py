@@ -4,6 +4,8 @@ import os
 import time
 from typing import Tuple, Union
 import json
+from collections import defaultdict
+from datetime import datetime
 
 import torch.nn
 from torch.utils.data import DataLoader
@@ -61,61 +63,15 @@ def initialize_model_dataset(config: Union[CommonArgs, Munch]) -> Tuple[torch.nn
     return model, loader
 
 
-def evaluate_acc(args):
-    load_splits = ["id"]
-    for l, load_split in enumerate(load_splits):
-        print("\n\n")
-        print("-"*50)
-        print(f"USING LOAD SPLIT = {load_split}")
-        print("\n\n")
-
-        test_scores = []
-        test_acc_id, test_acc_ood = [], []
-        for i, seed in enumerate(args.seeds.split("/")):
-            seed = int(seed)        
-            args.random_seed = seed
-            args.exp_round = seed
-            
-            config = config_summoner(args)
-            config["mitigation_backbone"] = args.mitigation_backbone
-            config["mitigation_sampling"] = args.mitigation_sampling
-            config["task"] = "test"
-            config["load_split"] = load_split
-            config["device"] = "cuda:0"
-            if l == 0 and i == 0:
-                load_logger(config)
-            
-            model, loader = initialize_model_dataset(config)
-            ood_algorithm = load_ood_alg(config.ood.ood_alg, config)
-            pipeline = load_pipeline(config.pipeline, config.task, model, loader, ood_algorithm, config)
-
-            test_score, test_loss = pipeline.load_task(load_param=True, load_split=load_split)
-            sa = pipeline.evaluate("test", compute_suff=False)
-            test_scores.append((sa['score'], test_score))
-            print(sa)
-
-            if not config.acc_givenR:
-                acc_id, _ = pipeline.compute_accuracy_binarizing("id_val", givenR=config.acc_givenR)
-                acc_id, _ = pipeline.compute_accuracy_binarizing("val", givenR=config.acc_givenR)
-            acc_ood, _ = pipeline.compute_accuracy_binarizing("test", givenR=config.acc_givenR)
-            # test_acc_ood.append((acc_ood, 0.))
-        print()
-        print()
-        print("Final OOD Test scores: ", test_scores)
-        print(f"Computed for split load_split = {load_split}")
-        print("Final ACC_ID scores: ", test_acc_id)
-        print("Final ACC_ID scores: ", test_acc_ood)
-        print()
-
-
 def evaluate_metric(args):
     load_splits = ["id"]
+    splits = ["id_val", "val"]
+    startTime = datetime.now()
     for l, load_split in enumerate(load_splits):
         print("\n\n" + "-"*50)
         print(f"USING LOAD SPLIT = {load_split}\n\n")
 
-        test_scores = []
-        test_suff_id, test_suff_ood = [], []
+        metrics_score = {s: defaultdict(list) for s in splits + ["test", "test_R"]}
         for i, seed in enumerate(args.seeds.split("/")):
             seed = int(seed)        
             args.random_seed = seed
@@ -134,218 +90,135 @@ def evaluate_metric(args):
             ood_algorithm = load_ood_alg(config.ood.ood_alg, config)
             pipeline = load_pipeline(config.pipeline, config.task, model, loader, ood_algorithm, config)
 
-            test_score, test_loss = pipeline.load_task(load_param=True, load_split=load_split)
-            
+            test_score, test_loss = pipeline.load_task(load_param=True, load_split=load_split)            
             # for e in ["train", "id_val", "val", "test"]:
             #     sa = pipeline.evaluate(e, compute_suff=False)
             #     print(e, sa)
             # exit()
 
+            edge_scores, graphs = {s: None for s in splits}, {s: None for s in splits}
             for metric in args.metrics.split("/"):
                 print(f"\n\nEvaluating {metric.upper()} for seed {seed} with load_split {load_split}\n")
 
                 if metric == "acc":
                     assert not (config.acc_givenR and config.mask)
-
                     if not config.acc_givenR:
-                        acc_id, _ = pipeline.compute_accuracy_binarizing("id_val", givenR=config.acc_givenR)
-                        acc_id, _ = pipeline.compute_accuracy_binarizing("val", givenR=config.acc_givenR)
-                    acc_ood, _ = pipeline.compute_accuracy_binarizing("test", givenR=config.acc_givenR)
+                        for split in splits + ["test"]:
+                            acc, xai = pipeline.compute_accuracy_binarizing(split, givenR=False)
+                            metrics_score[split]["acc"].append(acc)
+                            metrics_score[split]["plaus"].append([e[1] for e in xai])
+                            metrics_score[split]["wiou"].append([e[0] for e in xai])
+                    print("\n\nComputing now with givenR...\n")
+                    acc, xai = pipeline.compute_accuracy_binarizing("test", givenR=True)
+                    metrics_score["test_R"]["acc"].append(acc)
+                    metrics_score["test_R"]["plaus"].append([e[1] for e in xai])
+                    metrics_score["test_R"]["wiou"].append([e[0] for e in xai])
                     continue
 
-                suff_id, suff_devstd_id, results_id, edge_scores_id, graphs_id = pipeline.compute_metric_ratio("test", metric=metric, intervention_distrib=config.intervention_distrib)
-                suff_ood, suff_devstd_ood, results_ood, edge_scores_ood, graphs_ood = pipeline.compute_metric_ratio("val", metric=metric, intervention_distrib=config.intervention_distrib)
+                for split in splits:
+                    score, results, edge_scores_split, graphs_split = pipeline.compute_metric_ratio(
+                        split,
+                        metric=metric,
+                        intervention_distrib=config.intervention_distrib,
+                        edge_scores=edge_scores[split],
+                        graphs=graphs[split]
+                    )
+                    edge_scores[split] = edge_scores_split
+                    graphs[split] = graphs_split
+                    metrics_score[split][metric].append(score)
 
-                test_suff_id.append((suff_id, suff_devstd_id))
-                test_suff_ood.append((suff_ood, suff_devstd_ood))
+                    if metric.lower() in ("suff", "nec", "nec++", "fidp", "fidm") and config.save_metrics:
+                        expname = f"{config.load_split}_{config.util_model_dirname}_{config.dataset.dataset_name}_{config.random_seed}_{metric}_{split}_budgetsamples{config.numsamples_budget}_expbudget{config.expval_budget}"
+                        with open(f"storage/metric_results/{expname}.json", "w") as f:
+                            json.dump(results, f)
 
-                if metric.lower() in ("suff", "nec") and config.save_metrics:
-                    expname = f"{config.load_split}_{config.util_model_dirname}_{config.random_seed}_suff_idval_budgetsamples{config.numsamples_budget}_expbudget{config.expval_budget}"
-                    with open(f"storage/metric_results/{expname}.json", "w") as f:
-                        json.dump(results_id, f)
-                    expname = f"{config.load_split}_{config.util_model_dirname}_{config.random_seed}_suff_val_budgetsamples{config.numsamples_budget}_expbudget{config.expval_budget}"
-                    with open(f"storage/metric_results/{expname}.json", "w") as f:
-                        json.dump(results_ood, f)
+        print("\n\n", "-"*50, "\nPrinting evaluation results")
+        for split in splits:
+            print(f"\nEval split {split}")
+            for metric in args.metrics.split("/"):
+                print(f"{metric} = {metrics_score[split][metric]}")
+                if metric == "acc":
+                    for a in ["plaus", "wiou"]:
+                        print(f"{a} = {metrics_score[split][a]}")
+        if "acc" in args.metrics.split("/"):
+            for split in ["test", "test_R"]:
+                print(f"\nEval split {split}")
+                for metric in ["acc", "plaus", "wiou"]:
+                    print(f"{metric} = {metrics_score[split][metric]}")
+        print(f"Computed for split load_split = {load_split}\n\n\n")
 
-        print("\n\nFinal OOD Test scores: ", test_scores)
-        print("Final SUFF_ID scores: ", test_suff_id)
-        print("Final SUFF_OOD scores: ", test_suff_ood)
-        print(f"Computed for split load_split = {load_split}")
+        print("\n\n", "-"*50, "\nPrinting evaluation averaged per seed")
+        for split in splits:
+            print(f"\nEval split {split}")
+            for metric in args.metrics.split("/"):
+                avg_per_seed = torch.tensor(metrics_score[split][metric]).mean(0)
+                std_per_seed = torch.tensor(metrics_score[split][metric]).std(0)
+                print(f"{metric} = {avg_per_seed} +- {std_per_seed}")
+                if metric == "acc":
+                    for a in ["plaus", "wiou"]:
+                        avg_per_seed = torch.tensor(metrics_score[split][a]).mean(0)
+                        std_per_seed = torch.tensor(metrics_score[split][a]).std(0)
+                        print(f"{a} = {avg_per_seed} +- {std_per_seed}")
+        if "acc" in args.metrics.split("/"):
+            for split in ["test", "test_R"]:
+                print(f"\nEval split {split}")
+                for a in ["acc", "plaus", "wiou"]:
+                    avg_per_seed = torch.tensor(metrics_score[split][a]).mean(0)
+                    std_per_seed = torch.tensor(metrics_score[split][a]).std(0)
+                    print(f"{a} = {avg_per_seed} +- {std_per_seed}")
 
-
-def evaluate_suff(args):
-    load_splits = ["id"]
-    for l, load_split in enumerate(load_splits):
-        print("\n\n" + "-"*50)
-        print(f"USING LOAD SPLIT = {load_split}\n\n")
-
-        test_scores = []
-        test_suff_id, test_suff_ood = [], []
-        for i, seed in enumerate(args.seeds.split("/")):
-            seed = int(seed)        
-            args.random_seed = seed
-            args.exp_round = seed
+        print("\n\n", "-"*50, "\nComputing faithfulness")
+        for split in splits:
+            print(f"\nEval split {split}")
             
-            config = config_summoner(args)
-            config["mitigation_backbone"] = args.mitigation_backbone
-            config["mitigation_sampling"] = args.mitigation_sampling
-            config["task"] = "test"
-            config["load_split"] = load_split
-            config["device"] = "cuda"
-            if l == 0 and i == 0:
-                load_logger(config)
-            
-            model, loader = initialize_model_dataset(config)
-            ood_algorithm = load_ood_alg(config.ood.ood_alg, config)
-            pipeline = load_pipeline(config.pipeline, config.task, model, loader, ood_algorithm, config)
+            if "suff" in args.metrics.split("/") and "nec" in args.metrics.split("/"):
+                suff = torch.tensor(metrics_score[split]["suff"]) #.mean(0) #1xratio
+                nec  = torch.tensor(metrics_score[split]["nec"])[:, :suff.shape[1]] #.mean(0) #1xratio
+                
+                faith_armonic = armonic(suff, nec)
+                faith_gmean = gmean(suff, nec)
 
-            test_score, test_loss = pipeline.load_task(load_param=True, load_split=load_split)
-            # sa = pipeline.evaluate("test", compute_suff=False)
-            # test_scores.append((sa['score'], test_score))
+                print(f"Faith = \t{torch.round(faith_armonic.mean(0), decimals=3)} +- {torch.round(faith_armonic.std(0), decimals=3)}")
+                print(f"Faith GMean = \t{torch.round(faith_gmean.mean(0), decimals=3)} +- {torch.round(faith_gmean.std(0), decimals=3)}")
 
-            if "LECI" in config.model.model_name:
-                suff_id, suff_devstd_id, results_id = pipeline.compute_metric_ratio("id_val", metric="suff", intervention_distrib=config.intervention_distrib)
-                suff_ood, suff_devstd_ood, results_ood = pipeline.compute_metric_ratio("val", metric="suff", intervention_distrib=config.intervention_distrib)
-            else:
-                suff_id, suff_devstd_id, results_id = pipeline.compute_metric_ratio("id_val", metric="suff", intervention_distrib=config.intervention_distrib)
-                suff_ood, suff_devstd_ood, results_ood = pipeline.compute_metric_ratio("val", metric="suff", intervention_distrib=config.intervention_distrib)
+                if "nec++" in args.metrics.split("/"):
+                    necpp = torch.tensor(metrics_score[split]["nec++"])[:, :suff.shape[1]] #.mean(0) #1xratio
+                    faith_armonic = armonic(suff, necpp)
+                    faith_gmean = gmean(suff, necpp)
+                    print(f"Faith = \t{torch.round(faith_armonic.mean(0), decimals=3)} +- {torch.round(faith_armonic.std(0), decimals=3)}")
+                    print(f"Faith GMean = \t{torch.round(faith_gmean.mean(0), decimals=3)} +- {torch.round(faith_gmean.std(0), decimals=3)}")
 
-            test_suff_id.append((suff_id, suff_devstd_id))
-            test_suff_ood.append((suff_ood, suff_devstd_ood))
+            if "fidp" in args.metrics.split("/") and "fidm" in args.metrics.split("/"):
+                fidm = torch.tensor(metrics_score[split]["fidm"]) #.mean(0) #1xratio
+                fidp  = torch.tensor(metrics_score[split]["fidp"]) #.mean(0) #1xratio
+                
+                faith_armonic = armonic(fidm, fidp)
+                faith_gmean = gmean(fidm, fidp)
 
-            if config.save_metrics:
-                expname = f"{config.load_split}_{config.util_model_dirname}_{config.random_seed}_suff_idval_budgetsamples{config.numsamples_budget}_expbudget{config.expval_budget}"
-                with open(f"storage/metric_results/{expname}.json", "w") as f:
-                    json.dump(results_id, f)
-                expname = f"{config.load_split}_{config.util_model_dirname}_{config.random_seed}_suff_val_budgetsamples{config.numsamples_budget}_expbudget{config.expval_budget}"
-                with open(f"storage/metric_results/{expname}.json", "w") as f:
-                    json.dump(results_ood, f)
-
-        print("\n\nFinal OOD Test scores: ", test_scores)
-        print("Final SUFF_ID scores: ", test_suff_id)
-        print("Final SUFF_OOD scores: ", test_suff_ood)
-        print(f"Computed for split load_split = {load_split}")
-
-def evaluate_nec(args):
-    load_splits = ["id"]
-    for l, load_split in enumerate(load_splits):
-        print("\n\n" + "-"*50)
-        print(f"USING LOAD SPLIT = {load_split}\n\n")
-
-        test_scores = []
-        test_nec_id, test_nec_ood = [], []
-        for i, seed in enumerate(args.seeds.split("/")):
-            seed = int(seed)        
-            args.random_seed = seed
-            args.exp_round = seed
-            
-            config = config_summoner(args)
-            config["mitigation_backbone"] = args.mitigation_backbone
-            config["mitigation_sampling"] = args.mitigation_sampling
-            config["task"] = "test"
-            config["load_split"] = load_split
-            config["device"] = "cuda"
-            if l == 0 and i == 0:
-                load_logger(config)
-            
-            model, loader = initialize_model_dataset(config)
-            ood_algorithm = load_ood_alg(config.ood.ood_alg, config)
-            pipeline = load_pipeline(config.pipeline, config.task, model, loader, ood_algorithm, config)
-
-            test_score, test_loss = pipeline.load_task(load_param=True, load_split=load_split)
-            # sa = pipeline.evaluate("test", compute_suff=False)
-            # test_scores.append((sa['score'], test_score))
-
-            nec_id, nec_devstd_id, results_id = pipeline.compute_metric_ratio("id_val", metric="nec")
-            nec_ood, nec_devstd_ood, results_ood = pipeline.compute_metric_ratio("val", metric="nec")  
-
-            test_nec_id.append((nec_id, nec_devstd_id))
-            test_nec_ood.append((nec_ood, nec_devstd_ood))
-
-            if config.save_metrics:
-                expname = f"{config.load_split}_{config.util_model_dirname}_{config.random_seed}_nec_idval_budgetsamples{config.numsamples_budget}_expbudget{config.expval_budget}"
-                with open(f"storage/metric_results/{expname}.json", "w") as f:
-                    json.dump(results_id, f)
-                expname = f"{config.load_split}_{config.util_model_dirname}_{config.random_seed}_nec_val_budgetsamples{config.numsamples_budget}_expbudget{config.expval_budget}_alpha{config.nec_alpha_1}"
-                with open(f"storage/metric_results/{expname}.json", "w") as f:
-                    json.dump(results_ood, f)
-
-        print("\n\nFinal OOD Test scores: ", test_scores)
-        print("Final SUFF_ID scores: ", test_nec_id)
-        print("Final SUFF_OOD scores: ", test_nec_ood)
-        print(f"Computed for split load_split = {load_split}")
-
-def evaluate_fid(args):
-    load_splits = ["id"]
-    for l, load_split in enumerate(load_splits):
-        print("\n\n" + "-"*50)
-        print(f"USING LOAD SPLIT = {load_split}\n\n")
-
-        test_scores = []
-        test_fid_id, test_fid_ood = [], []
-        for i, seed in enumerate(args.seeds.split("/")):
-            seed = int(seed)        
-            args.random_seed = seed
-            args.exp_round = seed
-            
-            config = config_summoner(args)
-            config["mitigation_backbone"] = args.mitigation_backbone
-            config["mitigation_sampling"] = args.mitigation_sampling
-            config["task"] = "test"
-            config["load_split"] = load_split
-            config["device"] = "cpu"
-            if l == 0 and i == 0:
-                load_logger(config)
-            
-            model, loader = initialize_model_dataset(config)
-            ood_algorithm = load_ood_alg(config.ood.ood_alg, config)
-            pipeline = load_pipeline(config.pipeline, config.task, model, loader, ood_algorithm, config)
-
-            test_score, test_loss = pipeline.load_task(load_param=True, load_split=load_split)
-            sa = pipeline.evaluate("test", compute_suff=False)
-            test_scores.append((sa['score'], test_score))
-
-            if "LECI" in config.model.model_name:
-                fid_id, fid_devstd_id, _ = pipeline.compute_metric_ratio("id_val", metric="fid")
-                fid_ood, fid_devstd_ood, _ = pipeline.compute_metric_ratio("val", metric="fid")
-            else:
-                fid_id, fid_devstd_id, _ = pipeline.compute_metric_ratio("id_val", metric="fid")
-                fid_ood, fid_devstd_ood, _ = pipeline.compute_metric_ratio("val", metric="fid")
-
-            test_fid_id.append((fid_id, fid_devstd_id))
-            test_fid_ood.append((fid_ood, fid_devstd_ood))
-
-        print("\n\nFinal OOD Test scores: ", test_scores)
-        print("Final FID_ID scores: ", test_fid_id)
-        print("Final FID_OOD scores: ", test_fid_ood)
-        print(f"Computed for split load_split = {load_split}")
-        print()
+                print(f"Char. Score = {torch.round(faith_armonic.mean(0), decimals=3)} +- {torch.round(faith_armonic.std(0), decimals=3)}")
+                print(f"Char. Score GMean = {torch.round(faith_gmean.mean(0), decimals=3)} +- {torch.round(faith_gmean.std(0), decimals=3)}")
+        print("Completed in ", datetime.now() - startTime)
+        print("\n\n")
+                    
+def gmean(a,b):
+    return (a*b).sqrt()
+def armonic(a,b):
+    return 2 * (a*b) / (a+b)
+def gstd(a):
+    return a.log().std().exp()
 
 
 def main():
     args = args_parser()
 
     assert not args.seeds is None, args.seeds
-    assert args.metrics != ""
+    # assert args.metrics != ""
 
-    if args.task == 'eval_suff':
-        evaluate_suff(args)
-        exit(0)
-    if args.task == 'eval_fid':
-        evaluate_fid(args)
-        exit(0)
-    if args.task == 'eval_nec':
-        evaluate_nec(args)
-        exit(0)
-    if args.task == 'eval_acc':
-        evaluate_acc(args)
-        exit(0)
     if args.task == 'eval_metric':
         evaluate_metric(args)
         exit(0)
 
-    test_scores = []
-    test_suff, test_fid = [], []
+    test_scores = defaultdict(list)
     for i, seed in enumerate(args.seeds.split("/")):
         seed = int(seed)
         print(f"\n\n#D#Running with seed = {seed}")
@@ -370,38 +243,18 @@ def main():
             pipeline.load_task() # train model
             pipeline.task = 'test'
             test_score, test_loss = pipeline.load_task()
-            test_scores.append(test_score)
+            test_scores["trained"].append(test_score)
         elif config.task == 'test':
             test_score, test_loss = pipeline.load_task(load_param=True)
-            sa = pipeline.evaluate("test", compute_suff=False)
-            test_scores.append(sa['score'])
-            # test_suff.append(sa["suff"])
-            # test_fid.append(sa["fid"])
+            for s in ["train", "id_val", "val", "test"]:
+                sa = pipeline.evaluate(s, compute_suff=False)
+                test_scores[s].append(sa['score'])
             print(f"Printing obtained and stored scores: {sa['score']} !=? {test_score}")
-            # print(f"SUFF = {sa['suff']} +- {sa['suff_devstd']}")
-            # print(f"FID_ = {sa['fid']} +- {sa['fid_devstd']}")
-        elif config.task == 'debug_suff':
-            config.task = 'test'
-            
-            model, loader = initialize_model_dataset(config)
-            ood_algorithm = load_ood_alg(config.ood.ood_alg, config)
-            pipeline = load_pipeline(config.pipeline, config.task, model, loader, ood_algorithm, config)
-            pipeline.load_task(load_param=True)
-
-            for sample_budget, explval_budget in zip([100, 1000, 1000, "all", "all"], [5, 5, 20, 5, 20]):
-                config["expval_budget"] = explval_budget
-                config["numsamples_budget"] = sample_budget
-
-                sa = pipeline.evaluate("test")
-                test_suff.append(sa["suff"])
-                test_fid.append(sa["fid"])
-                print(f"SUFF = {sa['suff']} +- {sa['suff_devstd']}")
-            print(test_suff)
     print()
     print()
-    print("Final OOD Test scores: ", round(np.mean(test_scores), 4), "+-", round(np.std(test_scores), 4))
-    print("Final SUFF scores: ", round(np.mean(test_suff), 4), "+-", round(np.std(test_suff), 4))
-    print("Final ROB FID_ scores: ", round(np.mean(test_fid), 4), "+-", round(np.std(test_fid), 4))
+    print("Final scores: ")
+    for s in ["train", "id_val", "val", "test"]:
+        print(f"{s.upper()} = {round(np.mean(test_scores[s]), 4)} +- {round(np.std(test_scores[s]), 4)}")
     print()
 
 
