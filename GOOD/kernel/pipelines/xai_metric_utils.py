@@ -17,15 +17,21 @@ node_colors = {
 }
 
 
-def remove_from_graph(G, what_to_remove):
-    G = G.copy()
-    edge_remove = []
-    for (u,v), val in nx.get_edge_attributes(G, 'origin').items():
-        if val == what_to_remove:
-            edge_remove.append((u,v))
-    G.remove_edges_from(edge_remove)
-    G.remove_edges_from([(v,u) for v,u in G.edges() if not G.has_edge(u,v)])
-    G.remove_nodes_from(list(nx.isolates(G)))
+def remove_from_graph(G, what_to_remove, edge_index_to_remove=None):
+    if edge_index_to_remove is None:
+        G = G.copy()
+        edge_remove = []
+        for (u,v), val in nx.get_edge_attributes(G, 'origin').items():
+            if val == what_to_remove:
+                edge_remove.append((u,v))
+        G.remove_edges_from(edge_remove)
+        G.remove_edges_from([(v,u) for v,u in G.edges() if not G.has_edge(u,v)])
+        G.remove_nodes_from(list(nx.isolates(G)))
+    else:
+        G = G.copy()
+        G.remove_edges_from([(u.item(), v.item()) for u,v in edge_index_to_remove.T])
+        G.remove_edges_from([(v,u) for v,u in G.edges() if not G.has_edge(u,v)])
+        G.remove_nodes_from(list(nx.isolates(G)))
     return G
 
 def mark_edges(G, inv_edge_index, spu_edge_index, inv_edge_w=None, spu_edge_w=None):
@@ -59,10 +65,13 @@ def mark_edges(G, inv_edge_index, spu_edge_index, inv_edge_w=None, spu_edge_w=No
 def mark_frontier(G, G_filt):
     # mark frontier nodes as nodes attached to both inv and spu parts
     # to mark nodes check which nodes have a change in the degree between original and filtered graph
-    frontier = []
-    for n in G_filt.nodes():
-        if G.degree[n] != G_filt.degree[n]:                    
-            frontier.append(n)            
+    # frontier = []
+    # for n in G_filt.nodes():
+    #     if G.degree[n] != G_filt.degree[n]:                    
+    #         frontier.append(n)            
+    
+    frontier = list(filter(lambda n: G.degree[n] != G_filt.degree[n], G_filt.nodes()))
+
     nx.set_node_attributes(G_filt, name="frontier", values=False)
     nx.set_node_attributes(G_filt, name="frontier", values={n: True for n in frontier})
     return len(frontier)
@@ -163,10 +172,10 @@ def random_attach(S, T):
         idx = randint(0, len(T_frontier)-1)
         v = "T" + str(T_frontier[idx])
 
-        assert str(n) in ret.nodes() and v in ret.nodes()
+        # assert str(n) in ret.nodes() and v in ret.nodes()
 
-        ret.add_edge(str(n), v, origin="added")
-        ret.add_edge(v, str(n), origin="added")
+        ret.add_edge(str(n), v) #, origin="added"
+        ret.add_edge(v, str(n)) #, origin="added"
     return ret
 
 def random_attach_no_target_frontier(S, T):
@@ -181,23 +190,23 @@ def random_attach_no_target_frontier(S, T):
         # add edge (u,v) and (v,u)
         idx = randint(0, len(T.nodes()) - 1)
         v = "T" + str(list(T)[idx])
-        assert str(n) in ret.nodes() and v in ret.nodes()
+        # assert str(n) in ret.nodes() and v in ret.nodes()
 
-        ret.add_edge(str(n), v, origin="added")
-        ret.add_edge(v, str(n), origin="added")
+        ret.add_edge(str(n), v) #, origin="added"
+        ret.add_edge(v, str(n)) #, origin="added"
     return ret
 
 def expl_acc(expl, data, expl_weight=None):
     edge_gt = {(u.item(),v.item()): data.edge_gt[i] for i, (u,v) in enumerate(data.edge_index.T)} 
     edge_expl = set([(u.item(),v.item()) for u,v in expl.T])
     
-    # tp = int(sum([edge_gt[(u.item(),v.item())] for u,v in expl.T]))
-    # fp = int(sum([not edge_gt[(u.item(),v.item())] for u,v in expl.T]))
-    # tn = int(sum([not (u.item(),v.item()) in edge_expl and not edge_gt[(u.item(),v.item())] for u,v in data.edge_index.T]))
-    # fn = int(sum([not (u.item(),v.item()) in edge_expl and edge_gt[(u.item(),v.item())] for u,v in data.edge_index.T]))
+    tp = int(sum([edge_gt[(u.item(),v.item())] for u,v in expl.T]))
+    fp = int(sum([not edge_gt[(u.item(),v.item())] for u,v in expl.T]))
+    tn = int(sum([not (u.item(),v.item()) in edge_expl and not edge_gt[(u.item(),v.item())] for u,v in data.edge_index.T]))
+    fn = int(sum([not (u.item(),v.item()) in edge_expl and edge_gt[(u.item(),v.item())] for u,v in data.edge_index.T]))
     
     # acc = (tp + tn) / (tp + fp + tn + fn)
-    # f1 = 2*tp / (2*tp + fp + fn)
+    f1 = 2*tp / (2*tp + fp + fn)
     # assert (tp + fp + tn + fn) == len(edge_gt)
 
     wiou, den = 0, 0
@@ -205,29 +214,29 @@ def expl_acc(expl, data, expl_weight=None):
         u, v = u.item(), v.item()
         if edge_gt[(u,v)]:
             if (u,v) in edge_expl:
-                # print((u,v), " GT & Expl")
                 wiou += expl_weight[i].item()
                 den += expl_weight[i].item()
             else:
-                # print((u,v), " GT")
                 den += expl_weight[i].item()
         elif (u,v) in edge_expl:
-            # print((u,v), " Expl")
             den += expl_weight[i].item()
     wiou = wiou / den
-    return round(wiou, 3)
+    return round(wiou, 3), round(f1, 3)
 
-def sample_edges(G_ori, where_to_sample, alpha):
+def sample_edges(G_ori, where_to_sample, alpha, edge_index_to_remove=None):
     # keep each spu/inv edge with probability alpha
     G = G_ori.copy()
-    edges = set()
-    for (u,v), val in nx.get_edge_attributes(G, 'origin').items():
-        if val == where_to_sample:
-            edges.add((u,v))
-            # if where_to_sample == "spu" and np.random.binomial(1, alpha, 1)[0] == 0:
-            #     edge_remove.append((u,v))
-    # if where_to_sample == "inv":
-    edges = list(edges)
+    if edge_index_to_remove is None:
+        edges = set()
+        for (u,v), val in nx.get_edge_attributes(G, 'origin').items():
+            if val == where_to_sample:
+                edges.add((u,v))
+                # if where_to_sample == "spu" and np.random.binomial(1, alpha, 1)[0] == 0:
+                #     edge_remove.append((u,v))
+        edges = list(edges)
+    else:
+        edges = [(u.item(), v.item()) for u, v in edge_index_to_remove.T]    
+    
     shuffle(edges)
     edge_remove = edges[:int(len(G.edges()) * (1-alpha))] #remove the 1-alpha% of the undirected edges
     G.remove_edges_from(edge_remove)
