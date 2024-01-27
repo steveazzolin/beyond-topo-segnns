@@ -164,7 +164,10 @@ class GSATGIN(GNNBasic):
                             torch.tensor([edge_index_sorted.T[i][0] == data.edge_index.T[i][0] and edge_index_sorted.T[i][1] == data.edge_index.T[i][1] 
                                         for i in range(len(data.edge_index.T))])
                         )
-                        data.edge_attr = edge_attr_sorted    
+                        data.edge_attr = edge_attr_sorted   
+                    if hasattr(data, "edge_gt") and not data.edge_gt is None:
+                        edge_index_sorted, edge_gt_sorted = coalesce(data.ori_edge_index, data.edge_gt, is_sorted=False)
+                        data.edge_gt = edge_gt_sorted 
             else:
                 edge_att = att
         else:

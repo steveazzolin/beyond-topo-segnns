@@ -118,16 +118,14 @@ class LECIGIN(GNNBasic):
                 if self.config.average_edge_attn == "default":
                     edge_att = (att + transpose(data.edge_index, att, nodesize, nodesize, coalesced=False)[1]) / 2
                 else:
-                    data.ori_edge_index = data.edge_index.detach().clone() #for backup and debug
-                    data.edge_index, edge_att = to_undirected(data.edge_index, att.squeeze(-1), reduce="mean")
-
+                    # data.ori_edge_index = data.edge_index.detach().clone() #for backup and debug
                     if not data.edge_attr is None:
-                        edge_index_sorted, edge_attr_sorted = coalesce(data.ori_edge_index, data.edge_attr, is_sorted=False)                    
-                        assert torch.all(
-                            torch.tensor([edge_index_sorted.T[i][0] == data.edge_index.T[i][0] and edge_index_sorted.T[i][1] == data.edge_index.T[i][1] 
-                                        for i in range(len(data.edge_index.T))])
-                        )
-                        data.edge_attr = edge_attr_sorted                    
+                        edge_index_sorted, data.edge_attr = coalesce(data.edge_index, data.edge_attr, is_sorted=False)                    
+                        # assert torch.all(
+                        #     torch.tensor([edge_index_sorted.T[i][0] == data.edge_index.T[i][0] and edge_index_sorted.T[i][1] == data.edge_index.T[i][1] 
+                        #                 for i in range(len(data.edge_index.T))])
+                        # )
+                    data.edge_index, edge_att = to_undirected(data.edge_index, att.squeeze(-1), reduce="mean")
                 # for i, (u,v) in enumerate(data.edge_index.T):
                 #     if u == 0 or v == 0:
                 #         print((u,v), edge_att[i])
@@ -223,8 +221,8 @@ class LECIGIN(GNNBasic):
     @torch.no_grad()
     def get_subgraph(self, get_pred=False, log_pred=False, ratio=None, *args, **kwargs):
         data = kwargs.get('data')
-
         data.ori_x = data.x
+
         if self.EF:
             filtered_features = self.ef_mlp(data.x, data.batch)
             data.x = filtered_features
@@ -240,20 +238,16 @@ class LECIGIN(GNNBasic):
                 if self.config.average_edge_attn == "default":
                     edge_att = (att + transpose(data.edge_index, att, nodesize, nodesize, coalesced=False)[1]) / 2
                 else:
-                    data.ori_edge_index = data.edge_index.detach().clone() #for backup and debug
-                    data.edge_index, edge_att = to_undirected(data.edge_index, att.squeeze(-1), reduce="mean")
-
+                    # data.ori_edge_index = data.edge_index.detach().clone() #for backup and debug
                     if not data.edge_attr is None:
-                        edge_index_sorted, edge_attr_sorted = coalesce(data.ori_edge_index, data.edge_attr, is_sorted=False)
-                        assert torch.all(
-                            torch.tensor([edge_index_sorted.T[i][0] == data.edge_index.T[i][0] and edge_index_sorted.T[i][1] == data.edge_index.T[i][1] 
-                                        for i in range(len(data.edge_index.T))])
-                        )
-                        data.edge_attr = edge_attr_sorted
-
+                        _, data.edge_attr = coalesce(data.ori_edge_index, data.edge_attr, is_sorted=False)
+                        # assert torch.all(
+                        #     torch.tensor([edge_index_sorted.T[i][0] == data.edge_index.T[i][0] and edge_index_sorted.T[i][1] == data.edge_index.T[i][1] 
+                        #                 for i in range(len(data.edge_index.T))])
+                        # )
                     if hasattr(data, "edge_gt") and not data.edge_gt is None:
-                        edge_index_sorted, edge_gt_sorted = coalesce(data.ori_edge_index, data.edge_gt, is_sorted=False)
-                        data.edge_gt = edge_gt_sorted
+                        _, data.edge_gt = coalesce(data.edge_index, data.edge_gt, is_sorted=False)
+                    data.edge_index, edge_att = to_undirected(data.edge_index, att.squeeze(-1), reduce="mean")
 
                     # for i, (u,v) in enumerate(data.edge_index.T):
                     #     print((u,v), edge_att[i])
