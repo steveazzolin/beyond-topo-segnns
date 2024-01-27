@@ -261,7 +261,6 @@ class GINConvAttn(gnn.MessagePassing):
         # return F.relu(x_j)
             
         if torch_geometric.__version__ == "2.4.0" and self._fixed_explain:
-            assert torch_geometric.__version__ == "2.4.0"
             edge_mask = self.__edge_mask__
             if self._apply_sigmoid:
                 edge_mask = edge_mask.sigmoid()
