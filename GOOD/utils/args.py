@@ -121,6 +121,7 @@ class CommonArgs(Tap):
     mask: bool = False  # Added by Steve
     metrics:str = "" # Added by Steve
     debias:bool = False # Added by Steve
+    nec_marg_alpha:bool = True # Added by Steve
     
     pytest: bool = None
     pipeline: str = None  #: Training/test controller.
