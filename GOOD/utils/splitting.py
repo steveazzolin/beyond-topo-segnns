@@ -23,7 +23,7 @@ def split_graph(data, edge_score, ratio, debug=False, return_batch=False):
         index = data.batch[data.edge_index[0]]
     
     # new_idx_reserve, new_idx_drop, _, perm, mask = sparse_topk(edge_score, data.batch[data.edge_index[0]], ratio, descending=True, debug=debug)
-    new_idx_reserve, new_idx_drop, perm, mask = topK(edge_score, ratio, index, min_score=None, tol=1e-7, debug=debug)    
+    new_idx_reserve, new_idx_drop, perm, mask = topK(edge_score, ratio, index, min_score=None, debug=debug)    
     
     if debug:
         index = data.batch[data.edge_index[0]]
@@ -123,7 +123,7 @@ def relabel(x, edge_index, batch, pos=None):
         pos = pos[sub_nodes]
     return x, edge_index, batch, pos
 
-def topK(x, ratio, batch, min_score, tol, debug):
+def topK(x, ratio, batch, min_score, tol=1e-7, debug=False):
     if min_score is not None:
         # Make sure that we do not drop all nodes in a graph.
         scores_max = scatter(x, batch, reduce='max')[batch] - tol
@@ -137,7 +137,6 @@ def topK(x, ratio, batch, min_score, tol, debug):
 
     if ratio is not None:
         num_nodes = scatter(batch.new_ones(x.size(0)), batch, reduce='sum')
-
         if ratio >= 1:
             k = num_nodes.new_full((num_nodes.size(0), ), int(ratio))
         else:
