@@ -11,8 +11,8 @@ clean_save: False
 pytest: False
 pipeline: Pipeline
 num_workers: 0
-expval_budget: 10 # Added by Steve
-numsamples_budget: 1000 # Added by Steve
+expval_budget: 8 # Added by Steve
+numsamples_budget: 800 # Added by Steve
 fidelity_alpha_2: 0.9 # Added by Steve
 nec_alpha_1: 0.9 # Added by Steve
 feat_int_alpha: 0.2 # Added by Steve
