@@ -13,6 +13,7 @@ import torch
 from dig.xgraph.dataset import SentiGraphDataset
 from munch import Munch
 from torch_geometric.data import InMemoryDataset, extract_zip, Data
+from torch_geometric.utils import shuffle_node
 from tqdm import tqdm
 
 
@@ -83,6 +84,21 @@ class GOODTwitter(InMemoryDataset):
             subset_pt += 4
 
         self.data, self.slices = torch.load(self.processed_paths[subset_pt])
+
+        if debias:
+            print(f"#D#Permuting node indices to remove explanation bias for {subset}")
+
+            sa = []
+            for i in range(self.len()):
+                data = self.get(i)
+                data.x, perm = shuffle_node(data.x, data.batch)
+                dict_perm = {p.item(): j for j, p in enumerate(perm)}
+                data.ori_edge_index = data.edge_index.clone()
+                data.edge_index = torch.tensor([ [dict_perm[x.item()], dict_perm[y.item()]] for x,y in data.edge_index.T ]).T
+                data.node_perm = perm
+                sa.append(data)
+
+            self.data, self.slices = self.collate(sa)
 
     @property
     def raw_dir(self):
@@ -349,7 +365,7 @@ class GOODTwitter(InMemoryDataset):
             torch.save((data, slices), self.processed_paths[i])
 
     @staticmethod
-    def load(dataset_root: str, domain: str, shift: str = 'no_shift', generate: bool = False):
+    def load(dataset_root: str, domain: str, shift: str = 'no_shift', generate: bool = False, debias:bool = False):
         r"""
         A staticmethod for dataset loading. This method instantiates dataset class, constructing train, id_val, id_test,
         ood_val (val), and ood_test (test) splits. Besides, it collects several dataset meta information for further
@@ -370,17 +386,17 @@ class GOODTwitter(InMemoryDataset):
         meta_info.model_level = 'graph'
 
         train_dataset = GOODTwitter(root=dataset_root,
-                                    domain=domain, shift=shift, subset='train', generate=generate)
+                                    domain=domain, shift=shift, subset='train', generate=generate, debias=debias)
         id_val_dataset = GOODTwitter(root=dataset_root,
                                      domain=domain, shift=shift, subset='id_val',
-                                     generate=generate) if shift != 'no_shift' else None
+                                     generate=generate, debias=debias) if shift != 'no_shift' else None
         id_test_dataset = GOODTwitter(root=dataset_root,
                                       domain=domain, shift=shift, subset='id_test',
-                                      generate=generate) if shift != 'no_shift' else None
+                                      generate=generate, debias=debias) if shift != 'no_shift' else None
         val_dataset = GOODTwitter(root=dataset_root,
-                                  domain=domain, shift=shift, subset='val', generate=generate)
+                                  domain=domain, shift=shift, subset='val', generate=generate, debias=debias)
         test_dataset = GOODTwitter(root=dataset_root,
-                                   domain=domain, shift=shift, subset='test', generate=generate)
+                                   domain=domain, shift=shift, subset='test', generate=generate, debias=debias)
 
         meta_info.dim_node = train_dataset.num_node_features
         meta_info.dim_edge = train_dataset.num_edge_features

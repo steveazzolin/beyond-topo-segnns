@@ -18,7 +18,6 @@ from tqdm import tqdm
 from GOOD import register
 from GOOD.utils.synthetic_data.BA3_loc import *
 from GOOD.utils.synthetic_data import synthetic_structsim
-from GOOD.data.good_datasets.shuffle_nodes import ShuffleGraph
 
 
 @register.dataset_register
@@ -436,11 +435,6 @@ class GOODMotif(InMemoryDataset):
         meta_info = Munch()
         meta_info.dataset_type = 'syn'
         meta_info.model_level = 'graph'
-
-        if debias:
-            shuffle_trans = ShuffleGraph()
-        else:
-            shuffle_trans = None
 
         train_dataset = GOODMotif(root=dataset_root,
                                   domain=domain, shift=shift, subset='train', generate=generate, debias=debias)

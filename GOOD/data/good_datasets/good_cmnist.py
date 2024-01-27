@@ -13,6 +13,7 @@ import torch
 from munch import Munch
 from torch_geometric.data import InMemoryDataset, extract_zip
 from torch_geometric.datasets import MNISTSuperpixels
+from torch_geometric.utils import shuffle_node
 from tqdm import tqdm
 
 from GOOD import register
@@ -65,6 +66,24 @@ class GOODCMNIST(InMemoryDataset):
             subset_pt += 4
 
         self.data, self.slices = torch.load(self.processed_paths[subset_pt])
+
+        if debias:
+            print(f"#D#Permuting node indices to remove explanation bias for {subset}")
+            print("Calling process with debiasing")
+            self.process(debias=debias)
+            print("End of process.")
+
+            # sa = []
+            # for i in range(self.len()):
+            #     data = self.get(i)
+            #     data.x, perm = shuffle_node(data.x, data.batch)
+            #     dict_perm = {p.item(): j for j, p in enumerate(perm)}
+            #     # data.ori_edge_index = data.edge_index.clone()
+            #     data.edge_index = torch.tensor([ [dict_perm[x.item()], dict_perm[y.item()]] for x,y in data.edge_index.T ]).T
+            #     data.node_perm = perm
+            #     sa.append(data)
+
+            # self.data, self.slices = self.collate(sa)
 
     @property
     def raw_dir(self):
@@ -270,7 +289,7 @@ class GOODCMNIST(InMemoryDataset):
 
         return all_env_list
 
-    def process(self):
+    def process(self, debias=False):
         train_dataset = MNISTSuperpixels(root=self.root, train=True)
         test_dataset = MNISTSuperpixels(root=self.root, train=False)
         data_list = [data for data in train_dataset] + [data for data in test_dataset]
@@ -282,11 +301,22 @@ class GOODCMNIST(InMemoryDataset):
 
         all_data_list = no_shift_list + covariate_shift_list + concept_shift_list
         for i, final_data_list in enumerate(all_data_list):
-            data, slices = self.collate(final_data_list)
+            if debias:
+                print(f"#D#Permuting node indices to remove explanation bias")
+
+                sa = []
+                for data in final_data_list:
+                    data.x, perm = shuffle_node(data.x, data.batch)
+                    dict_perm = {p.item(): j for j, p in enumerate(perm)}
+                    data.ori_edge_index = data.edge_index.clone()
+                    data.edge_index = torch.tensor([ [dict_perm[x.item()], dict_perm[y.item()]] for x,y in data.edge_index.T ]).T
+                    data.node_perm = perm
+                    sa.append(data)
+            data, slices = self.collate(sa)
             torch.save((data, slices), self.processed_paths[i])
 
     @staticmethod
-    def load(dataset_root: str, domain: str, shift: str = 'no_shift', generate: bool = False):
+    def load(dataset_root: str, domain: str, shift: str = 'no_shift', generate: bool = False, debias: bool = False):
         r"""
         A staticmethod for dataset loading. This method instantiates dataset class, constructing train, id_val, id_test,
         ood_val (val), and ood_test (test) splits. Besides, it collects several dataset meta information for further
@@ -306,13 +336,13 @@ class GOODCMNIST(InMemoryDataset):
         meta_info.dataset_type = 'syn'
         meta_info.model_level = 'graph'
 
-        train_dataset = GOODCMNIST(root=dataset_root, domain=domain, shift=shift, subset='train', generate=generate)
+        train_dataset = GOODCMNIST(root=dataset_root, domain=domain, shift=shift, subset='train', generate=generate, debias=debias)
         id_val_dataset = GOODCMNIST(root=dataset_root, domain=domain, shift=shift,
-                                    subset='id_val') if shift != 'no_shift' else None
+                                    subset='id_val', debias=debias) if shift != 'no_shift' else None
         id_test_dataset = GOODCMNIST(root=dataset_root, domain=domain, shift=shift,
-                                     subset='id_test') if shift != 'no_shift' else None
-        val_dataset = GOODCMNIST(root=dataset_root, domain=domain, shift=shift, subset='val', generate=generate)
-        test_dataset = GOODCMNIST(root=dataset_root, domain=domain, shift=shift, subset='test', generate=generate)
+                                     subset='id_test', debias=debias) if shift != 'no_shift' else None
+        val_dataset = GOODCMNIST(root=dataset_root, domain=domain, shift=shift, subset='val', generate=generate, debias=debias)
+        test_dataset = GOODCMNIST(root=dataset_root, domain=domain, shift=shift, subset='test', generate=generate, debias=debias)
 
         meta_info.dim_node = train_dataset.num_node_features
         meta_info.dim_edge = train_dataset.num_edge_features
