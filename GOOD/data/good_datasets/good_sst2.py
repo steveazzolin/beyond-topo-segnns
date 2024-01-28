@@ -69,7 +69,20 @@ class GOODSST2(InMemoryDataset):
 
         self.data, self.slices = torch.load(self.processed_paths[subset_pt])
 
-        print("\n\nADD DEBIASING\n\n")
+        if debias:
+            print(f"#D#Permuting node indices to remove explanation bias for {subset}")
+
+            sa = []
+            for i in range(self.len()):
+                data = self.get(i)
+                data.x, perm = shuffle_node(data.x, data.batch)
+                dict_perm = {p.item(): j for j, p in enumerate(perm)}
+                data.ori_edge_index = data.edge_index.clone()
+                data.edge_index = torch.tensor([ [dict_perm[x.item()], dict_perm[y.item()]] for x,y in data.edge_index.T ]).T
+                data.node_perm = perm
+                sa.append(data)
+
+            self.data, self.slices = self.collate(sa)
 
     @property
     def raw_dir(self):
