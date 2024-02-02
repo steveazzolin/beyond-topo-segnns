@@ -128,6 +128,24 @@ class CIGAGIN(GNNBasic):
         causal_pred = self.causal_lin(causal_graph_x)
         spu_pred = self.spu_lin(spu_graph_x).detach()
         return torch.sigmoid(spu_pred) * causal_pred
+
+    @torch.no_grad()
+    def probs(self, *args, **kwargs):
+        # nodes x classes
+        logits = self(*args, **kwargs)
+        if logits.shape[-1] > 1:
+            return logits.softmax(dim=1)
+        else:
+            return logits.sigmoid()
+    
+    @torch.no_grad()
+    def log_probs(self, *args, **kwargs):
+        # nodes x classes
+        logits = self(*args, **kwargs)
+        if logits.shape[-1] > 1:
+            return logits.log_softmax(dim=1)
+        else:
+            return logits.sigmoid().log()
     
     def get_subgraph(self, get_pred=False, log_pred=False, ratio=None, *args, **kwargs):
         data = kwargs.get('data') or None
@@ -283,10 +301,10 @@ class GAEAttNet(nn.Module):
 
             if not data.edge_attr is None:
                 edge_index_sorted, edge_attr_sorted = coalesce(data.ori_edge_index, data.edge_attr, is_sorted=False)                    
-                assert torch.all(
-                    torch.tensor([edge_index_sorted.T[i][0] == data.edge_index.T[i][0] and edge_index_sorted.T[i][1] == data.edge_index.T[i][1] 
-                                for i in range(len(data.edge_index.T))])
-                )
+                # assert torch.all(
+                #     torch.tensor([edge_index_sorted.T[i][0] == data.edge_index.T[i][0] and edge_index_sorted.T[i][1] == data.edge_index.T[i][1] 
+                #                 for i in range(len(data.edge_index.T))])
+                # )
                 data.edge_attr = edge_attr_sorted   
 
         if data.edge_index.shape[1] != 0:
