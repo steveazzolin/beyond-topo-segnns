@@ -450,17 +450,17 @@ class GOODMotif(InMemoryDataset):
         meta_info.dim_node = train_dataset.num_node_features
         meta_info.dim_edge = train_dataset.num_edge_features
 
-        meta_info.num_envs = torch.unique(train_dataset.data.env_id).shape[0]
+        meta_info.num_envs = torch.unique(train_dataset.env_id).shape[0]
 
         # Define networks' output shape.
         if train_dataset.task == 'Binary classification':
-            meta_info.num_classes = train_dataset.data.y.shape[1]
+            meta_info.num_classes = train_dataset.y.shape[1]
         elif train_dataset.task == 'Regression':
             meta_info.num_classes = 1
         elif train_dataset.task == 'Multi-label classification':
-            meta_info.num_classes = torch.unique(train_dataset.data.y).shape[0]
+            meta_info.num_classes = torch.unique(train_dataset.y).shape[0]
 
-        # --- clear buffer dataset._data_list ---
+        # --- clear buffer dataset._data_list ---        
         train_dataset._data_list = None
         if id_val_dataset:
             id_val_dataset._data_list = None
