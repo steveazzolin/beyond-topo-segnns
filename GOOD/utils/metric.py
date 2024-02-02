@@ -96,7 +96,7 @@ class Metric(object):
                                                                                                           dim=1)
         return matthews_corrcoef(true, pred_label)
 
-    def f1(self, y_true, y_pred):
+    def f1(self, y_true, y_pred, pos_class=None):
         r"""
         Calculate F1 score
 
@@ -112,7 +112,7 @@ class Metric(object):
         pred_label = torch.tensor(y_pred)
         pred_label = pred_label.round() if self.dataset_task == "Binary classification" else torch.argmax(pred_label,
                                                                                                             dim=1)
-        return f1_score(true, pred_label, average='micro')
+        return f1_score(true, pred_label, average='binary' if self.dataset_task == "Binary classification" else 'micro', pos_label=pos_class)
 
     def ap(self, y_true, y_pred):
         r"""
@@ -128,7 +128,7 @@ class Metric(object):
         """
         return average_precision_score(torch.tensor(y_true).long(), torch.tensor(y_pred))
 
-    def roc_auc_score(self, y_true, y_pred):
+    def roc_auc_score(self, y_true, y_pred, pos_class=None):
         r"""
         Calculate roc_auc score
 
@@ -158,7 +158,7 @@ class Metric(object):
         """
         return mean_absolute_error(torch.tensor(y_true), torch.tensor(y_pred))
 
-    def acc(self, y_true, y_pred):
+    def acc(self, y_true, y_pred, pos_class=None):
         r"""
         Calculate accuracy score
 

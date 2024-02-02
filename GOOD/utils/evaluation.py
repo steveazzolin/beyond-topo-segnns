@@ -59,7 +59,8 @@ def eval_data_preprocess(y: torch.Tensor,
 
 def eval_score(pred_all: Union[List[np.ndarray], List[List[np.ndarray]]],
                target_all: Union[List[np.ndarray], List[List[np.ndarray]]],
-               config: Union[CommonArgs, Munch]
+               config: Union[CommonArgs, Munch],
+               pos_class: int = None
                ) -> Union[np.ndarray, np.float, float]:
     r"""
     Calculate metric scores given preprocessed prediction values and ground truth values.
@@ -99,7 +100,7 @@ def eval_score(pred_all: Union[List[np.ndarray], List[List[np.ndarray]]],
     else:
         pred_all = np.concatenate(pred_all)
         target_all = np.concatenate(target_all)
-        score = np.nanmean(config.metric.score_func(target_all, pred_all))
+        score = np.nanmean(config.metric.score_func(target_all, pred_all, pos_class))
     return score
 
 
