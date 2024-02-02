@@ -210,13 +210,30 @@ class LECIGIN(GNNBasic):
     def probs(self, *args, **kwargs):
         # nodes x classes
         (lc_logits, la_logits, _, ea_logits, ef_logits), att, edge_att = self(*args, **kwargs)
-        return lc_logits.softmax(dim=1)
+        if lc_logits.shape[-1] > 1:
+            return lc_logits.softmax(dim=1)
+        else:
+            return lc_logits.sigmoid()
     
     @torch.no_grad()
     def log_probs(self, *args, **kwargs):
         # nodes x classes
         (lc_logits, la_logits, _, ea_logits, ef_logits), att, edge_att = self(*args, **kwargs)
-        return lc_logits.log_softmax(dim=1)
+        if lc_logits.shape[-1] > 1:
+            return lc_logits.log_softmax(dim=1)
+        else:
+            return lc_logits.sigmoid().log()
+        
+    @torch.no_grad()
+    def predict_from_subgraph(self, edge_att=False, *args, **kwargs):
+        set_masks(edge_att, self.lc_gnn)
+        lc_logits = self.lc_classifier(self.lc_gnn(*args, **kwargs))
+        clear_masks(self)
+        
+        if lc_logits.shape[-1] > 1:
+            return lc_logits.argmax(-1)
+        else:
+            return lc_logits.sigmoid().round()
     
     @torch.no_grad()
     def get_subgraph(self, get_pred=False, log_pred=False, ratio=None, *args, **kwargs):
@@ -240,11 +257,7 @@ class LECIGIN(GNNBasic):
                 else:
                     # data.ori_edge_index = data.edge_index.detach().clone() #for backup and debug
                     if not data.edge_attr is None:
-                        _, data.edge_attr = coalesce(data.ori_edge_index, data.edge_attr, is_sorted=False)
-                        # assert torch.all(
-                        #     torch.tensor([edge_index_sorted.T[i][0] == data.edge_index.T[i][0] and edge_index_sorted.T[i][1] == data.edge_index.T[i][1] 
-                        #                 for i in range(len(data.edge_index.T))])
-                        # )
+                        _, data.edge_attr = coalesce(data.edge_index, data.edge_attr, is_sorted=False)
                     if hasattr(data, "edge_gt") and not data.edge_gt is None:
                         _, data.edge_gt = coalesce(data.edge_index, data.edge_gt, is_sorted=False)
                     data.edge_index, edge_att = to_undirected(data.edge_index, att.squeeze(-1), reduce="mean")
