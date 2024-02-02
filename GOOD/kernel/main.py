@@ -44,7 +44,10 @@ def initialize_model_dataset(config: Union[CommonArgs, Munch]) -> Tuple[torch.nn
     dataset = load_dataset(config.dataset.dataset_name, config)
     print(f"#D#Dataset: {dataset}")
     print('#D#', dataset['train'][0] if type(dataset) is dict else dataset[0])
-    print(dataset["id_val"].data)
+    print(dataset["id_val"].get(0))
+
+    for split in ["train", "id_val", "val", "test"]:
+        print(dataset[split].y.unique(return_counts=True))
 
     # print(dataset["test"].data)
     # print(dataset["test"][0].edge_index)
@@ -63,15 +66,107 @@ def initialize_model_dataset(config: Union[CommonArgs, Munch]) -> Tuple[torch.nn
     return model, loader
 
 
+def permute_attention_scores(args):
+    load_splits = ["id"]
+    splits = ["id_val", "val", "test"] #, "val", "test"
+    results = {l: {k: defaultdict(list) for k in splits} for l in load_splits}
+    for l, load_split in enumerate(load_splits):
+        print("\n\n" + "-"*50)
+
+        for i, seed in enumerate(args.seeds.split("/")):
+            print(f"GENERATING ATTN. PERMUTATION FOR LOAD SPLIT = {load_split} AND SEED {seed}\n\n")
+            seed = int(seed)        
+            args.random_seed = seed
+            args.exp_round = seed
+            
+            config = config_summoner(args)
+            config["mitigation_backbone"] = args.mitigation_backbone
+            config["mitigation_sampling"] = args.mitigation_sampling
+            config["task"] = "test"
+            config["load_split"] = load_split
+            if l == 0 and i == 0:
+                load_logger(config)
+            
+            model, loader = initialize_model_dataset(config)
+            ood_algorithm = load_ood_alg(config.ood.ood_alg, config)
+            pipeline = load_pipeline(config.pipeline, config.task, model, loader, ood_algorithm, config)
+            pipeline.load_task(load_param=True, load_split=load_split) 
+
+            for s in splits:
+                acc_ori, acc = pipeline.permute_attention_scores(s)
+                results[load_split][s]["ori"].append(acc_ori)
+                results[load_split][s]["perm"].append(acc)
+    
+    print(f"{config.dataset.dataset_name} - {config.model.model_name}")
+    for load_split in results.keys():
+        for split in results[load_split]:
+            print(f"({load_split}) {split} Acc original: \t{np.mean(results[load_split][split]['ori']):.3f} +- {np.std(results[load_split][split]['ori']):.3f}")
+            print(f"({load_split}) {split} Acc permutation: \t{np.mean(results[load_split][split]['perm']):.3f} +- {np.std(results[load_split][split]['perm']):.3f}")
+
+def test_motif(args):
+    load_splits = ["id"]
+    for l, load_split in enumerate(load_splits):
+        print("\n\n" + "-"*50)
+
+        for i, seed in enumerate(args.seeds.split("/")):
+            print(f"GENERATING PLOT FOR LOAD SPLIT = {load_split} AND SEED {seed}\n\n")
+            seed = int(seed)        
+            args.random_seed = seed
+            args.exp_round = seed
+            
+            config = config_summoner(args)
+            config["mitigation_backbone"] = args.mitigation_backbone
+            config["mitigation_sampling"] = args.mitigation_sampling
+            config["task"] = "test"
+            config["load_split"] = load_split
+            if l == 0 and i == 0:
+                load_logger(config)
+            
+            model, loader = initialize_model_dataset(config)
+            ood_algorithm = load_ood_alg(config.ood.ood_alg, config)
+            pipeline = load_pipeline(config.pipeline, config.task, model, loader, ood_algorithm, config)
+            pipeline.load_task(load_param=True, load_split=load_split) 
+
+            pipeline.test_motif()
+
+
+def generate_panel(args):
+    load_splits = ["id"]
+    for l, load_split in enumerate(load_splits):
+        print("\n\n" + "-"*50)
+
+        for i, seed in enumerate(args.seeds.split("/")):
+            print(f"GENERATING PLOT FOR LOAD SPLIT = {load_split} AND SEED {seed}\n\n")
+            seed = int(seed)        
+            args.random_seed = seed
+            args.exp_round = seed
+            
+            config = config_summoner(args)
+            config["mitigation_backbone"] = args.mitigation_backbone
+            config["mitigation_sampling"] = args.mitigation_sampling
+            config["task"] = "test"
+            config["load_split"] = load_split
+            if l == 0 and i == 0:
+                load_logger(config)
+            
+            model, loader = initialize_model_dataset(config)
+            ood_algorithm = load_ood_alg(config.ood.ood_alg, config)
+            pipeline = load_pipeline(config.pipeline, config.task, model, loader, ood_algorithm, config)
+            pipeline.load_task(load_param=True, load_split=load_split) 
+
+            pipeline.generate_panel()
+
 def evaluate_metric(args):
     load_splits = ["id"]
-    splits = ["id_val", "val"]
+    splits = ["id_val", "val", "test"]
     startTime = datetime.now()
+
+    metrics_score = {}
     for l, load_split in enumerate(load_splits):
         print("\n\n" + "-"*50)
         print(f"USING LOAD SPLIT = {load_split}\n\n")
 
-        metrics_score = {s: defaultdict(list) for s in splits + ["test", "test_R"]}
+        metrics_score[load_split] = {s: defaultdict(list) for s in splits + ["test", "test_R"]}
         for i, seed in enumerate(args.seeds.split("/")):
             seed = int(seed)        
             args.random_seed = seed
@@ -89,12 +184,7 @@ def evaluate_metric(args):
             model, loader = initialize_model_dataset(config)
             ood_algorithm = load_ood_alg(config.ood.ood_alg, config)
             pipeline = load_pipeline(config.pipeline, config.task, model, loader, ood_algorithm, config)
-
-            test_score, test_loss = pipeline.load_task(load_param=True, load_split=load_split)            
-            # for e in ["train", "id_val", "val", "test"]:
-            #     sa = pipeline.evaluate(e, compute_suff=False)
-            #     print(e, sa)
-            # exit()
+            pipeline.load_task(load_param=True, load_split=load_split)
 
             edge_scores, graphs = {s: None for s in splits}, {s: None for s in splits}
             for metric in args.metrics.split("/"):
@@ -103,20 +193,14 @@ def evaluate_metric(args):
                 if metric == "acc":
                     assert not (config.acc_givenR and config.mask)
                     if not config.acc_givenR:
-                        for split in splits + ["test"]:
-                            acc, xai = pipeline.compute_accuracy_binarizing(split, givenR=False)
-                            metrics_score[split]["acc"].append(acc)
-                            metrics_score[split]["plaus"].append([e[1] for e in xai])
-                            metrics_score[split]["wiou"].append([e[0] for e in xai])
+                        for split in splits + (["test"] if not "test" in splits else []):
+                            pipeline.compute_accuracy_binarizing(split, givenR=False, metric_collector=metrics_score[load_split][split])
                     print("\n\nComputing now with givenR...\n")
-                    acc, xai = pipeline.compute_accuracy_binarizing("test", givenR=True)
-                    metrics_score["test_R"]["acc"].append(acc)
-                    metrics_score["test_R"]["plaus"].append([e[1] for e in xai])
-                    metrics_score["test_R"]["wiou"].append([e[0] for e in xai])
+                    pipeline.compute_accuracy_binarizing("test", givenR=True, metric_collector=metrics_score[load_split]["test_R"])
                     continue
 
                 for split in splits:
-                    score, results, edge_scores_split, graphs_split = pipeline.compute_metric_ratio(
+                    score, acc_int, results, edge_scores_split, graphs_split = pipeline.compute_metric_ratio(
                         split,
                         metric=metric,
                         intervention_distrib=config.intervention_distrib,
@@ -125,80 +209,80 @@ def evaluate_metric(args):
                     )
                     edge_scores[split] = edge_scores_split
                     graphs[split] = graphs_split
-                    metrics_score[split][metric].append(score)
+                    metrics_score[load_split][split][metric].append(score)
+                    metrics_score[load_split][split][metric + "_acc_int"].append(acc_int)
 
                     if metric.lower() in ("suff", "nec", "nec++", "fidp", "fidm") and config.save_metrics:
                         expname = f"{config.load_split}_{config.util_model_dirname}_{config.dataset.dataset_name}_{config.random_seed}_{metric}_{split}_budgetsamples{config.numsamples_budget}_expbudget{config.expval_budget}"
                         with open(f"storage/metric_results/{expname}.json", "w") as f:
                             json.dump(results, f)
 
-        print("\n\n", "-"*50, "\nPrinting evaluation results")
+    for load_split in load_splits:
+        print("\n\n", "-"*50, f"\nPrinting evaluation results for load_split {load_split}\n\n")
         for split in splits:
             print(f"\nEval split {split}")
             for metric in args.metrics.split("/"):
-                print(f"{metric} = {metrics_score[split][metric]}")
-                if metric == "acc":
-                    for a in ["plaus", "wiou"]:
-                        print(f"{a} = {metrics_score[split][a]}")
+                print(f"{metric} = {metrics_score[load_split][split][metric]}")
         if "acc" in args.metrics.split("/"):
-            for split in ["test", "test_R"]:
+            for split in splits + ["test", "test_R"]:
                 print(f"\nEval split {split}")
                 for metric in ["acc", "plaus", "wiou"]:
-                    print(f"{metric} = {metrics_score[split][metric]}")
-        print(f"Computed for split load_split = {load_split}\n\n\n")
+                    print(f"{metric} = {metrics_score[load_split][split][metric]}")
 
         print("\n\n", "-"*50, "\nPrinting evaluation averaged per seed")
         for split in splits:
             print(f"\nEval split {split}")
             for metric in args.metrics.split("/"):
-                avg_per_seed = torch.tensor(metrics_score[split][metric]).mean(0)
-                std_per_seed = torch.tensor(metrics_score[split][metric]).std(0)
-                print(f"{metric} = {avg_per_seed} +- {std_per_seed}")
-                if metric == "acc":
-                    for a in ["plaus", "wiou"]:
-                        avg_per_seed = torch.tensor(metrics_score[split][a]).mean(0)
-                        std_per_seed = torch.tensor(metrics_score[split][a]).std(0)
-                        print(f"{a} = {avg_per_seed} +- {std_per_seed}")
+                if "acc" == metric:
+                    continue
+                for c in metrics_score[load_split][split][metric][0].keys():
+                    s = [
+                        metrics_score[load_split][split][metric][i][c] for i in range(len(metrics_score[load_split][split][metric]))
+                    ]
+                    print_metric(metric + f" class {c}", s)
+                # print_metric(metric, metrics_score[load_split][split][metric])
+                print_metric(metric + "_acc_int", metrics_score[load_split][split][metric + "_acc_int"])
+                
         if "acc" in args.metrics.split("/"):
-            for split in ["test", "test_R"]:
+            for split in splits + ["test", "test_R"]:
                 print(f"\nEval split {split}")
-                for a in ["acc", "plaus", "wiou"]:
-                    avg_per_seed = torch.tensor(metrics_score[split][a]).mean(0)
-                    std_per_seed = torch.tensor(metrics_score[split][a]).std(0)
-                    print(f"{a} = {avg_per_seed} +- {std_per_seed}")
+                print_metric("acc", metrics_score[load_split][split]["acc"])
+                for a in ["plaus", "wiou"]:
+                    for c in metrics_score[load_split][split][a][0].keys():
+                        s = [
+                            metrics_score[load_split][split][a][i][c] for i in range(len(metrics_score[load_split][split][a]))
+                        ]
+                        print_metric(a + f" class {c}", s)
 
         print("\n\n", "-"*50, "\nComputing faithfulness")
         for split in splits:
-            print(f"\nEval split {split}")
-            
+            print(f"\nEval split {split}")            
             if "suff" in args.metrics.split("/") and "nec" in args.metrics.split("/"):
-                suff = torch.tensor(metrics_score[split]["suff"]) #.mean(0) #1xratio
-                nec  = torch.tensor(metrics_score[split]["nec"])[:, :suff.shape[1]] #.mean(0) #1xratio
-                
+                suff = torch.tensor(metrics_score[load_split][split]["suff"]) #.mean(0) #1xratio
+                nec  = torch.tensor(metrics_score[load_split][split]["nec"])[:, :suff.shape[1]]                
                 faith_armonic = armonic(suff, nec)
                 faith_gmean = gmean(suff, nec)
+                print_metric("Faith. = \t", faith_armonic)
+                print_metric("Faith. GMean = \t", faith_gmean)
 
-                print(f"Faith = \t{torch.round(faith_armonic.mean(0), decimals=3)} +- {torch.round(faith_armonic.std(0), decimals=3)}")
-                print(f"Faith GMean = \t{torch.round(faith_gmean.mean(0), decimals=3)} +- {torch.round(faith_gmean.std(0), decimals=3)}")
-
-                if "nec++" in args.metrics.split("/"):
-                    necpp = torch.tensor(metrics_score[split]["nec++"])[:, :suff.shape[1]] #.mean(0) #1xratio
-                    faith_armonic = armonic(suff, necpp)
-                    faith_gmean = gmean(suff, necpp)
-                    print(f"Faith = \t{torch.round(faith_armonic.mean(0), decimals=3)} +- {torch.round(faith_armonic.std(0), decimals=3)}")
-                    print(f"Faith GMean = \t{torch.round(faith_gmean.mean(0), decimals=3)} +- {torch.round(faith_gmean.std(0), decimals=3)}")
+            if "suff" in args.metrics.split("/") and "nec++" in args.metrics.split("/"):
+                suff = get_tensorized_metric(metrics_score[load_split][split]["suff"], "all")
+                necpp = get_tensorized_metric(metrics_score[load_split][split]["nec++"], "all")[:, :suff.shape[1]]
+                faith_armonic = armonic(suff, necpp)
+                faith_gmean = gmean(suff, necpp)
+                print_metric("Faith.++ = \t", faith_armonic)
+                print_metric("Faith.++ GMean = \t", faith_gmean)
 
             if "fidp" in args.metrics.split("/") and "fidm" in args.metrics.split("/"):
-                fidm = torch.tensor(metrics_score[split]["fidm"]) #.mean(0) #1xratio
-                fidp  = torch.tensor(metrics_score[split]["fidp"]) #.mean(0) #1xratio
-                
+                fidm = torch.tensor(metrics_score[load_split][split]["fidm"])
+                fidp  = torch.tensor(metrics_score[load_split][split]["fidp"])
                 faith_armonic = armonic(fidm, fidp)
                 faith_gmean = gmean(fidm, fidp)
-
-                print(f"Char. Score = {torch.round(faith_armonic.mean(0), decimals=3)} +- {torch.round(faith_armonic.std(0), decimals=3)}")
-                print(f"Char. Score GMean = {torch.round(faith_gmean.mean(0), decimals=3)} +- {torch.round(faith_gmean.std(0), decimals=3)}")
-        print("Completed in ", datetime.now() - startTime)
-        print("\n\n")
+                print_metric("Char. Score = \t", faith_armonic)
+                print_metric("Char. Score GMean = \t", faith_gmean)
+        print(f"Computed for split load_split = {load_split}\n\n\n")
+    print("Completed in ", datetime.now() - startTime, f" for {config.model.model_name} {config.dataset.dataset_name}")
+    print("\n\n")
                     
 def gmean(a,b):
     return (a*b).sqrt()
@@ -206,6 +290,14 @@ def armonic(a,b):
     return 2 * (a*b) / (a+b)
 def gstd(a):
     return a.log().std().exp()
+def print_metric(name, data):
+    avg = np.nanmean(data, axis=0)
+    std = np.nanstd(data, axis=0)
+    print(name, " = ", ", ".join([f"{avg[i]:.3f} +- {std[i]:.3f}" for i in range(len(avg))]))
+def get_tensorized_metric(scores, c):
+    return torch.tensor([
+        scores[i][c] for i in range(len(scores))
+    ])
 
 
 def main():
@@ -216,6 +308,15 @@ def main():
 
     if args.task == 'eval_metric':
         evaluate_metric(args)
+        exit(0)
+    if args.task == 'plot_panel':
+        generate_panel(args)
+        exit(0)
+    if args.task == 'test_motif':
+        test_motif(args)
+        exit(0)
+    if args.task == 'permute_attention':
+        permute_attention_scores(args)
         exit(0)
 
     test_scores = defaultdict(list)
@@ -245,16 +346,20 @@ def main():
             test_score, test_loss = pipeline.load_task()
             test_scores["trained"].append(test_score)
         elif config.task == 'test':
-            test_score, test_loss = pipeline.load_task(load_param=True)
+            test_score, test_loss = pipeline.load_task(load_param=True, load_split="id")
             for s in ["train", "id_val", "val", "test"]:
                 sa = pipeline.evaluate(s, compute_suff=False)
                 test_scores[s].append(sa['score'])
+            test_score, test_loss = pipeline.load_task(load_param=True, load_split="ood")
+            for s in ["train", "id_val", "val", "test"]:
+                sa = pipeline.evaluate(s, compute_suff=False)
+                test_scores["ood_" + s].append(sa['score'])
             print(f"Printing obtained and stored scores: {sa['score']} !=? {test_score}")
     print()
     print()
     print("Final scores: ")
-    for s in ["train", "id_val", "val", "test"]:
-        print(f"{s.upper()} = {round(np.mean(test_scores[s]), 4)} +- {round(np.std(test_scores[s]), 4)}")
+    for s in test_scores.keys():
+        print(f"{s.upper()} = {round(np.mean(test_scores[s]), 3)} +- {round(np.std(test_scores[s]), 3)}")
     print()
 
 
