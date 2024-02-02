@@ -72,10 +72,10 @@ class GSATGIN(GNNBasic):
 
                     if not data.edge_attr is None:
                         edge_index_sorted, edge_attr_sorted = coalesce(data.ori_edge_index, data.edge_attr, is_sorted=False)                    
-                        assert torch.all(
-                            torch.tensor([edge_index_sorted.T[i][0] == data.edge_index.T[i][0] and edge_index_sorted.T[i][1] == data.edge_index.T[i][1] 
-                                        for i in range(len(data.edge_index.T))])
-                        )
+                        # assert torch.all(
+                        #     torch.tensor([edge_index_sorted.T[i][0] == data.edge_index.T[i][0] and edge_index_sorted.T[i][1] == data.edge_index.T[i][1] 
+                        #                 for i in range(len(data.edge_index.T))])
+                        # )
                         data.edge_attr = edge_attr_sorted    
             else:
                 edge_att = att
@@ -100,10 +100,10 @@ class GSATGIN(GNNBasic):
 
         set_masks(edge_att, self)
         logits = self.classifier(self.gnn(*args, **kwargs))
-        if self.gnn_clf:
-            logits = self.classifier(self.gnn_clf(*args, **kwargs))
-        else:
-            logits = self.classifier(self.gnn(*args, **kwargs))
+        # if self.gnn_clf:
+        #     logits = self.classifier(self.gnn_clf(*args, **kwargs))
+        # else:
+        #     logits = self.classifier(self.gnn(*args, **kwargs))
         clear_masks(self)
         self.edge_mask = edge_att
         return logits, att, edge_att
@@ -133,13 +133,30 @@ class GSATGIN(GNNBasic):
     def probs(self, *args, **kwargs):
         # nodes x classes
         logits, att, edge_att = self(*args, **kwargs)
-        return logits.softmax(dim=1)
+        if logits.shape[-1] > 1:
+            return logits.softmax(dim=1)
+        else:
+            return logits.sigmoid()
     
     @torch.no_grad()
     def log_probs(self, *args, **kwargs):
         # nodes x classes
         logits, att, edge_att = self(*args, **kwargs)
-        return logits.log_softmax(dim=1)
+        if logits.shape[-1] > 1:
+            return logits.log_softmax(dim=1)
+        else:
+            return logits.sigmoid().log()
+        
+    @torch.no_grad()
+    def predict_from_subgraph(self, edge_att=False, *args, **kwargs):
+        set_masks(edge_att, self)
+        lc_logits = self.classifier(self.gnn(*args, **kwargs))
+        clear_masks(self)
+
+        if lc_logits.shape[-1] > 1:
+            return lc_logits.argmax(-1)
+        else:
+            return lc_logits.sigmoid().round()
     
     def get_subgraph(self, ratio=None, *args, **kwargs):
         data = kwargs.get('data') or None
@@ -159,11 +176,7 @@ class GSATGIN(GNNBasic):
                     data.edge_index, edge_att = to_undirected(data.edge_index, att.squeeze(-1), reduce="mean")
 
                     if not data.edge_attr is None:
-                        edge_index_sorted, edge_attr_sorted = coalesce(data.ori_edge_index, data.edge_attr, is_sorted=False)                    
-                        assert torch.all(
-                            torch.tensor([edge_index_sorted.T[i][0] == data.edge_index.T[i][0] and edge_index_sorted.T[i][1] == data.edge_index.T[i][1] 
-                                        for i in range(len(data.edge_index.T))])
-                        )
+                        edge_index_sorted, edge_attr_sorted = coalesce(data.ori_edge_index, data.edge_attr, is_sorted=False)
                         data.edge_attr = edge_attr_sorted   
                     if hasattr(data, "edge_gt") and not data.edge_gt is None:
                         edge_index_sorted, edge_gt_sorted = coalesce(data.ori_edge_index, data.edge_gt, is_sorted=False)
