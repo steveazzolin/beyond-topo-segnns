@@ -566,9 +566,9 @@ class Pipeline:
 
         print(f"\n\n")
         print("-"*50)
-        print(f"\n\n#D#Computing {metric.upper()} over {split} across ratios")    
+        print(f"\n\n#D#Computing {metric.upper()} over {split} across ratios (random_expl={self.config.random_expl})")
         reset_random_seed(self.config)
-        self.model.eval()        
+        self.model.eval()   
 
         dataset = self.get_local_dataset(split)
         
@@ -624,6 +624,11 @@ class Pipeline:
                     return_attn=False,
                     ratio=None
                 )
+                if self.config.random_expl:
+                    edge_score = edge_score[
+                        shuffle_node(torch.arange(edge_score.shape[0], device=edge_score.device), batch=data.batch[data.edge_index[0]])[1]
+                    ]
+                    data.edge_index, edge_score = to_undirected(data.edge_index, edge_score, reduce="mean")
                 # attn_distrib.append(self.model.attn_distrib)
                 for j, g in enumerate(data.to_data_list()):
                     g.ori_x = data.ori_x[data.batch == j]
@@ -671,6 +676,8 @@ class Pipeline:
                 #     tmp = G.copy()
                 #     xai_utils.mark_edges(tmp, causal_subgraphs[i], spu_subgraphs[i])
                 #     xai_utils.draw(self.config, tmp, subfolder="plots_of_suff_scores", name=f"graph_{i}")
+                # else:
+                #     exit()
                 
                 if metric == "suff" and intervention_distrib == "model_dependent":
                     G_filt = xai_utils.remove_from_graph(G, "spu", spu_subgraphs[i])
@@ -1467,6 +1474,19 @@ class Pipeline:
         self.model.eval()
         print(f"Trying to replace attention weigths for {split}:")
         dataset = self.get_local_dataset(split, log=False)
+
+        if self.config.numsamples_budget < len(dataset):
+            idx, _ = train_test_split(
+                    np.arange(len(dataset)),
+                    train_size=min(self.config.numsamples_budget, len(dataset)) / len(dataset),
+                    random_state=42,
+                    shuffle=True,
+                    stratify=dataset.y if torch_geometric.__version__ == "2.4.0" else dataset.data.y
+            )
+        else:
+            idx = np.arange(len(dataset))
+
+        dataset = dataset[idx]
         loader = DataLoader(dataset, batch_size=256, shuffle=False, num_workers=2)
         preds, ori_preds = [], []
         for data in loader:
@@ -1503,12 +1523,11 @@ class Pipeline:
         ori_preds = torch.tensor(ori_preds)
         print(preds.shape, ori_preds.shape, dataset.y.shape)
         if dataset.metric == "ROC-AUC":
-            assert False
             acc_ori = sk_roc_auc(dataset.y.long().numpy(), ori_preds, multi_class='ovo')
             acc = sk_roc_auc(dataset.y.long().numpy(), preds, multi_class='ovo')
         elif dataset.metric == "F1":
-            acc_ori = f1_score(dataset.y.long().numpy(), ori_preds.reshape(-1), average="binary", pos_label=dataset.minority_class)
-            acc = f1_score(dataset.y.long().numpy(), preds.reshape(-1), average="binary", pos_label=dataset.minority_class)
+            acc_ori = f1_score(dataset.y.long().numpy(), ori_preds.round().reshape(-1), average="binary", pos_label=dataset.minority_class)
+            acc = f1_score(dataset.y.long().numpy(), preds.round().reshape(-1), average="binary", pos_label=dataset.minority_class)
         else:
             preds = preds.reshape(-1)
             ori_preds = ori_preds.reshape(-1)
