@@ -47,8 +47,8 @@ def initialize_model_dataset(config: Union[CommonArgs, Munch]) -> Tuple[torch.nn
     print(dataset["id_val"].get(0))
 
     for split in ["train", "id_val", "val", "test"]:
-        print(dataset[split].y.unique(return_counts=True))
-
+        print(f"({split}) {dataset[split].y.unique(return_counts=True)}")
+        print(f"({split}) {np.mean([d.edge_index.shape[1] for d in dataset[split]]):.3f} +- {np.min([d.edge_index.shape[1] for d in dataset[split]]):.3f}")
     # print(dataset["test"].data)
     # print(dataset["test"][0].edge_index)
     # print(dataset["test"][0].node_perm)
