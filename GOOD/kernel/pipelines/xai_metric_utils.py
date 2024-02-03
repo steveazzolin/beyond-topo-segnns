@@ -181,7 +181,8 @@ def random_attach(S, T):
 def random_attach_no_target_frontier(S, T):
     # random attach frontier nodes in S and T
     # avoid selecting target nodes that are in the frontier
-
+    
+    edge_attrs = list(nx.get_edge_attributes(S, "edge_attr").values())
     S_frontier = list(filter(lambda x: nx.get_node_attributes(S,'frontier').get(x, False), S.nodes()))
 
     ret = nx.union(S, T, rename=("", "T"))
@@ -192,8 +193,13 @@ def random_attach_no_target_frontier(S, T):
         v = "T" + str(list(T)[idx])
         # assert str(n) in ret.nodes() and v in ret.nodes()
 
-        ret.add_edge(str(n), v) #, origin="added"
-        ret.add_edge(v, str(n)) #, origin="added"
+        if edge_attrs != []:
+            attr = randint(0, len(edge_attrs) - 1)
+            ret.add_edge(str(n), v, edge_attr=edge_attrs[attr])
+            ret.add_edge(v, str(n), edge_attr=edge_attrs[attr])
+        else:
+            ret.add_edge(str(n), v)
+            ret.add_edge(v, str(n))
     return ret
 
 def expl_acc(expl, data, expl_weight=None):
