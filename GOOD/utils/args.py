@@ -122,6 +122,7 @@ class CommonArgs(Tap):
     metrics:str = "" # Added by Steve
     debias:bool = False # Added by Steve
     nec_marg_alpha:bool = True # Added by Steve
+    random_expl:bool = False # Added by Steve
     
     pytest: bool = None
     pipeline: str = None  #: Training/test controller.
