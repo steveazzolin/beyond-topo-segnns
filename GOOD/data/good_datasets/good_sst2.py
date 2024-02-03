@@ -56,6 +56,7 @@ class GOODSST2(InMemoryDataset):
 
         self.name = self.__class__.__name__
         self.domain = domain
+        self.minority_class = None
         self.metric = 'Accuracy'
         self.task = 'Binary classification'
         self.url = 'https://drive.google.com/file/d/1lGNMbQebKIbS-NnbPxmY4_uDGI7EWXBP/view?usp=sharing'

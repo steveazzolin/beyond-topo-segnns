@@ -45,7 +45,7 @@ class LBAPcore(InMemoryDataset):
         self.name = self.__class__.__name__
         self.mol_name = 'LBAPcore'
         self.domain = domain
-        self.metric = 'F1'
+        self.metric = 'ROC-AUC'
         self.minority_class = 0
         self.task = 'Binary classification'
         self.url = 'https://drive.google.com/file/d/106u6ryPikpy_M-Ub8BFM2Lzd09i1FCln/view?usp=sharing'

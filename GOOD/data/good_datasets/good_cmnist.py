@@ -39,6 +39,7 @@ class GOODCMNIST(InMemoryDataset):
 
         self.name = self.__class__.__name__
         self.domain = domain
+        self.minority_class = None
         self.metric = 'Accuracy'
         self.task = 'Multi-label classification'
         self.url = 'https://drive.google.com/file/d/1F2r2kVmA0X07AXyap9Y_rOM6LipDzwhq/view?usp=sharing'
@@ -324,9 +325,6 @@ class GOODCMNIST(InMemoryDataset):
         meta_info.dataset_type = 'syn'
         meta_info.model_level = 'graph'
 
-        print(dataset_root, domain,shift, generate)
-        exit()
-
         train_dataset = GOODCMNIST(root=dataset_root, domain=domain, shift=shift, subset='train', generate=generate, debias=debias)
         id_val_dataset = GOODCMNIST(root=dataset_root, domain=domain, shift=shift,
                                     subset='id_val', debias=debias) if shift != 'no_shift' else None
@@ -338,15 +336,15 @@ class GOODCMNIST(InMemoryDataset):
         meta_info.dim_node = train_dataset.num_node_features
         meta_info.dim_edge = train_dataset.num_edge_features
 
-        meta_info.num_envs = torch.unique(train_dataset.data.env_id).shape[0]
+        meta_info.num_envs = torch.unique(train_dataset.env_id).shape[0]
 
         # Define networks' output shape.
         if train_dataset.task == 'Binary classification':
-            meta_info.num_classes = train_dataset.data.y.shape[1]
+            meta_info.num_classes = train_dataset.y.shape[1]
         elif train_dataset.task == 'Regression':
             meta_info.num_classes = 1
         elif train_dataset.task == 'Multi-label classification':
-            meta_info.num_classes = torch.unique(train_dataset.data.y).shape[0]
+            meta_info.num_classes = torch.unique(train_dataset.y).shape[0]
 
         # --- clear buffer dataset._data_list ---
         train_dataset._data_list = None
