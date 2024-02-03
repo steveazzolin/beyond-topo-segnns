@@ -46,9 +46,9 @@ def initialize_model_dataset(config: Union[CommonArgs, Munch]) -> Tuple[torch.nn
     print('#D#', dataset['train'][0] if type(dataset) is dict else dataset[0])
     print(dataset["id_val"].get(0))
 
-    for split in ["train", "id_val", "val", "test"]:
-        print(f"({split}) {dataset[split].y.unique(return_counts=True)}")
-        print(f"({split}) {np.mean([d.edge_index.shape[1] for d in dataset[split]]):.3f} +- {np.min([d.edge_index.shape[1] for d in dataset[split]]):.3f}")
+    # for split in ["train", "id_val", "val", "test"]:
+    #     print(f"({split}) {dataset[split].y.unique(return_counts=True)}")
+    #     print(f"({split}) {np.mean([d.edge_index.shape[1] for d in dataset[split]]):.3f} +- {np.min([d.edge_index.shape[1] for d in dataset[split]]):.3f}")
     # print(dataset["test"].data)
     # print(dataset["test"][0].edge_index)
     # print(dataset["test"][0].node_perm)
@@ -68,7 +68,7 @@ def initialize_model_dataset(config: Union[CommonArgs, Munch]) -> Tuple[torch.nn
 
 def permute_attention_scores(args):
     load_splits = ["id"]
-    splits = ["id_val", "val", "test"] #, "val", "test"
+    splits = ["id_val", "val", "test"]
     results = {l: {k: defaultdict(list) for k in splits} for l in load_splits}
     for l, load_split in enumerate(load_splits):
         print("\n\n" + "-"*50)
@@ -100,8 +100,8 @@ def permute_attention_scores(args):
     print(f"{config.dataset.dataset_name} - {config.model.model_name}")
     for load_split in results.keys():
         for split in results[load_split]:
-            print(f"({load_split}) {split} Acc original: \t{np.mean(results[load_split][split]['ori']):.3f} +- {np.std(results[load_split][split]['ori']):.3f}")
-            print(f"({load_split}) {split} Acc permutation: \t{np.mean(results[load_split][split]['perm']):.3f} +- {np.std(results[load_split][split]['perm']):.3f}")
+            print(f"({load_split}) {split} {loader[split].dataset.metric} orig.: \t{np.mean(results[load_split][split]['ori']):.3f} +- {np.std(results[load_split][split]['ori']):.3f}")
+            print(f"({load_split}) {split} {loader[split].dataset.metric} perm.: \t{np.mean(results[load_split][split]['perm']):.3f} +- {np.std(results[load_split][split]['perm']):.3f}")
 
 def test_motif(args):
     load_splits = ["id"]
@@ -177,7 +177,7 @@ def evaluate_metric(args):
             config["mitigation_sampling"] = args.mitigation_sampling
             config["task"] = "test"
             config["load_split"] = load_split
-            config["device"] = "cuda:0"
+            # config["device"] = "cuda:0"
             if l == 0 and i == 0:
                 load_logger(config)
             
@@ -258,11 +258,11 @@ def evaluate_metric(args):
         for split in splits:
             print(f"\nEval split {split}")            
             if "suff" in args.metrics.split("/") and "nec" in args.metrics.split("/"):
-                suff = torch.tensor(metrics_score[load_split][split]["suff"]) #.mean(0) #1xratio
-                nec  = torch.tensor(metrics_score[load_split][split]["nec"])[:, :suff.shape[1]]                
+                suff = get_tensorized_metric(metrics_score[load_split][split]["suff"], "all")
+                nec = get_tensorized_metric(metrics_score[load_split][split]["nec"], "all")[:, :suff.shape[1]]             
                 faith_armonic = armonic(suff, nec)
                 faith_gmean = gmean(suff, nec)
-                print_metric("Faith. = \t", faith_armonic)
+                print_metric("Faith. = \t\t", faith_armonic)
                 print_metric("Faith. GMean = \t", faith_gmean)
 
             if "suff" in args.metrics.split("/") and "nec++" in args.metrics.split("/"):
@@ -270,7 +270,7 @@ def evaluate_metric(args):
                 necpp = get_tensorized_metric(metrics_score[load_split][split]["nec++"], "all")[:, :suff.shape[1]]
                 faith_armonic = armonic(suff, necpp)
                 faith_gmean = gmean(suff, necpp)
-                print_metric("Faith.++ = \t", faith_armonic)
+                print_metric("Faith.++ = \t\t", faith_armonic)
                 print_metric("Faith.++ GMean = \t", faith_gmean)
 
             if "fidp" in args.metrics.split("/") and "fidm" in args.metrics.split("/"):
@@ -278,7 +278,7 @@ def evaluate_metric(args):
                 fidp  = torch.tensor(metrics_score[load_split][split]["fidp"])
                 faith_armonic = armonic(fidm, fidp)
                 faith_gmean = gmean(fidm, fidp)
-                print_metric("Char. Score = \t", faith_armonic)
+                print_metric("Char. Score = \t\t", faith_armonic)
                 print_metric("Char. Score GMean = \t", faith_gmean)
         print(f"Computed for split load_split = {load_split}\n\n\n")
     print("Completed in ", datetime.now() - startTime, f" for {config.model.model_name} {config.dataset.dataset_name}")
