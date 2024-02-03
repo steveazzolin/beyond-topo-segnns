@@ -216,13 +216,20 @@ class LECIGIN(GNNBasic):
             return lc_logits.sigmoid()
     
     @torch.no_grad()
-    def log_probs(self, *args, **kwargs):
+    def log_probs(self, eval_kl=False, *args, **kwargs):
         # nodes x classes
         (lc_logits, la_logits, _, ea_logits, ef_logits), att, edge_att = self(*args, **kwargs)
         if lc_logits.shape[-1] > 1:
             return lc_logits.log_softmax(dim=1)
         else:
-            return lc_logits.sigmoid().log()
+            if eval_kl: # make the single logit a proper distribution summing to 1 to compute KL
+                lc_logits = lc_logits.sigmoid()
+                new_logits = torch.zeros((lc_logits.shape[0], lc_logits.shape[1]+1), device=lc_logits.device)
+                new_logits[:, 1] = new_logits[:, 1] + lc_logits.squeeze(1)
+                new_logits[:, 0] = 1 - new_logits[:, 1]
+                return new_logits.log()
+            else:
+                return lc_logits.sigmoid().log()
         
     @torch.no_grad()
     def predict_from_subgraph(self, edge_att=False, *args, **kwargs):

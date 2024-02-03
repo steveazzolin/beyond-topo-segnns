@@ -139,13 +139,20 @@ class CIGAGIN(GNNBasic):
             return logits.sigmoid()
     
     @torch.no_grad()
-    def log_probs(self, *args, **kwargs):
+    def log_probs(self, eval_kl=False, *args, **kwargs):
         # nodes x classes
         logits = self(*args, **kwargs)
         if logits.shape[-1] > 1:
             return logits.log_softmax(dim=1)
         else:
-            return logits.sigmoid().log()
+            if eval_kl: # make the single logit a proper distribution summing to 1 to compute KL
+                logits = logits.sigmoid()
+                new_logits = torch.zeros((logits.shape[0], logits.shape[1]+1), device=logits.device)
+                new_logits[:, 1] = new_logits[:, 1] + logits.squeeze(1)
+                new_logits[:, 0] = 1 - new_logits[:, 1]
+                return new_logits.log()
+            else:
+                return logits.sigmoid().log()
     
     def get_subgraph(self, get_pred=False, log_pred=False, ratio=None, *args, **kwargs):
         data = kwargs.get('data') or None

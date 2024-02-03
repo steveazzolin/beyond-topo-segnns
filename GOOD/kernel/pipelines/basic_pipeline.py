@@ -567,13 +567,10 @@ class Pipeline:
         print(f"\n\n")
         print("-"*50)
         print(f"\n\n#D#Computing {metric.upper()} over {split} across ratios")    
-        # for s in ["train", "id_val", "val", "test"]:
-            # print(s, np.mean([d.edge_index.shape[1] for d in self.loader[s].dataset]), np.min([d.edge_index.shape[1] for d in self.loader[s].dataset]))
         reset_random_seed(self.config)
         self.model.eval()        
 
         dataset = self.get_local_dataset(split)
-
         
         intervent_bank = None
         features_bank = None
@@ -596,7 +593,6 @@ class Pipeline:
                 intervent_bank.append(I)  
         
         if self.config.numsamples_budget == "all" or self.config.numsamples_budget >= len(dataset):
-            # self.config.numsamples_budget = len(dataset)
             idx = np.arange(len(dataset))        
         elif self.config.numsamples_budget < len(dataset):        
             idx, _ = train_test_split(
@@ -636,19 +632,10 @@ class Pipeline:
                     edge_scores.append(edge_score[data.batch[data.edge_index[0]] == j].detach().cpu())
             labels.extend(data.y.detach().cpu().numpy().tolist())
         labels = torch.tensor(labels)
-        graphs_nx = [to_networkx(g, node_attrs=["ori_x"]) for g in graphs]
+        graphs_nx = [to_networkx(g, node_attrs=["ori_x"], edge_attrs=["edge_attr"] if not g.edge_attr is None else None) for g in graphs]
 
         # plot attn_distrib and compute the ratio between gt edges and all edges (gold cut ratio)
-        
         # self.plot_attn_distrib(attn_distrib, edge_scores)
-
-        # if "hiv" in self.config.dataset.dataset_name.lower() :
-        #     self.plot_attn_distrib(attn_distrib, edge_scores)
-        #     z = 10
-        #     for q, (u,v) in enumerate(graphs[z].edge_index.T):
-        #         print((u,v), edge_scores[z][q])
-        #     exit(9)
-
 
         if hasattr(graphs[0], "edge_gt"):
             num_gt_edges = torch.tensor([data.edge_gt.sum() for data in graphs])
@@ -681,8 +668,9 @@ class Pipeline:
                     continue
 
                 # if i < 10:
-                #     xai_utils.mark_edges(G, causal_subgraphs[i], spu_subgraphs[i])
-                #     xai_utils.draw(self.config, G, subfolder="plots_of_suff_scores", name=f"graph_{i}")                
+                #     tmp = G.copy()
+                #     xai_utils.mark_edges(tmp, causal_subgraphs[i], spu_subgraphs[i])
+                #     xai_utils.draw(self.config, tmp, subfolder="plots_of_suff_scores", name=f"graph_{i}")
                 
                 if metric == "suff" and intervention_distrib == "model_dependent":
                     G_filt = xai_utils.remove_from_graph(G, "spu", spu_subgraphs[i])
@@ -749,19 +737,17 @@ class Pipeline:
                     scores[c.item()].append(1.0)
                 scores["all"].append(1.0)
                 continue
-
-            int_dataset = CustomDataset("", eval_samples, belonging)
-
-            # # Inspect edge_scores of intervened edges
-            # self.debug_edge_scores(int_dataset, reference, ratio)
             
+            # # Inspect edge_scores of intervened edges
+            # self.debug_edge_scores(int_dataset, reference, ratio)            
             # Compute new prediction and evaluate KL
+            int_dataset = CustomDataset("", eval_samples, belonging)
             loader = DataLoader(int_dataset, batch_size=256, shuffle=False)
             if self.config.mask:
                 print("Computing with masking")
-                preds_eval, belonging = self.evaluate_graphs(loader, log=False if "fid" in metric else True, weight=ratio, is_ratio=is_ratio)
+                preds_eval, belonging = self.evaluate_graphs(loader, log=False if "fid" in metric else True, weight=ratio, is_ratio=is_ratio, eval_kl=True)
             else:
-                preds_eval, belonging = self.evaluate_graphs(loader, log=False if "fid" in metric else True)
+                preds_eval, belonging = self.evaluate_graphs(loader, log=False if "fid" in metric else True, eval_kl=True)
             preds_ori = preds_eval[reference]
             
             mask = torch.ones(preds_eval.shape[0], dtype=bool)
@@ -775,28 +761,6 @@ class Pipeline:
             preds_ori = preds_ori_ori.repeat_interleave(self.config.expval_budget, dim=0)
             labels_ori = labels_ori_ori.repeat_interleave(self.config.expval_budget, dim=0)
 
-            # if metric in ("suff", "nec", "nec++") and preds_eval.shape[0] > 0:
-            #     div = torch.nn.KLDivLoss(reduction="none", log_target=True)(preds_ori, preds_eval).sum(-1)
-            #     results[ratio] = div.numpy().tolist()
-            #     if metric == "suff":
-            #         div = torch.exp(-div)
-            #     elif metric in ("nec", "nec++"):
-            #         div = 1 - torch.exp(-div)
-            #     aggr = scatter_mean(div, belonging, dim=0)
-            #     aggr_std = scatter_std(div, belonging, dim=0)
-            #     score = round(aggr.mean().item(), 5)
-            # elif "fid" in metric and preds_eval.shape[0] > 0:
-            #     if preds_ori_ori.shape[1] == 1:
-            #         l1 = torch.abs(preds_eval.reshape(-1) - preds_ori.reshape(-1))
-            #     else:
-            #         l1 = torch.abs(preds_eval.gather(1, labels_ori.unsqueeze(1)) - preds_ori.gather(1, labels_ori.unsqueeze(1)))
-            #     results[ratio] = l1.numpy().tolist()
-            #     aggr = scatter_mean(l1, belonging, dim=0)
-            #     aggr_std = scatter_std(l1, belonging, dim=0)
-            #     score = round(aggr.mean().item(), 5)
-            # else:
-            #     score = 0.
-
             aggr, aggr_std = self.get_aggregated_metric(metric, preds_ori, preds_eval, preds_ori_ori, labels_ori, belonging, results, ratio)
             
             assert aggr.shape[0] == labels_ori_ori.shape[0]
@@ -806,33 +770,37 @@ class Pipeline:
             score = round(aggr.mean().item(), 3)
             scores["all"].append(score)
 
+            assert preds_ori_ori.shape[1] > 1, preds_ori_ori.shape
             if dataset.metric == "ROC-AUC":
                 if not "fid" in metric:
                     preds_ori_ori = preds_ori_ori.exp() # undo the log
                     preds_eval = preds_eval.exp()
-                acc = sk_roc_auc(labels_ori_ori.long(), preds_ori_ori, multi_class='ovo')
-                acc_int = sk_roc_auc(labels_ori.long(), preds_eval, multi_class='ovo')
+                acc = sk_roc_auc(labels_ori_ori.long(), preds_ori_ori[:, 1], multi_class='ovo')
+                acc_int = sk_roc_auc(labels_ori.long(), preds_eval[:, 1], multi_class='ovo')
+            elif dataset.metric == "F1":
+                acc = f1_score(labels_ori_ori.long(), preds_ori_ori.argmax(-1), average="binary", pos_label=dataset.minority_class)
+                acc_int = f1_score(labels_ori.long(), preds_eval.argmax(-1), average="binary", pos_label=dataset.minority_class)
             else:
                 if preds_ori_ori.shape[1] == 1:
+                    assert False
                     if not "fid" in metric:
                         preds_ori_ori = preds_ori_ori.exp() # undo the log
                         preds_eval = preds_eval.exp()
                     preds_ori_ori = preds_ori_ori.round().reshape(-1)
                     preds_eval = preds_eval.round().reshape(-1)
-                else:
-                    preds_ori_ori = preds_ori_ori.argmax(-1)  
-                    preds_eval = preds_eval.argmax(-1)  
+                preds_ori_ori = preds_ori_ori.argmax(-1)  
+                preds_eval = preds_eval.argmax(-1)  
                 acc = (labels_ori_ori == preds_ori_ori).sum() / (preds_ori_ori.shape[0])
                 acc_int = (labels_ori == preds_eval).sum() / preds_eval.shape[0]
 
             acc_ints.append(acc_int)
-            print(f"\nModel Val Acc of binarized graphs for r={ratio} = ", round(acc.item(), 3))
+            print(f"\nModel {dataset.metric} of binarized graphs for r={ratio} = ", round(acc.item(), 3))
             print(f"Model XAI F1 of binarized graphs for r={ratio} = ", np.mean([e[1] for e in expl_accs]))
             print(f"Model XAI WIoU of binarized graphs for r={ratio} = ", np.mean([e[0] for e in expl_accs]))
             print(f"len(reference) = {len(reference)}")
             print(f"Effective ratio: {np.mean(effective_ratio):.3f} +- {np.std(effective_ratio):.3f}")
             if preds_eval.shape[0] > 0:
-                print(f"Model Val Acc over intervened graphs for r={ratio} = ", round(acc_int.item(), 3))
+                print(f"Model {dataset.metric} over intervened graphs for r={ratio} = ", round(acc_int.item(), 3))
                 for c in labels_ori_ori.unique().numpy().tolist() + ["all"]:
                     print(f"{metric.upper()} for r={ratio} class {c} = {scores[c][-1]} +- {aggr.std():.3f} (in-sample avg dev_std = {(aggr_std**2).mean().sqrt():.3f})")
         return scores, acc_ints, results, edge_scores, graphs
@@ -890,7 +858,7 @@ class Pipeline:
             assert weights[0] == self.model.att_net.ratio
         else:
             is_ratio = True
-            weights = [1.0] #0.3, 0.6, 0.9, 
+            weights = [0.3, 0.6, 0.9, 1.0]
 
         reset_random_seed(self.config)
         self.model.eval()
@@ -982,7 +950,6 @@ class Pipeline:
                 G_filt = G
 
                 if len(G.edges()) == 0:
-                    assert False
                     empty_graphs += 1
                     continue
                 if givenR: # for P(Y|R)
@@ -991,7 +958,6 @@ class Pipeline:
                         # xai_utils.mark_edges(G, causal_subgraphs[i], spu_subgraphs[i])
                         # xai_utils.draw(self.config, G, subfolder="plots_of_suff_scores", name=f"graph_{i}")
                         empty_graphs += 1
-                        assert False
                         continue
 
                 eval_samples.append(G_filt)
