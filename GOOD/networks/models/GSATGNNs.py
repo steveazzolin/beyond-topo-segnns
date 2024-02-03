@@ -163,7 +163,7 @@ class GSATGIN(GNNBasic):
         if lc_logits.shape[-1] > 1:
             return lc_logits.argmax(-1)
         else:
-            return lc_logits.sigmoid().round()
+            return lc_logits.sigmoid()
     
     def get_subgraph(self, ratio=None, *args, **kwargs):
         data = kwargs.get('data') or None

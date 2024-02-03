@@ -240,7 +240,7 @@ class LECIGIN(GNNBasic):
         if lc_logits.shape[-1] > 1:
             return lc_logits.argmax(-1)
         else:
-            return lc_logits.sigmoid().round()
+            return lc_logits.sigmoid()
     
     @torch.no_grad()
     def get_subgraph(self, get_pred=False, log_pred=False, ratio=None, *args, **kwargs):

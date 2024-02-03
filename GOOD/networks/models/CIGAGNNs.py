@@ -153,6 +153,36 @@ class CIGAGIN(GNNBasic):
                 return new_logits.log()
             else:
                 return logits.sigmoid().log()
+            
+    @torch.no_grad()
+    def predict_from_subgraph(self, edge_att=False, *args, **kwargs):
+        data = kwargs.get('data')
+        batch_size = kwargs.get('batch_size')
+
+        if data.edge_index.shape[1] != 0:
+            (causal_edge_index, causal_edge_attr, causal_edge_weight), \
+            (spu_edge_index, spu_edge_attr, spu_edge_weight) = split_graph(data, edge_att, self.att_net.ratio)
+
+            if kwargs.get('do_relabel', True):
+                node_h = self.att_net.gnn_node(*args, **kwargs)
+                causal_x, causal_edge_index, causal_batch, _ = relabel(node_h, causal_edge_index, data.batch)
+                spu_x, spu_edge_index, spu_batch, _ = relabel(node_h, spu_edge_index, data.batch)
+        else:
+            assert False
+
+        set_masks(causal_edge_weight, self)
+        causal_rep = self.get_graph_rep(
+            data=Data(x=causal_x, edge_index=causal_edge_index,
+                      edge_attr=causal_edge_attr, batch=causal_batch),
+            batch_size=batch_size
+        )
+        lc_logits = self.get_causal_pred(causal_rep)
+        clear_masks(self)
+        
+        if lc_logits.shape[-1] > 1:
+            return lc_logits.argmax(-1)
+        else:
+            return lc_logits.sigmoid()
     
     def get_subgraph(self, get_pred=False, log_pred=False, ratio=None, *args, **kwargs):
         data = kwargs.get('data') or None
