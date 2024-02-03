@@ -81,7 +81,7 @@ class GOODHIV(InMemoryDataset):
         self.name = self.__class__.__name__
         self.mol_name = 'HIV'
         self.domain = domain
-        self.metric = 'F1'
+        self.metric = 'ROC-AUC'
         self.minority_class = 1
         self.task = 'Binary classification'
         self.url = 'https://drive.google.com/file/d/1CoOqYCuLObnG5M0D8a2P2NyL61WjbCzo/view?usp=sharing'
