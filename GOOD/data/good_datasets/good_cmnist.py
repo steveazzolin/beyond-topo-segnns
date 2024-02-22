@@ -319,7 +319,7 @@ class GOODCMNIST(InMemoryDataset):
             dataset or dataset splits.
             dataset meta info.
         """
-        assert debias #TODO: load original dataset if flag not True
+        # assert debias #TODO: load original dataset if flag not True
 
         meta_info = Munch()
         meta_info.dataset_type = 'syn'

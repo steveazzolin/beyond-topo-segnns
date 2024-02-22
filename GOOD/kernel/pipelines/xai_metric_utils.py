@@ -215,7 +215,7 @@ def expl_acc(expl, data, expl_weight=None):
     f1 = 2*tp / (2*tp + fp + fn)
     # assert (tp + fp + tn + fn) == len(edge_gt)
 
-    wiou, den = 0, 0
+    wiou, den = 0, 1e-12
     for i, (u,v) in enumerate((data.edge_index.T)):
         u, v = u.item(), v.item()
         if edge_gt[(u,v)]:

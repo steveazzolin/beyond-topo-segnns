@@ -11,7 +11,7 @@ import gdown
 import torch
 from munch import Munch
 from torch_geometric.data import InMemoryDataset, extract_zip
-from torch_geometric.utils import from_networkx
+from torch_geometric.utils import from_networkx, shuffle_node
 from tqdm import tqdm
 
 from GOOD import register
@@ -39,6 +39,7 @@ class GOODMotif2(InMemoryDataset):
 
         self.name = self.__class__.__name__
         self.domain = domain
+        self.minority_class = None
         self.metric = 'Accuracy'
         self.task = 'Multi-label classification'
         self.url = ''
@@ -409,7 +410,7 @@ class GOODMotif2(InMemoryDataset):
             torch.save((data, slices), self.processed_paths[i])
 
     @staticmethod
-    def load(dataset_root: str, domain: str, shift: str = 'no_shift', generate: bool = False):
+    def load(dataset_root: str, domain: str, shift: str = 'no_shift', generate: bool = False, debias: bool = False):
         r"""
         A staticmethod for dataset loading. This method instantiates dataset class, constructing train, id_val, id_test,
         ood_val (val), and ood_test (test) splits. Besides, it collects several dataset meta information for further
@@ -443,15 +444,15 @@ class GOODMotif2(InMemoryDataset):
         meta_info.dim_node = train_dataset.num_node_features
         meta_info.dim_edge = train_dataset.num_edge_features
 
-        meta_info.num_envs = torch.unique(train_dataset.data.env_id).shape[0]
+        meta_info.num_envs = torch.unique(train_dataset.env_id).shape[0]
 
         # Define networks' output shape.
         if train_dataset.task == 'Binary classification':
-            meta_info.num_classes = train_dataset.data.y.shape[1]
+            meta_info.num_classes = train_dataset.y.shape[1]
         elif train_dataset.task == 'Regression':
             meta_info.num_classes = 1
         elif train_dataset.task == 'Multi-label classification':
-            meta_info.num_classes = torch.unique(train_dataset.data.y).shape[0]
+            meta_info.num_classes = torch.unique(train_dataset.y).shape[0]
 
         # --- clear buffer dataset._data_list ---
         train_dataset._data_list = None

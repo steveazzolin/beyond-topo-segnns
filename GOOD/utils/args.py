@@ -169,6 +169,16 @@ class CommonArgs(Tap):
         self.model = ModelArgs().parse_args(args=self.argv, known_only=True)
         self.ood = OODArgs().parse_args(args=self.argv, known_only=True)
 
+    def process_args_manual(self, config_path) -> None:
+        self.config_path = config_path
+        if not os.path.isabs(self.config_path):
+            self.config_path = opj(ROOT_DIR, 'configs', self.config_path)
+
+        self.dataset = DatasetArgs() #.parse_args(args=self.argv, known_only=True)
+        self.train = TrainArgs() #.parse_args(args=self.argv, known_only=True)
+        self.model = ModelArgs() #.parse_args(args=self.argv, known_only=True)
+        self.ood = OODArgs() #.parse_args(args=self.argv, known_only=True)
+
 
 def args_parser(argv: list=None):
     r"""
