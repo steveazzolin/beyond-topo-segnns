@@ -150,6 +150,7 @@ class GSATGIN(GNNBasic):
                 new_logits = torch.zeros((logits.shape[0], logits.shape[1]+1), device=logits.device)
                 new_logits[:, 1] = new_logits[:, 1] + logits.squeeze(1)
                 new_logits[:, 0] = 1 - new_logits[:, 1]
+                new_logits[new_logits == 0.] = 1e-10
                 return new_logits.log()
             else:
                 return logits.sigmoid().log()
@@ -197,6 +198,7 @@ class GSATGIN(GNNBasic):
             self.attn_distrib = self.gnn.encoder.get_attn_distrib()
             self.gnn.encoder.reset_attn_distrib()
 
+        edge_att = edge_att.view(-1)
         if ratio is None:
             return edge_att        
         assert False

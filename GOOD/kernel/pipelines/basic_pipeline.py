@@ -13,7 +13,7 @@ import numpy as np
 import torch
 import torch.nn
 import torch.nn.functional as F
-from torch_scatter import scatter_mean, scatter_std
+from torch_scatter import scatter_mean, scatter_std, scatter_min, scatter_max
 from munch import Munch
 # from torch.utils.data import DataLoader
 import torch_geometric
@@ -627,14 +627,19 @@ class Pipeline:
                 if self.config.random_expl:
                     edge_score = edge_score[
                         shuffle_node(torch.arange(edge_score.shape[0], device=edge_score.device), batch=data.batch[data.edge_index[0]])[1]
-                    ]
+                    ] # maybe biased?
                     data.edge_index, edge_score = to_undirected(data.edge_index, edge_score, reduce="mean")
+
+                    # max_val = scatter_max(edge_score.cpu(), index=data.batch[data.edge_index[0]].cpu())[0]
+                    # edge_score = -edge_score.cpu()
+                    # edge_score = edge_score + max_val[data.batch[data.edge_index[0]].cpu()]
+                    # edge_score = edge_score.to(self.config.device)
                 # attn_distrib.append(self.model.attn_distrib)
                 for j, g in enumerate(data.to_data_list()):
                     g.ori_x = data.ori_x[data.batch == j]
                     g.ori_edge_index = data.ori_edge_index[:, data.batch[data.ori_edge_index[0]] == j]
-                    graphs.append(g.detach().cpu())
                     edge_scores.append(edge_score[data.batch[data.edge_index[0]] == j].detach().cpu())
+                    graphs.append(g.detach().cpu())
             labels.extend(data.y.detach().cpu().numpy().tolist())
         labels = torch.tensor(labels)
         graphs_nx = [to_networkx(g, node_attrs=["ori_x"], edge_attrs=["edge_attr"] if not g.edge_attr is None else None) for g in graphs]
@@ -671,13 +676,6 @@ class Pipeline:
 
                 if len(G.edges()) == 0:
                     continue
-
-                # if i < 10:
-                #     tmp = G.copy()
-                #     xai_utils.mark_edges(tmp, causal_subgraphs[i], spu_subgraphs[i])
-                #     xai_utils.draw(self.config, tmp, subfolder="plots_of_suff_scores", name=f"graph_{i}")
-                # else:
-                #     exit()
                 
                 if metric == "suff" and intervention_distrib == "model_dependent":
                     G_filt = xai_utils.remove_from_graph(G, "spu", spu_subgraphs[i])
@@ -700,8 +698,7 @@ class Pipeline:
                         pass
 
                     for m in range(self.config.expval_budget):                        
-                        G_c = self.get_intervened_graph(metric if metric != "suff" else "fidm", intervention_distrib, G, idx=(i,m,-1), bank=intervent_bank, causal=causal_subgraphs[i], spu=spu_subgraphs[i],)
-                        # xai_utils.draw(self.config, G_c, subfolder="plots_of_suff_scores", name=f"nec_{i}_{m}")
+                        G_c = self.get_intervened_graph(metric if metric != "suff" else "fidm", intervention_distrib, G, idx=(i,m,-1), bank=intervent_bank, causal=causal_subgraphs[i], spu=spu_subgraphs[i],)                        
                         belonging.append(i)
                         eval_samples.append(G_c)
                 elif metric == "suff":
@@ -810,6 +807,8 @@ class Pipeline:
                 print(f"Model {dataset.metric} over intervened graphs for r={ratio} = ", round(acc_int.item(), 3))
                 for c in labels_ori_ori.unique().numpy().tolist() + ["all"]:
                     print(f"{metric.upper()} for r={ratio} class {c} = {scores[c][-1]} +- {aggr.std():.3f} (in-sample avg dev_std = {(aggr_std**2).mean().sqrt():.3f})")
+
+
         return scores, acc_ints, results, edge_scores, graphs
 
 
@@ -830,12 +829,25 @@ class Pipeline:
 
         if metric in ("suff", "nec", "nec++") and preds_eval.shape[0] > 0:
             div = torch.nn.KLDivLoss(reduction="none", log_target=True)(preds_ori, preds_eval).sum(-1)
+            
+            # print(preds_ori[:5].exp())
+            # print(preds_eval[:5].exp())
+            # print(div[:5])
+            # print(torch.exp(-div[:5]))
+            # print(scatter_mean(div, belonging, dim=0).mean().item())
+            # print(torch.exp(-scatter_mean(div, belonging, dim=0).mean()))
+            # print(torch.exp(-scatter_mean(div, belonging, dim=0)).mean()) # on paper
+            # print(scatter_mean(torch.exp(-div), belonging, dim=0).mean().item())
+            # exit()
+
             results[ratio] = div.numpy().tolist()
             if metric == "suff":
-                div = torch.exp(-div)
+                # div = torch.exp(-div) # used so far
+                aggr = torch.exp(-scatter_mean(div, belonging, dim=0)) # on paper
             elif metric in ("nec", "nec++"):
-                div = 1 - torch.exp(-div)
-            aggr = scatter_mean(div, belonging, dim=0)
+                # div = 1 - torch.exp(-div)
+                aggr = 1 - torch.exp(-scatter_mean(div, belonging, dim=0)) # on paper
+            # aggr = scatter_mean(div, belonging, dim=0) # used so far
             aggr_std = scatter_std(div, belonging, dim=0)
         elif "fid" in metric and preds_eval.shape[0] > 0:
             if preds_ori_ori.shape[1] == 1:
@@ -1374,7 +1386,6 @@ class Pipeline:
                     edge_scores.append(edge_score[data.batch[data.edge_index[0]] == j].detach().cpu().numpy().tolist())
                     if g.edge_index.shape[1] > 0:
                         effective_ratios.append(float((g.edge_gt.sum() if hasattr(g, "edge_gt") and not g.edge_gt is None else 0.) / (g.edge_index.shape[1])))
-
             if "CIGA" in self.config.model.model_name:
                 edge_scores = [np.abs(np.array(e)) for e in edge_scores]
                 edge_scores = [(e - e.min()) / (e.max() - e.min() + 1e-7) for e in edge_scores if len(e) > 0]
@@ -1416,6 +1427,7 @@ class Pipeline:
         house, _ = synthetic_structsim.house(start=0)
         crane, _ = synthetic_structsim.crane(start=0)
         dircycle, _ = synthetic_structsim.dircycle(start=0)
+        path, _ = synthetic_structsim.path(start=0, width=8)        
 
         house_pyg = from_networkx(house)
         house_pyg.x = torch.ones((house_pyg.num_nodes, 1), dtype=torch.float32)
@@ -1427,16 +1439,21 @@ class Pipeline:
         dircycle_pyg = from_networkx(dircycle)
         dircycle_pyg.x = torch.ones((dircycle_pyg.num_nodes, 1), dtype=torch.float32)
 
-        data = Batch().from_data_list([house_pyg, dircycle_pyg, crane_pyg]).to(self.config.device)
+        path_pyg = from_networkx(path)
+        path_pyg.x = torch.ones((path_pyg.num_nodes, 1), dtype=torch.float32)
+
+        data = Batch().from_data_list([house_pyg, dircycle_pyg, crane_pyg, path_pyg]).to(self.config.device)
         preds = self.model.probs(data=data, edge_weight=None, ood_algorithm=self.ood_algorithm)
 
         print("Predictions of entire model")
         print(preds)
 
         print("Predictions of classifier")
-        lc_logits = self.model.lc_classifier(self.model.lc_gnn(data=data, edge_weight=None, ood_algorithm=self.ood_algorithm))
+        if "LECI" in self.config.model.model_name:
+            lc_logits = self.model.lc_classifier(self.model.lc_gnn(data=data, edge_weight=None, ood_algorithm=self.ood_algorithm))
+        else:
+            lc_logits = self.model(data=data, edge_weight=None, ood_algorithm=self.ood_algorithm)[0]
         print(lc_logits.softmax(-1))
-
 
         for split in ["train", "id_val", "test"]:
             dataset = self.get_local_dataset(split, log=False)
@@ -1471,11 +1488,14 @@ class Pipeline:
 
     @torch.no_grad()
     def permute_attention_scores(self, split):
+        self.config.numsamples_budget = "all"
+
         self.model.eval()
         print(f"Trying to replace attention weigths for {split}:")
         dataset = self.get_local_dataset(split, log=False)
 
-        if self.config.numsamples_budget < len(dataset):
+        if self.config.numsamples_budget != "all" and self.config.numsamples_budget < len(dataset):
+            assert False
             idx, _ = train_test_split(
                     np.arange(len(dataset)),
                     train_size=min(self.config.numsamples_budget, len(dataset)) / len(dataset),
@@ -1511,6 +1531,13 @@ class Pipeline:
             edge_score = edge_score[
                 shuffle_node(torch.arange(edge_score.shape[0], device=edge_score.device), batch=data.batch[data.edge_index[0]])[1]
             ]
+            # data.edge_index, edge_score = to_undirected(data.edge_index, edge_score, reduce="mean")
+
+            # max_val = scatter_max(edge_score.cpu(), index=data.batch[data.edge_index[0]].cpu())[0]
+            # edge_score = -edge_score.cpu()
+            # edge_score = edge_score + max_val[data.batch[data.edge_index[0]].cpu()]
+            # edge_score = edge_score.to(self.config.device)
+
             out = self.model.predict_from_subgraph(
                 edge_att=edge_score,
                 data=data,
@@ -1529,6 +1556,9 @@ class Pipeline:
             acc_ori = f1_score(dataset.y.long().numpy(), ori_preds.round().reshape(-1), average="binary", pos_label=dataset.minority_class)
             acc = f1_score(dataset.y.long().numpy(), preds.round().reshape(-1), average="binary", pos_label=dataset.minority_class)
         else:
+            if preds.dtype == torch.float or preds.dtype == torch.double:
+                preds = preds.round()
+                ori_preds = ori_preds.round()
             preds = preds.reshape(-1)
             ori_preds = ori_preds.reshape(-1)
             acc_ori = accuracy_score(dataset.y.numpy(), ori_preds)

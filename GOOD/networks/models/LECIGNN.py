@@ -227,6 +227,7 @@ class LECIGIN(GNNBasic):
                 new_logits = torch.zeros((lc_logits.shape[0], lc_logits.shape[1]+1), device=lc_logits.device)
                 new_logits[:, 1] = new_logits[:, 1] + lc_logits.squeeze(1)
                 new_logits[:, 0] = 1 - new_logits[:, 1]
+                new_logits[new_logits == 0.] = 1e-10
                 return new_logits.log()
             else:
                 return lc_logits.sigmoid().log()

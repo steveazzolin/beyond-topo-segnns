@@ -150,6 +150,7 @@ class CIGAGIN(GNNBasic):
                 new_logits = torch.zeros((logits.shape[0], logits.shape[1]+1), device=logits.device)
                 new_logits[:, 1] = new_logits[:, 1] + logits.squeeze(1)
                 new_logits[:, 0] = 1 - new_logits[:, 1]
+                new_logits[new_logits == 0.] = 1e-10
                 return new_logits.log()
             else:
                 return logits.sigmoid().log()

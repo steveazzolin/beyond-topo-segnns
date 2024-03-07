@@ -76,31 +76,43 @@ def mark_frontier(G, G_filt):
     nx.set_node_attributes(G_filt, name="frontier", values={n: True for n in frontier})
     return len(frontier)
 
-def draw(config, G, name, subfolder="", pos=None):
-    plt.figure()
+def draw(config, G, name, subfolder="", pos=None, save=True, figsize=(6.4, 4.8), nodesize=300, with_labels=True, title=None, ax=None):
+    plt.figure(figsize=figsize)
+
     if pos is None:
         pos = nx.kamada_kawai_layout(G)
+
     edge_color = list(map(lambda x: edge_colors[x], nx.get_edge_attributes(G,'origin').values()))
     nx.draw(
         G,
-        with_labels = True,
+        with_labels=with_labels,
         pos=pos,
+        ax=ax,
+        node_size=nodesize,
         edge_color=edge_color,
         node_color=list(map(lambda x: node_colors[x], [nx.get_node_attributes(G,'frontier').get(n, False) for n in G.nodes()])),
     )
     if nx.get_edge_attributes(G, 'attn_weight') != {}:
         nx.draw_networkx_edge_labels(G, pos, edge_labels=nx.get_edge_attributes(G, 'attn_weight'), font_size=6, alpha=0.8)
-    plt.title(f"Selected {sum([e == 'green' for e in edge_color])} relevant edges")
+    
+    title = title if not title is None else f"Selected {sum([e == 'green' for e in edge_color])} relevant edges"
+    plt.title(title)
     print(f"Selected {sum([e == 'green' for e in edge_color])} relevant edges over {len(G.edges())}")
-    path = f'GOOD/kernel/pipelines/plots/{subfolder}/{config.load_split}_{config.util_model_dirname}/'
-    if not os.path.exists(path):
-        try:
-            os.makedirs(path)
-        except Exception as e:
-            print(e)
-            exit(e)
-    plt.savefig(f'{path}/{name}.png')
-    plt.close()
+
+    if save:
+        path = f'GOOD/kernel/pipelines/plots/{subfolder}/{config.load_split}_{config.util_model_dirname}/'
+        if not os.path.exists(path):
+            try:
+                os.makedirs(path)
+            except Exception as e:
+                print(e)
+                exit(e)
+        plt.savefig(f'{path}/{name}.png')
+    else:
+        plt.show()
+
+    if ax is None:
+        plt.close()
     return pos
 
 def draw_topk(config, G, name, k, subfolder="", pos=None):

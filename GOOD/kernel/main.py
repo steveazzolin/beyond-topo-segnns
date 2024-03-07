@@ -67,7 +67,7 @@ def initialize_model_dataset(config: Union[CommonArgs, Munch]) -> Tuple[torch.nn
 
 
 def permute_attention_scores(args):
-    load_splits = ["id"]
+    load_splits = ["ood"]
     splits = ["id_val", "val", "test"]
     results = {l: {k: defaultdict(list) for k in splits} for l in load_splits}
     for l, load_split in enumerate(load_splits):
@@ -158,7 +158,7 @@ def generate_panel(args):
 
 def evaluate_metric(args):
     load_splits = ["id"]
-    splits = ["id_val", "val", "test"]
+    splits = ["test"]
     startTime = datetime.now()
 
     metrics_score = {}
@@ -177,7 +177,7 @@ def evaluate_metric(args):
             config["mitigation_sampling"] = args.mitigation_sampling
             config["task"] = "test"
             config["load_split"] = load_split
-            # config["device"] = "cuda:0"
+            # config["device"] = "cuda:1"
             if l == 0 and i == 0:
                 load_logger(config)
             
