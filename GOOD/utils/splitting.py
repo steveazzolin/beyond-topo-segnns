@@ -55,8 +55,10 @@ def split_graph(data, edge_score, ratio, debug=False, return_batch=False):
 
     if return_batch:
         causal_batch = data.batch[new_causal_edge_index[0]]
+        mask_tmp = torch.zeros(data.edge_index.shape[1], device=data.edge_index.device, dtype=torch.bool)
+        mask_tmp[new_idx_reserve] = 1
         return (new_causal_edge_index, new_causal_edge_attr, new_causal_edge_weight, causal_batch), \
-            (new_spu_edge_index, new_spu_edge_attr, new_spu_edge_weight)
+            (new_spu_edge_index, new_spu_edge_attr, new_spu_edge_weight), mask_tmp
     else:
         return (new_causal_edge_index, new_causal_edge_attr, new_causal_edge_weight), \
             (new_spu_edge_index, new_spu_edge_attr, new_spu_edge_weight)
