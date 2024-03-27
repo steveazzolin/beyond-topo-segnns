@@ -47,7 +47,7 @@ class LECIGIN(GNNBasic):
         self.EA = self.config.ood.extra_param[2]
         self.EF = self.config.ood.extra_param[4]
 
-        fe_kwargs = {'without_embed': True if self.EF else False}
+        fe_kwargs = {'without_embed': True if self.EF else False, 'mitigation_readout': config.mitigation_readout}
 
         # --- Build networks ---
         self.sub_gnn = GINFeatExtractor(self.config, **fe_kwargs)
