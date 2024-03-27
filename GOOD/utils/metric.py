@@ -9,7 +9,13 @@ from sklearn.metrics import roc_auc_score as sk_roc_auc, mean_squared_error, \
 from torch.nn.functional import cross_entropy, l1_loss, binary_cross_entropy_with_logits
 
 
-
+def assign_dict(data, keys, to_add):
+    if len(keys) == 1:
+        data[keys[0]] = to_add
+        return
+    elif keys[0] not in data.keys():
+        data[keys[0]] = dict()
+    assign_dict(data[keys[0]], keys[1:], to_add)
 
 
 class Metric(object):

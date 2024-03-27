@@ -200,13 +200,24 @@ def process_configs(config: Union[CommonArgs, Munch], args=None):
     dataset_dirname = config.dataset.dataset_name + '_' + config.dataset.domain
     if config.dataset.shift_type:
         dataset_dirname += '_' + config.dataset.shift_type
-    model_dirname = f'repr_{config.model.model_name}_' \
-                    f'{config.model.model_layer}l_' \
-                    f'{config.model.global_pool}pool_' \
-                    f'{config.model.dropout_rate}dp_' \
-                    f'mitig_backbone{args.mitigation_backbone}_' \
-                    f'mitig_sampling{args.mitigation_sampling}' \
-                    f'avgedgeattn{args.average_edge_attn}'
+    if config.mitigation_readout is None:
+        model_dirname = f'repr_{config.model.model_name}_' \
+                        f'{config.model.model_layer}l_' \
+                        f'{config.model.global_pool}pool_' \
+                        f'{config.model.dropout_rate}dp_' \
+                        f'mitig_backbone{args.mitigation_backbone}_' \
+                        f'mitig_sampling{args.mitigation_sampling}' \
+                        f'avgedgeattn{args.average_edge_attn}'
+    else:
+        model_dirname = f'repr_{config.model.model_name}_' \
+                        f'{config.model.model_layer}l_' \
+                        f'{config.model.global_pool}pool_' \
+                        f'{config.model.dropout_rate}dp_' \
+                        f'mitig_backbone{args.mitigation_backbone}_' \
+                        f'mitig_sampling{args.mitigation_sampling}' \
+                        f'mitig_readout{args.mitigation_readout}' \
+                        f'avgedgeattn{args.average_edge_attn}'
+    assert "mitig_readout" in model_dirname
     train_dirname = f'{config.train.lr}lr_{config.train.weight_decay}wd'
     config.util_model_dirname = model_dirname
     ood_dirname = config.ood.ood_alg
