@@ -11,10 +11,11 @@ clean_save: False
 pytest: False
 pipeline: Pipeline
 num_workers: 0
+mitigation_readout: None
 expval_budget: 8 # Added by Steve
 numsamples_budget: 800 # Added by Steve
 fidelity_alpha_2: 0.9 # Added by Steve
-nec_alpha_1: 0.9 # Added by Steve
+nec_alpha_1: 0.05 # Added by Steve
 feat_int_alpha: 0.2 # Added by Steve
 average_edge_attn: default # Added by Steve
 save_metrics: False # Added by Steve
@@ -24,6 +25,9 @@ mask: False # Added by Steve
 metrics: "" # Added by Steve
 debias: True # Added by Steve
 random_expl: False # Added by Steve
+samplingtype: deconfounded # Added by Steve
+nec_number_samples: prop_G_dataset # Added by Steve
+log_id: ""
 train:
   weight_decay: 0.
   save_gap: 10

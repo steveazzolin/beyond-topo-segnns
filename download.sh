@@ -2,12 +2,22 @@ SEALION=azzolin@10.196.36.66
 MARZOLA=steve.azzolin@marzola.disi.unitn.it:/home/steve.azzolin
 
 SEED=$1
-DATA=GOODTwitter_length_covariate
+DATA=GOODMotif2_basis_covariate
 
 mkdir -p ./storage/checkpoints/round${SEED}/${DATA}/
 
-
+scp -r \
+    ${MARZOLA}/sedignn/LECI_fork/storage/checkpoints/round${SEED}/${DATA}/repr_GIN_3l*avgedgeattndefault \
+    ./storage/checkpoints/round${SEED}/${DATA}/
 
 scp -r \
-    ${MARZOLA}/sedignn/LECI_fork/storage/checkpoints/round${SEED}/${DATA}/repr_GSATvGIN_3l*avgedgeattnmean \
+    ${MARZOLA}/sedignn/LECI_fork/storage/checkpoints/round${SEED}/${DATA}/repr_LECIGIN_3l*avgedgeattndefault \
+    ./storage/checkpoints/round${SEED}/${DATA}/
+
+scp -r \
+    ${MARZOLA}/sedignn/LECI_fork/storage/checkpoints/round${SEED}/${DATA}/repr_GSATGIN_3l*avgedgeattndefault \
+    ./storage/checkpoints/round${SEED}/${DATA}/
+
+scp -r \
+    ${MARZOLA}/sedignn/LECI_fork/storage/checkpoints/round${SEED}/${DATA}/repr_CIGAGIN_3l*avgedgeattndefault \
     ./storage/checkpoints/round${SEED}/${DATA}/
