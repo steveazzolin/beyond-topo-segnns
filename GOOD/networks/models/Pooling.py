@@ -59,10 +59,10 @@ class GlobalAddPool(GNNPool):
     Global add pooling
     """
 
-    def __init__(self):
+    def __init__(self, **kwargs):
         super().__init__()
 
-    def forward(self, x, batch, batch_size=None):
+    def forward(self, x, batch, batch_size=None, edge_index=None, edge_mask=None):
         r"""Returns batch-wise graph-level-outputs by adding node features
             across the node dimension, so that for a single graph
             :math:`\mathcal{G}_i` its output is computed by
@@ -83,6 +83,9 @@ class GlobalAddPool(GNNPool):
         """
         if batch_size is None:
             batch_size = batch[-1].item() + 1
+        if not edge_mask is None and not edge_index is None:
+            node_mask = scatter_mean(edge_mask, edge_index[0], dim_size=x.shape[0])
+            x = x * node_mask.unsqueeze(1)
         return gnn.global_add_pool(x, batch, batch_size)
 
 

@@ -11,7 +11,8 @@ clean_save: False
 pytest: False
 pipeline: Pipeline
 num_workers: 0
-mitigation_readout: None
+mitigation_readout: null
+mitigation_virtual: null
 expval_budget: 8 # Added by Steve
 numsamples_budget: 800 # Added by Steve
 fidelity_alpha_2: 0.9 # Added by Steve

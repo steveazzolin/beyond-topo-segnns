@@ -102,13 +102,15 @@ class CommonArgs(Tap):
     """
     config_path: str = None  #: (Required) The path for the config file.
 
-    task: Literal['train', 'test', 'plot_panel', 'eval_metric', 'test_motif', 'permute_attention'] = None  #: Running mode. Allowed: 'train' and 'test'.
+    task: Literal['train', 'test', 'plot_panel', 'eval_metric', 'test_motif', 'permute_attention', 'plot_sampling'] = None  #: Running mode. Allowed: 'train' and 'test'.
     random_seed: int = None  #: Fixed random seed for reproducibility.
     exp_round: int = None  #: Current experiment round.
 
     seeds: str = None # Added by Steve
     mitigation_backbone: str = None # Added by Steve
     mitigation_sampling: str = "feat" # Added by Steve
+    mitigation_readout: str = None # Added by Steve
+    mitigation_virtual: str = None # Added by Steve<
     expval_budget: int = None # Added by Steve
     numsamples_budget: int = None # Added by Steve
     fidelity_alpha_2: float = None # Added by Steve
@@ -123,6 +125,9 @@ class CommonArgs(Tap):
     debias:bool = False # Added by Steve
     nec_marg_alpha:bool = True # Added by Steve
     random_expl:bool = False # Added by Steve
+    samplingtype:str = "deconfounded" # Added by Steve
+    nec_number_samples:str = "prop_G_dataset" # Added by Steve
+    log_id: str = "" # Added by Steve
     
     pytest: bool = None
     pipeline: str = None  #: Training/test controller.

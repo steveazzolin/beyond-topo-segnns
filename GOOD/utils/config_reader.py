@@ -200,24 +200,17 @@ def process_configs(config: Union[CommonArgs, Munch], args=None):
     dataset_dirname = config.dataset.dataset_name + '_' + config.dataset.domain
     if config.dataset.shift_type:
         dataset_dirname += '_' + config.dataset.shift_type
-    if config.mitigation_readout is None:
-        model_dirname = f'repr_{config.model.model_name}_' \
-                        f'{config.model.model_layer}l_' \
-                        f'{config.model.global_pool}pool_' \
-                        f'{config.model.dropout_rate}dp_' \
-                        f'mitig_backbone{args.mitigation_backbone}_' \
-                        f'mitig_sampling{args.mitigation_sampling}' \
-                        f'avgedgeattn{args.average_edge_attn}'
-    else:
-        model_dirname = f'repr_{config.model.model_name}_' \
-                        f'{config.model.model_layer}l_' \
-                        f'{config.model.global_pool}pool_' \
-                        f'{config.model.dropout_rate}dp_' \
-                        f'mitig_backbone{args.mitigation_backbone}_' \
-                        f'mitig_sampling{args.mitigation_sampling}' \
-                        f'mitig_readout{args.mitigation_readout}' \
-                        f'avgedgeattn{args.average_edge_attn}'
-    assert "mitig_readout" in model_dirname
+    model_dirname = f'repr_{config.model.model_name}_' \
+                    f'{config.model.model_layer}l_' \
+                    f'{config.model.global_pool}pool_' \
+                    f'{config.model.dropout_rate}dp_' \
+                    f'mitig_backbone{args.mitigation_backbone}_' \
+                    f'mitig_sampling{args.mitigation_sampling}'
+    if not config.mitigation_readout is None:
+        model_dirname = model_dirname + f'mitig_readout{args.mitigation_readout}'
+    if not config.mitigation_virtual is None:
+        model_dirname = model_dirname + f'mitig_virtual{args.mitigation_virtual}'
+    model_dirname = model_dirname + f'avgedgeattn{args.average_edge_attn}'
     train_dirname = f'{config.train.lr}lr_{config.train.weight_decay}wd'
     config.util_model_dirname = model_dirname
     ood_dirname = config.ood.ood_alg

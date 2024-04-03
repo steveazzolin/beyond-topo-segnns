@@ -184,7 +184,7 @@ class GINEncoder(BasicEncoder):
 
         if self.without_readout or kwargs.get('without_readout'):
             return node_repr
-        out_readout = self.readout(node_repr, batch, batch_size)
+        out_readout = self.readout(node_repr, batch, batch_size, edge_index=edge_index, edge_mask=self.convs[0].__edge_mask__)
         return out_readout
 
     def get_node_repr(self, x, edge_index, batch, batch_size, **kwargs):
@@ -321,7 +321,7 @@ class GINMolEncoder(BasicEncoder):
 
         if self.without_readout or kwargs.get('without_readout'):
             return node_repr
-        out_readout = self.readout(node_repr, batch, batch_size)
+        out_readout = self.readout(node_repr, batch, batch_size, edge_index=edge_index, edge_mask=self.convs[0].__edge_mask__)
         return out_readout
 
     def get_node_repr(self, x, edge_index, edge_attr, batch, batch_size, **kwargs):
@@ -428,6 +428,9 @@ class GINEConv(gnn.MessagePassing):
         else:
             print(f"#D#Using no mitigation {self.mitigation_backbone}")
 
+        if torch_geometric.__version__ == "2.4.0":
+            print("#D#Using the fixed _explain_ functionality")
+            self._fixed_explain = False
 
         self.lin = None
         self.reset_parameters()
@@ -451,7 +454,6 @@ class GINEConv(gnn.MessagePassing):
         x_r = x[1]
         if x_r is not None:
             out += (1 + self.eps) * x_r
-
         return self.nn(out)
 
     def message(self, x_i: Tensor, x_j: Tensor, edge_attr: Tensor, return_attn_distrib: bool = False) -> Tensor:
@@ -479,6 +481,12 @@ class GINEConv(gnn.MessagePassing):
                 attn = attn_hard - attn.detach() + attn
 
             m = m * attn
+
+        if torch_geometric.__version__ == "2.4.0" and self._fixed_explain:
+            edge_mask = self.__edge_mask__
+            if self._apply_sigmoid:
+                edge_mask = edge_mask.sigmoid()
+            m = m * edge_mask.view([-1] + [1] * (m.dim() - 1))
 
         return m.relu()
 

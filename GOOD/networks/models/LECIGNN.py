@@ -47,14 +47,15 @@ class LECIGIN(GNNBasic):
         self.EA = self.config.ood.extra_param[2]
         self.EF = self.config.ood.extra_param[4]
 
-        fe_kwargs = {'without_embed': True if self.EF else False, 'mitigation_readout': config.mitigation_readout}
+        fe_kwargs = {'without_embed': True if self.EF else False}
 
         # --- Build networks ---
         self.sub_gnn = GINFeatExtractor(self.config, **fe_kwargs)
         self.config.mitigation_backbone = None
+        fe_kwargs['mitigation_readout'] = config.mitigation_readout
+        fe_kwargs['mitigation_virtual'] = config.mitigation_virtual
         print(f"Using feature sampling := {self.config.mitigation_sampling}")
         print(f"self.EF = {self.EF}")
-
 
         self.extractor = ExtractorMLP(self.config)
 
@@ -64,8 +65,6 @@ class LECIGIN(GNNBasic):
         self.ef_pool = GlobalMeanPool()
         self.ef_classifier = Classifier(munchify({'model': {'dim_hidden': self.config.model.dim_hidden},
                                                    'dataset': {'num_classes': self.config.dataset.num_envs}}))
-
-
 
         self.lc_gnn = GINFeatExtractor(self.config, **fe_kwargs)
         self.la_gnn = GINFeatExtractor(self.config, **fe_kwargs)
@@ -301,8 +300,12 @@ class LECIvGIN(LECIGIN):
 
     def __init__(self, config: Union[CommonArgs, Munch]):
         super(LECIvGIN, self).__init__(config)
-        fe_kwargs = {'without_embed': True if self.EF else False}
+        print("LECIvGIN")
+        fe_kwargs = {'without_embed': True if self.EF else False, "mitigation_readout": config.mitigation_readout}
         self.sub_gnn = vGINFeatExtractor(self.config, **fe_kwargs)
+
+        fe_kwargs['mitigation_readout'] = config.mitigation_readout
+        fe_kwargs['mitigation_virtual'] = config.mitigation_virtual
         self.lc_gnn = vGINFeatExtractor(self.config, **fe_kwargs)
         self.la_gnn = vGINFeatExtractor(self.config, **fe_kwargs)
         self.ec_gnn = vGINFeatExtractor(self.config, **fe_kwargs) # Never used

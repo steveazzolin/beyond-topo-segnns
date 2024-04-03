@@ -74,7 +74,7 @@ class VirtualNodeEncoder(torch.nn.Module):
         Args:
             config (Union[CommonArgs, Munch]): munchified dictionary of args (:obj:`config.model.dim_hidden`, :obj:`config.model.dropout_rate`)
     """
-    def __init__(self, config: Union[CommonArgs, Munch], *args, **kwargs):
+    def __init__(self, config: Union[CommonArgs, Munch], **kwargs):
         super(VirtualNodeEncoder, self).__init__()
         self.virtual_node_embedding = nn.Embedding(1, config.model.dim_hidden)
         self.virtual_mlp = nn.Sequential(*(
@@ -99,6 +99,8 @@ class vGINEncoder(GINEncoder, VirtualNodeEncoder):
         super(vGINEncoder, self).__init__(config, **kwargs)
         self.config = config
         self.without_readout = kwargs.get('without_readout')
+        self.mitigation_virtual = kwargs.get('mitigation_virtual')
+        print("mitigation_virtual in vGINEncoder = ", self.mitigation_virtual)
 
     def forward(self, x, edge_index, batch, batch_size, **kwargs):
         r"""
@@ -117,7 +119,7 @@ class vGINEncoder(GINEncoder, VirtualNodeEncoder):
 
         if self.without_readout or kwargs.get('without_readout'):
             return node_repr
-        out_readout = self.readout(node_repr, batch, batch_size)
+        out_readout = self.readout(node_repr, batch, batch_size, edge_index=edge_index, edge_mask=self.convs[0].__edge_mask__)
         return out_readout
 
     def get_node_repr(self, x, edge_index, batch, batch_size, **kwargs):
@@ -151,8 +153,12 @@ class vGINEncoder(GINEncoder, VirtualNodeEncoder):
             layer_feat.append(dropout(post_conv))
             # --- update global info ---
             if 0 < i < len(self.convs) - 1:
-                virtual_node_feat.append(
-                    self.virtual_mlp(self.virtual_pool(layer_feat[-1], batch, batch_size) + virtual_node_feat[-1]))
+                if self.mitigation_virtual == "weighted":
+                    pool = self.virtual_pool(layer_feat[-1], batch, None, edge_index=edge_index, edge_mask=self.convs[0].__edge_mask__)
+                else:
+                    pool = self.virtual_pool(layer_feat[-1], batch, None)
+                
+                virtual_node_feat.append(self.virtual_mlp(pool + virtual_node_feat[-1]))
         return layer_feat[-1]
 
 
@@ -168,6 +174,8 @@ class vGINMolEncoder(GINMolEncoder, VirtualNodeEncoder):
         super(vGINMolEncoder, self).__init__(config, **kwargs)
         self.config: Union[CommonArgs, Munch] = config
         self.without_readout = kwargs.get('without_readout')
+        self.mitigation_virtual = kwargs.get('mitigation_virtual')
+        print("mitigation_virtual in vGINMolEncoder = ", self.mitigation_virtual)
 
     def forward(self, x, edge_index, edge_attr, batch, batch_size, **kwargs):
         r"""
@@ -187,7 +195,7 @@ class vGINMolEncoder(GINMolEncoder, VirtualNodeEncoder):
 
         if self.without_readout or kwargs.get('without_readout'):
             return node_repr
-        out_readout = self.readout(node_repr, batch, batch_size)
+        out_readout = self.readout(node_repr, batch, batch_size, edge_index=edge_index, edge_mask=self.convs[0].__edge_mask__)
         return out_readout
 
     def get_node_repr(self, x, edge_index, edge_attr, batch, batch_size, **kwargs):
@@ -220,7 +228,10 @@ class vGINMolEncoder(GINMolEncoder, VirtualNodeEncoder):
 
             # --- update global info ---
             if i < len(self.convs) - 1:
-                tmp = self.virtual_pool(layer_feat[-1], batch, batch_size)
-                virtual_node_feat.append(
-                    self.virtual_mlp(self.virtual_pool(layer_feat[-1], batch, None) + virtual_node_feat[-1]))
+                if self.mitigation_virtual == "weighted": #hasattr(self.virtual_pool, "mitigation_virtual")
+                    pool = self.virtual_pool(layer_feat[-1], batch, None, edge_index=edge_index, edge_mask=self.convs[0].__edge_mask__)
+                else:
+                    pool = self.virtual_pool(layer_feat[-1], batch, None)
+
+                virtual_node_feat.append(self.virtual_mlp(pool + virtual_node_feat[-1]))
         return layer_feat[-1]

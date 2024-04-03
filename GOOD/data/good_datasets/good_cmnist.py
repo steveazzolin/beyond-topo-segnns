@@ -350,5 +350,5 @@ class GOODCMNIST(InMemoryDataset):
         train_dataset._data_list = None
 
         return {'train': train_dataset, 'id_val': id_val_dataset, 'id_test': id_test_dataset,
-                'val': val_dataset, 'test': test_dataset, 'task': train_dataset.task,
-                'metric': train_dataset.metric}, meta_info
+                'val': val_dataset, 'test': test_dataset, 'task': id_val_dataset.task,
+                'metric': id_val_dataset.metric}, meta_info
