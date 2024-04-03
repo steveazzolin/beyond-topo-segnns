@@ -5,6 +5,7 @@ storage/checkpoints/
 storage/log/
 storage/datasets/
 storage/tensorboard/
+GOODCMNIST/
 docs/build
 /docs/source/_autosummary/
 **/__pycace__/
