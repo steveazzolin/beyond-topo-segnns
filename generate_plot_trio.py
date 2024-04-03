@@ -267,13 +267,12 @@ plt.close()
 ##
 
 
-num_cols = 2
-num_rows = 3
-fig, axs = plt.subplots(num_rows, num_cols, figsize=(9, 15))
+num_cols = 3
+num_rows = 2
+fig, axs = plt.subplots(num_rows, num_cols, figsize=(9, 9))
 
-for j, faith_type in enumerate(["suff", "faith_armon", "faith_gmean"]):
-    for i, (split_metric_id, split_metric_ood) in enumerate([("id_val", "test"), ("val", "test")]):
-        split_acc = "test"
+for j, faith_type in enumerate(["faith_armon", "faith_gmean"]):
+    for i, (split) in enumerate([("id_val"), ("val"), ("test")]):
         acc_coll, combined_coll = [], []
         for dataset in data.keys():
             
@@ -284,38 +283,20 @@ for j, faith_type in enumerate(["suff", "faith_armon", "faith_gmean"]):
                 if not faith_type in data[dataset][model][split_metric].keys():
                     continue
 
-                best_r = pick_best_faith(data[dataset][model], split_metric_id, faith_type)
-                faith_id   = np.array(data[dataset][model][split_metric_id][faith_type])[best_r]
-                faith_ood  = np.array(data[dataset][model][split_metric_ood][faith_type])[best_r]
-                combined = abs(faith_id - faith_ood)
-                
-                # best_r = pick_best_faith(data[dataset][model], split_metric, "wiou")
-                plaus_id      = np.array(data[dataset][model][split_metric_id]["wiou"])[-1]
-                plaus_ood      = np.array(data[dataset][model][split_metric_ood]["wiou"])[-1]
-                # combined = armonic(plaus_id, plaus_ood)
-                
-                # combined = hmean([faith_id, faith_ood, plaus_id, plaus_ood])
-                if isinstance(combined, float):
-                    combined_coll.append(combined)
-                else:
-                    combined_coll.extend(combined)
+                best_r = pick_best_faith(data[dataset][model], split, faith_type)
+                faith   = np.array(data[dataset][model][split][faith_type])[best_r]
+                acc    = data[dataset][model][split_metric_id]["acc"][-1]
 
-                acc_id    = data[dataset][model][split_metric_id]["acc"][-1]
-                acc_ood   = data[dataset][model][split_metric_ood]["acc"][-1]
+                combined_coll.append(faith)
+                acc_coll.append(acc)
                 
-                acc = abs(acc_id - acc_ood)
-                if isinstance(acc, float):
-                    acc_coll.append(acc)
-                else:
-                    acc_coll.extend(acc)
-                
-                axs[j%num_rows, i%num_cols].scatter(combined, acc, marker=markers[dataset], label=model, c=colors[model])
+                axs[j%num_rows, i%num_cols].scatter(faith, acc, marker=markers[dataset], label=model, c=colors[model])
                 # axs[j%num_rows, i%num_cols].annotate(f"{acc:.2f}", (faith_id, faith_ood + (-1)**(random.randint(0,1))*random.randint(1,4)*0.005), fontsize=7)
                 axs[j%num_rows, i%num_cols].grid(visible=True, alpha=0.5)
                 axs[j%num_rows, i%num_cols].set_xlim(0.0, 1.)
                 axs[j%num_rows, i%num_cols].set_ylim(-0.2, 1.)
-                axs[j%num_rows, i%num_cols].set_ylabel(f"Acc abs difference ({split_metric_id} - {split_metric_ood})")
-                axs[j%num_rows, i%num_cols].set_xlabel(f"Faith abs difference ({split_metric_id}, {split_metric_ood}) ({faith_type})")
+                axs[j%num_rows, i%num_cols].set_ylabel(f"Acc ({split}")
+                axs[j%num_rows, i%num_cols].set_xlabel(f"Faith ({split}) ({faith_type})")
                 axs[j%num_rows, i%num_cols].set_title(f"")
         if len(acc_coll) > 0 and len(combined_coll) > 0:
             combined_coll, acc_coll = np.array(acc_coll), np.array(combined_coll)
@@ -325,5 +306,5 @@ for j, faith_type in enumerate(["suff", "faith_armon", "faith_gmean"]):
 plt.suptitle(f"{file_name} - pick accuracy: {pick_acc}")
 # axs[2, -1].legend(handles=legend_elements, loc='upper left') #, loc='center'
 # plt.colorbar()
-plt.savefig("GOOD/kernel/pipelines/plots/illustrations/low_discrepancy.png")
+plt.savefig("GOOD/kernel/pipelines/plots/illustrations/faith_vs_acc.png")
 plt.close()
