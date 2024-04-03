@@ -1,0 +1,966 @@
+    1  nvidia-smi
+    2  exit
+    3  nvidia-smi
+    4  kill -9 122923
+    5  nvidia-smi
+    6  htop
+    7  nvidia-smi
+    8  exit
+    9  nvidia-smi
+   10  cd /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/
+   11  source /mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/activate
+   12  python
+   13  bash run_SST2.sh
+   14  clear
+   15  bash run_HIV_eval.sh 
+   16  clear
+   17  bash run_HIV_eval.sh 
+   18  clear
+   19  bash run_HIV_eval.sh 
+   20  clear
+   21  bash run_HIV_eval.sh 
+   22  bash run_Twitter_eval.sh 
+   23  clear
+   24  bash run_Twitter_eval.sh 
+   25  clear
+   26  goodtg --config_path final_configs/GOODSST2/length/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --metrics "acc" --average_edge_attn mean --debias --mask
+   27  nohup bash run_SST2_eval.sh &
+   28  cat nohup
+   29  cat nohup.out 
+   30  goodtg --config_path final_configs/GOODHIV/scaffold/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --metrics "suff" --average_edge_attn mean --debias --mask
+   31  goodtg --config_path final_configs/GOODHIV/scaffold/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff" --average_edge_attn mean --debias --mask
+   32  goodtg --config_path final_configs/GOODHIV/scaffold/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --metrics "nec" --average_edge_attn mean --debias --mask
+   33  goodtg --config_path final_configs/GOODHIV/scaffold/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "nec" --average_edge_attn mean --debias --mask
+   34  exit
+   35  cd /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/
+   36  source /mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/activate
+   37  bash run_Twitter_eval.sh 
+   38  nohup bash run_Twitter_eval.sh > nohupTwittereval.txt 2> nohupTwittereval.txt &
+   39  clear
+   40  nohup bash run_Twitter_eval.sh > nohupTwittereval.txt 2> nohupTwittereval.txt &
+   41  clear
+   42  bash download.sh 5
+   43  bash download.sh 4
+   44  bash download.sh 3
+   45  bash download.sh 2
+   46  bash download.sh 1
+   47  clear
+   48  nohup bash run_Twitter_eval.sh > nohupTwittereval.txt 2> nohupTwittereval.txt &
+   49  goodtg --config_path final_configs/GOODTwitter/length/covariate/GSAT.yaml        --seeds "1/2/3/4/5"        --mitigation_sampling feat        --task test        --metrics "acc" \
+   50  goodtg --config_path final_configs/GOODTwitter/length/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --average_edge_attn mean --debias
+   51  goodtg --config_path final_configs/GOODMotif/size/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --average_edge_attn mean --debias
+   52  goodtg --config_path final_configs/GOODMotif/size/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --average_edge_attn mean --debias
+   53  goodtg --config_path final_configs/GOODMotif/size/covariate/CIGA.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --average_edge_attn mean --debias
+   54  clear
+   55  htop
+   56  nvidia-smi
+   57  htop
+   58  clear
+   59  nohup bash run_SST2_eval.sh > nohupSST2.txt 2> nohupSST2.txt &
+   60  nvidia-smi
+   61  htop
+   62  nvidia-smi
+   63  bash run_SST2_eval.sh
+   64  goodtg --config_path final_configs/GOODSST2/length/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "nec/nec++/fidp/fidm" --average_edge_attn mean --debias --mask
+   65  clear
+   66  goodtg --config_path final_configs/GOODSST2/length/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "nec/nec++/fidp/fidm" --average_edge_attn mean --debias --mask
+   67  clear
+   68  goodtg --config_path final_configs/GOODSST2/length/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "nec/nec++/fidp/fidm" --average_edge_attn mean --debias --mask
+   69  goodtg --config_path final_configs/GOODSST2/length/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+   70  goodtg --config_path final_configs/GOODSST2/length/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "nec/nec++/fidp/fidm" --average_edge_attn mean --debias --mask
+   71  goodtg --config_path final_configs/GOODTwitter/length/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "nec/nec++/fidp/fidm" --average_edge_attn mean --debias --mask
+   72  goodtg --config_path final_configs/GOODSST2/length/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+   73  goodtg --config_path final_configs/GOODSST2/length/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+   74  goodtg --config_path final_configs/GOODTwitter/length/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "nec/nec++/fidp/fidm" --average_edge_attn mean --debias --mask
+   75  goodtg --config_path final_configs/GOODSST2/length/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "nec/nec++/fidp/fidm" --average_edge_attn mean --debias --mask
+   76  goodtg --config_path final_configs/GOODSST2/length/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+   77  clear
+   78  goodtg --config_path final_configs/GOODSST2/length/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+   79  clear
+   80  goodtg --config_path final_configs/GOODSST2/length/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "nec/nec++/fidp/fidm" --average_edge_attn mean --debias --mask
+   81  clear
+   82  goodtg --config_path final_configs/GOODSST2/length/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "nec/nec++/fidp/fidm" --average_edge_attn mean --debias --mask
+   83  goodtg --config_path final_configs/GOODSST2/length/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "fidp/fidm" --average_edge_attn mean --debias --mask
+   84  clear
+   85  goodtg --config_path final_configs/GOODSST2/length/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff" --average_edge_attn mean --debias --mask
+   86  goodtg --config_path final_configs/GOODSST2/length/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "nec/nec++/fidp/fidm" --average_edge_attn mean --debias --mask
+   87  clear
+   88  goodtg --config_path final_configs/GOODSST2/length/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec/nec++/fidp/fidm" --average_edge_attn mean --debias --mask
+   89  clear
+   90  goodtg --config_path final_configs/GOODSST2/length/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec/nec++/fidp/fidm" --average_edge_attn mean --debias --mask
+   91  clear
+   92  goodtg --config_path final_configs/GOODSST2/length/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec/nec++/fidp/fidm" --average_edge_attn mean --debias --mask
+   93  cat nohup.out 
+   94  goodtg --config_path final_configs/GOODSST2/length/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec/nec++/fidp/fidm" --average_edge_attn mean --debias --mask
+   95  clear
+   96  goodtg --config_path final_configs/GOODSST2/length/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec/nec++/fidp/fidm" --average_edge_attn mean --debias --mask
+   97  nohup goodtg --config_path final_configs/GOODSST2/length/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec/nec++/fidp/fidm" --average_edge_attn mean --debias --mask &
+   98  clear
+   99  nohup bash run_HIV_eval.sh > nohupHIVEval.txt 2> nohupHIVEval.txt &
+  100  exit
+  101  cd /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/
+  102  source /mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/activate
+  103  clear; goodtg --config_path final_configs/GOODSST2/length/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec/nec++/fidp/fidm" --average_edge_attn mean --debias --mask
+  104  clear
+  105  clear; goodtg --config_path final_configs/GOODSST2/length/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  106  python parser_res.py 
+  107  clear
+  108  clear; goodtg --config_path final_configs/GOODSST2/length/covariate/CIGA.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec/nec++/fidp/fidm" --average_edge_attn mean --debias --mask
+  109  clear; goodtg --config_path final_configs/GOODSST2/length/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  110  clear; goodtg --config_path final_configs/GOODSST2/length/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  111  clear; goodtg --config_path final_configs/GOODSST2/length/covariate/CIGA.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  112  clear
+  113  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/CIGA.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --metrics "acc" --average_edge_attn mean --debias --mask
+  114  clear
+  115  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/CIGA.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec/nec++/fidp/fidm" --average_edge_attn mean --debias --mask
+  116  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/CIGA.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  117  clear
+  118  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/CIGA.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff" --average_edge_attn mean --debias --mask
+  119  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  120  clear
+  121  python parser_res.py 
+  122  clear
+  123  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --metrics "acc" --average_edge_attn mean --debias --mask
+  124  , load_split=load_split, load_split=load_split, load_split=load_splitclear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --metrics "acc" --average_edge_attn mean --debias --maskclear
+  125  clear
+  126  , load_split=load_split, load_split=load_split, load_split=load_splitclear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --metrics "acc" --average_edge_attn mean --debias --mask
+  127  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --metrics "acc" --average_edge_attn mean --debias --mask
+  128  , load_split=load_split, load_split=load_split, load_split=load_splitclear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --metrics "acc" --average_edge_attn mean --debias --mask
+  129  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --metrics "acc" --average_edge_attn mean --debias --mask
+  130  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --metrics "acc" --average_edge_attn mean --debias --maskfor d in sasa/re tu/po ci/mn; do echo $d done
+  131  f
+  132  cd /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/
+  133  source /mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/activate
+  134  clear; goodtg --config_path final_configs/GOODSST2/length/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  135  python parser_res.py 
+  136  clear; goodtg --config_path final_configs/GOODSST2/length/covariate/CIGA.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  137  clear
+  138  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  139  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  140  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "2/3/4/5" --mitigation_sampling feat --task test --metrics "acc" --average_edge_attn mean --debias --mask
+  141  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/GSAT.yaml --seeds "2/3/4/5" --mitigation_sampling feat --task test --metrics "acc" --average_edge_attn mean --debias --mask
+  142  clear
+  143  goodtg --config_path final_configs/GOODHIV/scaffold/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec/nec++/fidp/fidm" --average_edge_attn mean --debias --mask
+  144  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec/nec++/fidp/fidm" --average_edge_attn mean --debias --mask
+  145  clear
+  146  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  147  clear
+  148  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec/nec++/fidp/fidm" --average_edge_attn mean --debias --mask
+  149  cd /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/
+  150  source /mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/activate
+  151  goodtg --config_path final_configs/GOODCMNIST/color/covariate/GSAT.yaml
+  152  goodtg --config_path final_configs/GOODCMNIST/color/covariate/GSAT.yaml --seeds "1"
+  153  goodtg --config_path final_configs/GOODCMNIST/color/covariate/GSAT.yaml --seeds "1" --debias
+  154  python threads.py 
+  155  pip freeze > requirements_clic.txt
+  156  cat requirements_clic.txt 
+  157  clear
+  158  python parser_res.py 
+  159  clear
+  160  cd /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/
+  161  source /mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/activate
+  162  python
+  163  cd /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/
+  164  source /mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/activate
+  165  ls
+  166  bash big.sh 
+  167  nvidia-smi
+  168  bash big.sh 
+  169  clear
+  170  bash big.sh 
+  171  nohup bash big.sh > big.txt 2> big.txt &
+  172  nvidia-smi
+  173  exit
+  174  nvidia-smi -l 1
+  175  python
+  176  cd /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/
+  177  source /mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/activate
+  178  python
+  179  cd /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/
+  180  source /mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/activate
+  181  python
+  182  exit
+  183  cd /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/
+  184  source /mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/activate
+  185  ls
+  186  goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  187  pip install imbalanced-learn
+  188  goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  189  clear
+  190  goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  191  clear
+  192  goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  193  clear
+  194  goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  195  clear
+  196  goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  197  goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  198  clear
+  199  goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  200  clear
+  201  goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  202  clear
+  203  goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  204  goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --maskù
+  205  clear
+  206  goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  207  clear
+  208  goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  209  clear
+  210  goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  211  clear
+  212  goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  213  clear
+  214  goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  215  clear
+  216  goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  217  clear
+  218  goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  219  clear
+  220  goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  221  clear
+  222  goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  223  clear
+  224  goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  225  clear
+  226  goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  227  clear
+  228  goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  229  clear
+  230  goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  231  clear
+  232  goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  233  clear
+  234  goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  235  clear
+  236  goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  237  clear
+  238  goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  239  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  240  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff" --average_edge_attn mean --debias --mask
+  241  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2" --mitigation_sampling feat --task eval_metric --metrics "suff" --average_edge_attn mean --debias --mask
+  242  clear; goodtg --config_path final_configs/GOODSST2/length/covariate/LECI.yaml --seeds "1/2/3" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask
+  243  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask
+  244  clear; goodtg --config_path final_configs/GOODMotif/size/covariate/LECI.yaml --seeds "1/2/3" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask
+  245  clear
+  246  bash big.sh
+  247  nouhp big.sh > big.txt 2> big.txt &
+  248  exit
+  249  cd /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/
+  250  source /mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/activate
+  251  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  252  clear
+  253  nvidia-smi
+  254  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --metrics "acc" --average_edge_attn mean --debias --mask
+  255  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --metrics "acc" --average_edge_attn mean --debias --mask
+  256  clear; goodtg --config_path final_configs/GOODMotif/size/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --metrics "acc" --average_edge_attn mean --debias --mask
+  257  clear; goodtg --config_path final_configs/GOODTwitter/length/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --metrics "acc" --average_edge_attn mean --debias --mask
+  258  clear; goodtg --config_path final_configs/GOODTwitter/length/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --metrics "acc" --average_edge_attn mean --debias --mask
+  259  clear; goodtg --config_path final_configs/GOODSST2/length/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --metrics "acc" --average_edge_attn mean --debias --mask
+  260  clear; goodtg --config_path final_configs/GOODSST2/length/covariate/CIGA.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --metrics "acc" --average_edge_attn mean --debias --mask
+  261  clear; goodtg --config_path final_configs/GOODSST2/length/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --metrics "acc" --average_edge_attn mean --debias --mask
+  262  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --metrics "acc" --average_edge_attn mean --debias --maskclear
+  263  bash download.sh 
+  264  bash download.sh 5
+  265  bash download.sh 4
+  266  bash download.sh 3
+  267  bash download.sh 2
+  268  bash download.sh 1
+  269  bash download.sh 5
+  270  bash download.sh 4
+  271  bash download.sh 3
+  272  bash download.sh 2
+  273  bash download.sh 1
+  274  bash download.sh 5
+  275  bash download.sh 4
+  276  bash download.sh 3
+  277  bash download.sh 2
+  278  bash download.sh 1
+  279  cat big.txt 
+  280  nohup big.sh > big.txt 2> big.txt &
+  281  cat big.txt 
+  282  nvidia-smi
+  283  ls
+  284  nohup bash big.sh > big.txt 2> big.txt &
+  285  cat big.txt 
+  286  exit
+  287  cd /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/
+  288  source /mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/activate
+  289  clear; goodtg --config_path final_configs/GOODSST2/length/covariate/GSAT.yaml --seeds "1/2/3" --mitigation_sampling feat --task test --metrics "suff/nec++" --average_edge_attn mean --debias --mask
+  290  clear; goodtg --config_path final_configs/GOODSST2/length/covariate/GSAT.yaml --seeds "1/2/3" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask
+  291  clear; goodtg --config_path final_configs/GOODSST2/length/covariate/GSAT.yaml --seeds "1/2/3" --mitigation_sampling feat --task eval_metric --metrics "suff" --average_edge_attn mean --debias --mask
+  292  clear; goodtg --config_path final_configs/GOODSST2/length/covariate/GSAT.yaml --seeds "1/2/3" --mitigation_sampling feat --task eval_metric --metrics "nec++" --average_edge_attn mean --debias --mask
+  293  clear; goodtg --config_path final_configs/GOODSST2/length/covariate/GSAT.yaml --seeds "2/3" --mitigation_sampling feat --task eval_metric --metrics "nec++" --average_edge_attn mean --debias --mask
+  294  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/GSAT.yaml --seeds "1/2/3" --mitigation_sampling feat --task eval_metric --metrics "nec++" --average_edge_attn mean --debias --mask
+  295  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/GSAT.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "nec++" --average_edge_attn mean --debias --mask
+  296  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/GSAT.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "nec++" --average_edge_attn mean --debias --mask --nec_alpha_1 0.7
+  297  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/GSAT.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "nec++" --average_edge_attn mean --debias --mask --nec_alpha_1 0.5
+  298  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/GSAT.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "nec++" --average_edge_attn mean --debias --mask --nec_alpha_1 0.6
+  299  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/GSAT.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "nec++" --average_edge_attn mean --debias --mask
+  300  cd /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/
+  301  source /mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/activate
+  302  nohup bash big.sh > big.txt 2> big.txt &
+  303  nvidia-smi
+  304  nohup bash big.sh > big.txt 2> big.txt &
+  305  cat big.txt 
+  306  clear; cat big.txt 
+  307  clear
+  308  clear; cat big.txt 
+  309  clear
+  310  clear; cat big.txt 
+  311  cat big.txt | grep Completed
+  312  cat big.txt
+  313  cat big.txt | grep Completed
+  314  nvidia-smi
+  315  kill -9 1666772
+  316  nohup bash big.sh > big.txt 2> big.txt &
+  317  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  318  cd /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/
+  319  source /mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/activate
+  320  bash download.sh 1
+  321  bash download.sh 2
+  322  bash download.sh 3
+  323  bash download.sh 4
+  324  bash download.sh 5
+  325  bash download.sh 4
+  326  bash download.sh 3
+  327  bash download.sh 2
+  328  bash download.sh 1
+  329  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/ERM.yaml --seeds "1" --mitigation_sampling feat --task test --average_edge_attn mean --debias
+  330  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/ERM.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --average_edge_attn mean --debias
+  331  clear; goodtg --config_path final_configs/GOODMotif/size/covariate/ERM.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --average_edge_attn mean --debias
+  332  clear
+  333  clear; goodtg --config_path final_configs/GOODMotif/size/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  334  python
+  335  jupyter-notebook --no-browser
+  336  python.venvPath
+  337  cd ..
+  338  ls
+  339  cd venv/leci/bin
+  340  ls
+  341  pwd
+  342  cat python3
+  343  clear
+  344  ls
+  345  cd ..
+  346  cd sedignn/leci_private_fork/
+  347  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task test --metrics "acc" --average_edge_attn mean --debias --mask
+  348  exit
+  349  cd /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/
+  350  source /mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/activate
+  351  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --metrics "nec++" --average_edge_attn mean --debias --mask
+  352  clear
+  353  clear; goodtg --config_path final_configs/GOODTwitter/length/covariate/ERM.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --average_edge_attn mean --debias 
+  354  clear; goodtg --config_path final_configs/GOODSST2/length/covariate/ERM.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --average_edge_attn mean --debias 
+  355  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/ERM.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --average_edge_attn mean --debias 
+  356  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/ERM.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --average_edge_attn mean --debias clear
+  357  clear
+  358  clear; goodtg --config_path final_configs/GOODTwitter/length/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff" --average_edge_attn mean --debias clear
+  359  clear; goodtg --config_path final_configs/GOODTwitter/length/covariate/GSAT.yaml --seeds "1/2/3" --mitigation_sampling feat --task eval_metric --metrics "suff" --average_edge_attn mean --debias clear
+  360  clear; goodtg --config_path final_configs/GOODTwitter/length/covariate/GSAT.yaml --seeds "1/2/3" --mitigation_sampling feat --task eval_metric --metrics "suff" --average_edge_attn mean --debias
+  361  clear; goodtg --config_path final_configs/GOODTwitter/length/covariate/GSAT.yaml --seeds "2/3" --mitigation_sampling feat --task eval_metric --metrics "suff" --average_edge_attn mean --debias
+  362  clear; goodtg --config_path final_configs/GOODTwitter/length/covariate/GSAT.yaml --seeds "3" --mitigation_sampling feat --task eval_metric --metrics "suff" --average_edge_attn mean --debias
+  363  clear; goodtg --config_path final_configs/GOODTwitter/length/covariate/LECI.yaml --seeds "3" --mitigation_sampling feat --task eval_metric --metrics "suff" --average_edge_attn mean --debias
+  364  clear; goodtg --config_path final_configs/GOODTwitter/length/covariate/LECI.yaml --seeds "2/3" --mitigation_sampling feat --task eval_metric --metrics "suff" --average_edge_attn mean --debias
+  365  clear; goodtg --config_path final_configs/GOODTwitter/length/covariate/LECI.yaml --seeds "1/2/3" --mitigation_sampling feat --task eval_metric --metrics "suff" --average_edge_attn mean --debias
+  366  clear; goodtg --config_path final_configs/GOODSST2/length/covariate/LECI.yaml --seeds "1/2/3" --mitigation_sampling feat --task eval_metric --metrics "suff" --average_edge_attn mean --debias
+  367  clear; goodtg --config_path final_configs/GOODSST2/length/covariate/LECI.yaml --seeds "2/3" --mitigation_sampling feat --task eval_metric --metrics "suff" --average_edge_attn mean --debias
+  368  clear; goodtg --config_path final_configs/GOODSST2/length/covariate/LECI.yaml --seeds "3" --mitigation_sampling feat --task eval_metric --metrics "suff" --average_edge_attn mean --debias
+  369  clear; goodtg --config_path final_configs/GOODSST2/length/covariate/GSAT.yaml --seeds "3" --mitigation_sampling feat --task eval_metric --metrics "suff" --average_edge_attn mean --debias
+  370  clear; goodtg --config_path final_configs/GOODSST2/length/covariate/GSAT.yaml --seeds "2/3" --mitigation_sampling feat --task eval_metric --metrics "suff" --average_edge_attn mean --debias
+  371  clear; goodtg --config_path final_configs/GOODSST2/length/covariate/GSAT.yaml --seeds "1/2/3" --mitigation_sampling feat --task eval_metric --metrics "suff" --average_edge_attn mean --debias
+  372  clear; goodtg --config_path final_configs/GOODSST2/length/covariate/LECI.yaml --seeds "1/2/3" --mitigation_sampling feat --task eval_metric --metrics "suff" --average_edge_attn mean --debias
+  373  clear; goodtg --config_path final_configs/GOODSST2/length/covariate/GSAT.yaml --seeds "1/2/3" --mitigation_sampling feat --task eval_metric --metrics "suff" --average_edge_attn mean --debias
+  374  clear; goodtg --config_path final_configs/GOODTwitter/length/covariate/LECI.yaml --seeds "2/3" --mitigation_sampling feat --task eval_metric --metrics "suff" --average_edge_attn mean --debias
+  375  jupyter-notebook
+  376  pip install notebook
+  377  clear; goodtg --config_path final_configs/GOODTwitter/length/covariate/LECI.yaml --seeds "2/3" --mitigation_sampling feat --task eval_metric --metrics "suff" --average_edge_attn mean --debias
+  378  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask --numsamples_budget all
+  379  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  380  exit
+  381  nvidia-smi
+  382  cd /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/
+  383  source /mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/activate
+  384  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --metrics "suff" --average_edge_attn mean --debias
+  385  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias
+  386  clear
+  387  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias
+  388  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias
+  389  clear
+  390  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias
+  391  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias
+  392  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean
+  393  clear; goodtg --config_path final_configs/GOODMotif/size/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  394  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  395  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias 
+  396  clear; goodtg --config_path final_configs/GOODSST2/length/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias 
+  397  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias
+  398  cd storage/datasets/
+  399  mv -r GOODMotif/ GOODMotif_pretransform_warning/
+  400  mv GOODMotif/ GOODMotif_pretransform_warning/
+  401  ls
+  402  scp -r steve.azzolin@marzola.disi.unitn.it:/home/steve.azzolin/sedignn/LECI_fork/storage/datasets/GOODMotif ./
+  403  ls
+  404  cd ..
+  405  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias
+  406  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean
+  407  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias
+  408  exit
+  409  cd /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/
+  410  source /mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/activate
+  411  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task test --metrics "acc" --average_edge_attn mean --debias --mask
+  412  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --metrics "acc" --average_edge_attn mean --debias --mask
+  413  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test_motif --metrics "acc" --average_edge_attn mean --debias --mask
+  414  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test_motif --metrics "acc" --average_edge_attn mean
+  415  clear; goodtg --config_path final_configs/GOODMotif/size/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test_motif --metrics "acc" --average_edge_attn mean
+  416  clear; goodtg --config_path final_configs/GOODMotif/size/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task test_motif --metrics "acc" --average_edge_attn mean
+  417  clear; goodtg --config_path final_configs/GOODMotif/size/covariate/LECI.yaml --seeds "1/2" --mitigation_sampling feat --task test_motif --metrics "acc" --average_edge_attn mean
+  418  clear; goodtg --config_path final_configs/GOODMotif/size/covariate/LECI.yaml --seeds "3" --mitigation_sampling feat --task test_motif --metrics "acc" --average_edge_attn mean
+  419  clear; goodtg --config_path final_configs/GOODMotif/size/covariate/LECI.yaml --seeds "4" --mitigation_sampling feat --task test_motif --metrics "acc" --average_edge_attn mean
+  420  clear; goodtg --config_path final_configs/GOODMotif/size/covariate/LECI.yaml --seeds "5" --mitigation_sampling feat --task test_motif --metrics "acc" --average_edge_attn mean
+  421  clear; goodtg --config_path final_configs/GOODMotif/size/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task test_motif --metrics "acc" --average_edge_attn mean
+  422  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task test_motif --metrics "acc" --average_edge_attn mean
+  423  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "2" --mitigation_sampling feat --task test_motif --metrics "acc" --average_edge_attn mean
+  424  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "3" --mitigation_sampling feat --task test_motif --metrics "acc" --average_edge_attn mean
+  425  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "4" --mitigation_sampling feat --task test_motif --metrics "acc" --average_edge_attn mean
+  426  nohup bash big.sh > big.txt 2> big.txt &
+  427  nvidia-smi
+  428  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "4" --mitigation_sampling feat --task test_motif --metrics "acc" --average_edge_attn mean
+  429  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "3" --mitigation_sampling feat --task test_motif --metrics "acc" --average_edge_attn mean
+  430  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "2" --mitigation_sampling feat --task test_motif --metrics "acc" --average_edge_attn mean
+  431  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task test_motif --metrics "acc" --average_edge_attn mean
+  432  clear; goodtg --config_path final_configs/GOODMotif/size/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task test_motif --metrics "acc" --average_edge_attn mean
+  433  clear; goodtg --config_path final_configs/GOODMotif/size/covariate/LECI.yaml --seeds "2" --mitigation_sampling feat --task test_motif --metrics "acc" --average_edge_attn mean
+  434  clear; goodtg --config_path final_configs/GOODMotif/size/covariate/LECI.yaml --seeds "3" --mitigation_sampling feat --task test_motif --metrics "acc" --average_edge_attn mean
+  435  clear; goodtg --config_path final_configs/GOODMotif/size/covariate/LECI.yaml --seeds "4" --mitigation_sampling feat --task test_motif --metrics "acc" --average_edge_attn mean
+  436  clear; goodtg --config_path final_configs/GOODMotif/size/covariate/LECI.yaml --seeds "3" --mitigation_sampling feat --task test_motif --metrics "acc" --average_edge_attn mean
+  437  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "3" --mitigation_sampling feat --task test_motif --metrics "acc" --average_edge_attn mean
+  438  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task test_motif --metrics "acc" --average_edge_attn mean
+  439  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "2" --mitigation_sampling feat --task test_motif --metrics "acc" --average_edge_attn mean
+  440  clear; goodtg --config_path final_configs/GOODMotif/size/covariate/LECI.yaml --seeds "2" --mitigation_sampling feat --task test_motif --metrics "acc" --average_edge_attn mean
+  441  clear; goodtg --config_path final_configs/GOODMotif/size/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task test_motif --metrics "acc" --average_edge_attn mean
+  442  clear; goodtg --config_path final_configs/GOODMotif/size/covariate/LECI.yaml --seeds "3" --mitigation_sampling feat --task test_motif --metrics "acc" --average_edge_attn mean
+  443  clear; goodtg --config_path final_configs/GOODMotif/size/covariate/LECI.yaml --seeds "4" --mitigation_sampling feat --task test_motif --metrics "acc" --average_edge_attn mean
+  444  clear
+  445  python debug_SST2.py 
+  446  clear
+  447  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --metrics "acc" --average_edge_attn mean
+  448  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "2/3/4/5" --mitigation_sampling feat --task test --metrics "acc" --average_edge_attn mean
+  449  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "3/4/5" --mitigation_sampling feat --task test --metrics "acc" --average_edge_attn mean
+  450  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "4/5" --mitigation_sampling feat --task test --metrics "acc" --average_edge_attn mean
+  451  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --metrics "acc" --average_edge_attn mean
+  452  exit
+  453  cd /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/
+  454  source /mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/activate
+  455  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/CIGA.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --metrics "acc" --average_edge_attn mean --debias --mask
+  456  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2" --mitigation_sampling feat --task test --metrics "acc" --average_edge_attn mean --debias --mask
+  457  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --metrics "acc" --average_edge_attn mean --debias --mask
+  458  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/ERM.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --metrics "acc" --average_edge_attn mean --debias --mask
+  459  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/CIGA.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --metrics "acc" --average_edge_attn mean --debias --mask
+  460  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --metrics "acc" --average_edge_attn mean --debias --mask
+  461  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task plot_panel --average_edge_attn mean --debias
+  462  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task plot_panel --average_edge_attn mean
+  463  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2/3" --mitigation_sampling feat --task plot_panel --average_edge_attn mean
+  464  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3" --mitigation_sampling feat --task plot_panel --average_edge_attn mean
+  465  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/GSAT.yaml --seeds "1/2/3" --mitigation_sampling feat --task plot_panel --average_edge_attn mean
+  466  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3" --mitigation_sampling feat --task plot_panel --average_edge_attn mean
+  467  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task plot_panel --average_edge_attn mean
+  468  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "suff" --average_edge_attn mean
+  469  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3" --mitigation_sampling feat --task plot_panel --average_edge_attn mean
+  470  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3" --mitigation_sampling feat --task test --average_edge_attn mean
+  471  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task plot_panel --average_edge_attn mean
+  472  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "2" --mitigation_sampling feat --task plot_panel --average_edge_attn mean
+  473  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3" --mitigation_sampling feat --task test --average_edge_attn mean
+  474  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task plot_panel --average_edge_attn mean
+  475  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task plot_panel --average_edge_attn mean --debias
+  476  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task plot_panel --average_edge_attn mean
+  477  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3" --mitigation_sampling feat --task plot_panel --average_edge_attn mean
+  478  bash big.sh
+  479  clear
+  480  bash big.sh
+  481  clear
+  482  bash big.sh
+  483  clear
+  484  bash big.sh
+  485  clear; goodtg --config_path final_configs/GOODSST2/length/covariate/LECI.yaml --seeds "1/2/3" --mitigation_sampling feat --task plot_panel --average_edge_attn mean
+  486  clear
+  487  nvidia-smi
+  488  exit
+  489  cd /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/
+  490  source /mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/activate
+  491  python
+  492  exit
+  493  cd /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/
+  494  source /mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/activate
+  495  nvidia-smi
+  496  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2/3" --mitigation_sampling feat --task eval_metric --metric "acc" --average_edge_attn mean
+  497  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2/3" --mitigation_sampling feat --task eval_metric --metric "acc" --average_edge_attn mean --debias
+  498  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metric "acc" --average_edge_attn mean --debias
+  499  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task permute_attention --metric "acc" --average_edge_attn mean --debias
+  500  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task permute_attention --metric "acc" --average_edge_attn mean --debias
+  501  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task permute_attention --metric "acc" --average_edge_attn mean --debias
+  502  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task permute_attention --metric "acc" --average_edge_attn mean --debias
+  503  clear; goodtg --config_path final_configs/GOODSST2/length/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task permute_attention --metric "acc" --average_edge_attn mean --debias
+  504  clear; goodtg --config_path final_configs/GOODSST2/length/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task permute_attention --metric "acc" --average_edge_attn mean --debias
+  505  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task permute_attention --metric "acc" --average_edge_attn mean --debias
+  506  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task permute_attention --metric "acc" --average_edge_attn mean --debias
+  507  clear
+  508  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias
+  509  clear
+  510  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias
+  511  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias
+  512  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  513  clear
+  514  clear; goodtg --config_path final_configs/GOODMotif/size/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask
+  515  exit
+  516  cd /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/
+  517  source /mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/activate
+  518  cd storage/datasets/
+  519  scp -r steve.azzolin@marzola.disi.unitn.it:/home/steve.azzolin/sedignn/LECI_fork/storage/datasets/LBAPcore ./
+  520  cd ..
+  521  bash download.sh 5
+  522  bash download.sh 4
+  523  bash download.sh 3
+  524  bash download.sh 2
+  525  nvidia-smi
+  526  cd storage/checkpoints/
+  527  ls
+  528  cd round
+  529  cd round1
+  530  ls
+  531  cd GOODMotif_basis_covariate/
+  532  ls
+  533  ls l-
+  534  ls -l
+  535  python
+  536  nvidia-smi
+  537  cd ..
+  538  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/GSAT.yaml --seeds "1" --mitigation_sampling feat --task permute_attention --average_edge_attn mean
+  539  clear; goodtg --config_path final_configs/GOODSST2/length/covariate/GSAT.yaml --seeds "1" --mitigation_sampling feat --task permute_attention --average_edge_attn mean
+  540  clear; goodtg --config_path final_configs/GOODSST2/length/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task permute_attention --average_edge_attn mean
+  541  clear
+  542  bash download.sh 1
+  543  clear
+  544  clear; goodtg --config_path final_configs/GOODLBSAP/scaffold/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --average_edge_attn mean
+  545  clear; goodtg --config_path final_configs/GOODLBAPcore/assay/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --average_edge_attn mean
+  546  clear; goodtg --config_path final_configs/LBAPcore/assay/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --average_edge_attn mean
+  547  clear; goodtg --config_path final_configs/LBAPcore/assay/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --average_edge_attn mean
+  548  clear; goodtg --config_path final_configs/LBAPcore/assay/covariate/CIGA.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --average_edge_attn mean
+  549  clear; goodtg --config_path final_configs/LBAPcore/assay/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --average_edge_attn mean
+  550  clear; goodtg --config_path final_configs/LBAPcore/assay/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --average_edge_attn mean
+  551  clear
+  552  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask
+  553  clear
+  554  clear; goodtg --config_path final_configs/GOODMotif/size/covariate/CIGA.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask
+  555  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask
+  556  exit
+  557  cd /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/
+  558  git status
+  559  git commit -m "added general scripts"
+  560  git config --global user.email "steve.azzolin1@gmail.com"
+  561  git commit -m "added general scripts"
+  562  git config --global user.name "steve"
+  563  nvidia-smi
+  564  exit
+  565  cd /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/
+  566  source /mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/activate
+  567  htop
+  568  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2/3" --mitigation_sampling feat --task test --average_edge_attn mean
+  569  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --average_edge_attn mean
+  570  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task test --average_edge_attn mean
+  571  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --average_edge_attn mean
+  572  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --average_edge_attn mean
+  573  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task test --average_edge_attn mean
+  574  clear; goodtg --config_path final_configs/GOODMotif/size/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task test --average_edge_attn mean
+  575  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task test --average_edge_attn mean
+  576  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --average_edge_attn mean
+  577  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --average_edge_attn mean --debias
+  578  clear; goodtg --config_path final_configs/GOODMotif/size/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task permute_attention --average_edge_attn mean --debias
+  579  clear; goodtg --config_path final_configs/GOODTwitter/length/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task permute_attention --average_edge_attn mean --debias
+  580  clear; goodtg --config_path final_configs/GOODTwitter/length/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task permute_attention --average_edge_attn mean --debias
+  581  clear; goodtg --config_path final_configs/GOODMotif/size/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task permute_attention --average_edge_attn mean --debias
+  582  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task permute_attention --average_edge_attn mean --debias
+  583  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "nec++" --average_edge_attn mean --debias
+  584  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias
+  585  clear; goodtg --config_path final_configs/GOODMotif/size/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --model_name LECIGIN
+  586  clear
+  587  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias
+  588  clear
+  589  nvidia-smi
+  590  clear
+  591  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias
+  592  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias
+  593  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  594  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  595  clear
+  596  clear; goodtg --config_path final_configs/GOODMotif/size/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias
+  597  exit
+  598  echo /bin/bash
+  599  /usr/bin/python3 /home/steve.azzolin/.vscode-server/extensions/ms-python.python-2024.0.0/pythonFiles/printEnvVariablesToFile.py /home/steve.azzolin/.vscode-server/extensions/ms-python.python-2024.0.0/pythonFiles/deactivate/bash/envVars.txt
+  600  cd /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/
+  601  source /mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/activate
+  602  python
+  603  nvidia-smi
+  604  bash download.sh 1
+  605  bash download.sh 2
+  606  bash download.sh 3
+  607  bash download.sh 4
+  608  bash download.sh 5
+  609  nvidia-smi
+  610  clear; goodtg --config_path final_configs/LBAPcore/assay/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask
+  611  clear; goodtg --config_path final_configs/LBAPcore/assay/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 2
+  612  nvidia-smi
+  613  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 2
+  614  clear
+  615  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 1
+  616  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask --gpu_idx 0
+  617  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/CIGA.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask --gpu_idx 0
+  618  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/CIGA.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 0
+  619  clear; goodtg --config_path final_configs/LBAPcore/assay/covariate/CIGA.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask --gpu_idx 0
+  620  clear
+  621  clear; goodtg --config_path final_configs/LBAPcore/assay/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask --gpu_idx 2
+  622  clear
+  623  clear; goodtg --config_path final_configs/LBAPcore/assay/covariate/CIGA.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 0
+  624  clear
+  625  clear; goodtg --config_path final_configs/GOODMotif/size/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task permute_attention --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 1
+  626  clear; goodtg --config_path final_configs/GOODMotif/size/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task permute_attention --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 1
+  627  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task permute_attention --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 1
+  628  clear; goodtg --config_path final_configs/LBAPcore/assay/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task permute_attention --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 1
+  629  clear
+  630  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "suff" --average_edge_attn mean --debias --mask --random_expl --gpu_idx 1
+  631  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask --random_expl --gpu_idx 1
+  632  python
+  633  cd /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/
+  634  source /mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/activate
+  635  htop
+  636  clear; goodtg --config_path final_configs/GOODMotif/size/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --metrics "suff/nec++" --average_edge_attn default --debias
+  637  clear; goodtg --config_path final_configs/GOODMotif/size/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --metrics "suff/nec++" --average_edge_attn sa --debias
+  638  clear
+  639  clear; goodtg --config_path final_configs/GOODTwiter/length/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --metrics "suff/nec++" --average_edge_attn mean --debias
+  640  clear; goodtg --config_path final_configs/GOODTwitter/length/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --metrics "suff/nec++" --average_edge_attn mean --debias
+  641  clear; goodtg --config_path final_configs/GOODTwitter/length/covariate/LECI.yaml --seeds "1/2/3" --mitigation_sampling feat --task test --metrics "suff/nec++" --average_edge_attn mean --debias
+  642  clear
+  643  clear; goodtg --config_path final_configs/GOODCMNIST/color/covariate/LECI.yaml --seeds "1/2/3" --mitigation_sampling feat --task test --metrics "suff/nec++" --average_edge_attn mean
+  644  clear; goodtg --config_path final_configs/GOODCMNIST/color/covariate/LECI.yaml --seeds "1/2/3" --mitigation_sampling feat --task test --metrics "suff/nec++" --average_edge_attn mean --debias
+  645  clear; goodtg --config_path final_configs/GOODCMNIST/color/covariate/LECI.yaml --seeds "1/2/3" --mitigation_sampling feat --task test --metrics "suff/nec++" --average_edge_attn mean --debias --gpu_idx 1
+  646  clear; goodtg --config_path final_configs/GOODCMNIST/color/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task test --metrics "suff/nec++" --average_edge_attn mean --debias --gpu_idx 1
+  647  clear; goodtg --config_path final_configs/GOODCMNIST/color/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --metrics "suff/nec++" --average_edge_attn mean --debias --gpu_idx 1
+  648  clear; goodtg --config_path final_configs/GOODCMNIST/color/covariate/ERM.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --metrics "suff/nec++" --average_edge_attn mean --debias --gpu_idx 1
+  649  clear
+  650  clear; goodtg --config_path final_configs/LBAP_core/assay/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask
+  651  clear; goodtg --config_path final_configs/LBAPcore/assay/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask
+  652  clear; goodtg --config_path final_configs/GOODMotif/size/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  653  clear
+  654  clear; goodtg --config_path final_configs/GOODMotif/size/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  655  clear
+  656  clear; goodtg --config_path final_configs/GOODMotif/size/covariate/CIGA.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask --gpu_idx 1
+  657  clear
+  658  clear; goodtg --config_path final_configs/LBAPcore/assay/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  659  clear
+  660  nvidia-smi
+  661  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task permute_attention --metrics "acc" --average_edge_attn mean --debias --mask --gpu_idx 1
+  662  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task permute_attention --metrics "acc" --average_edge_attn mean --debias --mask --gpu_idx 1
+  663  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task permute_attention --metrics "acc" --average_edge_attn mean --debias --mask --gpu_idx 1
+  664  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task permute_attention --metrics "acc" --average_edge_attn mean --debias --mask --gpu_idx 1
+  665  clear; goodtg --config_path final_configs/GOODMotif/size/covariate/CIGA.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task permute_attention --metrics "acc" --average_edge_attn mean --debias --mask --gpu_idx 1
+  666  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/CIGA.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task permute_attention --metrics "acc" --average_edge_attn mean --debias --mask --gpu_idx 1
+  667  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --task permute_attention --metrics "acc" --average_edge_attn mean --debias --mask --gpu_idx 1
+  668  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/CIGA.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task permute_attention --metrics "acc" --average_edge_attn mean --debias --mask --gpu_idx 1
+  669  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task permute_attention --metrics "acc" --average_edge_attn mean --debias --mask --gpu_idx 1
+  670  clear
+  671  clear; goodtg --config_path final_configs/LBAPcore/assay/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  672  clear; goodtg --config_path final_configs/LBAPcore/assay/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  673  clear
+  674  clear; goodtg --config_path final_configs/LBAPcore/assay/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "suff" --average_edge_attn mean --debias --mask --random_expl
+  675  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "suff" --average_edge_attn mean --debias --mask --random_expl
+  676  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "suff" --average_edge_attn mean --debias --mask --random_expl --gpu_idx 2
+  677  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask --random_expl --gpu_idx 2
+  678  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask --random_expl --gpu_idx 2
+  679  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask --random_expl --gpu_idx 2
+  680  nvidia-smi
+  681  nvidia-smi -l 1
+  682  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task permute_attention --metrics "acc" --average_edge_attn mean --debias --mask --gpu_idx 1
+  683  exit
+  684  nvidia-smi
+  685  cd /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/
+  686  source /mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/activate
+  687  cd storage/
+  688  cp -r checkpoints/ checkpoint_backup03022024/
+  689  ls
+  690  cd ..
+  691  bash download.sh 1
+  692  bash download.sh 2
+  693  bash download.sh 3
+  694  clear
+  695  bash download.sh 1
+  696  bash download.sh 2
+  697  bash download.sh 3
+  698  clear; goodtg --config_path final_configs/GOODMotif/size/covariate/LECI.yaml --seeds "1/2/3" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias
+  699  clear; goodtg --config_path final_configs/GOODMotif/size/covariate/LECI.yaml --seeds "1/2/3" --mitigation_sampling feat --task test --metrics "suff/nec++" --average_edge_attn mean --debias
+  700  clear
+  701  clear; goodtg --config_path final_configs/GOODTwitter/length/covariate/GSAT.yaml --seeds "1/2/3" --mitigation_sampling feat --task test --metrics "suff/nec++" --average_edge_attn mean --debias
+  702  clear
+  703  clear; goodtg --config_path final_configs/GOODmotif/basis/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask
+  704  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask
+  705  nvidia-smi
+  706  nvidia-smi -l 1
+  707  clear
+  708  clear; goodtg --config_path final_configs/GOODCMNIST/color/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 2
+  709  clear
+  710  clear; goodtg --config_path final_configs/GOODMotif/basis/covari
+  711  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --metrics "suff/nec++" --average_edge_attn mean --debias --mask
+  712  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask
+  713  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  714  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask
+  715  clear
+  716  nvidia-smi
+  717  clear; goodtg --config_path final_configs/GOODMotif/size/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_index 2
+  718  clear
+  719  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/CIGA.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  720  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  721  clear
+  722  clear; goodtg --config_path final_configs/LBAPcore/assay/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task permute_attention --metrics "acc" --average_edge_attn mean --debias --mask
+  723  clear
+  724  nvidia-smi
+  725  htop
+  726  nvidia-smi
+  727  clear
+  728  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "suff" --average_edge_attn mean --debias --mask --random_expl
+  729  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "suff" --average_edge_attn mean --debias --mask
+  730  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "suff" --average_edge_attn mean --debias --mask --random_expl
+  731  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "nec++" --average_edge_attn mean --debias --mask --random_expl
+  732  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "nec++" --average_edge_attn mean --debias --mask --random_expl --gpu_index 2
+  733  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "nec++" --average_edge_attn mean --debias --mask --random_expl --gpu_index 1
+  734  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "nec++" --average_edge_attn mean --debias --mask --random_expl --gpu_idx 2
+  735  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "nec++" --average_edge_attn mean --debias --mask --random_expl --gpu_idx 1
+  736  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "nec++" --average_edge_attn mean --debias --mask --gpu_idx 1
+  737  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "nec++" --average_edge_attn mean --debias --mask --gpu_idx 1 --random_expl
+  738  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 1 --random_expl
+  739  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 1 --random_expl
+  740  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "nec++" --average_edge_attn mean --debias --mask --gpu_idx 1 --random_expl
+  741  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "suff" --average_edge_attn mean --debias --mask --gpu_idx 1 --random_expl
+  742  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 1 --random_expl
+  743  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "suff/nec" --average_edge_attn mean --debias --mask --gpu_idx 1 --random_expl
+  744  exit
+  745  cd /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/
+  746  source /mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/activate
+  747  bash download.sh 1
+  748  bash download.sh 2
+  749  bash download.sh 3
+  750  bash download.sh 4
+  751  bash download.sh 5
+  752  clear; goodtg --config_path final_configs/LBSAPcore/assay/covariate/ERM.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --metrics "suff/nec++" --average_edge_attn mean --debias
+  753  clear; goodtg --config_path final_configs/LBAPcore/assay/covariate/ERM.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --metrics "suff/nec++" --average_edge_attn mean --debias
+  754  clear
+  755  clear; goodtg --config_path final_configs/GOODTwitter/length/covariate/CIGA.yaml --seeds "1/2/3" --mitigation_sampling feat --task test --metrics "suff/nec++" --average_edge_attn mean --debias
+  756  clear
+  757  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias
+  758  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "nec++" --average_edge_attn mean --debias
+  759  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "nec++" --average_edge_attn mean --debias --mask
+  760  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "suff" --average_edge_attn mean --debias --mask
+  761  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "nec++" --average_edge_attn mean --debias --mask
+  762  clear; goodtg --config_path final_configs/LBSAPcore/assay/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "nec++" --average_edge_attn mean --debias --mask
+  763  clear; goodtg --config_path final_configs/LBAPcore/assay/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "nec++" --average_edge_attn mean --debias --mask
+  764  clear
+  765  nvidia-smi
+  766  clear; goodtg --config_path final_configs/GOODCMNIST/color/covariate/CIGA.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test --metrics "nec++" --average_edge_attn mean --debias --mask
+  767  clear
+  768  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask
+  769  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask
+  770  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask
+  771  clear
+  772  nvidia-smi
+  773  clear
+  774  clear; goodtg --config_path final_configs/GOODHIV/scaffold/covariate/GSAT.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "acc" --average_edge_attn mean --debias --mask
+  775  nvidia-smi
+  776  htop
+  777  nvidia-smi
+  778  htop
+  779  nvidia-smi
+  780  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask --random_expl --gpu_idx 2
+  781  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/GSAT.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask --random_expl --gpu_idx 2
+  782  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "nec++" --average_edge_attn mean --debias --mask --random_expl --gpu_idx 2
+  783  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "nec++" --average_edge_attn mean --debias --mask --gpu_idx 2 --random_expl
+  784  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 2 --random_expl
+  785  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 2
+  786  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 2 --random_expl
+  787  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "suff/nec" --average_edge_attn mean --debias --mask --gpu_idx 2 --random_expl
+  788  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "suff/nec" --average_edge_attn mean --debias --mask --gpu_idx 2
+  789  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "suff/nec" --average_edge_attn mean --debias --mask --gpu_idx 2 --random_expl
+  790  exit
+  791  echo /bin/bash
+  792  /usr/bin/python3 /home/steve.azzolin/.vscode-server/extensions/ms-python.python-2024.0.0/pythonFiles/printEnvVariablesToFile.py /home/steve.azzolin/.vscode-server/extensions/ms-python.python-2024.0.0/pythonFiles/deactivate/bash/envVars.txt
+  793  cd /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/
+  794  source /mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/activate
+  795  nvidia-smi
+  796  htop
+  797  nvidia-smi
+  798  cd /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/
+  799  source /mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/activate
+  800  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "suff/nec" --average_edge_attn mean --debias --mask --gpu_idx 2 --random_expl
+  801  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "suff" --average_edge_attn mean --debias --mask --gpu_idx 2
+  802  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff" --average_edge_attn mean --debias --mask --gpu_idx 2
+  803  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff" --average_edge_attn mean --debias --mask --gpu_idx 1
+  804  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 1
+  805  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 1 --random_expl
+  806  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 1
+  807  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 1 --random_expl
+  808  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3" --mitigation_sampling feat --task permute_attention --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 1 --random_expl
+  809  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2/3" --mitigation_sampling feat --task permute_attention --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 1 --random_expl
+  810  nvidia-smi
+  811  cd /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/
+  812  source /mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/activate
+  813  nvidia-smi
+  814  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "suff/nec" --average_edge_attn mean --debias --mask --gpu_idx 2 --random_expl
+  815  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --task permute_attention --metrics "suff/nec" --average_edge_attn mean --debias --mask --gpu_idx 2 --random_expl
+  816  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --task permute_attention --metrics "nec++" --average_edge_attn mean --debias --mask --gpu_idx 2
+  817  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "nec++" --average_edge_attn mean --debias --mask --gpu_idx 2
+  818  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "nec" --average_edge_attn mean --debias --mask --gpu_idx 2
+  819  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "nec" --average_edge_attn mean --debias --mask --gpu_idx 2 --random_expl
+  820  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "suff" --average_edge_attn mean --debias --mask --gpu_idx 2 --random_expl
+  821  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "suff" --average_edge_attn mean --debias --mask --gpu_idx 2
+  822  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --task test_motif --metrics "suff" --average_edge_attn mean --debias --mask --gpu_idx 2
+  823  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "nec++" --average_edge_attn mean --debias --mask --gpu_idx 2
+  824  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "nec" --average_edge_attn mean --debias --mask --gpu_idx 2
+  825  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1" --mitigation_sampling feat --task eval_metric --metrics "suff" --average_edge_attn mean --debias --mask --gpu_idx 2
+  826  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff" --average_edge_attn mean --debias --mask --gpu_idx 2
+  827  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff" --average_edge_attn mean --debias --mask --gpu_idx 1
+  828  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 1
+  829  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 1 --random_expl
+  830  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task permute_attention --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 1 --random_expl
+  831  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 1
+  832  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 1 --random_expl
+  833  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2/3" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 1
+  834  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2/3" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 1 --random_expl
+  835  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2/3" --mitigation_sampling feat --task permute_attention --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 1 --random_expl
+  836  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3" --mitigation_sampling feat --task permute_attention --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 1 --random_expl
+  837  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2/3" --mitigation_sampling feat --task permute_attention --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 1 --random_expl
+  838  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3" --mitigation_sampling feat --task permute_attention --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 1 --random_expl
+  839  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2/3" --mitigation_sampling feat --task test_motif --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 1 --random_expl
+  840  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2/3" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 1 --random_expl
+  841  echo /bin/bash
+  842  /usr/bin/python3 /home/steve.azzolin/.vscode-server/extensions/ms-python.python-2024.0.0/pythonFiles/printEnvVariablesToFile.py /home/steve.azzolin/.vscode-server/extensions/ms-python.python-2024.0.0/pythonFiles/deactivate/bash/envVars.txt
+  843  cd /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/
+  844  source /mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/activate
+  845  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2/3" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 1 --random_expl
+  846  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task permute_attention --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 1 --random_expl
+  847  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2/3" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 1 --random_expl
+  848  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3" --mitigation_sampling feat --task test_motif --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 1 --random_expl
+  849  cd /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/
+  850  source /mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/activate
+  851  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2/3" --mitigation_sampling feat --task permute_attention --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 1 --random_expl
+  852  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/CIGA.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task permute_attention --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 1 --random_expl
+  853  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task permute_attention --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 1 --random_expl
+  854  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 1 --random_expl
+  855  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task permute_attention --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 1 --random_expl
+  856  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 1 --random_expl
+  857  echo /bin/bash
+  858  /usr/bin/python3 /home/steve.azzolin/.vscode-server/extensions/ms-python.python-2024.0.0/pythonFiles/printEnvVariablesToFile.py /home/steve.azzolin/.vscode-server/extensions/ms-python.python-2024.0.0/pythonFiles/deactivate/bash/envVars.txt
+  859  cd /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/
+  860  source /mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/activate
+  861  nohup bash big.sh > big.txt 2> big.txt &
+  862  cat big.txt 
+  863  cd /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/
+  864  source /mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/activate
+  865  bash big.txt > big_perm_attn.txt 2> big_perm_attn.txt
+  866  bash big.sh > big_perm_attn.txt 2> big_perm_attn.txt
+  867  cat big_perm_attn.txt 
+  868  clear; goodtg --config_path final_configs/GOODSST2/length/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task permute_attention --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 1 --random_expl
+  869  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task permute_attention --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 1 --random_expl
+  870  clear; goodtg --config_path final_configs/GOODSST2/length/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task permute_attention --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 1 --random_expl
+  871  bash big.sh > big_perm_attn.txt 2> big_perm_attn.txt
+  872  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 1
+  873  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task test_motif --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 1
+  874  clear; goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3/4/5" --mitigation_sampling feat --task eval_metric --metrics "suff/nec++" --average_edge_attn mean --debias --mask --gpu_idx 1
+  875  cd /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/
+  876  source /mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/activate
+  877  nvidia-smi
+  878  /usr/bin/python3 /home/steve.azzolin/.vscode-server/extensions/ms-python.python-2024.0.0/pythonFiles/printEnvVariablesToFile.py /home/steve.azzolin/.vscode-server/extensions/ms-python.python-2024.0.0/pythonFiles/deactivate/bash/envVars.txt
+  879  echo /bin/bash
+  880  cd /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/
+  881  source /mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/activate
+  882  bash download.sh 1
+  883  bash download.sh 2
+  884  bash download.sh 3
+  885  bash download.sh 1
+  886  bash download.sh 2
+  887  bash download.sh 3
+  888  bash download.sh 1
+  889  bash download.sh 2
+  890  bash download.sh 3
+  891  bash download.sh 1
+  892  bash download.sh 2
+  893  bash download.sh 3
+  894  bash download.sh 1
+  895  bash download.sh 2
+  896  bash download.sh 3
+  897  bash download.sh 1
+  898  bash download.sh 2
+  899  bash download.sh 3
+  900  clear
+  901  nvidia-smi
+  902  bash big.sh
+  903  clear
+  904  bash big.sh 1&2> big.txt
+  905  clear
+  906  bash big.sh &> big.txt
+  907  bash big.sh
+  908  bash big.sh &> big_all.txt
+  909  bash big.sh &> big.txt
+  910  python generate_plot_permutation.py 
+  911  bash big.sh
+  912  python generate_plot_permutation.py 
+  913  bash big.sh
+  914  python generate_plot_permutation.py 
+  915  exit
+  916  cd /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/
+  917  source /mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/activate
+  918  nvidia-smi
+  919  kill -9 3446516
+  920  htop -u steve.azzolin
+  921  nvidia-smi
+  922  python
+  923  python generate_plot_permutation.py 
+  924  exit
+  925  /usr/bin/python3 /home/steve.azzolin/.vscode-server/extensions/ms-python.python-2024.0.1/pythonFiles/printEnvVariablesToFile.py /home/steve.azzolin/.vscode-server/extensions/ms-python.python-2024.0.1/pythonFiles/deactivate/bash/envVars.txt
+  926  cd /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/
+  927  source /mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/activate
+  928  nvidia-smi
+  929  python debug_SST2.py 
+  930  nvidia-smi
+  931  cp motif_wl.ipynb debug_faith.ipynb
+  932  nvidia-smi
+  933  python
+  934  exit
+  935  cd /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/
+  936  source /mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/activate
+  937  goodtg --config_path final_configs/GOODMotif2/covariate/LECI.yaml --seeds "1" --task train --gpu_idx 1
+  938  goodtg --config_path final_configs/GOODMotif2/basis/covariate/LECI.yaml --seeds "1" --task train --gpu_idx 1
+  939  goodtg --config_path final_configs/GOODMotif2/basis/covariate/LECI.yaml --seeds "2" --task train --gpu_idx 1
+  940  goodtg --config_path final_configs/GOODMotif2/basis/covariate/LECI.yaml --seeds "1/2" --task test --gpu_idx 1
+  941  goodtg --config_path final_configs/GOODMotif2/basis/covariate/LECI.yaml --seeds "3" --task train --gpu_idx 1
+  942  goodtg --config_path final_configs/GOODMotif2/basis/covariate/LECI.yaml --seeds "1/2/3" --task test --gpu_idx 1
+  943  goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3" --task test --gpu_idx 1
+  944  goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1/2/3/4/5" --task test --gpu_idx 1
+  945  goodtg --config_path final_configs/GOODMotif/basis/covariate/LECI.yaml --seeds "1" --task test --gpu_idx 1
+  946  goodtg --config_path final_configs/GOODMotif2/basis/covariate/LECI.yaml --seeds "1" --task permute_attention --gpu_idx 1
+  947  exit
+  948  /usr/bin/python3 /home/steve.azzolin/.vscode-server/extensions/ms-python.python-2024.0.1/pythonFiles/printEnvVariablesToFile.py /home/steve.azzolin/.vscode-server/extensions/ms-python.python-2024.0.1/pythonFiles/deactivate/bash/envVars.txt
+  949  cd /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/
+  950  source /mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/activate
+  951  nvidia-smi
+  952  htop -u steve.azzolin
+  953  kill -9 3607837
+  954  nvidia-smi
+  955  bash big.sh 
+  956  clear
+  957  python
+  958  exit
+  959  nvidia-smi
+  960  python
+  961  htop
+  962  exit
+  963  cd /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/
+  964  source /mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/activate
+  965  nvidia-smi
+  966  history > delete.txt

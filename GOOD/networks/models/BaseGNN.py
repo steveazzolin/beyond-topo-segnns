@@ -153,7 +153,7 @@ class BasicEncoder(torch.nn.Module):
         if config.model.model_level == 'node':
             self.readout = IdenticalPool()
         elif config.model.global_pool == 'mean':
-            self.readout = GlobalMeanPool()
+            self.readout = GlobalMeanPool(**kwargs)
         elif config.model.global_pool == 'max':
             self.readout = GlobalMaxPool()
         elif config.model.global_pool == 'id':
