@@ -549,6 +549,8 @@ def main():
     print("\nFinal losses: ")
     for s in test_scores.keys():
         print(f"{s.upper():<10} = {np.mean(test_losses[s]):.4f} +- {np.std(test_losses[s]):.4f}")
+    for s in ["", "ood_"]:
+        print(f"Diff id_val-test {s} = {abs(np.mean(test_losses[s + 'id_val']) - np.mean(test_losses[s + 'test'])):.4f} ")
     print()
 
 
