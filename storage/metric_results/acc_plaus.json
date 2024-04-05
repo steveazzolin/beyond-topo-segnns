@@ -161,130 +161,265 @@
     "GOODSST2 length": {
         "LECIvGIN": {
             "id_val": {
+                "acc": [0.784,	0.808,	0.814,	0.814],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             },
             "val": {
+                "acc": [0.821,	0.873,	0.887,	0.886],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             },
             "test": {
+                "acc": [0.787,	0.822,	0.843,	0.842],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             }
         },
         "CIGAvGIN": {
             "id_val": {
+                "acc": [0.790],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             },
             "val": {
+                "acc": [0.837],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             },
             "test": {
+                "acc": [0.774],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             }
         },
         "GSATvGIN": {
             "id_val": {
+                "acc": [0.761,	0.789,	0.799,	0.802],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             },
             "val": {
+                "acc": [0.765,	0.826,	0.861,	0.865],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             },
             "test": {
+                "acc": [0.715,	0.768,	0.808,	0.816],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             }
         }
     },
     "GOODTwitter length": {
         "LECIvGIN": {
             "id_val": {
+                "acc": [0.634,	0.671,	0.694,	0.702],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             },
             "val": {
+                "acc": [0.582,	0.597,	0.613,	0.612],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             },
             "test": {
+                "acc": [0.530,	0.537,	0.546,	0.545],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             }
         },
         "CIGAvGIN": {
             "id_val": {
+                "acc": [0.696],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             },
             "val": {
+                "acc": [0.634],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             },
             "test": {
+                "acc": [0.561],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             }
         },
         "GSATvGIN": {
             "id_val": {
+                "acc": [0.626,	0.662,	0.694,	0.699],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             },
             "val": {
+                "acc": [0.601,	0.606,	0.613,	0.620],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             },
             "test": {
+                "acc": [0.538,	0.539,	0.548,	0.546],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             }
         }
     },
     "GOODHIV scaffold": {
         "LECIvGIN": {
             "id_val": {
+                "acc": [0.709,	0.815,	0.858,	0.865],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             },
             "val": {
+                "acc": [0.649,	0.713,	0.748,	0.750],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             },
             "test": {
+                "acc": [0.633,	0.698,	0.724,	0.734],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             }
         },
         "CIGAvGIN": {
             "id_val": {
+                "acc": [0.852],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             },
             "val": {
+                "acc": [0.729],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             },
             "test": {
+                "acc": [0.636],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             }
         },
         "GSATvGIN": {
             "id_val": {
+                "acc": [0.678,	0.786,	0.823,	0.828],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             },
             "val": {
+                "acc": [0.640,	0.679,	0.713,	0.714],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             },
             "test": {
+                "acc": [0.572,	0.624,	0.677,	0.683],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             }
         }
     },
     "LBAPcore assay": {
         "LECIvGIN": {
             "id_val": {
+                "acc": [],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             },
             "val": {
+                "acc": [],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             },
             "test": {
+                "acc": [],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             }
         },
         "CIGAvGIN": {
             "id_val": {
+                "acc": [],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             },
             "val": {
+                "acc": [],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             },
             "test": {
+                "acc": [],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             }
         },
         "GSATvGIN": {
             "id_val": {
+                "acc": [],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             },
             "val": {
+                "acc": [],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             },
             "test": {
+                "acc": [],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             }
         }
     },
     "GOODCMNIST color": {
         "LECIvGIN": {
             "id_val": {
+                "acc": [],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             },
             "val": {
+                "acc": [],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             },
             "test": {
+                "acc": [],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             }
         },
         "CIGAvGIN": {
             "id_val": {
+                "acc": [],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             },
             "val": {
+                "acc": [],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             },
             "test": {
+                "acc": [],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             }
         },
         "GSATvGIN": {
             "id_val": {
+                "acc": [],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             },
             "val": {
+                "acc": [],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             },
             "test": {
+                "acc": [],
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
             }
         }
     }
