@@ -68,7 +68,7 @@ markers = {
     "GOODTwitter length": "4",
     "GOODHIV scaffold": "D",
     "LBAPcore assay": "d",
-    "GOODCMNIST color": "p"
+    "GOODCMNIST color": "p" # did not converge
 }
 colors = {
     "LECIGIN": "blue",
@@ -142,7 +142,7 @@ def low_discrepancy():
         for i, (split_metric_id, split_metric_ood) in enumerate([("id_val", "test"), ("val", "test")]):
             split_acc = "test"
             acc_coll, combined_coll = [], []
-            for dataset in ["GOODMotif basis", "GOODMotif2 basis", "GOODMotif size"]: #data.keys()
+            for dataset in ["GOODMotif basis", "GOODMotif2 basis", "GOODMotif size", "GOODSST2 length", "GOODTwitter length", "GOODHIV scaffold"]: #data.keys()
 
                 # if dataset == "Motif size":
                 #     continue
@@ -159,8 +159,8 @@ def low_discrepancy():
                     combined = abs(faith_id - faith_ood)
                     
                     # best_r = pick_best_faith(data[dataset][model], split_metric, "wiou")
-                    # plaus_id      = np.array(acc_plaus[dataset][model][split_metric_id]["wiou"])[-1]
-                    # plaus_ood      = np.array(acc_plaus[dataset][model][split_metric_ood]["wiou"])[-1]
+                    # plaus_id       = np.nan_to_num(np.array(acc_plaus[dataset][model][split_metric_id]["wiou"]))[-1]
+                    # plaus_ood      = np.nan_to_num(np.array(acc_plaus[dataset][model][split_metric_ood]["wiou"]))[-1]
                     # combined = armonic(plaus_id, plaus_ood)
                     
                     # combined = hmean([faith_id, faith_ood, plaus_id, plaus_ood])
@@ -192,23 +192,253 @@ def low_discrepancy():
                 axs[j%num_rows, i%num_cols].annotate(f"PCC: {pcc.statistic:.2f} ({pcc.pvalue:.2f})", (0.8, 0.8), fontsize=7)
 
     plt.suptitle(f"{file_name} - pick accuracy: {pick_acc}")
-    # axs[2, -1].legend(handles=legend_elements, loc='upper left') #, loc='center'
-    # plt.colorbar()
     plt.savefig("GOOD/kernel/pipelines/plots/illustrations/automatic/low_discrepancy.png")
+    plt.close()
+
+def lower_bound_plaus():
+    ##
+    # Faith as a necessary condition for low discrepancy from ID and OOD test acc
+    ##
+
+    num_cols = 2
+    num_rows = 3
+    fig, axs = plt.subplots(num_rows, num_cols, figsize=(9, 15))
+
+    for j, faith_type in enumerate(["faith_aritm_L1", "faith_armon_L1", "faith_gmean_L1"]):
+        for i, (split_metric_id, split_metric_ood) in enumerate([("id_val", "test"), ("val", "test")]):
+            split_acc = "test"
+            acc_coll, combined_coll = [], []
+            for dataset in ["GOODMotif basis", "GOODMotif2 basis", "GOODMotif size"]: #data.keys()
+
+                # if dataset == "Motif size":
+                #     continue
+
+                for model in ["LECIGIN", "CIGAGIN", "GSATGIN", "LECIvGIN", "CIGAvGIN", "GSATvGIN"]:
+                    if not model in data[dataset].keys():
+                        continue
+                    if not faith_type in data[dataset][model][split_metric_id].keys():
+                        continue
+
+                    best_r = pick_best_faith(data[dataset][model], split_metric_id, faith_type)
+                    faith_id   = np.array(data[dataset][model][split_metric_id][faith_type])[best_r]
+
+                    best_r = pick_best_faith(data[dataset][model], split_metric_ood, faith_type)
+                    faith_ood  = np.array(data[dataset][model][split_metric_ood][faith_type])[best_r]
+                    combined = faith_id + faith_ood
+                    
+                    # best_r = pick_best_faith(data[dataset][model], split_metric, "wiou")
+                    plaus_id       = np.nan_to_num(np.array(acc_plaus[dataset][model][split_metric_id]["wiou"]))[-1]
+                    plaus_ood      = np.nan_to_num(np.array(acc_plaus[dataset][model][split_metric_ood]["wiou"]))[-1]
+                    combined = combined + plaus_id + plaus_ood # show empirically the lower bound
+                    
+                    # combined = hmean([faith_id, faith_ood, plaus_id, plaus_ood])
+                    if isinstance(combined, float):
+                        combined_coll.append(combined)
+                    else:
+                        combined_coll.extend(combined)
+
+                    acc_id    = acc_plaus[dataset][model][split_metric_id]["acc"][-1 if pick_acc == "entire_model" else best_r]
+                    acc_ood   = acc_plaus[dataset][model][split_metric_ood]["acc"][-1 if pick_acc == "entire_model" else best_r]
+                    
+                    acc = abs(acc_id - acc_ood)
+                    if isinstance(acc, float):
+                        acc_coll.append(acc)
+                    else:
+                        acc_coll.extend(acc)
+                    
+                    axs[j%num_rows, i%num_cols].scatter(combined, acc, marker=markers[dataset], label=model, c=colors[model])
+                    # axs[j%num_rows, i%num_cols].annotate(f"{acc:.2f}", (faith_id, faith_ood + (-1)**(random.randint(0,1))*random.randint(1,4)*0.005), fontsize=7)
+                    axs[j%num_rows, i%num_cols].grid(visible=True, alpha=0.5)
+                    axs[j%num_rows, i%num_cols].set_xlim(0.0, 4.)
+                    axs[j%num_rows, i%num_cols].set_ylim(-0.2, 1.)
+                    axs[j%num_rows, i%num_cols].set_ylabel(f"Acc abs difference ({split_metric_id} - {split_metric_ood})")
+                    axs[j%num_rows, i%num_cols].set_xlabel("Faith + Plaus" + f" ({split_metric_id}, {split_metric_ood}) ({faith_type})")
+                    axs[j%num_rows, i%num_cols].set_title(f"")
+            if len(acc_coll) > 0 and len(combined_coll) > 0:
+                combined_coll, acc_coll = np.array(acc_coll), np.array(combined_coll)
+                pcc = pearsonr(combined_coll, acc_coll)
+                axs[j%num_rows, i%num_cols].annotate(f"PCC: {pcc.statistic:.2f} ({pcc.pvalue:.2f})", (0.8, 0.8), fontsize=7)
+                # a, b = np.polyfit(combined_coll, acc_coll, 1)
+                # axs[j%num_rows, i%num_cols].plot(combined_coll, a*combined_coll+b)
+
+    plt.suptitle(f"{file_name} - pick accuracy: {pick_acc}")
+    # axs[2, -1].legend(handles=legend_elements, loc='upper left') #, loc='center'
+    plt.savefig("GOOD/kernel/pipelines/plots/illustrations/automatic/lower_bound.png")
+    plt.close()
+
+
+def lower_bound_unsup():
+    ##
+    # Faith as a necessary condition for low discrepancy from ID and OOD test acc
+    ##
+
+    num_cols = 2
+    num_rows = 3
+    fig, axs = plt.subplots(num_rows, num_cols, figsize=(9, 15))
+
+    for j, faith_type in enumerate(["suff++_L1", "faith_armon_L1", "faith_gmean_L1"]):
+        for i, (split_metric_id, split_metric_ood) in enumerate([("id_val", "test"), ("val", "test")]):
+            split_acc = "test"
+            acc_coll, combined_coll = [], []
+            for dataset in ["GOODMotif basis", "GOODMotif2 basis", "GOODMotif size", "GOODSST2 length", "GOODTwitter length", "GOODHIV scaffold", "GOODCMNIST color"]: #data.keys()
+                
+                # if dataset == "Motif size":
+                #     continue
+
+                for model in ["LECIGIN", "CIGAGIN", "GSATGIN", "LECIvGIN", "CIGAvGIN", "GSATvGIN"]:
+                    if not model in data[dataset].keys():
+                        continue
+                    if not faith_type in data[dataset][model][split_metric_id].keys():
+                        continue
+
+                    best_r = pick_best_faith(data[dataset][model], split_metric_id, faith_type)
+                    faith_id   = np.array(data[dataset][model][split_metric_id][faith_type])[best_r]
+
+                    best_r = pick_best_faith(data[dataset][model], split_metric_ood, faith_type)
+                    faith_ood  = np.array(data[dataset][model][split_metric_ood][faith_type])[best_r]
+                    combined = (faith_id + faith_ood)
+                    
+                    # best_r = pick_best_faith(data[dataset][model], split_metric, "wiou")
+                    # plaus_id       = np.nan_to_num(np.array(acc_plaus[dataset][model][split_metric_id]["wiou"]))[-1]
+                    # plaus_ood      = np.nan_to_num(np.array(acc_plaus[dataset][model][split_metric_ood]["wiou"]))[-1]
+                    # combined = combined # + plaus_id + plaus_ood # show empirically the lower bound
+                    
+                    # combined = hmean([faith_id, faith_ood, plaus_id, plaus_ood])
+                    if isinstance(combined, float):
+                        combined_coll.append(combined)
+                    else:
+                        combined_coll.extend(combined)
+
+                    acc_id    = acc_plaus[dataset][model][split_metric_id]["acc_ori"] #[-1 if pick_acc == "entire_model" else best_r]
+                    acc_ood   = acc_plaus[dataset][model][split_metric_ood]["acc_ori"] #[-1 if pick_acc == "entire_model" else best_r]
+                    acc_baseline_id  = acc_plaus[dataset]["GIN"][split_metric_id]["acc"][-1]
+                    acc_baseline_ood = acc_plaus[dataset]["GIN"][split_metric_ood]["acc"][-1]
+                    
+                    acc = abs(acc_id - acc_ood)
+                    # acc = acc / abs(acc_baseline_id - acc_baseline_ood)
+                    if isinstance(acc, float):
+                        acc_coll.append(acc)
+                    else:
+                        acc_coll.extend(acc)
+                    
+                    axs[j%num_rows, i%num_cols].scatter(combined, acc, marker=markers[dataset], label=model, c=colors[model])
+                    # axs[j%num_rows, i%num_cols].annotate(f"{acc:.2f}", (faith_id, faith_ood + (-1)**(random.randint(0,1))*random.randint(1,4)*0.005), fontsize=7)
+                    axs[j%num_rows, i%num_cols].grid(visible=True, alpha=0.5)
+                    axs[j%num_rows, i%num_cols].set_xlim(0.0, 1.5)
+                    axs[j%num_rows, i%num_cols].set_ylim(0.0, 1.)
+                    axs[j%num_rows, i%num_cols].set_ylabel(f"Acc abs difference ({split_metric_id} - {split_metric_ood})")
+                    axs[j%num_rows, i%num_cols].set_xlabel("$Faith_{id}$ + $Faith_{ood}$" + f" ({split_metric_id}, {split_metric_ood}) ({faith_type})")
+                    axs[j%num_rows, i%num_cols].set_title(f"")
+            if len(acc_coll) > 0 and len(combined_coll) > 0:
+                combined_coll, acc_coll = np.array(combined_coll), np.array(acc_coll)
+                # pcc = pearsonr(combined_coll, acc_coll)
+                # axs[j%num_rows, i%num_cols].annotate(f"PCC: {pcc.statistic:.2f} ({pcc.pvalue:.2f})", (0.8, 0.8), fontsize=7)
+                # m, b = np.polyfit(combined_coll, acc_coll, 1)
+                # x = combined_coll.tolist() + [0, 2]
+                # axs[j%num_rows, i%num_cols].plot(x, np.poly1d((m, b))(x), "r--", alpha=0.5)
+
+    plt.suptitle(f"{file_name} - pick accuracy: {pick_acc}")
+    # axs[2, -1].legend(handles=legend_elements, loc='upper left') #, loc='center'
+    plt.savefig("GOOD/kernel/pipelines/plots/illustrations/automatic/lower_bound_unsup.png")
+    plt.close()
+
+
+def faith_acc_gain():
+    ##
+    # Faith as a necessary condition for low discrepancy from ID and OOD test acc
+    ##
+
+    num_cols = 3
+    num_rows = 3
+    fig, axs = plt.subplots(num_rows, num_cols, figsize=(14, 15))
+
+    for j, faith_type in enumerate(["faith_aritm_L1", "faith_armon_L1", "faith_gmean_L1"]):
+        for i, what_correlate in enumerate(["faith", "plaus", "both"]):
+            split_acc = "test"
+            split_ood = "test"
+            acc_coll, combined_coll = [], []
+            for dataset in ["GOODMotif basis", "GOODMotif2 basis", "GOODMotif size"]: #data.keys()
+                #, "GOODSST2 length", "GOODTwitter length", "GOODHIV scaffold", "GOODCMNIST color"
+                # if dataset == "Motif size":
+                #     continue
+
+                for model in ["LECIGIN", "CIGAGIN", "GSATGIN", "LECIvGIN", "CIGAvGIN", "GSATvGIN"]:
+                    if not model in data[dataset].keys():
+                        continue
+                    if not faith_type in data[dataset][model][split_ood].keys():
+                        continue
+
+                    best_r = pick_best_faith(data[dataset][model], "id_val", faith_type)
+                    faith_id  = np.array(data[dataset][model]["id_val"][faith_type])[best_r]                    
+                    best_r = pick_best_faith(data[dataset][model], split_ood, faith_type)
+                    faith_ood  = np.array(data[dataset][model][split_ood][faith_type])[best_r]                    
+
+                    if what_correlate == "faith":
+                        combined = faith_ood
+                    elif what_correlate == "plaus":
+                        plaus_id      = np.nan_to_num(np.array(acc_plaus[dataset][model]["id_val"]["wiou"]))[-1]
+                        plaus_ood      = np.nan_to_num(np.array(acc_plaus[dataset][model][split_ood]["wiou"]))[-1]
+                        combined = plaus_ood
+                    elif what_correlate == "both":
+                        plaus_id      = np.nan_to_num(np.array(acc_plaus[dataset][model]["id_val"]["wiou"]))[-1]
+                        plaus_ood      = np.nan_to_num(np.array(acc_plaus[dataset][model][split_ood]["wiou"]))[-1]
+                        combined = hmean([faith_ood, plaus_ood])
+                    
+                    if isinstance(combined, float):
+                        combined_coll.append(combined)
+                    else:
+                        combined_coll.extend(combined)
+
+                    acc_ood_gin    = acc_plaus[dataset]["GIN"][split_ood]["acc"][-1 if pick_acc == "entire_model" else best_r]
+                    acc_ood_model   = acc_plaus[dataset][model][split_ood]["acc_ori"]
+                    
+                    acc = acc_ood_model - acc_ood_gin
+                    if isinstance(acc, float):
+                        acc_coll.append(acc)
+                    else:
+                        acc_coll.extend(acc)
+                    
+                    axs[j%num_rows, i%num_cols].scatter(combined, acc, marker=markers[dataset], label=model, c=colors[model])
+                    # axs[j%num_rows, i%num_cols].annotate(f"{acc:.2f}", (faith_id, faith_ood + (-1)**(random.randint(0,1))*random.randint(1,4)*0.005), fontsize=7)
+                    axs[j%num_rows, i%num_cols].grid(visible=True, alpha=0.5)
+                    if what_correlate == "faith":
+                        axs[j%num_rows, i%num_cols].set_xlim(0.2, 0.8)
+                        axs[j%num_rows, i%num_cols].set_ylim(-0.2, 0.9)
+                    elif what_correlate == "plaus":
+                        axs[j%num_rows, i%num_cols].set_xlim(0., 1.1)
+                        axs[j%num_rows, i%num_cols].set_ylim(-0.2, 0.9)
+                    else:
+                        axs[j%num_rows, i%num_cols].set_xlim(-0.2, 2)
+                        axs[j%num_rows, i%num_cols].set_ylim(-0.2, 0.9)
+                    axs[j%num_rows, i%num_cols].set_ylabel(f"Acc gain wrt ERM test")
+                    axs[j%num_rows, i%num_cols].set_xlabel(f"{what_correlate} ({split_ood}) ({faith_type})")
+                    axs[j%num_rows, i%num_cols].set_title(f"")
+            if len(acc_coll) > 0 and len(combined_coll) > 0:
+                combined_coll, acc_coll = np.array(combined_coll), np.array(acc_coll)
+                pcc = pearsonr(combined_coll, acc_coll)
+                axs[j%num_rows, i%num_cols].annotate(f"PCC: {pcc.statistic:.2f} ({pcc.pvalue:.2f})", (0.6, 0.6), fontsize=7)
+                m, b = np.polyfit(combined_coll, acc_coll, 1)
+                x = combined_coll.tolist() + [0, 2]
+                axs[j%num_rows, i%num_cols].plot(x, np.poly1d((m, b))(x), "r--", alpha=0.3)
+
+    plt.suptitle(f"{file_name} - pick accuracy: {pick_acc}")
+    # axs[2, -1].legend(handles=legend_elements, loc='upper left') #, loc='center'
+    plt.savefig("GOOD/kernel/pipelines/plots/illustrations/automatic/faith_acc_gain.png")
     plt.close()
 
 
 
 
-
-
-
-
-
-
 if __name__ == "__main__":
-    low_discrepancy()
+    # low_discrepancy()
+    # lower_bound_plaus()  # as per slide
+    lower_bound_unsup()
+    # faith_acc_gain() # as per slide
+
     # scatter_trio()    
+
+
+    
 
 
 
