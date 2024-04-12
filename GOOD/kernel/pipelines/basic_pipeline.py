@@ -1534,13 +1534,14 @@ class Pipeline:
 
     def generate_panel(self):
         self.model.eval()
-        splits = ["train", "id_val", "val", "test"]
-        n_row = 3
-        fig, axs = plt.subplots(n_row, n_row, figsize=(14,14))
-        plt.suptitle(f"{self.config.model.model_name} {self.config.dataset.dataset_name}")
+        splits = ["train", "id_val", "val"] #, "test"
+        n_row = 1
+        fig, axs = plt.subplots(n_row, len(splits), figsize=(9,4))
+        plt.suptitle(f"{self.config.model.model_name[:4]} - {self.config.dataset.dataset_name} {self.config.dataset.domain}")
         
         for i, split in enumerate(splits):            
             acc = self.evaluate(split, compute_suff=False)["score"]
+            print(f"Acc ({split}) =  ({acc:.3f}%)")
             dataset = self.get_local_dataset(split)
 
             loader = DataLoader(dataset, batch_size=256, shuffle=False, num_workers=2)
@@ -1563,23 +1564,26 @@ class Pipeline:
                 edge_scores = [np.abs(np.array(e)) for e in edge_scores]
                 edge_scores = [(e - e.min()) / (e.max() - e.min() + 1e-7) for e in edge_scores if len(e) > 0]
 
-            axs[int(i/n_row), int(i%n_row)].hist(np.concatenate(edge_scores), bins=100, density=False, log=True)
-            axs[int(i/n_row), int(i%n_row)].set_title(f"Attn. distribution {split} ({acc:.3f}%)")
-            axs[int(i/n_row), int(i%n_row)].set_xlabel(f"attention scores")
-            axs[int(i/n_row), int(i%n_row)].set_ylabel(f"")
-            axs[int(i/n_row), int(i%n_row)].set_xlim(0, 1.1)
+            print(min(np.concatenate(edge_scores)), max(np.concatenate(edge_scores)))
+            axs[int(i/n_row)].hist(np.concatenate(edge_scores), density=True, log=False, bins=100) #100 or np.linspace(-1, 1, 100)
+            axs[int(i/n_row)].set_title(f"{split}")
+            axs[int(i/n_row)].set_xlabel(f"explanation scores")
+            axs[int(i/n_row)].set_ylabel(f"density")
+            axs[int(i/n_row)].set_xlim(-0.1, 1.1)
+            axs[int(i/n_row)].set_ylim(0.0, 100)
 
-            means, stds = zip(*[(np.mean(e), np.std(e)) for e in edge_scores])
-            means, stds = self.smooth(np.array(means), k=5), np.array(stds)
-            axs[n_row - int(i/n_row) -1, n_row - int(i%n_row) -1].plot(np.arange(len(means)), means)
-            axs[n_row - int(i/n_row) -1, n_row - int(i%n_row) -1].plot(np.arange(len(effective_ratios)), self.smooth(effective_ratios, k=7), 'r', alpha=0.7)
-            axs[n_row - int(i/n_row) -1, n_row - int(i%n_row) -1].fill_between(np.arange(len(means)), means - stds, means + stds, alpha=0.5)
-            axs[n_row - int(i/n_row) -1, n_row - int(i%n_row) -1].set_title(f"Per sample attn. variability - {split}")
-            axs[n_row - int(i/n_row) -1, n_row - int(i%n_row) -1].set_ylim(0, 1.1)
+            # means, stds = zip(*[(np.mean(e), np.std(e)) for e in edge_scores])
+            # means, stds = self.smooth(np.array(means), k=5), np.array(stds)
+            # axs[n_row - int(i/n_row) -1, n_row - int(i%n_row) -1].plot(np.arange(len(means)), means)
+            # axs[n_row - int(i/n_row) -1, n_row - int(i%n_row) -1].plot(np.arange(len(effective_ratios)), self.smooth(effective_ratios, k=7), 'r', alpha=0.7)
+            # axs[n_row - int(i/n_row) -1, n_row - int(i%n_row) -1].fill_between(np.arange(len(means)), means - stds, means + stds, alpha=0.5)
+            # axs[n_row - int(i/n_row) -1, n_row - int(i%n_row) -1].set_title(f"Per sample attn. variability - {split}")
+            # axs[n_row - int(i/n_row) -1, n_row - int(i%n_row) -1].set_ylim(0, 1.1)
 
         plt.tight_layout(rect=[0, 0.03, 1, 0.95])
-        path = f'GOOD/kernel/pipelines/plots/panels/{self.config.load_split}_{self.config.dataset.dataset_name}_{self.config.dataset.domain}_{self.config.util_model_dirname}_{self.config.random_seed}.png'
-        plt.savefig(path)
+        path = f'GOOD/kernel/pipelines/plots/panels/{self.config.load_split}_{self.config.dataset.dataset_name}_{self.config.dataset.domain}_{self.config.util_model_dirname}_{self.config.random_seed}'
+        plt.savefig(path + ".png")
+        plt.savefig(f'GOOD/kernel/pipelines/plots/panels/pdfs/{self.config.load_split}_{self.config.dataset.dataset_name}_{self.config.dataset.domain}_{self.config.util_model_dirname}_{self.config.random_seed}.pdf')
         print("\n Saved plot ", path, "\n")
         plt.close()
 
