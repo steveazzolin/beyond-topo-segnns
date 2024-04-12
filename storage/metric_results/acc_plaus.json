@@ -440,17 +440,17 @@
     "LBAPcore assay": {
         "LECIvGIN": {
             "id_val": {
-                "acc": [],
+                "acc": [0.720, 0.889, 0.925, 0.931],
                 "plaus_f1": [null, null, null, null],
                 "wiou": [null, null, null, null]
             },
             "val": {
-                "acc": [],
+                "acc": [0.594, 0.684, 0.703, 0.699],
                 "plaus_f1": [null, null, null, null],
                 "wiou": [null, null, null, null]
             },
             "test": {
-                "acc": [],
+                "acc": [0.597, 0.710, 0.746, 0.753],
                 "plaus_f1": [null, null, null, null],
                 "wiou": [null, null, null, null]
             }
@@ -474,17 +474,17 @@
         },
         "GSATvGIN": {
             "id_val": {
-                "acc": [],
+                "acc": [0.823,  0.891,  0.922,  0.926],
                 "plaus_f1": [null, null, null, null],
                 "wiou": [null, null, null, null]
             },
             "val": {
-                "acc": [],
+                "acc": [0.629,  0.661,  0.668,  0.670],
                 "plaus_f1": [null, null, null, null],
                 "wiou": [null, null, null, null]
             },
             "test": {
-                "acc": [],
+                "acc": [0.679,  0.720,  0.737,  0.742],
                 "plaus_f1": [null, null, null, null],
                 "wiou": [null, null, null, null]
             }
@@ -504,19 +504,19 @@
     "GOODCMNIST color": {
         "LECIvGIN": {
             "id_val": {
-                "acc": [],
+                "acc": [0.123, 0.249, 0.809, 0.954],
                 "acc_ori": 0.955,
                 "plaus_f1": [null, null, null, null],
                 "wiou": [null, null, null, null]
             },
             "val": {
-                "acc": [],
+                "acc": [0.112, 0.215, 0.686, 0.806],
                 "acc_ori": 0.812,
                 "plaus_f1": [null, null, null, null],
                 "wiou": [null, null, null, null]
             },
             "test": {
-                "acc": [],
+                "acc": [0.119, 0.186, 0.275, 0.255],
                 "acc_ori": 0.256,
                 "plaus_f1": [null, null, null, null],
                 "wiou": [null, null, null, null]
