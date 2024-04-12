@@ -457,17 +457,17 @@
         },
         "CIGAvGIN": {
             "id_val": {
-                "acc": [],
+                "acc": [0.935],
                 "plaus_f1": [null, null, null, null],
                 "wiou": [null, null, null, null]
             },
             "val": {
-                "acc": [],
+                "acc": [0.682],
                 "plaus_f1": [null, null, null, null],
                 "wiou": [null, null, null, null]
             },
             "test": {
-                "acc": [],
+                "acc": [0.719],
                 "plaus_f1": [null, null, null, null],
                 "wiou": [null, null, null, null]
             }
@@ -524,19 +524,19 @@
         },
         "CIGAvGIN": {
             "id_val": {
-                "acc": [],
+                "acc": [0.520],
                 "acc_ori": 0.515,
                 "plaus_f1": [null, null, null, null],
                 "wiou": [null, null, null, null]
             },
             "val": {
-                "acc": [],
+                "acc": [0.401],
                 "acc_ori": 0.405,
                 "plaus_f1": [null, null, null, null],
                 "wiou": [null, null, null, null]
             },
             "test": {
-                "acc": [],
+                "acc": [0.227],
                 "acc_ori": 0.232,
                 "plaus_f1": [null, null, null, null],
                 "wiou": [null, null, null, null]
@@ -544,19 +544,19 @@
         },
         "GSATvGIN": {
             "id_val": {
-                "acc": [],
+                "acc": [0.114, 0.144, 0.779, 0.926],
                 "acc_ori": 0.929,
                 "plaus_f1": [null, null, null, null],
                 "wiou": [null, null, null, null]
             },
             "val": {
-                "acc": [],
+                "acc": [0.112, 0.122, 0.546, 0.777],
                 "acc_ori": 0.779,
                 "plaus_f1": [null, null, null, null],
                 "wiou": [null, null, null, null]
             },
             "test": {
-                "acc": [],
+                "acc": [0.124 , 0.150, 0.197, 0.254],
                 "acc_ori": 0.246,
                 "plaus_f1": [null, null, null, null],
                 "wiou": [null, null, null, null]
