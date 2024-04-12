@@ -65,7 +65,7 @@ markers = {
     "GOODMotif2 basis": "*",
     "GOODMotif size": "^",
     "GOODSST2 length": "v",
-    "GOODTwitter length": "|",
+    "GOODTwitter length": "s",
     "GOODHIV scaffold": "D",
     "LBAPcore assay": "d",
     "GOODCMNIST color": "p" # did not converge
@@ -74,9 +74,9 @@ colors = {
     "LECIGIN": "blue",
     "CIGAGIN": "orange", 
     "GSATGIN": "green",
-    "LECIvGIN": "deepskyblue",
-    "CIGAvGIN": "moccasin", 
-    "GSATvGIN": "lime",
+    "LECIvGIN": "blue", #"deepskyblue",
+    "CIGAvGIN": "orange", #"moccasin", 
+    "GSATvGIN": "green" #"lime",
 }
 
 print(data.keys())
@@ -136,7 +136,7 @@ def low_discrepancy():
     num_cols = 2
     num_rows = 1
     fig, axs = plt.subplots(num_rows, num_cols, figsize=(10, 5))
-    datasets = ["GOODMotif basis", "GOODMotif2 basis", "GOODMotif size", "GOODSST2 length", "GOODTwitter length", "GOODHIV scaffold"]
+    datasets = ["GOODMotif basis", "GOODMotif2 basis", "GOODMotif size", "GOODSST2 length", "GOODTwitter length", "GOODHIV scaffold", "GOODCMNIST color", "LBAPcore assay"]
 
     for j, faith_type in enumerate(["faith_armon_L1"]):
         for i, (split_metric_id, split_metric_ood) in enumerate([("id_val", "test"), ("val", "test")]):
@@ -479,7 +479,7 @@ def compare_faith_mitigations():
     for j, faith_type in enumerate(["faith_armon_L1"]):
         for i, split_metric in enumerate(["test"]):
             for dataset in ["GOODMotif basis", "GOODMotif2 basis", "GOODMotif size", "GOODSST2 length", "GOODTwitter length", "GOODHIV scaffold", "LBAPcore assay", "GOODCMNIST color"]:
-                for file_name in ["suff++_old_mitigreadout_weighted_mitigvirtual_weighted"]: #"suff++_old", "suff++_old_mitigreadout_weighted", "suff++_old_mitigreadout_weighted_mitigvirtual_weighted"
+                for file_name in ["suff++_old_mitigreadout_weighted_nov"]: #"suff++_old", "suff++_old_mitigreadout_weighted", "suff++_old_mitigreadout_weighted_mitigvirtual_weighted"
                     with open(f"storage/metric_results/aggregated_id_results_{file_name}.json", "r") as jsonFile:
                         data = json.load(jsonFile)
                     for model in ["LECIGIN", "LECIvGIN"]:
@@ -507,7 +507,7 @@ def compare_faith_mitigations():
         return
 
 if __name__ == "__main__":
-    # low_discrepancy()
+    low_discrepancy()
     # lower_bound_plaus()  # as per slide
     # lower_bound_unsup() # as per slide
     # faith_acc_gain() # as per slide
