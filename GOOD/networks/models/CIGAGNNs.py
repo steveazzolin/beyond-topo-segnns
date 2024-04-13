@@ -77,7 +77,6 @@ class CIGAGIN(GNNBasic):
             causal_x, _, __, ___ = relabel(orig_x, causal_edge_index, data.batch)
             spu_x, _, __, ___ = relabel(orig_x, spu_edge_index, data.batch)
 
-
         # --- Causal repr ---
         set_masks(causal_edge_weight, self)
         causal_rep = self.get_graph_rep(

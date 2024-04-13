@@ -110,7 +110,9 @@ class CommonArgs(Tap):
     mitigation_backbone: str = None # Added by Steve
     mitigation_sampling: str = "feat" # Added by Steve
     mitigation_readout: str = None # Added by Steve
-    mitigation_virtual: str = None # Added by Steve<
+    mitigation_virtual: str = None # Added by Steve
+    mitigation_expl_scores: str = "default" # Added by Steve
+    mitigation_expl_scores_topk: float = -1 # Added by Steve
     expval_budget: int = None # Added by Steve
     numsamples_budget: int = None # Added by Steve
     fidelity_alpha_2: float = None # Added by Steve

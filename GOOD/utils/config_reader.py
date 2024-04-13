@@ -210,7 +210,12 @@ def process_configs(config: Union[CommonArgs, Munch], args=None):
         model_dirname = model_dirname + f'mitig_readout{args.mitigation_readout}'
     if not config.mitigation_virtual is None:
         model_dirname = model_dirname + f'mitig_virtual{args.mitigation_virtual}'
+    if not config.mitigation_expl_scores is None:
+        model_dirname = model_dirname + f'mitig_explscores{args.mitigation_expl_scores}'
+        if config.mitigation_expl_scores.lower() == "topk":
+            model_dirname += f'({args.mitigation_expl_scores_topk})'
     model_dirname = model_dirname + f'avgedgeattn{args.average_edge_attn}'
+    
     train_dirname = f'{config.train.lr}lr_{config.train.weight_decay}wd'
     config.util_model_dirname = model_dirname
     ood_dirname = config.ood.ood_alg

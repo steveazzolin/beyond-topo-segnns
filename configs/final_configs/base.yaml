@@ -13,6 +13,8 @@ pipeline: Pipeline
 num_workers: 0
 mitigation_readout: null
 mitigation_virtual: null
+mitigation_expl_scores: default
+mitigation_expl_scores_topk: -1
 expval_budget: 8 # Added by Steve
 numsamples_budget: 800 # Added by Steve
 fidelity_alpha_2: 0.9 # Added by Steve

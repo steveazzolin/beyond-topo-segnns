@@ -7,6 +7,7 @@ import torch.nn as nn
 from torch import Tensor
 from torch.autograd import Function
 from torch_geometric import __version__ as pyg_v
+from torch_geometric.data import Data
 from torch_geometric.nn import InstanceNorm
 from torch_geometric.nn.conv import MessagePassing
 from torch_geometric.utils import is_undirected, to_undirected, degree, coalesce
@@ -109,7 +110,7 @@ class LECIGIN(GNNBasic):
 
         node_repr = self.sub_gnn.get_node_repr(*args, **kwargs)
         att_log_logits = self.extractor(node_repr, data.edge_index, data.batch)
-        att = self.sampling(att_log_logits, self.training)
+        att = self.sampling(att_log_logits, self.training, self.config.mitigation_expl_scores)
 
         if self.learn_edge_att:
             if is_undirected(data.edge_index):
@@ -134,6 +135,7 @@ class LECIGIN(GNNBasic):
             edge_att = self.lift_node_att_to_edge_att(att, data.edge_index)
 
         if kwargs.get('weight', None):
+            assert False
             if kwargs.get('is_ratio'):
                 (causal_edge_index, causal_edge_attr, causal_edge_weight), _ = split_graph(data, edge_att, kwargs.get('weight'))
                 causal_x, causal_edge_index, causal_batch, _ = relabel(data.x, causal_edge_index, data.batch)
@@ -144,10 +146,21 @@ class LECIGIN(GNNBasic):
                     data.edge_attr = causal_edge_attr
                 edge_att = causal_edge_weight                
             else:
+                assert False
                 data.edge_index = (data.edge_index.T[edge_att >= kwargs.get('weight')]).T
                 if not data.edge_attr is None:
                     data.edge_attr = data.edge_attr[edge_att >= kwargs.get('weight')]
                 edge_att = edge_att[edge_att >= kwargs.get('weight')]
+
+        if self.config.mitigation_expl_scores == "topK" or self.config.mitigation_expl_scores == "topk":
+            assert self.config.mitigation_expl_scores_topk >= 0.0
+            (causal_edge_index, causal_edge_attr, edge_att), \
+                _ = split_graph(data, edge_att, self.config.mitigation_expl_scores_topk)
+           
+            causal_x, causal_edge_index, causal_batch, _ = relabel(data.x, causal_edge_index, data.batch)
+
+            data = Data(x=causal_x, edge_index=causal_edge_index, edge_attr=causal_edge_attr, batch=causal_batch)
+            kwargs['data'] = data
 
         set_masks(edge_att, self.lc_gnn)
         lc_logits = self.lc_classifier(self.lc_gnn(*args, **kwargs))
@@ -178,15 +191,36 @@ class LECIGIN(GNNBasic):
 
         return (lc_logits, la_logits, None, ea_logits, ef_logits), att, edge_att
 
-    def sampling(self, att_log_logits, training):
+    def sampling(self, att_log_logits, training, mitigation_expl_scores):
         if (self.config.dataset.dataset_name == 'GOODMotif' and self.config.dataset.domain == 'size') or \
             (self.config.dataset.dataset_name == 'FPIIFMotif'):
             temp = (self.config.train.epoch * 0.1 + (200 - self.config.train.epoch) * 10) / 200
         else:
             temp = 1
         # temp = 1
+
+        if mitigation_expl_scores == "anneal":
+            temp = (self.config.train.epoch * 0.1 + (200 - self.config.train.epoch) * 5) / 200
+
         att = self.concrete_sample(att_log_logits, temp=temp, training=training)
+
+        if mitigation_expl_scores == "hard":
+            att_hard = (att > 0.5).float()
+            att = att_hard - att.detach() + att
         return att
+    
+    # def differentiable_topk(scores, k):
+    #     # Sort the scores in descending order and get the indices of the top-k scores
+    #     topk_indices = torch.topk(scores, k=k, dim=-1)[1]
+
+    #     # Create a mask to select the top-k scores
+    #     mask = torch.zeros_like(scores, dtype=torch.float32)
+    #     mask.scatter_(-1, topk_indices, 1.0)
+
+    #     # Use gather to select the top-k scores while keeping the operation differentiable
+    #     topk_scores = torch.sum(scores * mask, dim=-1)
+
+    #     return topk_scores, topk_indices
 
     @staticmethod
     def lift_node_att_to_edge_att(node_att, edge_index):
@@ -450,3 +484,17 @@ def clear_masks(model: nn.Module):
                 module._explain = False
             module.__edge_mask__ = None
             module._edge_mask = None
+
+def relabel(x, edge_index, batch, pos=None):
+    num_nodes = x.size(0)
+    sub_nodes = torch.unique(edge_index)
+    x = x[sub_nodes]
+    batch = batch[sub_nodes]
+    row, col = edge_index
+    # remapping the nodes in the explanatory subgraph to new ids.
+    node_idx = row.new_full((num_nodes,), -1)
+    node_idx[sub_nodes] = torch.arange(sub_nodes.size(0), device=row.device)
+    edge_index = node_idx[edge_index]
+    if pos is not None:
+        pos = pos[sub_nodes]
+    return x, edge_index, batch, pos
