@@ -1,6 +1,12 @@
 {
     "GOODMotif basis": {
         "LECIGIN": {
+            "train": {
+                "acc": [0.653, 0.873, 0.916, 0.916],
+                "acc_ori": 0.901,
+                "plaus_f1": [0.715, 0.611, 0.474, 0.444],
+                "wiou": [0.680, 0.771, 0.772, 0.772 ]
+            },
             "id_val": {
                 "acc": [0.654,  0.852,  0.902,  0.902],
                 "acc_ori": 0.906,
@@ -21,6 +27,12 @@
             }
         },
         "CIGAGIN": {
+            "train": {
+                "acc": [0.910],
+                "acc_ori": 0.894,
+                "plaus_f1": [0.574],
+                "wiou": [0.667]
+            },
             "id_val": {
                 "acc": [0.889],
                 "acc_ori": 0.898,
@@ -40,7 +52,13 @@
                 "wiou": [0.369]
             }
         },
-        "GSATGIN": {
+        "GSATGIN": {   
+            "train": {
+                "acc": [0.529, 0.689, 0.929, 0.948],
+                "acc_ori": 0.929,
+                "plaus_f1": [0.695, 0.590, 0.466, 0.444],
+                "wiou": [0.571, 0.469, 0.343, 0.323]
+            },
             "id_val": {
                 "acc": [0.524,  0.668,  0.905,  0.929],
                 "acc_ori": 0.936,
@@ -73,7 +91,13 @@
         }
     },
     "GOODMotif2 basis": {
-        "LECIGIN": {
+        "LECIGIN": {            
+            "train": {
+                "acc": [0.582, 0.865, 0.897, 0.897],
+                "acc_ori": 0.892,
+                "plaus_f1": [0.710, 0.618, 0.482, 0.453],
+                "wiou": [0.689, 0.769, 0.769, 0.769]
+            },
             "id_val": {
                 "acc": [0.584,  0.873,  0.904,  0.906],
                 "acc_ori": 0.896,
@@ -94,6 +118,12 @@
             }
         },
         "CIGAGIN": {
+            "train": {
+                "acc": [0.906],
+                "acc_ori": 0.904,
+                "plaus_f1": [0.511],
+                "wiou": [0.608]
+            },
             "id_val": {
                 "acc": [0.917],
                 "acc_ori": 0.91,
@@ -114,6 +144,12 @@
             }
         },
         "GSATGIN": {
+            "train": {
+                "acc": [0.461, 0.714, 0.913, 0.930],
+                "acc_ori": 0.93,
+                "plaus_f1": [0.694, 0.581, 0.470, 0.453],
+                "wiou": [0.572, 0.461, 0.347, 0.331]
+            },
             "id_val": {
                 "acc": [0.472,  0.722,  0.919,  0.943],
                 "acc_ori": 0.935,
@@ -147,6 +183,12 @@
     },
     "GOODMotif size": {
         "LECIvGIN": {
+            "train": {
+                "acc": [0.386, 0.545, 0.795, 0.891],
+                "acc_ori": 0.906,
+                "plaus_f1": [0.473, 0.526, 0.514, 0.506],
+                "wiou": [0.377, 0.446, 0.459, 0.454]
+            },
             "id_val": {
                 "acc": [0.372,  0.546,  0.794,  0.913],
                 "acc_ori": 0.913,
@@ -167,6 +209,12 @@
             }
         },
         "CIGAGIN": {
+            "train": {
+                "acc": [0.870],
+                "acc_ori": 0.881,
+                "plaus_f1": [0.541],
+                "wiou": [0.584]
+            },
             "id_val": {
                 "acc": [0.889],
                 "acc_ori": 0.887,
@@ -187,6 +235,12 @@
             }
         },
         "GSATGIN": {
+            "train": {
+                "acc": [0.494, 0.766, 0.892, 0.908],
+                "acc_ori": 0.927,
+                "plaus_f1": [0.735, 0.654, 0.529, 0.506],
+                "wiou": [0.620, 0.537, 0.408, 0.388]
+            },
             "id_val": {
                 "acc": [0.498,  0.786,  0.914,  0.934],
                 "acc_ori": 0.934,
@@ -220,6 +274,12 @@
     },
     "GOODSST2 length": {
         "LECIvGIN": {
+            "train": {
+                "acc": [0.865, 0.893, 0.896, 0.896],
+                "acc_ori": 1.0,
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
+            },
             "id_val": {
                 "acc": [0.784,	0.808,	0.814,	0.814],
                 "acc_ori": 0.922,
@@ -240,6 +300,12 @@
             }
         },
         "CIGAvGIN": {
+            "train": {
+                "acc": [0.895],
+                "acc_ori": 0.947,
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
+            },
             "id_val": {
                 "acc": [0.790],
                 "acc_ori": 0.856,
@@ -260,6 +326,12 @@
             }
         },
         "GSATvGIN": {
+            "train": {
+                "acc": [0.848, 0.889, 0.896, 0.896],
+                "acc_ori": 1.0,
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
+            },
             "id_val": {
                 "acc": [0.761,	0.789,	0.799,	0.802],
                 "acc_ori": 0.91,
@@ -293,6 +365,12 @@
     },
     "GOODTwitter length": {
         "LECIvGIN": {
+            "train": {
+                "acc": [0.908, 0.952, 0.979, 0.983],
+                "acc_ori": 0.986,
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
+            },
             "id_val": {
                 "acc": [0.634,	0.671,	0.694,	0.702],
                 "acc_ori": 0.702,
@@ -313,6 +391,12 @@
             }
         },
         "CIGAvGIN": {
+            "train": {
+                "acc": [1.0],
+                "acc_ori": 1.0,
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
+            },
             "id_val": {
                 "acc": [0.696],
                 "acc_ori": 0.696,
@@ -333,6 +417,12 @@
             }
         },
         "GSATvGIN": {
+            "train": {
+                "acc": [0.888, 0.957, 0.977, 0.981],
+                "acc_ori": 0.894,
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
+            },
             "id_val": {
                 "acc": [0.626,	0.662,	0.694,	0.699],
                 "acc_ori": 0.699,
@@ -366,6 +456,12 @@
     },
     "GOODHIV scaffold": {
         "LECIvGIN": {
+            "train": {
+                "acc": [0.640, 0.896, 0.974, 0.983],
+                "acc_ori": 0.984,
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
+            },
             "id_val": {
                 "acc": [0.709,	0.815,	0.858,	0.865],
                 "acc_ori": 0.842,
@@ -386,6 +482,12 @@
             }
         },
         "CIGAvGIN": {
+            "train": {
+                "acc": [0.986],
+                "acc_ori": 0.985,
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
+            },
             "id_val": {
                 "acc": [0.852],
                 "acc_ori": 0.844,
@@ -406,6 +508,12 @@
             }
         },
         "GSATvGIN": {
+            "train": {
+                "acc": [0.713, 0.853, 0.918, 0.928],
+                "acc_ori": 0.929,
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
+            },
             "id_val": {
                 "acc": [0.678,	0.786,	0.823,	0.828],
                 "acc_ori": 0.835,
@@ -439,52 +547,79 @@
     },
     "LBAPcore assay": {
         "LECIvGIN": {
+            "train": {
+                "acc": [0.737, 0.903, 0.960, 0.966],
+                "acc_ori": 0.966,
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
+            },
             "id_val": {
                 "acc": [0.720, 0.889, 0.925, 0.931],
+                "acc_ori": 0.922,
                 "plaus_f1": [null, null, null, null],
                 "wiou": [null, null, null, null]
             },
             "val": {
                 "acc": [0.594, 0.684, 0.703, 0.699],
+                "acc_ori": 0.664,
                 "plaus_f1": [null, null, null, null],
                 "wiou": [null, null, null, null]
             },
             "test": {
                 "acc": [0.597, 0.710, 0.746, 0.753],
+                "acc_ori": 0.812,
                 "plaus_f1": [null, null, null, null],
                 "wiou": [null, null, null, null]
             }
         },
         "CIGAvGIN": {
+            "train": {
+                "acc": [0.967],
+                "acc_ori": 0.970,
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
+            },
             "id_val": {
                 "acc": [0.935],
+                "acc_ori": 0.922,
                 "plaus_f1": [null, null, null, null],
                 "wiou": [null, null, null, null]
             },
             "val": {
                 "acc": [0.682],
+                "acc_ori": 0.648,
                 "plaus_f1": [null, null, null, null],
                 "wiou": [null, null, null, null]
             },
             "test": {
                 "acc": [0.719],
+                "acc_ori": 0.687,
                 "plaus_f1": [null, null, null, null],
                 "wiou": [null, null, null, null]
             }
         },
         "GSATvGIN": {
+            "train": {
+                "acc": [0.867, 0.932, 0.964, 0.968],
+                "acc_ori": 0.968,
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
+            },
             "id_val": {
                 "acc": [0.823,  0.891,  0.922,  0.926],
+                "acc_ori": 0.922,
                 "plaus_f1": [null, null, null, null],
                 "wiou": [null, null, null, null]
             },
             "val": {
                 "acc": [0.629,  0.661,  0.668,  0.670],
+                "acc_ori": 0.641,
                 "plaus_f1": [null, null, null, null],
                 "wiou": [null, null, null, null]
             },
             "test": {
                 "acc": [0.679,  0.720,  0.737,  0.742],
+                "acc_ori": 0.701,
                 "plaus_f1": [null, null, null, null],
                 "wiou": [null, null, null, null]
             }
@@ -503,6 +638,12 @@
     },
     "GOODCMNIST color": {
         "LECIvGIN": {
+            "train": {
+                "acc": [0.115, 0.227, 0.795, 0.944],
+                "acc_ori": 0.955,
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
+            },
             "id_val": {
                 "acc": [0.123, 0.249, 0.809, 0.954],
                 "acc_ori": 0.955,
@@ -523,6 +664,12 @@
             }
         },
         "CIGAvGIN": {
+            "train": {
+                "acc": [0.495],
+                "acc_ori": 0.514,
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
+            },
             "id_val": {
                 "acc": [0.520],
                 "acc_ori": 0.515,
@@ -543,6 +690,12 @@
             }
         },
         "GSATvGIN": {
+            "train": {
+                "acc": [0.103, 0.147, 0.767, 0.929],
+                "acc_ori": 0.928,
+                "plaus_f1": [null, null, null, null],
+                "wiou": [null, null, null, null]
+            },
             "id_val": {
                 "acc": [0.114, 0.144, 0.779, 0.926],
                 "acc_ori": 0.929,
