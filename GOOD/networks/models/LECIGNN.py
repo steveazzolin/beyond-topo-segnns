@@ -135,7 +135,6 @@ class LECIGIN(GNNBasic):
             edge_att = self.lift_node_att_to_edge_att(att, data.edge_index)
 
         if kwargs.get('weight', None):
-            assert False
             if kwargs.get('is_ratio'):
                 (causal_edge_index, causal_edge_attr, causal_edge_weight), _ = split_graph(data, edge_att, kwargs.get('weight'))
                 causal_x, causal_edge_index, causal_batch, _ = relabel(data.x, causal_edge_index, data.batch)
@@ -159,8 +158,9 @@ class LECIGIN(GNNBasic):
            
             causal_x, causal_edge_index, causal_batch, _ = relabel(data.x, causal_edge_index, data.batch)
 
-            data = Data(x=causal_x, edge_index=causal_edge_index, edge_attr=causal_edge_attr, batch=causal_batch)
-            kwargs['data'] = data
+            data_topk = Data(x=causal_x, edge_index=causal_edge_index, edge_attr=causal_edge_attr, batch=causal_batch)
+            kwargs['data'] = data_topk
+            kwargs["batch_size"] =  data.batch[-1].item() + 1
 
         set_masks(edge_att, self.lc_gnn)
         lc_logits = self.lc_classifier(self.lc_gnn(*args, **kwargs))
@@ -188,6 +188,7 @@ class LECIGIN(GNNBasic):
             ea_logits = None
 
         self.edge_mask = edge_att
+        kwargs['data'] = data # reset original data for loss computation
 
         return (lc_logits, la_logits, None, ea_logits, ef_logits), att, edge_att
 
@@ -288,7 +289,7 @@ class LECIGIN(GNNBasic):
 
         node_repr = self.sub_gnn.get_node_repr(*args, **kwargs)
         att_log_logits = self.extractor(node_repr, data.edge_index, data.batch)
-        att = self.sampling(att_log_logits, self.training)
+        att = self.sampling(att_log_logits, self.training, self.config.mitigation_expl_scores)
 
         if self.learn_edge_att:
             if is_undirected(data.edge_index):
