@@ -490,10 +490,10 @@ def ablation_numsamples_budget_faith():
     num_rows = 1
     fig, axs = plt.subplots(num_rows, num_cols, figsize=(12, 5))
     budgets = [100, 500, 800, 1500, 2500] #100, 500, 800, 1500, 2500
-    datasets = ["GOODMotif size"] #"GOODMotif2 basis", "GOODMotif size", "GOODCMNIST color"
+    datasets = ["GOODCMNIST color"] #"GOODMotif2 basis", "GOODMotif size", "GOODCMNIST color"
     faith_type = "faith_armon_L1"
 
-    faiths = defaultdict(list)
+    faiths, faiths_std = defaultdict(list), defaultdict(list)
     for j, budget in enumerate(budgets):
         with open(f"storage/metric_results/aggregated_id_results_{file_name}_ablation_numsamples_budget_{budget}.json", "r") as jsonFile:
             data = json.load(jsonFile)        
@@ -505,21 +505,25 @@ def ablation_numsamples_budget_faith():
                         continue
 
                     best_r = pick_best_faith(data[dataset][model], split_metric, faith_type)
-                    faith   = np.array(data[dataset][model][split_metric][faith_type])[best_r]
+                    faith     = np.array(data[dataset][model][split_metric][faith_type])[best_r]
+                    faith_std = np.array(data[dataset][model][split_metric][faith_type + "_std"])[best_r]
                     faiths[split_metric].append(faith)
+                    faiths_std[split_metric].append(faith_std)
                     
     for i, split_metric in enumerate(["id_val", "val", "test"]):
-        axs[i%num_cols].plot(budgets, faiths[split_metric])
+        # axs[i%num_cols].plot(budgets, faiths[split_metric])
+        axs[i%num_cols].errorbar(budgets, faiths[split_metric], yerr=faiths_std[split_metric], fmt='-o', capsize=5, label='Error')
         axs[i%num_cols].grid(visible=True, alpha=0.5)
         axs[i%num_cols].set_xticks(budgets)
         axs[i%num_cols].set_ylim(0.2, 0.8)
         axs[i%num_cols].set_title(f"{split_metric}")
         axs[i%num_cols].set_ylabel(f"faithfulness")
+        axs[i%num_cols].set_xlabel(f"budget")
 
-    plt.suptitle(f"Ablation numsamples_budget for {file_name}")
+    plt.suptitle(f"Ablation num samples budget for {datasets[0]}")
     plt.tight_layout()
     plt.savefig("GOOD/kernel/pipelines/plots/illustrations/automatic/ablation_numsamples_budget_faith.png")
-    # plt.savefig("GOOD/kernel/pipelines/plots/illustrations/automatic/pdfs/low_discrepancy.pdf")
+    plt.savefig(f"GOOD/kernel/pipelines/plots/illustrations/automatic/pdfs/ablation_numsamples_budget_faith_{datasets[0]}.pdf")
     plt.close()
 
 
