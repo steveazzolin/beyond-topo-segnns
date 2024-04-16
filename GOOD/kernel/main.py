@@ -474,6 +474,11 @@ def print_metric(name, data, results_aggregated=None, key=None):
             key,
             avg.tolist()
         )
+        assign_dict(
+            results_aggregated,
+            key + "_std",
+            std.tolist()
+        )
 def get_tensorized_metric(scores, c):
     return torch.tensor([
         scores[i][c] for i in range(len(scores))
