@@ -2,6 +2,7 @@ import json
 import numpy as np
 import torch
 import random
+from collections import defaultdict
 
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
@@ -10,37 +11,11 @@ from matplotlib.patches import Patch
 from scipy.stats import pearsonr, spearmanr, hmean
 from sklearn.preprocessing import RobustScaler
 
-# "CIGA":{
-#     "id_val": {
-#         "acc": [],
-#         "plaus_f1": [],
-#         "wiou": [],
-#         "suff": [],
-#         "nec": [],
-#         "faith_aritm": [],
-        # "faith_armon": [],
-        # "faith_gmean": []
-#     },
-#     "val": {
-#         "acc": [],
-#         "plaus_f1": [],
-#         "wiou": [],
-#         "suff": [],
-#         "nec": [],
-        # "faith_aritm": [],
-        # "faith_armon": [],
-        # "faith_gmean": []
-#     },
-#     "test": {
-#         "acc": [],
-#         "plaus_f1": [],
-#         "wiou": [],
-#         "suff": [],
-#         "nec": [],
-        # "faith_aritm": [],
-        # "faith_armon": [],
-        # "faith_gmean": []
-#     }
+# "train": {
+#     "acc": [],
+#     "acc_ori": ,
+#     "plaus_f1": [null, null, null, null],
+#     "wiou": [null, null, null, null]
 # },
 
 def armonic(a,b):
@@ -136,7 +111,7 @@ def low_discrepancy():
     num_cols = 2
     num_rows = 1
     fig, axs = plt.subplots(num_rows, num_cols, figsize=(10, 5))
-    datasets = ["GOODMotif basis", "GOODMotif2 basis", "GOODMotif size", "GOODSST2 length", "GOODTwitter length", "GOODHIV scaffold", "GOODCMNIST color", "LBAPcore assay"]
+    datasets = ["GOODMotif basis", "GOODMotif2 basis", "GOODMotif size", "GOODSST2 length", "GOODTwitter length", "GOODHIV scaffold", "LBAPcore assay", "GOODCMNIST color"]
 
     for j, faith_type in enumerate(["faith_armon_L1"]):
         for i, (split_metric_id, split_metric_ood) in enumerate([("id_val", "test"), ("val", "test")]):
@@ -153,9 +128,9 @@ def low_discrepancy():
                     if not faith_type in data[dataset][model][split_metric_id].keys():
                         continue
 
-                    best_r = pick_best_faith(data[dataset][model], split_metric_id, "faith_armon_L1")
+                    best_r = pick_best_faith(data[dataset][model], split_metric_id, faith_type)
                     faith_id   = np.array(data[dataset][model][split_metric_id][faith_type])[best_r]
-                    best_r = pick_best_faith(data[dataset][model], split_metric_ood, "faith_armon_L1")
+                    best_r = pick_best_faith(data[dataset][model], split_metric_ood, faith_type)
                     faith_ood  = np.array(data[dataset][model][split_metric_ood][faith_type])[best_r]
                     combined = faith_id - faith_ood
                     # combined = faith_id + faith_ood
@@ -191,8 +166,8 @@ def low_discrepancy():
                     axs[i%num_cols].set_title(f"")
             if len(acc_coll) > 0 and len(combined_coll) > 0:
                 combined_coll, acc_coll = np.array(combined_coll), np.array(acc_coll)
-                # pcc = pearsonr(acc_coll, combined_coll)
-                # axs[i%num_cols].annotate(f"PCC: {pcc.statistic:.2f} ({pcc.pvalue:.2f})", (0.0, 0.8), fontsize=7)
+                pcc = pearsonr(acc_coll, combined_coll)
+                axs[i%num_cols].annotate(f"PCC: {pcc.statistic:.2f} ({pcc.pvalue:.2f})", (0.0, 0.8), fontsize=7)
                 m, b = np.polyfit(combined_coll, acc_coll, 1)
                 x = combined_coll.tolist() + [-0.2, 4]
                 axs[i%num_cols].plot(x, np.poly1d((m, b))(x), "r--", alpha=0.5)
@@ -200,13 +175,13 @@ def low_discrepancy():
     legend_elements = []
     for dataset in datasets:
         legend_elements.append(
-            Line2D([0], [0], marker=markers[dataset], color='w', label=dataset, markerfacecolor='grey', markersize=15)
+            Line2D([0], [0], marker=markers[dataset], color='w', label=dataset, markerfacecolor='grey', markersize=10,)
         )
     for model in ["LECIGIN", "CIGAGIN", "GSATGIN"]:
         legend_elements.append(
             Patch(facecolor=colors[model], label=model.replace("GIN", ""))
         )
-    axs[1].legend(handles=legend_elements, loc='upper right') #, loc='center'
+    axs[1].legend(handles=legend_elements, loc='upper right', fontsize='small') #, loc='center'
     plt.suptitle(f"{file_name} - pick accuracy: {pick_acc}")
     plt.savefig("GOOD/kernel/pipelines/plots/illustrations/automatic/low_discrepancy.png")
     plt.savefig("GOOD/kernel/pipelines/plots/illustrations/automatic/pdfs/low_discrepancy.pdf")
@@ -479,10 +454,10 @@ def compare_faith_mitigations():
     for j, faith_type in enumerate(["faith_armon_L1"]):
         for i, split_metric in enumerate(["test"]):
             for dataset in ["GOODMotif basis", "GOODMotif2 basis", "GOODMotif size", "GOODSST2 length", "GOODTwitter length", "GOODHIV scaffold", "LBAPcore assay", "GOODCMNIST color"]:
-                for file_name in ["suff++_old_mitigreadout_weighted_nov"]: #"suff++_old", "suff++_old_mitigreadout_weighted", "suff++_old_mitigreadout_weighted_mitigvirtual_weighted"
+                for file_name in ["suff++_old_mitigsampling_raw"]: #"suff++_old", "suff++_old_mitigreadout_weighted", "suff++_old_mitigreadout_weighted_mitigvirtual_weighted", "suff++_old_mitigreadout_weighted_nov", "suff++_old_mitigsampling_raw"
                     with open(f"storage/metric_results/aggregated_id_results_{file_name}.json", "r") as jsonFile:
                         data = json.load(jsonFile)
-                    for model in ["LECIGIN", "LECIvGIN"]:
+                    for model in ["CIGAGIN", "CIGAvGIN"]:
                         if not dataset in data.keys() or not model in data[dataset].keys():
                             continue
                         if not faith_type in data[dataset][model][split_metric].keys():
@@ -506,12 +481,55 @@ def compare_faith_mitigations():
         # plt.close()
         return
 
+def ablation_numsamples_budget_faith():
+    ##
+    # Faith as a necessary condition for low discrepancy from ID and OOD test acc
+    ##
+
+    num_cols = 3
+    num_rows = 1
+    fig, axs = plt.subplots(num_rows, num_cols, figsize=(12, 5))
+    budgets = [100, 500, 800, 1500, 2500] #100, 500, 800, 1500, 2500
+    datasets = ["GOODMotif size"] #"GOODMotif2 basis", "GOODMotif size", "GOODCMNIST color"
+    faith_type = "faith_armon_L1"
+
+    faiths = defaultdict(list)
+    for j, budget in enumerate(budgets):
+        with open(f"storage/metric_results/aggregated_id_results_{file_name}_ablation_numsamples_budget_{budget}.json", "r") as jsonFile:
+            data = json.load(jsonFile)        
+        
+        for i, split_metric in enumerate(["id_val", "val", "test"]):
+            for dataset in datasets:
+                for model in ["LECIGIN", "LECIvGIN"]:
+                    if not model in data[dataset].keys():
+                        continue
+
+                    best_r = pick_best_faith(data[dataset][model], split_metric, faith_type)
+                    faith   = np.array(data[dataset][model][split_metric][faith_type])[best_r]
+                    faiths[split_metric].append(faith)
+                    
+    for i, split_metric in enumerate(["id_val", "val", "test"]):
+        axs[i%num_cols].plot(budgets, faiths[split_metric])
+        axs[i%num_cols].grid(visible=True, alpha=0.5)
+        axs[i%num_cols].set_xticks(budgets)
+        axs[i%num_cols].set_ylim(0.2, 0.8)
+        axs[i%num_cols].set_title(f"{split_metric}")
+        axs[i%num_cols].set_ylabel(f"faithfulness")
+
+    plt.suptitle(f"Ablation numsamples_budget for {file_name}")
+    plt.tight_layout()
+    plt.savefig("GOOD/kernel/pipelines/plots/illustrations/automatic/ablation_numsamples_budget_faith.png")
+    # plt.savefig("GOOD/kernel/pipelines/plots/illustrations/automatic/pdfs/low_discrepancy.pdf")
+    plt.close()
+
+
 if __name__ == "__main__":
-    low_discrepancy()
+    # low_discrepancy()
     # lower_bound_plaus()  # as per slide
     # lower_bound_unsup() # as per slide
     # faith_acc_gain() # as per slide
-    compare_faith_mitigations()
+    # compare_faith_mitigations()
+    ablation_numsamples_budget_faith()
 
     # scatter_trio()    
 
