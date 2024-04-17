@@ -1,7 +1,7 @@
 set -e
 
 
-for DATASET in GOODCMNIST/color GOODMotif2/basis GOODMotif/size; do #GOODMotif/basis GOODMotif/size GOODMotif2/basis GOODSST2/length GOODTwitter/length GOODHIV/scaffold GOODCMNIST/color LBAPcore/assay
+for DATASET in GOODMotif2/basis GOODCMNIST/color GOODMotif/size; do #GOODMotif/basis GOODMotif/size GOODMotif2/basis GOODSST2/length GOODTwitter/length GOODHIV/scaffold GOODCMNIST/color LBAPcore/assay
        for MODEL in LECI; do # CIGA LECI GSAT
             for BUDGET in 4 8 12 16 20; do #100 500 800 1500 2500
                     goodtg --config_path final_configs/${DATASET}/covariate/${MODEL}.yaml \
