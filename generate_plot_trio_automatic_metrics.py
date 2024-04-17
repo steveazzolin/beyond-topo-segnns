@@ -526,6 +526,51 @@ def ablation_numsamples_budget_faith():
     plt.savefig(f"GOOD/kernel/pipelines/plots/illustrations/automatic/pdfs/ablation_numsamples_budget_faith_{datasets[0]}.pdf")
     plt.close()
 
+def ablation_expval_budget_faith():
+    ##
+    # Faith as a necessary condition for low discrepancy from ID and OOD test acc
+    ##
+
+    num_cols = 3
+    num_rows = 1
+    fig, axs = plt.subplots(num_rows, num_cols, figsize=(12, 5))
+    budgets = [4, 8, 12, 16, 20]
+    datasets = ["GOODMotif2 basis"] #"GOODMotif2 basis", "GOODMotif size", "GOODCMNIST color"
+    faith_type = "faith_armon_L1"
+
+    faiths, faiths_std = defaultdict(list), defaultdict(list)
+    for j, budget in enumerate(budgets):
+        with open(f"storage/metric_results/aggregated_id_results_{file_name}_ablation_expval_budget_{budget}.json", "r") as jsonFile:
+            data = json.load(jsonFile)        
+        
+        for i, split_metric in enumerate(["id_val", "val", "test"]):
+            for dataset in datasets:
+                for model in ["LECIGIN", "LECIvGIN"]:
+                    if not model in data[dataset].keys():
+                        continue
+
+                    best_r = pick_best_faith(data[dataset][model], split_metric, faith_type)
+                    faith     = np.array(data[dataset][model][split_metric][faith_type])[best_r]
+                    faith_std = np.array(data[dataset][model][split_metric][faith_type + "_std"])[best_r]
+                    faiths[split_metric].append(faith)
+                    faiths_std[split_metric].append(faith_std)
+                    
+    for i, split_metric in enumerate(["id_val", "val", "test"]):
+        # axs[i%num_cols].plot(budgets, faiths[split_metric])
+        axs[i%num_cols].errorbar(budgets, faiths[split_metric], yerr=faiths_std[split_metric], fmt='-o', capsize=5, label='Error')
+        axs[i%num_cols].grid(visible=True, alpha=0.5)
+        axs[i%num_cols].set_xticks(budgets)
+        axs[i%num_cols].set_ylim(0.2, 0.8)
+        axs[i%num_cols].set_title(f"{split_metric}")
+        axs[i%num_cols].set_ylabel(f"faithfulness")
+        axs[i%num_cols].set_xlabel(f"budget")
+
+    plt.suptitle(f"Ablation num samples budget for {datasets[0]}")
+    plt.tight_layout()
+    plt.savefig("GOOD/kernel/pipelines/plots/illustrations/automatic/ablation_expval_budget_faith.png")
+    # plt.savefig(f"GOOD/kernel/pipelines/plots/illustrations/automatic/pdfs/ablation_expval_budget_faith_{datasets[0]}.pdf")
+    plt.close()
+
 
 if __name__ == "__main__":
     # low_discrepancy()
@@ -533,7 +578,9 @@ if __name__ == "__main__":
     # lower_bound_unsup() # as per slide
     # faith_acc_gain() # as per slide
     # compare_faith_mitigations()
-    ablation_numsamples_budget_faith()
+    
+    # ablation_numsamples_budget_faith()
+    ablation_expval_budget_faith()
 
     # scatter_trio()    
 
