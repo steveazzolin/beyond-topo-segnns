@@ -474,9 +474,10 @@ def print_metric(name, data, results_aggregated=None, key=None):
             key,
             avg.tolist()
         )
+        key[-1] += "_std" # add _std to the metric name
         assign_dict(
             results_aggregated,
-            key + "_std",
+            key,
             std.tolist()
         )
 def get_tensorized_metric(scores, c):
