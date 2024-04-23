@@ -1290,6 +1290,7 @@ class Pipeline:
         mask_all = []
         pred_all = []
         target_all = []
+        likelihoods_all = []
         pbar = tqdm(self.loader[split], desc=f'Eval {split.capitalize()}', total=len(self.loader[split]),
                     **pbar_setting)
         for data in pbar:
@@ -1311,6 +1312,14 @@ class Pipeline:
             mask_all.append(mask)
             loss_all.append(loss)
 
+            # ------------- Likelihood data collection ------------------
+            if raw_preds.shape[-1] > 1:
+                probs = raw_preds.softmax(dim=1)
+                likelihoods_all.append(probs.gather(1, targets.unsqueeze(1)))
+            else:
+                probs = raw_preds.sigmoid()
+                likelihoods_all.append(torch.full_like(probs, fill_value=-1))            
+
             # ------------- Score data collection ------------------
             pred, target = eval_data_preprocess(data.y, raw_preds, mask, self.config)
             pred_all.append(pred)
@@ -1319,7 +1328,11 @@ class Pipeline:
         # ------- Loss calculate -------
         loss_all = torch.cat(loss_all)
         mask_all = torch.cat(mask_all)
+        likelihoods_all = torch.cat(likelihoods_all)
         stat['loss'] = loss_all.sum() / mask_all.sum()
+        stat['likelihood_avg'] = likelihoods_all.mean()
+        stat['likelihood_prod'] = torch.prod(likelihoods_all)
+        stat['likelihood_logprod'] = torch.sum(likelihoods_all.log())
 
         # --------------- Metric calculation including ROC_AUC, Accuracy, AP.  --------------------
         stat['score'] = eval_score(pred_all, target_all, self.config, self.loader[split].dataset.minority_class)
@@ -1332,7 +1345,10 @@ class Pipeline:
 
         return {
             'score': stat['score'],
-            'loss': stat['loss']
+            'loss': stat['loss'],
+            'likelihood_avg': stat['likelihood_avg'],
+            'likelihood_prod': stat['likelihood_prod'],
+            'likelihood_logprod': stat['likelihood_logprod'],
         }
 
     def load_task(self, load_param=False, load_split="ood"):
@@ -1785,9 +1801,9 @@ class Pipeline:
                         for alpha in sampling_alphas:
                             sample = xai_utils.sample_edges_tensorized(graphs[SPLIT][idx], nec_number_samples="prop_G_dataset", nec_alpha_1=alpha, avg_graph_size=avg_graph_size[SPLIT], sampling_type="deconfounded", edge_index_to_remove=causal_masks[SPLIT][ratio][idx], force_undirected=True)
                             G_sampled_deconf[alpha].append(sample)
-                        for k in range(1, len(sampling_alphas)+1):
-                            sample = xai_utils.sample_edges_tensorized(graphs[SPLIT][idx], nec_number_samples="alwaysK", nec_alpha_1=k, avg_graph_size=None, sampling_type="deconfounded", edge_index_to_remove=causal_masks[SPLIT][ratio][idx], force_undirected=True)
-                            G_sampled_fixed[k].append(sample)
+                        # for k in range(1, len(sampling_alphas)+1):
+                        #     sample = xai_utils.sample_edges_tensorized(graphs[SPLIT][idx], nec_number_samples="alwaysK", nec_alpha_1=k, avg_graph_size=None, sampling_type="deconfounded", edge_index_to_remove=causal_masks[SPLIT][ratio][idx], force_undirected=True)
+                        #     G_sampled_fixed[k].append(sample)
 
                         ori_graphs.append(graphs[SPLIT][idx])
                         belonging.append(idx)
@@ -1802,15 +1818,15 @@ class Pipeline:
                     k = k + 1
                     divergences[f"RFID_{alpha}"] = {}
                     divergences[f"DECONF_{alpha}"] = {}
-                    divergences[f"FIXED_{k}"] = {}
+                    # divergences[f"FIXED_{k}"] = {}
                     preds = predict_sample(G_sampled_rfid[alpha] + G_sampled_deconf[alpha] + G_sampled_fixed[k], ratio)
                     pred_rfid   = preds[:len(G_sampled_rfid[alpha])]
                     pred_deconf = preds[len(G_sampled_rfid[alpha]): len(G_sampled_rfid[alpha]) + len(G_sampled_deconf[alpha])]
-                    pred_fixed  = preds[len(G_sampled_rfid[alpha]) + len(G_sampled_deconf[alpha]):]
-                    for metric_name, div_f in zip(["NEC KL", "NEC L1", "FID L1 div"], [nec_kl, nec_l1, fid_l1_div]):
+                    # pred_fixed  = preds[len(G_sampled_rfid[alpha]) + len(G_sampled_deconf[alpha]):]
+                    for metric_name, div_f in zip(["NEC KL", "NEC L1"], [nec_kl, nec_l1]): #"FID L1 div", fid_l1_div
                         divergences[f"RFID_{alpha}"][metric_name]   = div_f(ori_pred, pred_rfid, belonging, labels).mean().item()
                         divergences[f"DECONF_{alpha}"][metric_name] = div_f(ori_pred, pred_deconf, belonging, labels).mean().item()
-                        divergences[f"FIXED_{k}"][metric_name]      = div_f(ori_pred, pred_fixed, belonging, labels).mean().item()
+                        # divergences[f"FIXED_{k}"][metric_name]      = div_f(ori_pred, pred_fixed, belonging, labels).mean().item()
                         
                 metrics[SPLIT][ratio] = divergences
                 accs[SPLIT][ratio] = sum(labels == ori_pred.argmax(-1)) / ori_pred.shape[0]
