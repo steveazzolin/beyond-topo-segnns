@@ -28,7 +28,9 @@ class GSATGIN(GNNBasic):
         
         config = copy.deepcopy(config)
 
-        self.gnn = GINFeatExtractor(config)
+        fe_kwargs = {'mitigation_readout': config.mitigation_readout}
+
+        self.gnn = GINFeatExtractor(config, **fe_kwargs)
         self.extractor = ExtractorMLP(config)
 
         if config.mitigation_sampling == "raw":
@@ -213,7 +215,8 @@ class GSATvGIN(GSATGIN):
 
     def __init__(self, config: Union[CommonArgs, Munch]):
         super(GSATvGIN, self).__init__(config)
-        self.gnn = vGINFeatExtractor(config)
+        fe_kwargs = {'mitigation_readout': config.mitigation_readout}
+        self.gnn = vGINFeatExtractor(config, **fe_kwargs)
 
         if config.mitigation_sampling == "raw":
             config.mitigation_backbone = None
