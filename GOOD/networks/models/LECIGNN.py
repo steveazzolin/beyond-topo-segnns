@@ -152,7 +152,6 @@ class LECIGIN(GNNBasic):
                 edge_att = edge_att[edge_att >= kwargs.get('weight')]
 
         if self.config.mitigation_expl_scores == "topK" or self.config.mitigation_expl_scores == "topk":
-            assert self.config.mitigation_expl_scores_topk >= 0.0
             (causal_edge_index, causal_edge_attr, edge_att), \
                 _ = split_graph(data, edge_att, self.config.mitigation_expl_scores_topk)
            
