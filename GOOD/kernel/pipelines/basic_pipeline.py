@@ -577,7 +577,7 @@ class Pipeline:
         reset_random_seed(self.config)
         self.model.eval()
 
-        edge_scores, graphs, labels = {"train": [], "id_val": [], "test": [], "val": []}, {"train": [], "id_val": [], "test": [], "val": []}, {"train": [], "id_val": [], "test": [], "val": []}
+        edge_scores, graphs, labels = {"train": [], "id_val": [], "id_test": [], "test": [], "val": []}, {"train": [], "id_val": [], "id_test": [], "test": [], "val": []}, {"train": [], "id_val": [], "id_test": [], "test": [], "val": []}
         causal_subgraphs_r, spu_subgraphs_r, expl_accs_r, causal_masks = defaultdict(dict), defaultdict(dict), defaultdict(dict), defaultdict(dict)
         graphs_nx, avg_graph_size = dict(), dict()
         for SPLIT in splits:
