@@ -1,6 +1,7 @@
 .idea/**
 storage/checkpoint_backup03022024/
 storage/checkpoints_backup25032024/
+storage/checkpoints*/
 storage/checkpoints/
 storage/log/
 storage/datasets/
