@@ -44,6 +44,7 @@ class GSATGIN(GNNBasic):
         self.config = config
 
         self.edge_mask = None
+        print("Using mitigation_expl_scores:", config.mitigation_expl_scores)
 
     def forward(self, *args, **kwargs):
         r"""
@@ -61,7 +62,7 @@ class GSATGIN(GNNBasic):
         
         emb = self.gnn(*args, without_readout=True, **kwargs)
         att_log_logits = self.extractor(emb, data.edge_index, data.batch)
-        att = self.sampling(att_log_logits, self.training)
+        att = self.sampling(att_log_logits, self.training, self.config.mitigation_expl_scores)
 
         if self.learn_edge_att:
             if is_undirected(data.edge_index):
@@ -110,8 +111,11 @@ class GSATGIN(GNNBasic):
         self.edge_mask = edge_att
         return logits, att, edge_att
 
-    def sampling(self, att_log_logits, training):
+    def sampling(self, att_log_logits, training, mitigation_expl_scores):
         att = self.concrete_sample(att_log_logits, temp=1, training=training)
+        if mitigation_expl_scores == "hard":
+            att_hard = (att > 0.5).float()
+            att = att_hard - att.detach() + att
         return att
 
     @staticmethod
@@ -174,7 +178,7 @@ class GSATGIN(GNNBasic):
 
         emb = self.gnn(*args, without_readout=True, **kwargs)
         att_log_logits = self.extractor(emb, data.edge_index, data.batch)
-        att = self.sampling(att_log_logits, self.training)
+        att = self.sampling(att_log_logits, self.training, self.config.mitigation_expl_scores)
 
         if self.learn_edge_att:
             if is_undirected(data.edge_index):

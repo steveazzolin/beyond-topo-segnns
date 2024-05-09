@@ -40,7 +40,8 @@ class CIGAGIN(GNNBasic):
         print("#D#Using ", config_fe.model.model_layer, " layers for classifier")
         
         config_fe.mitigation_backbone = None
-        self.feat_encoder = GINFeatExtractor(config_fe, without_embed=True if self.contrast_rep == "feat" else False)
+        fe_kwargs = {'mitigation_readout': config.mitigation_readout}
+        self.feat_encoder = GINFeatExtractor(config_fe, without_embed=True if self.contrast_rep == "feat" else False, **fe_kwargs)
 
         self.num_tasks = config.dataset.num_classes
         self.causal_lin = torch.nn.Linear(config.model.dim_hidden, self.num_tasks)
