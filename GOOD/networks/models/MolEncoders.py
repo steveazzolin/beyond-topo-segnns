@@ -79,5 +79,4 @@ class BondEncoder(torch.nn.Module):
         bond_embedding = 0
         for i in range(edge_attr.shape[1]):
             bond_embedding += self.bond_embedding_list[i](edge_attr[:, i])
-
         return bond_embedding

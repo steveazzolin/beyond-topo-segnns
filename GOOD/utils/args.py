@@ -130,6 +130,8 @@ class CommonArgs(Tap):
     samplingtype:str = "deconfounded" # Added by Steve
     nec_number_samples:str = "prop_G_dataset" # Added by Steve
     log_id: str = "" # Added by Steve
+    splits: str = "" # Added by Steve
+    ratios: str = "" # Added by Steve
     
     pytest: bool = None
     pipeline: str = None  #: Training/test controller.

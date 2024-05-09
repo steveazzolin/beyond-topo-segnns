@@ -79,7 +79,7 @@ class GSAT(BaseOODAlg):
 
 
         Returns (Tensor):
-            loss based on DIR algorithm
+            loss based on GSAT algorithm
 
         """
         att = self.att

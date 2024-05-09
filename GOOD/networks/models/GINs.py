@@ -348,7 +348,8 @@ class GINMolEncoder(BasicEncoder):
         layer_feat = [self.atom_encoder(x)]
         for i, (conv, batch_norm, relu, dropout) in enumerate(
                 zip(self.convs, self.batch_norms, self.relus, self.dropouts)):
-            post_conv = batch_norm(conv(layer_feat[-1], edge_index, edge_attr))
+            tmp = conv(layer_feat[-1], edge_index, edge_attr)
+            post_conv = batch_norm(tmp)
             if i < len(self.convs) - 1:
                 post_conv = relu(post_conv)
             layer_feat.append(dropout(post_conv))
@@ -449,11 +450,11 @@ class GINEConv(gnn.MessagePassing):
 
     def forward(self, x: Union[Tensor, OptPairTensor], edge_index: Adj,
                 edge_attr: OptTensor = None, size: Size = None, return_attn_distrib:bool = False) -> Tensor:
+
         if self.bone_encoder and edge_attr is not None:
             edge_attr = self.bone_encoder(edge_attr)
         if isinstance(x, Tensor):
             x: OptPairTensor = (x, x)
-
         # propagate_type: (x: OptPairTensor, edge_attr: OptTensor)
         out = self.propagate(edge_index, x=x, edge_attr=edge_attr, size=size, return_attn_distrib=return_attn_distrib)
 
