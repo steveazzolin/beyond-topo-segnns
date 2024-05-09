@@ -55,7 +55,7 @@ class BBBP(InMemoryDataset):
         datalist = []
         for e in dataset:
             ndata = e.clone()
-            ndata.x = ndata.x.float()
+            ndata.x = ndata.x #.float()
             ndata.y = ndata.y[0,0].long()
             if ndata.x.size()[0] > 0:
                 datalist.append(ndata)             
@@ -81,12 +81,14 @@ class BBBP(InMemoryDataset):
         """
         assert domain == "basis" and shift == "no_shift", f"{domain} - {shift} not supported"
         meta_info = Munch()
-        meta_info.dataset_type = 'syn'
+        meta_info.dataset_type = 'mol'
         meta_info.model_level = 'graph'
 
         dataset = MoleculeNet(dataset_root, name="bbbp")
         dataset = BBBP.fixMoleculeNet(dataset, "bbbp", dataset_root)
-        dataset._data.edge_attr = None # remove edge attributes for fair comparison with other baselines
+        # dataset._data.edge_attr = None # remove edge attributes for fair comparison with other baselines
+
+        
 
         index_train, index_val_test = train_test_split(
             torch.arange(len(dataset)), 
@@ -105,6 +107,8 @@ class BBBP(InMemoryDataset):
 
         meta_info.dim_node = train_dataset.num_node_features
         meta_info.dim_edge = train_dataset.num_edge_features
+
+        meta_info.edge_feat_dims = dataset._data.edge_attr.max(0).values - dataset._data.edge_attr.min(0).values + 2
 
         meta_info.num_envs = 1
         meta_info.num_classes = 2

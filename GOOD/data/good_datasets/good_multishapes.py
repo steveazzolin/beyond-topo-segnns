@@ -13,7 +13,6 @@ from munch import Munch
 from torch_geometric.data import InMemoryDataset, extract_zip
 from torch_geometric.datasets import BAMultiShapesDataset
 from torch_geometric.utils import from_networkx, shuffle_node
-from torch_geometric.data.separate import separate
 
 from tqdm import tqdm
 from sklearn.model_selection import train_test_split
@@ -21,6 +20,7 @@ from sklearn.model_selection import train_test_split
 from GOOD import register
 from GOOD.utils.synthetic_data.BA3_loc import *
 from GOOD.utils.synthetic_data import synthetic_structsim
+from GOOD.utils.initial import reset_random_seed
 
 
 @register.dataset_register
@@ -261,6 +261,8 @@ class MultiShapes(InMemoryDataset):
             dataset meta info.
         """
         assert domain == "basis" and shift == "no_shift", f"{domain} - {shift} not supported"
+        # reset_random_seed(None, fixed_seed=1 * 97 + 13) # same seed as round1
+
         meta_info = Munch()
         meta_info.dataset_type = 'syn'
         meta_info.model_level = 'graph'
