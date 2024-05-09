@@ -211,8 +211,10 @@ class Pipeline:
             epoch_train_stat = self.evaluate('eval_train')
             id_val_stat = self.evaluate('id_val')
             id_test_stat = self.evaluate('id_test')
-            val_stat = self.evaluate('val')
+            val_stat = self.evaluate('val') # TODO: remove this
+            # val_stat = id_val_stat
             test_stat = self.evaluate('test')
+            # test_stat = id_test_stat
 
             # checkpoints save
             self.save_epoch(epoch, epoch_train_stat, id_val_stat, id_test_stat, val_stat, test_stat, self.config)
@@ -582,6 +584,7 @@ class Pipeline:
         graphs_nx, avg_graph_size = dict(), dict()
         for SPLIT in splits:
             dataset = self.get_local_dataset(SPLIT, log=log)
+            
             idx = self.get_indices_dataset(dataset, extract_all=extract_all)
             loader = DataLoader(dataset[idx], batch_size=256, shuffle=False, num_workers=2)
             for data in loader:
@@ -683,6 +686,7 @@ class Pipeline:
     @torch.no_grad()
     def compute_metric_ratio(
         self,
+        ratios,
         split: str,
         metric: str,
         edge_scores,
@@ -706,10 +710,10 @@ class Pipeline:
             weights = [self.model.att_net.ratio]
         else:
             is_ratio = True
-            if "sst2" in self.config.dataset.dataset_name.lower() and split in ("id_val", "train"):
+            if "sst2" in self.config.dataset.dataset_name.lower() and split in ("id_test", "id_val", "train"):
                 weights = [0.6, 0.9, 1.0]
             else:
-                weights = [0.3, 0.6, 0.9, 1.0]
+                weights = ratios
 
         print(f"\n\n")
         print("-"*50)
@@ -799,6 +803,10 @@ class Pipeline:
                     if len(G_filt) == 0 or num_elem == 0:
                         continue
                     # G = G_filt # P(Y|G) vs P(Y|R)
+
+                # tmp = graphs_nx[i].copy()
+                # xai_utils.mark_edges(tmp, causal_subgraphs_r[ratio][i], spu_subgraphs_r[ratio][i])
+                # xai_utils.draw(self.config, tmp, subfolder="plots_of_suff_scores", name=f"graph_{i}")
                 
                 eval_samples.append(graphs[i])
                 reference.append(len(eval_samples) - 1)
@@ -1550,7 +1558,7 @@ class Pipeline:
 
     def generate_panel(self):
         self.model.eval()
-        splits = ["train", "id_val", "val"] #, "test"
+        splits = ["train", "id_val", "id_test"] #, "test"
         n_row = 1
         fig, axs = plt.subplots(n_row, len(splits), figsize=(9,4))
         plt.suptitle(f"{self.config.model.model_name[:4]} - {self.config.dataset.dataset_name} {self.config.dataset.domain}")
@@ -1597,9 +1605,13 @@ class Pipeline:
             # axs[n_row - int(i/n_row) -1, n_row - int(i%n_row) -1].set_ylim(0, 1.1)
 
         plt.tight_layout(rect=[0, 0.03, 1, 0.95])
-        path = f'GOOD/kernel/pipelines/plots/panels/{self.config.load_split}_{self.config.dataset.dataset_name}_{self.config.dataset.domain}_{self.config.util_model_dirname}_{self.config.random_seed}'
+        path = f'GOOD/kernel/pipelines/plots/panels/{self.config.ood_dirname}/'
+        if not os.path.exists(path):
+            os.makedirs(path)
+
+        path += f"{self.config.load_split}_{self.config.dataset.dataset_name}_{self.config.dataset.domain}_{self.config.util_model_dirname}_{self.config.random_seed}"
         plt.savefig(path + ".png")
-        plt.savefig(f'GOOD/kernel/pipelines/plots/panels/pdfs/{self.config.load_split}_{self.config.dataset.dataset_name}_{self.config.dataset.domain}_{self.config.util_model_dirname}_{self.config.random_seed}.pdf')
+        # plt.savefig(f'GOOD/kernel/pipelines/plots/panels/pdfs/{self.config.load_split}_{self.config.dataset.dataset_name}_{self.config.dataset.domain}_{self.config.util_model_dirname}_{self.config.random_seed}.pdf')
         print("\n Saved plot ", path, "\n")
         plt.close()
 
