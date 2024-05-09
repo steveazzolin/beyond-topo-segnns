@@ -168,9 +168,9 @@ def generate_panel(args):
 
 def generate_plot_sampling(args):
     load_splits = ["id"]
-    splits = ["id_val", "val", "test"]
+    splits = ["test"]
     seeds = args.seeds.split("/")
-    ratios = [0.3, 0.6, 0.75, 0.8, 0.85, 0.9, 0.95] #[0.3, 0.45, 0.6, 0.75, 0.9]
+    ratios = [0.3, 0.6, 0.8, 0.9, 0.95] #[0.3, 0.45, 0.6, 0.75, 0.9]   0.3, 0.6, 0.75, 0.8, 0.85, 0.9, 0.95
     sampling_alphas = [0.03, 0.05, 0.1]
     all_metrics, all_accs = {}, {}
     for l, load_split in enumerate(load_splits):
@@ -204,45 +204,65 @@ def generate_plot_sampling(args):
             metrics, accs = pipeline.generate_plot_sampling_type(splits, ratios, sampling_alphas, graphs, graphs_nx, causal_subgraphs_r, causal_masks_r, avg_graph_size)
             all_metrics[str(seed)] = metrics
             all_accs[str(seed)] = accs
+
+            # print(all_metrics.keys())
+            # print(all_metrics["1"].keys())
+            # print(all_metrics["1"]["test"].keys())
+            # print(all_metrics["1"]["test"][0.3].keys())
+            # print(all_metrics["1"]["test"][0.3]["RFID_0.03"])
         
         for SPLIT in splits:
             num_cols = 3
-            fig, axs = plt.subplots(3, num_cols, figsize=(16, 15))
+            fig, axs = plt.subplots(1, num_cols, figsize=(7, 4))
             colors = {
                 "NEC KL": "blue", "NEC L1":"lightblue", "FID L1 div": "green", "Model FID": "orange", "Phen. FID": "red", "Change pred": "violet"
             }
-            sampling_name = {"RFID_": "Bernoulli ($)", "FIXED_": "Fixed Deconfounded ($)", "DECONF_": "Proportional Deconfounded ($)"}
-            for j, sampling_type_ori in enumerate(["RFID_", "FIXED_", "DECONF_"]):
+            sampling_name = {"RFID_": "RFID+ ($)", "FIXED_": "Fixed Deconfounded ($)", "DECONF_": "NEC ($)"}
+            for j, sampling_type_ori in enumerate(["RFID_", "DECONF_"]): #"FIXED_", 
                 for alpha_i, alpha in enumerate(sampling_alphas):
                     param = str(alpha_i+1 if sampling_type_ori == "FIXED_" else alpha)
                     sampling_type = sampling_type_ori + param
-                    anneal = []
+                    anneal, anneal_std = [], []
                     for r in ratios:
                         for i, metric_name in enumerate(["NEC L1"]):
                             anneal.append(np.mean([all_metrics[s][SPLIT][r][sampling_type][metric_name] for s in seeds]))
-                            axs[j%num_cols,alpha_i%num_cols].scatter(r, np.mean([all_metrics[s][SPLIT][r][sampling_type][metric_name] for s in seeds]), label=f"{metric_name}" if r == 0.3 else None, c=colors[metric_name])
-                            axs[j%num_cols,alpha_i%num_cols].scatter(r, np.mean([all_metrics[s][SPLIT][r][sampling_type][metric_name] for s in seeds]) - np.std([all_metrics[s][SPLIT][r][sampling_type][metric_name] for s in seeds]), c=colors[metric_name], alpha=.5, marker="^")
-                            axs[j%num_cols,alpha_i%num_cols].scatter(r, np.mean([all_metrics[s][SPLIT][r][sampling_type][metric_name] for s in seeds]) + np.std([all_metrics[s][SPLIT][r][sampling_type][metric_name] for s in seeds]), c=colors[metric_name], alpha=.5, marker="v")
-                        axs[j%num_cols,alpha_i%num_cols].scatter(r, np.mean([all_accs[s][SPLIT][r] for s in seeds]), label=f"Model acc" if r == 0.3 else None, c="orange", alpha=0.5)
-                        axs[j%num_cols,alpha_i%num_cols].scatter(r, np.mean([all_accs[s][SPLIT][r] for s in seeds]) - np.std([all_accs[s][SPLIT][r] for s in seeds]), c="orange", alpha=.5, marker="^")
-                        axs[j%num_cols,alpha_i%num_cols].scatter(r, np.mean([all_accs[s][SPLIT][r] for s in seeds]) + np.std([all_accs[s][SPLIT][r] for s in seeds]), c="orange", alpha=.5, marker="v")
-                    axs[j%num_cols,alpha_i%num_cols].plot(ratios, anneal)
-                    axs[j%num_cols,alpha_i%num_cols].plot(ratios, [np.mean([all_accs[s][SPLIT][r] for s in seeds]) for r in ratios], c="orange", alpha=0.5)
-                    axs[j%num_cols,alpha_i%num_cols].grid(visible=True, alpha=0.5)
-                    axs[j%num_cols,alpha_i%num_cols].set_title(f"{sampling_name[sampling_type_ori].replace('$', str(param))}")
-                    axs[j%num_cols,alpha_i%num_cols].set_xlabel("ratios")
-                    axs[j%num_cols,alpha_i%num_cols].set_ylabel("metric values")
-                    axs[j%num_cols,alpha_i%num_cols].set_ylim((0., 1.1))
-                    axs[j%num_cols,alpha_i%num_cols].legend(loc='best')
-            plt.suptitle(f"{config.util_model_dirname} - {config.dataset.dataset_name}/{config.dataset.domain} ({SPLIT})")
-            plt.savefig(f"./GOOD/kernel/pipelines/plots/metrics/nec_sampling_types_{config.util_model_dirname}_{config.dataset.dataset_name}_{config.dataset.domain}_({SPLIT}).png")
+                            anneal_std.append(np.std([all_metrics[s][SPLIT][r][sampling_type][metric_name] for s in seeds]))
+                            # axs[j%num_cols,alpha_i%num_cols].scatter(r, np.mean([all_metrics[s][SPLIT][r][sampling_type][metric_name] for s in seeds]), label=f"{metric_name}" if r == 0.3 else None, c=colors[metric_name])
+                            # axs[j%num_cols,alpha_i%num_cols].scatter(r, np.mean([all_metrics[s][SPLIT][r][sampling_type][metric_name] for s in seeds]) - np.std([all_metrics[s][SPLIT][r][sampling_type][metric_name] for s in seeds]), c=colors[metric_name], alpha=.5, marker="^")
+                            # axs[j%num_cols,alpha_i%num_cols].scatter(r, np.mean([all_metrics[s][SPLIT][r][sampling_type][metric_name] for s in seeds]) + np.std([all_metrics[s][SPLIT][r][sampling_type][metric_name] for s in seeds]), c=colors[metric_name], alpha=.5, marker="v")
+                        # axs[j%num_cols,alpha_i%num_cols].scatter(r, np.mean([all_accs[s][SPLIT][r] for s in seeds]), label=f"Model acc" if r == 0.3 else None, c="orange", alpha=0.5)
+                        # axs[j%num_cols,alpha_i%num_cols].scatter(r, np.mean([all_accs[s][SPLIT][r] for s in seeds]) - np.std([all_accs[s][SPLIT][r] for s in seeds]), c="orange", alpha=.5, marker="^")
+                        # axs[j%num_cols,alpha_i%num_cols].scatter(r, np.mean([all_accs[s][SPLIT][r] for s in seeds]) + np.std([all_accs[s][SPLIT][r] for s in seeds]), c="orange", alpha=.5, marker="v")
+                    axs[alpha_i%num_cols].errorbar(ratios, anneal, yerr=anneal_std, fmt='-o', capsize=5, label=sampling_name[sampling_type_ori].replace('$', str(param)))
+                    # axs[j%num_cols,alpha_i%num_cols].plot(ratios, anneal)
+                    # axs[j%num_cols,alpha_i%num_cols].plot(ratios, [np.mean([all_accs[s][SPLIT][r] for s in seeds]) for r in ratios], c="orange", alpha=0.5)
+                    axs[alpha_i%num_cols].grid(visible=True, alpha=0.5)
+                    # axs[alpha_i%num_cols].set_title(f"{sampling_name[sampling_type_ori].replace('$', str(param))}")
+                    axs[alpha_i%num_cols].set_xlabel("ratio")
+                    axs[alpha_i%num_cols].set_ylabel("metric value")
+                    axs[alpha_i%num_cols].set_ylim((0., 1.1))
+                    axs[alpha_i%num_cols].legend(loc='best')
+            plt.suptitle(f"{config.dataset.dataset_name}/{config.dataset.domain}")
+            plt.tight_layout()
+            plt.savefig(f"./GOOD/kernel/pipelines/plots/metrics/dev_nec_sampling_{config.ood.ood_alg}_{config.dataset.dataset_name}_{config.dataset.domain}_({SPLIT}).png")
+            plt.savefig(f"./GOOD/kernel/pipelines/plots/metrics/pdfs/dev_nec_sampling_{config.ood.ood_alg}_{config.dataset.dataset_name}_{config.dataset.domain}_({SPLIT}).pdf")
             plt.show(); 
 
 
 def evaluate_metric(args):
     load_splits = ["id"]
-    splits = ["id_val", "val", "test"]
-    ratios = [.3, .6, .9, 1.]
+
+    if args.splits != "":
+        splits = args.splits.split("/")
+    else:
+        splits = ["id_test", "test"] #"id_val", "val", "test"
+    print("Using splits = ", splits)
+        
+    if args.ratios != "":
+        ratios = [float(r) for r in args.ratios.split("/")]
+    else:
+        ratios = [.3, .6, .9, 1.]
+    print("Using ratios = ", ratios)
     startTime = datetime.now()
 
     metrics_score = {}
@@ -299,9 +319,17 @@ def evaluate_metric(args):
                     print("\n\nComputing now with givenR...\n")
                     pipeline.compute_accuracy_binarizing("test", givenR=True, metric_collector=metrics_score[load_split]["test_R"])
                     continue
+                elif metric == "plaus":
+                    for split in splits:
+                        metrics_score[load_split][split]["wiou"].append([np.mean([e[0] for e in expl_accs_r[split][r]]) for r in ratios])
+                        metrics_score[load_split][split]["wiou_std"].append([np.std([e[0] for e in expl_accs_r[split][r]]) for r in ratios])
+                        metrics_score[load_split][split]["F1"].append([np.mean([e[1] for e in expl_accs_r[split][r]]) for r in ratios])
+                        metrics_score[load_split][split]["F1_std"].append(np.std([e[1] for e in expl_accs_r[split][1.0]]))
+                    continue
 
                 for split in splits:
                     score, acc_int, results = pipeline.compute_metric_ratio(
+                        ratios,
                         split,
                         metric=metric,
                         intervention_distrib=config.intervention_distrib,
@@ -347,11 +375,14 @@ def evaluate_metric(args):
         #     with open(f"storage/metric_results/{load_split}_results.json", "w") as f:
         #         json.dump(results_big, f)        
 
-    if not os.path.exists(f"storage/metric_results/aggregated_{load_split}_results_{config.log_id}.json"):
-        with open(f"storage/metric_results/aggregated_{load_split}_results_{config.log_id}.json", 'w') as file:
-            file.write("{}")
-    with open(f"storage/metric_results/aggregated_{load_split}_results_{config.log_id}.json", "r") as jsonFile:
-        results_aggregated = json.load(jsonFile)
+    if config.save_metrics:
+        if not os.path.exists(f"storage/metric_results/aggregated_{load_split}_results_{config.log_id}.json"):
+            with open(f"storage/metric_results/aggregated_{load_split}_results_{config.log_id}.json", 'w') as file:
+                file.write("{}")
+        with open(f"storage/metric_results/aggregated_{load_split}_results_{config.log_id}.json", "r") as jsonFile:
+            results_aggregated = json.load(jsonFile)
+    else:
+        results_aggregated = None
 
     for load_split in load_splits:
         print("\n\n", "-"*50, f"\nPrinting evaluation results for load_split {load_split}\n\n")
@@ -362,8 +393,17 @@ def evaluate_metric(args):
         if "acc" in args.metrics.split("/"):
             for split in splits + ["test", "test_R"]:
                 print(f"\nEval split {split}")
-                for metric in ["acc", "plaus", "wiou"]:
+                for metric in ["acc"]: #, "plaus", "wiou"
                     print(f"{metric} = {metrics_score[load_split][split][metric]}")
+
+        if "plaus" in args.metrics:
+            print("\n\n", "-"*50, "\nComputing Plausibility")
+            for split in splits:
+                print(f"\nEval split {split}")
+                for div in ["wiou", "F1"]:
+                    s = metrics_score[load_split][split][div]
+                    print_metric(div, s, results_aggregated, key=[config.dataset.dataset_name + " " + config.dataset.domain, config.model.model_name, split, div])
+            continue
 
         print("\n\n", "-"*50, "\nPrinting evaluation averaged per seed")
         for split in splits:
@@ -510,6 +550,7 @@ def main():
         
 
     test_scores, test_losses = defaultdict(list), defaultdict(list)
+    test_likelihoods_avg, test_likelihoods_prod, test_likelihoods_logprod = defaultdict(list), defaultdict(list), defaultdict(list)
     for i, seed in enumerate(args.seeds.split("/")):
         seed = int(seed)
         print(f"\n\n#D#Running with seed = {seed}")
@@ -537,27 +578,57 @@ def main():
             test_scores["trained"].append(test_score)
         elif config.task == 'test':
             test_score, test_loss = pipeline.load_task(load_param=True, load_split="id")
-            for s in ["train", "id_val", "val", "test"]:
+            for s in ["train", "id_val", "id_test", "val", "test"]:
                 sa = pipeline.evaluate(s, compute_suff=False)
                 test_scores[s].append(sa['score'])
                 test_losses[s].append(sa['loss'].item())
-            test_score, test_loss = pipeline.load_task(load_param=True, load_split="ood")
-            for s in ["train", "id_val", "val", "test"]:
-                sa = pipeline.evaluate(s, compute_suff=False)
-                test_scores["ood_" + s].append(sa['score'])
-                test_losses["ood_" + s].append(sa['loss'].item())
-            print(f"Printing obtained and stored scores: {sa['score']} !=? {test_score}")
-    print()
-    print()
-    print("Final accuracies: ")
+                test_likelihoods_avg[s].append(sa['likelihood_avg'].item())
+                test_likelihoods_prod[s].append(sa['likelihood_prod'].item())
+                test_likelihoods_logprod[s].append(sa['likelihood_logprod'].item())
+            # test_score, test_loss = pipeline.load_task(load_param=True, load_split="ood")
+            # for s in ["train", "id_val", "val", "test"]:
+            #     sa = pipeline.evaluate(s, compute_suff=False)
+            #     test_scores["ood_" + s].append(sa['score'])
+            #     test_losses["ood_" + s].append(sa['loss'].item())
+            # print(f"Printing obtained and stored scores: {sa['score']} !=? {test_score}")
+    
+    if config.save_metrics:
+        with open(f"storage/metric_results/acc_plaus.json", "r") as jsonFile:
+            results_aggregated = json.load(jsonFile)
+    
+    print("\n\nFinal accuracies: ")
     for s in test_scores.keys():
         print(f"{s.upper():<10} = {np.mean(test_scores[s]):.3f} +- {np.std(test_scores[s]):.3f}")
+    
     print("\nFinal losses: ")
-    for s in test_scores.keys():
+    for s in test_losses.keys():
         print(f"{s.upper():<10} = {np.mean(test_losses[s]):.4f} +- {np.std(test_losses[s]):.4f}")
-    for s in ["", "ood_"]:
+            
+    for s in [""]: #"ood_"
         print(f"Diff id_val-test {s} = {abs(np.mean(test_losses[s + 'id_val']) - np.mean(test_losses[s + 'test'])):.4f} ")
-    print()
+
+    if config.save_metrics:
+        print("Saving metrics to json...")
+        for s in test_losses.keys():
+            for name, d in zip(
+                ["loss_entiresplit", "likelihood_avg_entiresplit", "likelihood_prod_entiresplit", "likelihood_logprod_entiresplit"], 
+                [test_losses, test_likelihoods_avg, test_likelihoods_prod, test_likelihoods_logprod]
+            ):
+                key = [config.dataset.dataset_name + " " + config.dataset.domain, config.model.model_name, s, name]
+                if s in results_aggregated[key[0]][key[1]].keys():            
+                    assign_dict(
+                        results_aggregated,
+                        key,
+                        np.mean(d[s])
+                    )
+                    key[-1] += "_std"
+                    assign_dict(
+                        results_aggregated,
+                        key,
+                        np.std(d[s])
+                    )
+        with open(f"storage/metric_results/acc_plaus.json", "w") as f:
+            json.dump(results_aggregated, f)     
 
 
 def goodtg():

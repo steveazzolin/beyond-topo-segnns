@@ -9,7 +9,7 @@ import torch
 from GOOD.utils.config_reader import Union, CommonArgs, Munch
 
 
-def reset_random_seed(config: Union[CommonArgs, Munch]):
+def reset_random_seed(config: Union[CommonArgs, Munch], fixed_seed=None):
     r"""
     Initial process for fixing all possible random seed.
 
@@ -18,12 +18,13 @@ def reset_random_seed(config: Union[CommonArgs, Munch]):
 
 
     """
+    seed = config.random_seed if fixed_seed is None else fixed_seed
     # Fix Random seed
-    random.seed(config.random_seed)
-    np.random.seed(config.random_seed)
-    torch.manual_seed(config.random_seed)
-    torch.cuda.manual_seed(config.random_seed)
-    torch.cuda.manual_seed_all(config.random_seed)
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = True
 

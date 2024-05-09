@@ -227,6 +227,8 @@ def process_configs(config: Union[CommonArgs, Munch], args=None):
     if config.ood.extra_param is not None:
         for i, param in enumerate(config.ood.extra_param):
             ood_dirname += f'_{param}'
+    
+    config.ood_dirname = ood_dirname # Added by Steve
 
     # --- Log setting ---
     log_dir_root = opj(STORAGE_DIR, 'log', 'round' + str(config.exp_round))
