@@ -1,0 +1,3357 @@
+Time to train models NOV!
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Fri May  3 10:50:24 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:24 AM : [1mDataset: {'train': GOODMotif(18000), 'id_val': GOODMotif(3000), 'id_test': GOODMotif(3000), 'val': GOODMotif(3000), 'test': GOODMotif(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:24 AM : [1m Data(edge_index=[2, 58], x=[17, 1], node_gt=[17], edge_gt=[58], y=[1], env_id=[1], num_nodes=17)
+[0mData(edge_index=[2, 80], x=[22, 1], node_gt=[22], edge_gt=[80], y=[1], env_id=[1], num_nodes=22)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:24 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:50:24 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:24 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:24 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:24 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:24 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:24 AM : [1mUsing no mitigation (None)
+[0mUsing feature sampling := feat
+self.EF = 0
+mitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:50:24 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:50:24 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:24 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:24 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:24 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:24 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:24 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:24 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:50:24 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:24 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:24 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:24 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:24 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:24 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:24 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:50:24 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:24 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:24 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:24 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:24 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:24 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:24 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:50:24 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:24 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:24 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:24 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:24 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:24 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:24 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 71...
+[0m[1;37mINFO[0m: [1mCheckpoint 71: 
+-----------------------------------
+Train ACCURACY: 0.8942
+Train Loss: 0.4344
+ID Validation ACCURACY: 0.8973
+ID Validation Loss: 0.4044
+ID Test ACCURACY: 0.9013
+ID Test Loss: 0.4260
+OOD Validation ACCURACY: 0.8457
+OOD Validation Loss: 0.5846
+OOD Test ACCURACY: 0.5280
+OOD Test Loss: 8.1118
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 117...
+[0m[1;37mINFO[0m: [1mCheckpoint 117: 
+-----------------------------------
+Train ACCURACY: 0.8516
+Train Loss: 0.6026
+ID Validation ACCURACY: 0.8620
+ID Validation Loss: 0.5670
+ID Test ACCURACY: 0.8640
+ID Test Loss: 0.5821
+OOD Validation ACCURACY: 0.8510
+OOD Validation Loss: 0.6003
+OOD Test ACCURACY: 0.5033
+OOD Test Loss: 7.6422
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9013 0.5280 0.8640 0.5033 0.8620 0.8510[0mTrain ACCURACY: 0.8942Train Loss: 0.4344
+Id_val ACCURACY: 0.8973Id_val Loss: 0.4044
+Id_test ACCURACY: 0.9013Id_test Loss: 0.4260
+Val ACCURACY: 0.8457Val Loss: 0.5846
+Test ACCURACY: 0.5280Test Loss: 8.1131
+
+
+#D#Running with seed = 2
+207 2
+{'acc_givenR': False,
+ 'argv': None,
+ 'average_edge_attn': 'mean',
+ 'ckpt_dir': None,
+ 'ckpt_root': None,
+ 'clean_save': None,
+ 'config_path': '/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/configs/final_configs/GOODMotif/size/covariate/LECI.yaml',
+ 'dataset': DatasetArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'debias': False,
+ 'device': None,
+ 'exp_round': 2,
+ 'expval_budget': None,
+ 'feat_int_alpha': None,
+ 'fidelity_alpha_2': None,
+ 'gpu_idx': 1,
+ 'id_test_ckpt': None,
+ 'intervention_distrib': 'model_dependent',
+ 'log_file': None,
+ 'log_id': '',
+ 'log_path': None,
+ 'mask': False,
+ 'metric': None,
+ 'metrics': '',
+ 'mitigation_backbone': None,
+ 'mitigation_expl_scores': 'default',
+ 'mitigation_expl_scores_topk': -1,
+ 'mitigation_readout': None,
+ 'mitigation_sampling': 'feat',
+ 'mitigation_virtual': None,
+ 'model': ModelArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'nec_alpha_1': None,
+ 'nec_marg_alpha': True,
+ 'nec_number_samples': 'prop_G_dataset',
+ 'num_workers': 2,
+ 'numsamples_budget': None,
+ 'ood': OODArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'other_saved': None,
+ 'pipeline': None,
+ 'process_args_manual': <bound method CommonArgs.process_args_manual of CommonArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)>,
+ 'pytest': None,
+ 'random_expl': False,
+ 'random_seed': 2,
+ 'samplingtype': 'deconfounded',
+ 'save_metrics': False,
+ 'save_tag': None,
+ 'seeds': '1/2/3/4/5',
+ 'task': 'test',
+ 'tensorboard_logdir': None,
+ 'test_ckpt': None,
+ 'train': TrainArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)}
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Fri May  3 10:50:41 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:41 AM : [1mDataset: {'train': GOODMotif(18000), 'id_val': GOODMotif(3000), 'id_test': GOODMotif(3000), 'val': GOODMotif(3000), 'test': GOODMotif(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:41 AM : [1m Data(edge_index=[2, 58], x=[17, 1], node_gt=[17], edge_gt=[58], y=[1], env_id=[1], num_nodes=17)
+[0mData(edge_index=[2, 80], x=[22, 1], node_gt=[22], edge_gt=[80], y=[1], env_id=[1], num_nodes=22)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:41 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:50:41 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:41 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:41 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:41 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:41 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:41 AM : [1mUsing no mitigation (None)
+[0mUsing feature sampling := feat
+self.EF = 0
+mitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:50:41 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:50:41 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:41 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:41 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:41 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:41 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:41 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:41 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:50:41 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:41 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:41 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:41 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:41 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:41 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:41 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:50:41 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:41 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:41 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:41 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:41 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:41 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:41 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:50:41 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:41 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:41 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:41 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:41 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:41 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:41 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 192...
+[0m[1;37mINFO[0m: [1mCheckpoint 192: 
+-----------------------------------
+Train ACCURACY: 0.9280
+Train Loss: 0.3286
+ID Validation ACCURACY: 0.9357
+ID Validation Loss: 0.3071
+ID Test ACCURACY: 0.9303
+ID Test Loss: 0.3316
+OOD Validation ACCURACY: 0.8810
+OOD Validation Loss: 0.5653
+OOD Test ACCURACY: 0.5063
+OOD Test Loss: 5.4499
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 137...
+[0m[1;37mINFO[0m: [1mCheckpoint 137: 
+-----------------------------------
+Train ACCURACY: 0.9272
+Train Loss: 0.3319
+ID Validation ACCURACY: 0.9323
+ID Validation Loss: 0.3139
+ID Test ACCURACY: 0.9303
+ID Test Loss: 0.3326
+OOD Validation ACCURACY: 0.9110
+OOD Validation Loss: 0.5104
+OOD Test ACCURACY: 0.7090
+OOD Test Loss: 2.8718
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9303 0.5063 0.9303 0.7090 0.9323 0.9110[0mTrain ACCURACY: 0.9280Train Loss: 0.3286
+Id_val ACCURACY: 0.9357Id_val Loss: 0.3071
+Id_test ACCURACY: 0.9303Id_test Loss: 0.3316
+Val ACCURACY: 0.8810Val Loss: 0.5653
+Test ACCURACY: 0.5063Test Loss: 5.4504
+
+
+#D#Running with seed = 3
+304 3
+{'acc_givenR': False,
+ 'argv': None,
+ 'average_edge_attn': 'mean',
+ 'ckpt_dir': None,
+ 'ckpt_root': None,
+ 'clean_save': None,
+ 'config_path': '/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/configs/final_configs/GOODMotif/size/covariate/LECI.yaml',
+ 'dataset': DatasetArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'debias': False,
+ 'device': None,
+ 'exp_round': 3,
+ 'expval_budget': None,
+ 'feat_int_alpha': None,
+ 'fidelity_alpha_2': None,
+ 'gpu_idx': 1,
+ 'id_test_ckpt': None,
+ 'intervention_distrib': 'model_dependent',
+ 'log_file': None,
+ 'log_id': '',
+ 'log_path': None,
+ 'mask': False,
+ 'metric': None,
+ 'metrics': '',
+ 'mitigation_backbone': None,
+ 'mitigation_expl_scores': 'default',
+ 'mitigation_expl_scores_topk': -1,
+ 'mitigation_readout': None,
+ 'mitigation_sampling': 'feat',
+ 'mitigation_virtual': None,
+ 'model': ModelArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'nec_alpha_1': None,
+ 'nec_marg_alpha': True,
+ 'nec_number_samples': 'prop_G_dataset',
+ 'num_workers': 2,
+ 'numsamples_budget': None,
+ 'ood': OODArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'other_saved': None,
+ 'pipeline': None,
+ 'process_args_manual': <bound method CommonArgs.process_args_manual of CommonArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)>,
+ 'pytest': None,
+ 'random_expl': False,
+ 'random_seed': 3,
+ 'samplingtype': 'deconfounded',
+ 'save_metrics': False,
+ 'save_tag': None,
+ 'seeds': '1/2/3/4/5',
+ 'task': 'test',
+ 'tensorboard_logdir': None,
+ 'test_ckpt': None,
+ 'train': TrainArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)}
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Fri May  3 10:50:56 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:56 AM : [1mDataset: {'train': GOODMotif(18000), 'id_val': GOODMotif(3000), 'id_test': GOODMotif(3000), 'val': GOODMotif(3000), 'test': GOODMotif(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:56 AM : [1m Data(edge_index=[2, 58], x=[17, 1], node_gt=[17], edge_gt=[58], y=[1], env_id=[1], num_nodes=17)
+[0mData(edge_index=[2, 80], x=[22, 1], node_gt=[22], edge_gt=[80], y=[1], env_id=[1], num_nodes=22)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:56 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:50:56 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:56 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:56 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:56 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:56 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:56 AM : [1mUsing no mitigation (None)
+[0mUsing feature sampling := feat
+self.EF = 0
+mitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:50:56 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:50:56 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:56 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:56 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:56 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:56 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:56 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:56 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:50:56 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:56 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:56 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:56 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:56 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:56 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:56 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:50:56 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:56 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:56 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:56 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:56 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:56 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:56 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:50:56 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:56 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:56 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:56 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:56 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:56 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:50:56 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 116...
+[0m[1;37mINFO[0m: [1mCheckpoint 116: 
+-----------------------------------
+Train ACCURACY: 0.9012
+Train Loss: 0.4345
+ID Validation ACCURACY: 0.9077
+ID Validation Loss: 0.4159
+ID Test ACCURACY: 0.9057
+ID Test Loss: 0.4261
+OOD Validation ACCURACY: 0.8647
+OOD Validation Loss: 0.5410
+OOD Test ACCURACY: 0.5473
+OOD Test Loss: 1.2609
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 162...
+[0m[1;37mINFO[0m: [1mCheckpoint 162: 
+-----------------------------------
+Train ACCURACY: 0.8549
+Train Loss: 0.7043
+ID Validation ACCURACY: 0.8660
+ID Validation Loss: 0.6725
+ID Test ACCURACY: 0.8597
+ID Test Loss: 0.6986
+OOD Validation ACCURACY: 0.8793
+OOD Validation Loss: 0.5436
+OOD Test ACCURACY: 0.5663
+OOD Test Loss: 1.9432
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9057 0.5473 0.8597 0.5663 0.8660 0.8793[0mTrain ACCURACY: 0.9012Train Loss: 0.4346
+Id_val ACCURACY: 0.9077Id_val Loss: 0.4160
+Id_test ACCURACY: 0.9057Id_test Loss: 0.4261
+Val ACCURACY: 0.8647Val Loss: 0.5410
+Test ACCURACY: 0.5473Test Loss: 1.2607
+
+
+#D#Running with seed = 4
+401 4
+{'acc_givenR': False,
+ 'argv': None,
+ 'average_edge_attn': 'mean',
+ 'ckpt_dir': None,
+ 'ckpt_root': None,
+ 'clean_save': None,
+ 'config_path': '/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/configs/final_configs/GOODMotif/size/covariate/LECI.yaml',
+ 'dataset': DatasetArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'debias': False,
+ 'device': None,
+ 'exp_round': 4,
+ 'expval_budget': None,
+ 'feat_int_alpha': None,
+ 'fidelity_alpha_2': None,
+ 'gpu_idx': 1,
+ 'id_test_ckpt': None,
+ 'intervention_distrib': 'model_dependent',
+ 'log_file': None,
+ 'log_id': '',
+ 'log_path': None,
+ 'mask': False,
+ 'metric': None,
+ 'metrics': '',
+ 'mitigation_backbone': None,
+ 'mitigation_expl_scores': 'default',
+ 'mitigation_expl_scores_topk': -1,
+ 'mitigation_readout': None,
+ 'mitigation_sampling': 'feat',
+ 'mitigation_virtual': None,
+ 'model': ModelArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'nec_alpha_1': None,
+ 'nec_marg_alpha': True,
+ 'nec_number_samples': 'prop_G_dataset',
+ 'num_workers': 2,
+ 'numsamples_budget': None,
+ 'ood': OODArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'other_saved': None,
+ 'pipeline': None,
+ 'process_args_manual': <bound method CommonArgs.process_args_manual of CommonArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)>,
+ 'pytest': None,
+ 'random_expl': False,
+ 'random_seed': 4,
+ 'samplingtype': 'deconfounded',
+ 'save_metrics': False,
+ 'save_tag': None,
+ 'seeds': '1/2/3/4/5',
+ 'task': 'test',
+ 'tensorboard_logdir': None,
+ 'test_ckpt': None,
+ 'train': TrainArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)}
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Fri May  3 10:51:11 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:11 AM : [1mDataset: {'train': GOODMotif(18000), 'id_val': GOODMotif(3000), 'id_test': GOODMotif(3000), 'val': GOODMotif(3000), 'test': GOODMotif(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:11 AM : [1m Data(edge_index=[2, 58], x=[17, 1], node_gt=[17], edge_gt=[58], y=[1], env_id=[1], num_nodes=17)
+[0mData(edge_index=[2, 80], x=[22, 1], node_gt=[22], edge_gt=[80], y=[1], env_id=[1], num_nodes=22)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:11 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:51:11 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:11 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:11 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:11 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:11 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:11 AM : [1mUsing no mitigation (None)
+[0mUsing feature sampling := feat
+self.EF = 0
+mitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:51:11 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:51:11 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:11 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:11 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:11 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:11 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:11 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:11 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:51:11 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:11 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:11 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:11 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:11 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:11 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:11 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:51:11 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:11 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:11 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:11 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:11 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:11 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:11 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:51:11 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:11 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:11 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:11 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:11 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:11 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:11 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 198...
+[0m[1;37mINFO[0m: [1mCheckpoint 198: 
+-----------------------------------
+Train ACCURACY: 0.9261
+Train Loss: 0.3424
+ID Validation ACCURACY: 0.9340
+ID Validation Loss: 0.3215
+ID Test ACCURACY: 0.9283
+ID Test Loss: 0.3471
+OOD Validation ACCURACY: 0.9040
+OOD Validation Loss: 0.5054
+OOD Test ACCURACY: 0.7073
+OOD Test Loss: 0.9018
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 199...
+[0m[1;37mINFO[0m: [1mCheckpoint 199: 
+-----------------------------------
+Train ACCURACY: 0.9257
+Train Loss: 0.3409
+ID Validation ACCURACY: 0.9330
+ID Validation Loss: 0.3203
+ID Test ACCURACY: 0.9263
+ID Test Loss: 0.3421
+OOD Validation ACCURACY: 0.9107
+OOD Validation Loss: 0.4829
+OOD Test ACCURACY: 0.5813
+OOD Test Loss: 1.5702
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9283 0.7073 0.9263 0.5813 0.9330 0.9107[0mTrain ACCURACY: 0.9261Train Loss: 0.3424
+Id_val ACCURACY: 0.9340Id_val Loss: 0.3215
+Id_test ACCURACY: 0.9283Id_test Loss: 0.3471
+Val ACCURACY: 0.9040Val Loss: 0.5054
+Test ACCURACY: 0.7073Test Loss: 0.9018
+
+
+#D#Running with seed = 5
+498 5
+{'acc_givenR': False,
+ 'argv': None,
+ 'average_edge_attn': 'mean',
+ 'ckpt_dir': None,
+ 'ckpt_root': None,
+ 'clean_save': None,
+ 'config_path': '/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/configs/final_configs/GOODMotif/size/covariate/LECI.yaml',
+ 'dataset': DatasetArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'debias': False,
+ 'device': None,
+ 'exp_round': 5,
+ 'expval_budget': None,
+ 'feat_int_alpha': None,
+ 'fidelity_alpha_2': None,
+ 'gpu_idx': 1,
+ 'id_test_ckpt': None,
+ 'intervention_distrib': 'model_dependent',
+ 'log_file': None,
+ 'log_id': '',
+ 'log_path': None,
+ 'mask': False,
+ 'metric': None,
+ 'metrics': '',
+ 'mitigation_backbone': None,
+ 'mitigation_expl_scores': 'default',
+ 'mitigation_expl_scores_topk': -1,
+ 'mitigation_readout': None,
+ 'mitigation_sampling': 'feat',
+ 'mitigation_virtual': None,
+ 'model': ModelArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'nec_alpha_1': None,
+ 'nec_marg_alpha': True,
+ 'nec_number_samples': 'prop_G_dataset',
+ 'num_workers': 2,
+ 'numsamples_budget': None,
+ 'ood': OODArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'other_saved': None,
+ 'pipeline': None,
+ 'process_args_manual': <bound method CommonArgs.process_args_manual of CommonArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)>,
+ 'pytest': None,
+ 'random_expl': False,
+ 'random_seed': 5,
+ 'samplingtype': 'deconfounded',
+ 'save_metrics': False,
+ 'save_tag': None,
+ 'seeds': '1/2/3/4/5',
+ 'task': 'test',
+ 'tensorboard_logdir': None,
+ 'test_ckpt': None,
+ 'train': TrainArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)}
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Fri May  3 10:51:26 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:26 AM : [1mDataset: {'train': GOODMotif(18000), 'id_val': GOODMotif(3000), 'id_test': GOODMotif(3000), 'val': GOODMotif(3000), 'test': GOODMotif(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:26 AM : [1m Data(edge_index=[2, 58], x=[17, 1], node_gt=[17], edge_gt=[58], y=[1], env_id=[1], num_nodes=17)
+[0mData(edge_index=[2, 80], x=[22, 1], node_gt=[22], edge_gt=[80], y=[1], env_id=[1], num_nodes=22)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:26 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:51:26 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:26 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:26 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:26 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:26 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:26 AM : [1mUsing no mitigation (None)
+[0mUsing feature sampling := feat
+self.EF = 0
+mitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:51:26 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:51:26 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:26 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:26 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:26 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:26 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:26 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:26 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:51:26 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:26 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:26 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:26 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:26 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:26 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:26 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:51:26 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:26 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:26 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:26 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:26 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:26 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:26 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:51:26 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:26 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:26 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:26 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:26 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:26 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:51:26 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 82...
+[0m[1;37mINFO[0m: [1mCheckpoint 82: 
+-----------------------------------
+Train ACCURACY: 0.8917
+Train Loss: 0.4445
+ID Validation ACCURACY: 0.8997
+ID Validation Loss: 0.4269
+ID Test ACCURACY: 0.9003
+ID Test Loss: 0.4238
+OOD Validation ACCURACY: 0.7667
+OOD Validation Loss: 0.7056
+OOD Test ACCURACY: 0.4170
+OOD Test Loss: 12.7943
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 88...
+[0m[1;37mINFO[0m: [1mCheckpoint 88: 
+-----------------------------------
+Train ACCURACY: 0.8814
+Train Loss: 0.4528
+ID Validation ACCURACY: 0.8903
+ID Validation Loss: 0.4357
+ID Test ACCURACY: 0.8880
+ID Test Loss: 0.4328
+OOD Validation ACCURACY: 0.8283
+OOD Validation Loss: 0.6515
+OOD Test ACCURACY: 0.4807
+OOD Test Loss: 18.8037
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9003 0.4170 0.8880 0.4807 0.8903 0.8283[0mTrain ACCURACY: 0.8917Train Loss: 0.4445
+Id_val ACCURACY: 0.8997Id_val Loss: 0.4269
+Id_test ACCURACY: 0.9003Id_test Loss: 0.4238
+Val ACCURACY: 0.7667Val Loss: 0.7056
+Test ACCURACY: 0.4170Test Loss: 12.7943
+
+
+Final accuracies: 
+TRAIN      = 0.908 +- 0.016
+ID_VAL     = 0.915 +- 0.017
+ID_TEST    = 0.913 +- 0.013
+VAL        = 0.852 +- 0.047
+TEST       = 0.541 +- 0.094
+
+Final losses: 
+TRAIN      = 0.3969 +- 0.0505
+ID_VAL     = 0.3752 +- 0.0504
+ID_TEST    = 0.3909 +- 0.0424
+VAL        = 0.5804 +- 0.0680
+TEST       = 5.7041 +- 4.4485
+Diff id_val-test  = 5.3289 
+DONE TRAIN LECI GOODMotif/size
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Fri May  3 10:52:10 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODTwitter
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:10 AM : [1mDataset: {'train': GOODTwitter(2590), 'id_val': GOODTwitter(554), 'id_test': GOODTwitter(554), 'val': GOODTwitter(1785), 'test': GOODTwitter(1457), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:10 AM : [1m Data(x=[7, 768], edge_index=[2, 12], y=[1], idx=[1], sentence_tokens=[7], length=[1], domain_id=[1], env_id=[1])
+[0mData(x=[10, 768], edge_index=[2, 18], y=[1], idx=[1], sentence_tokens=[10], length=[1], domain_id=[1], env_id=[1])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:10 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:52:10 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:10 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:10 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:10 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:10 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:10 AM : [1mUsing no mitigation (None)
+[0mUsing feature sampling := feat
+self.EF = 0.001
+mitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:52:10 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:52:10 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:10 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:10 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:10 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:10 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:10 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:10 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:52:10 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:10 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:10 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:10 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:10 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:10 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:10 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:52:10 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:10 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:10 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:10 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:10 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:10 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:10 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:52:10 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:10 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:10 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:10 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:10 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:10 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:10 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 7...
+[0m[1;37mINFO[0m: [1mCheckpoint 7: 
+-----------------------------------
+Train ACCURACY: 0.7884
+Train Loss: 0.5337
+ID Validation ACCURACY: 0.6931
+ID Validation Loss: 0.7689
+ID Test ACCURACY: 0.6823
+ID Test Loss: 0.7935
+OOD Validation ACCURACY: 0.6022
+OOD Validation Loss: 0.9445
+OOD Test ACCURACY: 0.5559
+OOD Test Loss: 1.0869
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 102...
+[0m[1;37mINFO[0m: [1mCheckpoint 102: 
+-----------------------------------
+Train ACCURACY: 1.0000
+Train Loss: 0.0005
+ID Validation ACCURACY: 0.6931
+ID Validation Loss: 2.0819
+ID Test ACCURACY: 0.6733
+ID Test Loss: 2.1937
+OOD Validation ACCURACY: 0.6246
+OOD Validation Loss: 2.5268
+OOD Test ACCURACY: 0.5594
+OOD Test Loss: 2.9977
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.6823 0.5559 0.6733 0.5594 0.6931 0.6246[0m/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. The data of the dataset is already cached, so any modifications to `data` will not be reflected when accessing its elements. Clearing the cache now by removing all elements in `dataset._data_list`. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+Train ACCURACY: 0.7884Train Loss: 0.5337
+Id_val ACCURACY: 0.6931Id_val Loss: 0.7689
+Id_test ACCURACY: 0.6823Id_test Loss: 0.7935
+Val ACCURACY: 0.6022Val Loss: 0.9446
+Test ACCURACY: 0.5559Test Loss: 1.0870
+
+
+#D#Running with seed = 2
+207 2
+{'acc_givenR': False,
+ 'argv': None,
+ 'average_edge_attn': 'mean',
+ 'ckpt_dir': None,
+ 'ckpt_root': None,
+ 'clean_save': None,
+ 'config_path': '/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/configs/final_configs/GOODTwitter/length/covariate/LECI.yaml',
+ 'dataset': DatasetArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'debias': False,
+ 'device': None,
+ 'exp_round': 2,
+ 'expval_budget': None,
+ 'feat_int_alpha': None,
+ 'fidelity_alpha_2': None,
+ 'gpu_idx': 1,
+ 'id_test_ckpt': None,
+ 'intervention_distrib': 'model_dependent',
+ 'log_file': None,
+ 'log_id': '',
+ 'log_path': None,
+ 'mask': False,
+ 'metric': None,
+ 'metrics': '',
+ 'mitigation_backbone': None,
+ 'mitigation_expl_scores': 'default',
+ 'mitigation_expl_scores_topk': -1,
+ 'mitigation_readout': None,
+ 'mitigation_sampling': 'feat',
+ 'mitigation_virtual': None,
+ 'model': ModelArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'nec_alpha_1': None,
+ 'nec_marg_alpha': True,
+ 'nec_number_samples': 'prop_G_dataset',
+ 'num_workers': 2,
+ 'numsamples_budget': None,
+ 'ood': OODArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'other_saved': None,
+ 'pipeline': None,
+ 'process_args_manual': <bound method CommonArgs.process_args_manual of CommonArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)>,
+ 'pytest': None,
+ 'random_expl': False,
+ 'random_seed': 2,
+ 'samplingtype': 'deconfounded',
+ 'save_metrics': False,
+ 'save_tag': None,
+ 'seeds': '1/2/3/4/5',
+ 'task': 'test',
+ 'tensorboard_logdir': None,
+ 'test_ckpt': None,
+ 'train': TrainArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)}
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Fri May  3 10:52:17 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODTwitter
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:18 AM : [1mDataset: {'train': GOODTwitter(2590), 'id_val': GOODTwitter(554), 'id_test': GOODTwitter(554), 'val': GOODTwitter(1785), 'test': GOODTwitter(1457), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:18 AM : [1m Data(x=[7, 768], edge_index=[2, 12], y=[1], idx=[1], sentence_tokens=[7], length=[1], domain_id=[1], env_id=[1])
+[0mData(x=[10, 768], edge_index=[2, 18], y=[1], idx=[1], sentence_tokens=[10], length=[1], domain_id=[1], env_id=[1])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:18 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:52:18 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:18 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:18 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:18 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:18 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:18 AM : [1mUsing no mitigation (None)
+[0mUsing feature sampling := feat
+self.EF = 0.001
+mitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:52:18 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:52:18 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:18 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:18 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:18 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:18 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:18 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:18 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:52:18 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:18 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:18 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:18 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:18 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:18 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:18 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:52:18 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:18 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:18 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:18 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:18 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:18 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:18 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:52:18 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:18 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:18 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:18 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:18 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:18 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:18 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 6...
+[0m[1;37mINFO[0m: [1mCheckpoint 6: 
+-----------------------------------
+Train ACCURACY: 0.7610
+Train Loss: 0.5749
+ID Validation ACCURACY: 0.6859
+ID Validation Loss: 0.7960
+ID Test ACCURACY: 0.6805
+ID Test Loss: 0.7919
+OOD Validation ACCURACY: 0.6275
+OOD Validation Loss: 0.9112
+OOD Test ACCURACY: 0.5765
+OOD Test Loss: 1.0569
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 5...
+[0m[1;37mINFO[0m: [1mCheckpoint 5: 
+-----------------------------------
+Train ACCURACY: 0.7506
+Train Loss: 0.6182
+ID Validation ACCURACY: 0.6823
+ID Validation Loss: 0.8169
+ID Test ACCURACY: 0.6697
+ID Test Loss: 0.8107
+OOD Validation ACCURACY: 0.6415
+OOD Validation Loss: 0.8881
+OOD Test ACCURACY: 0.5957
+OOD Test Loss: 0.9882
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.6805 0.5765 0.6697 0.5957 0.6823 0.6415[0m/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. The data of the dataset is already cached, so any modifications to `data` will not be reflected when accessing its elements. Clearing the cache now by removing all elements in `dataset._data_list`. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+Train ACCURACY: 0.7614Train Loss: 0.5749
+Id_val ACCURACY: 0.6859Id_val Loss: 0.7960
+Id_test ACCURACY: 0.6805Id_test Loss: 0.7919
+Val ACCURACY: 0.6275Val Loss: 0.9113
+Test ACCURACY: 0.5765Test Loss: 1.0570
+
+
+#D#Running with seed = 3
+304 3
+{'acc_givenR': False,
+ 'argv': None,
+ 'average_edge_attn': 'mean',
+ 'ckpt_dir': None,
+ 'ckpt_root': None,
+ 'clean_save': None,
+ 'config_path': '/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/configs/final_configs/GOODTwitter/length/covariate/LECI.yaml',
+ 'dataset': DatasetArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'debias': False,
+ 'device': None,
+ 'exp_round': 3,
+ 'expval_budget': None,
+ 'feat_int_alpha': None,
+ 'fidelity_alpha_2': None,
+ 'gpu_idx': 1,
+ 'id_test_ckpt': None,
+ 'intervention_distrib': 'model_dependent',
+ 'log_file': None,
+ 'log_id': '',
+ 'log_path': None,
+ 'mask': False,
+ 'metric': None,
+ 'metrics': '',
+ 'mitigation_backbone': None,
+ 'mitigation_expl_scores': 'default',
+ 'mitigation_expl_scores_topk': -1,
+ 'mitigation_readout': None,
+ 'mitigation_sampling': 'feat',
+ 'mitigation_virtual': None,
+ 'model': ModelArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'nec_alpha_1': None,
+ 'nec_marg_alpha': True,
+ 'nec_number_samples': 'prop_G_dataset',
+ 'num_workers': 2,
+ 'numsamples_budget': None,
+ 'ood': OODArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'other_saved': None,
+ 'pipeline': None,
+ 'process_args_manual': <bound method CommonArgs.process_args_manual of CommonArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)>,
+ 'pytest': None,
+ 'random_expl': False,
+ 'random_seed': 3,
+ 'samplingtype': 'deconfounded',
+ 'save_metrics': False,
+ 'save_tag': None,
+ 'seeds': '1/2/3/4/5',
+ 'task': 'test',
+ 'tensorboard_logdir': None,
+ 'test_ckpt': None,
+ 'train': TrainArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)}
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Fri May  3 10:52:22 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODTwitter
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:23 AM : [1mDataset: {'train': GOODTwitter(2590), 'id_val': GOODTwitter(554), 'id_test': GOODTwitter(554), 'val': GOODTwitter(1785), 'test': GOODTwitter(1457), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:23 AM : [1m Data(x=[7, 768], edge_index=[2, 12], y=[1], idx=[1], sentence_tokens=[7], length=[1], domain_id=[1], env_id=[1])
+[0mData(x=[10, 768], edge_index=[2, 18], y=[1], idx=[1], sentence_tokens=[10], length=[1], domain_id=[1], env_id=[1])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:23 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:52:23 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:23 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:23 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:23 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:23 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:23 AM : [1mUsing no mitigation (None)
+[0mUsing feature sampling := feat
+self.EF = 0.001
+mitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:52:23 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:52:23 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:23 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:23 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:23 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:23 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:23 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:23 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:52:23 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:23 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:23 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:23 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:23 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:23 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:23 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:52:23 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:23 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:23 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:23 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:23 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:23 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:23 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:52:23 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:23 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:23 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:23 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:23 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:23 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:23 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 26...
+[0m[1;37mINFO[0m: [1mCheckpoint 26: 
+-----------------------------------
+Train ACCURACY: 0.9710
+Train Loss: 0.0812
+ID Validation ACCURACY: 0.6986
+ID Validation Loss: 1.1517
+ID Test ACCURACY: 0.6751
+ID Test Loss: 1.3339
+OOD Validation ACCURACY: 0.6224
+OOD Validation Loss: 1.4258
+OOD Test ACCURACY: 0.5765
+OOD Test Loss: 1.7044
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 8...
+[0m[1;37mINFO[0m: [1mCheckpoint 8: 
+-----------------------------------
+Train ACCURACY: 0.8127
+Train Loss: 0.4766
+ID Validation ACCURACY: 0.6859
+ID Validation Loss: 0.7569
+ID Test ACCURACY: 0.6895
+ID Test Loss: 0.7870
+OOD Validation ACCURACY: 0.6415
+OOD Validation Loss: 0.8925
+OOD Test ACCURACY: 0.6019
+OOD Test Loss: 0.9865
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.6751 0.5765 0.6895 0.6019 0.6859 0.6415[0m/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. The data of the dataset is already cached, so any modifications to `data` will not be reflected when accessing its elements. Clearing the cache now by removing all elements in `dataset._data_list`. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+Train ACCURACY: 0.9710Train Loss: 0.0812
+Id_val ACCURACY: 0.6986Id_val Loss: 1.1517
+Id_test ACCURACY: 0.6751Id_test Loss: 1.3339
+Val ACCURACY: 0.6224Val Loss: 1.4258
+Test ACCURACY: 0.5765Test Loss: 1.7044
+
+
+#D#Running with seed = 4
+401 4
+{'acc_givenR': False,
+ 'argv': None,
+ 'average_edge_attn': 'mean',
+ 'ckpt_dir': None,
+ 'ckpt_root': None,
+ 'clean_save': None,
+ 'config_path': '/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/configs/final_configs/GOODTwitter/length/covariate/LECI.yaml',
+ 'dataset': DatasetArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'debias': False,
+ 'device': None,
+ 'exp_round': 4,
+ 'expval_budget': None,
+ 'feat_int_alpha': None,
+ 'fidelity_alpha_2': None,
+ 'gpu_idx': 1,
+ 'id_test_ckpt': None,
+ 'intervention_distrib': 'model_dependent',
+ 'log_file': None,
+ 'log_id': '',
+ 'log_path': None,
+ 'mask': False,
+ 'metric': None,
+ 'metrics': '',
+ 'mitigation_backbone': None,
+ 'mitigation_expl_scores': 'default',
+ 'mitigation_expl_scores_topk': -1,
+ 'mitigation_readout': None,
+ 'mitigation_sampling': 'feat',
+ 'mitigation_virtual': None,
+ 'model': ModelArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'nec_alpha_1': None,
+ 'nec_marg_alpha': True,
+ 'nec_number_samples': 'prop_G_dataset',
+ 'num_workers': 2,
+ 'numsamples_budget': None,
+ 'ood': OODArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'other_saved': None,
+ 'pipeline': None,
+ 'process_args_manual': <bound method CommonArgs.process_args_manual of CommonArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)>,
+ 'pytest': None,
+ 'random_expl': False,
+ 'random_seed': 4,
+ 'samplingtype': 'deconfounded',
+ 'save_metrics': False,
+ 'save_tag': None,
+ 'seeds': '1/2/3/4/5',
+ 'task': 'test',
+ 'tensorboard_logdir': None,
+ 'test_ckpt': None,
+ 'train': TrainArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)}
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Fri May  3 10:52:27 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODTwitter
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:27 AM : [1mDataset: {'train': GOODTwitter(2590), 'id_val': GOODTwitter(554), 'id_test': GOODTwitter(554), 'val': GOODTwitter(1785), 'test': GOODTwitter(1457), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:27 AM : [1m Data(x=[7, 768], edge_index=[2, 12], y=[1], idx=[1], sentence_tokens=[7], length=[1], domain_id=[1], env_id=[1])
+[0mData(x=[10, 768], edge_index=[2, 18], y=[1], idx=[1], sentence_tokens=[10], length=[1], domain_id=[1], env_id=[1])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:27 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:52:27 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:27 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:28 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:28 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:28 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:28 AM : [1mUsing no mitigation (None)
+[0mUsing feature sampling := feat
+self.EF = 0.001
+mitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:52:28 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:52:28 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:28 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:28 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:28 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:28 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:28 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:28 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:52:28 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:28 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:28 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:28 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:28 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:28 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:28 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:52:28 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:28 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:28 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:28 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:28 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:28 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:28 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:52:28 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:28 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:28 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:28 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:28 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:28 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:28 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 7...
+[0m[1;37mINFO[0m: [1mCheckpoint 7: 
+-----------------------------------
+Train ACCURACY: 0.7811
+Train Loss: 0.5364
+ID Validation ACCURACY: 0.7112
+ID Validation Loss: 0.7696
+ID Test ACCURACY: 0.6877
+ID Test Loss: 0.8116
+OOD Validation ACCURACY: 0.6196
+OOD Validation Loss: 0.9158
+OOD Test ACCURACY: 0.5614
+OOD Test Loss: 1.0939
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 21...
+[0m[1;37mINFO[0m: [1mCheckpoint 21: 
+-----------------------------------
+Train ACCURACY: 0.9498
+Train Loss: 0.1580
+ID Validation ACCURACY: 0.6877
+ID Validation Loss: 0.9837
+ID Test ACCURACY: 0.6751
+ID Test Loss: 1.0665
+OOD Validation ACCURACY: 0.6308
+OOD Validation Loss: 1.1486
+OOD Test ACCURACY: 0.5827
+OOD Test Loss: 1.3760
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.6877 0.5614 0.6751 0.5827 0.6877 0.6308[0m/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. The data of the dataset is already cached, so any modifications to `data` will not be reflected when accessing its elements. Clearing the cache now by removing all elements in `dataset._data_list`. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+Train ACCURACY: 0.7811Train Loss: 0.5364
+Id_val ACCURACY: 0.7112Id_val Loss: 0.7696
+Id_test ACCURACY: 0.6877Id_test Loss: 0.8116
+Val ACCURACY: 0.6196Val Loss: 0.9158
+Test ACCURACY: 0.5614Test Loss: 1.0939
+
+
+#D#Running with seed = 5
+498 5
+{'acc_givenR': False,
+ 'argv': None,
+ 'average_edge_attn': 'mean',
+ 'ckpt_dir': None,
+ 'ckpt_root': None,
+ 'clean_save': None,
+ 'config_path': '/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/configs/final_configs/GOODTwitter/length/covariate/LECI.yaml',
+ 'dataset': DatasetArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'debias': False,
+ 'device': None,
+ 'exp_round': 5,
+ 'expval_budget': None,
+ 'feat_int_alpha': None,
+ 'fidelity_alpha_2': None,
+ 'gpu_idx': 1,
+ 'id_test_ckpt': None,
+ 'intervention_distrib': 'model_dependent',
+ 'log_file': None,
+ 'log_id': '',
+ 'log_path': None,
+ 'mask': False,
+ 'metric': None,
+ 'metrics': '',
+ 'mitigation_backbone': None,
+ 'mitigation_expl_scores': 'default',
+ 'mitigation_expl_scores_topk': -1,
+ 'mitigation_readout': None,
+ 'mitigation_sampling': 'feat',
+ 'mitigation_virtual': None,
+ 'model': ModelArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'nec_alpha_1': None,
+ 'nec_marg_alpha': True,
+ 'nec_number_samples': 'prop_G_dataset',
+ 'num_workers': 2,
+ 'numsamples_budget': None,
+ 'ood': OODArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'other_saved': None,
+ 'pipeline': None,
+ 'process_args_manual': <bound method CommonArgs.process_args_manual of CommonArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)>,
+ 'pytest': None,
+ 'random_expl': False,
+ 'random_seed': 5,
+ 'samplingtype': 'deconfounded',
+ 'save_metrics': False,
+ 'save_tag': None,
+ 'seeds': '1/2/3/4/5',
+ 'task': 'test',
+ 'tensorboard_logdir': None,
+ 'test_ckpt': None,
+ 'train': TrainArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)}
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Fri May  3 10:52:33 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODTwitter
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:33 AM : [1mDataset: {'train': GOODTwitter(2590), 'id_val': GOODTwitter(554), 'id_test': GOODTwitter(554), 'val': GOODTwitter(1785), 'test': GOODTwitter(1457), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:33 AM : [1m Data(x=[7, 768], edge_index=[2, 12], y=[1], idx=[1], sentence_tokens=[7], length=[1], domain_id=[1], env_id=[1])
+[0mData(x=[10, 768], edge_index=[2, 18], y=[1], idx=[1], sentence_tokens=[10], length=[1], domain_id=[1], env_id=[1])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:33 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:52:33 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:33 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:33 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:33 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:33 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:33 AM : [1mUsing no mitigation (None)
+[0mUsing feature sampling := feat
+self.EF = 0.001
+mitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:52:33 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:52:33 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:33 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:33 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:33 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:33 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:33 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:33 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:52:33 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:33 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:33 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:33 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:33 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:33 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:33 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:52:33 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:33 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:33 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:33 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:33 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:33 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:33 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:52:33 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:33 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:33 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:33 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:33 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:33 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:33 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 80...
+[0m[1;37mINFO[0m: [1mCheckpoint 80: 
+-----------------------------------
+Train ACCURACY: 0.9996
+Train Loss: 0.0013
+ID Validation ACCURACY: 0.7004
+ID Validation Loss: 2.1344
+ID Test ACCURACY: 0.6534
+ID Test Loss: 2.4707
+OOD Validation ACCURACY: 0.6185
+OOD Validation Loss: 2.6028
+OOD Test ACCURACY: 0.5477
+OOD Test Loss: 3.0302
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 138...
+[0m[1;37mINFO[0m: [1mCheckpoint 138: 
+-----------------------------------
+Train ACCURACY: 1.0000
+Train Loss: 0.0003
+ID Validation ACCURACY: 0.6805
+ID Validation Loss: 2.1438
+ID Test ACCURACY: 0.6661
+ID Test Loss: 2.4716
+OOD Validation ACCURACY: 0.6190
+OOD Validation Loss: 2.5169
+OOD Test ACCURACY: 0.5587
+OOD Test Loss: 2.9699
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.6534 0.5477 0.6661 0.5587 0.6805 0.6190[0m/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. The data of the dataset is already cached, so any modifications to `data` will not be reflected when accessing its elements. Clearing the cache now by removing all elements in `dataset._data_list`. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+Train ACCURACY: 0.9996Train Loss: 0.0013
+Id_val ACCURACY: 0.7004Id_val Loss: 2.1344
+Id_test ACCURACY: 0.6534Id_test Loss: 2.4707
+Val ACCURACY: 0.6185Val Loss: 2.6028
+Test ACCURACY: 0.5477Test Loss: 3.0302
+
+
+Final accuracies: 
+TRAIN      = 0.860 +- 0.103
+ID_VAL     = 0.698 +- 0.008
+ID_TEST    = 0.676 +- 0.012
+VAL        = 0.618 +- 0.008
+TEST       = 0.564 +- 0.011
+
+Final losses: 
+TRAIN      = 0.3455 +- 0.2502
+ID_VAL     = 1.1241 +- 0.5255
+ID_TEST    = 1.2403 +- 0.6492
+VAL        = 1.3600 +- 0.6512
+TEST       = 1.5945 +- 0.7577
+Diff id_val-test  = 0.4704 
+DONE TRAIN LECI GOODTwitter/length
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Fri May  3 10:52:53 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODSST2
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:55 AM : [1mDataset: {'train': GOODSST2(24744), 'id_val': GOODSST2(5301), 'id_test': GOODSST2(5301), 'val': GOODSST2(17206), 'test': GOODSST2(17490), 'task': 'Binary classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:55 AM : [1m Data(x=[6, 768], edge_index=[2, 10], y=[1, 1], idx=[1], sentence_tokens=[6], length=[1], domain_id=[1], env_id=[1])
+[0mData(x=[3, 768], edge_index=[2, 4], y=[1, 1], idx=[1], sentence_tokens=[3], length=[1], domain_id=[1], env_id=[1])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:55 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:52:55 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:55 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:55 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:55 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:55 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:55 AM : [1mUsing no mitigation (None)
+[0mUsing feature sampling := feat
+self.EF = 0.01
+mitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:52:55 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:52:55 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:55 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:55 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:55 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:55 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:55 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:55 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:52:55 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:55 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:55 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:55 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:55 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:55 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:55 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:52:55 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:55 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:55 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:55 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:55 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:55 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:55 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:52:55 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:55 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:55 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:55 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:55 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:55 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:52:55 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 157...
+[0m[1;37mINFO[0m: [1mCheckpoint 157: 
+-----------------------------------
+Train ACCURACY: 0.9999
+Train Loss: 0.0018
+ID Validation ACCURACY: 0.9183
+ID Validation Loss: 0.3380
+ID Test ACCURACY: 0.9172
+ID Test Loss: 0.3753
+OOD Validation ACCURACY: 0.8775
+OOD Validation Loss: 0.3681
+OOD Test ACCURACY: 0.8031
+OOD Test Loss: 0.5385
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 117...
+[0m[1;37mINFO[0m: [1mCheckpoint 117: 
+-----------------------------------
+Train ACCURACY: 0.9990
+Train Loss: 0.0067
+ID Validation ACCURACY: 0.9136
+ID Validation Loss: 0.3073
+ID Test ACCURACY: 0.9130
+ID Test Loss: 0.3474
+OOD Validation ACCURACY: 0.8809
+OOD Validation Loss: 0.3430
+OOD Test ACCURACY: 0.8340
+OOD Test Loss: 0.4255
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9172 0.8031 0.9130 0.8340 0.9136 0.8809[0m/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. The data of the dataset is already cached, so any modifications to `data` will not be reflected when accessing its elements. Clearing the cache now by removing all elements in `dataset._data_list`. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+Train ACCURACY: 0.9999Train Loss: 0.0018
+Id_val ACCURACY: 0.9183Id_val Loss: 0.3380
+Id_test ACCURACY: 0.9172Id_test Loss: 0.3753
+Val ACCURACY: 0.8775Val Loss: 0.3681
+Test ACCURACY: 0.8031Test Loss: 0.5385
+
+
+#D#Running with seed = 2
+207 2
+{'acc_givenR': False,
+ 'argv': None,
+ 'average_edge_attn': 'mean',
+ 'ckpt_dir': None,
+ 'ckpt_root': None,
+ 'clean_save': None,
+ 'config_path': '/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/configs/final_configs/GOODSST2/length/covariate/LECI.yaml',
+ 'dataset': DatasetArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'debias': False,
+ 'device': None,
+ 'exp_round': 2,
+ 'expval_budget': None,
+ 'feat_int_alpha': None,
+ 'fidelity_alpha_2': None,
+ 'gpu_idx': 1,
+ 'id_test_ckpt': None,
+ 'intervention_distrib': 'model_dependent',
+ 'log_file': None,
+ 'log_id': '',
+ 'log_path': None,
+ 'mask': False,
+ 'metric': None,
+ 'metrics': '',
+ 'mitigation_backbone': None,
+ 'mitigation_expl_scores': 'default',
+ 'mitigation_expl_scores_topk': -1,
+ 'mitigation_readout': None,
+ 'mitigation_sampling': 'feat',
+ 'mitigation_virtual': None,
+ 'model': ModelArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'nec_alpha_1': None,
+ 'nec_marg_alpha': True,
+ 'nec_number_samples': 'prop_G_dataset',
+ 'num_workers': 2,
+ 'numsamples_budget': None,
+ 'ood': OODArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'other_saved': None,
+ 'pipeline': None,
+ 'process_args_manual': <bound method CommonArgs.process_args_manual of CommonArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)>,
+ 'pytest': None,
+ 'random_expl': False,
+ 'random_seed': 2,
+ 'samplingtype': 'deconfounded',
+ 'save_metrics': False,
+ 'save_tag': None,
+ 'seeds': '1/2/3/4/5',
+ 'task': 'test',
+ 'tensorboard_logdir': None,
+ 'test_ckpt': None,
+ 'train': TrainArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)}
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Fri May  3 10:53:28 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODSST2
+[0m[1;34mDEBUG[0m: 05/03/2024 10:53:29 AM : [1mDataset: {'train': GOODSST2(24744), 'id_val': GOODSST2(5301), 'id_test': GOODSST2(5301), 'val': GOODSST2(17206), 'test': GOODSST2(17490), 'task': 'Binary classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 05/03/2024 10:53:29 AM : [1m Data(x=[6, 768], edge_index=[2, 10], y=[1, 1], idx=[1], sentence_tokens=[6], length=[1], domain_id=[1], env_id=[1])
+[0mData(x=[3, 768], edge_index=[2, 4], y=[1, 1], idx=[1], sentence_tokens=[3], length=[1], domain_id=[1], env_id=[1])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/03/2024 10:53:29 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:53:29 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:53:29 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:53:29 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:53:29 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:53:29 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:53:29 AM : [1mUsing no mitigation (None)
+[0mUsing feature sampling := feat
+self.EF = 0.01
+mitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:53:29 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:53:29 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:53:29 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:53:29 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:53:29 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:53:29 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:53:29 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:53:29 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:53:29 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:53:29 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:53:29 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:53:29 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:53:29 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:53:29 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:53:29 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:53:29 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:53:29 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:53:29 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:53:29 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:53:29 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:53:29 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:53:29 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:53:29 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:53:29 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:53:29 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:53:29 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:53:29 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:53:29 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:53:29 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 128...
+[0m[1;37mINFO[0m: [1mCheckpoint 128: 
+-----------------------------------
+Train ACCURACY: 0.9994
+Train Loss: 0.0038
+ID Validation ACCURACY: 0.9200
+ID Validation Loss: 0.3551
+ID Test ACCURACY: 0.9093
+ID Test Loss: 0.4267
+OOD Validation ACCURACY: 0.8753
+OOD Validation Loss: 0.3988
+OOD Test ACCURACY: 0.7891
+OOD Test Loss: 0.6170
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 196...
+[0m[1;37mINFO[0m: [1mCheckpoint 196: 
+-----------------------------------
+Train ACCURACY: 1.0000
+Train Loss: 0.0004
+ID Validation ACCURACY: 0.9191
+ID Validation Loss: 0.4356
+ID Test ACCURACY: 0.9140
+ID Test Loss: 0.4797
+OOD Validation ACCURACY: 0.8836
+OOD Validation Loss: 0.4121
+OOD Test ACCURACY: 0.8148
+OOD Test Loss: 0.5531
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9093 0.7891 0.9140 0.8148 0.9191 0.8836[0m/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. The data of the dataset is already cached, so any modifications to `data` will not be reflected when accessing its elements. Clearing the cache now by removing all elements in `dataset._data_list`. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+Train ACCURACY: 0.9994Train Loss: 0.0038
+Id_val ACCURACY: 0.9200Id_val Loss: 0.3551
+Id_test ACCURACY: 0.9093Id_test Loss: 0.4267
+Val ACCURACY: 0.8753Val Loss: 0.3988
+Test ACCURACY: 0.7891Test Loss: 0.6170
+
+
+#D#Running with seed = 3
+304 3
+{'acc_givenR': False,
+ 'argv': None,
+ 'average_edge_attn': 'mean',
+ 'ckpt_dir': None,
+ 'ckpt_root': None,
+ 'clean_save': None,
+ 'config_path': '/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/configs/final_configs/GOODSST2/length/covariate/LECI.yaml',
+ 'dataset': DatasetArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'debias': False,
+ 'device': None,
+ 'exp_round': 3,
+ 'expval_budget': None,
+ 'feat_int_alpha': None,
+ 'fidelity_alpha_2': None,
+ 'gpu_idx': 1,
+ 'id_test_ckpt': None,
+ 'intervention_distrib': 'model_dependent',
+ 'log_file': None,
+ 'log_id': '',
+ 'log_path': None,
+ 'mask': False,
+ 'metric': None,
+ 'metrics': '',
+ 'mitigation_backbone': None,
+ 'mitigation_expl_scores': 'default',
+ 'mitigation_expl_scores_topk': -1,
+ 'mitigation_readout': None,
+ 'mitigation_sampling': 'feat',
+ 'mitigation_virtual': None,
+ 'model': ModelArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'nec_alpha_1': None,
+ 'nec_marg_alpha': True,
+ 'nec_number_samples': 'prop_G_dataset',
+ 'num_workers': 2,
+ 'numsamples_budget': None,
+ 'ood': OODArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'other_saved': None,
+ 'pipeline': None,
+ 'process_args_manual': <bound method CommonArgs.process_args_manual of CommonArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)>,
+ 'pytest': None,
+ 'random_expl': False,
+ 'random_seed': 3,
+ 'samplingtype': 'deconfounded',
+ 'save_metrics': False,
+ 'save_tag': None,
+ 'seeds': '1/2/3/4/5',
+ 'task': 'test',
+ 'tensorboard_logdir': None,
+ 'test_ckpt': None,
+ 'train': TrainArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)}
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Fri May  3 10:54:01 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODSST2
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:02 AM : [1mDataset: {'train': GOODSST2(24744), 'id_val': GOODSST2(5301), 'id_test': GOODSST2(5301), 'val': GOODSST2(17206), 'test': GOODSST2(17490), 'task': 'Binary classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:02 AM : [1m Data(x=[6, 768], edge_index=[2, 10], y=[1, 1], idx=[1], sentence_tokens=[6], length=[1], domain_id=[1], env_id=[1])
+[0mData(x=[3, 768], edge_index=[2, 4], y=[1, 1], idx=[1], sentence_tokens=[3], length=[1], domain_id=[1], env_id=[1])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:02 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:54:02 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:02 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:02 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:02 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:02 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:02 AM : [1mUsing no mitigation (None)
+[0mUsing feature sampling := feat
+self.EF = 0.01
+mitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:54:02 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:54:02 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:02 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:02 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:02 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:02 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:02 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:02 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:54:02 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:02 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:02 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:02 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:02 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:02 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:02 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:54:02 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:02 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:02 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:02 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:02 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:02 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:02 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:54:02 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:02 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:02 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:02 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:02 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:02 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:02 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 164...
+[0m[1;37mINFO[0m: [1mCheckpoint 164: 
+-----------------------------------
+Train ACCURACY: 0.9998
+Train Loss: 0.0007
+ID Validation ACCURACY: 0.9172
+ID Validation Loss: 0.4352
+ID Test ACCURACY: 0.9164
+ID Test Loss: 0.4480
+OOD Validation ACCURACY: 0.8825
+OOD Validation Loss: 0.4191
+OOD Test ACCURACY: 0.8136
+OOD Test Loss: 0.5985
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 179...
+[0m[1;37mINFO[0m: [1mCheckpoint 179: 
+-----------------------------------
+Train ACCURACY: 0.9999
+Train Loss: 0.0007
+ID Validation ACCURACY: 0.9161
+ID Validation Loss: 0.4185
+ID Test ACCURACY: 0.9178
+ID Test Loss: 0.4294
+OOD Validation ACCURACY: 0.8842
+OOD Validation Loss: 0.3814
+OOD Test ACCURACY: 0.8224
+OOD Test Loss: 0.5053
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9164 0.8136 0.9178 0.8224 0.9161 0.8842[0m/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. The data of the dataset is already cached, so any modifications to `data` will not be reflected when accessing its elements. Clearing the cache now by removing all elements in `dataset._data_list`. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+Train ACCURACY: 0.9998Train Loss: 0.0007
+Id_val ACCURACY: 0.9172Id_val Loss: 0.4352
+Id_test ACCURACY: 0.9164Id_test Loss: 0.4480
+Val ACCURACY: 0.8825Val Loss: 0.4191
+Test ACCURACY: 0.8136Test Loss: 0.5985
+
+
+#D#Running with seed = 4
+401 4
+{'acc_givenR': False,
+ 'argv': None,
+ 'average_edge_attn': 'mean',
+ 'ckpt_dir': None,
+ 'ckpt_root': None,
+ 'clean_save': None,
+ 'config_path': '/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/configs/final_configs/GOODSST2/length/covariate/LECI.yaml',
+ 'dataset': DatasetArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'debias': False,
+ 'device': None,
+ 'exp_round': 4,
+ 'expval_budget': None,
+ 'feat_int_alpha': None,
+ 'fidelity_alpha_2': None,
+ 'gpu_idx': 1,
+ 'id_test_ckpt': None,
+ 'intervention_distrib': 'model_dependent',
+ 'log_file': None,
+ 'log_id': '',
+ 'log_path': None,
+ 'mask': False,
+ 'metric': None,
+ 'metrics': '',
+ 'mitigation_backbone': None,
+ 'mitigation_expl_scores': 'default',
+ 'mitigation_expl_scores_topk': -1,
+ 'mitigation_readout': None,
+ 'mitigation_sampling': 'feat',
+ 'mitigation_virtual': None,
+ 'model': ModelArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'nec_alpha_1': None,
+ 'nec_marg_alpha': True,
+ 'nec_number_samples': 'prop_G_dataset',
+ 'num_workers': 2,
+ 'numsamples_budget': None,
+ 'ood': OODArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'other_saved': None,
+ 'pipeline': None,
+ 'process_args_manual': <bound method CommonArgs.process_args_manual of CommonArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)>,
+ 'pytest': None,
+ 'random_expl': False,
+ 'random_seed': 4,
+ 'samplingtype': 'deconfounded',
+ 'save_metrics': False,
+ 'save_tag': None,
+ 'seeds': '1/2/3/4/5',
+ 'task': 'test',
+ 'tensorboard_logdir': None,
+ 'test_ckpt': None,
+ 'train': TrainArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)}
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Fri May  3 10:54:34 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODSST2
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:36 AM : [1mDataset: {'train': GOODSST2(24744), 'id_val': GOODSST2(5301), 'id_test': GOODSST2(5301), 'val': GOODSST2(17206), 'test': GOODSST2(17490), 'task': 'Binary classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:36 AM : [1m Data(x=[6, 768], edge_index=[2, 10], y=[1, 1], idx=[1], sentence_tokens=[6], length=[1], domain_id=[1], env_id=[1])
+[0mData(x=[3, 768], edge_index=[2, 4], y=[1, 1], idx=[1], sentence_tokens=[3], length=[1], domain_id=[1], env_id=[1])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:36 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:54:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:36 AM : [1mUsing no mitigation (None)
+[0mUsing feature sampling := feat
+self.EF = 0.01
+mitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:54:36 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:54:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:36 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:54:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:36 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:54:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:36 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:54:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:54:36 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 99...
+[0m[1;37mINFO[0m: [1mCheckpoint 99: 
+-----------------------------------
+Train ACCURACY: 0.9987
+Train Loss: 0.0071
+ID Validation ACCURACY: 0.9149
+ID Validation Loss: 0.3353
+ID Test ACCURACY: 0.9098
+ID Test Loss: 0.3559
+OOD Validation ACCURACY: 0.8657
+OOD Validation Loss: 0.3762
+OOD Test ACCURACY: 0.7989
+OOD Test Loss: 0.5418
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 115...
+[0m[1;37mINFO[0m: [1mCheckpoint 115: 
+-----------------------------------
+Train ACCURACY: 0.9994
+Train Loss: 0.0052
+ID Validation ACCURACY: 0.9110
+ID Validation Loss: 0.3513
+ID Test ACCURACY: 0.9119
+ID Test Loss: 0.3779
+OOD Validation ACCURACY: 0.8795
+OOD Validation Loss: 0.3487
+OOD Test ACCURACY: 0.8314
+OOD Test Loss: 0.4254
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9098 0.7989 0.9119 0.8314 0.9110 0.8795[0m/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. The data of the dataset is already cached, so any modifications to `data` will not be reflected when accessing its elements. Clearing the cache now by removing all elements in `dataset._data_list`. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+Train ACCURACY: 0.9987Train Loss: 0.0071
+Id_val ACCURACY: 0.9149Id_val Loss: 0.3353
+Id_test ACCURACY: 0.9098Id_test Loss: 0.3559
+Val ACCURACY: 0.8657Val Loss: 0.3762
+Test ACCURACY: 0.7989Test Loss: 0.5418
+
+
+#D#Running with seed = 5
+498 5
+{'acc_givenR': False,
+ 'argv': None,
+ 'average_edge_attn': 'mean',
+ 'ckpt_dir': None,
+ 'ckpt_root': None,
+ 'clean_save': None,
+ 'config_path': '/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/configs/final_configs/GOODSST2/length/covariate/LECI.yaml',
+ 'dataset': DatasetArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'debias': False,
+ 'device': None,
+ 'exp_round': 5,
+ 'expval_budget': None,
+ 'feat_int_alpha': None,
+ 'fidelity_alpha_2': None,
+ 'gpu_idx': 1,
+ 'id_test_ckpt': None,
+ 'intervention_distrib': 'model_dependent',
+ 'log_file': None,
+ 'log_id': '',
+ 'log_path': None,
+ 'mask': False,
+ 'metric': None,
+ 'metrics': '',
+ 'mitigation_backbone': None,
+ 'mitigation_expl_scores': 'default',
+ 'mitigation_expl_scores_topk': -1,
+ 'mitigation_readout': None,
+ 'mitigation_sampling': 'feat',
+ 'mitigation_virtual': None,
+ 'model': ModelArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'nec_alpha_1': None,
+ 'nec_marg_alpha': True,
+ 'nec_number_samples': 'prop_G_dataset',
+ 'num_workers': 2,
+ 'numsamples_budget': None,
+ 'ood': OODArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'other_saved': None,
+ 'pipeline': None,
+ 'process_args_manual': <bound method CommonArgs.process_args_manual of CommonArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)>,
+ 'pytest': None,
+ 'random_expl': False,
+ 'random_seed': 5,
+ 'samplingtype': 'deconfounded',
+ 'save_metrics': False,
+ 'save_tag': None,
+ 'seeds': '1/2/3/4/5',
+ 'task': 'test',
+ 'tensorboard_logdir': None,
+ 'test_ckpt': None,
+ 'train': TrainArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)}
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Fri May  3 10:55:05 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODSST2
+[0m[1;34mDEBUG[0m: 05/03/2024 10:55:07 AM : [1mDataset: {'train': GOODSST2(24744), 'id_val': GOODSST2(5301), 'id_test': GOODSST2(5301), 'val': GOODSST2(17206), 'test': GOODSST2(17490), 'task': 'Binary classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 05/03/2024 10:55:07 AM : [1m Data(x=[6, 768], edge_index=[2, 10], y=[1, 1], idx=[1], sentence_tokens=[6], length=[1], domain_id=[1], env_id=[1])
+[0mData(x=[3, 768], edge_index=[2, 4], y=[1, 1], idx=[1], sentence_tokens=[3], length=[1], domain_id=[1], env_id=[1])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/03/2024 10:55:07 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:55:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:55:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:55:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:55:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:55:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:55:07 AM : [1mUsing no mitigation (None)
+[0mUsing feature sampling := feat
+self.EF = 0.01
+mitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:55:07 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:55:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:55:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:55:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:55:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:55:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:55:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:55:07 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:55:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:55:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:55:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:55:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:55:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:55:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:55:07 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:55:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:55:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:55:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:55:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:55:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:55:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:55:07 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:55:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:55:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:55:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:55:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:55:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:55:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/03/2024 10:55:07 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 192...
+[0m[1;37mINFO[0m: [1mCheckpoint 192: 
+-----------------------------------
+Train ACCURACY: 1.0000
+Train Loss: 0.0005
+ID Validation ACCURACY: 0.9153
+ID Validation Loss: 0.4322
+ID Test ACCURACY: 0.9144
+ID Test Loss: 0.5002
+OOD Validation ACCURACY: 0.8788
+OOD Validation Loss: 0.4087
+OOD Test ACCURACY: 0.8256
+OOD Test Loss: 0.4929
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 137...
+[0m[1;37mINFO[0m: [1mCheckpoint 137: 
+-----------------------------------
+Train ACCURACY: 0.9997
+Train Loss: 0.0030
+ID Validation ACCURACY: 0.9117
+ID Validation Loss: 0.3966
+ID Test ACCURACY: 0.9117
+ID Test Loss: 0.4474
+OOD Validation ACCURACY: 0.8814
+OOD Validation Loss: 0.3906
+OOD Test ACCURACY: 0.8333
+OOD Test Loss: 0.4454
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9144 0.8256 0.9117 0.8333 0.9117 0.8814[0m/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. The data of the dataset is already cached, so any modifications to `data` will not be reflected when accessing its elements. Clearing the cache now by removing all elements in `dataset._data_list`. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+Train ACCURACY: 1.0000Train Loss: 0.0005
+Id_val ACCURACY: 0.9153Id_val Loss: 0.4322
+Id_test ACCURACY: 0.9144Id_test Loss: 0.5002
+Val ACCURACY: 0.8788Val Loss: 0.4087
+Test ACCURACY: 0.8256Test Loss: 0.4929
+
+
+Final accuracies: 
+TRAIN      = 1.000 +- 0.000
+ID_VAL     = 0.917 +- 0.002
+ID_TEST    = 0.913 +- 0.003
+VAL        = 0.876 +- 0.006
+TEST       = 0.806 +- 0.013
+
+Final losses: 
+TRAIN      = 0.0028 +- 0.0025
+ID_VAL     = 0.3792 +- 0.0451
+ID_TEST    = 0.4212 +- 0.0517
+VAL        = 0.3942 +- 0.0193
+TEST       = 0.5577 +- 0.0447
+Diff id_val-test  = 0.1785 
+DONE TRAIN LECI GOODSST2/length
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Fri May  3 10:56:07 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODHIV
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:07 AM : [1mDataset: {'train': GOODHIV(24682), 'id_val': GOODHIV(4112), 'id_test': GOODHIV(4112), 'val': GOODHIV(4113), 'test': GOODHIV(4108), 'task': 'Binary classification', 'metric': 'ROC-AUC'}
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:07 AM : [1m Data(x=[21, 9], edge_index=[2, 46], edge_attr=[46, 3], y=[1, 1], smiles='CC1CCCN2C(=O)CN(Cc3ccccc3)CC(=O)N12', idx=[1], scaffold='O=C1CN(Cc2ccccc2)CC(=O)N2CCCCN12', domain_id=[1], env_id=[1])
+[0mData(x=[14, 9], edge_index=[2, 30], edge_attr=[30, 3], y=[1, 1], smiles='O=C1CSc2cc([N+](=O)[O-])ccc2N1', idx=[1], scaffold='O=C1CSc2ccccc2N1', domain_id=[1], env_id=[1])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:07 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:56:07 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:07 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:07 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:07 AM : [1mUsing the fixed _explain_ functionality
+[0mUsing feature sampling := feat
+self.EF = 0.1
+mitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:56:07 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:56:07 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:07 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:07 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:07 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:56:07 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:07 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:07 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:07 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:56:07 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:07 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:07 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:07 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:56:07 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:07 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:07 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:07 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 76...
+[0m[1;37mINFO[0m: [1mCheckpoint 76: 
+-----------------------------------
+Train ROC-AUC: 0.9112
+Train Loss: 0.0959
+ID Validation ROC-AUC: 0.8397
+ID Validation Loss: 0.1242
+ID Test ROC-AUC: 0.8258
+ID Test Loss: 0.1074
+OOD Validation ROC-AUC: 0.7708
+OOD Validation Loss: 0.1306
+OOD Test ROC-AUC: 0.7085
+OOD Test Loss: 0.0951
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 98...
+[0m[1;37mINFO[0m: [1mCheckpoint 98: 
+-----------------------------------
+Train ROC-AUC: 0.9185
+Train Loss: 0.0931
+ID Validation ROC-AUC: 0.8219
+ID Validation Loss: 0.1302
+ID Test ROC-AUC: 0.8142
+ID Test Loss: 0.1157
+OOD Validation ROC-AUC: 0.7943
+OOD Validation Loss: 0.1353
+OOD Test ROC-AUC: 0.7235
+OOD Test Loss: 0.1040
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.8258 0.7085 0.8142 0.7235 0.8219 0.7943[0mTrain ROC-AUC: 0.9112Train Loss: 0.0959
+Id_val ROC-AUC: 0.8397Id_val Loss: 0.1242
+Id_test ROC-AUC: 0.8258Id_test Loss: 0.1074
+Val ROC-AUC: 0.7708Val Loss: 0.1306
+Test ROC-AUC: 0.7085Test Loss: 0.0951
+
+
+#D#Running with seed = 2
+207 2
+{'acc_givenR': False,
+ 'argv': None,
+ 'average_edge_attn': 'mean',
+ 'ckpt_dir': None,
+ 'ckpt_root': None,
+ 'clean_save': None,
+ 'config_path': '/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/configs/final_configs/GOODHIV/scaffold/covariate/LECI.yaml',
+ 'dataset': DatasetArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'debias': False,
+ 'device': None,
+ 'exp_round': 2,
+ 'expval_budget': None,
+ 'feat_int_alpha': None,
+ 'fidelity_alpha_2': None,
+ 'gpu_idx': 1,
+ 'id_test_ckpt': None,
+ 'intervention_distrib': 'model_dependent',
+ 'log_file': None,
+ 'log_id': '',
+ 'log_path': None,
+ 'mask': False,
+ 'metric': None,
+ 'metrics': '',
+ 'mitigation_backbone': None,
+ 'mitigation_expl_scores': 'default',
+ 'mitigation_expl_scores_topk': -1,
+ 'mitigation_readout': None,
+ 'mitigation_sampling': 'feat',
+ 'mitigation_virtual': None,
+ 'model': ModelArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'nec_alpha_1': None,
+ 'nec_marg_alpha': True,
+ 'nec_number_samples': 'prop_G_dataset',
+ 'num_workers': 2,
+ 'numsamples_budget': None,
+ 'ood': OODArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'other_saved': None,
+ 'pipeline': None,
+ 'process_args_manual': <bound method CommonArgs.process_args_manual of CommonArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)>,
+ 'pytest': None,
+ 'random_expl': False,
+ 'random_seed': 2,
+ 'samplingtype': 'deconfounded',
+ 'save_metrics': False,
+ 'save_tag': None,
+ 'seeds': '1/2/3/4/5',
+ 'task': 'test',
+ 'tensorboard_logdir': None,
+ 'test_ckpt': None,
+ 'train': TrainArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)}
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Fri May  3 10:56:38 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODHIV
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:38 AM : [1mDataset: {'train': GOODHIV(24682), 'id_val': GOODHIV(4112), 'id_test': GOODHIV(4112), 'val': GOODHIV(4113), 'test': GOODHIV(4108), 'task': 'Binary classification', 'metric': 'ROC-AUC'}
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:38 AM : [1m Data(x=[21, 9], edge_index=[2, 46], edge_attr=[46, 3], y=[1, 1], smiles='CC1CCCN2C(=O)CN(Cc3ccccc3)CC(=O)N12', idx=[1], scaffold='O=C1CN(Cc2ccccc2)CC(=O)N2CCCCN12', domain_id=[1], env_id=[1])
+[0mData(x=[14, 9], edge_index=[2, 30], edge_attr=[30, 3], y=[1, 1], smiles='O=C1CSc2cc([N+](=O)[O-])ccc2N1', idx=[1], scaffold='O=C1CSc2ccccc2N1', domain_id=[1], env_id=[1])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:38 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:56:38 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:38 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:38 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:38 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:38 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:38 AM : [1mUsing the fixed _explain_ functionality
+[0mUsing feature sampling := feat
+self.EF = 0.1
+mitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:56:38 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:56:38 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:38 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:38 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:38 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:38 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:38 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:38 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:56:38 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:38 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:38 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:38 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:38 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:38 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:38 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:56:38 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:38 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:38 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:38 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:38 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:38 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:38 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:56:38 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:38 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:38 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:38 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:38 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:38 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:56:38 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 113...
+[0m[1;37mINFO[0m: [1mCheckpoint 113: 
+-----------------------------------
+Train ROC-AUC: 0.9328
+Train Loss: 0.0878
+ID Validation ROC-AUC: 0.8349
+ID Validation Loss: 0.1306
+ID Test ROC-AUC: 0.8310
+ID Test Loss: 0.1169
+OOD Validation ROC-AUC: 0.7716
+OOD Validation Loss: 0.1561
+OOD Test ROC-AUC: 0.6985
+OOD Test Loss: 0.1126
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 140...
+[0m[1;37mINFO[0m: [1mCheckpoint 140: 
+-----------------------------------
+Train ROC-AUC: 0.9441
+Train Loss: 0.0829
+ID Validation ROC-AUC: 0.8160
+ID Validation Loss: 0.1352
+ID Test ROC-AUC: 0.8261
+ID Test Loss: 0.1154
+OOD Validation ROC-AUC: 0.7909
+OOD Validation Loss: 0.1575
+OOD Test ROC-AUC: 0.7194
+OOD Test Loss: 0.1152
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.8310 0.6985 0.8261 0.7194 0.8160 0.7909[0mTrain ROC-AUC: 0.9328Train Loss: 0.0878
+Id_val ROC-AUC: 0.8349Id_val Loss: 0.1306
+Id_test ROC-AUC: 0.8310Id_test Loss: 0.1169
+Val ROC-AUC: 0.7716Val Loss: 0.1561
+Test ROC-AUC: 0.6985Test Loss: 0.1126
+
+
+#D#Running with seed = 3
+304 3
+{'acc_givenR': False,
+ 'argv': None,
+ 'average_edge_attn': 'mean',
+ 'ckpt_dir': None,
+ 'ckpt_root': None,
+ 'clean_save': None,
+ 'config_path': '/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/configs/final_configs/GOODHIV/scaffold/covariate/LECI.yaml',
+ 'dataset': DatasetArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'debias': False,
+ 'device': None,
+ 'exp_round': 3,
+ 'expval_budget': None,
+ 'feat_int_alpha': None,
+ 'fidelity_alpha_2': None,
+ 'gpu_idx': 1,
+ 'id_test_ckpt': None,
+ 'intervention_distrib': 'model_dependent',
+ 'log_file': None,
+ 'log_id': '',
+ 'log_path': None,
+ 'mask': False,
+ 'metric': None,
+ 'metrics': '',
+ 'mitigation_backbone': None,
+ 'mitigation_expl_scores': 'default',
+ 'mitigation_expl_scores_topk': -1,
+ 'mitigation_readout': None,
+ 'mitigation_sampling': 'feat',
+ 'mitigation_virtual': None,
+ 'model': ModelArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'nec_alpha_1': None,
+ 'nec_marg_alpha': True,
+ 'nec_number_samples': 'prop_G_dataset',
+ 'num_workers': 2,
+ 'numsamples_budget': None,
+ 'ood': OODArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'other_saved': None,
+ 'pipeline': None,
+ 'process_args_manual': <bound method CommonArgs.process_args_manual of CommonArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)>,
+ 'pytest': None,
+ 'random_expl': False,
+ 'random_seed': 3,
+ 'samplingtype': 'deconfounded',
+ 'save_metrics': False,
+ 'save_tag': None,
+ 'seeds': '1/2/3/4/5',
+ 'task': 'test',
+ 'tensorboard_logdir': None,
+ 'test_ckpt': None,
+ 'train': TrainArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)}
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Fri May  3 10:57:09 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODHIV
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:09 AM : [1mDataset: {'train': GOODHIV(24682), 'id_val': GOODHIV(4112), 'id_test': GOODHIV(4112), 'val': GOODHIV(4113), 'test': GOODHIV(4108), 'task': 'Binary classification', 'metric': 'ROC-AUC'}
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:09 AM : [1m Data(x=[21, 9], edge_index=[2, 46], edge_attr=[46, 3], y=[1, 1], smiles='CC1CCCN2C(=O)CN(Cc3ccccc3)CC(=O)N12', idx=[1], scaffold='O=C1CN(Cc2ccccc2)CC(=O)N2CCCCN12', domain_id=[1], env_id=[1])
+[0mData(x=[14, 9], edge_index=[2, 30], edge_attr=[30, 3], y=[1, 1], smiles='O=C1CSc2cc([N+](=O)[O-])ccc2N1', idx=[1], scaffold='O=C1CSc2ccccc2N1', domain_id=[1], env_id=[1])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:09 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:57:09 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:09 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:09 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:09 AM : [1mUsing the fixed _explain_ functionality
+[0mUsing feature sampling := feat
+self.EF = 0.1
+mitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:57:09 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:57:09 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:09 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:09 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:09 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:57:09 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:09 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:09 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:09 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:57:09 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:09 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:09 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:09 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:57:09 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:09 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:09 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:09 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 60...
+[0m[1;37mINFO[0m: [1mCheckpoint 60: 
+-----------------------------------
+Train ROC-AUC: 0.8914
+Train Loss: 0.1030
+ID Validation ROC-AUC: 0.8333
+ID Validation Loss: 0.1268
+ID Test ROC-AUC: 0.8162
+ID Test Loss: 0.1118
+OOD Validation ROC-AUC: 0.7585
+OOD Validation Loss: 0.1609
+OOD Test ROC-AUC: 0.7069
+OOD Test Loss: 0.1103
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 78...
+[0m[1;37mINFO[0m: [1mCheckpoint 78: 
+-----------------------------------
+Train ROC-AUC: 0.9091
+Train Loss: 0.0967
+ID Validation ROC-AUC: 0.8144
+ID Validation Loss: 0.1288
+ID Test ROC-AUC: 0.8068
+ID Test Loss: 0.1150
+OOD Validation ROC-AUC: 0.7991
+OOD Validation Loss: 0.1289
+OOD Test ROC-AUC: 0.7176
+OOD Test Loss: 0.1091
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.8162 0.7069 0.8068 0.7176 0.8144 0.7991[0mTrain ROC-AUC: 0.8914Train Loss: 0.1030
+Id_val ROC-AUC: 0.8333Id_val Loss: 0.1268
+Id_test ROC-AUC: 0.8162Id_test Loss: 0.1118
+Val ROC-AUC: 0.7585Val Loss: 0.1609
+Test ROC-AUC: 0.7069Test Loss: 0.1103
+
+
+#D#Running with seed = 4
+401 4
+{'acc_givenR': False,
+ 'argv': None,
+ 'average_edge_attn': 'mean',
+ 'ckpt_dir': None,
+ 'ckpt_root': None,
+ 'clean_save': None,
+ 'config_path': '/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/configs/final_configs/GOODHIV/scaffold/covariate/LECI.yaml',
+ 'dataset': DatasetArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'debias': False,
+ 'device': None,
+ 'exp_round': 4,
+ 'expval_budget': None,
+ 'feat_int_alpha': None,
+ 'fidelity_alpha_2': None,
+ 'gpu_idx': 1,
+ 'id_test_ckpt': None,
+ 'intervention_distrib': 'model_dependent',
+ 'log_file': None,
+ 'log_id': '',
+ 'log_path': None,
+ 'mask': False,
+ 'metric': None,
+ 'metrics': '',
+ 'mitigation_backbone': None,
+ 'mitigation_expl_scores': 'default',
+ 'mitigation_expl_scores_topk': -1,
+ 'mitigation_readout': None,
+ 'mitigation_sampling': 'feat',
+ 'mitigation_virtual': None,
+ 'model': ModelArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'nec_alpha_1': None,
+ 'nec_marg_alpha': True,
+ 'nec_number_samples': 'prop_G_dataset',
+ 'num_workers': 2,
+ 'numsamples_budget': None,
+ 'ood': OODArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'other_saved': None,
+ 'pipeline': None,
+ 'process_args_manual': <bound method CommonArgs.process_args_manual of CommonArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)>,
+ 'pytest': None,
+ 'random_expl': False,
+ 'random_seed': 4,
+ 'samplingtype': 'deconfounded',
+ 'save_metrics': False,
+ 'save_tag': None,
+ 'seeds': '1/2/3/4/5',
+ 'task': 'test',
+ 'tensorboard_logdir': None,
+ 'test_ckpt': None,
+ 'train': TrainArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)}
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Fri May  3 10:57:43 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODHIV
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:43 AM : [1mDataset: {'train': GOODHIV(24682), 'id_val': GOODHIV(4112), 'id_test': GOODHIV(4112), 'val': GOODHIV(4113), 'test': GOODHIV(4108), 'task': 'Binary classification', 'metric': 'ROC-AUC'}
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:43 AM : [1m Data(x=[21, 9], edge_index=[2, 46], edge_attr=[46, 3], y=[1, 1], smiles='CC1CCCN2C(=O)CN(Cc3ccccc3)CC(=O)N12', idx=[1], scaffold='O=C1CN(Cc2ccccc2)CC(=O)N2CCCCN12', domain_id=[1], env_id=[1])
+[0mData(x=[14, 9], edge_index=[2, 30], edge_attr=[30, 3], y=[1, 1], smiles='O=C1CSc2cc([N+](=O)[O-])ccc2N1', idx=[1], scaffold='O=C1CSc2ccccc2N1', domain_id=[1], env_id=[1])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:43 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:57:43 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:43 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:43 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:43 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:43 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:43 AM : [1mUsing the fixed _explain_ functionality
+[0mUsing feature sampling := feat
+self.EF = 0.1
+mitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:57:43 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:57:43 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:43 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:43 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:43 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:43 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:43 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:43 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:57:43 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:43 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:43 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:43 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:43 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:43 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:43 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:57:43 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:43 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:43 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:43 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:43 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:43 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:43 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:57:43 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:43 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:43 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:43 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:43 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:43 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:57:43 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 147...
+[0m[1;37mINFO[0m: [1mCheckpoint 147: 
+-----------------------------------
+Train ROC-AUC: 0.9460
+Train Loss: 0.0798
+ID Validation ROC-AUC: 0.8348
+ID Validation Loss: 0.1236
+ID Test ROC-AUC: 0.8277
+ID Test Loss: 0.1100
+OOD Validation ROC-AUC: 0.7600
+OOD Validation Loss: 0.1336
+OOD Test ROC-AUC: 0.6881
+OOD Test Loss: 0.1033
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 134...
+[0m[1;37mINFO[0m: [1mCheckpoint 134: 
+-----------------------------------
+Train ROC-AUC: 0.9382
+Train Loss: 0.0885
+ID Validation ROC-AUC: 0.8110
+ID Validation Loss: 0.1374
+ID Test ROC-AUC: 0.8157
+ID Test Loss: 0.1247
+OOD Validation ROC-AUC: 0.7896
+OOD Validation Loss: 0.1525
+OOD Test ROC-AUC: 0.6915
+OOD Test Loss: 0.1147
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.8277 0.6881 0.8157 0.6915 0.8110 0.7896[0mTrain ROC-AUC: 0.9460Train Loss: 0.0798
+Id_val ROC-AUC: 0.8348Id_val Loss: 0.1236
+Id_test ROC-AUC: 0.8277Id_test Loss: 0.1100
+Val ROC-AUC: 0.7600Val Loss: 0.1336
+Test ROC-AUC: 0.6881Test Loss: 0.1033
+
+
+#D#Running with seed = 5
+498 5
+{'acc_givenR': False,
+ 'argv': None,
+ 'average_edge_attn': 'mean',
+ 'ckpt_dir': None,
+ 'ckpt_root': None,
+ 'clean_save': None,
+ 'config_path': '/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/configs/final_configs/GOODHIV/scaffold/covariate/LECI.yaml',
+ 'dataset': DatasetArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'debias': False,
+ 'device': None,
+ 'exp_round': 5,
+ 'expval_budget': None,
+ 'feat_int_alpha': None,
+ 'fidelity_alpha_2': None,
+ 'gpu_idx': 1,
+ 'id_test_ckpt': None,
+ 'intervention_distrib': 'model_dependent',
+ 'log_file': None,
+ 'log_id': '',
+ 'log_path': None,
+ 'mask': False,
+ 'metric': None,
+ 'metrics': '',
+ 'mitigation_backbone': None,
+ 'mitigation_expl_scores': 'default',
+ 'mitigation_expl_scores_topk': -1,
+ 'mitigation_readout': None,
+ 'mitigation_sampling': 'feat',
+ 'mitigation_virtual': None,
+ 'model': ModelArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'nec_alpha_1': None,
+ 'nec_marg_alpha': True,
+ 'nec_number_samples': 'prop_G_dataset',
+ 'num_workers': 2,
+ 'numsamples_budget': None,
+ 'ood': OODArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'other_saved': None,
+ 'pipeline': None,
+ 'process_args_manual': <bound method CommonArgs.process_args_manual of CommonArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)>,
+ 'pytest': None,
+ 'random_expl': False,
+ 'random_seed': 5,
+ 'samplingtype': 'deconfounded',
+ 'save_metrics': False,
+ 'save_tag': None,
+ 'seeds': '1/2/3/4/5',
+ 'task': 'test',
+ 'tensorboard_logdir': None,
+ 'test_ckpt': None,
+ 'train': TrainArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)}
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Fri May  3 10:58:14 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODHIV
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:14 AM : [1mDataset: {'train': GOODHIV(24682), 'id_val': GOODHIV(4112), 'id_test': GOODHIV(4112), 'val': GOODHIV(4113), 'test': GOODHIV(4108), 'task': 'Binary classification', 'metric': 'ROC-AUC'}
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:14 AM : [1m Data(x=[21, 9], edge_index=[2, 46], edge_attr=[46, 3], y=[1, 1], smiles='CC1CCCN2C(=O)CN(Cc3ccccc3)CC(=O)N12', idx=[1], scaffold='O=C1CN(Cc2ccccc2)CC(=O)N2CCCCN12', domain_id=[1], env_id=[1])
+[0mData(x=[14, 9], edge_index=[2, 30], edge_attr=[30, 3], y=[1, 1], smiles='O=C1CSc2cc([N+](=O)[O-])ccc2N1', idx=[1], scaffold='O=C1CSc2ccccc2N1', domain_id=[1], env_id=[1])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:14 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:58:14 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:14 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:14 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:14 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:14 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:14 AM : [1mUsing the fixed _explain_ functionality
+[0mUsing feature sampling := feat
+self.EF = 0.1
+mitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:58:14 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:58:14 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:14 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:14 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:14 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:14 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:14 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:14 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:58:14 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:14 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:14 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:14 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:14 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:14 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:14 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:58:14 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:14 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:14 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:14 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:14 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:14 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:14 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:58:14 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:14 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:14 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:14 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:14 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:14 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:14 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 95...
+[0m[1;37mINFO[0m: [1mCheckpoint 95: 
+-----------------------------------
+Train ROC-AUC: 0.9270
+Train Loss: 0.0935
+ID Validation ROC-AUC: 0.8352
+ID Validation Loss: 0.1312
+ID Test ROC-AUC: 0.8173
+ID Test Loss: 0.1177
+OOD Validation ROC-AUC: 0.7920
+OOD Validation Loss: 0.1589
+OOD Test ROC-AUC: 0.7147
+OOD Test Loss: 0.1198
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 149...
+[0m[1;37mINFO[0m: [1mCheckpoint 149: 
+-----------------------------------
+Train ROC-AUC: 0.9480
+Train Loss: 0.0810
+ID Validation ROC-AUC: 0.8212
+ID Validation Loss: 0.1352
+ID Test ROC-AUC: 0.8078
+ID Test Loss: 0.1194
+OOD Validation ROC-AUC: 0.7979
+OOD Validation Loss: 0.1581
+OOD Test ROC-AUC: 0.6967
+OOD Test Loss: 0.1179
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.8173 0.7147 0.8078 0.6967 0.8212 0.7979[0mTrain ROC-AUC: 0.9270Train Loss: 0.0935
+Id_val ROC-AUC: 0.8352Id_val Loss: 0.1312
+Id_test ROC-AUC: 0.8173Id_test Loss: 0.1177
+Val ROC-AUC: 0.7920Val Loss: 0.1589
+Test ROC-AUC: 0.7147Test Loss: 0.1198
+
+
+Final accuracies: 
+TRAIN      = 0.922 +- 0.019
+ID_VAL     = 0.836 +- 0.002
+ID_TEST    = 0.824 +- 0.006
+VAL        = 0.771 +- 0.012
+TEST       = 0.703 +- 0.009
+
+Final losses: 
+TRAIN      = 0.0920 +- 0.0078
+ID_VAL     = 0.1273 +- 0.0032
+ID_TEST    = 0.1128 +- 0.0040
+VAL        = 0.1480 +- 0.0131
+TEST       = 0.1082 +- 0.0084
+Diff id_val-test  = 0.0191 
+DONE TRAIN LECI GOODHIV/scaffold
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Fri May  3 10:58:54 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset LBAPcore
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:55 AM : [1mDataset: {'train': LBAPcore(34179), 'id_val': LBAPcore(11314), 'id_test': LBAPcore(11683), 'val': LBAPcore(19028), 'test': LBAPcore(19032), 'task': 'Binary classification', 'metric': 'ROC-AUC'}
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:55 AM : [1m Data(x=[31, 39], edge_index=[2, 68], edge_attr=[68, 10], y=[1, 1], env_id=[1])
+[0mData(x=[30, 39], edge_index=[2, 66], edge_attr=[66, 10], y=[1, 1], env_id=[1])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:55 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:58:55 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:55 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:55 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:55 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:55 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:55 AM : [1mUsing the fixed _explain_ functionality
+[0mUsing feature sampling := feat
+self.EF = 0.1
+mitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:58:55 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:58:55 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:55 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:55 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:55 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:55 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:55 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:55 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:58:55 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:55 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:55 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:55 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:55 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:55 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:55 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:58:55 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:55 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:55 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:55 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:55 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:55 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:55 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:58:55 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:55 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:55 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:55 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:55 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:55 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:58:55 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 167...
+[0m[1;37mINFO[0m: [1mCheckpoint 167: 
+-----------------------------------
+Train ROC-AUC: 0.9683
+Train Loss: 0.1420
+ID Validation ROC-AUC: 0.9217
+ID Validation Loss: 0.2255
+ID Test ROC-AUC: 0.9251
+ID Test Loss: 0.2246
+OOD Validation ROC-AUC: 0.6374
+OOD Validation Loss: 0.4787
+OOD Test ROC-AUC: 0.6853
+OOD Test Loss: 0.5698
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 23...
+[0m[1;37mINFO[0m: [1mCheckpoint 23: 
+-----------------------------------
+Train ROC-AUC: 0.9140
+Train Loss: 0.2226
+ID Validation ROC-AUC: 0.9010
+ID Validation Loss: 0.2385
+ID Test ROC-AUC: 0.9039
+ID Test Loss: 0.2385
+OOD Validation ROC-AUC: 0.6822
+OOD Validation Loss: 0.3129
+OOD Test ROC-AUC: 0.7143
+OOD Test Loss: 0.4523
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9251 0.6853 0.9039 0.7143 0.9010 0.6822[0mTrain ROC-AUC: 0.9683Train Loss: 0.1420
+Id_val ROC-AUC: 0.9217Id_val Loss: 0.2255
+Id_test ROC-AUC: 0.9251Id_test Loss: 0.2246
+Val ROC-AUC: 0.6374Val Loss: 0.4787
+Test ROC-AUC: 0.6853Test Loss: 0.5698
+
+
+#D#Running with seed = 2
+207 2
+{'acc_givenR': False,
+ 'argv': None,
+ 'average_edge_attn': 'mean',
+ 'ckpt_dir': None,
+ 'ckpt_root': None,
+ 'clean_save': None,
+ 'config_path': '/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/configs/final_configs/LBAPcore/assay/covariate/LECI.yaml',
+ 'dataset': DatasetArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'debias': False,
+ 'device': None,
+ 'exp_round': 2,
+ 'expval_budget': None,
+ 'feat_int_alpha': None,
+ 'fidelity_alpha_2': None,
+ 'gpu_idx': 1,
+ 'id_test_ckpt': None,
+ 'intervention_distrib': 'model_dependent',
+ 'log_file': None,
+ 'log_id': '',
+ 'log_path': None,
+ 'mask': False,
+ 'metric': None,
+ 'metrics': '',
+ 'mitigation_backbone': None,
+ 'mitigation_expl_scores': 'default',
+ 'mitigation_expl_scores_topk': -1,
+ 'mitigation_readout': None,
+ 'mitigation_sampling': 'feat',
+ 'mitigation_virtual': None,
+ 'model': ModelArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'nec_alpha_1': None,
+ 'nec_marg_alpha': True,
+ 'nec_number_samples': 'prop_G_dataset',
+ 'num_workers': 2,
+ 'numsamples_budget': None,
+ 'ood': OODArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'other_saved': None,
+ 'pipeline': None,
+ 'process_args_manual': <bound method CommonArgs.process_args_manual of CommonArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)>,
+ 'pytest': None,
+ 'random_expl': False,
+ 'random_seed': 2,
+ 'samplingtype': 'deconfounded',
+ 'save_metrics': False,
+ 'save_tag': None,
+ 'seeds': '1/2/3/4/5',
+ 'task': 'test',
+ 'tensorboard_logdir': None,
+ 'test_ckpt': None,
+ 'train': TrainArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)}
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Fri May  3 10:59:52 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset LBAPcore
+[0m[1;34mDEBUG[0m: 05/03/2024 10:59:53 AM : [1mDataset: {'train': LBAPcore(34179), 'id_val': LBAPcore(11314), 'id_test': LBAPcore(11683), 'val': LBAPcore(19028), 'test': LBAPcore(19032), 'task': 'Binary classification', 'metric': 'ROC-AUC'}
+[0m[1;34mDEBUG[0m: 05/03/2024 10:59:53 AM : [1m Data(x=[31, 39], edge_index=[2, 68], edge_attr=[68, 10], y=[1, 1], env_id=[1])
+[0mData(x=[30, 39], edge_index=[2, 66], edge_attr=[66, 10], y=[1, 1], env_id=[1])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/03/2024 10:59:53 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:59:53 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:59:53 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:59:53 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:59:53 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:59:53 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:59:53 AM : [1mUsing the fixed _explain_ functionality
+[0mUsing feature sampling := feat
+self.EF = 0.1
+mitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:59:53 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:59:53 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:59:53 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:59:53 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:59:53 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:59:53 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:59:53 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:59:53 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:59:53 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:59:53 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:59:53 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:59:53 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:59:53 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:59:53 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:59:53 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:59:53 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:59:53 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:59:53 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:59:53 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:59:53 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:59:53 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:59:53 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 10:59:53 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:59:53 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:59:53 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:59:53 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:59:53 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 10:59:53 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 10:59:53 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 167...
+[0m[1;37mINFO[0m: [1mCheckpoint 167: 
+-----------------------------------
+Train ROC-AUC: 0.9686
+Train Loss: 0.1412
+ID Validation ROC-AUC: 0.9211
+ID Validation Loss: 0.2263
+ID Test ROC-AUC: 0.9251
+ID Test Loss: 0.2237
+OOD Validation ROC-AUC: 0.6449
+OOD Validation Loss: 0.4664
+OOD Test ROC-AUC: 0.6906
+OOD Test Loss: 0.5564
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 30...
+[0m[1;37mINFO[0m: [1mCheckpoint 30: 
+-----------------------------------
+Train ROC-AUC: 0.9194
+Train Loss: 0.2142
+ID Validation ROC-AUC: 0.9010
+ID Validation Loss: 0.2357
+ID Test ROC-AUC: 0.9053
+ID Test Loss: 0.2328
+OOD Validation ROC-AUC: 0.6935
+OOD Validation Loss: 0.3224
+OOD Test ROC-AUC: 0.7183
+OOD Test Loss: 0.4429
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9251 0.6906 0.9053 0.7183 0.9010 0.6935[0mTrain ROC-AUC: 0.9686Train Loss: 0.1412
+Id_val ROC-AUC: 0.9211Id_val Loss: 0.2263
+Id_test ROC-AUC: 0.9251Id_test Loss: 0.2237
+Val ROC-AUC: 0.6449Val Loss: 0.4664
+Test ROC-AUC: 0.6906Test Loss: 0.5564
+
+
+#D#Running with seed = 3
+304 3
+{'acc_givenR': False,
+ 'argv': None,
+ 'average_edge_attn': 'mean',
+ 'ckpt_dir': None,
+ 'ckpt_root': None,
+ 'clean_save': None,
+ 'config_path': '/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/configs/final_configs/LBAPcore/assay/covariate/LECI.yaml',
+ 'dataset': DatasetArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'debias': False,
+ 'device': None,
+ 'exp_round': 3,
+ 'expval_budget': None,
+ 'feat_int_alpha': None,
+ 'fidelity_alpha_2': None,
+ 'gpu_idx': 1,
+ 'id_test_ckpt': None,
+ 'intervention_distrib': 'model_dependent',
+ 'log_file': None,
+ 'log_id': '',
+ 'log_path': None,
+ 'mask': False,
+ 'metric': None,
+ 'metrics': '',
+ 'mitigation_backbone': None,
+ 'mitigation_expl_scores': 'default',
+ 'mitigation_expl_scores_topk': -1,
+ 'mitigation_readout': None,
+ 'mitigation_sampling': 'feat',
+ 'mitigation_virtual': None,
+ 'model': ModelArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'nec_alpha_1': None,
+ 'nec_marg_alpha': True,
+ 'nec_number_samples': 'prop_G_dataset',
+ 'num_workers': 2,
+ 'numsamples_budget': None,
+ 'ood': OODArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'other_saved': None,
+ 'pipeline': None,
+ 'process_args_manual': <bound method CommonArgs.process_args_manual of CommonArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)>,
+ 'pytest': None,
+ 'random_expl': False,
+ 'random_seed': 3,
+ 'samplingtype': 'deconfounded',
+ 'save_metrics': False,
+ 'save_tag': None,
+ 'seeds': '1/2/3/4/5',
+ 'task': 'test',
+ 'tensorboard_logdir': None,
+ 'test_ckpt': None,
+ 'train': TrainArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)}
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Fri May  3 11:00:46 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset LBAPcore
+[0m[1;34mDEBUG[0m: 05/03/2024 11:00:47 AM : [1mDataset: {'train': LBAPcore(34179), 'id_val': LBAPcore(11314), 'id_test': LBAPcore(11683), 'val': LBAPcore(19028), 'test': LBAPcore(19032), 'task': 'Binary classification', 'metric': 'ROC-AUC'}
+[0m[1;34mDEBUG[0m: 05/03/2024 11:00:47 AM : [1m Data(x=[31, 39], edge_index=[2, 68], edge_attr=[68, 10], y=[1, 1], env_id=[1])
+[0mData(x=[30, 39], edge_index=[2, 66], edge_attr=[66, 10], y=[1, 1], env_id=[1])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/03/2024 11:00:47 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 11:00:47 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:00:47 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 11:00:47 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:00:47 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 11:00:47 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:00:47 AM : [1mUsing the fixed _explain_ functionality
+[0mUsing feature sampling := feat
+self.EF = 0.1
+mitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 11:00:47 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 11:00:47 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:00:47 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 11:00:47 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:00:47 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 11:00:47 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:00:47 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 11:00:47 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 11:00:47 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:00:47 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 11:00:47 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:00:47 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 11:00:47 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:00:47 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 11:00:47 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 11:00:47 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:00:47 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 11:00:47 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:00:47 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 11:00:47 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:00:47 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 11:00:47 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 11:00:47 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:00:47 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 11:00:47 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:00:47 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 11:00:47 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:00:47 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 11:00:47 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 175...
+[0m[1;37mINFO[0m: [1mCheckpoint 175: 
+-----------------------------------
+Train ROC-AUC: 0.9700
+Train Loss: 0.1384
+ID Validation ROC-AUC: 0.9239
+ID Validation Loss: 0.2236
+ID Test ROC-AUC: 0.9258
+ID Test Loss: 0.2238
+OOD Validation ROC-AUC: 0.6361
+OOD Validation Loss: 0.4564
+OOD Test ROC-AUC: 0.6863
+OOD Test Loss: 0.5633
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 21...
+[0m[1;37mINFO[0m: [1mCheckpoint 21: 
+-----------------------------------
+Train ROC-AUC: 0.9076
+Train Loss: 0.2268
+ID Validation ROC-AUC: 0.8921
+ID Validation Loss: 0.2443
+ID Test ROC-AUC: 0.8980
+ID Test Loss: 0.2413
+OOD Validation ROC-AUC: 0.6868
+OOD Validation Loss: 0.3111
+OOD Test ROC-AUC: 0.7174
+OOD Test Loss: 0.4442
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9258 0.6863 0.8980 0.7174 0.8921 0.6868[0mTrain ROC-AUC: 0.9700Train Loss: 0.1384
+Id_val ROC-AUC: 0.9239Id_val Loss: 0.2236
+Id_test ROC-AUC: 0.9258Id_test Loss: 0.2238
+Val ROC-AUC: 0.6361Val Loss: 0.4564
+Test ROC-AUC: 0.6863Test Loss: 0.5633
+
+
+#D#Running with seed = 4
+401 4
+{'acc_givenR': False,
+ 'argv': None,
+ 'average_edge_attn': 'mean',
+ 'ckpt_dir': None,
+ 'ckpt_root': None,
+ 'clean_save': None,
+ 'config_path': '/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/configs/final_configs/LBAPcore/assay/covariate/LECI.yaml',
+ 'dataset': DatasetArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'debias': False,
+ 'device': None,
+ 'exp_round': 4,
+ 'expval_budget': None,
+ 'feat_int_alpha': None,
+ 'fidelity_alpha_2': None,
+ 'gpu_idx': 1,
+ 'id_test_ckpt': None,
+ 'intervention_distrib': 'model_dependent',
+ 'log_file': None,
+ 'log_id': '',
+ 'log_path': None,
+ 'mask': False,
+ 'metric': None,
+ 'metrics': '',
+ 'mitigation_backbone': None,
+ 'mitigation_expl_scores': 'default',
+ 'mitigation_expl_scores_topk': -1,
+ 'mitigation_readout': None,
+ 'mitigation_sampling': 'feat',
+ 'mitigation_virtual': None,
+ 'model': ModelArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'nec_alpha_1': None,
+ 'nec_marg_alpha': True,
+ 'nec_number_samples': 'prop_G_dataset',
+ 'num_workers': 2,
+ 'numsamples_budget': None,
+ 'ood': OODArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'other_saved': None,
+ 'pipeline': None,
+ 'process_args_manual': <bound method CommonArgs.process_args_manual of CommonArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)>,
+ 'pytest': None,
+ 'random_expl': False,
+ 'random_seed': 4,
+ 'samplingtype': 'deconfounded',
+ 'save_metrics': False,
+ 'save_tag': None,
+ 'seeds': '1/2/3/4/5',
+ 'task': 'test',
+ 'tensorboard_logdir': None,
+ 'test_ckpt': None,
+ 'train': TrainArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)}
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Fri May  3 11:01:38 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset LBAPcore
+[0m[1;34mDEBUG[0m: 05/03/2024 11:01:39 AM : [1mDataset: {'train': LBAPcore(34179), 'id_val': LBAPcore(11314), 'id_test': LBAPcore(11683), 'val': LBAPcore(19028), 'test': LBAPcore(19032), 'task': 'Binary classification', 'metric': 'ROC-AUC'}
+[0m[1;34mDEBUG[0m: 05/03/2024 11:01:39 AM : [1m Data(x=[31, 39], edge_index=[2, 68], edge_attr=[68, 10], y=[1, 1], env_id=[1])
+[0mData(x=[30, 39], edge_index=[2, 66], edge_attr=[66, 10], y=[1, 1], env_id=[1])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/03/2024 11:01:39 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 11:01:39 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:01:39 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 11:01:39 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:01:39 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 11:01:39 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:01:39 AM : [1mUsing the fixed _explain_ functionality
+[0mUsing feature sampling := feat
+self.EF = 0.1
+mitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 11:01:39 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 11:01:39 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:01:39 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 11:01:39 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:01:39 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 11:01:39 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:01:39 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 11:01:39 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 11:01:39 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:01:39 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 11:01:39 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:01:39 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 11:01:39 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:01:39 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 11:01:39 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 11:01:39 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:01:39 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 11:01:39 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:01:39 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 11:01:39 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:01:39 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 11:01:39 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 11:01:39 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:01:39 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 11:01:39 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:01:39 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 11:01:39 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:01:39 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 11:01:39 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 199...
+[0m[1;37mINFO[0m: [1mCheckpoint 199: 
+-----------------------------------
+Train ROC-AUC: 0.9701
+Train Loss: 0.1379
+ID Validation ROC-AUC: 0.9219
+ID Validation Loss: 0.2309
+ID Test ROC-AUC: 0.9249
+ID Test Loss: 0.2294
+OOD Validation ROC-AUC: 0.6427
+OOD Validation Loss: 0.4806
+OOD Test ROC-AUC: 0.6915
+OOD Test Loss: 0.5778
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 58...
+[0m[1;37mINFO[0m: [1mCheckpoint 58: 
+-----------------------------------
+Train ROC-AUC: 0.9368
+Train Loss: 0.1927
+ID Validation ROC-AUC: 0.9098
+ID Validation Loss: 0.2281
+ID Test ROC-AUC: 0.9159
+ID Test Loss: 0.2220
+OOD Validation ROC-AUC: 0.6858
+OOD Validation Loss: 0.3482
+OOD Test ROC-AUC: 0.7149
+OOD Test Loss: 0.4585
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9249 0.6915 0.9159 0.7149 0.9098 0.6858[0mTrain ROC-AUC: 0.9701Train Loss: 0.1379
+Id_val ROC-AUC: 0.9219Id_val Loss: 0.2309
+Id_test ROC-AUC: 0.9249Id_test Loss: 0.2294
+Val ROC-AUC: 0.6427Val Loss: 0.4806
+Test ROC-AUC: 0.6915Test Loss: 0.5778
+
+
+#D#Running with seed = 5
+498 5
+{'acc_givenR': False,
+ 'argv': None,
+ 'average_edge_attn': 'mean',
+ 'ckpt_dir': None,
+ 'ckpt_root': None,
+ 'clean_save': None,
+ 'config_path': '/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/configs/final_configs/LBAPcore/assay/covariate/LECI.yaml',
+ 'dataset': DatasetArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'debias': False,
+ 'device': None,
+ 'exp_round': 5,
+ 'expval_budget': None,
+ 'feat_int_alpha': None,
+ 'fidelity_alpha_2': None,
+ 'gpu_idx': 1,
+ 'id_test_ckpt': None,
+ 'intervention_distrib': 'model_dependent',
+ 'log_file': None,
+ 'log_id': '',
+ 'log_path': None,
+ 'mask': False,
+ 'metric': None,
+ 'metrics': '',
+ 'mitigation_backbone': None,
+ 'mitigation_expl_scores': 'default',
+ 'mitigation_expl_scores_topk': -1,
+ 'mitigation_readout': None,
+ 'mitigation_sampling': 'feat',
+ 'mitigation_virtual': None,
+ 'model': ModelArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'nec_alpha_1': None,
+ 'nec_marg_alpha': True,
+ 'nec_number_samples': 'prop_G_dataset',
+ 'num_workers': 2,
+ 'numsamples_budget': None,
+ 'ood': OODArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'other_saved': None,
+ 'pipeline': None,
+ 'process_args_manual': <bound method CommonArgs.process_args_manual of CommonArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)>,
+ 'pytest': None,
+ 'random_expl': False,
+ 'random_seed': 5,
+ 'samplingtype': 'deconfounded',
+ 'save_metrics': False,
+ 'save_tag': None,
+ 'seeds': '1/2/3/4/5',
+ 'task': 'test',
+ 'tensorboard_logdir': None,
+ 'test_ckpt': None,
+ 'train': TrainArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)}
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Fri May  3 11:02:33 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset LBAPcore
+[0m[1;34mDEBUG[0m: 05/03/2024 11:02:34 AM : [1mDataset: {'train': LBAPcore(34179), 'id_val': LBAPcore(11314), 'id_test': LBAPcore(11683), 'val': LBAPcore(19028), 'test': LBAPcore(19032), 'task': 'Binary classification', 'metric': 'ROC-AUC'}
+[0m[1;34mDEBUG[0m: 05/03/2024 11:02:34 AM : [1m Data(x=[31, 39], edge_index=[2, 68], edge_attr=[68, 10], y=[1, 1], env_id=[1])
+[0mData(x=[30, 39], edge_index=[2, 66], edge_attr=[66, 10], y=[1, 1], env_id=[1])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/03/2024 11:02:34 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 11:02:34 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:02:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 11:02:34 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:02:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 11:02:34 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:02:34 AM : [1mUsing the fixed _explain_ functionality
+[0mUsing feature sampling := feat
+self.EF = 0.1
+mitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 11:02:34 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 11:02:34 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:02:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 11:02:34 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:02:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 11:02:34 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:02:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 11:02:34 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 11:02:34 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:02:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 11:02:34 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:02:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 11:02:34 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:02:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 11:02:34 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 11:02:34 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:02:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 11:02:34 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:02:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 11:02:34 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:02:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 11:02:34 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/03/2024 11:02:34 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:02:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 11:02:34 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:02:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 11:02:34 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/03/2024 11:02:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/03/2024 11:02:34 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 149...
+[0m[1;37mINFO[0m: [1mCheckpoint 149: 
+-----------------------------------
+Train ROC-AUC: 0.9611
+Train Loss: 0.1567
+ID Validation ROC-AUC: 0.9233
+ID Validation Loss: 0.2180
+ID Test ROC-AUC: 0.9240
+ID Test Loss: 0.2206
+OOD Validation ROC-AUC: 0.6334
+OOD Validation Loss: 0.4667
+OOD Test ROC-AUC: 0.6879
+OOD Test Loss: 0.5492
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 43...
+[0m[1;37mINFO[0m: [1mCheckpoint 43: 
+-----------------------------------
+Train ROC-AUC: 0.9251
+Train Loss: 0.2093
+ID Validation ROC-AUC: 0.9033
+ID Validation Loss: 0.2367
+ID Test ROC-AUC: 0.9102
+ID Test Loss: 0.2300
+OOD Validation ROC-AUC: 0.6806
+OOD Validation Loss: 0.3241
+OOD Test ROC-AUC: 0.7074
+OOD Test Loss: 0.4616
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9240 0.6879 0.9102 0.7074 0.9033 0.6806[0mTrain ROC-AUC: 0.9611Train Loss: 0.1567
+Id_val ROC-AUC: 0.9233Id_val Loss: 0.2180
+Id_test ROC-AUC: 0.9240Id_test Loss: 0.2206
+Val ROC-AUC: 0.6334Val Loss: 0.4667
+Test ROC-AUC: 0.6879Test Loss: 0.5492
+
+
+Final accuracies: 
+TRAIN      = 0.968 +- 0.003
+ID_VAL     = 0.922 +- 0.001
+ID_TEST    = 0.925 +- 0.001
+VAL        = 0.639 +- 0.004
+TEST       = 0.688 +- 0.002
+
+Final losses: 
+TRAIN      = 0.1432 +- 0.0069
+ID_VAL     = 0.2248 +- 0.0042
+ID_TEST    = 0.2244 +- 0.0028
+VAL        = 0.4698 +- 0.0089
+TEST       = 0.5633 +- 0.0100
+Diff id_val-test  = 0.3385 
+DONE TRAIN LECI LBAPcore/assay
+DONE all :)

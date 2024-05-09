@@ -14664,3 +14664,6 @@ Completed in  1:13:35.424052  for GSATvGIN GOODCMNIST/color
 
 DONE GSAT GOODCMNIST/color
 DONE all :)
+Time to compute metrics!
+DONE GSAT LBAPcore/assay
+DONE all :)

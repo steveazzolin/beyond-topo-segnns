@@ -31,6 +31,8 @@ random_expl: False # Added by Steve
 samplingtype: deconfounded # Added by Steve
 nec_number_samples: prop_G_dataset # Added by Steve
 log_id: ""
+splits: ""
+ratios: ""
 train:
   weight_decay: 0.
   save_gap: 10

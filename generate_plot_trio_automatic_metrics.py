@@ -1,6 +1,5 @@
 import json
 import numpy as np
-import torch
 import random
 from collections import defaultdict
 
@@ -8,8 +7,7 @@ import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 from matplotlib.patches import Patch
 
-from scipy.stats import pearsonr, spearmanr, hmean
-from sklearn.preprocessing import RobustScaler
+from scipy.stats import pearsonr, hmean
 
 # "train": {
 #     "acc": [],
@@ -192,12 +190,17 @@ def lower_bound_plaus():
     # Faith as a necessary condition for low discrepancy from ID and OOD test acc
     ##
 
-    num_cols = 2
+    splits = [("id_val", "test")] #("train", "test"), ("val", "test"), ("train", "id_val")
+    reference_metric = "acc" # "acc", "likelihood"
+    num_cols = len(splits)
     num_rows = 1
-    fig, axs = plt.subplots(num_rows, num_cols, figsize=(10, 5))
+    fig, axs = plt.subplots(num_rows, num_cols, figsize=(5 * num_cols, 5))
+
+    if not isinstance(axs, np.ndarray):
+        axs = [axs]
 
     for j, faith_type in enumerate(["faith_armon_L1"]):
-        for i, (split_metric_id, split_metric_ood) in enumerate([("id_val", "val"), ("val", "test")]):
+        for i, (split_metric_id, split_metric_ood) in enumerate(splits):
             split_acc = "test"
             acc_coll, combined_coll = [], []
             for dataset in ["GOODMotif basis", "GOODMotif2 basis", "GOODMotif size"]: #data.keys()
@@ -224,12 +227,17 @@ def lower_bound_plaus():
                     combined = combined + plaus_id + plaus_ood # show empirically the lower bound
                     # combined = hmean([faith_id, faith_ood, plaus_id, plaus_ood])
 
-                    # acc_id    = acc_plaus[dataset][model][split_metric_id]["acc"][-1 if pick_acc == "entire_model" else best_r]
-                    # acc_ood   = acc_plaus[dataset][model][split_metric_ood]["acc"][-1 if pick_acc == "entire_model" else best_r]
+                    if reference_metric == "acc":
+                        acc_id    = acc_plaus[dataset][model][split_metric_id]["acc"][-1 if pick_acc == "entire_model" else best_r]
+                        acc_ood   = acc_plaus[dataset][model][split_metric_ood]["acc"][-1 if pick_acc == "entire_model" else best_r]
+                    elif reference_metric == "likelihood":
+                        acc_id    = acc_plaus[dataset][model][split_metric_id]["likelihood_avg_entiresplit"]
+                        acc_ood   = acc_plaus[dataset][model][split_metric_ood]["likelihood_avg_entiresplit"]
+                    else:
+                        raise ValueError(reference_metric)
                     # acc_id    = acc_plaus[dataset][model][split_metric_id]["loss_entiresplit"]
                     # acc_ood   = acc_plaus[dataset][model][split_metric_ood]["loss_entiresplit"]
-                    acc_id    = acc_plaus[dataset][model][split_metric_id]["likelihood_avg_entiresplit"]
-                    acc_ood   = acc_plaus[dataset][model][split_metric_ood]["likelihood_avg_entiresplit"]
+                    
                     
                     acc = abs(acc_id - acc_ood)
                     if acc > 20:
@@ -248,13 +256,14 @@ def lower_bound_plaus():
                     axs[i%num_cols].grid(visible=True, alpha=0.5)
                     axs[i%num_cols].set_xlim(0.0, 4.)
                     axs[i%num_cols].set_ylim(-0.2, 1.)
-                    axs[i%num_cols].set_ylabel(f"Avg likelihoods difference |{split_metric_id} - {split_metric_ood}|")
+                    axs[i%num_cols].set_ylabel(f"Avg {reference_metric} difference |{split_metric_id} - {split_metric_ood}|")
                     axs[i%num_cols].set_xlabel(f"Faithfulness + Plausibility ({split_metric_id}, {split_metric_ood})")
                     axs[i%num_cols].set_title(f"")
             if len(acc_coll) > 0 and len(combined_coll) > 0:
                 combined_coll, acc_coll = np.array(combined_coll), np.array(acc_coll)
                 pcc = pearsonr(combined_coll, acc_coll)
-                axs[i%num_cols].annotate(f"PCC: {pcc.statistic:.2f} ({pcc.pvalue:.2f})", (0.8, 0.2), fontsize=7)
+                # axs[i%num_cols].annotate(f"PCC: {pcc.statistic:.2f} ({pcc.pvalue:.2f})", (0.8, 0.2), fontsize=7)
+                print(f"PCC: {pcc.statistic:.2f} ({pcc.pvalue:.2f})")
                 m, b = np.polyfit(combined_coll, acc_coll, 1)
                 x = combined_coll.tolist() + [0, 4]
                 axs[i%num_cols].plot(x, np.poly1d((m, b))(x), "r--", alpha=0.5)
@@ -268,9 +277,10 @@ def lower_bound_plaus():
         legend_elements.append(
             Patch(facecolor=colors[model], label=model.replace("GIN", ""))
         )
-    axs[1].legend(handles=legend_elements, loc='upper right') #, loc='center'
+    axs[-1].legend(handles=legend_elements, loc='upper right') #, loc='center'
 
-    plt.suptitle(f"{file_name} - pick accuracy: {pick_acc}")
+    # plt.suptitle(f"{file_name} - pick accuracy: {pick_acc}")
+    plt.tight_layout()
     plt.savefig("GOOD/kernel/pipelines/plots/illustrations/automatic/lower_bound.png")
     plt.savefig("GOOD/kernel/pipelines/plots/illustrations/automatic/pdfs/lower_bound.pdf")
     plt.close()
@@ -447,46 +457,46 @@ def compare_faith_mitigations():
     ##
     # Show how mitigation strategies impacted FAITH
     ##
-
-    
-
-        # with open(f"storage/metric_results/acc_plaus.json", "r") as jsonFile:
-        #     acc_plaus = json.load(jsonFile)
-        # num_cols = 2
-        # num_rows = 3
-        # fig, axs = plt.subplots(num_rows, num_cols, figsize=(9, 15))
-
-    for j, faith_type in enumerate(["faith_armon_L1"]): #"suff++_L1", "faith_armon_L1"
-        for i, split_metric in enumerate(["test"]):
+    filenames = ["suff++_old", "suff++_old_novonly", "suff++_old_mitigreadout_weighted"]
+    table = defaultdict(lambda: defaultdict(list))
+    for j, faith_type in enumerate(["faith_armon_L1"]): #"suff++_L1", "nec", "faith_armon_L1"
+        for i, split_metric in enumerate(["id_test"]):
             #"suff++_old", "suff++_old_mitigreadout_weighted", "suff++_old_mitigreadout_weighted_mitigvirtual_weighted", "suff++_old_mitigreadout_weighted_nov", "suff++_old_mitigsampling_raw", "suff++_old_allmitig_topk"
-            for file_name in ["suff++_old_mitigreadout_weighted"]:  #"suff++_old_allmitig_topk"
+            for file_name in filenames:  #"suff++_old_allmitig_topk" , "suff++_old_mitigreadout_weighted_nov", "plaus_test_readoutweighted", "plaus_test_nov"
                 print("\n", "-"*50, "\n", file_name.upper(), "\n", "-"*50)
                 with open(f"storage/metric_results/aggregated_id_results_{file_name}.json", "r") as jsonFile:
                         data = json.load(jsonFile)
-                for dataset in ["GOODMotif basis", "GOODMotif2 basis", "GOODMotif size", "GOODSST2 length", "GOODTwitter length", "GOODHIV scaffold", "LBAPcore assay", "GOODCMNIST color"]: #, "GOODHIV scaffold", "LBAPcore assay", "GOODCMNIST color"
-                    for model in ["GSATGIN", "GSATvGIN"]: #"CIGAGIN", "CIGAvGIN", "LECIGIN", "LECIvGIN"
-                        if not dataset in data.keys() or not model in data[dataset].keys():
+                for dataset in ["BBBP basis", "GOODMotif basis", "GOODMotif2 basis", "GOODMotif size", "GOODSST2 length", "GOODTwitter length", "GOODHIV scaffold", "LBAPcore assay", "GOODCMNIST color"]: #, "GOODSST2 length", "GOODTwitter length", "GOODHIV scaffold", "LBAPcore assay", "GOODCMNIST color"
+                    for model in ["LECIGIN", "LECIvGIN", ]: #"CIGAGIN", "CIGAvGIN", "LECIGIN", "LECIvGIN", "GSATGIN", "GSATvGIN"
+                        if not dataset in data.keys() or not model in data[dataset].keys() or not split_metric in data[dataset][model].keys():
                             continue
                         if not faith_type in data[dataset][model][split_metric].keys():
                             continue
 
-                        best_r = pick_best_faith(data[dataset][model], split_metric, faith_type)
-                        faith   = np.array(data[dataset][model][split_metric][faith_type])[best_r]
-                        faith_std   = np.array(data[dataset][model][split_metric][faith_type+"_std"])[best_r] if faith_type+"_std" in data[dataset][model][split_metric].keys() else np.nan
-                        
-                        print(f"{faith_type:<32}\t{dataset:<20}\t{model:<10}\t{faith_type:<15}\t{split_metric:<6} = {faith:.3f} " + "{\\tiny $\\pm$ " + f"{faith_std:.3f}" + "}")
-                        
-                        # axs[j%num_rows, i%num_cols].scatter(combined, acc, marker=markers[dataset], label=model, c=colors[model])
-                        # axs[j%num_rows, i%num_cols].grid(visible=True, alpha=0.5)
-                        # axs[j%num_rows, i%num_cols].set_xlim(0.0, 1.5)
-                        # axs[j%num_rows, i%num_cols].set_ylim(0.0, 1.)
-                        # axs[j%num_rows, i%num_cols].set_ylabel(f"Acc abs difference ({split_metric_id} - {split_metric_ood})")
-                        # axs[j%num_rows, i%num_cols].set_xlabel("$Faith_{id}$ + $Faith_{ood}$" + f" ({split_metric_id}, {split_metric_ood}) ({faith_type})")
-                        # axs[j%num_rows, i%num_cols].set_title(f"")
+                        if faith_type == "wiou":
+                            val = np.array(data[dataset][model][split_metric][faith_type])[-1]
+                            val_std   = np.array(data[dataset][model][split_metric][faith_type+"_std"])[-1]
+                        elif faith_type == "F1":
+                            best_r = pick_best_faith(data[dataset][model], split_metric, "F1")
+                            val   = np.array(data[dataset][model][split_metric][faith_type])[best_r]
+                            val_std   = np.array(data[dataset][model][split_metric][faith_type+"_std"])[best_r]
+                        else:
+                            best_r = pick_best_faith(data[dataset][model], split_metric, "faith_armon_L1")
+                            val   = np.array(data[dataset][model][split_metric][faith_type])[best_r]
+                            val_std   = np.array(data[dataset][model][split_metric][faith_type+"_std"])[best_r] if faith_type+"_std" in data[dataset][model][split_metric].keys() else np.nan
 
-        # plt.suptitle(f"{file_name} - pick accuracy: {pick_acc}")
-        # plt.savefig("GOOD/kernel/pipelines/plots/illustrations/automatic/lower_bound_unsup.png")
-        # plt.close()
+                        # best_r = pick_best_faith(data[dataset][model], "id_val", faith_type)
+                        # faith_id_val   = np.array(data[dataset][model]["id_val"][faith_type])[best_r]
+                        
+                        print(f"{faith_type:<32}\t{dataset:<20}\t{model:<10}\t{faith_type:<15}\t{split_metric:<6} = {val:.3f} " + "{\\tiny $\\pm$ " + f"{val_std:.3f}" + "}")
+                        table[dataset][file_name] = f"{val:.2f} " #+ "{\\tiny $\\pm$ " + f"{faith_std:.2f}"
+    
+    print("\n\n")
+    for dataset in table.keys():
+        s = ""
+        for metric in filenames:
+            s += " & " + (table[dataset][metric] if metric in table[dataset] else "0.00 ")
+        print(f"{dataset:<20}", s)
     return
 
 def ablation_numsamples_budget_faith():

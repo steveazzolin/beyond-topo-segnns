@@ -1,0 +1,3463 @@
+Time to compute metrics!
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Tue Apr 23 10:48:45 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif
+[0m[1;34mDEBUG[0m: 04/23/2024 10:48:45 AM : [1mPermuting node indices to remove explanation bias for train
+[0m[1;34mDEBUG[0m: 04/23/2024 10:48:58 AM : [1mPermuting node indices to remove explanation bias for id_val
+[0m[1;34mDEBUG[0m: 04/23/2024 10:49:00 AM : [1mPermuting node indices to remove explanation bias for id_test
+[0m[1;34mDEBUG[0m: 04/23/2024 10:49:02 AM : [1mPermuting node indices to remove explanation bias for val
+[0m[1;34mDEBUG[0m: 04/23/2024 10:49:04 AM : [1mPermuting node indices to remove explanation bias for test
+[0m[1;34mDEBUG[0m: 04/23/2024 10:49:06 AM : [1mDataset: {'train': GOODMotif(18000), 'id_val': GOODMotif(3000), 'id_test': GOODMotif(3000), 'val': GOODMotif(3000), 'test': GOODMotif(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 04/23/2024 10:49:06 AM : [1m Data(edge_index=[2, 64], x=[18, 1], node_gt=[18], edge_gt=[64], y=[1], env_id=[1], ori_edge_index=[2, 64], node_perm=[18], num_nodes=18)
+[0mData(edge_index=[2, 52], x=[19, 1], node_gt=[19], edge_gt=[52], y=[1], env_id=[1], ori_edge_index=[2, 52], node_perm=[19], num_nodes=19)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 04/23/2024 10:49:06 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 04/23/2024 10:49:06 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 10:49:06 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 10:49:06 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 10:49:06 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 10:49:06 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 10:49:06 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 10:49:06 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 97...
+[0m[1;37mINFO[0m: [1mCheckpoint 97: 
+-----------------------------------
+Train ACCURACY: 0.9314
+Train Loss: 0.3178
+ID Validation ACCURACY: 0.9303
+ID Validation Loss: 0.3259
+ID Test ACCURACY: 0.9280
+ID Test Loss: 0.3250
+OOD Validation ACCURACY: 0.8527
+OOD Validation Loss: 0.5111
+OOD Test ACCURACY: 0.6287
+OOD Test Loss: 1.1683
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 83...
+[0m[1;37mINFO[0m: [1mCheckpoint 83: 
+-----------------------------------
+Train ACCURACY: 0.9295
+Train Loss: 0.3278
+ID Validation ACCURACY: 0.9277
+ID Validation Loss: 0.3391
+ID Test ACCURACY: 0.9287
+ID Test Loss: 0.3296
+OOD Validation ACCURACY: 0.9320
+OOD Validation Loss: 0.3661
+OOD Test ACCURACY: 0.5353
+OOD Test Loss: 1.3356
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9280 0.6287 0.9287 0.5353 0.9277 0.9320[0mGOODMotif(3000)
+Data example from id_test: Data(edge_index=[2, 26], x=[12, 1], node_gt=[12], edge_gt=[26], y=[1], env_id=[1], ori_edge_index=[2, 26], node_perm=[12], num_nodes=12)
+Label distribution from id_test: (tensor([0, 1, 2]), tensor([1012, 1021,  967]))
+[1;31mERROR[0m: 04/23/2024 10:49:08 AM - utils.py - line 87 : [1mTraceback (most recent call last):
+  File "/mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/goodtg", line 33, in <module>
+    sys.exit(load_entry_point('graph-ood', 'console_scripts', 'goodtg')())
+  File "/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/kernel/main.py", line 609, in goodtg
+    main()
+  File "/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/kernel/main.py", line 509, in main
+    evaluate_metric(args)
+  File "/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/kernel/main.py", line 292, in evaluate_metric
+    causal_subgraphs_r, spu_subgraphs_r, expl_accs_r, causal_masks_r)  = pipeline.compute_scores_and_graphs(
+  File "/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch/utils/_contextlib.py", line 115, in decorate_context
+    return func(*args, **kwargs)
+  File "/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/kernel/pipelines/basic_pipeline.py", line 609, in compute_scores_and_graphs
+    edge_scores[SPLIT].append(edge_score[data.batch[data.edge_index[0]] == j].detach().cpu())
+KeyError: 'id_test'
+[0mTime to compute metrics!
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Tue Apr 23 10:50:52 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif
+[0m[1;34mDEBUG[0m: 04/23/2024 10:50:52 AM : [1mPermuting node indices to remove explanation bias for train
+[0m[1;34mDEBUG[0m: 04/23/2024 10:51:05 AM : [1mPermuting node indices to remove explanation bias for id_val
+[0m[1;34mDEBUG[0m: 04/23/2024 10:51:07 AM : [1mPermuting node indices to remove explanation bias for id_test
+[0m[1;34mDEBUG[0m: 04/23/2024 10:51:09 AM : [1mPermuting node indices to remove explanation bias for val
+[0m[1;34mDEBUG[0m: 04/23/2024 10:51:11 AM : [1mPermuting node indices to remove explanation bias for test
+[0m[1;34mDEBUG[0m: 04/23/2024 10:51:13 AM : [1mDataset: {'train': GOODMotif(18000), 'id_val': GOODMotif(3000), 'id_test': GOODMotif(3000), 'val': GOODMotif(3000), 'test': GOODMotif(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 04/23/2024 10:51:13 AM : [1m Data(edge_index=[2, 64], x=[18, 1], node_gt=[18], edge_gt=[64], y=[1], env_id=[1], ori_edge_index=[2, 64], node_perm=[18], num_nodes=18)
+[0mData(edge_index=[2, 52], x=[19, 1], node_gt=[19], edge_gt=[52], y=[1], env_id=[1], ori_edge_index=[2, 52], node_perm=[19], num_nodes=19)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 04/23/2024 10:51:13 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 04/23/2024 10:51:13 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 10:51:13 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 10:51:13 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 10:51:13 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 10:51:13 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 10:51:13 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 10:51:13 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 97...
+[0m[1;37mINFO[0m: [1mCheckpoint 97: 
+-----------------------------------
+Train ACCURACY: 0.9314
+Train Loss: 0.3178
+ID Validation ACCURACY: 0.9303
+ID Validation Loss: 0.3259
+ID Test ACCURACY: 0.9280
+ID Test Loss: 0.3250
+OOD Validation ACCURACY: 0.8527
+OOD Validation Loss: 0.5111
+OOD Test ACCURACY: 0.6287
+OOD Test Loss: 1.1683
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 83...
+[0m[1;37mINFO[0m: [1mCheckpoint 83: 
+-----------------------------------
+Train ACCURACY: 0.9295
+Train Loss: 0.3278
+ID Validation ACCURACY: 0.9277
+ID Validation Loss: 0.3391
+ID Test ACCURACY: 0.9287
+ID Test Loss: 0.3296
+OOD Validation ACCURACY: 0.9320
+OOD Validation Loss: 0.3661
+OOD Test ACCURACY: 0.5353
+OOD Test Loss: 1.3356
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9280 0.6287 0.9287 0.5353 0.9277 0.9320[0mGOODMotif(3000)
+Data example from id_test: Data(edge_index=[2, 26], x=[12, 1], node_gt=[12], edge_gt=[26], y=[1], env_id=[1], ori_edge_index=[2, 26], node_perm=[12], num_nodes=12)
+Label distribution from id_test: (tensor([0, 1, 2]), tensor([1012, 1021,  967]))
+
+Gold ratio (id_test) =  tensor(0.3175) +- tensor(0.1645)
+F1 for r=0.3 = 0.699
+WIoU for r=0.3 = 0.573
+F1 for r=0.6 = 0.602
+WIoU for r=0.6 = 0.481
+F1 for r=0.9 = 0.485
+WIoU for r=0.9 = 0.360
+F1 for r=1.0 = 0.459
+WIoU for r=1.0 = 0.337
+
+
+Evaluating SUFF++ for seed 1 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over id_test across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.3 =  0.566
+Model XAI F1 of binarized graphs for r=0.3 =  0.69909375
+Model XAI WIoU of binarized graphs for r=0.3 =  0.57315375
+len(reference) = 800
+Effective ratio: 0.312 +- 0.010
+Model Accuracy over intervened graphs for r=0.3 =  0.409
+SUFF++ for r=0.3 class 0 = 0.419 +- 0.276 (in-sample avg dev_std = 0.496)
+SUFF++ for r=0.3 class 1 = 0.547 +- 0.276 (in-sample avg dev_std = 0.496)
+SUFF++ for r=0.3 class 2 = 0.597 +- 0.276 (in-sample avg dev_std = 0.496)
+SUFF++ for r=0.3 all KL = 0.482 +- 0.276 (in-sample avg dev_std = 0.496)
+SUFF++ for r=0.3 all L1 = 0.52 +- 0.196 (in-sample avg dev_std = 0.496)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.681
+Model XAI F1 of binarized graphs for r=0.6 =  0.60237
+Model XAI WIoU of binarized graphs for r=0.6 =  0.48069625000000005
+len(reference) = 800
+Effective ratio: 0.612 +- 0.007
+Model Accuracy over intervened graphs for r=0.6 =  0.619
+SUFF++ for r=0.6 class 0 = 0.422 +- 0.286 (in-sample avg dev_std = 0.532)
+SUFF++ for r=0.6 class 1 = 0.534 +- 0.286 (in-sample avg dev_std = 0.532)
+SUFF++ for r=0.6 class 2 = 0.662 +- 0.286 (in-sample avg dev_std = 0.532)
+SUFF++ for r=0.6 all KL = 0.501 +- 0.286 (in-sample avg dev_std = 0.532)
+SUFF++ for r=0.6 all L1 = 0.538 +- 0.210 (in-sample avg dev_std = 0.532)
+
+
+ratio=0.9
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.9 =  0.916
+Model XAI F1 of binarized graphs for r=0.9 =  0.48507625
+Model XAI WIoU of binarized graphs for r=0.9 =  0.36029125
+len(reference) = 800
+Effective ratio: 0.915 +- 0.012
+Model Accuracy over intervened graphs for r=0.9 =  0.841
+SUFF++ for r=0.9 class 0 = 0.661 +- 0.173 (in-sample avg dev_std = 0.254)
+SUFF++ for r=0.9 class 1 = 0.813 +- 0.173 (in-sample avg dev_std = 0.254)
+SUFF++ for r=0.9 class 2 = 0.879 +- 0.173 (in-sample avg dev_std = 0.254)
+SUFF++ for r=0.9 all KL = 0.847 +- 0.173 (in-sample avg dev_std = 0.254)
+SUFF++ for r=0.9 all L1 = 0.783 +- 0.163 (in-sample avg dev_std = 0.254)
+
+
+ratio=1.0
+
+
+
+Zero intervened samples, skipping weight=1.0
+
+
+Evaluating NEC for seed 1 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over id_test across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.3 =  0.569
+Model XAI F1 of binarized graphs for r=0.3 =  0.69909375
+Model XAI WIoU of binarized graphs for r=0.3 =  0.57315375
+len(reference) = 800
+Effective ratio: 0.312 +- 0.010
+Model Accuracy over intervened graphs for r=0.3 =  0.331
+NEC for r=0.3 class 0 = 0.676 +- 0.309 (in-sample avg dev_std = 0.424)
+NEC for r=0.3 class 1 = 0.538 +- 0.309 (in-sample avg dev_std = 0.424)
+NEC for r=0.3 class 2 = 0.503 +- 0.309 (in-sample avg dev_std = 0.424)
+NEC for r=0.3 all KL = 0.617 +- 0.309 (in-sample avg dev_std = 0.424)
+NEC for r=0.3 all L1 = 0.573 +- 0.215 (in-sample avg dev_std = 0.424)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.681
+Model XAI F1 of binarized graphs for r=0.6 =  0.60237
+Model XAI WIoU of binarized graphs for r=0.6 =  0.48069625000000005
+len(reference) = 800
+Effective ratio: 0.612 +- 0.007
+Model Accuracy over intervened graphs for r=0.6 =  0.381
+NEC for r=0.6 class 0 = 0.577 +- 0.254 (in-sample avg dev_std = 0.523)
+NEC for r=0.6 class 1 = 0.609 +- 0.254 (in-sample avg dev_std = 0.523)
+NEC for r=0.6 class 2 = 0.595 +- 0.254 (in-sample avg dev_std = 0.523)
+NEC for r=0.6 all KL = 0.665 +- 0.254 (in-sample avg dev_std = 0.523)
+NEC for r=0.6 all L1 = 0.594 +- 0.164 (in-sample avg dev_std = 0.523)
+
+
+ratio=0.9
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.9 =  0.913
+Model XAI F1 of binarized graphs for r=0.9 =  0.48507625
+Model XAI WIoU of binarized graphs for r=0.9 =  0.36029125
+len(reference) = 800
+Effective ratio: 0.915 +- 0.012
+Model Accuracy over intervened graphs for r=0.9 =  0.48
+NEC for r=0.9 class 0 = 0.603 +- 0.225 (in-sample avg dev_std = 0.614)
+NEC for r=0.9 class 1 = 0.57 +- 0.225 (in-sample avg dev_std = 0.614)
+NEC for r=0.9 class 2 = 0.566 +- 0.225 (in-sample avg dev_std = 0.614)
+NEC for r=0.9 all KL = 0.657 +- 0.225 (in-sample avg dev_std = 0.614)
+NEC for r=0.9 all L1 = 0.58 +- 0.153 (in-sample avg dev_std = 0.614)
+
+
+ratio=1.0
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=1.0 =  0.926
+Model XAI F1 of binarized graphs for r=1.0 =  0.45948124999999995
+Model XAI WIoU of binarized graphs for r=1.0 =  0.33684875000000003
+len(reference) = 800
+Effective ratio: 1.000 +- 0.000
+Model Accuracy over intervened graphs for r=1.0 =  0.517
+NEC for r=1.0 class 0 = 0.551 +- 0.238 (in-sample avg dev_std = 0.652)
+NEC for r=1.0 class 1 = 0.52 +- 0.238 (in-sample avg dev_std = 0.652)
+NEC for r=1.0 class 2 = 0.582 +- 0.238 (in-sample avg dev_std = 0.652)
+NEC for r=1.0 all KL = 0.625 +- 0.238 (in-sample avg dev_std = 0.652)
+NEC for r=1.0 all L1 = 0.551 +- 0.173 (in-sample avg dev_std = 0.652)
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Tue Apr 23 10:52:25 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif
+[0m[1;34mDEBUG[0m: 04/23/2024 10:52:25 AM : [1mPermuting node indices to remove explanation bias for train
+[0m[1;34mDEBUG[0m: 04/23/2024 10:52:37 AM : [1mPermuting node indices to remove explanation bias for id_val
+[0m[1;34mDEBUG[0m: 04/23/2024 10:52:39 AM : [1mPermuting node indices to remove explanation bias for id_test
+[0m[1;34mDEBUG[0m: 04/23/2024 10:52:41 AM : [1mPermuting node indices to remove explanation bias for val
+[0m[1;34mDEBUG[0m: 04/23/2024 10:52:43 AM : [1mPermuting node indices to remove explanation bias for test
+[0m[1;34mDEBUG[0m: 04/23/2024 10:52:45 AM : [1mDataset: {'train': GOODMotif(18000), 'id_val': GOODMotif(3000), 'id_test': GOODMotif(3000), 'val': GOODMotif(3000), 'test': GOODMotif(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 04/23/2024 10:52:45 AM : [1m Data(edge_index=[2, 64], x=[18, 1], node_gt=[18], edge_gt=[64], y=[1], env_id=[1], ori_edge_index=[2, 64], node_perm=[18], num_nodes=18)
+[0mData(edge_index=[2, 52], x=[19, 1], node_gt=[19], edge_gt=[52], y=[1], env_id=[1], ori_edge_index=[2, 52], node_perm=[19], num_nodes=19)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 04/23/2024 10:52:45 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 04/23/2024 10:52:45 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 10:52:45 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 10:52:45 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 10:52:45 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 10:52:45 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 10:52:45 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 10:52:45 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 141...
+[0m[1;37mINFO[0m: [1mCheckpoint 141: 
+-----------------------------------
+Train ACCURACY: 0.9309
+Train Loss: 0.3119
+ID Validation ACCURACY: 0.9300
+ID Validation Loss: 0.3271
+ID Test ACCURACY: 0.9277
+ID Test Loss: 0.3181
+OOD Validation ACCURACY: 0.7947
+OOD Validation Loss: 0.6208
+OOD Test ACCURACY: 0.5837
+OOD Test Loss: 1.2346
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 90...
+[0m[1;37mINFO[0m: [1mCheckpoint 90: 
+-----------------------------------
+Train ACCURACY: 0.9266
+Train Loss: 0.3279
+ID Validation ACCURACY: 0.9250
+ID Validation Loss: 0.3353
+ID Test ACCURACY: 0.9243
+ID Test Loss: 0.3312
+OOD Validation ACCURACY: 0.9310
+OOD Validation Loss: 0.3368
+OOD Test ACCURACY: 0.5587
+OOD Test Loss: 1.1490
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9277 0.5837 0.9243 0.5587 0.9250 0.9310[0mGOODMotif(3000)
+Data example from id_test: Data(edge_index=[2, 26], x=[12, 1], node_gt=[12], edge_gt=[26], y=[1], env_id=[1], ori_edge_index=[2, 26], node_perm=[12], num_nodes=12)
+Label distribution from id_test: (tensor([0, 1, 2]), tensor([1012, 1021,  967]))
+
+Gold ratio (id_test) =  tensor(0.3175) +- tensor(0.1645)
+F1 for r=0.3 = 0.726
+WIoU for r=0.3 = 0.603
+F1 for r=0.6 = 0.627
+WIoU for r=0.6 = 0.511
+F1 for r=0.9 = 0.488
+WIoU for r=0.9 = 0.366
+F1 for r=1.0 = 0.459
+WIoU for r=1.0 = 0.340
+
+
+Evaluating SUFF++ for seed 2 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over id_test across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.3 =  0.486
+Model XAI F1 of binarized graphs for r=0.3 =  0.7257275
+Model XAI WIoU of binarized graphs for r=0.3 =  0.60288
+len(reference) = 800
+Effective ratio: 0.312 +- 0.010
+Model Accuracy over intervened graphs for r=0.3 =  0.441
+SUFF++ for r=0.3 class 0 = 0.424 +- 0.261 (in-sample avg dev_std = 0.472)
+SUFF++ for r=0.3 class 1 = 0.52 +- 0.261 (in-sample avg dev_std = 0.472)
+SUFF++ for r=0.3 class 2 = 0.562 +- 0.261 (in-sample avg dev_std = 0.472)
+SUFF++ for r=0.3 all KL = 0.528 +- 0.261 (in-sample avg dev_std = 0.472)
+SUFF++ for r=0.3 all L1 = 0.501 +- 0.154 (in-sample avg dev_std = 0.472)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.726
+Model XAI F1 of binarized graphs for r=0.6 =  0.6266025
+Model XAI WIoU of binarized graphs for r=0.6 =  0.51065125
+len(reference) = 800
+Effective ratio: 0.612 +- 0.007
+Model Accuracy over intervened graphs for r=0.6 =  0.647
+SUFF++ for r=0.6 class 0 = 0.47 +- 0.271 (in-sample avg dev_std = 0.453)
+SUFF++ for r=0.6 class 1 = 0.674 +- 0.271 (in-sample avg dev_std = 0.453)
+SUFF++ for r=0.6 class 2 = 0.686 +- 0.271 (in-sample avg dev_std = 0.453)
+SUFF++ for r=0.6 all KL = 0.621 +- 0.271 (in-sample avg dev_std = 0.453)
+SUFF++ for r=0.6 all L1 = 0.609 +- 0.202 (in-sample avg dev_std = 0.453)
+
+
+ratio=0.9
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.9 =  0.892
+Model XAI F1 of binarized graphs for r=0.9 =  0.48840500000000003
+Model XAI WIoU of binarized graphs for r=0.9 =  0.36611875
+len(reference) = 800
+Effective ratio: 0.915 +- 0.012
+Model Accuracy over intervened graphs for r=0.9 =  0.848
+SUFF++ for r=0.9 class 0 = 0.679 +- 0.175 (in-sample avg dev_std = 0.246)
+SUFF++ for r=0.9 class 1 = 0.826 +- 0.175 (in-sample avg dev_std = 0.246)
+SUFF++ for r=0.9 class 2 = 0.878 +- 0.175 (in-sample avg dev_std = 0.246)
+SUFF++ for r=0.9 all KL = 0.859 +- 0.175 (in-sample avg dev_std = 0.246)
+SUFF++ for r=0.9 all L1 = 0.793 +- 0.168 (in-sample avg dev_std = 0.246)
+
+
+ratio=1.0
+
+
+
+Zero intervened samples, skipping weight=1.0
+
+
+Evaluating NEC for seed 2 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over id_test across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.3 =  0.489
+Model XAI F1 of binarized graphs for r=0.3 =  0.7257275
+Model XAI WIoU of binarized graphs for r=0.3 =  0.60288
+len(reference) = 800
+Effective ratio: 0.312 +- 0.010
+Model Accuracy over intervened graphs for r=0.3 =  0.329
+NEC for r=0.3 class 0 = 0.627 +- 0.268 (in-sample avg dev_std = 0.410)
+NEC for r=0.3 class 1 = 0.499 +- 0.268 (in-sample avg dev_std = 0.410)
+NEC for r=0.3 class 2 = 0.58 +- 0.268 (in-sample avg dev_std = 0.410)
+NEC for r=0.3 all KL = 0.546 +- 0.268 (in-sample avg dev_std = 0.410)
+NEC for r=0.3 all L1 = 0.569 +- 0.149 (in-sample avg dev_std = 0.410)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.721
+Model XAI F1 of binarized graphs for r=0.6 =  0.6266025
+Model XAI WIoU of binarized graphs for r=0.6 =  0.51065125
+len(reference) = 800
+Effective ratio: 0.612 +- 0.007
+Model Accuracy over intervened graphs for r=0.6 =  0.392
+NEC for r=0.6 class 0 = 0.627 +- 0.270 (in-sample avg dev_std = 0.488)
+NEC for r=0.6 class 1 = 0.528 +- 0.270 (in-sample avg dev_std = 0.488)
+NEC for r=0.6 class 2 = 0.608 +- 0.270 (in-sample avg dev_std = 0.488)
+NEC for r=0.6 all KL = 0.619 +- 0.270 (in-sample avg dev_std = 0.488)
+NEC for r=0.6 all L1 = 0.587 +- 0.161 (in-sample avg dev_std = 0.488)
+
+
+ratio=0.9
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.9 =  0.891
+Model XAI F1 of binarized graphs for r=0.9 =  0.48840500000000003
+Model XAI WIoU of binarized graphs for r=0.9 =  0.36611875
+len(reference) = 800
+Effective ratio: 0.915 +- 0.012
+Model Accuracy over intervened graphs for r=0.9 =  0.504
+NEC for r=0.9 class 0 = 0.613 +- 0.233 (in-sample avg dev_std = 0.574)
+NEC for r=0.9 class 1 = 0.493 +- 0.233 (in-sample avg dev_std = 0.574)
+NEC for r=0.9 class 2 = 0.561 +- 0.233 (in-sample avg dev_std = 0.574)
+NEC for r=0.9 all KL = 0.591 +- 0.233 (in-sample avg dev_std = 0.574)
+NEC for r=0.9 all L1 = 0.556 +- 0.158 (in-sample avg dev_std = 0.574)
+
+
+ratio=1.0
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=1.0 =  0.925
+Model XAI F1 of binarized graphs for r=1.0 =  0.45948124999999995
+Model XAI WIoU of binarized graphs for r=1.0 =  0.3402125
+len(reference) = 800
+Effective ratio: 1.000 +- 0.000
+Model Accuracy over intervened graphs for r=1.0 =  0.537
+NEC for r=1.0 class 0 = 0.563 +- 0.239 (in-sample avg dev_std = 0.601)
+NEC for r=1.0 class 1 = 0.447 +- 0.239 (in-sample avg dev_std = 0.601)
+NEC for r=1.0 class 2 = 0.573 +- 0.239 (in-sample avg dev_std = 0.601)
+NEC for r=1.0 all KL = 0.562 +- 0.239 (in-sample avg dev_std = 0.601)
+NEC for r=1.0 all L1 = 0.527 +- 0.173 (in-sample avg dev_std = 0.601)
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Tue Apr 23 10:53:54 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif
+[0m[1;34mDEBUG[0m: 04/23/2024 10:53:54 AM : [1mPermuting node indices to remove explanation bias for train
+[0m[1;34mDEBUG[0m: 04/23/2024 10:54:07 AM : [1mPermuting node indices to remove explanation bias for id_val
+[0m[1;34mDEBUG[0m: 04/23/2024 10:54:09 AM : [1mPermuting node indices to remove explanation bias for id_test
+[0m[1;34mDEBUG[0m: 04/23/2024 10:54:11 AM : [1mPermuting node indices to remove explanation bias for val
+[0m[1;34mDEBUG[0m: 04/23/2024 10:54:13 AM : [1mPermuting node indices to remove explanation bias for test
+[0m[1;34mDEBUG[0m: 04/23/2024 10:54:15 AM : [1mDataset: {'train': GOODMotif(18000), 'id_val': GOODMotif(3000), 'id_test': GOODMotif(3000), 'val': GOODMotif(3000), 'test': GOODMotif(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 04/23/2024 10:54:15 AM : [1m Data(edge_index=[2, 64], x=[18, 1], node_gt=[18], edge_gt=[64], y=[1], env_id=[1], ori_edge_index=[2, 64], node_perm=[18], num_nodes=18)
+[0mData(edge_index=[2, 52], x=[19, 1], node_gt=[19], edge_gt=[52], y=[1], env_id=[1], ori_edge_index=[2, 52], node_perm=[19], num_nodes=19)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 04/23/2024 10:54:15 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 04/23/2024 10:54:15 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 10:54:15 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 10:54:15 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 10:54:15 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 10:54:15 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 10:54:15 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 10:54:15 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 156...
+[0m[1;37mINFO[0m: [1mCheckpoint 156: 
+-----------------------------------
+Train ACCURACY: 0.9315
+Train Loss: 0.3074
+ID Validation ACCURACY: 0.9300
+ID Validation Loss: 0.3203
+ID Test ACCURACY: 0.9287
+ID Test Loss: 0.3132
+OOD Validation ACCURACY: 0.6043
+OOD Validation Loss: 1.1704
+OOD Test ACCURACY: 0.5793
+OOD Test Loss: 1.3878
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 93...
+[0m[1;37mINFO[0m: [1mCheckpoint 93: 
+-----------------------------------
+Train ACCURACY: 0.9269
+Train Loss: 0.3333
+ID Validation ACCURACY: 0.9240
+ID Validation Loss: 0.3419
+ID Test ACCURACY: 0.9233
+ID Test Loss: 0.3373
+OOD Validation ACCURACY: 0.9313
+OOD Validation Loss: 0.3663
+OOD Test ACCURACY: 0.5720
+OOD Test Loss: 1.3522
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9287 0.5793 0.9233 0.5720 0.9240 0.9313[0mGOODMotif(3000)
+Data example from id_test: Data(edge_index=[2, 26], x=[12, 1], node_gt=[12], edge_gt=[26], y=[1], env_id=[1], ori_edge_index=[2, 26], node_perm=[12], num_nodes=12)
+Label distribution from id_test: (tensor([0, 1, 2]), tensor([1012, 1021,  967]))
+
+Gold ratio (id_test) =  tensor(0.3175) +- tensor(0.1645)
+F1 for r=0.3 = 0.720
+WIoU for r=0.3 = 0.595
+F1 for r=0.6 = 0.628
+WIoU for r=0.6 = 0.509
+F1 for r=0.9 = 0.487
+WIoU for r=0.9 = 0.362
+F1 for r=1.0 = 0.459
+WIoU for r=1.0 = 0.337
+
+
+Evaluating SUFF++ for seed 3 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over id_test across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.3 =  0.506
+Model XAI F1 of binarized graphs for r=0.3 =  0.7195550000000001
+Model XAI WIoU of binarized graphs for r=0.3 =  0.594645
+len(reference) = 800
+Effective ratio: 0.312 +- 0.010
+Model Accuracy over intervened graphs for r=0.3 =  0.463
+SUFF++ for r=0.3 class 0 = 0.427 +- 0.250 (in-sample avg dev_std = 0.513)
+SUFF++ for r=0.3 class 1 = 0.517 +- 0.250 (in-sample avg dev_std = 0.513)
+SUFF++ for r=0.3 class 2 = 0.528 +- 0.250 (in-sample avg dev_std = 0.513)
+SUFF++ for r=0.3 all KL = 0.492 +- 0.250 (in-sample avg dev_std = 0.513)
+SUFF++ for r=0.3 all L1 = 0.49 +- 0.141 (in-sample avg dev_std = 0.513)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.719
+Model XAI F1 of binarized graphs for r=0.6 =  0.62801125
+Model XAI WIoU of binarized graphs for r=0.6 =  0.5089837500000001
+len(reference) = 800
+Effective ratio: 0.612 +- 0.007
+Model Accuracy over intervened graphs for r=0.6 =  0.646
+SUFF++ for r=0.6 class 0 = 0.483 +- 0.269 (in-sample avg dev_std = 0.473)
+SUFF++ for r=0.6 class 1 = 0.632 +- 0.269 (in-sample avg dev_std = 0.473)
+SUFF++ for r=0.6 class 2 = 0.665 +- 0.269 (in-sample avg dev_std = 0.473)
+SUFF++ for r=0.6 all KL = 0.582 +- 0.269 (in-sample avg dev_std = 0.473)
+SUFF++ for r=0.6 all L1 = 0.592 +- 0.190 (in-sample avg dev_std = 0.473)
+
+
+ratio=0.9
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.9 =  0.913
+Model XAI F1 of binarized graphs for r=0.9 =  0.48748
+Model XAI WIoU of binarized graphs for r=0.9 =  0.36187250000000004
+len(reference) = 800
+Effective ratio: 0.915 +- 0.012
+Model Accuracy over intervened graphs for r=0.9 =  0.867
+SUFF++ for r=0.9 class 0 = 0.717 +- 0.168 (in-sample avg dev_std = 0.253)
+SUFF++ for r=0.9 class 1 = 0.844 +- 0.168 (in-sample avg dev_std = 0.253)
+SUFF++ for r=0.9 class 2 = 0.868 +- 0.168 (in-sample avg dev_std = 0.253)
+SUFF++ for r=0.9 all KL = 0.868 +- 0.168 (in-sample avg dev_std = 0.253)
+SUFF++ for r=0.9 all L1 = 0.809 +- 0.152 (in-sample avg dev_std = 0.253)
+
+
+ratio=1.0
+
+
+
+Zero intervened samples, skipping weight=1.0
+
+
+Evaluating NEC for seed 3 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over id_test across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.3 =  0.509
+Model XAI F1 of binarized graphs for r=0.3 =  0.7195550000000001
+Model XAI WIoU of binarized graphs for r=0.3 =  0.594645
+len(reference) = 800
+Effective ratio: 0.312 +- 0.010
+Model Accuracy over intervened graphs for r=0.3 =  0.381
+NEC for r=0.3 class 0 = 0.633 +- 0.264 (in-sample avg dev_std = 0.422)
+NEC for r=0.3 class 1 = 0.519 +- 0.264 (in-sample avg dev_std = 0.422)
+NEC for r=0.3 class 2 = 0.593 +- 0.264 (in-sample avg dev_std = 0.422)
+NEC for r=0.3 all KL = 0.57 +- 0.264 (in-sample avg dev_std = 0.422)
+NEC for r=0.3 all L1 = 0.581 +- 0.150 (in-sample avg dev_std = 0.422)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.717
+Model XAI F1 of binarized graphs for r=0.6 =  0.62801125
+Model XAI WIoU of binarized graphs for r=0.6 =  0.5089837500000001
+len(reference) = 800
+Effective ratio: 0.612 +- 0.007
+Model Accuracy over intervened graphs for r=0.6 =  0.404
+NEC for r=0.6 class 0 = 0.562 +- 0.283 (in-sample avg dev_std = 0.477)
+NEC for r=0.6 class 1 = 0.496 +- 0.283 (in-sample avg dev_std = 0.477)
+NEC for r=0.6 class 2 = 0.621 +- 0.283 (in-sample avg dev_std = 0.477)
+NEC for r=0.6 all KL = 0.603 +- 0.283 (in-sample avg dev_std = 0.477)
+NEC for r=0.6 all L1 = 0.559 +- 0.186 (in-sample avg dev_std = 0.477)
+
+
+ratio=0.9
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.9 =  0.913
+Model XAI F1 of binarized graphs for r=0.9 =  0.48748
+Model XAI WIoU of binarized graphs for r=0.9 =  0.36187250000000004
+len(reference) = 800
+Effective ratio: 0.915 +- 0.012
+Model Accuracy over intervened graphs for r=0.9 =  0.513
+NEC for r=0.9 class 0 = 0.634 +- 0.229 (in-sample avg dev_std = 0.573)
+NEC for r=0.9 class 1 = 0.476 +- 0.229 (in-sample avg dev_std = 0.573)
+NEC for r=0.9 class 2 = 0.552 +- 0.229 (in-sample avg dev_std = 0.573)
+NEC for r=0.9 all KL = 0.606 +- 0.229 (in-sample avg dev_std = 0.573)
+NEC for r=0.9 all L1 = 0.554 +- 0.165 (in-sample avg dev_std = 0.573)
+
+
+ratio=1.0
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=1.0 =  0.925
+Model XAI F1 of binarized graphs for r=1.0 =  0.45948124999999995
+Model XAI WIoU of binarized graphs for r=1.0 =  0.33657875000000004
+len(reference) = 800
+Effective ratio: 1.000 +- 0.000
+Model Accuracy over intervened graphs for r=1.0 =  0.548
+NEC for r=1.0 class 0 = 0.586 +- 0.235 (in-sample avg dev_std = 0.623)
+NEC for r=1.0 class 1 = 0.429 +- 0.235 (in-sample avg dev_std = 0.623)
+NEC for r=1.0 class 2 = 0.58 +- 0.235 (in-sample avg dev_std = 0.623)
+NEC for r=1.0 all KL = 0.585 +- 0.235 (in-sample avg dev_std = 0.623)
+NEC for r=1.0 all L1 = 0.531 +- 0.175 (in-sample avg dev_std = 0.623)
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Tue Apr 23 10:55:24 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif
+[0m[1;34mDEBUG[0m: 04/23/2024 10:55:24 AM : [1mPermuting node indices to remove explanation bias for train
+[0m[1;34mDEBUG[0m: 04/23/2024 10:55:37 AM : [1mPermuting node indices to remove explanation bias for id_val
+[0m[1;34mDEBUG[0m: 04/23/2024 10:55:39 AM : [1mPermuting node indices to remove explanation bias for id_test
+[0m[1;34mDEBUG[0m: 04/23/2024 10:55:41 AM : [1mPermuting node indices to remove explanation bias for val
+[0m[1;34mDEBUG[0m: 04/23/2024 10:55:43 AM : [1mPermuting node indices to remove explanation bias for test
+[0m[1;34mDEBUG[0m: 04/23/2024 10:55:44 AM : [1mDataset: {'train': GOODMotif(18000), 'id_val': GOODMotif(3000), 'id_test': GOODMotif(3000), 'val': GOODMotif(3000), 'test': GOODMotif(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 04/23/2024 10:55:44 AM : [1m Data(edge_index=[2, 64], x=[18, 1], node_gt=[18], edge_gt=[64], y=[1], env_id=[1], ori_edge_index=[2, 64], node_perm=[18], num_nodes=18)
+[0mData(edge_index=[2, 52], x=[19, 1], node_gt=[19], edge_gt=[52], y=[1], env_id=[1], ori_edge_index=[2, 52], node_perm=[19], num_nodes=19)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 04/23/2024 10:55:44 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 04/23/2024 10:55:44 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 10:55:44 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 10:55:44 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 10:55:44 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 10:55:44 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 10:55:44 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 10:55:44 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 136...
+[0m[1;37mINFO[0m: [1mCheckpoint 136: 
+-----------------------------------
+Train ACCURACY: 0.9312
+Train Loss: 0.3182
+ID Validation ACCURACY: 0.9303
+ID Validation Loss: 0.3316
+ID Test ACCURACY: 0.9280
+ID Test Loss: 0.3271
+OOD Validation ACCURACY: 0.9293
+OOD Validation Loss: 0.4588
+OOD Test ACCURACY: 0.5283
+OOD Test Loss: 1.4435
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 30...
+[0m[1;37mINFO[0m: [1mCheckpoint 30: 
+-----------------------------------
+Train ACCURACY: 0.9285
+Train Loss: 0.3202
+ID Validation ACCURACY: 0.9270
+ID Validation Loss: 0.3310
+ID Test ACCURACY: 0.9270
+ID Test Loss: 0.3274
+OOD Validation ACCURACY: 0.9317
+OOD Validation Loss: 0.3340
+OOD Test ACCURACY: 0.5837
+OOD Test Loss: 1.2512
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9280 0.5283 0.9270 0.5837 0.9270 0.9317[0mGOODMotif(3000)
+Data example from id_test: Data(edge_index=[2, 26], x=[12, 1], node_gt=[12], edge_gt=[26], y=[1], env_id=[1], ori_edge_index=[2, 26], node_perm=[12], num_nodes=12)
+Label distribution from id_test: (tensor([0, 1, 2]), tensor([1012, 1021,  967]))
+
+Gold ratio (id_test) =  tensor(0.3175) +- tensor(0.1645)
+F1 for r=0.3 = 0.716
+WIoU for r=0.3 = 0.592
+F1 for r=0.6 = 0.614
+WIoU for r=0.6 = 0.496
+F1 for r=0.9 = 0.482
+WIoU for r=0.9 = 0.356
+F1 for r=1.0 = 0.459
+WIoU for r=1.0 = 0.335
+
+
+Evaluating SUFF++ for seed 4 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over id_test across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.3 =  0.519
+Model XAI F1 of binarized graphs for r=0.3 =  0.7155087499999999
+Model XAI WIoU of binarized graphs for r=0.3 =  0.5917749999999999
+len(reference) = 800
+Effective ratio: 0.312 +- 0.010
+Model Accuracy over intervened graphs for r=0.3 =  0.448
+SUFF++ for r=0.3 class 0 = 0.445 +- 0.271 (in-sample avg dev_std = 0.480)
+SUFF++ for r=0.3 class 1 = 0.522 +- 0.271 (in-sample avg dev_std = 0.480)
+SUFF++ for r=0.3 class 2 = 0.558 +- 0.271 (in-sample avg dev_std = 0.480)
+SUFF++ for r=0.3 all KL = 0.52 +- 0.271 (in-sample avg dev_std = 0.480)
+SUFF++ for r=0.3 all L1 = 0.508 +- 0.152 (in-sample avg dev_std = 0.480)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.66
+Model XAI F1 of binarized graphs for r=0.6 =  0.61364125
+Model XAI WIoU of binarized graphs for r=0.6 =  0.49643750000000003
+len(reference) = 800
+Effective ratio: 0.612 +- 0.007
+Model Accuracy over intervened graphs for r=0.6 =  0.669
+SUFF++ for r=0.6 class 0 = 0.491 +- 0.292 (in-sample avg dev_std = 0.452)
+SUFF++ for r=0.6 class 1 = 0.691 +- 0.292 (in-sample avg dev_std = 0.452)
+SUFF++ for r=0.6 class 2 = 0.627 +- 0.292 (in-sample avg dev_std = 0.452)
+SUFF++ for r=0.6 all KL = 0.6 +- 0.292 (in-sample avg dev_std = 0.452)
+SUFF++ for r=0.6 all L1 = 0.603 +- 0.210 (in-sample avg dev_std = 0.452)
+
+
+ratio=0.9
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.9 =  0.921
+Model XAI F1 of binarized graphs for r=0.9 =  0.48183875
+Model XAI WIoU of binarized graphs for r=0.9 =  0.35616249999999994
+len(reference) = 800
+Effective ratio: 0.915 +- 0.012
+Model Accuracy over intervened graphs for r=0.9 =  0.868
+SUFF++ for r=0.9 class 0 = 0.703 +- 0.167 (in-sample avg dev_std = 0.252)
+SUFF++ for r=0.9 class 1 = 0.857 +- 0.167 (in-sample avg dev_std = 0.252)
+SUFF++ for r=0.9 class 2 = 0.824 +- 0.167 (in-sample avg dev_std = 0.252)
+SUFF++ for r=0.9 all KL = 0.861 +- 0.167 (in-sample avg dev_std = 0.252)
+SUFF++ for r=0.9 all L1 = 0.794 +- 0.155 (in-sample avg dev_std = 0.252)
+
+
+ratio=1.0
+
+
+
+Zero intervened samples, skipping weight=1.0
+
+
+Evaluating NEC for seed 4 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over id_test across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.3 =  0.516
+Model XAI F1 of binarized graphs for r=0.3 =  0.7155087499999999
+Model XAI WIoU of binarized graphs for r=0.3 =  0.5917749999999999
+len(reference) = 800
+Effective ratio: 0.312 +- 0.010
+Model Accuracy over intervened graphs for r=0.3 =  0.318
+NEC for r=0.3 class 0 = 0.595 +- 0.277 (in-sample avg dev_std = 0.413)
+NEC for r=0.3 class 1 = 0.537 +- 0.277 (in-sample avg dev_std = 0.413)
+NEC for r=0.3 class 2 = 0.608 +- 0.277 (in-sample avg dev_std = 0.413)
+NEC for r=0.3 all KL = 0.569 +- 0.277 (in-sample avg dev_std = 0.413)
+NEC for r=0.3 all L1 = 0.58 +- 0.144 (in-sample avg dev_std = 0.413)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.659
+Model XAI F1 of binarized graphs for r=0.6 =  0.61364125
+Model XAI WIoU of binarized graphs for r=0.6 =  0.49643750000000003
+len(reference) = 800
+Effective ratio: 0.612 +- 0.007
+Model Accuracy over intervened graphs for r=0.6 =  0.37
+NEC for r=0.6 class 0 = 0.561 +- 0.284 (in-sample avg dev_std = 0.467)
+NEC for r=0.6 class 1 = 0.54 +- 0.284 (in-sample avg dev_std = 0.467)
+NEC for r=0.6 class 2 = 0.63 +- 0.284 (in-sample avg dev_std = 0.467)
+NEC for r=0.6 all KL = 0.624 +- 0.284 (in-sample avg dev_std = 0.467)
+NEC for r=0.6 all L1 = 0.576 +- 0.181 (in-sample avg dev_std = 0.467)
+
+
+ratio=0.9
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.9 =  0.921
+Model XAI F1 of binarized graphs for r=0.9 =  0.48183875
+Model XAI WIoU of binarized graphs for r=0.9 =  0.35616249999999994
+len(reference) = 800
+Effective ratio: 0.915 +- 0.012
+Model Accuracy over intervened graphs for r=0.9 =  0.498
+NEC for r=0.9 class 0 = 0.586 +- 0.211 (in-sample avg dev_std = 0.603)
+NEC for r=0.9 class 1 = 0.514 +- 0.211 (in-sample avg dev_std = 0.603)
+NEC for r=0.9 class 2 = 0.588 +- 0.211 (in-sample avg dev_std = 0.603)
+NEC for r=0.9 all KL = 0.631 +- 0.211 (in-sample avg dev_std = 0.603)
+NEC for r=0.9 all L1 = 0.562 +- 0.159 (in-sample avg dev_std = 0.603)
+
+
+ratio=1.0
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=1.0 =  0.926
+Model XAI F1 of binarized graphs for r=1.0 =  0.45948124999999995
+Model XAI WIoU of binarized graphs for r=1.0 =  0.335305
+len(reference) = 800
+Effective ratio: 1.000 +- 0.000
+Model Accuracy over intervened graphs for r=1.0 =  0.536
+NEC for r=1.0 class 0 = 0.553 +- 0.217 (in-sample avg dev_std = 0.645)
+NEC for r=1.0 class 1 = 0.461 +- 0.217 (in-sample avg dev_std = 0.645)
+NEC for r=1.0 class 2 = 0.586 +- 0.217 (in-sample avg dev_std = 0.645)
+NEC for r=1.0 all KL = 0.602 +- 0.217 (in-sample avg dev_std = 0.645)
+NEC for r=1.0 all L1 = 0.532 +- 0.167 (in-sample avg dev_std = 0.645)
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Tue Apr 23 10:56:54 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif
+[0m[1;34mDEBUG[0m: 04/23/2024 10:56:54 AM : [1mPermuting node indices to remove explanation bias for train
+[0m[1;34mDEBUG[0m: 04/23/2024 10:57:07 AM : [1mPermuting node indices to remove explanation bias for id_val
+[0m[1;34mDEBUG[0m: 04/23/2024 10:57:09 AM : [1mPermuting node indices to remove explanation bias for id_test
+[0m[1;34mDEBUG[0m: 04/23/2024 10:57:11 AM : [1mPermuting node indices to remove explanation bias for val
+[0m[1;34mDEBUG[0m: 04/23/2024 10:57:13 AM : [1mPermuting node indices to remove explanation bias for test
+[0m[1;34mDEBUG[0m: 04/23/2024 10:57:14 AM : [1mDataset: {'train': GOODMotif(18000), 'id_val': GOODMotif(3000), 'id_test': GOODMotif(3000), 'val': GOODMotif(3000), 'test': GOODMotif(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 04/23/2024 10:57:14 AM : [1m Data(edge_index=[2, 64], x=[18, 1], node_gt=[18], edge_gt=[64], y=[1], env_id=[1], ori_edge_index=[2, 64], node_perm=[18], num_nodes=18)
+[0mData(edge_index=[2, 52], x=[19, 1], node_gt=[19], edge_gt=[52], y=[1], env_id=[1], ori_edge_index=[2, 52], node_perm=[19], num_nodes=19)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 04/23/2024 10:57:14 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 04/23/2024 10:57:14 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 10:57:14 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 10:57:14 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 10:57:14 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 10:57:14 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 10:57:14 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 10:57:14 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 90...
+[0m[1;37mINFO[0m: [1mCheckpoint 90: 
+-----------------------------------
+Train ACCURACY: 0.9313
+Train Loss: 0.3152
+ID Validation ACCURACY: 0.9303
+ID Validation Loss: 0.3261
+ID Test ACCURACY: 0.9280
+ID Test Loss: 0.3206
+OOD Validation ACCURACY: 0.5570
+OOD Validation Loss: 1.0961
+OOD Test ACCURACY: 0.5530
+OOD Test Loss: 1.3591
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 46...
+[0m[1;37mINFO[0m: [1mCheckpoint 46: 
+-----------------------------------
+Train ACCURACY: 0.9284
+Train Loss: 0.3274
+ID Validation ACCURACY: 0.9277
+ID Validation Loss: 0.3360
+ID Test ACCURACY: 0.9260
+ID Test Loss: 0.3348
+OOD Validation ACCURACY: 0.9320
+OOD Validation Loss: 0.3331
+OOD Test ACCURACY: 0.5507
+OOD Test Loss: 1.5619
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9280 0.5530 0.9260 0.5507 0.9277 0.9320[0mGOODMotif(3000)
+Data example from id_test: Data(edge_index=[2, 26], x=[12, 1], node_gt=[12], edge_gt=[26], y=[1], env_id=[1], ori_edge_index=[2, 26], node_perm=[12], num_nodes=12)
+Label distribution from id_test: (tensor([0, 1, 2]), tensor([1012, 1021,  967]))
+
+Gold ratio (id_test) =  tensor(0.3175) +- tensor(0.1645)
+F1 for r=0.3 = 0.655
+WIoU for r=0.3 = 0.529
+F1 for r=0.6 = 0.585
+WIoU for r=0.6 = 0.466
+F1 for r=0.9 = 0.465
+WIoU for r=0.9 = 0.341
+F1 for r=1.0 = 0.459
+WIoU for r=1.0 = 0.334
+
+
+Evaluating SUFF++ for seed 5 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over id_test across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.3 =  0.561
+Model XAI F1 of binarized graphs for r=0.3 =  0.6549787499999999
+Model XAI WIoU of binarized graphs for r=0.3 =  0.52947375
+len(reference) = 800
+Effective ratio: 0.312 +- 0.010
+Model Accuracy over intervened graphs for r=0.3 =  0.418
+SUFF++ for r=0.3 class 0 = 0.46 +- 0.267 (in-sample avg dev_std = 0.464)
+SUFF++ for r=0.3 class 1 = 0.552 +- 0.267 (in-sample avg dev_std = 0.464)
+SUFF++ for r=0.3 class 2 = 0.611 +- 0.267 (in-sample avg dev_std = 0.464)
+SUFF++ for r=0.3 all KL = 0.555 +- 0.267 (in-sample avg dev_std = 0.464)
+SUFF++ for r=0.3 all L1 = 0.54 +- 0.163 (in-sample avg dev_std = 0.464)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.655
+Model XAI F1 of binarized graphs for r=0.6 =  0.58514375
+Model XAI WIoU of binarized graphs for r=0.6 =  0.46597375
+len(reference) = 800
+Effective ratio: 0.612 +- 0.007
+Model Accuracy over intervened graphs for r=0.6 =  0.616
+SUFF++ for r=0.6 class 0 = 0.429 +- 0.268 (in-sample avg dev_std = 0.504)
+SUFF++ for r=0.6 class 1 = 0.6 +- 0.268 (in-sample avg dev_std = 0.504)
+SUFF++ for r=0.6 class 2 = 0.623 +- 0.268 (in-sample avg dev_std = 0.504)
+SUFF++ for r=0.6 all KL = 0.517 +- 0.268 (in-sample avg dev_std = 0.504)
+SUFF++ for r=0.6 all L1 = 0.55 +- 0.201 (in-sample avg dev_std = 0.504)
+
+
+ratio=0.9
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.9 =  0.905
+Model XAI F1 of binarized graphs for r=0.9 =  0.464955
+Model XAI WIoU of binarized graphs for r=0.9 =  0.34088250000000003
+len(reference) = 800
+Effective ratio: 0.915 +- 0.012
+Model Accuracy over intervened graphs for r=0.9 =  0.807
+SUFF++ for r=0.9 class 0 = 0.58 +- 0.200 (in-sample avg dev_std = 0.318)
+SUFF++ for r=0.9 class 1 = 0.795 +- 0.200 (in-sample avg dev_std = 0.318)
+SUFF++ for r=0.9 class 2 = 0.857 +- 0.200 (in-sample avg dev_std = 0.318)
+SUFF++ for r=0.9 all KL = 0.804 +- 0.200 (in-sample avg dev_std = 0.318)
+SUFF++ for r=0.9 all L1 = 0.742 +- 0.196 (in-sample avg dev_std = 0.318)
+
+
+ratio=1.0
+
+
+
+Zero intervened samples, skipping weight=1.0
+
+
+Evaluating NEC for seed 5 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over id_test across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.3 =  0.561
+Model XAI F1 of binarized graphs for r=0.3 =  0.6549787499999999
+Model XAI WIoU of binarized graphs for r=0.3 =  0.52947375
+len(reference) = 800
+Effective ratio: 0.312 +- 0.010
+Model Accuracy over intervened graphs for r=0.3 =  0.346
+NEC for r=0.3 class 0 = 0.618 +- 0.282 (in-sample avg dev_std = 0.399)
+NEC for r=0.3 class 1 = 0.525 +- 0.282 (in-sample avg dev_std = 0.399)
+NEC for r=0.3 class 2 = 0.531 +- 0.282 (in-sample avg dev_std = 0.399)
+NEC for r=0.3 all KL = 0.546 +- 0.282 (in-sample avg dev_std = 0.399)
+NEC for r=0.3 all L1 = 0.558 +- 0.159 (in-sample avg dev_std = 0.399)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.656
+Model XAI F1 of binarized graphs for r=0.6 =  0.58514375
+Model XAI WIoU of binarized graphs for r=0.6 =  0.46597375
+len(reference) = 800
+Effective ratio: 0.612 +- 0.007
+Model Accuracy over intervened graphs for r=0.6 =  0.355
+NEC for r=0.6 class 0 = 0.579 +- 0.283 (in-sample avg dev_std = 0.485)
+NEC for r=0.6 class 1 = 0.569 +- 0.283 (in-sample avg dev_std = 0.485)
+NEC for r=0.6 class 2 = 0.631 +- 0.283 (in-sample avg dev_std = 0.485)
+NEC for r=0.6 all KL = 0.65 +- 0.283 (in-sample avg dev_std = 0.485)
+NEC for r=0.6 all L1 = 0.592 +- 0.176 (in-sample avg dev_std = 0.485)
+
+
+ratio=0.9
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.9 =  0.905
+Model XAI F1 of binarized graphs for r=0.9 =  0.464955
+Model XAI WIoU of binarized graphs for r=0.9 =  0.34088250000000003
+len(reference) = 800
+Effective ratio: 0.915 +- 0.012
+Model Accuracy over intervened graphs for r=0.9 =  0.483
+NEC for r=0.9 class 0 = 0.582 +- 0.230 (in-sample avg dev_std = 0.592)
+NEC for r=0.9 class 1 = 0.553 +- 0.230 (in-sample avg dev_std = 0.592)
+NEC for r=0.9 class 2 = 0.564 +- 0.230 (in-sample avg dev_std = 0.592)
+NEC for r=0.9 all KL = 0.627 +- 0.230 (in-sample avg dev_std = 0.592)
+NEC for r=0.9 all L1 = 0.566 +- 0.150 (in-sample avg dev_std = 0.592)
+
+
+ratio=1.0
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=1.0 =  0.926
+Model XAI F1 of binarized graphs for r=1.0 =  0.45948124999999995
+Model XAI WIoU of binarized graphs for r=1.0 =  0.33389375
+len(reference) = 800
+Effective ratio: 1.000 +- 0.000
+Model Accuracy over intervened graphs for r=1.0 =  0.528
+NEC for r=1.0 class 0 = 0.563 +- 0.234 (in-sample avg dev_std = 0.632)
+NEC for r=1.0 class 1 = 0.489 +- 0.234 (in-sample avg dev_std = 0.632)
+NEC for r=1.0 class 2 = 0.586 +- 0.234 (in-sample avg dev_std = 0.632)
+NEC for r=1.0 all KL = 0.604 +- 0.234 (in-sample avg dev_std = 0.632)
+NEC for r=1.0 all L1 = 0.546 +- 0.166 (in-sample avg dev_std = 0.632)
+
+
+ -------------------------------------------------- 
+Printing evaluation results for load_split id
+
+
+
+Eval split id_test
+suff++ = [defaultdict(<class 'list'>, {'all_KL': [0.482, 0.501, 0.847, 1.0], 'all_L1': [0.52, 0.538, 0.783, 1.0], 0: [1.0], 1: [1.0], 2: [1.0]}), defaultdict(<class 'list'>, {'all_KL': [0.528, 0.621, 0.859, 1.0], 'all_L1': [0.501, 0.609, 0.793, 1.0], 0: [1.0], 1: [1.0], 2: [1.0]}), defaultdict(<class 'list'>, {'all_KL': [0.492, 0.582, 0.868, 1.0], 'all_L1': [0.49, 0.592, 0.809, 1.0], 0: [1.0], 1: [1.0], 2: [1.0]}), defaultdict(<class 'list'>, {'all_KL': [0.52, 0.6, 0.861, 1.0], 'all_L1': [0.508, 0.603, 0.794, 1.0], 0: [1.0], 1: [1.0], 2: [1.0]}), defaultdict(<class 'list'>, {'all_KL': [0.555, 0.517, 0.804, 1.0], 'all_L1': [0.54, 0.55, 0.742, 1.0], 0: [1.0], 1: [1.0], 2: [1.0]})]
+nec = [defaultdict(<class 'list'>, {'all_KL': [0.617, 0.665, 0.657, 0.625], 'all_L1': [0.573, 0.594, 0.58, 0.551]}), defaultdict(<class 'list'>, {'all_KL': [0.546, 0.619, 0.591, 0.562], 'all_L1': [0.569, 0.587, 0.556, 0.527]}), defaultdict(<class 'list'>, {'all_KL': [0.57, 0.603, 0.606, 0.585], 'all_L1': [0.581, 0.559, 0.554, 0.531]}), defaultdict(<class 'list'>, {'all_KL': [0.569, 0.624, 0.631, 0.602], 'all_L1': [0.58, 0.576, 0.562, 0.532]}), defaultdict(<class 'list'>, {'all_KL': [0.546, 0.65, 0.627, 0.604], 'all_L1': [0.558, 0.592, 0.566, 0.546]})]
+
+
+ -------------------------------------------------- 
+Printing evaluation averaged per seed
+
+Eval split id_test
+suff++ class all_L1  =  0.512 +- 0.017, 0.578 +- 0.029, 0.784 +- 0.023, 1.000 +- 0.000
+suff++ class all_KL  =  0.515 +- 0.026, 0.564 +- 0.047, 0.848 +- 0.023, 1.000 +- 0.000
+suff++_acc_int  =  0.436 +- 0.020, 0.639 +- 0.020, 0.846 +- 0.022
+nec class all_L1  =  0.572 +- 0.008, 0.582 +- 0.013, 0.564 +- 0.009, 0.537 +- 0.009
+nec class all_KL  =  0.570 +- 0.026, 0.632 +- 0.022, 0.622 +- 0.023, 0.596 +- 0.021
+nec_acc_int  =  0.341 +- 0.022, 0.380 +- 0.017, 0.495 +- 0.013, 0.533 +- 0.010
+
+
+ -------------------------------------------------- 
+Computing faithfulness
+
+Eval split id_test
+Faith. Aritm (L1)= 		  =  0.542 +- 0.006, 0.580 +- 0.012, 0.674 +- 0.010, 0.769 +- 0.005
+Faith. Armon (L1)= 		  =  0.540 +- 0.007, 0.579 +- 0.012, 0.656 +- 0.008, 0.699 +- 0.008
+Faith. GMean (L1)= 	      =  0.541 +- 0.006, 0.580 +- 0.012, 0.665 +- 0.009, 0.733 +- 0.006
+Faith. Aritm (KL)= 		  =  0.543 +- 0.007, 0.598 +- 0.015, 0.735 +- 0.013, 0.798 +- 0.011
+Faith. Armon (KL)= 		  =  0.540 +- 0.007, 0.594 +- 0.019, 0.717 +- 0.015, 0.746 +- 0.017
+Faith. GMean (KL)= 	      =  0.541 +- 0.007, 0.596 +- 0.017, 0.726 +- 0.014, 0.772 +- 0.014
+Computed for split load_split = id
+
+
+
+Completed in  0:07:33.909064  for GSATGIN GOODMotif/basis
+
+
+
+DONE GSAT GOODMotif/basis
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Tue Apr 23 10:58:56 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif
+[0m[1;34mDEBUG[0m: 04/23/2024 10:58:56 AM : [1mPermuting node indices to remove explanation bias for train
+[0m[1;34mDEBUG[0m: 04/23/2024 10:59:08 AM : [1mPermuting node indices to remove explanation bias for id_val
+[0m[1;34mDEBUG[0m: 04/23/2024 10:59:11 AM : [1mPermuting node indices to remove explanation bias for id_test
+[0m[1;34mDEBUG[0m: 04/23/2024 10:59:13 AM : [1mPermuting node indices to remove explanation bias for val
+[0m[1;34mDEBUG[0m: 04/23/2024 10:59:16 AM : [1mPermuting node indices to remove explanation bias for test
+[0m[1;34mDEBUG[0m: 04/23/2024 10:59:23 AM : [1mDataset: {'train': GOODMotif(18000), 'id_val': GOODMotif(3000), 'id_test': GOODMotif(3000), 'val': GOODMotif(3000), 'test': GOODMotif(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 04/23/2024 10:59:23 AM : [1m Data(edge_index=[2, 58], x=[17, 1], node_gt=[17], edge_gt=[58], y=[1], env_id=[1], ori_edge_index=[2, 58], node_perm=[17], num_nodes=17)
+[0mData(edge_index=[2, 80], x=[22, 1], node_gt=[22], edge_gt=[80], y=[1], env_id=[1], ori_edge_index=[2, 80], node_perm=[22], num_nodes=22)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 04/23/2024 10:59:23 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 04/23/2024 10:59:23 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 10:59:23 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 10:59:23 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 10:59:23 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 10:59:23 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 10:59:23 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 10:59:23 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 146...
+[0m[1;37mINFO[0m: [1mCheckpoint 146: 
+-----------------------------------
+Train ACCURACY: 0.9274
+Train Loss: 0.3249
+ID Validation ACCURACY: 0.9343
+ID Validation Loss: 0.3005
+ID Test ACCURACY: 0.9283
+ID Test Loss: 0.3247
+OOD Validation ACCURACY: 0.9017
+OOD Validation Loss: 0.4865
+OOD Test ACCURACY: 0.4907
+OOD Test Loss: 2.1636
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 84...
+[0m[1;37mINFO[0m: [1mCheckpoint 84: 
+-----------------------------------
+Train ACCURACY: 0.9263
+Train Loss: 0.3304
+ID Validation ACCURACY: 0.9323
+ID Validation Loss: 0.3044
+ID Test ACCURACY: 0.9280
+ID Test Loss: 0.3315
+OOD Validation ACCURACY: 0.9040
+OOD Validation Loss: 0.4661
+OOD Test ACCURACY: 0.5197
+OOD Test Loss: 1.7017
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9283 0.4907 0.9280 0.5197 0.9323 0.9040[0mGOODMotif(3000)
+Data example from id_test: Data(edge_index=[2, 42], x=[20, 1], node_gt=[20], edge_gt=[42], y=[1], env_id=[1], ori_edge_index=[2, 42], node_perm=[20], num_nodes=20)
+Label distribution from id_test: (tensor([0, 1, 2]), tensor([1006, 1011,  983]))
+
+Gold ratio (id_test) =  tensor(0.3660) +- tensor(0.1922)
+F1 for r=0.3 = 0.743
+WIoU for r=0.3 = 0.631
+F1 for r=0.6 = 0.662
+WIoU for r=0.6 = 0.548
+F1 for r=0.9 = 0.532
+WIoU for r=0.9 = 0.416
+F1 for r=1.0 = 0.509
+WIoU for r=1.0 = 0.395
+
+
+Evaluating SUFF++ for seed 1 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over id_test across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.3 =  0.482
+Model XAI F1 of binarized graphs for r=0.3 =  0.7432099999999999
+Model XAI WIoU of binarized graphs for r=0.3 =  0.6305912499999999
+len(reference) = 800
+Effective ratio: 0.314 +- 0.012
+Model Accuracy over intervened graphs for r=0.3 =  0.42
+SUFF++ for r=0.3 class 0 = 0.46 +- 0.298 (in-sample avg dev_std = 0.513)
+SUFF++ for r=0.3 class 1 = 0.589 +- 0.298 (in-sample avg dev_std = 0.513)
+SUFF++ for r=0.3 class 2 = 0.57 +- 0.298 (in-sample avg dev_std = 0.513)
+SUFF++ for r=0.3 all KL = 0.55 +- 0.298 (in-sample avg dev_std = 0.513)
+SUFF++ for r=0.3 all L1 = 0.539 +- 0.168 (in-sample avg dev_std = 0.513)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.804
+Model XAI F1 of binarized graphs for r=0.6 =  0.66175375
+Model XAI WIoU of binarized graphs for r=0.6 =  0.54802625
+len(reference) = 800
+Effective ratio: 0.614 +- 0.011
+Model Accuracy over intervened graphs for r=0.6 =  0.717
+SUFF++ for r=0.6 class 0 = 0.61 +- 0.276 (in-sample avg dev_std = 0.434)
+SUFF++ for r=0.6 class 1 = 0.647 +- 0.276 (in-sample avg dev_std = 0.434)
+SUFF++ for r=0.6 class 2 = 0.718 +- 0.276 (in-sample avg dev_std = 0.434)
+SUFF++ for r=0.6 all KL = 0.669 +- 0.276 (in-sample avg dev_std = 0.434)
+SUFF++ for r=0.6 all L1 = 0.658 +- 0.212 (in-sample avg dev_std = 0.434)
+
+
+ratio=0.9
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.9 =  0.923
+Model XAI F1 of binarized graphs for r=0.9 =  0.53248125
+Model XAI WIoU of binarized graphs for r=0.9 =  0.41568125
+len(reference) = 800
+Effective ratio: 0.914 +- 0.012
+Model Accuracy over intervened graphs for r=0.9 =  0.888
+SUFF++ for r=0.9 class 0 = 0.808 +- 0.175 (in-sample avg dev_std = 0.226)
+SUFF++ for r=0.9 class 1 = 0.871 +- 0.175 (in-sample avg dev_std = 0.226)
+SUFF++ for r=0.9 class 2 = 0.89 +- 0.175 (in-sample avg dev_std = 0.226)
+SUFF++ for r=0.9 all KL = 0.898 +- 0.175 (in-sample avg dev_std = 0.226)
+SUFF++ for r=0.9 all L1 = 0.856 +- 0.161 (in-sample avg dev_std = 0.226)
+
+
+ratio=1.0
+
+
+
+Zero intervened samples, skipping weight=1.0
+
+
+Evaluating NEC for seed 1 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over id_test across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.3 =  0.485
+Model XAI F1 of binarized graphs for r=0.3 =  0.7432099999999999
+Model XAI WIoU of binarized graphs for r=0.3 =  0.6305912499999999
+len(reference) = 800
+Effective ratio: 0.314 +- 0.012
+Model Accuracy over intervened graphs for r=0.3 =  0.325
+NEC for r=0.3 class 0 = 0.582 +- 0.344 (in-sample avg dev_std = 0.352)
+NEC for r=0.3 class 1 = 0.468 +- 0.344 (in-sample avg dev_std = 0.352)
+NEC for r=0.3 class 2 = 0.572 +- 0.344 (in-sample avg dev_std = 0.352)
+NEC for r=0.3 all KL = 0.506 +- 0.344 (in-sample avg dev_std = 0.352)
+NEC for r=0.3 all L1 = 0.54 +- 0.208 (in-sample avg dev_std = 0.352)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.803
+Model XAI F1 of binarized graphs for r=0.6 =  0.66175375
+Model XAI WIoU of binarized graphs for r=0.6 =  0.54802625
+len(reference) = 800
+Effective ratio: 0.614 +- 0.011
+Model Accuracy over intervened graphs for r=0.6 =  0.368
+NEC for r=0.6 class 0 = 0.617 +- 0.280 (in-sample avg dev_std = 0.493)
+NEC for r=0.6 class 1 = 0.566 +- 0.280 (in-sample avg dev_std = 0.493)
+NEC for r=0.6 class 2 = 0.658 +- 0.280 (in-sample avg dev_std = 0.493)
+NEC for r=0.6 all KL = 0.66 +- 0.280 (in-sample avg dev_std = 0.493)
+NEC for r=0.6 all L1 = 0.613 +- 0.166 (in-sample avg dev_std = 0.493)
+
+
+ratio=0.9
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.9 =  0.924
+Model XAI F1 of binarized graphs for r=0.9 =  0.53248125
+Model XAI WIoU of binarized graphs for r=0.9 =  0.41568125
+len(reference) = 800
+Effective ratio: 0.914 +- 0.012
+Model Accuracy over intervened graphs for r=0.9 =  0.473
+NEC for r=0.9 class 0 = 0.583 +- 0.252 (in-sample avg dev_std = 0.569)
+NEC for r=0.9 class 1 = 0.522 +- 0.252 (in-sample avg dev_std = 0.569)
+NEC for r=0.9 class 2 = 0.607 +- 0.252 (in-sample avg dev_std = 0.569)
+NEC for r=0.9 all KL = 0.621 +- 0.252 (in-sample avg dev_std = 0.569)
+NEC for r=0.9 all L1 = 0.571 +- 0.174 (in-sample avg dev_std = 0.569)
+
+
+ratio=1.0
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=1.0 =  0.938
+Model XAI F1 of binarized graphs for r=1.0 =  0.5090349999999999
+Model XAI WIoU of binarized graphs for r=1.0 =  0.39527875
+len(reference) = 800
+Effective ratio: 1.000 +- 0.000
+Model Accuracy over intervened graphs for r=1.0 =  0.513
+NEC for r=1.0 class 0 = 0.575 +- 0.246 (in-sample avg dev_std = 0.618)
+NEC for r=1.0 class 1 = 0.497 +- 0.246 (in-sample avg dev_std = 0.618)
+NEC for r=1.0 class 2 = 0.599 +- 0.246 (in-sample avg dev_std = 0.618)
+NEC for r=1.0 all KL = 0.633 +- 0.246 (in-sample avg dev_std = 0.618)
+NEC for r=1.0 all L1 = 0.557 +- 0.173 (in-sample avg dev_std = 0.618)
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Tue Apr 23 11:00:33 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif
+[0m[1;34mDEBUG[0m: 04/23/2024 11:00:33 AM : [1mPermuting node indices to remove explanation bias for train
+[0m[1;34mDEBUG[0m: 04/23/2024 11:00:45 AM : [1mPermuting node indices to remove explanation bias for id_val
+[0m[1;34mDEBUG[0m: 04/23/2024 11:00:47 AM : [1mPermuting node indices to remove explanation bias for id_test
+[0m[1;34mDEBUG[0m: 04/23/2024 11:00:49 AM : [1mPermuting node indices to remove explanation bias for val
+[0m[1;34mDEBUG[0m: 04/23/2024 11:00:53 AM : [1mPermuting node indices to remove explanation bias for test
+[0m[1;34mDEBUG[0m: 04/23/2024 11:01:00 AM : [1mDataset: {'train': GOODMotif(18000), 'id_val': GOODMotif(3000), 'id_test': GOODMotif(3000), 'val': GOODMotif(3000), 'test': GOODMotif(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 04/23/2024 11:01:00 AM : [1m Data(edge_index=[2, 58], x=[17, 1], node_gt=[17], edge_gt=[58], y=[1], env_id=[1], ori_edge_index=[2, 58], node_perm=[17], num_nodes=17)
+[0mData(edge_index=[2, 80], x=[22, 1], node_gt=[22], edge_gt=[80], y=[1], env_id=[1], ori_edge_index=[2, 80], node_perm=[22], num_nodes=22)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 04/23/2024 11:01:00 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 04/23/2024 11:01:00 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 11:01:00 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 11:01:00 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 11:01:00 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 11:01:00 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 11:01:00 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 11:01:00 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 122...
+[0m[1;37mINFO[0m: [1mCheckpoint 122: 
+-----------------------------------
+Train ACCURACY: 0.9269
+Train Loss: 0.3371
+ID Validation ACCURACY: 0.9333
+ID Validation Loss: 0.3138
+ID Test ACCURACY: 0.9290
+ID Test Loss: 0.3425
+OOD Validation ACCURACY: 0.8697
+OOD Validation Loss: 0.5698
+OOD Test ACCURACY: 0.5503
+OOD Test Loss: 1.5812
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 139...
+[0m[1;37mINFO[0m: [1mCheckpoint 139: 
+-----------------------------------
+Train ACCURACY: 0.9264
+Train Loss: 0.3343
+ID Validation ACCURACY: 0.9327
+ID Validation Loss: 0.3132
+ID Test ACCURACY: 0.9273
+ID Test Loss: 0.3387
+OOD Validation ACCURACY: 0.9030
+OOD Validation Loss: 0.4750
+OOD Test ACCURACY: 0.5800
+OOD Test Loss: 2.8730
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9290 0.5503 0.9273 0.5800 0.9327 0.9030[0mGOODMotif(3000)
+Data example from id_test: Data(edge_index=[2, 42], x=[20, 1], node_gt=[20], edge_gt=[42], y=[1], env_id=[1], ori_edge_index=[2, 42], node_perm=[20], num_nodes=20)
+Label distribution from id_test: (tensor([0, 1, 2]), tensor([1006, 1011,  983]))
+
+Gold ratio (id_test) =  tensor(0.3660) +- tensor(0.1922)
+F1 for r=0.3 = 0.730
+WIoU for r=0.3 = 0.611
+F1 for r=0.6 = 0.653
+WIoU for r=0.6 = 0.533
+F1 for r=0.9 = 0.530
+WIoU for r=0.9 = 0.405
+F1 for r=1.0 = 0.509
+WIoU for r=1.0 = 0.387
+
+
+Evaluating SUFF++ for seed 2 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over id_test across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.3 =  0.474
+Model XAI F1 of binarized graphs for r=0.3 =  0.7297612499999999
+Model XAI WIoU of binarized graphs for r=0.3 =  0.6108312499999999
+len(reference) = 800
+Effective ratio: 0.314 +- 0.012
+Model Accuracy over intervened graphs for r=0.3 =  0.428
+SUFF++ for r=0.3 class 0 = 0.496 +- 0.271 (in-sample avg dev_std = 0.491)
+SUFF++ for r=0.3 class 1 = 0.612 +- 0.271 (in-sample avg dev_std = 0.491)
+SUFF++ for r=0.3 class 2 = 0.594 +- 0.271 (in-sample avg dev_std = 0.491)
+SUFF++ for r=0.3 all KL = 0.597 +- 0.271 (in-sample avg dev_std = 0.491)
+SUFF++ for r=0.3 all L1 = 0.567 +- 0.168 (in-sample avg dev_std = 0.491)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.762
+Model XAI F1 of binarized graphs for r=0.6 =  0.6529900000000001
+Model XAI WIoU of binarized graphs for r=0.6 =  0.5328050000000001
+len(reference) = 800
+Effective ratio: 0.614 +- 0.011
+Model Accuracy over intervened graphs for r=0.6 =  0.669
+SUFF++ for r=0.6 class 0 = 0.577 +- 0.259 (in-sample avg dev_std = 0.421)
+SUFF++ for r=0.6 class 1 = 0.622 +- 0.259 (in-sample avg dev_std = 0.421)
+SUFF++ for r=0.6 class 2 = 0.723 +- 0.259 (in-sample avg dev_std = 0.421)
+SUFF++ for r=0.6 all KL = 0.687 +- 0.259 (in-sample avg dev_std = 0.421)
+SUFF++ for r=0.6 all L1 = 0.64 +- 0.201 (in-sample avg dev_std = 0.421)
+
+
+ratio=0.9
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.9 =  0.91
+Model XAI F1 of binarized graphs for r=0.9 =  0.52960625
+Model XAI WIoU of binarized graphs for r=0.9 =  0.40500875000000003
+len(reference) = 800
+Effective ratio: 0.914 +- 0.012
+Model Accuracy over intervened graphs for r=0.9 =  0.861
+SUFF++ for r=0.9 class 0 = 0.753 +- 0.163 (in-sample avg dev_std = 0.231)
+SUFF++ for r=0.9 class 1 = 0.828 +- 0.163 (in-sample avg dev_std = 0.231)
+SUFF++ for r=0.9 class 2 = 0.882 +- 0.163 (in-sample avg dev_std = 0.231)
+SUFF++ for r=0.9 all KL = 0.889 +- 0.163 (in-sample avg dev_std = 0.231)
+SUFF++ for r=0.9 all L1 = 0.82 +- 0.168 (in-sample avg dev_std = 0.231)
+
+
+ratio=1.0
+
+
+
+Zero intervened samples, skipping weight=1.0
+
+
+Evaluating NEC for seed 2 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over id_test across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.3 =  0.475
+Model XAI F1 of binarized graphs for r=0.3 =  0.7297612499999999
+Model XAI WIoU of binarized graphs for r=0.3 =  0.6108312499999999
+len(reference) = 800
+Effective ratio: 0.314 +- 0.012
+Model Accuracy over intervened graphs for r=0.3 =  0.313
+NEC for r=0.3 class 0 = 0.568 +- 0.340 (in-sample avg dev_std = 0.338)
+NEC for r=0.3 class 1 = 0.426 +- 0.340 (in-sample avg dev_std = 0.338)
+NEC for r=0.3 class 2 = 0.543 +- 0.340 (in-sample avg dev_std = 0.338)
+NEC for r=0.3 all KL = 0.465 +- 0.340 (in-sample avg dev_std = 0.338)
+NEC for r=0.3 all L1 = 0.512 +- 0.234 (in-sample avg dev_std = 0.338)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.762
+Model XAI F1 of binarized graphs for r=0.6 =  0.6529900000000001
+Model XAI WIoU of binarized graphs for r=0.6 =  0.5328050000000001
+len(reference) = 800
+Effective ratio: 0.614 +- 0.011
+Model Accuracy over intervened graphs for r=0.6 =  0.389
+NEC for r=0.6 class 0 = 0.564 +- 0.277 (in-sample avg dev_std = 0.483)
+NEC for r=0.6 class 1 = 0.538 +- 0.277 (in-sample avg dev_std = 0.483)
+NEC for r=0.6 class 2 = 0.66 +- 0.277 (in-sample avg dev_std = 0.483)
+NEC for r=0.6 all KL = 0.581 +- 0.277 (in-sample avg dev_std = 0.483)
+NEC for r=0.6 all L1 = 0.586 +- 0.168 (in-sample avg dev_std = 0.483)
+
+
+ratio=0.9
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.9 =  0.91
+Model XAI F1 of binarized graphs for r=0.9 =  0.52960625
+Model XAI WIoU of binarized graphs for r=0.9 =  0.40500875000000003
+len(reference) = 800
+Effective ratio: 0.914 +- 0.012
+Model Accuracy over intervened graphs for r=0.9 =  0.468
+NEC for r=0.9 class 0 = 0.541 +- 0.252 (in-sample avg dev_std = 0.541)
+NEC for r=0.9 class 1 = 0.523 +- 0.252 (in-sample avg dev_std = 0.541)
+NEC for r=0.9 class 2 = 0.59 +- 0.252 (in-sample avg dev_std = 0.541)
+NEC for r=0.9 all KL = 0.552 +- 0.252 (in-sample avg dev_std = 0.541)
+NEC for r=0.9 all L1 = 0.551 +- 0.168 (in-sample avg dev_std = 0.541)
+
+
+ratio=1.0
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=1.0 =  0.938
+Model XAI F1 of binarized graphs for r=1.0 =  0.5090349999999999
+Model XAI WIoU of binarized graphs for r=1.0 =  0.38721374999999997
+len(reference) = 800
+Effective ratio: 1.000 +- 0.000
+Model Accuracy over intervened graphs for r=1.0 =  0.507
+NEC for r=1.0 class 0 = 0.552 +- 0.259 (in-sample avg dev_std = 0.584)
+NEC for r=1.0 class 1 = 0.504 +- 0.259 (in-sample avg dev_std = 0.584)
+NEC for r=1.0 class 2 = 0.586 +- 0.259 (in-sample avg dev_std = 0.584)
+NEC for r=1.0 all KL = 0.578 +- 0.259 (in-sample avg dev_std = 0.584)
+NEC for r=1.0 all L1 = 0.547 +- 0.172 (in-sample avg dev_std = 0.584)
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Tue Apr 23 11:02:07 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif
+[0m[1;34mDEBUG[0m: 04/23/2024 11:02:07 AM : [1mPermuting node indices to remove explanation bias for train
+[0m[1;34mDEBUG[0m: 04/23/2024 11:02:19 AM : [1mPermuting node indices to remove explanation bias for id_val
+[0m[1;34mDEBUG[0m: 04/23/2024 11:02:21 AM : [1mPermuting node indices to remove explanation bias for id_test
+[0m[1;34mDEBUG[0m: 04/23/2024 11:02:23 AM : [1mPermuting node indices to remove explanation bias for val
+[0m[1;34mDEBUG[0m: 04/23/2024 11:02:27 AM : [1mPermuting node indices to remove explanation bias for test
+[0m[1;34mDEBUG[0m: 04/23/2024 11:02:33 AM : [1mDataset: {'train': GOODMotif(18000), 'id_val': GOODMotif(3000), 'id_test': GOODMotif(3000), 'val': GOODMotif(3000), 'test': GOODMotif(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 04/23/2024 11:02:33 AM : [1m Data(edge_index=[2, 58], x=[17, 1], node_gt=[17], edge_gt=[58], y=[1], env_id=[1], ori_edge_index=[2, 58], node_perm=[17], num_nodes=17)
+[0mData(edge_index=[2, 80], x=[22, 1], node_gt=[22], edge_gt=[80], y=[1], env_id=[1], ori_edge_index=[2, 80], node_perm=[22], num_nodes=22)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 04/23/2024 11:02:33 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 04/23/2024 11:02:33 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 11:02:33 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 11:02:33 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 11:02:33 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 11:02:33 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 11:02:33 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 11:02:33 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 109...
+[0m[1;37mINFO[0m: [1mCheckpoint 109: 
+-----------------------------------
+Train ACCURACY: 0.9266
+Train Loss: 0.3328
+ID Validation ACCURACY: 0.9347
+ID Validation Loss: 0.3080
+ID Test ACCURACY: 0.9293
+ID Test Loss: 0.3378
+OOD Validation ACCURACY: 0.8910
+OOD Validation Loss: 0.5238
+OOD Test ACCURACY: 0.4787
+OOD Test Loss: 2.2870
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 68...
+[0m[1;37mINFO[0m: [1mCheckpoint 68: 
+-----------------------------------
+Train ACCURACY: 0.9253
+Train Loss: 0.3400
+ID Validation ACCURACY: 0.9327
+ID Validation Loss: 0.3125
+ID Test ACCURACY: 0.9237
+ID Test Loss: 0.3418
+OOD Validation ACCURACY: 0.9017
+OOD Validation Loss: 0.4991
+OOD Test ACCURACY: 0.6000
+OOD Test Loss: 1.5258
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9293 0.4787 0.9237 0.6000 0.9327 0.9017[0mGOODMotif(3000)
+Data example from id_test: Data(edge_index=[2, 42], x=[20, 1], node_gt=[20], edge_gt=[42], y=[1], env_id=[1], ori_edge_index=[2, 42], node_perm=[20], num_nodes=20)
+Label distribution from id_test: (tensor([0, 1, 2]), tensor([1006, 1011,  983]))
+
+Gold ratio (id_test) =  tensor(0.3660) +- tensor(0.1922)
+F1 for r=0.3 = 0.737
+WIoU for r=0.3 = 0.617
+F1 for r=0.6 = 0.667
+WIoU for r=0.6 = 0.550
+F1 for r=0.9 = 0.536
+WIoU for r=0.9 = 0.416
+F1 for r=1.0 = 0.509
+WIoU for r=1.0 = 0.392
+
+
+Evaluating SUFF++ for seed 3 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over id_test across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.3 =  0.472
+Model XAI F1 of binarized graphs for r=0.3 =  0.736995
+Model XAI WIoU of binarized graphs for r=0.3 =  0.61693125
+len(reference) = 800
+Effective ratio: 0.314 +- 0.012
+Model Accuracy over intervened graphs for r=0.3 =  0.426
+SUFF++ for r=0.3 class 0 = 0.474 +- 0.268 (in-sample avg dev_std = 0.487)
+SUFF++ for r=0.3 class 1 = 0.607 +- 0.268 (in-sample avg dev_std = 0.487)
+SUFF++ for r=0.3 class 2 = 0.572 +- 0.268 (in-sample avg dev_std = 0.487)
+SUFF++ for r=0.3 all KL = 0.575 +- 0.268 (in-sample avg dev_std = 0.487)
+SUFF++ for r=0.3 all L1 = 0.551 +- 0.186 (in-sample avg dev_std = 0.487)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.784
+Model XAI F1 of binarized graphs for r=0.6 =  0.6671924999999999
+Model XAI WIoU of binarized graphs for r=0.6 =  0.55049
+len(reference) = 800
+Effective ratio: 0.614 +- 0.011
+Model Accuracy over intervened graphs for r=0.6 =  0.715
+SUFF++ for r=0.6 class 0 = 0.648 +- 0.242 (in-sample avg dev_std = 0.399)
+SUFF++ for r=0.6 class 1 = 0.609 +- 0.242 (in-sample avg dev_std = 0.399)
+SUFF++ for r=0.6 class 2 = 0.733 +- 0.242 (in-sample avg dev_std = 0.399)
+SUFF++ for r=0.6 all KL = 0.716 +- 0.242 (in-sample avg dev_std = 0.399)
+SUFF++ for r=0.6 all L1 = 0.663 +- 0.200 (in-sample avg dev_std = 0.399)
+
+
+ratio=0.9
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.9 =  0.914
+Model XAI F1 of binarized graphs for r=0.9 =  0.53644625
+Model XAI WIoU of binarized graphs for r=0.9 =  0.41648624999999995
+len(reference) = 800
+Effective ratio: 0.914 +- 0.012
+Model Accuracy over intervened graphs for r=0.9 =  0.872
+SUFF++ for r=0.9 class 0 = 0.802 +- 0.152 (in-sample avg dev_std = 0.222)
+SUFF++ for r=0.9 class 1 = 0.825 +- 0.152 (in-sample avg dev_std = 0.222)
+SUFF++ for r=0.9 class 2 = 0.869 +- 0.152 (in-sample avg dev_std = 0.222)
+SUFF++ for r=0.9 all KL = 0.9 +- 0.152 (in-sample avg dev_std = 0.222)
+SUFF++ for r=0.9 all L1 = 0.832 +- 0.159 (in-sample avg dev_std = 0.222)
+
+
+ratio=1.0
+
+
+
+Zero intervened samples, skipping weight=1.0
+
+
+Evaluating NEC for seed 3 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over id_test across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.3 =  0.475
+Model XAI F1 of binarized graphs for r=0.3 =  0.736995
+Model XAI WIoU of binarized graphs for r=0.3 =  0.61693125
+len(reference) = 800
+Effective ratio: 0.314 +- 0.012
+Model Accuracy over intervened graphs for r=0.3 =  0.338
+NEC for r=0.3 class 0 = 0.546 +- 0.318 (in-sample avg dev_std = 0.355)
+NEC for r=0.3 class 1 = 0.46 +- 0.318 (in-sample avg dev_std = 0.355)
+NEC for r=0.3 class 2 = 0.595 +- 0.318 (in-sample avg dev_std = 0.355)
+NEC for r=0.3 all KL = 0.494 +- 0.318 (in-sample avg dev_std = 0.355)
+NEC for r=0.3 all L1 = 0.533 +- 0.218 (in-sample avg dev_std = 0.355)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.784
+Model XAI F1 of binarized graphs for r=0.6 =  0.6671924999999999
+Model XAI WIoU of binarized graphs for r=0.6 =  0.55049
+len(reference) = 800
+Effective ratio: 0.614 +- 0.011
+Model Accuracy over intervened graphs for r=0.6 =  0.394
+NEC for r=0.6 class 0 = 0.55 +- 0.259 (in-sample avg dev_std = 0.462)
+NEC for r=0.6 class 1 = 0.577 +- 0.259 (in-sample avg dev_std = 0.462)
+NEC for r=0.6 class 2 = 0.636 +- 0.259 (in-sample avg dev_std = 0.462)
+NEC for r=0.6 all KL = 0.586 +- 0.259 (in-sample avg dev_std = 0.462)
+NEC for r=0.6 all L1 = 0.587 +- 0.163 (in-sample avg dev_std = 0.462)
+
+
+ratio=0.9
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.9 =  0.915
+Model XAI F1 of binarized graphs for r=0.9 =  0.53644625
+Model XAI WIoU of binarized graphs for r=0.9 =  0.41648624999999995
+len(reference) = 800
+Effective ratio: 0.914 +- 0.012
+Model Accuracy over intervened graphs for r=0.9 =  0.46
+NEC for r=0.9 class 0 = 0.535 +- 0.238 (in-sample avg dev_std = 0.525)
+NEC for r=0.9 class 1 = 0.541 +- 0.238 (in-sample avg dev_std = 0.525)
+NEC for r=0.9 class 2 = 0.582 +- 0.238 (in-sample avg dev_std = 0.525)
+NEC for r=0.9 all KL = 0.544 +- 0.238 (in-sample avg dev_std = 0.525)
+NEC for r=0.9 all L1 = 0.552 +- 0.165 (in-sample avg dev_std = 0.525)
+
+
+ratio=1.0
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=1.0 =  0.938
+Model XAI F1 of binarized graphs for r=1.0 =  0.5090349999999999
+Model XAI WIoU of binarized graphs for r=1.0 =  0.39213875000000004
+len(reference) = 800
+Effective ratio: 1.000 +- 0.000
+Model Accuracy over intervened graphs for r=1.0 =  0.489
+NEC for r=1.0 class 0 = 0.526 +- 0.241 (in-sample avg dev_std = 0.560)
+NEC for r=1.0 class 1 = 0.55 +- 0.241 (in-sample avg dev_std = 0.560)
+NEC for r=1.0 class 2 = 0.593 +- 0.241 (in-sample avg dev_std = 0.560)
+NEC for r=1.0 all KL = 0.573 +- 0.241 (in-sample avg dev_std = 0.560)
+NEC for r=1.0 all L1 = 0.556 +- 0.167 (in-sample avg dev_std = 0.560)
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Tue Apr 23 11:03:37 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif
+[0m[1;34mDEBUG[0m: 04/23/2024 11:03:37 AM : [1mPermuting node indices to remove explanation bias for train
+[0m[1;34mDEBUG[0m: 04/23/2024 11:03:49 AM : [1mPermuting node indices to remove explanation bias for id_val
+[0m[1;34mDEBUG[0m: 04/23/2024 11:03:51 AM : [1mPermuting node indices to remove explanation bias for id_test
+[0m[1;34mDEBUG[0m: 04/23/2024 11:03:53 AM : [1mPermuting node indices to remove explanation bias for val
+[0m[1;34mDEBUG[0m: 04/23/2024 11:03:56 AM : [1mPermuting node indices to remove explanation bias for test
+[0m[1;34mDEBUG[0m: 04/23/2024 11:04:03 AM : [1mDataset: {'train': GOODMotif(18000), 'id_val': GOODMotif(3000), 'id_test': GOODMotif(3000), 'val': GOODMotif(3000), 'test': GOODMotif(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 04/23/2024 11:04:03 AM : [1m Data(edge_index=[2, 58], x=[17, 1], node_gt=[17], edge_gt=[58], y=[1], env_id=[1], ori_edge_index=[2, 58], node_perm=[17], num_nodes=17)
+[0mData(edge_index=[2, 80], x=[22, 1], node_gt=[22], edge_gt=[80], y=[1], env_id=[1], ori_edge_index=[2, 80], node_perm=[22], num_nodes=22)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 04/23/2024 11:04:03 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 04/23/2024 11:04:03 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 11:04:03 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 11:04:03 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 11:04:03 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 11:04:03 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 11:04:03 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 11:04:03 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 135...
+[0m[1;37mINFO[0m: [1mCheckpoint 135: 
+-----------------------------------
+Train ACCURACY: 0.9276
+Train Loss: 0.3309
+ID Validation ACCURACY: 0.9337
+ID Validation Loss: 0.3021
+ID Test ACCURACY: 0.9290
+ID Test Loss: 0.3333
+OOD Validation ACCURACY: 0.9093
+OOD Validation Loss: 0.4749
+OOD Test ACCURACY: 0.5283
+OOD Test Loss: 1.2733
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 135...
+[0m[1;37mINFO[0m: [1mCheckpoint 135: 
+-----------------------------------
+Train ACCURACY: 0.9276
+Train Loss: 0.3309
+ID Validation ACCURACY: 0.9337
+ID Validation Loss: 0.3021
+ID Test ACCURACY: 0.9290
+ID Test Loss: 0.3333
+OOD Validation ACCURACY: 0.9093
+OOD Validation Loss: 0.4749
+OOD Test ACCURACY: 0.5283
+OOD Test Loss: 1.2733
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9290 0.5283 0.9290 0.5283 0.9337 0.9093[0mGOODMotif(3000)
+Data example from id_test: Data(edge_index=[2, 42], x=[20, 1], node_gt=[20], edge_gt=[42], y=[1], env_id=[1], ori_edge_index=[2, 42], node_perm=[20], num_nodes=20)
+Label distribution from id_test: (tensor([0, 1, 2]), tensor([1006, 1011,  983]))
+
+Gold ratio (id_test) =  tensor(0.3660) +- tensor(0.1922)
+F1 for r=0.3 = 0.734
+WIoU for r=0.3 = 0.615
+F1 for r=0.6 = 0.653
+WIoU for r=0.6 = 0.534
+F1 for r=0.9 = 0.533
+WIoU for r=0.9 = 0.411
+F1 for r=1.0 = 0.509
+WIoU for r=1.0 = 0.390
+
+
+Evaluating SUFF++ for seed 4 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over id_test across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.3 =  0.491
+Model XAI F1 of binarized graphs for r=0.3 =  0.7335275
+Model XAI WIoU of binarized graphs for r=0.3 =  0.6146275
+len(reference) = 800
+Effective ratio: 0.314 +- 0.012
+Model Accuracy over intervened graphs for r=0.3 =  0.409
+SUFF++ for r=0.3 class 0 = 0.487 +- 0.257 (in-sample avg dev_std = 0.441)
+SUFF++ for r=0.3 class 1 = 0.61 +- 0.257 (in-sample avg dev_std = 0.441)
+SUFF++ for r=0.3 class 2 = 0.563 +- 0.257 (in-sample avg dev_std = 0.441)
+SUFF++ for r=0.3 all KL = 0.598 +- 0.257 (in-sample avg dev_std = 0.441)
+SUFF++ for r=0.3 all L1 = 0.553 +- 0.151 (in-sample avg dev_std = 0.441)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.764
+Model XAI F1 of binarized graphs for r=0.6 =  0.65334625
+Model XAI WIoU of binarized graphs for r=0.6 =  0.53425625
+len(reference) = 800
+Effective ratio: 0.614 +- 0.011
+Model Accuracy over intervened graphs for r=0.6 =  0.678
+SUFF++ for r=0.6 class 0 = 0.605 +- 0.231 (in-sample avg dev_std = 0.375)
+SUFF++ for r=0.6 class 1 = 0.616 +- 0.231 (in-sample avg dev_std = 0.375)
+SUFF++ for r=0.6 class 2 = 0.708 +- 0.231 (in-sample avg dev_std = 0.375)
+SUFF++ for r=0.6 all KL = 0.704 +- 0.231 (in-sample avg dev_std = 0.375)
+SUFF++ for r=0.6 all L1 = 0.642 +- 0.190 (in-sample avg dev_std = 0.375)
+
+
+ratio=0.9
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.9 =  0.925
+Model XAI F1 of binarized graphs for r=0.9 =  0.5329887499999999
+Model XAI WIoU of binarized graphs for r=0.9 =  0.411405
+len(reference) = 800
+Effective ratio: 0.914 +- 0.012
+Model Accuracy over intervened graphs for r=0.9 =  0.878
+SUFF++ for r=0.9 class 0 = 0.799 +- 0.165 (in-sample avg dev_std = 0.221)
+SUFF++ for r=0.9 class 1 = 0.85 +- 0.165 (in-sample avg dev_std = 0.221)
+SUFF++ for r=0.9 class 2 = 0.87 +- 0.165 (in-sample avg dev_std = 0.221)
+SUFF++ for r=0.9 all KL = 0.898 +- 0.165 (in-sample avg dev_std = 0.221)
+SUFF++ for r=0.9 all L1 = 0.839 +- 0.161 (in-sample avg dev_std = 0.221)
+
+
+ratio=1.0
+
+
+
+Zero intervened samples, skipping weight=1.0
+
+
+Evaluating NEC for seed 4 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over id_test across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.3 =  0.491
+Model XAI F1 of binarized graphs for r=0.3 =  0.7335275
+Model XAI WIoU of binarized graphs for r=0.3 =  0.6146275
+len(reference) = 800
+Effective ratio: 0.314 +- 0.012
+Model Accuracy over intervened graphs for r=0.3 =  0.328
+NEC for r=0.3 class 0 = 0.579 +- 0.321 (in-sample avg dev_std = 0.305)
+NEC for r=0.3 class 1 = 0.434 +- 0.321 (in-sample avg dev_std = 0.305)
+NEC for r=0.3 class 2 = 0.565 +- 0.321 (in-sample avg dev_std = 0.305)
+NEC for r=0.3 all KL = 0.481 +- 0.321 (in-sample avg dev_std = 0.305)
+NEC for r=0.3 all L1 = 0.526 +- 0.201 (in-sample avg dev_std = 0.305)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.762
+Model XAI F1 of binarized graphs for r=0.6 =  0.65334625
+Model XAI WIoU of binarized graphs for r=0.6 =  0.53425625
+len(reference) = 800
+Effective ratio: 0.614 +- 0.011
+Model Accuracy over intervened graphs for r=0.6 =  0.38
+NEC for r=0.6 class 0 = 0.604 +- 0.255 (in-sample avg dev_std = 0.433)
+NEC for r=0.6 class 1 = 0.533 +- 0.255 (in-sample avg dev_std = 0.433)
+NEC for r=0.6 class 2 = 0.625 +- 0.255 (in-sample avg dev_std = 0.433)
+NEC for r=0.6 all KL = 0.581 +- 0.255 (in-sample avg dev_std = 0.433)
+NEC for r=0.6 all L1 = 0.587 +- 0.149 (in-sample avg dev_std = 0.433)
+
+
+ratio=0.9
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.9 =  0.925
+Model XAI F1 of binarized graphs for r=0.9 =  0.5329887499999999
+Model XAI WIoU of binarized graphs for r=0.9 =  0.411405
+len(reference) = 800
+Effective ratio: 0.914 +- 0.012
+Model Accuracy over intervened graphs for r=0.9 =  0.472
+NEC for r=0.9 class 0 = 0.597 +- 0.237 (in-sample avg dev_std = 0.513)
+NEC for r=0.9 class 1 = 0.524 +- 0.237 (in-sample avg dev_std = 0.513)
+NEC for r=0.9 class 2 = 0.58 +- 0.237 (in-sample avg dev_std = 0.513)
+NEC for r=0.9 all KL = 0.571 +- 0.237 (in-sample avg dev_std = 0.513)
+NEC for r=0.9 all L1 = 0.567 +- 0.155 (in-sample avg dev_std = 0.513)
+
+
+ratio=1.0
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=1.0 =  0.938
+Model XAI F1 of binarized graphs for r=1.0 =  0.5090349999999999
+Model XAI WIoU of binarized graphs for r=1.0 =  0.39040874999999997
+len(reference) = 800
+Effective ratio: 1.000 +- 0.000
+Model Accuracy over intervened graphs for r=1.0 =  0.502
+NEC for r=1.0 class 0 = 0.572 +- 0.247 (in-sample avg dev_std = 0.578)
+NEC for r=1.0 class 1 = 0.526 +- 0.247 (in-sample avg dev_std = 0.578)
+NEC for r=1.0 class 2 = 0.596 +- 0.247 (in-sample avg dev_std = 0.578)
+NEC for r=1.0 all KL = 0.615 +- 0.247 (in-sample avg dev_std = 0.578)
+NEC for r=1.0 all L1 = 0.564 +- 0.166 (in-sample avg dev_std = 0.578)
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Tue Apr 23 11:05:08 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif
+[0m[1;34mDEBUG[0m: 04/23/2024 11:05:08 AM : [1mPermuting node indices to remove explanation bias for train
+[0m[1;34mDEBUG[0m: 04/23/2024 11:05:20 AM : [1mPermuting node indices to remove explanation bias for id_val
+[0m[1;34mDEBUG[0m: 04/23/2024 11:05:22 AM : [1mPermuting node indices to remove explanation bias for id_test
+[0m[1;34mDEBUG[0m: 04/23/2024 11:05:24 AM : [1mPermuting node indices to remove explanation bias for val
+[0m[1;34mDEBUG[0m: 04/23/2024 11:05:27 AM : [1mPermuting node indices to remove explanation bias for test
+[0m[1;34mDEBUG[0m: 04/23/2024 11:05:36 AM : [1mDataset: {'train': GOODMotif(18000), 'id_val': GOODMotif(3000), 'id_test': GOODMotif(3000), 'val': GOODMotif(3000), 'test': GOODMotif(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 04/23/2024 11:05:36 AM : [1m Data(edge_index=[2, 58], x=[17, 1], node_gt=[17], edge_gt=[58], y=[1], env_id=[1], ori_edge_index=[2, 58], node_perm=[17], num_nodes=17)
+[0mData(edge_index=[2, 80], x=[22, 1], node_gt=[22], edge_gt=[80], y=[1], env_id=[1], ori_edge_index=[2, 80], node_perm=[22], num_nodes=22)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 04/23/2024 11:05:36 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 04/23/2024 11:05:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 11:05:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 11:05:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 11:05:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 11:05:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 11:05:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 11:05:36 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 109...
+[0m[1;37mINFO[0m: [1mCheckpoint 109: 
+-----------------------------------
+Train ACCURACY: 0.9269
+Train Loss: 0.3330
+ID Validation ACCURACY: 0.9337
+ID Validation Loss: 0.3044
+ID Test ACCURACY: 0.9297
+ID Test Loss: 0.3362
+OOD Validation ACCURACY: 0.9000
+OOD Validation Loss: 0.4896
+OOD Test ACCURACY: 0.5230
+OOD Test Loss: 2.0987
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 67...
+[0m[1;37mINFO[0m: [1mCheckpoint 67: 
+-----------------------------------
+Train ACCURACY: 0.9253
+Train Loss: 0.3396
+ID Validation ACCURACY: 0.9320
+ID Validation Loss: 0.3109
+ID Test ACCURACY: 0.9260
+ID Test Loss: 0.3440
+OOD Validation ACCURACY: 0.9000
+OOD Validation Loss: 0.4703
+OOD Test ACCURACY: 0.5683
+OOD Test Loss: 1.1198
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9297 0.5230 0.9260 0.5683 0.9320 0.9000[0mGOODMotif(3000)
+Data example from id_test: Data(edge_index=[2, 42], x=[20, 1], node_gt=[20], edge_gt=[42], y=[1], env_id=[1], ori_edge_index=[2, 42], node_perm=[20], num_nodes=20)
+Label distribution from id_test: (tensor([0, 1, 2]), tensor([1006, 1011,  983]))
+
+Gold ratio (id_test) =  tensor(0.3660) +- tensor(0.1922)
+F1 for r=0.3 = 0.724
+WIoU for r=0.3 = 0.606
+F1 for r=0.6 = 0.658
+WIoU for r=0.6 = 0.540
+F1 for r=0.9 = 0.534
+WIoU for r=0.9 = 0.412
+F1 for r=1.0 = 0.509
+WIoU for r=1.0 = 0.390
+
+
+Evaluating SUFF++ for seed 5 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over id_test across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.3 =  0.482
+Model XAI F1 of binarized graphs for r=0.3 =  0.72429625
+Model XAI WIoU of binarized graphs for r=0.3 =  0.6055962500000001
+len(reference) = 800
+Effective ratio: 0.314 +- 0.012
+Model Accuracy over intervened graphs for r=0.3 =  0.413
+SUFF++ for r=0.3 class 0 = 0.457 +- 0.270 (in-sample avg dev_std = 0.544)
+SUFF++ for r=0.3 class 1 = 0.536 +- 0.270 (in-sample avg dev_std = 0.544)
+SUFF++ for r=0.3 class 2 = 0.554 +- 0.270 (in-sample avg dev_std = 0.544)
+SUFF++ for r=0.3 all KL = 0.515 +- 0.270 (in-sample avg dev_std = 0.544)
+SUFF++ for r=0.3 all L1 = 0.516 +- 0.167 (in-sample avg dev_std = 0.544)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.744
+Model XAI F1 of binarized graphs for r=0.6 =  0.6582875
+Model XAI WIoU of binarized graphs for r=0.6 =  0.5403925
+len(reference) = 800
+Effective ratio: 0.614 +- 0.011
+Model Accuracy over intervened graphs for r=0.6 =  0.665
+SUFF++ for r=0.6 class 0 = 0.557 +- 0.285 (in-sample avg dev_std = 0.441)
+SUFF++ for r=0.6 class 1 = 0.56 +- 0.285 (in-sample avg dev_std = 0.441)
+SUFF++ for r=0.6 class 2 = 0.754 +- 0.285 (in-sample avg dev_std = 0.441)
+SUFF++ for r=0.6 all KL = 0.637 +- 0.285 (in-sample avg dev_std = 0.441)
+SUFF++ for r=0.6 all L1 = 0.623 +- 0.234 (in-sample avg dev_std = 0.441)
+
+
+ratio=0.9
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.9 =  0.915
+Model XAI F1 of binarized graphs for r=0.9 =  0.53362375
+Model XAI WIoU of binarized graphs for r=0.9 =  0.41183375
+len(reference) = 800
+Effective ratio: 0.914 +- 0.012
+Model Accuracy over intervened graphs for r=0.9 =  0.873
+SUFF++ for r=0.9 class 0 = 0.784 +- 0.171 (in-sample avg dev_std = 0.215)
+SUFF++ for r=0.9 class 1 = 0.83 +- 0.171 (in-sample avg dev_std = 0.215)
+SUFF++ for r=0.9 class 2 = 0.896 +- 0.171 (in-sample avg dev_std = 0.215)
+SUFF++ for r=0.9 all KL = 0.893 +- 0.171 (in-sample avg dev_std = 0.215)
+SUFF++ for r=0.9 all L1 = 0.836 +- 0.169 (in-sample avg dev_std = 0.215)
+
+
+ratio=1.0
+
+
+
+Zero intervened samples, skipping weight=1.0
+
+
+Evaluating NEC for seed 5 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over id_test across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.3 =  0.482
+Model XAI F1 of binarized graphs for r=0.3 =  0.72429625
+Model XAI WIoU of binarized graphs for r=0.3 =  0.6055962500000001
+len(reference) = 800
+Effective ratio: 0.314 +- 0.012
+Model Accuracy over intervened graphs for r=0.3 =  0.326
+NEC for r=0.3 class 0 = 0.607 +- 0.319 (in-sample avg dev_std = 0.400)
+NEC for r=0.3 class 1 = 0.508 +- 0.319 (in-sample avg dev_std = 0.400)
+NEC for r=0.3 class 2 = 0.599 +- 0.319 (in-sample avg dev_std = 0.400)
+NEC for r=0.3 all KL = 0.557 +- 0.319 (in-sample avg dev_std = 0.400)
+NEC for r=0.3 all L1 = 0.571 +- 0.204 (in-sample avg dev_std = 0.400)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.743
+Model XAI F1 of binarized graphs for r=0.6 =  0.6582875
+Model XAI WIoU of binarized graphs for r=0.6 =  0.5403925
+len(reference) = 800
+Effective ratio: 0.614 +- 0.011
+Model Accuracy over intervened graphs for r=0.6 =  0.38
+NEC for r=0.6 class 0 = 0.585 +- 0.270 (in-sample avg dev_std = 0.499)
+NEC for r=0.6 class 1 = 0.571 +- 0.270 (in-sample avg dev_std = 0.499)
+NEC for r=0.6 class 2 = 0.626 +- 0.270 (in-sample avg dev_std = 0.499)
+NEC for r=0.6 all KL = 0.64 +- 0.270 (in-sample avg dev_std = 0.499)
+NEC for r=0.6 all L1 = 0.594 +- 0.172 (in-sample avg dev_std = 0.499)
+
+
+ratio=0.9
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.9 =  0.913
+Model XAI F1 of binarized graphs for r=0.9 =  0.53362375
+Model XAI WIoU of binarized graphs for r=0.9 =  0.41183375
+len(reference) = 800
+Effective ratio: 0.914 +- 0.012
+Model Accuracy over intervened graphs for r=0.9 =  0.469
+NEC for r=0.9 class 0 = 0.572 +- 0.247 (in-sample avg dev_std = 0.563)
+NEC for r=0.9 class 1 = 0.534 +- 0.247 (in-sample avg dev_std = 0.563)
+NEC for r=0.9 class 2 = 0.574 +- 0.247 (in-sample avg dev_std = 0.563)
+NEC for r=0.9 all KL = 0.586 +- 0.247 (in-sample avg dev_std = 0.563)
+NEC for r=0.9 all L1 = 0.56 +- 0.163 (in-sample avg dev_std = 0.563)
+
+
+ratio=1.0
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=1.0 =  0.939
+Model XAI F1 of binarized graphs for r=1.0 =  0.5090349999999999
+Model XAI WIoU of binarized graphs for r=1.0 =  0.38990250000000004
+len(reference) = 800
+Effective ratio: 1.000 +- 0.000
+Model Accuracy over intervened graphs for r=1.0 =  0.507
+NEC for r=1.0 class 0 = 0.567 +- 0.254 (in-sample avg dev_std = 0.601)
+NEC for r=1.0 class 1 = 0.511 +- 0.254 (in-sample avg dev_std = 0.601)
+NEC for r=1.0 class 2 = 0.585 +- 0.254 (in-sample avg dev_std = 0.601)
+NEC for r=1.0 all KL = 0.613 +- 0.254 (in-sample avg dev_std = 0.601)
+NEC for r=1.0 all L1 = 0.554 +- 0.175 (in-sample avg dev_std = 0.601)
+
+
+ -------------------------------------------------- 
+Printing evaluation results for load_split id
+
+
+
+Eval split id_test
+suff++ = [defaultdict(<class 'list'>, {'all_KL': [0.55, 0.669, 0.898, 1.0], 'all_L1': [0.539, 0.658, 0.856, 1.0], 0: [1.0], 1: [1.0], 2: [1.0]}), defaultdict(<class 'list'>, {'all_KL': [0.597, 0.687, 0.889, 1.0], 'all_L1': [0.567, 0.64, 0.82, 1.0], 0: [1.0], 1: [1.0], 2: [1.0]}), defaultdict(<class 'list'>, {'all_KL': [0.575, 0.716, 0.9, 1.0], 'all_L1': [0.551, 0.663, 0.832, 1.0], 0: [1.0], 1: [1.0], 2: [1.0]}), defaultdict(<class 'list'>, {'all_KL': [0.598, 0.704, 0.898, 1.0], 'all_L1': [0.553, 0.642, 0.839, 1.0], 0: [1.0], 1: [1.0], 2: [1.0]}), defaultdict(<class 'list'>, {'all_KL': [0.515, 0.637, 0.893, 1.0], 'all_L1': [0.516, 0.623, 0.836, 1.0], 0: [1.0], 1: [1.0], 2: [1.0]})]
+nec = [defaultdict(<class 'list'>, {'all_KL': [0.506, 0.66, 0.621, 0.633], 'all_L1': [0.54, 0.613, 0.571, 0.557]}), defaultdict(<class 'list'>, {'all_KL': [0.465, 0.581, 0.552, 0.578], 'all_L1': [0.512, 0.586, 0.551, 0.547]}), defaultdict(<class 'list'>, {'all_KL': [0.494, 0.586, 0.544, 0.573], 'all_L1': [0.533, 0.587, 0.552, 0.556]}), defaultdict(<class 'list'>, {'all_KL': [0.481, 0.581, 0.571, 0.615], 'all_L1': [0.526, 0.587, 0.567, 0.564]}), defaultdict(<class 'list'>, {'all_KL': [0.557, 0.64, 0.586, 0.613], 'all_L1': [0.571, 0.594, 0.56, 0.554]})]
+
+
+ -------------------------------------------------- 
+Printing evaluation averaged per seed
+
+Eval split id_test
+suff++ class all_L1  =  0.545 +- 0.017, 0.645 +- 0.014, 0.837 +- 0.012, 1.000 +- 0.000
+suff++ class all_KL  =  0.567 +- 0.031, 0.683 +- 0.028, 0.896 +- 0.004, 1.000 +- 0.000
+suff++_acc_int  =  0.419 +- 0.007, 0.689 +- 0.023, 0.874 +- 0.009
+nec class all_L1  =  0.536 +- 0.020, 0.593 +- 0.010, 0.560 +- 0.008, 0.556 +- 0.005
+nec class all_KL  =  0.501 +- 0.031, 0.610 +- 0.034, 0.575 +- 0.027, 0.602 +- 0.023
+nec_acc_int  =  0.326 +- 0.008, 0.382 +- 0.009, 0.468 +- 0.005, 0.504 +- 0.008
+
+
+ -------------------------------------------------- 
+Computing faithfulness
+
+Eval split id_test
+Faith. Aritm (L1)= 		  =  0.541 +- 0.002, 0.619 +- 0.010, 0.698 +- 0.010, 0.778 +- 0.003
+Faith. Armon (L1)= 		  =  0.540 +- 0.002, 0.618 +- 0.010, 0.671 +- 0.009, 0.714 +- 0.005
+Faith. GMean (L1)= 	  =  0.540 +- 0.002, 0.619 +- 0.010, 0.685 +- 0.009, 0.745 +- 0.004
+Faith. Aritm (KL)= 		  =  0.534 +- 0.004, 0.646 +- 0.011, 0.735 +- 0.014, 0.801 +- 0.012
+Faith. Armon (KL)= 		  =  0.530 +- 0.004, 0.643 +- 0.012, 0.700 +- 0.020, 0.752 +- 0.018
+Faith. GMean (KL)= 	  =  0.532 +- 0.004, 0.644 +- 0.011, 0.717 +- 0.017, 0.776 +- 0.015
+Computed for split load_split = id
+
+
+
+Completed in  0:07:52.369114  for GSATGIN GOODMotif/size
+
+
+
+DONE GSAT GOODMotif/size
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Tue Apr 23 11:07:16 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif2
+[0m[1;34mDEBUG[0m: 04/23/2024 11:07:16 AM : [1mDataset: {'train': GOODMotif2(18000), 'id_val': GOODMotif2(3000), 'id_test': GOODMotif2(3000), 'val': GOODMotif2(3000), 'test': GOODMotif2(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 04/23/2024 11:07:16 AM : [1m Data(edge_index=[2, 84], x=[29, 1], node_gt=[29], edge_gt=[84], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[0mData(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 04/23/2024 11:07:16 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 04/23/2024 11:07:16 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 11:07:16 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 11:07:16 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 11:07:16 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 11:07:16 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 11:07:16 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 11:07:16 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 107...
+[0m[1;37mINFO[0m: [1mCheckpoint 107: 
+-----------------------------------
+Train ACCURACY: 0.9297
+Train Loss: 0.3252
+ID Validation ACCURACY: 0.9357
+ID Validation Loss: 0.3127
+ID Test ACCURACY: 0.9257
+ID Test Loss: 0.3421
+OOD Validation ACCURACY: 0.9270
+OOD Validation Loss: 0.4181
+OOD Test ACCURACY: 0.7947
+OOD Test Loss: 0.8208
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 47...
+[0m[1;37mINFO[0m: [1mCheckpoint 47: 
+-----------------------------------
+Train ACCURACY: 0.9265
+Train Loss: 0.3388
+ID Validation ACCURACY: 0.9317
+ID Validation Loss: 0.3254
+ID Test ACCURACY: 0.9243
+ID Test Loss: 0.3540
+OOD Validation ACCURACY: 0.9300
+OOD Validation Loss: 0.3738
+OOD Test ACCURACY: 0.6353
+OOD Test Loss: 1.7363
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9257 0.7947 0.9243 0.6353 0.9317 0.9300[0mGOODMotif2(3000)
+Data example from id_test: Data(edge_index=[2, 56], x=[16, 1], node_gt=[16], edge_gt=[56], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=16)
+Label distribution from id_test: (tensor([0, 1, 2]), tensor([ 988,  973, 1039]))
+
+Gold ratio (id_test) =  tensor(0.3032) +- tensor(0.1592)
+F1 for r=0.3 = 0.681
+WIoU for r=0.3 = 0.561
+F1 for r=0.6 = 0.563
+WIoU for r=0.6 = 0.443
+F1 for r=0.9 = 0.454
+WIoU for r=0.9 = 0.331
+F1 for r=1.0 = 0.444
+WIoU for r=1.0 = 0.321
+
+
+Evaluating SUFF++ for seed 1 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over id_test across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.3 =  0.436
+Model XAI F1 of binarized graphs for r=0.3 =  0.6810437500000001
+Model XAI WIoU of binarized graphs for r=0.3 =  0.56119125
+len(reference) = 800
+Effective ratio: 0.312 +- 0.010
+Model Accuracy over intervened graphs for r=0.3 =  0.453
+SUFF++ for r=0.3 class 0 = 0.498 +- 0.269 (in-sample avg dev_std = 0.453)
+SUFF++ for r=0.3 class 1 = 0.594 +- 0.269 (in-sample avg dev_std = 0.453)
+SUFF++ for r=0.3 class 2 = 0.527 +- 0.269 (in-sample avg dev_std = 0.453)
+SUFF++ for r=0.3 all KL = 0.567 +- 0.269 (in-sample avg dev_std = 0.453)
+SUFF++ for r=0.3 all L1 = 0.539 +- 0.159 (in-sample avg dev_std = 0.453)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.686
+Model XAI F1 of binarized graphs for r=0.6 =  0.56277625
+Model XAI WIoU of binarized graphs for r=0.6 =  0.44329500000000005
+len(reference) = 800
+Effective ratio: 0.611 +- 0.007
+Model Accuracy over intervened graphs for r=0.6 =  0.601
+SUFF++ for r=0.6 class 0 = 0.448 +- 0.259 (in-sample avg dev_std = 0.393)
+SUFF++ for r=0.6 class 1 = 0.774 +- 0.259 (in-sample avg dev_std = 0.393)
+SUFF++ for r=0.6 class 2 = 0.633 +- 0.259 (in-sample avg dev_std = 0.393)
+SUFF++ for r=0.6 all KL = 0.636 +- 0.259 (in-sample avg dev_std = 0.393)
+SUFF++ for r=0.6 all L1 = 0.618 +- 0.215 (in-sample avg dev_std = 0.393)
+
+
+ratio=0.9
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.9 =  0.918
+Model XAI F1 of binarized graphs for r=0.9 =  0.45431999999999995
+Model XAI WIoU of binarized graphs for r=0.9 =  0.33086625
+len(reference) = 800
+Effective ratio: 0.914 +- 0.011
+Model Accuracy over intervened graphs for r=0.9 =  0.803
+SUFF++ for r=0.9 class 0 = 0.59 +- 0.189 (in-sample avg dev_std = 0.320)
+SUFF++ for r=0.9 class 1 = 0.851 +- 0.189 (in-sample avg dev_std = 0.320)
+SUFF++ for r=0.9 class 2 = 0.812 +- 0.189 (in-sample avg dev_std = 0.320)
+SUFF++ for r=0.9 all KL = 0.821 +- 0.189 (in-sample avg dev_std = 0.320)
+SUFF++ for r=0.9 all L1 = 0.752 +- 0.178 (in-sample avg dev_std = 0.320)
+
+
+ratio=1.0
+
+
+
+Zero intervened samples, skipping weight=1.0
+
+
+Evaluating NEC for seed 1 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over id_test across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.3 =  0.44
+Model XAI F1 of binarized graphs for r=0.3 =  0.6810437500000001
+Model XAI WIoU of binarized graphs for r=0.3 =  0.56119125
+len(reference) = 800
+Effective ratio: 0.312 +- 0.010
+Model Accuracy over intervened graphs for r=0.3 =  0.307
+NEC for r=0.3 class 0 = 0.573 +- 0.314 (in-sample avg dev_std = 0.379)
+NEC for r=0.3 class 1 = 0.437 +- 0.314 (in-sample avg dev_std = 0.379)
+NEC for r=0.3 class 2 = 0.626 +- 0.314 (in-sample avg dev_std = 0.379)
+NEC for r=0.3 all KL = 0.535 +- 0.314 (in-sample avg dev_std = 0.379)
+NEC for r=0.3 all L1 = 0.547 +- 0.198 (in-sample avg dev_std = 0.379)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.686
+Model XAI F1 of binarized graphs for r=0.6 =  0.56277625
+Model XAI WIoU of binarized graphs for r=0.6 =  0.44329500000000005
+len(reference) = 800
+Effective ratio: 0.611 +- 0.007
+Model Accuracy over intervened graphs for r=0.6 =  0.398
+NEC for r=0.6 class 0 = 0.58 +- 0.272 (in-sample avg dev_std = 0.460)
+NEC for r=0.6 class 1 = 0.46 +- 0.272 (in-sample avg dev_std = 0.460)
+NEC for r=0.6 class 2 = 0.652 +- 0.272 (in-sample avg dev_std = 0.460)
+NEC for r=0.6 all KL = 0.614 +- 0.272 (in-sample avg dev_std = 0.460)
+NEC for r=0.6 all L1 = 0.566 +- 0.175 (in-sample avg dev_std = 0.460)
+
+
+ratio=0.9
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.9 =  0.916
+Model XAI F1 of binarized graphs for r=0.9 =  0.45431999999999995
+Model XAI WIoU of binarized graphs for r=0.9 =  0.33086625
+len(reference) = 800
+Effective ratio: 0.914 +- 0.011
+Model Accuracy over intervened graphs for r=0.9 =  0.521
+NEC for r=0.9 class 0 = 0.61 +- 0.235 (in-sample avg dev_std = 0.572)
+NEC for r=0.9 class 1 = 0.437 +- 0.235 (in-sample avg dev_std = 0.572)
+NEC for r=0.9 class 2 = 0.563 +- 0.235 (in-sample avg dev_std = 0.572)
+NEC for r=0.9 all KL = 0.564 +- 0.235 (in-sample avg dev_std = 0.572)
+NEC for r=0.9 all L1 = 0.537 +- 0.163 (in-sample avg dev_std = 0.572)
+
+
+ratio=1.0
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=1.0 =  0.935
+Model XAI F1 of binarized graphs for r=1.0 =  0.44384
+Model XAI WIoU of binarized graphs for r=1.0 =  0.32110374999999997
+len(reference) = 800
+Effective ratio: 1.000 +- 0.000
+Model Accuracy over intervened graphs for r=1.0 =  0.547
+NEC for r=1.0 class 0 = 0.567 +- 0.237 (in-sample avg dev_std = 0.616)
+NEC for r=1.0 class 1 = 0.419 +- 0.237 (in-sample avg dev_std = 0.616)
+NEC for r=1.0 class 2 = 0.555 +- 0.237 (in-sample avg dev_std = 0.616)
+NEC for r=1.0 all KL = 0.552 +- 0.237 (in-sample avg dev_std = 0.616)
+NEC for r=1.0 all L1 = 0.515 +- 0.173 (in-sample avg dev_std = 0.616)
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Tue Apr 23 11:08:27 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif2
+[0m[1;34mDEBUG[0m: 04/23/2024 11:08:27 AM : [1mDataset: {'train': GOODMotif2(18000), 'id_val': GOODMotif2(3000), 'id_test': GOODMotif2(3000), 'val': GOODMotif2(3000), 'test': GOODMotif2(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 04/23/2024 11:08:27 AM : [1m Data(edge_index=[2, 84], x=[29, 1], node_gt=[29], edge_gt=[84], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[0mData(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 04/23/2024 11:08:27 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 04/23/2024 11:08:27 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 11:08:27 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 11:08:27 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 11:08:27 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 11:08:27 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 11:08:27 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 11:08:27 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 133...
+[0m[1;37mINFO[0m: [1mCheckpoint 133: 
+-----------------------------------
+Train ACCURACY: 0.9303
+Train Loss: 0.3173
+ID Validation ACCURACY: 0.9357
+ID Validation Loss: 0.3076
+ID Test ACCURACY: 0.9260
+ID Test Loss: 0.3411
+OOD Validation ACCURACY: 0.8477
+OOD Validation Loss: 0.4798
+OOD Test ACCURACY: 0.6430
+OOD Test Loss: 0.9596
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 13...
+[0m[1;37mINFO[0m: [1mCheckpoint 13: 
+-----------------------------------
+Train ACCURACY: 0.9249
+Train Loss: 0.3435
+ID Validation ACCURACY: 0.9297
+ID Validation Loss: 0.3292
+ID Test ACCURACY: 0.9200
+ID Test Loss: 0.3609
+OOD Validation ACCURACY: 0.9273
+OOD Validation Loss: 0.3859
+OOD Test ACCURACY: 0.5833
+OOD Test Loss: 1.8691
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9260 0.6430 0.9200 0.5833 0.9297 0.9273[0mGOODMotif2(3000)
+Data example from id_test: Data(edge_index=[2, 56], x=[16, 1], node_gt=[16], edge_gt=[56], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=16)
+Label distribution from id_test: (tensor([0, 1, 2]), tensor([ 988,  973, 1039]))
+
+Gold ratio (id_test) =  tensor(0.3032) +- tensor(0.1592)
+F1 for r=0.3 = 0.723
+WIoU for r=0.3 = 0.605
+F1 for r=0.6 = 0.593
+WIoU for r=0.6 = 0.472
+F1 for r=0.9 = 0.471
+WIoU for r=0.9 = 0.349
+F1 for r=1.0 = 0.444
+WIoU for r=1.0 = 0.325
+
+
+Evaluating SUFF++ for seed 2 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over id_test across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.3 =  0.49
+Model XAI F1 of binarized graphs for r=0.3 =  0.7234225000000001
+Model XAI WIoU of binarized graphs for r=0.3 =  0.605325
+len(reference) = 800
+Effective ratio: 0.312 +- 0.010
+Model Accuracy over intervened graphs for r=0.3 =  0.456
+SUFF++ for r=0.3 class 0 = 0.458 +- 0.282 (in-sample avg dev_std = 0.474)
+SUFF++ for r=0.3 class 1 = 0.476 +- 0.282 (in-sample avg dev_std = 0.474)
+SUFF++ for r=0.3 class 2 = 0.545 +- 0.282 (in-sample avg dev_std = 0.474)
+SUFF++ for r=0.3 all KL = 0.51 +- 0.282 (in-sample avg dev_std = 0.474)
+SUFF++ for r=0.3 all L1 = 0.494 +- 0.170 (in-sample avg dev_std = 0.474)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.74
+Model XAI F1 of binarized graphs for r=0.6 =  0.5931475
+Model XAI WIoU of binarized graphs for r=0.6 =  0.4717075
+len(reference) = 800
+Effective ratio: 0.611 +- 0.007
+Model Accuracy over intervened graphs for r=0.6 =  0.661
+SUFF++ for r=0.6 class 0 = 0.444 +- 0.260 (in-sample avg dev_std = 0.456)
+SUFF++ for r=0.6 class 1 = 0.692 +- 0.260 (in-sample avg dev_std = 0.456)
+SUFF++ for r=0.6 class 2 = 0.646 +- 0.260 (in-sample avg dev_std = 0.456)
+SUFF++ for r=0.6 all KL = 0.588 +- 0.260 (in-sample avg dev_std = 0.456)
+SUFF++ for r=0.6 all L1 = 0.595 +- 0.191 (in-sample avg dev_std = 0.456)
+
+
+ratio=0.9
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.9 =  0.901
+Model XAI F1 of binarized graphs for r=0.9 =  0.470985
+Model XAI WIoU of binarized graphs for r=0.9 =  0.34901499999999996
+len(reference) = 800
+Effective ratio: 0.914 +- 0.011
+Model Accuracy over intervened graphs for r=0.9 =  0.83
+SUFF++ for r=0.9 class 0 = 0.692 +- 0.198 (in-sample avg dev_std = 0.280)
+SUFF++ for r=0.9 class 1 = 0.806 +- 0.198 (in-sample avg dev_std = 0.280)
+SUFF++ for r=0.9 class 2 = 0.836 +- 0.198 (in-sample avg dev_std = 0.280)
+SUFF++ for r=0.9 all KL = 0.841 +- 0.198 (in-sample avg dev_std = 0.280)
+SUFF++ for r=0.9 all L1 = 0.779 +- 0.190 (in-sample avg dev_std = 0.280)
+
+
+ratio=1.0
+
+
+
+Zero intervened samples, skipping weight=1.0
+
+
+Evaluating NEC for seed 2 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over id_test across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.3 =  0.49
+Model XAI F1 of binarized graphs for r=0.3 =  0.7234225000000001
+Model XAI WIoU of binarized graphs for r=0.3 =  0.605325
+len(reference) = 800
+Effective ratio: 0.312 +- 0.010
+Model Accuracy over intervened graphs for r=0.3 =  0.314
+NEC for r=0.3 class 0 = 0.636 +- 0.274 (in-sample avg dev_std = 0.415)
+NEC for r=0.3 class 1 = 0.591 +- 0.274 (in-sample avg dev_std = 0.415)
+NEC for r=0.3 class 2 = 0.628 +- 0.274 (in-sample avg dev_std = 0.415)
+NEC for r=0.3 all KL = 0.623 +- 0.274 (in-sample avg dev_std = 0.415)
+NEC for r=0.3 all L1 = 0.619 +- 0.154 (in-sample avg dev_std = 0.415)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.74
+Model XAI F1 of binarized graphs for r=0.6 =  0.5931475
+Model XAI WIoU of binarized graphs for r=0.6 =  0.4717075
+len(reference) = 800
+Effective ratio: 0.611 +- 0.007
+Model Accuracy over intervened graphs for r=0.6 =  0.377
+NEC for r=0.6 class 0 = 0.623 +- 0.291 (in-sample avg dev_std = 0.476)
+NEC for r=0.6 class 1 = 0.453 +- 0.291 (in-sample avg dev_std = 0.476)
+NEC for r=0.6 class 2 = 0.646 +- 0.291 (in-sample avg dev_std = 0.476)
+NEC for r=0.6 all KL = 0.614 +- 0.291 (in-sample avg dev_std = 0.476)
+NEC for r=0.6 all L1 = 0.576 +- 0.196 (in-sample avg dev_std = 0.476)
+
+
+ratio=0.9
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.9 =  0.904
+Model XAI F1 of binarized graphs for r=0.9 =  0.470985
+Model XAI WIoU of binarized graphs for r=0.9 =  0.34901499999999996
+len(reference) = 800
+Effective ratio: 0.914 +- 0.011
+Model Accuracy over intervened graphs for r=0.9 =  0.522
+NEC for r=0.9 class 0 = 0.598 +- 0.243 (in-sample avg dev_std = 0.584)
+NEC for r=0.9 class 1 = 0.484 +- 0.243 (in-sample avg dev_std = 0.584)
+NEC for r=0.9 class 2 = 0.545 +- 0.243 (in-sample avg dev_std = 0.584)
+NEC for r=0.9 all KL = 0.574 +- 0.243 (in-sample avg dev_std = 0.584)
+NEC for r=0.9 all L1 = 0.543 +- 0.155 (in-sample avg dev_std = 0.584)
+
+
+ratio=1.0
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=1.0 =  0.935
+Model XAI F1 of binarized graphs for r=1.0 =  0.44384
+Model XAI WIoU of binarized graphs for r=1.0 =  0.32503375
+len(reference) = 800
+Effective ratio: 1.000 +- 0.000
+Model Accuracy over intervened graphs for r=1.0 =  0.547
+NEC for r=1.0 class 0 = 0.544 +- 0.250 (in-sample avg dev_std = 0.609)
+NEC for r=1.0 class 1 = 0.422 +- 0.250 (in-sample avg dev_std = 0.609)
+NEC for r=1.0 class 2 = 0.555 +- 0.250 (in-sample avg dev_std = 0.609)
+NEC for r=1.0 all KL = 0.543 +- 0.250 (in-sample avg dev_std = 0.609)
+NEC for r=1.0 all L1 = 0.508 +- 0.174 (in-sample avg dev_std = 0.609)
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Tue Apr 23 11:09:34 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif2
+[0m[1;34mDEBUG[0m: 04/23/2024 11:09:34 AM : [1mDataset: {'train': GOODMotif2(18000), 'id_val': GOODMotif2(3000), 'id_test': GOODMotif2(3000), 'val': GOODMotif2(3000), 'test': GOODMotif2(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 04/23/2024 11:09:34 AM : [1m Data(edge_index=[2, 84], x=[29, 1], node_gt=[29], edge_gt=[84], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[0mData(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 04/23/2024 11:09:34 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 04/23/2024 11:09:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 11:09:34 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 11:09:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 11:09:34 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 11:09:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 11:09:34 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 11:09:34 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 110...
+[0m[1;37mINFO[0m: [1mCheckpoint 110: 
+-----------------------------------
+Train ACCURACY: 0.9289
+Train Loss: 0.3303
+ID Validation ACCURACY: 0.9350
+ID Validation Loss: 0.3133
+ID Test ACCURACY: 0.9257
+ID Test Loss: 0.3501
+OOD Validation ACCURACY: 0.8013
+OOD Validation Loss: 0.5544
+OOD Test ACCURACY: 0.7917
+OOD Test Loss: 0.8351
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 33...
+[0m[1;37mINFO[0m: [1mCheckpoint 33: 
+-----------------------------------
+Train ACCURACY: 0.9260
+Train Loss: 0.3556
+ID Validation ACCURACY: 0.9317
+ID Validation Loss: 0.3333
+ID Test ACCURACY: 0.9233
+ID Test Loss: 0.3700
+OOD Validation ACCURACY: 0.9260
+OOD Validation Loss: 0.4586
+OOD Test ACCURACY: 0.6470
+OOD Test Loss: 1.3751
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9257 0.7917 0.9233 0.6470 0.9317 0.9260[0mGOODMotif2(3000)
+Data example from id_test: Data(edge_index=[2, 56], x=[16, 1], node_gt=[16], edge_gt=[56], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=16)
+Label distribution from id_test: (tensor([0, 1, 2]), tensor([ 988,  973, 1039]))
+
+Gold ratio (id_test) =  tensor(0.3032) +- tensor(0.1592)
+F1 for r=0.3 = 0.661
+WIoU for r=0.3 = 0.538
+F1 for r=0.6 = 0.546
+WIoU for r=0.6 = 0.422
+F1 for r=0.9 = 0.459
+WIoU for r=0.9 = 0.333
+F1 for r=1.0 = 0.444
+WIoU for r=1.0 = 0.319
+
+
+Evaluating SUFF++ for seed 3 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over id_test across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.3 =  0.451
+Model XAI F1 of binarized graphs for r=0.3 =  0.6614675
+Model XAI WIoU of binarized graphs for r=0.3 =  0.5380575000000001
+len(reference) = 800
+Effective ratio: 0.312 +- 0.010
+Model Accuracy over intervened graphs for r=0.3 =  0.448
+SUFF++ for r=0.3 class 0 = 0.406 +- 0.247 (in-sample avg dev_std = 0.504)
+SUFF++ for r=0.3 class 1 = 0.501 +- 0.247 (in-sample avg dev_std = 0.504)
+SUFF++ for r=0.3 class 2 = 0.487 +- 0.247 (in-sample avg dev_std = 0.504)
+SUFF++ for r=0.3 all KL = 0.455 +- 0.247 (in-sample avg dev_std = 0.504)
+SUFF++ for r=0.3 all L1 = 0.465 +- 0.161 (in-sample avg dev_std = 0.504)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.618
+Model XAI F1 of binarized graphs for r=0.6 =  0.5463225
+Model XAI WIoU of binarized graphs for r=0.6 =  0.422085
+len(reference) = 800
+Effective ratio: 0.611 +- 0.007
+Model Accuracy over intervened graphs for r=0.6 =  0.607
+SUFF++ for r=0.6 class 0 = 0.46 +- 0.251 (in-sample avg dev_std = 0.447)
+SUFF++ for r=0.6 class 1 = 0.669 +- 0.251 (in-sample avg dev_std = 0.447)
+SUFF++ for r=0.6 class 2 = 0.653 +- 0.251 (in-sample avg dev_std = 0.447)
+SUFF++ for r=0.6 all KL = 0.607 +- 0.251 (in-sample avg dev_std = 0.447)
+SUFF++ for r=0.6 all L1 = 0.595 +- 0.179 (in-sample avg dev_std = 0.447)
+
+
+ratio=0.9
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.9 =  0.91
+Model XAI F1 of binarized graphs for r=0.9 =  0.4590625
+Model XAI WIoU of binarized graphs for r=0.9 =  0.33327875000000007
+len(reference) = 800
+Effective ratio: 0.914 +- 0.011
+Model Accuracy over intervened graphs for r=0.9 =  0.827
+SUFF++ for r=0.9 class 0 = 0.633 +- 0.198 (in-sample avg dev_std = 0.290)
+SUFF++ for r=0.9 class 1 = 0.859 +- 0.198 (in-sample avg dev_std = 0.290)
+SUFF++ for r=0.9 class 2 = 0.822 +- 0.198 (in-sample avg dev_std = 0.290)
+SUFF++ for r=0.9 all KL = 0.832 +- 0.198 (in-sample avg dev_std = 0.290)
+SUFF++ for r=0.9 all L1 = 0.772 +- 0.183 (in-sample avg dev_std = 0.290)
+
+
+ratio=1.0
+
+
+
+Zero intervened samples, skipping weight=1.0
+
+
+Evaluating NEC for seed 3 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over id_test across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.3 =  0.451
+Model XAI F1 of binarized graphs for r=0.3 =  0.6614675
+Model XAI WIoU of binarized graphs for r=0.3 =  0.5380575000000001
+len(reference) = 800
+Effective ratio: 0.312 +- 0.010
+Model Accuracy over intervened graphs for r=0.3 =  0.341
+NEC for r=0.3 class 0 = 0.619 +- 0.249 (in-sample avg dev_std = 0.456)
+NEC for r=0.3 class 1 = 0.555 +- 0.249 (in-sample avg dev_std = 0.456)
+NEC for r=0.3 class 2 = 0.657 +- 0.249 (in-sample avg dev_std = 0.456)
+NEC for r=0.3 all KL = 0.626 +- 0.249 (in-sample avg dev_std = 0.456)
+NEC for r=0.3 all L1 = 0.611 +- 0.148 (in-sample avg dev_std = 0.456)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.62
+Model XAI F1 of binarized graphs for r=0.6 =  0.5463225
+Model XAI WIoU of binarized graphs for r=0.6 =  0.422085
+len(reference) = 800
+Effective ratio: 0.611 +- 0.007
+Model Accuracy over intervened graphs for r=0.6 =  0.388
+NEC for r=0.6 class 0 = 0.579 +- 0.276 (in-sample avg dev_std = 0.472)
+NEC for r=0.6 class 1 = 0.438 +- 0.276 (in-sample avg dev_std = 0.472)
+NEC for r=0.6 class 2 = 0.655 +- 0.276 (in-sample avg dev_std = 0.472)
+NEC for r=0.6 all KL = 0.588 +- 0.276 (in-sample avg dev_std = 0.472)
+NEC for r=0.6 all L1 = 0.559 +- 0.186 (in-sample avg dev_std = 0.472)
+
+
+ratio=0.9
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.9 =  0.91
+Model XAI F1 of binarized graphs for r=0.9 =  0.4590625
+Model XAI WIoU of binarized graphs for r=0.9 =  0.33327875000000007
+len(reference) = 800
+Effective ratio: 0.914 +- 0.011
+Model Accuracy over intervened graphs for r=0.9 =  0.512
+NEC for r=0.9 class 0 = 0.624 +- 0.222 (in-sample avg dev_std = 0.597)
+NEC for r=0.9 class 1 = 0.449 +- 0.222 (in-sample avg dev_std = 0.597)
+NEC for r=0.9 class 2 = 0.57 +- 0.222 (in-sample avg dev_std = 0.597)
+NEC for r=0.9 all KL = 0.61 +- 0.222 (in-sample avg dev_std = 0.597)
+NEC for r=0.9 all L1 = 0.549 +- 0.163 (in-sample avg dev_std = 0.597)
+
+
+ratio=1.0
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=1.0 =  0.935
+Model XAI F1 of binarized graphs for r=1.0 =  0.44384
+Model XAI WIoU of binarized graphs for r=1.0 =  0.3186425
+len(reference) = 800
+Effective ratio: 1.000 +- 0.000
+Model Accuracy over intervened graphs for r=1.0 =  0.557
+NEC for r=1.0 class 0 = 0.57 +- 0.252 (in-sample avg dev_std = 0.622)
+NEC for r=1.0 class 1 = 0.399 +- 0.252 (in-sample avg dev_std = 0.622)
+NEC for r=1.0 class 2 = 0.562 +- 0.252 (in-sample avg dev_std = 0.622)
+NEC for r=1.0 all KL = 0.569 +- 0.252 (in-sample avg dev_std = 0.622)
+NEC for r=1.0 all L1 = 0.512 +- 0.181 (in-sample avg dev_std = 0.622)
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Tue Apr 23 11:10:41 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif2
+[0m[1;34mDEBUG[0m: 04/23/2024 11:10:41 AM : [1mDataset: {'train': GOODMotif2(18000), 'id_val': GOODMotif2(3000), 'id_test': GOODMotif2(3000), 'val': GOODMotif2(3000), 'test': GOODMotif2(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 04/23/2024 11:10:41 AM : [1m Data(edge_index=[2, 84], x=[29, 1], node_gt=[29], edge_gt=[84], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[0mData(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 04/23/2024 11:10:41 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 04/23/2024 11:10:41 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 11:10:41 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 11:10:41 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 11:10:41 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 11:10:41 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 11:10:41 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 11:10:41 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 111...
+[0m[1;37mINFO[0m: [1mCheckpoint 111: 
+-----------------------------------
+Train ACCURACY: 0.9303
+Train Loss: 0.3118
+ID Validation ACCURACY: 0.9357
+ID Validation Loss: 0.3016
+ID Test ACCURACY: 0.9260
+ID Test Loss: 0.3358
+OOD Validation ACCURACY: 0.8073
+OOD Validation Loss: 0.5158
+OOD Test ACCURACY: 0.7527
+OOD Test Loss: 1.0888
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 138...
+[0m[1;37mINFO[0m: [1mCheckpoint 138: 
+-----------------------------------
+Train ACCURACY: 0.9293
+Train Loss: 0.3258
+ID Validation ACCURACY: 0.9347
+ID Validation Loss: 0.3155
+ID Test ACCURACY: 0.9257
+ID Test Loss: 0.3465
+OOD Validation ACCURACY: 0.9260
+OOD Validation Loss: 0.4445
+OOD Test ACCURACY: 0.5280
+OOD Test Loss: 1.3857
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9260 0.7527 0.9257 0.5280 0.9347 0.9260[0mGOODMotif2(3000)
+Data example from id_test: Data(edge_index=[2, 56], x=[16, 1], node_gt=[16], edge_gt=[56], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=16)
+Label distribution from id_test: (tensor([0, 1, 2]), tensor([ 988,  973, 1039]))
+
+Gold ratio (id_test) =  tensor(0.3032) +- tensor(0.1592)
+F1 for r=0.3 = 0.717
+WIoU for r=0.3 = 0.599
+F1 for r=0.6 = 0.592
+WIoU for r=0.6 = 0.468
+F1 for r=0.9 = 0.471
+WIoU for r=0.9 = 0.347
+F1 for r=1.0 = 0.444
+WIoU for r=1.0 = 0.324
+
+
+Evaluating SUFF++ for seed 4 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over id_test across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.3 =  0.481
+Model XAI F1 of binarized graphs for r=0.3 =  0.71724125
+Model XAI WIoU of binarized graphs for r=0.3 =  0.5986525
+len(reference) = 800
+Effective ratio: 0.312 +- 0.010
+Model Accuracy over intervened graphs for r=0.3 =  0.496
+SUFF++ for r=0.3 class 0 = 0.461 +- 0.253 (in-sample avg dev_std = 0.441)
+SUFF++ for r=0.3 class 1 = 0.617 +- 0.253 (in-sample avg dev_std = 0.441)
+SUFF++ for r=0.3 class 2 = 0.558 +- 0.253 (in-sample avg dev_std = 0.441)
+SUFF++ for r=0.3 all KL = 0.581 +- 0.253 (in-sample avg dev_std = 0.441)
+SUFF++ for r=0.3 all L1 = 0.545 +- 0.165 (in-sample avg dev_std = 0.441)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.765
+Model XAI F1 of binarized graphs for r=0.6 =  0.59186125
+Model XAI WIoU of binarized graphs for r=0.6 =  0.4677675
+len(reference) = 800
+Effective ratio: 0.611 +- 0.007
+Model Accuracy over intervened graphs for r=0.6 =  0.663
+SUFF++ for r=0.6 class 0 = 0.461 +- 0.242 (in-sample avg dev_std = 0.400)
+SUFF++ for r=0.6 class 1 = 0.721 +- 0.242 (in-sample avg dev_std = 0.400)
+SUFF++ for r=0.6 class 2 = 0.681 +- 0.242 (in-sample avg dev_std = 0.400)
+SUFF++ for r=0.6 all KL = 0.681 +- 0.242 (in-sample avg dev_std = 0.400)
+SUFF++ for r=0.6 all L1 = 0.621 +- 0.188 (in-sample avg dev_std = 0.400)
+
+
+ratio=0.9
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.9 =  0.901
+Model XAI F1 of binarized graphs for r=0.9 =  0.4707525
+Model XAI WIoU of binarized graphs for r=0.9 =  0.34706500000000007
+len(reference) = 800
+Effective ratio: 0.914 +- 0.011
+Model Accuracy over intervened graphs for r=0.9 =  0.873
+SUFF++ for r=0.9 class 0 = 0.73 +- 0.171 (in-sample avg dev_std = 0.265)
+SUFF++ for r=0.9 class 1 = 0.833 +- 0.171 (in-sample avg dev_std = 0.265)
+SUFF++ for r=0.9 class 2 = 0.819 +- 0.171 (in-sample avg dev_std = 0.265)
+SUFF++ for r=0.9 all KL = 0.868 +- 0.171 (in-sample avg dev_std = 0.265)
+SUFF++ for r=0.9 all L1 = 0.794 +- 0.162 (in-sample avg dev_std = 0.265)
+
+
+ratio=1.0
+
+
+
+Zero intervened samples, skipping weight=1.0
+
+
+Evaluating NEC for seed 4 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over id_test across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.3 =  0.482
+Model XAI F1 of binarized graphs for r=0.3 =  0.71724125
+Model XAI WIoU of binarized graphs for r=0.3 =  0.5986525
+len(reference) = 800
+Effective ratio: 0.312 +- 0.010
+Model Accuracy over intervened graphs for r=0.3 =  0.327
+NEC for r=0.3 class 0 = 0.616 +- 0.269 (in-sample avg dev_std = 0.399)
+NEC for r=0.3 class 1 = 0.462 +- 0.269 (in-sample avg dev_std = 0.399)
+NEC for r=0.3 class 2 = 0.592 +- 0.269 (in-sample avg dev_std = 0.399)
+NEC for r=0.3 all KL = 0.551 +- 0.269 (in-sample avg dev_std = 0.399)
+NEC for r=0.3 all L1 = 0.557 +- 0.173 (in-sample avg dev_std = 0.399)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.764
+Model XAI F1 of binarized graphs for r=0.6 =  0.59186125
+Model XAI WIoU of binarized graphs for r=0.6 =  0.4677675
+len(reference) = 800
+Effective ratio: 0.611 +- 0.007
+Model Accuracy over intervened graphs for r=0.6 =  0.439
+NEC for r=0.6 class 0 = 0.641 +- 0.261 (in-sample avg dev_std = 0.453)
+NEC for r=0.6 class 1 = 0.445 +- 0.261 (in-sample avg dev_std = 0.453)
+NEC for r=0.6 class 2 = 0.622 +- 0.261 (in-sample avg dev_std = 0.453)
+NEC for r=0.6 all KL = 0.56 +- 0.261 (in-sample avg dev_std = 0.453)
+NEC for r=0.6 all L1 = 0.571 +- 0.166 (in-sample avg dev_std = 0.453)
+
+
+ratio=0.9
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.9 =  0.902
+Model XAI F1 of binarized graphs for r=0.9 =  0.4707525
+Model XAI WIoU of binarized graphs for r=0.9 =  0.34706500000000007
+len(reference) = 800
+Effective ratio: 0.914 +- 0.011
+Model Accuracy over intervened graphs for r=0.9 =  0.512
+NEC for r=0.9 class 0 = 0.603 +- 0.213 (in-sample avg dev_std = 0.567)
+NEC for r=0.9 class 1 = 0.451 +- 0.213 (in-sample avg dev_std = 0.567)
+NEC for r=0.9 class 2 = 0.579 +- 0.213 (in-sample avg dev_std = 0.567)
+NEC for r=0.9 all KL = 0.562 +- 0.213 (in-sample avg dev_std = 0.567)
+NEC for r=0.9 all L1 = 0.545 +- 0.154 (in-sample avg dev_std = 0.567)
+
+
+ratio=1.0
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=1.0 =  0.935
+Model XAI F1 of binarized graphs for r=1.0 =  0.44384
+Model XAI WIoU of binarized graphs for r=1.0 =  0.32357375000000005
+len(reference) = 800
+Effective ratio: 1.000 +- 0.000
+Model Accuracy over intervened graphs for r=1.0 =  0.553
+NEC for r=1.0 class 0 = 0.569 +- 0.251 (in-sample avg dev_std = 0.619)
+NEC for r=1.0 class 1 = 0.382 +- 0.251 (in-sample avg dev_std = 0.619)
+NEC for r=1.0 class 2 = 0.571 +- 0.251 (in-sample avg dev_std = 0.619)
+NEC for r=1.0 all KL = 0.551 +- 0.251 (in-sample avg dev_std = 0.619)
+NEC for r=1.0 all L1 = 0.509 +- 0.181 (in-sample avg dev_std = 0.619)
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Tue Apr 23 11:11:47 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif2
+[0m[1;34mDEBUG[0m: 04/23/2024 11:11:47 AM : [1mDataset: {'train': GOODMotif2(18000), 'id_val': GOODMotif2(3000), 'id_test': GOODMotif2(3000), 'val': GOODMotif2(3000), 'test': GOODMotif2(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 04/23/2024 11:11:47 AM : [1m Data(edge_index=[2, 84], x=[29, 1], node_gt=[29], edge_gt=[84], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[0mData(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 04/23/2024 11:11:47 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 04/23/2024 11:11:47 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 11:11:47 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 11:11:47 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 11:11:47 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 11:11:47 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 04/23/2024 11:11:47 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 04/23/2024 11:11:47 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 121...
+[0m[1;37mINFO[0m: [1mCheckpoint 121: 
+-----------------------------------
+Train ACCURACY: 0.9297
+Train Loss: 0.3216
+ID Validation ACCURACY: 0.9353
+ID Validation Loss: 0.3083
+ID Test ACCURACY: 0.9257
+ID Test Loss: 0.3413
+OOD Validation ACCURACY: 0.9157
+OOD Validation Loss: 0.4277
+OOD Test ACCURACY: 0.7673
+OOD Test Loss: 0.8079
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 63...
+[0m[1;37mINFO[0m: [1mCheckpoint 63: 
+-----------------------------------
+Train ACCURACY: 0.9285
+Train Loss: 0.3200
+ID Validation ACCURACY: 0.9337
+ID Validation Loss: 0.3075
+ID Test ACCURACY: 0.9250
+ID Test Loss: 0.3354
+OOD Validation ACCURACY: 0.9280
+OOD Validation Loss: 0.3766
+OOD Test ACCURACY: 0.7923
+OOD Test Loss: 1.1210
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9257 0.7673 0.9250 0.7923 0.9337 0.9280[0mGOODMotif2(3000)
+Data example from id_test: Data(edge_index=[2, 56], x=[16, 1], node_gt=[16], edge_gt=[56], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=16)
+Label distribution from id_test: (tensor([0, 1, 2]), tensor([ 988,  973, 1039]))
+
+Gold ratio (id_test) =  tensor(0.3032) +- tensor(0.1592)
+F1 for r=0.3 = 0.695
+WIoU for r=0.3 = 0.576
+F1 for r=0.6 = 0.570
+WIoU for r=0.6 = 0.449
+F1 for r=0.9 = 0.450
+WIoU for r=0.9 = 0.327
+F1 for r=1.0 = 0.444
+WIoU for r=1.0 = 0.320
+
+
+Evaluating SUFF++ for seed 5 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over id_test across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.3 =  0.463
+Model XAI F1 of binarized graphs for r=0.3 =  0.69502625
+Model XAI WIoU of binarized graphs for r=0.3 =  0.5757537500000001
+len(reference) = 800
+Effective ratio: 0.312 +- 0.010
+Model Accuracy over intervened graphs for r=0.3 =  0.453
+SUFF++ for r=0.3 class 0 = 0.476 +- 0.261 (in-sample avg dev_std = 0.434)
+SUFF++ for r=0.3 class 1 = 0.486 +- 0.261 (in-sample avg dev_std = 0.434)
+SUFF++ for r=0.3 class 2 = 0.552 +- 0.261 (in-sample avg dev_std = 0.434)
+SUFF++ for r=0.3 all KL = 0.565 +- 0.261 (in-sample avg dev_std = 0.434)
+SUFF++ for r=0.3 all L1 = 0.505 +- 0.163 (in-sample avg dev_std = 0.434)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.688
+Model XAI F1 of binarized graphs for r=0.6 =  0.56951625
+Model XAI WIoU of binarized graphs for r=0.6 =  0.44933750000000006
+len(reference) = 800
+Effective ratio: 0.611 +- 0.007
+Model Accuracy over intervened graphs for r=0.6 =  0.644
+SUFF++ for r=0.6 class 0 = 0.493 +- 0.241 (in-sample avg dev_std = 0.423)
+SUFF++ for r=0.6 class 1 = 0.723 +- 0.241 (in-sample avg dev_std = 0.423)
+SUFF++ for r=0.6 class 2 = 0.651 +- 0.241 (in-sample avg dev_std = 0.423)
+SUFF++ for r=0.6 all KL = 0.664 +- 0.241 (in-sample avg dev_std = 0.423)
+SUFF++ for r=0.6 all L1 = 0.622 +- 0.180 (in-sample avg dev_std = 0.423)
+
+
+ratio=0.9
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.9 =  0.929
+Model XAI F1 of binarized graphs for r=0.9 =  0.44999875
+Model XAI WIoU of binarized graphs for r=0.9 =  0.3266312500000001
+len(reference) = 800
+Effective ratio: 0.914 +- 0.011
+Model Accuracy over intervened graphs for r=0.9 =  0.859
+SUFF++ for r=0.9 class 0 = 0.639 +- 0.184 (in-sample avg dev_std = 0.312)
+SUFF++ for r=0.9 class 1 = 0.827 +- 0.184 (in-sample avg dev_std = 0.312)
+SUFF++ for r=0.9 class 2 = 0.836 +- 0.184 (in-sample avg dev_std = 0.312)
+SUFF++ for r=0.9 all KL = 0.838 +- 0.184 (in-sample avg dev_std = 0.312)
+SUFF++ for r=0.9 all L1 = 0.768 +- 0.154 (in-sample avg dev_std = 0.312)
+
+
+ratio=1.0
+
+
+
+Zero intervened samples, skipping weight=1.0
+
+
+Evaluating NEC for seed 5 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over id_test across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.3 =  0.463
+Model XAI F1 of binarized graphs for r=0.3 =  0.69502625
+Model XAI WIoU of binarized graphs for r=0.3 =  0.5757537500000001
+len(reference) = 800
+Effective ratio: 0.312 +- 0.010
+Model Accuracy over intervened graphs for r=0.3 =  0.293
+NEC for r=0.3 class 0 = 0.592 +- 0.281 (in-sample avg dev_std = 0.406)
+NEC for r=0.3 class 1 = 0.578 +- 0.281 (in-sample avg dev_std = 0.406)
+NEC for r=0.3 class 2 = 0.592 +- 0.281 (in-sample avg dev_std = 0.406)
+NEC for r=0.3 all KL = 0.546 +- 0.281 (in-sample avg dev_std = 0.406)
+NEC for r=0.3 all L1 = 0.588 +- 0.152 (in-sample avg dev_std = 0.406)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.689
+Model XAI F1 of binarized graphs for r=0.6 =  0.56951625
+Model XAI WIoU of binarized graphs for r=0.6 =  0.44933750000000006
+len(reference) = 800
+Effective ratio: 0.611 +- 0.007
+Model Accuracy over intervened graphs for r=0.6 =  0.379
+NEC for r=0.6 class 0 = 0.58 +- 0.275 (in-sample avg dev_std = 0.460)
+NEC for r=0.6 class 1 = 0.509 +- 0.275 (in-sample avg dev_std = 0.460)
+NEC for r=0.6 class 2 = 0.664 +- 0.275 (in-sample avg dev_std = 0.460)
+NEC for r=0.6 all KL = 0.597 +- 0.275 (in-sample avg dev_std = 0.460)
+NEC for r=0.6 all L1 = 0.586 +- 0.166 (in-sample avg dev_std = 0.460)
+
+
+ratio=0.9
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.9 =  0.929
+Model XAI F1 of binarized graphs for r=0.9 =  0.44999875
+Model XAI WIoU of binarized graphs for r=0.9 =  0.3266312500000001
+len(reference) = 800
+Effective ratio: 0.914 +- 0.011
+Model Accuracy over intervened graphs for r=0.9 =  0.51
+NEC for r=0.9 class 0 = 0.58 +- 0.213 (in-sample avg dev_std = 0.585)
+NEC for r=0.9 class 1 = 0.483 +- 0.213 (in-sample avg dev_std = 0.585)
+NEC for r=0.9 class 2 = 0.568 +- 0.213 (in-sample avg dev_std = 0.585)
+NEC for r=0.9 all KL = 0.569 +- 0.213 (in-sample avg dev_std = 0.585)
+NEC for r=0.9 all L1 = 0.545 +- 0.156 (in-sample avg dev_std = 0.585)
+
+
+ratio=1.0
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=1.0 =  0.935
+Model XAI F1 of binarized graphs for r=1.0 =  0.44384
+Model XAI WIoU of binarized graphs for r=1.0 =  0.32028375000000003
+len(reference) = 800
+Effective ratio: 1.000 +- 0.000
+Model Accuracy over intervened graphs for r=1.0 =  0.534
+NEC for r=1.0 class 0 = 0.545 +- 0.219 (in-sample avg dev_std = 0.624)
+NEC for r=1.0 class 1 = 0.444 +- 0.219 (in-sample avg dev_std = 0.624)
+NEC for r=1.0 class 2 = 0.567 +- 0.219 (in-sample avg dev_std = 0.624)
+NEC for r=1.0 all KL = 0.55 +- 0.219 (in-sample avg dev_std = 0.624)
+NEC for r=1.0 all L1 = 0.52 +- 0.164 (in-sample avg dev_std = 0.624)
+
+
+ -------------------------------------------------- 
+Printing evaluation results for load_split id
+
+
+
+Eval split id_test
+suff++ = [defaultdict(<class 'list'>, {'all_KL': [0.567, 0.636, 0.821, 1.0], 'all_L1': [0.539, 0.618, 0.752, 1.0], 0: [1.0], 1: [1.0], 2: [1.0]}), defaultdict(<class 'list'>, {'all_KL': [0.51, 0.588, 0.841, 1.0], 'all_L1': [0.494, 0.595, 0.779, 1.0], 0: [1.0], 1: [1.0], 2: [1.0]}), defaultdict(<class 'list'>, {'all_KL': [0.455, 0.607, 0.832, 1.0], 'all_L1': [0.465, 0.595, 0.772, 1.0], 0: [1.0], 1: [1.0], 2: [1.0]}), defaultdict(<class 'list'>, {'all_KL': [0.581, 0.681, 0.868, 1.0], 'all_L1': [0.545, 0.621, 0.794, 1.0], 0: [1.0], 1: [1.0], 2: [1.0]}), defaultdict(<class 'list'>, {'all_KL': [0.565, 0.664, 0.838, 1.0], 'all_L1': [0.505, 0.622, 0.768, 1.0], 0: [1.0], 1: [1.0], 2: [1.0]})]
+nec = [defaultdict(<class 'list'>, {'all_KL': [0.535, 0.614, 0.564, 0.552], 'all_L1': [0.547, 0.566, 0.537, 0.515]}), defaultdict(<class 'list'>, {'all_KL': [0.623, 0.614, 0.574, 0.543], 'all_L1': [0.619, 0.576, 0.543, 0.508]}), defaultdict(<class 'list'>, {'all_KL': [0.626, 0.588, 0.61, 0.569], 'all_L1': [0.611, 0.559, 0.549, 0.512]}), defaultdict(<class 'list'>, {'all_KL': [0.551, 0.56, 0.562, 0.551], 'all_L1': [0.557, 0.571, 0.545, 0.509]}), defaultdict(<class 'list'>, {'all_KL': [0.546, 0.597, 0.569, 0.55], 'all_L1': [0.588, 0.586, 0.545, 0.52]})]
+
+
+ -------------------------------------------------- 
+Printing evaluation averaged per seed
+
+Eval split id_test
+suff++ class all_L1  =  0.510 +- 0.030, 0.610 +- 0.012, 0.773 +- 0.014, 1.000 +- 0.000
+suff++ class all_KL  =  0.536 +- 0.047, 0.635 +- 0.034, 0.840 +- 0.016, 1.000 +- 0.000
+suff++_acc_int  =  0.461 +- 0.017, 0.635 +- 0.026, 0.838 +- 0.025
+nec class all_L1  =  0.584 +- 0.029, 0.572 +- 0.009, 0.544 +- 0.004, 0.513 +- 0.004
+nec class all_KL  =  0.576 +- 0.040, 0.595 +- 0.020, 0.576 +- 0.018, 0.553 +- 0.009
+nec_acc_int  =  0.316 +- 0.017, 0.396 +- 0.023, 0.515 +- 0.005, 0.547 +- 0.008
+
+
+ -------------------------------------------------- 
+Computing faithfulness
+
+Eval split id_test
+Faith. Aritm (L1)= 		  =  0.547 +- 0.006, 0.591 +- 0.009, 0.658 +- 0.008, 0.756 +- 0.002
+Faith. Armon (L1)= 		  =  0.543 +- 0.008, 0.590 +- 0.009, 0.638 +- 0.007, 0.678 +- 0.004
+Faith. GMean (L1)= 	  =  0.545 +- 0.007, 0.591 +- 0.009, 0.648 +- 0.007, 0.716 +- 0.003
+Faith. Aritm (KL)= 		  =  0.556 +- 0.010, 0.615 +- 0.013, 0.708 +- 0.010, 0.777 +- 0.004
+Faith. Armon (KL)= 		  =  0.552 +- 0.013, 0.613 +- 0.013, 0.683 +- 0.012, 0.712 +- 0.007
+Faith. GMean (KL)= 	  =  0.554 +- 0.011, 0.614 +- 0.013, 0.695 +- 0.010, 0.744 +- 0.006
+Computed for split load_split = id
+
+
+
+Completed in  0:05:40.095955  for GSATGIN GOODMotif2/basis
+
+
+
+DONE GSAT GOODMotif2/basis
+DONE all :)
+Time to compute metrics!
+DONE GSAT GOODCMNIST/color
+DONE all :)
