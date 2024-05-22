@@ -302,6 +302,10 @@ def sample_edges_tensorized(data, nec_number_samples, sampling_type, nec_alpha_1
     elif sampling_type == "deconfounded":
         if nec_number_samples == "prop_G_dataset":
             k = max(1, int(nec_alpha_1 * avg_graph_size))
+        elif nec_number_samples == "prop_R":
+            k = max(1, int(nec_alpha_1 * edge_index_to_remove.sum()))
+            # if k == max(1, int(nec_alpha_1 * avg_graph_size)):
+            #     print(k)
         elif nec_number_samples == "alwaysK":
             k = nec_alpha_1
         else:

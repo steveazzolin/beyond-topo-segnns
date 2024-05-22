@@ -1558,10 +1558,10 @@ class Pipeline:
 
     def generate_panel(self):
         self.model.eval()
-        splits = ["train", "id_val", "id_test"] #, "test"
+        splits = ["train", "id_val", "test"] #, "test"
         n_row = 1
         fig, axs = plt.subplots(n_row, len(splits), figsize=(9,4))
-        plt.suptitle(f"{self.config.model.model_name[:4]} - {self.config.dataset.dataset_name} {self.config.dataset.domain}")
+        # plt.suptitle(f"{self.config.model.model_name[:4]}") # - {self.config.dataset.dataset_name} {self.config.dataset.domain}
         
         for i, split in enumerate(splits):            
             acc = self.evaluate(split, compute_suff=False)["score"]
@@ -1589,12 +1589,20 @@ class Pipeline:
                 edge_scores = [(e - e.min()) / (e.max() - e.min() + 1e-7) for e in edge_scores if len(e) > 0]
 
             print(min(np.concatenate(edge_scores)), max(np.concatenate(edge_scores)))
-            axs[int(i/n_row)].hist(np.concatenate(edge_scores), density=True, log=False, bins=100) #100 or np.linspace(-1, 1, 100)
-            axs[int(i/n_row)].set_title(f"{split}")
-            axs[int(i/n_row)].set_xlabel(f"explanation scores")
-            axs[int(i/n_row)].set_ylabel(f"density")
-            axs[int(i/n_row)].set_xlim(-0.1, 1.1)
+            print(np.concatenate(edge_scores).shape)
+            axs[int(i/n_row)].hist(np.concatenate(edge_scores) + np.random.normal(0, 0.001, np.concatenate(edge_scores).shape), density=True, log=False, bins=100) #100 or np.linspace(-1, 1, 100)
+            # a,b = np.unique(np.concatenate(edge_scores), return_counts=True)
+            # print(a)
+            # print(b)
+            # axs[int(i/n_row)].bar(a,b)
+            # axs[int(i/n_row)].set_title(f"{split}")
+            # axs[int(i/n_row)].set_xlabel(f"explanation scores")
+            # axs[int(i/n_row)].set_ylabel(f"density")
+            axs[int(i/n_row)].set_xlim(-0.1, 1.1)  #axs[int(i/n_row)]
             axs[int(i/n_row)].set_ylim(0.0, 100)
+
+            fig.supxlabel('explanation relevance scores', fontsize=13)
+            fig.supylabel('density', fontsize=13)
 
             # means, stds = zip(*[(np.mean(e), np.std(e)) for e in edge_scores])
             # means, stds = self.smooth(np.array(means), k=5), np.array(stds)
@@ -1611,7 +1619,7 @@ class Pipeline:
 
         path += f"{self.config.load_split}_{self.config.dataset.dataset_name}_{self.config.dataset.domain}_{self.config.util_model_dirname}_{self.config.random_seed}"
         plt.savefig(path + ".png")
-        # plt.savefig(f'GOOD/kernel/pipelines/plots/panels/pdfs/{self.config.load_split}_{self.config.dataset.dataset_name}_{self.config.dataset.domain}_{self.config.util_model_dirname}_{self.config.random_seed}.pdf')
+        plt.savefig(f'GOOD/kernel/pipelines/plots/panels/pdfs/{self.config.load_split}_{self.config.dataset.dataset_name}_{self.config.dataset.domain}_{self.config.util_model_dirname}_{self.config.random_seed}.pdf')
         print("\n Saved plot ", path, "\n")
         plt.close()
 
@@ -1798,7 +1806,7 @@ class Pipeline:
         for SPLIT in splits:
             for ratio in ratios:
                 ori_graphs = []
-                G_sampled_rfid, G_sampled_deconf, G_sampled_fixed = defaultdict(list), defaultdict(list), defaultdict(list)
+                G_sampled_rfid, G_sampled_deconf, G_sampled_fixed, G_sampled_deconf_R = defaultdict(list), defaultdict(list), defaultdict(list), defaultdict(list)
                 belonging, labels = [], torch.tensor([])
                 labels_norep = torch.tensor([])
                 for idx in range(len(graphs[SPLIT])):
@@ -1813,6 +1821,9 @@ class Pipeline:
                         for alpha in sampling_alphas:
                             sample = xai_utils.sample_edges_tensorized(graphs[SPLIT][idx], nec_number_samples="prop_G_dataset", nec_alpha_1=alpha, avg_graph_size=avg_graph_size[SPLIT], sampling_type="deconfounded", edge_index_to_remove=causal_masks[SPLIT][ratio][idx], force_undirected=True)
                             G_sampled_deconf[alpha].append(sample)
+                        for alpha in sampling_alphas:
+                            sample = xai_utils.sample_edges_tensorized(graphs[SPLIT][idx], nec_number_samples="prop_R", nec_alpha_1=alpha, avg_graph_size=avg_graph_size[SPLIT], sampling_type="deconfounded", edge_index_to_remove=causal_masks[SPLIT][ratio][idx], force_undirected=True)
+                            G_sampled_deconf_R[alpha].append(sample)
                         # for k in range(1, len(sampling_alphas)+1):
                         #     sample = xai_utils.sample_edges_tensorized(graphs[SPLIT][idx], nec_number_samples="alwaysK", nec_alpha_1=k, avg_graph_size=None, sampling_type="deconfounded", edge_index_to_remove=causal_masks[SPLIT][ratio][idx], force_undirected=True)
                         #     G_sampled_fixed[k].append(sample)
@@ -1827,17 +1838,22 @@ class Pipeline:
                 divergences = {}                
 
                 for k, alpha in enumerate(sampling_alphas):
-                    k = k + 1
+                    k = k + 1 #for G_sampled_fixed
                     divergences[f"RFID_{alpha}"] = {}
                     divergences[f"DECONF_{alpha}"] = {}
+                    divergences[f"DECONF_R_{alpha}"] = {}
                     # divergences[f"FIXED_{k}"] = {}
-                    preds = predict_sample(G_sampled_rfid[alpha] + G_sampled_deconf[alpha] + G_sampled_fixed[k], ratio)
+                    preds = predict_sample(G_sampled_rfid[alpha] + G_sampled_deconf[alpha] + G_sampled_deconf_R[alpha], ratio)
                     pred_rfid   = preds[:len(G_sampled_rfid[alpha])]
                     pred_deconf = preds[len(G_sampled_rfid[alpha]): len(G_sampled_rfid[alpha]) + len(G_sampled_deconf[alpha])]
+                    pred_deconf_R = preds[len(G_sampled_rfid[alpha]) + len(G_sampled_deconf[alpha]):]
+                    
+
                     # pred_fixed  = preds[len(G_sampled_rfid[alpha]) + len(G_sampled_deconf[alpha]):]
-                    for metric_name, div_f in zip(["NEC KL", "NEC L1"], [nec_kl, nec_l1]): #"FID L1 div", fid_l1_div
+                    for metric_name, div_f in zip(["NEC L1"], [nec_kl, nec_l1]): #"FID L1 div", fid_l1_div
                         divergences[f"RFID_{alpha}"][metric_name]   = div_f(ori_pred, pred_rfid, belonging, labels).mean().item()
                         divergences[f"DECONF_{alpha}"][metric_name] = div_f(ori_pred, pred_deconf, belonging, labels).mean().item()
+                        divergences[f"DECONF_R_{alpha}"][metric_name] = div_f(ori_pred, pred_deconf_R, belonging, labels).mean().item()
                         # divergences[f"FIXED_{k}"][metric_name]      = div_f(ori_pred, pred_fixed, belonging, labels).mean().item()
                         
                 metrics[SPLIT][ratio] = divergences

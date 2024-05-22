@@ -170,8 +170,8 @@ def generate_plot_sampling(args):
     load_splits = ["id"]
     splits = ["test"]
     seeds = args.seeds.split("/")
-    ratios = [0.3, 0.6, 0.8, 0.9, 0.95] #[0.3, 0.45, 0.6, 0.75, 0.9]   0.3, 0.6, 0.75, 0.8, 0.85, 0.9, 0.95
-    sampling_alphas = [0.03, 0.05, 0.1]
+    ratios = [0.3, 0.6, 0.8, 0.9, 1.0] #[0.3, 0.45, 0.6, 0.75, 0.9]   0.3, 0.6, 0.75, 0.8, 0.85, 0.9, 0.95
+    sampling_alphas = [0.03, 0.05]
     all_metrics, all_accs = {}, {}
     for l, load_split in enumerate(load_splits):
         print("\n\n" + "-"*50)
@@ -212,13 +212,13 @@ def generate_plot_sampling(args):
             # print(all_metrics["1"]["test"][0.3]["RFID_0.03"])
         
         for SPLIT in splits:
-            num_cols = 3
-            fig, axs = plt.subplots(1, num_cols, figsize=(7, 4))
+            num_cols = len(sampling_alphas)
+            fig, axs = plt.subplots(1, num_cols, figsize=(2.9*num_cols, 3.9), sharey=True)
             colors = {
                 "NEC KL": "blue", "NEC L1":"lightblue", "FID L1 div": "green", "Model FID": "orange", "Phen. FID": "red", "Change pred": "violet"
             }
-            sampling_name = {"RFID_": "RFID+ ($)", "FIXED_": "Fixed Deconfounded ($)", "DECONF_": "NEC ($)"}
-            for j, sampling_type_ori in enumerate(["RFID_", "DECONF_"]): #"FIXED_", 
+            sampling_name = {"RFID_": "RFID+ ($)", "FIXED_": "Fixed Deconfounded ($)", "DECONF_": "NEC ($)", "DECONF_R_": "NEC ($)"}
+            for j, sampling_type_ori in enumerate(["RFID_", "DECONF_", "DECONF_R_"]): #"FIXED_", 
                 for alpha_i, alpha in enumerate(sampling_alphas):
                     param = str(alpha_i+1 if sampling_type_ori == "FIXED_" else alpha)
                     sampling_type = sampling_type_ori + param
@@ -233,19 +233,39 @@ def generate_plot_sampling(args):
                         # axs[j%num_cols,alpha_i%num_cols].scatter(r, np.mean([all_accs[s][SPLIT][r] for s in seeds]), label=f"Model acc" if r == 0.3 else None, c="orange", alpha=0.5)
                         # axs[j%num_cols,alpha_i%num_cols].scatter(r, np.mean([all_accs[s][SPLIT][r] for s in seeds]) - np.std([all_accs[s][SPLIT][r] for s in seeds]), c="orange", alpha=.5, marker="^")
                         # axs[j%num_cols,alpha_i%num_cols].scatter(r, np.mean([all_accs[s][SPLIT][r] for s in seeds]) + np.std([all_accs[s][SPLIT][r] for s in seeds]), c="orange", alpha=.5, marker="v")
-                    axs[alpha_i%num_cols].errorbar(ratios, anneal, yerr=anneal_std, fmt='-o', capsize=5, label=sampling_name[sampling_type_ori].replace('$', str(param)))
+                    
+                    if "RFID" in sampling_type:
+                        l = f"$\kappa=${param}"
+                    elif "DECONF_R_" in sampling_type:
+                        l = f"$b=${param}||R||"
+                    elif "DECONF_" in sampling_type:
+                        l = f"$b=${param}" + "$\\bar{m}$"
+
+                    axs[alpha_i%num_cols].errorbar(
+                        ratios,
+                        anneal,
+                        yerr=anneal_std,
+                        fmt='-o',
+                        capsize=5,
+                        label=sampling_name[sampling_type_ori].replace('$', l))
                     # axs[j%num_cols,alpha_i%num_cols].plot(ratios, anneal)
-                    # axs[j%num_cols,alpha_i%num_cols].plot(ratios, [np.mean([all_accs[s][SPLIT][r] for s in seeds]) for r in ratios], c="orange", alpha=0.5)
+                    # axs[alpha_i%num_cols].plot(ratios, [np.mean([all_accs[s][SPLIT][r] for s in seeds]) for r in ratios], c="orange", alpha=0.5)
                     axs[alpha_i%num_cols].grid(visible=True, alpha=0.5)
                     # axs[alpha_i%num_cols].set_title(f"{sampling_name[sampling_type_ori].replace('$', str(param))}")
-                    axs[alpha_i%num_cols].set_xlabel("ratio")
-                    axs[alpha_i%num_cols].set_ylabel("metric value")
+                    # axs[alpha_i%num_cols].set_xlabel("ratio")
+                    # axs[alpha_i%num_cols].set_ylabel("metric value")
                     axs[alpha_i%num_cols].set_ylim((0., 1.1))
-                    axs[alpha_i%num_cols].legend(loc='best')
-            plt.suptitle(f"{config.dataset.dataset_name}/{config.dataset.domain}")
+                    axs[alpha_i%num_cols].legend(loc='best', fontsize=11)
+            # plt.suptitle(f"{config.dataset.dataset_name}/{config.dataset.domain}")
+            fig.supxlabel('size ratio', fontsize=13)
+            fig.supylabel('value', fontsize=13)
+            
+            # plt.xticks(fontsize=12)
+            plt.legend()
+            # fig.subplots_adjust(bottom=0.3, top=0.95, left=0.1, right=0.9)
             plt.tight_layout()
-            plt.savefig(f"./GOOD/kernel/pipelines/plots/metrics/dev_nec_sampling_{config.ood.ood_alg}_{config.dataset.dataset_name}_{config.dataset.domain}_({SPLIT}).png")
-            plt.savefig(f"./GOOD/kernel/pipelines/plots/metrics/pdfs/dev_nec_sampling_{config.ood.ood_alg}_{config.dataset.dataset_name}_{config.dataset.domain}_({SPLIT}).pdf")
+            plt.savefig(f"./GOOD/kernel/pipelines/plots/metrics/R_dev_nec_sampling_{config.ood.ood_alg}_{config.dataset.dataset_name}_{config.dataset.domain}_({SPLIT}).png")
+            # plt.savefig(f"./GOOD/kernel/pipelines/plots/metrics/pdfs/small_v2_dev_nec_sampling_{config.ood.ood_alg}_{config.dataset.dataset_name}_{config.dataset.domain}_({SPLIT}).pdf")
             plt.show(); 
 
 
@@ -578,7 +598,7 @@ def main():
             test_scores["trained"].append(test_score)
         elif config.task == 'test':
             test_score, test_loss = pipeline.load_task(load_param=True, load_split="id")
-            for s in ["train", "id_val", "id_test", "val", "test"]:
+            for s in ["id_val", "id_test", "test"]:
                 sa = pipeline.evaluate(s, compute_suff=False)
                 test_scores[s].append(sa['score'])
                 test_losses[s].append(sa['loss'].item())

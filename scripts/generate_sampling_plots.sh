@@ -1,8 +1,8 @@
 echo "Generating sampling type NEC plots :/"
 set -e
 
-
-for DATASET in GOODMotif/basis GOODMotif2/basis GOODSST2/length GOODTwitter/length GOODMotif/size GOODHIV/scaffold LBAPcore/assay GOODCMNIST/color; do
+# GOODMotif2/basis GOODSST2/length GOODTwitter/length GOODMotif/size GOODHIV/scaffold LBAPcore/assay GOODCMNIST/color
+for DATASET in GOODMotif2/basis LBAPcore/assay; do
        goodtg --config_path final_configs/${DATASET}/covariate/LECI.yaml \
               --seeds "1/2/3/4/5" \
               --task plot_sampling \

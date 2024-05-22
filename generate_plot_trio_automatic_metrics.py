@@ -191,7 +191,7 @@ def lower_bound_plaus():
     ##
 
     splits = [("id_val", "test")] #("train", "test"), ("val", "test"), ("train", "id_val")
-    reference_metric = "acc" # "acc", "likelihood"
+    reference_metric = "likelihood" # "acc", "likelihood"
     num_cols = len(splits)
     num_rows = 1
     fig, axs = plt.subplots(num_rows, num_cols, figsize=(5 * num_cols, 5))
@@ -251,13 +251,13 @@ def lower_bound_plaus():
                     else:
                         combined_coll.extend(combined)
                     
-                    axs[i%num_cols].scatter(combined, acc, marker=markers[dataset], label=model, c=colors[model])
+                    axs[i%num_cols].scatter(combined, acc, marker=markers[dataset], label=model, c=colors[model], s=100)
                     # axs[i%num_cols].annotate(f"{acc:.2f}", (faith_id, faith_ood + (-1)**(random.randint(0,1))*random.randint(1,4)*0.005), fontsize=7)
                     axs[i%num_cols].grid(visible=True, alpha=0.5)
                     axs[i%num_cols].set_xlim(0.0, 4.)
                     axs[i%num_cols].set_ylim(-0.2, 1.)
-                    axs[i%num_cols].set_ylabel(f"Avg {reference_metric} difference |{split_metric_id} - {split_metric_ood}|")
-                    axs[i%num_cols].set_xlabel(f"Faithfulness + Plausibility ({split_metric_id}, {split_metric_ood})")
+                    axs[i%num_cols].set_ylabel(f"{reference_metric} difference", fontsize=12) #|{split_metric_id} - {split_metric_ood}|
+                    axs[i%num_cols].set_xlabel(f"faithfulness + domain invariance", fontsize=12) #({split_metric_id}, {split_metric_ood})
                     axs[i%num_cols].set_title(f"")
             if len(acc_coll) > 0 and len(combined_coll) > 0:
                 combined_coll, acc_coll = np.array(combined_coll), np.array(acc_coll)
@@ -266,7 +266,7 @@ def lower_bound_plaus():
                 print(f"PCC: {pcc.statistic:.2f} ({pcc.pvalue:.2f})")
                 m, b = np.polyfit(combined_coll, acc_coll, 1)
                 x = combined_coll.tolist() + [0, 4]
-                axs[i%num_cols].plot(x, np.poly1d((m, b))(x), "r--", alpha=0.5)
+                axs[i%num_cols].plot(x, np.poly1d((m, b))(x), "r", alpha=0.5)
 
     legend_elements = []
     for dataset in ["GOODMotif basis", "GOODMotif2 basis", "GOODMotif size"]:
@@ -277,12 +277,12 @@ def lower_bound_plaus():
         legend_elements.append(
             Patch(facecolor=colors[model], label=model.replace("GIN", ""))
         )
-    axs[-1].legend(handles=legend_elements, loc='upper right') #, loc='center'
+    axs[-1].legend(handles=legend_elements, loc='upper right', fontsize=12) #, loc='center'
 
     # plt.suptitle(f"{file_name} - pick accuracy: {pick_acc}")
     plt.tight_layout()
-    plt.savefig("GOOD/kernel/pipelines/plots/illustrations/automatic/lower_bound.png")
-    plt.savefig("GOOD/kernel/pipelines/plots/illustrations/automatic/pdfs/lower_bound.pdf")
+    plt.savefig("GOOD/kernel/pipelines/plots/illustrations/automatic/paper_lower_bound.png")
+    plt.savefig("GOOD/kernel/pipelines/plots/illustrations/automatic/pdfs/paper_lower_bound.pdf")
     plt.close()
 
 def lower_bound_unsup():
@@ -457,7 +457,7 @@ def compare_faith_mitigations():
     ##
     # Show how mitigation strategies impacted FAITH
     ##
-    filenames = ["suff++_old", "suff++_old_novonly", "suff++_old_mitigreadout_weighted"]
+    filenames = ["suff++_old", "suff++_old_mitigreadout_weighted", "suff++_old_hardonly", "suff++_old_novonly"]
     table = defaultdict(lambda: defaultdict(list))
     for j, faith_type in enumerate(["faith_armon_L1"]): #"suff++_L1", "nec", "faith_armon_L1"
         for i, split_metric in enumerate(["id_test"]):
@@ -467,7 +467,7 @@ def compare_faith_mitigations():
                 with open(f"storage/metric_results/aggregated_id_results_{file_name}.json", "r") as jsonFile:
                         data = json.load(jsonFile)
                 for dataset in ["BBBP basis", "GOODMotif basis", "GOODMotif2 basis", "GOODMotif size", "GOODSST2 length", "GOODTwitter length", "GOODHIV scaffold", "LBAPcore assay", "GOODCMNIST color"]: #, "GOODSST2 length", "GOODTwitter length", "GOODHIV scaffold", "LBAPcore assay", "GOODCMNIST color"
-                    for model in ["LECIGIN", "LECIvGIN", ]: #"CIGAGIN", "CIGAvGIN", "LECIGIN", "LECIvGIN", "GSATGIN", "GSATvGIN"
+                    for model in ["CIGAGIN", "CIGAvGIN", ]: #"CIGAGIN", "CIGAvGIN", "LECIGIN", "LECIvGIN", "GSATGIN", "GSATvGIN"
                         if not dataset in data.keys() or not model in data[dataset].keys() or not split_metric in data[dataset][model].keys():
                             continue
                         if not faith_type in data[dataset][model][split_metric].keys():
@@ -592,10 +592,10 @@ def ablation_expval_budget_faith():
 
 if __name__ == "__main__":
     # low_discrepancy()
-    # lower_bound_plaus()
+    lower_bound_plaus()
     # lower_bound_unsup()
     # faith_acc_gain()
-    compare_faith_mitigations()
+    # compare_faith_mitigations()
     
     # ablation_numsamples_budget_faith()
     # ablation_expval_budget_faith()
