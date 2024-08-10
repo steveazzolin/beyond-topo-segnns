@@ -5,6 +5,7 @@ Interpretable and Generalizable Graph Learning via Stochastic Attention Mechanis
 import torch
 import torch.nn as nn
 from torch import Tensor
+from torch_geometric.data import Data
 from torch_geometric.nn import InstanceNorm
 from torch_geometric.nn.conv import MessagePassing
 from torch_geometric.utils import is_undirected, to_undirected, degree, coalesce
@@ -101,6 +102,16 @@ class GSATGIN(GNNBasic):
                     data.edge_attr = data.edge_attr[edge_att >= kwargs.get('weight')]
                 edge_att = edge_att[edge_att >= kwargs.get('weight')]
 
+        if self.config.mitigation_expl_scores == "topK" or self.config.mitigation_expl_scores == "topk":
+            (causal_edge_index, causal_edge_attr, edge_att), \
+                _ = split_graph(data, edge_att, self.config.mitigation_expl_scores_topk)
+           
+            causal_x, causal_edge_index, causal_batch, _ = relabel(data.x, causal_edge_index, data.batch)
+
+            data_topk = Data(x=causal_x, edge_index=causal_edge_index, edge_attr=causal_edge_attr, batch=causal_batch)
+            kwargs['data'] = data_topk
+            kwargs["batch_size"] =  data.batch[-1].item() + 1
+
         set_masks(edge_att, self)
         logits = self.classifier(self.gnn(*args, **kwargs))
         # if self.gnn_clf:
@@ -112,6 +123,9 @@ class GSATGIN(GNNBasic):
         return logits, att, edge_att
 
     def sampling(self, att_log_logits, training, mitigation_expl_scores):
+        if mitigation_expl_scores == "anneal":
+            temp = (self.config.train.epoch * 0.1 + (200 - self.config.train.epoch) * 5) / 200
+
         att = self.concrete_sample(att_log_logits, temp=1, training=training)
         if mitigation_expl_scores == "hard":
             att_hard = (att > 0.5).float()
@@ -162,15 +176,30 @@ class GSATGIN(GNNBasic):
                 return logits.sigmoid().log()
         
     @torch.no_grad()
-    def predict_from_subgraph(self, edge_att=False, *args, **kwargs):
+    def predict_from_subgraph(self, edge_att=False, log=None, eval_kl=None,  *args, **kwargs):
         set_masks(edge_att, self)
         lc_logits = self.classifier(self.gnn(*args, **kwargs))
         clear_masks(self)
 
-        if lc_logits.shape[-1] > 1:
-            return lc_logits.argmax(-1)
+        if log is None:
+            if lc_logits.shape[-1] > 1:
+                return lc_logits.argmax(-1)
+            else:
+                return lc_logits.sigmoid()
         else:
-            return lc_logits.sigmoid()
+            assert not (eval_kl is None)
+            if lc_logits.shape[-1] > 1:
+                return lc_logits.log_softmax(dim=1)
+            else:
+                if eval_kl: # make the single logit a proper distribution summing to 1 to compute KL
+                    lc_logits = lc_logits.sigmoid()
+                    new_logits = torch.zeros((lc_logits.shape[0], lc_logits.shape[1]+1), device=lc_logits.device)
+                    new_logits[:, 1] = new_logits[:, 1] + lc_logits.squeeze(1)
+                    new_logits[:, 0] = 1 - new_logits[:, 1]
+                    new_logits[new_logits == 0.] = 1e-10
+                    return new_logits.log()
+                else:
+                    return lc_logits.sigmoid().log()
     
     def get_subgraph(self, ratio=None, *args, **kwargs):
         data = kwargs.get('data') or None

@@ -216,6 +216,7 @@ def process_configs(config: Union[CommonArgs, Munch], args=None):
             assert config.mitigation_expl_scores_topk >= 0
             model_dirname += f'{args.mitigation_expl_scores_topk}'
     model_dirname = model_dirname + f'avgedgeattn{args.average_edge_attn}'
+    print("model_dirname=", model_dirname)
     
     train_dirname = f'{config.train.lr}lr_{config.train.weight_decay}wd'
     config.util_model_dirname = model_dirname

@@ -7,10 +7,15 @@ import numpy as np
 import os
 
 from torch_geometric.utils import remove_isolated_nodes, dropout_edge
+from torch_scatter import scatter_sum, scatter_add
+
+from GOOD.utils.splitting import split_graph
 
 edge_colors = {
-    "inv": "green",
-    "spu": "blue",
+    # "inv": "green",
+    # "spu": "blue",
+    "inv": "black",
+    "spu": "green",
     "added": "red"
 }
 node_colors = {
@@ -80,26 +85,46 @@ def mark_frontier(G, G_filt):
     nx.set_node_attributes(G_filt, name="frontier", values={n: True for n in frontier})
     return len(frontier)
 
-def draw(config, G, name, subfolder="", pos=None, save=True, figsize=(6.4, 4.8), nodesize=300, with_labels=True, title=None, ax=None):
+def draw(config, G, name, subfolder="", pos=None, save=True, figsize=(6.4, 4.8), nodesize=350, with_labels=True, title=None, ax=None):
     plt.figure(figsize=figsize)
 
     if pos is None:
         pos = nx.kamada_kawai_layout(G)
 
-    edge_color = list(map(lambda x: edge_colors[x], nx.get_edge_attributes(G,'origin').values()))
+    # edge_color = list(map(lambda x: edge_colors[x], nx.get_edge_attributes(G,'origin').values()))
+    node_gt = list(nx.get_node_attributes(G, "node_gt").values())
+    edge_color = list(nx.get_edge_attributes(G, "attn_weight").values())
+    edge_color = ["red" if e > 0.8 else "black" for e in edge_color]
+    # nx.draw_networkx_edges(
+    #     G,
+    #     pos=pos,
+    #     edge_color="black"
+    # )
     nx.draw(
         G,
         with_labels=with_labels,
         pos=pos,
         ax=ax,
         node_size=nodesize,
+        node_color = ['lightgreen' if node_gt[i] else 'orange' for i in range(len(node_gt))],
+        # node_color=list(map(lambda x: node_colors[x], [nx.get_node_attributes(G,'frontier').get(n, False) for n in G.nodes()])),
+        # edgelist=[e for i, e in enumerate(G.edges()) if edge_color[i] > 0.5],
         edge_color=edge_color,
-        node_color=list(map(lambda x: node_colors[x], [nx.get_node_attributes(G,'frontier').get(n, False) for n in G.nodes()])),
+        # edge_cmap=plt.cm.Reds,
     )
-    if nx.get_edge_attributes(G, 'attn_weight') != {}:
-        nx.draw_networkx_edge_labels(G, pos, edge_labels=nx.get_edge_attributes(G, 'attn_weight'), font_size=6, alpha=0.8)
+    # if nx.get_edge_attributes(G, 'attn_weight') != {}:
+    #     nx.draw_networkx_edge_labels(G, pos, edge_labels=nx.get_edge_attributes(G, 'attn_weight'), font_size=6, alpha=0.8)
+
+    # options = {
+    #     "node_color":"#cccccc",
+    #     "edge_color": colors,
+    #     "width": 2,
+    #     "edge_cmap": plt.cm.Reds,
+    #     "with_labels": False,
+    #     "node_size":25}
+    # nx.draw_networkx(g,pos=pos,ax=ax,**options)
     
-    title = title if not title is None else f"Selected {sum([e == 'green' for e in edge_color])} relevant edges"
+    title = title if title is not None else f"Selected {sum([e == 'green' for e in edge_color])} relevant edges"
     plt.title(title)
     print(f"Selected {sum([e == 'green' for e in edge_color])} relevant edges over {len(G.edges())}")
 
@@ -199,7 +224,10 @@ def random_attach_no_target_frontier(S, T):
     # avoid selecting target nodes that are in the frontier
     
     edge_attrs = list(nx.get_edge_attributes(S, "edge_attr").values())
+    edge_gts = list(nx.get_edge_attributes(S, "edge_gt").values())
     S_frontier = list(filter(lambda x: nx.get_node_attributes(S,'frontier').get(x, False), S.nodes()))
+
+    nx.set_edge_attributes(T, 0, "edge_gt") # mark every edge of target graph as not GT edge
 
     ret = nx.union(S, T, rename=("", "T"))
     for n in S_frontier:
@@ -213,6 +241,9 @@ def random_attach_no_target_frontier(S, T):
             attr = randint(0, len(edge_attrs) - 1)
             ret.add_edge(str(n), v, edge_attr=edge_attrs[attr])
             ret.add_edge(v, str(n), edge_attr=edge_attrs[attr])
+        elif edge_gts != []:
+            ret.add_edge(str(n), v, edge_gt=0)
+            ret.add_edge(v, str(n), edge_gt=0)
         else:
             ret.add_edge(str(n), v)
             ret.add_edge(v, str(n))
@@ -222,13 +253,14 @@ def expl_acc(expl, data, expl_weight=None):
     edge_gt = {(u.item(),v.item()): data.edge_gt[i] for i, (u,v) in enumerate(data.edge_index.T)} 
     edge_expl = set([(u.item(),v.item()) for u,v in expl.T])
     
-    tp = int(sum([edge_gt[(u.item(),v.item())] for u,v in expl.T]))
-    fp = int(sum([not edge_gt[(u.item(),v.item())] for u,v in expl.T]))
-    tn = int(sum([not (u.item(),v.item()) in edge_expl and not edge_gt[(u.item(),v.item())] for u,v in data.edge_index.T]))
-    fn = int(sum([not (u.item(),v.item()) in edge_expl and edge_gt[(u.item(),v.item())] for u,v in data.edge_index.T]))
+    # tp = int(sum([edge_gt[(u.item(),v.item())] for u,v in expl.T]))
+    # fp = int(sum([not edge_gt[(u.item(),v.item())] for u,v in expl.T]))
+    # tn = int(sum([not (u.item(),v.item()) in edge_expl and not edge_gt[(u.item(),v.item())] for u,v in data.edge_index.T]))
+    # fn = int(sum([not (u.item(),v.item()) in edge_expl and edge_gt[(u.item(),v.item())] for u,v in data.edge_index.T]))
     
     # acc = (tp + tn) / (tp + fp + tn + fn)
-    f1 = 2*tp / (2*tp + fp + fn)
+    # f1 = 2*tp / (2*tp + fp + fn)
+    f1 = 0.0
     # assert (tp + fp + tn + fn) == len(edge_gt)
 
     wiou, den = 0, 1e-12
@@ -244,6 +276,36 @@ def expl_acc(expl, data, expl_weight=None):
             den += expl_weight[i].item()
     wiou = wiou / den
     return round(wiou, 3), round(f1, 3)
+
+def expl_acc_fast(expl, data, expl_weight=None):
+    """
+        Works under the assumption that expl=edge_index of the entire graph.
+        This is because the stability_detector analysis is done via WIOU, which
+        is evaluated over the entire graph, without the need to split into different
+        ratios.
+    """
+    f1 = 0.0
+
+    intersection = torch.sum(expl_weight[data.edge_gt == 1])
+    union        = torch.sum(expl_weight)
+    wiou_fast = intersection / union
+    return torch.round(wiou_fast, decimals=3).item(), f1
+
+def expl_acc_super_fast(batch_data, batch_edge_score, reference_intersection):
+    """
+        Works WITH BATCH OF DATA AND under the assumption that expl=edge_index of the entire graph.
+        This is because the stability_detector analysis is done via WIOU, which
+        is evaluated over the entire graph, without the need to split into different
+        ratios.
+
+        reference_intersection: What to consider to be defined the intersection of WIoU.
+                                It can be either the GT explanation, resulting in Plausibility WIoU,
+                                or the previously predicted hard explanaiton, resulting in Stability WIoU.
+    """
+    intersection = scatter_sum(batch_edge_score * reference_intersection, batch_data.batch[batch_data.edge_index[0]])
+    union        = scatter_sum(batch_edge_score, batch_data.batch[batch_data.edge_index[0]])
+    wiou_super_fast = intersection / union
+    return torch.round(wiou_super_fast, decimals=3)
 
 def sample_edges(G_ori, alpha, deconfounded, edge_index_to_remove):
     # keep each spu/inv edge with probability alpha
@@ -320,9 +382,12 @@ def sample_edges_tensorized(data, nec_number_samples, sampling_type, nec_alpha_1
 
         candidate_mask = edge_index_to_remove[row <= col]
         candidate_idxs = torch.argwhere(candidate_mask)
+        
+        # Version of the main paper with permutation (requires for loop)
         perm = torch.randperm(candidate_idxs.shape[0])
         to_keep = perm[:-k]
         removed = perm[-k:]
+
         causal_idxs_keep = candidate_idxs[to_keep].view(-1)
         causal_idxs_remove = candidate_idxs[removed].view(-1)
 
@@ -335,6 +400,9 @@ def sample_edges_tensorized(data, nec_number_samples, sampling_type, nec_alpha_1
         if hasattr(data, "edge_attr") and not data.edge_attr is None:
             undirected_edge_attr = data.edge_attr[row <= col]
             data.edge_attr = torch.cat((undirected_edge_attr[to_keep, :], undirected_edge_attr[to_keep, :]), dim=0)
+        if hasattr(data, "edge_gt"):            
+            undirected_edge_gt = data.edge_gt[row <= col]
+            data.edge_gt = torch.cat((undirected_edge_gt[to_keep], undirected_edge_gt[to_keep]), dim=0)
 
         data.edge_index, data.edge_attr, mask = remove_isolated_nodes(data.edge_index, data.edge_attr, num_nodes=data.x.shape[0])
         data.x = data.x[mask]
@@ -342,6 +410,143 @@ def sample_edges_tensorized(data, nec_number_samples, sampling_type, nec_alpha_1
         return data
     else:
         raise ValueError(f"sampling_type {sampling_type} not valid")
+    
+
+def sample_edges_tensorized_batched(
+        data,
+        nec_number_samples,
+        sampling_type, 
+        nec_alpha_1,
+        avg_graph_size,
+        budget,
+        edge_index_to_remove=None,
+):
+    if sampling_type == "bernoulli":
+        raise NotImplementedError("")
+    elif sampling_type == "deconfounded":
+        if nec_number_samples == "prop_G_dataset":
+            k = max(1, int(nec_alpha_1 * avg_graph_size))
+        elif nec_number_samples == "prop_R":
+            k = max(1, int(nec_alpha_1 * edge_index_to_remove.sum()))
+        elif nec_number_samples == "alwaysK":
+            k = nec_alpha_1
+        else:
+            raise ValueError(f"value for nec_number_samples ({nec_number_samples}) not supported")
+        
+        row, col = data.edge_index
+        undirected = data.edge_index[:, row <= col]
+
+        candidate_mask = edge_index_to_remove[row <= col]
+        candidate_idxs = torch.argwhere(candidate_mask)
+        
+        k = min(k, int(data.edge_index.shape[1]/2)-2, candidate_idxs.shape[0])
+        if k == 0:
+            return None # None | [data.clone() for _ in range(budget)]
+
+        # New version without perm, to avoid for loop
+        random_weight_per_index = torch.rand(budget, candidate_idxs.shape[0], device=data.edge_index.device)
+        topk_weight_per_index = torch.topk(random_weight_per_index, k=k, largest=True, dim=-1)
+        
+        all_except_topk = torch.ones(budget, candidate_idxs.shape[0], dtype=torch.bool)
+        all_except_topk.scatter_(1, topk_weight_per_index.indices, False)
+
+        to_keep = torch.arange(candidate_idxs.shape[0]).repeat(budget, 1)
+        to_keep = to_keep.flatten()[all_except_topk.flatten()].reshape(to_keep.shape[0], all_except_topk.sum(-1)[0])
+        # removed = topk_weight_per_index.indices
+
+        causal_idxs_keep = candidate_idxs.reshape(1, -1).repeat(budget, 1).gather(1, to_keep) # B x elem_to_keep: indexes of edges to keep as elements
+        # causal_idxs_remove = candidate_idxs.reshape(1, -1).repeat(budget, 1).gather(1, to_keep)
+
+        to_keep = torch.zeros(budget, undirected.shape[1], dtype=torch.bool)
+        to_keep[candidate_mask.repeat(budget, 1) == 0] = 1
+        to_keep.scatter_(1, causal_idxs_keep, 1)
+
+        intervened_graphs = []
+        for k in range(budget):
+            intervened_data = data.clone()
+            intervened_data.edge_index = torch.cat((undirected[:, to_keep[k]], undirected[:, to_keep[k]].flip(0)), dim=1)
+        
+            if not (getattr(data, "edge_attr", None) is None):
+                undirected_edge_attr = intervened_data.edge_attr[row <= col]
+                intervened_data.edge_attr = torch.cat((undirected_edge_attr[to_keep[k], :], undirected_edge_attr[to_keep[k], :]), dim=0)
+            if not (getattr(data, "edge_gt", None) is None):
+                undirected_edge_gt = intervened_data.edge_gt[row <= col]
+                intervened_data.edge_gt = torch.cat((undirected_edge_gt[to_keep[k]], undirected_edge_gt[to_keep[k]]), dim=0)
+            if not (getattr(data, "causal_mask", None) is None):
+                undirected_causal_mask = intervened_data.causal_mask[row <= col]
+                intervened_data.causal_mask = torch.cat((undirected_causal_mask[to_keep[k]], undirected_causal_mask[to_keep[k]]), dim=0)
+
+            intervened_data.edge_index, intervened_data.edge_attr, mask = remove_isolated_nodes(
+                intervened_data.edge_index,
+                intervened_data.edge_attr,
+                num_nodes=intervened_data.x.shape[0]
+            )
+            if (~mask).sum() > 0: # at least one node was removed
+                assert intervened_data.edge_index.shape[1] ==  intervened_data.edge_gt.shape[0], f"shape mismatch after remove_isolated_nodes(): {intervened_data.edge_index.shape[1]} vs {intervened_data.edge_gt.shape[0]}"
+            intervened_data.x = intervened_data.x[mask]
+            intervened_data.num_nodes = intervened_data.x.shape[0]
+            intervened_graphs.append(intervened_data)
+        return intervened_graphs
+    else:
+        raise ValueError(f"sampling_type {sampling_type} not valid")
+
+def explanation_stability_hard(data, explanations, ratio):
+    """
+        Minimal example of the pitfall of F1:
+        >>> from sklearn.metrics import f1_score, matthews_corrcoef
+        >>> import numpy as np
+        >>> true = np.array([0,1,1,1])
+        >>> pred = np.array([1,1,1,1])
+        >>> f1_score(true, pred, pos_label=1)
+            0.8571428571428571
+        >>> f1_score(true, pred, pos_label=0)
+            0.0
+        >>> matthews_corrcoef(true, pred)
+            0.0
+    """
+    # Extract new hard explanation
+    (causal_edge_index, _, _, causal_batch), \
+        _, mask = split_graph(
+            data,
+            explanations,
+            ratio,
+            return_batch=True
+    )     
+
+    # (Slow version)
+    # f1_single = []
+    # for j in range(causal_batch.max() + 1):
+    #     original_causal_mask = data.causal_mask[data.batch[data.edge_index[0]] == j].cpu()
+    #     intervened_causal_mask = mask[data.batch[data.edge_index[0]] == j].cpu()
+    #     f1_single.append(f1_score(original_causal_mask, intervened_causal_mask))
+
+    # Calculating precision, recall, and F1 score using PyTorch (basic 1D case)
+    # TP = ((input == 1) & (target == 1)).sum().item()
+    # FP = ((input == 1) & (target == 0)).sum().item()
+    # FN = ((input == 0) & (target == 1)).sum().item()
+
+    # (Fast version)
+    eps = 1e-6
+    input = mask
+    target = data.causal_mask
+
+    # TODO: for interventions adding elements, manually add novel edges to the counts
+    TP = scatter_add((input & target).to(int), data.batch[data.edge_index[0]], dim=0)
+    TN = scatter_add(((input == False) & (target == False)).to(int), data.batch[data.edge_index[0]], dim=0)
+    FP = scatter_add(((input == True) & (target == False)).to(int), data.batch[data.edge_index[0]], dim=0)
+    FN = scatter_add(((input == False) & (target == True)).to(int), data.batch[data.edge_index[0]], dim=0)
+
+    # Compute F1
+    precision = TP / (TP + FP + eps)
+    recall = TP / (TP + FN + eps)
+    f1_batched = 2 * (precision * recall) / (precision + recall + eps)
+
+    # Compute MCC
+    numerator = (TP * TN) - (FP * FN)
+    denominator = torch.sqrt(((TP + FP) * (TP + FN) * (TN + FP) * (TN + FN)))
+    mcc_batched = numerator / (denominator + eps)
+    return mcc_batched, f1_batched
+
 
 def feature_intervention(G, feature_bank, feat_int_alpha):
     """Randomly swap feature of spurious graph with features sampled from a fixed bank"""

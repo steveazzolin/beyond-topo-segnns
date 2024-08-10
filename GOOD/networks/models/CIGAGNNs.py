@@ -156,7 +156,7 @@ class CIGAGIN(GNNBasic):
                 return logits.sigmoid().log()
             
     @torch.no_grad()
-    def predict_from_subgraph(self, edge_att=False, *args, **kwargs):
+    def predict_from_subgraph(self, edge_att=False, log=None, eval_kl=None, *args, **kwargs):
         data = kwargs.get('data')
         batch_size = kwargs.get('batch_size')
 
@@ -180,10 +180,25 @@ class CIGAGIN(GNNBasic):
         lc_logits = self.get_causal_pred(causal_rep)
         clear_masks(self)
         
-        if lc_logits.shape[-1] > 1:
-            return lc_logits.argmax(-1)
+        if log is None:
+            if lc_logits.shape[-1] > 1:
+                return lc_logits.argmax(-1)
+            else:
+                return lc_logits.sigmoid()
         else:
-            return lc_logits.sigmoid()
+            assert not (eval_kl is None)
+            if lc_logits.shape[-1] > 1:
+                return lc_logits.log_softmax(dim=1)
+            else:
+                if eval_kl: # make the single logit a proper distribution summing to 1 to compute KL
+                    lc_logits = lc_logits.sigmoid()
+                    new_logits = torch.zeros((lc_logits.shape[0], lc_logits.shape[1]+1), device=lc_logits.device)
+                    new_logits[:, 1] = new_logits[:, 1] + lc_logits.squeeze(1)
+                    new_logits[:, 0] = 1 - new_logits[:, 1]
+                    new_logits[new_logits == 0.] = 1e-10
+                    return new_logits.log()
+                else:
+                    return lc_logits.sigmoid().log()
     
     def get_subgraph(self, get_pred=False, log_pred=False, ratio=None, *args, **kwargs):
         data = kwargs.get('data') or None

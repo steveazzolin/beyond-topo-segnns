@@ -1,6 +1,7 @@
 import json
 import numpy as np
 import random
+import math
 from collections import defaultdict
 
 import matplotlib.pyplot as plt
@@ -199,7 +200,7 @@ def lower_bound_plaus():
     if not isinstance(axs, np.ndarray):
         axs = [axs]
 
-    for j, faith_type in enumerate(["faith_armon_L1"]):
+    for j, faith_type in enumerate(["suff++_L1"]): #faith_armon_L1
         for i, (split_metric_id, split_metric_ood) in enumerate(splits):
             split_acc = "test"
             acc_coll, combined_coll = [], []
@@ -208,24 +209,25 @@ def lower_bound_plaus():
                 # if dataset == "Motif size":
                 #     continue
 
-                for model in ["LECIGIN", "CIGAGIN", "GSATGIN", "LECIvGIN", "CIGAvGIN", "GSATvGIN"]:
+                for model in ["CIGAGIN", "GSATGIN", "CIGAvGIN", "GSATvGIN", "LECIGIN", "LECIvGIN"]: #"LECIGIN", "LECIvGIN", 
                     if not model in data[dataset].keys():
                         continue
                     if not faith_type in data[dataset][model][split_metric_id].keys():
                         continue
 
-                    best_r = pick_best_faith(data[dataset][model], split_metric_id, faith_type)
+                    best_r = pick_best_faith(data[dataset][model], split_metric_id, "suff++_L1")
                     faith_id   = np.array(data[dataset][model][split_metric_id][faith_type])[best_r]
 
-                    best_r = pick_best_faith(data[dataset][model], split_metric_ood, faith_type)
+                    best_r = pick_best_faith(data[dataset][model], split_metric_ood, "suff++_L1")
                     faith_ood  = np.array(data[dataset][model][split_metric_ood][faith_type])[best_r]
-                    combined = faith_id + faith_ood
+                    combined = -math.log(faith_id) + -math.log(faith_ood)
+                    # combined = hmean([faith_id, faith_ood])
                     
                     # best_r = pick_best_faith(data[dataset][model], split_metric, "wiou")
                     plaus_id       = np.nan_to_num(np.array(acc_plaus[dataset][model][split_metric_id]["wiou"]))[-1]
                     plaus_ood      = np.nan_to_num(np.array(acc_plaus[dataset][model][split_metric_ood]["wiou"]))[-1]
-                    combined = combined + plaus_id + plaus_ood # show empirically the lower bound
-                    # combined = hmean([faith_id, faith_ood, plaus_id, plaus_ood])
+                    combined = plaus_id + plaus_ood # show empirically the lower bound
+                    # combined = hmean([plaus_id, plaus_ood]) #faith_id, faith_ood, plaus_id, plaus_ood
 
                     if reference_metric == "acc":
                         acc_id    = acc_plaus[dataset][model][split_metric_id]["acc"][-1 if pick_acc == "entire_model" else best_r]
@@ -254,13 +256,88 @@ def lower_bound_plaus():
                     axs[i%num_cols].scatter(combined, acc, marker=markers[dataset], label=model, c=colors[model], s=100)
                     # axs[i%num_cols].annotate(f"{acc:.2f}", (faith_id, faith_ood + (-1)**(random.randint(0,1))*random.randint(1,4)*0.005), fontsize=7)
                     axs[i%num_cols].grid(visible=True, alpha=0.5)
-                    axs[i%num_cols].set_xlim(0.0, 4.)
-                    axs[i%num_cols].set_ylim(-0.2, 1.)
-                    axs[i%num_cols].set_ylabel(f"{reference_metric} difference", fontsize=12) #|{split_metric_id} - {split_metric_ood}|
-                    axs[i%num_cols].set_xlabel(f"faithfulness + domain invariance", fontsize=12) #({split_metric_id}, {split_metric_ood})
+                    axs[i%num_cols].set_xlim(0.0, 2.)
+                    axs[i%num_cols].set_ylim(-0.0, 1.)
+                    axs[i%num_cols].set_ylabel(f"{reference_metric}" + r"difference ($\downarrow$)", fontsize=12) #|{split_metric_id} - {split_metric_ood}|
+                    axs[i%num_cols].set_xlabel(r"degree of invariance (plausibility) ($\uparrow$)", fontsize=12) #({split_metric_id}, {split_metric_ood})  |  SUF ($\downarrow$)   |   degree of invariance (plausibility) ($\uparrow$)
                     axs[i%num_cols].set_title(f"")
             if len(acc_coll) > 0 and len(combined_coll) > 0:
                 combined_coll, acc_coll = np.array(combined_coll), np.array(acc_coll)
+                pcc = pearsonr(combined_coll, acc_coll)
+                # axs[i%num_cols].annotate(f"PCC: {pcc.statistic:.2f} ({pcc.pvalue:.2f})", (0.8, 0.2), fontsize=7)
+                print(f"PCC: {pcc.statistic:.2f} ({pcc.pvalue:.2f})")
+                m, b = np.polyfit(combined_coll, acc_coll, 1)
+                x = combined_coll.tolist() + [0, 4]
+                # axs[i%num_cols].plot(x, np.poly1d((m, b))(x), "r", alpha=0.5)
+
+    legend_elements = []
+    for dataset in ["GOODMotif basis", "GOODMotif2 basis", "GOODMotif size"]:
+        legend_elements.append(
+            Line2D([0], [0], marker=markers[dataset], color='w', label=dataset, markerfacecolor='grey', markersize=15)
+        )
+    for model in ["LECIGIN", "CIGAGIN", "GSATGIN"]:
+        legend_elements.append(
+            Patch(facecolor=colors[model], label=model.replace("GIN", ""))
+        )
+    axs[-1].legend(handles=legend_elements, loc='upper right', fontsize=12) #, loc='center'
+
+    # plt.suptitle(f"{file_name} - pick accuracy: {pick_acc}")
+    plt.tight_layout()
+    plt.savefig("GOOD/kernel/pipelines/plots/illustrations/automatic/lower_bound.png") #paper_lower_bound final version on paper
+    plt.savefig("GOOD/kernel/pipelines/plots/illustrations/automatic/pdfs/rebuttal_plaus.pdf")
+    plt.close()
+
+
+def plaus_nec_correlation():
+    ##
+    # Check if there is some crrelation between plaus and nec
+    ##
+
+    splits = [("id_val")] #("train", "test"), ("val", "test"), ("train", "id_val")
+    num_cols = len(splits)
+    num_rows = 1
+    fig, axs = plt.subplots(num_rows, num_cols, figsize=(5 * num_cols, 5))
+
+    if not isinstance(axs, np.ndarray):
+        axs = [axs]
+
+    for j, faith_type in enumerate(["nec_L1"]): #faith_armon_L1
+        for i, (split_metric) in enumerate(splits):
+            split_acc = "test"
+            nec_coll, plaus_coll = [], []
+            for dataset in ["GOODMotif basis", "GOODMotif2 basis", "GOODMotif size"]:
+                for model in ["LECIGIN", "CIGAGIN", "GSATGIN", "LECIvGIN", "CIGAvGIN", "GSATvGIN"]:
+                    if not model in data[dataset].keys():
+                        continue
+                    if not faith_type in data[dataset][model][split_metric].keys():
+                        continue
+
+                    best_r = pick_best_faith(data[dataset][model], split_metric, faith_type)
+                    nec   = np.array(data[dataset][model][split_metric][faith_type])[best_r]
+                    
+                    best_r = pick_best_faith(data[dataset][model], split_metric, "wiou")
+                    plaus       = np.nan_to_num(np.array(acc_plaus[dataset][model][split_metric]["wiou"]))[best_r]
+                    # combined = hmean([faith_id, faith_ood, plaus_id, plaus_ood])                    
+                    
+                    if isinstance(nec, float):
+                        nec_coll.append(nec)
+                    else:
+                        nec_coll.extend(nec)
+                    if isinstance(plaus, float):
+                        plaus_coll.append(plaus)
+                    else:
+                        plaus_coll.extend(plaus)
+                    
+                    axs[i%num_cols].scatter(plaus, nec, marker=markers[dataset], label=model, c=colors[model], s=100)
+                    # axs[i%num_cols].annotate(f"{acc:.2f}", (faith_id, faith_ood + (-1)**(random.randint(0,1))*random.randint(1,4)*0.005), fontsize=7)
+                    axs[i%num_cols].grid(visible=True, alpha=0.5)
+                    axs[i%num_cols].set_xlim(0.0, 4.)
+                    axs[i%num_cols].set_ylim(-0.2, 1.)
+                    axs[i%num_cols].set_ylabel(f"{faith_type}", fontsize=12) #|{split_metric_id} - {split_metric_ood}|
+                    axs[i%num_cols].set_xlabel(f"plaus", fontsize=12) #({split_metric_id}, {split_metric_ood})
+                    axs[i%num_cols].set_title(f"")
+            if len(plaus_coll) > 0 and len(nec_coll) > 0:
+                combined_coll, acc_coll = np.array(plaus_coll), np.array(nec_coll)
                 pcc = pearsonr(combined_coll, acc_coll)
                 # axs[i%num_cols].annotate(f"PCC: {pcc.statistic:.2f} ({pcc.pvalue:.2f})", (0.8, 0.2), fontsize=7)
                 print(f"PCC: {pcc.statistic:.2f} ({pcc.pvalue:.2f})")
@@ -278,12 +355,10 @@ def lower_bound_plaus():
             Patch(facecolor=colors[model], label=model.replace("GIN", ""))
         )
     axs[-1].legend(handles=legend_elements, loc='upper right', fontsize=12) #, loc='center'
-
-    # plt.suptitle(f"{file_name} - pick accuracy: {pick_acc}")
     plt.tight_layout()
-    plt.savefig("GOOD/kernel/pipelines/plots/illustrations/automatic/paper_lower_bound.png")
-    plt.savefig("GOOD/kernel/pipelines/plots/illustrations/automatic/pdfs/paper_lower_bound.pdf")
+    plt.savefig("GOOD/kernel/pipelines/plots/illustrations/automatic/plaus_nec_correlation.png")
     plt.close()
+
 
 def lower_bound_unsup():
     ##
@@ -593,6 +668,7 @@ def ablation_expval_budget_faith():
 if __name__ == "__main__":
     # low_discrepancy()
     lower_bound_plaus()
+    # plaus_nec_correlation()
     # lower_bound_unsup()
     # faith_acc_gain()
     # compare_faith_mitigations()

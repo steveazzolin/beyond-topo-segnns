@@ -74,6 +74,171 @@ def initialize_model_dataset(config: Union[CommonArgs, Munch]) -> Tuple[torch.nn
 
     return model, loader
 
+def stability_detector_rebuttal(args):
+    assert len(args.metrics.split("/")) == 1, args.metrics.split("/")
+    
+    load_splits = ["id"]
+    if args.splits != "":
+        splits = args.splits.split("/")
+    else:
+        splits = ["id_val"]
+    if args.ratios != "":
+        ratios = [float(r) for r in args.ratios.split("/")]
+    else:
+        ratios = [.3, .6, .9, 1.]
+    # ratios = [0.3]
+    print("Using ratios = ", ratios)
+
+    results = {l: {k: defaultdict(list) for k in splits} for l in load_splits}
+    for l, load_split in enumerate(load_splits):
+        print("\n\n" + "-"*50)
+
+        for i, seed in enumerate(args.seeds.split("/")):
+            print(f"COMPUTING STABILITY DETECTOR FOR LOAD SPLIT = {load_split} AND SEED {seed}\n\n")
+            seed = int(seed)        
+            args.random_seed = seed
+            args.exp_round = seed
+            
+            config = config_summoner(args)
+            config["mitigation_backbone"] = args.mitigation_backbone
+            config["mitigation_sampling"] = args.mitigation_sampling
+            config["task"] = "test"
+            config["load_split"] = load_split
+            if l == 0 and i == 0:
+                load_logger(config)
+            
+            model, loader = initialize_model_dataset(config)
+            ood_algorithm = load_ood_alg(config.ood.ood_alg, config)
+            pipeline = load_pipeline(config.pipeline, config.task, model, loader, ood_algorithm, config)
+            pipeline.load_task(load_param=True, load_split=load_split) 
+
+            # if "CIGA" in config.model.model_name:
+            #     ratios = [pipeline.model.att_net.ratio]
+            
+            (edge_scores, graphs, graphs_nx, labels, avg_graph_size, \
+            causal_subgraphs_r, spu_subgraphs_r, expl_accs_r, causal_masks_r)  = pipeline.compute_scores_and_graphs(
+                ratios,
+                splits,
+                convert_to_nx=("suff" in args.metrics) and (not "suff_simple" in args.metrics)
+            )
+            intervention_bank = None
+
+            for split in splits:
+                score, acc_int, _ = pipeline.compute_stability_detector_rebuttal(
+                    seed,
+                    ratios,
+                    split,
+                    metric=args.metrics,
+                    intervention_distrib=config.intervention_distrib,
+                    intervention_bank=intervention_bank,
+                    edge_scores=edge_scores[split],
+                    graphs=graphs[split],
+                    graphs_nx=graphs_nx[split],
+                    labels=labels[split],
+                    avg_graph_size=avg_graph_size[split],
+                    causal_subgraphs_r=causal_subgraphs_r[split],
+                    spu_subgraphs_r=spu_subgraphs_r[split],
+                    expl_accs_r=expl_accs_r[split],
+                    causal_masks_r=causal_masks_r[split]
+                )
+                results[load_split][split][args.metrics].append(score["all_L1"])
+                for m in ["wiou_original", "wiou_perturbed"]:
+                    for s in [""]:
+                        results[load_split][split][m + s].append(score[m + s])
+    
+    print(f"\n\nDONE {config.dataset.dataset_name} - {config.model.model_name}")
+    for load_split in results.keys():
+        for split in results[load_split]:
+            for metric in ["wiou_original", "wiou_perturbed"]:
+                matrix = np.array(results[load_split][split][metric])
+                mean_over_seeds = np.mean(matrix, axis=0)
+                mean_over_ratios = np.mean(mean_over_seeds)
+                std = np.std(matrix, axis=0)
+                print(f"({load_split}) {split} {metric.upper()}: \t{mean_over_seeds} +- {std} (mean across ratios: {mean_over_ratios})")
+
+def stability_detector_extended(args):
+    startOverallTime = datetime.now()
+    assert len(args.metrics.split("/")) == 1, args.metrics.split("/")
+    
+    load_splits = ["id"]
+    if args.splits != "":
+        splits = args.splits.split("/")
+    else:
+        splits = ["id_val"]
+
+    if args.ratios != "":
+        ratios = [float(r) for r in args.ratios.split("/")]
+    else:
+        ratios = [.3, .6, .9, 1.]
+    print("Using ratios = ", ratios)
+
+    results = {l: {k: defaultdict(list) for k in splits} for l in load_splits}
+    for l, load_split in enumerate(load_splits):
+        print("\n\n" + "-"*50)
+
+        for i, seed in enumerate(args.seeds.split("/")):
+            print(f"COMPUTING STABILITY DETECTOR FOR LOAD SPLIT = {load_split} AND SEED {seed}\n\n")
+            seed = int(seed)        
+            args.random_seed = seed
+            args.exp_round = seed
+            
+            config = config_summoner(args)
+            config["mitigation_backbone"] = args.mitigation_backbone
+            config["mitigation_sampling"] = args.mitigation_sampling
+            config["task"] = "test"
+            config["load_split"] = load_split
+            if l == 0 and i == 0:
+                load_logger(config)
+            
+            model, loader = initialize_model_dataset(config)
+            ood_algorithm = load_ood_alg(config.ood.ood_alg, config)
+            pipeline = load_pipeline(config.pipeline, config.task, model, loader, ood_algorithm, config)
+            pipeline.load_task(load_param=True, load_split=load_split) 
+            
+            (edge_scores, graphs, graphs_nx, labels, avg_graph_size, \
+            causal_subgraphs_r, spu_subgraphs_r, expl_accs_r, causal_masks_r)  = pipeline.compute_scores_and_graphs(
+                ratios,
+                splits,
+                convert_to_nx=("suff" in args.metrics) and (not "suff_simple" in args.metrics)
+            )
+            intervention_bank = None
+
+            for split in splits:
+                score, acc_int, _ = pipeline.compute_stability_detector_extended(
+                    seed,
+                    ratios,
+                    split,
+                    metric=args.metrics,
+                    intervention_distrib=config.intervention_distrib,
+                    intervention_bank=intervention_bank,
+                    edge_scores=edge_scores[split],
+                    graphs=graphs[split],
+                    graphs_nx=graphs_nx[split],
+                    labels=labels[split],
+                    avg_graph_size=avg_graph_size[split],
+                    causal_subgraphs_r=causal_subgraphs_r[split],
+                    spu_subgraphs_r=spu_subgraphs_r[split],
+                    expl_accs_r=expl_accs_r[split],
+                    causal_masks_r=causal_masks_r[split]
+                )
+                results[load_split][split][args.metrics].append(score["all_L1"])
+                for m in ["plausibility_wiou", "stability_wiou", "stability_f1", "stability_mcc"]:
+                    for s in ["_original", "_perturbed"]:
+                        results[load_split][split][m + s].append(score[m + s])
+    
+    print(f"\n\nDONE {config.dataset.dataset_name} - {config.model.model_name}")
+    for load_split in results.keys():
+        for split in results[load_split]:
+            for m in ["plausibility_wiou", "stability_wiou", "stability_f1", "stability_mcc"]:
+                for s in ["_original", "_perturbed"]:
+                    metric = m + s
+                    matrix = np.array(results[load_split][split][metric])
+                    mean_over_seeds = np.mean(matrix, axis=0)
+                    mean_over_ratios = np.mean(mean_over_seeds)
+                    std = np.std(matrix, axis=0)
+                    print(f"({load_split}) ({split}) {metric.upper()}: \t{mean_over_seeds} +- {std} (mean across ratios: {mean_over_ratios:.3f})")
+                print()
+    print("Overall time of execution: ", datetime.now() - startOverallTime)
 
 def permute_attention_scores(args):
     load_splits = ["ood"]
@@ -275,7 +440,7 @@ def evaluate_metric(args):
     if args.splits != "":
         splits = args.splits.split("/")
     else:
-        splits = ["id_test", "test"] #"id_val", "val", "test"
+        splits = ["id_val", "val", "test"] #"id_val", "val", "test"
     print("Using splits = ", splits)
         
     if args.ratios != "":
@@ -315,7 +480,7 @@ def evaluate_metric(args):
             pipeline = load_pipeline(config.pipeline, config.task, model, loader, ood_algorithm, config)
             pipeline.load_task(load_param=True, load_split=load_split)
             if "CIGA" in config.model.model_name:
-                ratios = [pipeline.model.att_net.ratio]
+                ratios = [pipeline.model.att_net.ratio, 1.0]
 
             if not (len(args.metrics.split("/")) == 1 and args.metrics.split("/")[0] == "acc"):
                 (edge_scores, graphs, graphs_nx, labels, avg_graph_size, \
@@ -344,7 +509,7 @@ def evaluate_metric(args):
                         metrics_score[load_split][split]["wiou"].append([np.mean([e[0] for e in expl_accs_r[split][r]]) for r in ratios])
                         metrics_score[load_split][split]["wiou_std"].append([np.std([e[0] for e in expl_accs_r[split][r]]) for r in ratios])
                         metrics_score[load_split][split]["F1"].append([np.mean([e[1] for e in expl_accs_r[split][r]]) for r in ratios])
-                        metrics_score[load_split][split]["F1_std"].append(np.std([e[1] for e in expl_accs_r[split][1.0]]))
+                        metrics_score[load_split][split]["F1_std"].append([np.std([e[1] for e in expl_accs_r[split][r]]) for r in ratios])
                     continue
 
                 for split in splits:
@@ -509,6 +674,7 @@ def evaluate_metric(args):
         print(f"Computed for split load_split = {load_split}\n\n\n")
     
     if config.save_metrics:
+        exit("NO!") #TODO: remove me
         with open(f"storage/metric_results/aggregated_{load_split}_results_{config.log_id}.json", "w") as f:
             json.dump(results_aggregated, f)     
     
@@ -566,6 +732,10 @@ def main():
         exit(0)
     if args.task == 'plot_sampling':
         generate_plot_sampling(args)
+        exit(0)
+    if args.task == 'stability_detector':
+        # stability_detector_rebuttal(args)
+        stability_detector_extended(args)
         exit(0)
         
 
