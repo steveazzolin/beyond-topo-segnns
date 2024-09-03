@@ -144,20 +144,22 @@ class Pipeline:
         model_output = self.model(data=data, edge_weight=edge_weight, ood_algorithm=self.ood_algorithm)
         raw_pred = self.ood_algorithm.output_postprocess(model_output)
 
-        loss = self.ood_algorithm.loss_calculate(raw_pred, targets, mask, node_norm, self.config, batch=data.batch)
-        loss = self.ood_algorithm.loss_postprocess(loss, data, mask, self.config, epoch)
+        if self.config.global_side_channel == "simple_concept" and epoch < 20: 
+            # Little pretrain of individual channels
+            loss_global = self.ood_algorithm.loss_calculate(self.ood_algorithm.logit_global, targets, mask, node_norm, self.config, batch=data.batch)
+            loss_global = loss_global.mean()
+            loss_gnn    = self.ood_algorithm.loss_calculate(self.ood_algorithm.logit_gnn, targets, mask, node_norm, self.config, batch=data.batch)
+            loss_gnn    = self.ood_algorithm.loss_postprocess(loss_gnn, data, mask, self.config, epoch)
+            loss = loss_gnn + loss_global
+        else:
+            loss = self.ood_algorithm.loss_calculate(raw_pred, targets, mask, node_norm, self.config, batch=data.batch)
+            loss = self.ood_algorithm.loss_postprocess(loss, data, mask, self.config, epoch)
         
         if False and self.config.global_side_channel in ("simple", "simple_filternode"):
             loss_clf_global_side_channel = self.ood_algorithm.loss_global_side_channel(data.y, mask, self.config)
             loss += 0.005 * loss_clf_global_side_channel
         else:
             loss_clf_global_side_channel = torch.tensor(0.)
-
-        # TODO: Fix this (temporary)
-        # l1_regularization = 0.
-        # for param in self.model.global_side_channel.parameters():
-        #     l1_regularization += param.abs().sum()
-        # loss += 0.1 * l1_regularization
 
         self.ood_algorithm.backward(loss)
         

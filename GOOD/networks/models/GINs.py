@@ -538,12 +538,12 @@ class SimpleGlobalChannel(torch.nn.Module):
                 nn.Sigmoid()
             ])
 
-        self.classifier.classifier[0].weight = torch.nn.Parameter(
-            torch.tensor([[1.0, 0., 0.]], device=config.device)
-        )
-        self.classifier.classifier[0].bias = torch.nn.Parameter(
-            torch.tensor([[-1.9]], device=config.device)
-        )
+        # self.classifier.classifier[0].weight = torch.nn.Parameter(
+        #     torch.tensor([[1.0, 0., 0.]], device=config.device)
+        # )
+        # self.classifier.classifier[0].bias = torch.nn.Parameter(
+        #     torch.tensor([[-1.9]], device=config.device)
+        # )
 
     def forward(self, **kwargs) -> torch.Tensor:
         r"""

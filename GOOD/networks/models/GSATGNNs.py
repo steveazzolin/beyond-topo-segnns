@@ -140,7 +140,7 @@ class GSATGIN(GNNBasic):
             
             if self.config.global_side_channel == "simple_concept":
                 # LEN-like
-                logits = self.combinator(torch.cat((logits_gnn, logits_side_channel.detach()), dim=1))
+                logits = self.combinator(torch.cat((logits_gnn, logits_side_channel), dim=1))
             else:
                 # logits = self.beta.sigmoid() * logits_gnn + (1-self.beta.sigmoid()) * logits_side_channel
                 logits = self.beta.sigmoid() * logits_gnn.sigmoid() +  (1 - self.beta.sigmoid().detach()) * logits_side_channel.sigmoid().detach() # Combine them in probability space, and revert to logit for compliance with other code
