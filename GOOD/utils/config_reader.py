@@ -206,6 +206,7 @@ def process_configs(config: Union[CommonArgs, Munch], args=None):
                     f'{config.model.dropout_rate}dp_' \
                     f'mitig_backbone{args.mitigation_backbone}_' \
                     f'mitig_sampling{args.mitigation_sampling}'
+    
     if not config.mitigation_readout is None:
         model_dirname = model_dirname + f'mitig_readout{args.mitigation_readout}'
     if not config.mitigation_virtual is None:
@@ -215,6 +216,11 @@ def process_configs(config: Union[CommonArgs, Munch], args=None):
         if config.mitigation_expl_scores.lower() == "topk":
             assert config.mitigation_expl_scores_topk >= 0
             model_dirname += f'{args.mitigation_expl_scores_topk}'
+    if config.global_side_channel:
+        model_dirname += f"gchannel{config.global_side_channel}"
+    if config.use_norm != "bn":
+        model_dirname += f"norm{config.use_norm}"
+
     model_dirname = model_dirname + f'avgedgeattn{args.average_edge_attn}'
     print("model_dirname=", model_dirname)
     

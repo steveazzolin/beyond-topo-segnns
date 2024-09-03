@@ -4,9 +4,10 @@ Base classes for Graph Neural Networks
 import torch
 import torch.nn as nn
 from torch_geometric.data.batch import Batch
+from torch_geometric.nn.norm import InstanceNorm
 from torch import Tensor
 from GOOD.utils.config_reader import Union, CommonArgs, Munch
-from .Pooling import GlobalMeanPool, GlobalMaxPool, IdenticalPool
+from .Pooling import GlobalMeanPool, GlobalMaxPool, IdenticalPool, GlobalAddPool
 from torch.nn import Identity
 
 
@@ -136,14 +137,22 @@ class BasicEncoder(torch.nn.Module):
                 for _ in range(num_layer)
             ]
         )
-        if kwargs.get('no_bn'):
+        if kwargs.get('no_bn') or config.use_norm == "none":
+            print("Using no_bn in BasicEncoder")
             self.batch_norms = [
                 Identity()
                 for _ in range(num_layer)
             ]
-        else:
+        elif config.use_norm == "bn":
+            print("Using BN in BasicEncoder")
             self.batch_norms = nn.ModuleList([
                 nn.BatchNorm1d(config.model.dim_hidden, track_running_stats=True)
+                for _ in range(num_layer)
+            ])
+        elif config.use_norm == "in":
+            print("Using IN in BasicEncoder")
+            self.batch_norms = nn.ModuleList([
+                InstanceNorm(config.model.dim_hidden, track_running_stats=True)
                 for _ in range(num_layer)
             ])
         self.dropouts = nn.ModuleList([
@@ -154,9 +163,21 @@ class BasicEncoder(torch.nn.Module):
             self.readout = IdenticalPool()
         elif config.model.global_pool == 'mean':
             self.readout = GlobalMeanPool(**kwargs)
+        elif config.model.global_pool == 'sum':
+            self.readout = GlobalAddPool(**kwargs)
         elif config.model.global_pool == 'max':
             self.readout = GlobalMaxPool()
         elif config.model.global_pool == 'id':
             self.readout = IdenticalPool()
         else:
             self.readout = GlobalMaxPool()
+
+    def get_norm_layer(self, config):
+        if config.use_norm == "bn":
+            return nn.BatchNorm1d(2 * config.model.dim_hidden, track_running_stats=True)
+        elif config.use_norm == "in":
+            return InstanceNorm(2 * config.model.dim_hidden, track_running_stats=True)
+        elif config.use_norm == "none":
+            return Identity()
+        else:
+            raise ValueError(f"Invalid value {config.use_norm}")

@@ -1,0 +1,10 @@
+includes:
+  - ../base.yaml
+dataset:
+  domain: color
+train:
+  max_epoch: 100
+  train_bs: 64
+  val_bs: 512
+  test_bs: 512
+  weight_decay: 0.

@@ -30,10 +30,15 @@ debias: True # Added by Steve
 random_expl: False # Added by Steve
 samplingtype: deconfounded # Added by Steve
 nec_number_samples: prop_G_dataset # Added by Steve
+global_side_channel: null # Added by Steve
+use_norm: bn # Added by Steve
 log_id: ""
 splits: ""
 ratios: ""
+wandb: False  # Added by Steve
 train:
+  channel_int: 2 # Added by Steve
+  channel_weight_decay: 0.001 # Added by Steve
   weight_decay: 0.
   save_gap: 10
   tr_ctn: False

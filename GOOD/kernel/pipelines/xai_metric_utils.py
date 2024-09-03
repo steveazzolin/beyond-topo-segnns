@@ -94,7 +94,7 @@ def draw(config, G, name, subfolder="", pos=None, save=True, figsize=(6.4, 4.8),
     # edge_color = list(map(lambda x: edge_colors[x], nx.get_edge_attributes(G,'origin').values()))
     node_gt = list(nx.get_node_attributes(G, "node_gt").values())
     edge_color = list(nx.get_edge_attributes(G, "attn_weight").values())
-    edge_color = ["red" if e > 0.8 else "black" for e in edge_color]
+    edge_color = ["red" if e > 0.90 else "black" for e in edge_color]
     # nx.draw_networkx_edges(
     #     G,
     #     pos=pos,
@@ -112,8 +112,10 @@ def draw(config, G, name, subfolder="", pos=None, save=True, figsize=(6.4, 4.8),
         edge_color=edge_color,
         # edge_cmap=plt.cm.Reds,
     )
-    # if nx.get_edge_attributes(G, 'attn_weight') != {}:
-    #     nx.draw_networkx_edge_labels(G, pos, edge_labels=nx.get_edge_attributes(G, 'attn_weight'), font_size=6, alpha=0.8)
+
+    # Annotate with edge scores
+    if nx.get_edge_attributes(G, 'attn_weight') != {}:
+        nx.draw_networkx_edge_labels(G, pos, edge_labels=nx.get_edge_attributes(G, 'attn_weight'), font_size=6, alpha=0.8)
 
     # options = {
     #     "node_color":"#cccccc",
@@ -198,6 +200,59 @@ def draw_gt(config, G, name, gt, edge_index, subfolder="", pos=None):
             exit(e)
     plt.savefig(f'{path}/{name}.png')
     plt.close()
+    return pos
+
+def draw_colored(config, G, name, subfolder="", pos=None, save=True, figsize=(6.4, 4.8), nodesize=350, with_labels=True, title=None, ax=None, thrs=0.9):
+    plt.figure(figsize=figsize)
+
+    if pos is None:
+        pos = nx.kamada_kawai_layout(G)
+
+    node_gt = list(nx.get_node_attributes(G, "node_gt").values())
+    node_attr = list(nx.get_node_attributes(G, "x").values())
+    
+    node_colors = []
+    for i in range(len(node_gt)):
+        if node_gt[i]:
+            node_colors.append("orange") # "lightgreen"
+        elif node_attr[i] == [1.0, 0., 0.]:
+            node_colors.append("red")
+        else:
+            node_colors.append("orange")
+    
+    edge_color = list(nx.get_edge_attributes(G, "attn_weight").values())
+    edge_color = ["red" if e >= thrs else "black" for e in edge_color]
+
+    nx.draw(
+        G,
+        with_labels=with_labels,
+        pos=pos,
+        ax=ax,
+        node_size=nodesize,
+        node_color=node_colors,
+        edge_color=edge_color,
+    )
+
+    # Annotate with edge scores
+    if nx.get_edge_attributes(G, 'attn_weight') != {}:
+        nx.draw_networkx_edge_labels(G, pos, edge_labels=nx.get_edge_attributes(G, 'attn_weight'), font_size=6, alpha=0.8)
+    
+    plt.title(title)
+
+    if save:
+        path = f'GOOD/kernel/pipelines/plots/{subfolder}/{config.load_split}_{config.util_model_dirname}/'
+        if not os.path.exists(path):
+            try:
+                os.makedirs(path)
+            except Exception as e:
+                print(e)
+                exit(e)
+        plt.savefig(f'{path}/{name}.png')
+    else:
+        plt.show()
+
+    if ax is None:
+        plt.close()
     return pos
 
 def random_attach(S, T):
@@ -304,7 +359,7 @@ def expl_acc_super_fast(batch_data, batch_edge_score, reference_intersection):
     """
     intersection = scatter_sum(batch_edge_score * reference_intersection, batch_data.batch[batch_data.edge_index[0]])
     union        = scatter_sum(batch_edge_score, batch_data.batch[batch_data.edge_index[0]])
-    wiou_super_fast = intersection / union
+    wiou_super_fast = intersection / (union + 1e-10)
     return torch.round(wiou_super_fast, decimals=3)
 
 def sample_edges(G_ori, alpha, deconfounded, edge_index_to_remove):

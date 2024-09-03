@@ -15,8 +15,8 @@ from torch_geometric import __version__ as pyg_v
 from GOOD import register
 from GOOD.utils.config_reader import Union, CommonArgs, Munch
 from .BaseGNN import GNNBasic
-from .Classifiers import Classifier
-from .GINs import GINFeatExtractor
+from .Classifiers import Classifier, ConceptClassifier
+from .GINs import GINFeatExtractor, SimpleGlobalChannel, DecisionTreeGlobalChannel
 from .GINvirtualnode import vGINFeatExtractor
 import copy
 from GOOD.utils.splitting import split_graph, relabel
@@ -28,7 +28,6 @@ class GSATGIN(GNNBasic):
         super(GSATGIN, self).__init__(config)
         
         config = copy.deepcopy(config)
-
         fe_kwargs = {'mitigation_readout': config.mitigation_readout}
 
         self.gnn = GINFeatExtractor(config, **fe_kwargs)
@@ -47,6 +46,19 @@ class GSATGIN(GNNBasic):
         self.edge_mask = None
         print("Using mitigation_expl_scores:", config.mitigation_expl_scores)
 
+        if config.global_side_channel in ("simple", "simple_filternode"):
+            self.global_side_channel = SimpleGlobalChannel(config)
+            self.beta = torch.nn.Parameter(data=torch.tensor(0.0), requires_grad=True)
+            self.combinator = nn.Linear(config.dataset.num_classes*2, config.dataset.num_classes, bias=True) # not in use
+        elif config.global_side_channel == "simple_concept":
+            self.global_side_channel = SimpleGlobalChannel(config)
+            self.beta = torch.tensor(torch.nan)
+            self.combinator = ConceptClassifier(config)
+        elif config.global_side_channel == "dt":
+            self.global_side_channel = DecisionTreeGlobalChannel(config)
+            self.beta = torch.nn.Parameter(data=torch.tensor(0.0), requires_grad=True)
+        
+
     def forward(self, *args, **kwargs):
         r"""
         The GSAT model implementation.
@@ -61,9 +73,10 @@ class GSATGIN(GNNBasic):
         """
         data = kwargs.get('data')
         
-        emb = self.gnn(*args, without_readout=True, **kwargs)
+        emb = self.gnn(*args, without_readout=True, **kwargs)        
         att_log_logits = self.extractor(emb, data.edge_index, data.batch)
-        att = self.sampling(att_log_logits, self.training, self.config.mitigation_expl_scores)
+        att = self.sampling(att_log_logits, self.training, self.config.mitigation_expl_scores) # WARNING: Original GSAT
+        # att = self.sampling(att_log_logits, False, self.config.mitigation_expl_scores) # WARNING: modification to skip Gumbel sampling
 
         if self.learn_edge_att:
             if is_undirected(data.edge_index):
@@ -113,14 +126,36 @@ class GSATGIN(GNNBasic):
             kwargs["batch_size"] =  data.batch[-1].item() + 1
 
         set_masks(edge_att, self)
-        logits = self.classifier(self.gnn(*args, **kwargs))
-        # if self.gnn_clf:
-        #     logits = self.classifier(self.gnn_clf(*args, **kwargs))
-        # else:
-        #     logits = self.classifier(self.gnn(*args, **kwargs))
+        # logits = self.classifier(self.gnn(*args, **kwargs))
+        if self.gnn_clf:
+            logits = self.classifier(self.gnn_clf(*args, **kwargs))
+        else:
+            logits = self.classifier(self.gnn(*args, **kwargs))
         clear_masks(self)
         self.edge_mask = edge_att
-        return logits, att, edge_att
+
+        if self.config.global_side_channel and not kwargs.get('exclude_global', False):
+            logits_side_channel, filter_attn = self.global_side_channel(**kwargs)
+            logits_gnn = logits
+            
+            if self.config.global_side_channel == "simple_concept":
+                # LEN-like
+                logits = self.combinator(torch.cat((logits_gnn.sigmoid(), logits_side_channel.sigmoid()), dim=1))
+            else:
+                # logits = self.beta.sigmoid() * logits_gnn + (1-self.beta.sigmoid()) * logits_side_channel
+                logits = self.beta.sigmoid() * logits_gnn.sigmoid() +  (1 - self.beta.sigmoid().detach()) * logits_side_channel.sigmoid().detach() # Combine them in probability space, and revert to logit for compliance with other code
+                logits = torch.log(logits / (1 - logits + 1e-10)) # Revert Sigmoid
+                # Min(A,B)
+                # logits = torch.min(torch.cat((logits_gnn, logits_side_channel.detach()), dim=1), dim=1, keepdim=True).values
+                # Linear commbination
+                # logits = self.combinator(torch.cat((logits_gnn.sigmoid(), logits_side_channel.sigmoid()), dim=1))
+                # A*B
+                # logits = logits_gnn.sigmoid() * logits_side_channel.sigmoid().round().detach()
+
+            return logits, att, att_log_logits.sigmoid(), filter_attn, (logits_gnn, logits_side_channel) # WARNING: I replaced edge_attn with att_log_logits.sigmoid()
+        else:
+            return logits, att, att_log_logits.sigmoid() # WARNING: I replaced edge_attn with att_log_logits.sigmoid()
+            # return logits, att, edge_att
 
     def sampling(self, att_log_logits, training, mitigation_expl_scores):
         if mitigation_expl_scores == "anneal":
@@ -299,7 +334,7 @@ class MLP(BatchSequential):
             m.append(nn.Linear(channels[i - 1], channels[i], bias))
 
             if i < len(channels) - 1:
-                m.append(InstanceNorm(channels[i]))
+                # m.append(InstanceNorm(channels[i])) # WARNING: Original GSAT was using this
                 # m.append(nn.BatchNorm1d(channels[i]))
                 m.append(nn.ReLU())
                 m.append(nn.Dropout(dropout))

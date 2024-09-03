@@ -6,6 +6,9 @@ from typing import Tuple
 import torch
 from torch import Tensor
 from torch_geometric.data import Batch
+from torch_geometric.utils import to_undirected
+from torch_scatter import scatter_sum
+from torch_scatter.composite import scatter_softmax
 
 from GOOD import register
 from GOOD.utils.config_reader import Union, CommonArgs, Munch
@@ -45,7 +48,7 @@ class GSAT(BaseOODAlg):
             reset_random_seed(config)
             self.stage = 1
 
-    def output_postprocess(self, model_output: Tensor, **kwargs) -> Tensor:
+    def output_postprocess(self, model_output: Tensor, return_edge_scores: bool = False, **kwargs) -> Tensor:
         r"""
         Process the raw output of model
 
@@ -56,7 +59,10 @@ class GSAT(BaseOODAlg):
             model raw predictions.
 
         """
-        raw_out, self.att, self.edge_att = model_output
+        if self.config.global_side_channel:
+            raw_out, self.att, self.edge_att, self.global_filter_attn, (self.logit_gnn, self.logit_global) = model_output
+        else:
+            raw_out, self.att, self.edge_att = model_output
         return raw_out
 
     def loss_postprocess(self, loss: Tensor, data: Batch, mask: Tensor, config: Union[CommonArgs, Munch],
@@ -82,11 +88,26 @@ class GSAT(BaseOODAlg):
             loss based on GSAT algorithm
 
         """
-        att = self.att
+        att = self.edge_att # WARNING: original version was using self.att
+        # att = self.att
         eps = 1e-6
-        r = self.get_r(self.decay_interval, self.decay_r, config.train.epoch, final_r=self.final_r)
-        info_loss = (att * torch.log(att / r + eps) +
-                     (1 - att) * torch.log((1 - att) / (1 - r + eps) + eps)).mean()
+        
+        # Original GSAT spec_loss
+        # r = self.get_r(self.decay_interval, self.decay_r, config.train.epoch, final_r=self.final_r)
+        # info_loss = (att * torch.log(att / r + eps) +
+        #              (1 - att) * torch.log((1 - att) / (1 - r + eps) + eps)).mean()
+
+        # TESTING new GSAT spec_loss
+        # _, att = to_undirected(data.edge_index, att.squeeze(-1), reduce="mean")
+        # attn_norm_per_batch = scatter_softmax(att.squeeze(1), data.batch[data.edge_index[0]])
+        # logattn = torch.log(attn_norm_per_batch + eps)
+        # info_loss = scatter_sum(-attn_norm_per_batch * logattn, data.batch[data.edge_index[0]]).mean()
+
+        # TESTING L1 sparsification (optionally + Entropy regularization as in GiSST)
+        info_loss = 0.5*att.squeeze(1).abs().mean(-1)
+        attn = att.squeeze(1)
+        info_loss = torch.mean(-attn * torch.log(attn + 1e-6) - (1 - attn) * torch.log(1 - attn + 1e-6))
+        # info_loss = torch.tensor(0.)
 
         self.mean_loss = loss.mean()
         self.spec_loss = config.ood.ood_param * info_loss
@@ -98,3 +119,7 @@ class GSAT(BaseOODAlg):
         if r < final_r:
             r = final_r
         return r
+    
+    def loss_global_side_channel(self, targets: Tensor, mask: Tensor, config: Union[CommonArgs, Munch]) -> Tensor:
+        loss = config.metric.loss_func(self.logit_global, targets, reduction='none') * mask
+        return loss.mean()

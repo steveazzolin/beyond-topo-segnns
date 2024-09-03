@@ -3,6 +3,7 @@ The Graph Neural Network from the `"How Powerful are Graph Neural Networks?"
 <https://arxiv.org/abs/1810.00826>`_ paper.
 """
 from typing import Callable, Optional
+import copy
 
 import torch
 import torch.nn as nn
@@ -12,17 +13,19 @@ from torch import Tensor
 from torch_geometric.nn.inits import reset
 from torch_geometric.typing import OptPairTensor, Adj, OptTensor, Size
 from torch_geometric.utils.loop import add_self_loops, remove_self_loops
-from torch_sparse import SparseTensor
+from torch_scatter.composite import scatter_softmax
+import torch.nn.functional as F
 
 from GOOD import register
 from GOOD.utils.config_reader import Union, CommonArgs, Munch
 from .BaseGNN import GNNBasic, BasicEncoder
 from .Classifiers import Classifier
 from .MolEncoders import AtomEncoder, BondEncoder
+from .Pooling import GlobalAddPool
 from torch.nn import Identity
 
-import torch.nn.functional as F
-
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
 
 @register.model_register
 class GIN(GNNBasic):
@@ -129,7 +132,7 @@ class GINEncoder(BasicEncoder):
         self.convs = nn.ModuleList()
         if kwargs.get('without_embed'):
             self.convs.append(GINConvAttn(nn.Sequential(nn.Linear(config.model.dim_hidden, 2 * config.model.dim_hidden),
-                                               nn.BatchNorm1d(2 * config.model.dim_hidden, track_running_stats=True), nn.ReLU(),
+                                               self.get_norm_layer(config), nn.ReLU(),
                                                nn.Linear(2 * config.model.dim_hidden, config.model.dim_hidden)),
                                                emb_dim=config.model.dim_hidden,
                                                mitigation_backbone=config.mitigation_backbone))
@@ -140,7 +143,7 @@ class GINEncoder(BasicEncoder):
             #                                     nn.Linear(2 * config.model.dim_hidden, config.model.dim_hidden))))
             # else:
             self.convs.append(GINConvAttn(nn.Sequential(nn.Linear(config.dataset.dim_node, 2 * config.model.dim_hidden),
-                                            nn.BatchNorm1d(2 * config.model.dim_hidden, track_running_stats=True), nn.ReLU(),
+                                            self.get_norm_layer(config), nn.ReLU(),
                                             nn.Linear(2 * config.model.dim_hidden, config.model.dim_hidden)),
                                             emb_dim=config.dataset.dim_node,
                                             mitigation_backbone=config.mitigation_backbone))
@@ -148,7 +151,7 @@ class GINEncoder(BasicEncoder):
         self.convs = self.convs.extend(
             [
                 GINConvAttn(nn.Sequential(nn.Linear(config.model.dim_hidden, 2 * config.model.dim_hidden),
-                                    nn.BatchNorm1d(2 * config.model.dim_hidden, track_running_stats=True), nn.ReLU(),
+                                    self.get_norm_layer(config), nn.ReLU(),
                                     nn.Linear(2 * config.model.dim_hidden, config.model.dim_hidden)),
                                     emb_dim=config.model.dim_hidden,
                                     mitigation_backbone=config.mitigation_backbone)
@@ -295,12 +298,12 @@ class GINMolEncoder(BasicEncoder):
         self.convs = nn.ModuleList(
             [
                 GINEConv(nn.Sequential(nn.Linear(config.model.dim_hidden, 2 * config.model.dim_hidden),
-                                       nn.BatchNorm1d(2 * config.model.dim_hidden), nn.ReLU(),
+                                       self.get_norm_layer(config), nn.ReLU(),
                                        nn.Linear(2 * config.model.dim_hidden, config.model.dim_hidden)), config)
             ] +
             [
                 GINEConv(nn.Sequential(nn.Linear(config.model.dim_hidden, 2 * config.model.dim_hidden),
-                                       nn.BatchNorm1d(2 * config.model.dim_hidden), nn.ReLU(),
+                                       self.get_norm_layer(config), nn.ReLU(),
                                        nn.Linear(2 * config.model.dim_hidden, config.model.dim_hidden)), config)
                 for _ in range(num_layer - 1)
             ]
@@ -500,6 +503,160 @@ class GINEConv(gnn.MessagePassing):
     def __repr__(self) -> str:
         return f'{self.__class__.__name__}(nn={self.nn})'
 
+
+@register.model_register
+class SimpleGlobalChannel(torch.nn.Module):
+    r"""
+    A simple implementation of a global side channel.
+    It performs a GlobalAddPool of node features, and classify them.
+
+    Args:
+        config (Union[CommonArgs, Munch]): munchified dictionary of args (:obj:`config.model.dim_hidden`, :obj:`config.model.model_layer`, :obj:`config.dataset.dim_node`, :obj:`config.dataset.num_classes`, :obj:`config.dataset.dataset_type`)
+    """
+
+    def __init__(self, config: Union[CommonArgs, Munch]):
+
+        super().__init__()
+        self.config = config
+        self.feat_encoder = GlobalAddPool()
+        
+        clf_config = copy.deepcopy(config)
+        clf_config.model.dim_hidden = clf_config.dataset.dim_node
+
+        self.classifier = Classifier(clf_config)
+
+        if config.global_side_channel == "simple_filternode":
+            self.node_filter = nn.Sequential(*[
+                nn.Linear(clf_config.dataset.dim_node, clf_config.dataset.dim_node*10),
+                nn.LeakyReLU(),
+                nn.Linear(clf_config.dataset.dim_node*10, 1),
+                nn.Sigmoid()
+            ])
+
+        # self.classifier.classifier[0].weight = torch.nn.Parameter(
+        #     torch.tensor([[1.0, 0., 0.]], device=config.device)
+        # )
+        # self.classifier.classifier[0].bias = torch.nn.Parameter(
+        #     torch.tensor([[-1.9]], device=config.device)
+        # )
+
+    def forward(self, **kwargs) -> torch.Tensor:
+        r"""
+        Args:
+            *args (list): argument list for the use of arguments_read. Refer to :func:`arguments_read <GOOD.networks.models.BaseGNN.GNNBasic.arguments_read>`
+            **kwargs (dict): key word arguments for the use of arguments_read. Refer to :func:`arguments_read <GOOD.networks.models.BaseGNN.GNNBasic.arguments_read>`
+
+        Returns (Tensor):
+            label predictions
+
+        """
+        out_readout, attn = self.encode(**kwargs)
+        out = self.classifier(out_readout)
+
+        # out = torch.where(out_readout[:, 0] >= 5, 10, -10).reshape(out.shape)
+        
+        # Apply Straight-Trought to discretize
+        # out_hard = (out > 0.0).to(torch.float)
+        # out = out_hard + out - out.detach()
+        return out, attn
+    
+    def encode(self, **kwargs) -> torch.Tensor:
+        r"""
+        Args:
+            *args (list): argument list for the use of arguments_read. Refer to :func:`arguments_read <GOOD.networks.models.BaseGNN.GNNBasic.arguments_read>`
+            **kwargs (dict): key word arguments for the use of arguments_read. Refer to :func:`arguments_read <GOOD.networks.models.BaseGNN.GNNBasic.arguments_read>`
+
+        Returns (Tensor):
+            label predictions
+
+        """
+        attn = None
+        x = kwargs["data"].x
+        if self.config.global_side_channel == "simple_filternode": # apply node filtering attention
+            attn = self.node_filter(x) #.squeeze(1) # squeeze when using softmax
+            # attn = scatter_softmax(attn, kwargs["data"].batch).unsqueeze(1)
+            x = x * attn
+        out_readout = self.feat_encoder(x=x, batch=kwargs["data"].batch)
+        return out_readout, attn
+    
+@register.model_register
+class DecisionTreeGlobalChannel(torch.nn.Module):
+    r"""
+    Decisionn Tree implementation of a global side channel.
+
+    Args:
+        config (Union[CommonArgs, Munch]): munchified dictionary of args (:obj:`config.model.dim_hidden`, :obj:`config.model.model_layer`, :obj:`config.dataset.dim_node`, :obj:`config.dataset.num_classes`, :obj:`config.dataset.dataset_type`)
+    """
+
+    def __init__(self, config: Union[CommonArgs, Munch]):
+
+        super().__init__()
+        self.config = config
+        self.feat_encoder = GlobalAddPool()
+        
+        clf_config = copy.deepcopy(config)
+        clf_config.model.dim_hidden = clf_config.dataset.dim_node
+
+        self.classifier = DecisionTreeClassifier(
+            max_depth=1,            # Limit the maximum depth of the tree
+            min_samples_split=10,   # Minimum number of samples required to split an internal node
+            min_samples_leaf=5      # Minimum number of samples required to be at a leaf node
+        )
+
+        if config.global_side_channel == "simple_filternode":
+            self.node_filter = nn.Sequential(*[
+                nn.Linear(clf_config.dataset.dim_node, clf_config.dataset.dim_node),
+                nn.ReLU(),
+                nn.Linear(clf_config.dataset.dim_node, 1),
+                nn.Sigmoid()
+            ])
+
+    def forward(self, **kwargs) -> torch.Tensor:
+        r"""
+        Args:
+            *args (list): argument list for the use of arguments_read. Refer to :func:`arguments_read <GOOD.networks.models.BaseGNN.GNNBasic.arguments_read>`
+            **kwargs (dict): key word arguments for the use of arguments_read. Refer to :func:`arguments_read <GOOD.networks.models.BaseGNN.GNNBasic.arguments_read>`
+
+        Returns (Tensor):
+            label predictions
+
+        """
+        out_readout, attn = self.encode(**kwargs)
+        out = self.classifier.predict_proba(out_readout.cpu().numpy())
+        if out.shape[1] == 2:
+            # Take activations for positive class (binary clf)
+            out = torch.tensor(out[:,1], device=self.config.device).reshape(-1, 1)
+            out = torch.log(out / (1 - out)) # Reverse Sigmoid activation to simulate the logit pre-sigmoid
+        else:
+            out = torch.tensor(out, device=self.config.device)
+        return out, attn
+    
+    def encode(self, **kwargs) -> torch.Tensor:
+        attn = None
+        x = kwargs["data"].x
+        if self.config.global_side_channel == "dt_filternode": # apply node filtering attention
+            assert False
+            attn = self.node_filter(x)
+            x = x * attn
+        out_readout = self.feat_encoder(x=x, batch=kwargs["data"].batch)
+        return out_readout, attn
+    
+    def fit(self, data):
+        X_train = data.x.cpu().numpy()
+        y_train = data.y.cpu().numpy()
+
+        X_train, _ = self.encode(**{"data": data})
+
+        self.classifier.fit(X_train, y_train)
+    
+    def score(self, data):
+        X_train = data.x.cpu().numpy()
+        y_train = data.y.cpu().numpy()
+        X_train, _ = self.encode(**{"data": data})
+
+        y_pred = self.classifier.predict(X_train)
+        accuracy = accuracy_score(y_train, y_pred)
+        return accuracy
 
 # class GINConv(gnn.GINConv):
 #     r"""The graph isomorphism operator from the `"How Powerful are

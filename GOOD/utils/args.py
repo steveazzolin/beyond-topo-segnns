@@ -26,10 +26,12 @@ class TrainArgs(Tap):
     num_steps: int = None  #: Number of steps in each epoch for node classifications.
 
     lr: float = None  #: Learning rate.
+    lr_filternode: float = None  #: Learning rate. Added by Steve
     epoch: int = None  #: Current training epoch. This value should not be set manually.
     stage_stones: List[int] = None  #: The epoch for starting the next training stage.
     mile_stones: List[int] = None  #: Milestones for a scheduler to decrease learning rate: 0.1
     weight_decay: float = None  #: Weight decay.
+    channel_int: float = None  #: Scaling coefficient for integrating local and global channels.
 
     alpha = None  #: A parameter for DANN.
 
@@ -102,7 +104,7 @@ class CommonArgs(Tap):
     """
     config_path: str = None  #: (Required) The path for the config file.
 
-    task: Literal['train', 'test', 'plot_panel', 'eval_metric', 'test_motif', 'permute_attention', 'plot_sampling', 'stability_detector'] = None  #: Running mode. Allowed: 'train' and 'test'.
+    task: Literal['train', 'test', 'plot_panel', 'eval_metric', 'test_motif', 'permute_attention', 'plot_sampling', 'stability_detector', 'plot_global', 'plot_explanations'] = None  #: Running mode. Allowed: 'train' and 'test'.
     random_seed: int = None  #: Fixed random seed for reproducibility.
     exp_round: int = None  #: Current experiment round.
 
@@ -132,6 +134,10 @@ class CommonArgs(Tap):
     log_id: str = "" # Added by Steve
     splits: str = "" # Added by Steve
     ratios: str = "" # Added by Steve
+    wandb: bool = False # Added by Steve
+    use_norm: str = "bn" # Added by Steve
+
+    global_side_channel: str = None # Added by Steve
     
     pytest: bool = None
     pipeline: str = None  #: Training/test controller.

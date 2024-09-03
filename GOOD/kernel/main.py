@@ -26,6 +26,7 @@ from GOOD.definitions import OOM_CODE
 
 import numpy as np
 import matplotlib.pyplot as plt
+import wandb
 
 if pyg_v == "2.4.0":
     torch.set_num_threads(6)
@@ -240,6 +241,71 @@ def stability_detector_extended(args):
                 print()
     print("Overall time of execution: ", datetime.now() - startOverallTime)
 
+def plot_explanation_examples(args):
+    assert len(args.metrics.split("/")) == 1, args.metrics.split("/")
+    
+    load_splits = ["id"]
+    if args.splits != "":
+        splits = args.splits.split("/")
+    else:
+        splits = ["id_val"]
+    if args.ratios != "":
+        ratios = [float(r) for r in args.ratios.split("/")]
+    else:
+        ratios = [.3, .6, .9, 1.]
+    # ratios = [0.3]
+    print("Using ratios = ", ratios)
+
+    results = {l: {k: defaultdict(list) for k in splits} for l in load_splits}
+    for l, load_split in enumerate(load_splits):
+        print("\n\n" + "-"*50)
+
+        for i, seed in enumerate(args.seeds.split("/")):
+            print(f"PLOTTING EXAMPLES OF EXPLANATIONS FOR LOAD SPLIT = {load_split} AND SEED {seed}\n\n")
+            seed = int(seed)        
+            args.random_seed = seed
+            args.exp_round = seed
+            
+            config = config_summoner(args)
+            config["mitigation_backbone"] = args.mitigation_backbone
+            config["mitigation_sampling"] = args.mitigation_sampling
+            config["task"] = "test"
+            config["load_split"] = load_split
+            if l == 0 and i == 0:
+                load_logger(config)
+            
+            model, loader = initialize_model_dataset(config)
+            ood_algorithm = load_ood_alg(config.ood.ood_alg, config)
+            pipeline = load_pipeline(config.pipeline, config.task, model, loader, ood_algorithm, config)
+            pipeline.load_task(load_param=True, load_split=load_split) 
+            
+            (edge_scores, graphs, graphs_nx, labels, avg_graph_size, \
+            causal_subgraphs_r, spu_subgraphs_r, expl_accs_r, causal_masks_r)  = pipeline.compute_scores_and_graphs(
+                ratios,
+                splits,
+                convert_to_nx=("suff" in args.metrics) and (not "suff_simple" in args.metrics)
+            )
+            intervention_bank = None
+
+            for split in splits:
+                pipeline.generate_explanation_examples(
+                    seed,
+                    ratios,
+                    split,
+                    metric=args.metrics,
+                    intervention_distrib=config.intervention_distrib,
+                    intervention_bank=intervention_bank,
+                    edge_scores=edge_scores[split],
+                    graphs=graphs[split],
+                    graphs_nx=graphs_nx[split],
+                    labels=labels[split],
+                    avg_graph_size=avg_graph_size[split],
+                    causal_subgraphs_r=causal_subgraphs_r[split],
+                    spu_subgraphs_r=spu_subgraphs_r[split],
+                    expl_accs_r=expl_accs_r[split],
+                    causal_masks_r=causal_masks_r[split]
+                )
+
 def permute_attention_scores(args):
     load_splits = ["ood"]
     splits = ["id_val", "val", "test"]
@@ -329,6 +395,32 @@ def generate_panel(args):
             pipeline.load_task(load_param=True, load_split=load_split) 
 
             pipeline.generate_panel()
+
+def generate_global_explanation(args):
+    load_splits = ["id"]
+    for l, load_split in enumerate(load_splits):
+        print("\n\n" + "-"*50)
+
+        for i, seed in enumerate(args.seeds.split("/")):
+            print(f"GENERATING GLOBAL EXPLANATION FOR LOAD SPLIT = {load_split} AND SEED {seed}\n\n")
+            seed = int(seed)        
+            args.random_seed = seed
+            args.exp_round = seed
+            
+            config = config_summoner(args)
+            config["mitigation_backbone"] = args.mitigation_backbone
+            config["mitigation_sampling"] = args.mitigation_sampling
+            config["task"] = "test"
+            config["load_split"] = load_split
+            if l == 0 and i == 0:
+                load_logger(config)
+            
+            model, loader = initialize_model_dataset(config)
+            ood_algorithm = load_ood_alg(config.ood.ood_alg, config)
+            pipeline = load_pipeline(config.pipeline, config.task, model, loader, ood_algorithm, config)
+            pipeline.load_task(load_param=True, load_split=load_split) 
+
+            pipeline.generate_global_explanation()
 
 
 def generate_plot_sampling(args):
@@ -724,6 +816,9 @@ def main():
     if args.task == 'plot_panel':
         generate_panel(args)
         exit(0)
+    if args.task == 'plot_global':
+        generate_global_explanation(args)
+        exit(0)
     if args.task == 'test_motif':
         test_motif(args)
         exit(0)
@@ -737,8 +832,12 @@ def main():
         # stability_detector_rebuttal(args)
         stability_detector_extended(args)
         exit(0)
+    if args.task == 'plot_explanations':
+        plot_explanation_examples(args)
+        exit(0)
         
 
+    run = None
     test_scores, test_losses = defaultdict(list), defaultdict(list)
     test_likelihoods_avg, test_likelihoods_prod, test_likelihoods_logprod = defaultdict(list), defaultdict(list), defaultdict(list)
     for i, seed in enumerate(args.seeds.split("/")):
@@ -762,13 +861,45 @@ def main():
         pipeline = load_pipeline(config.pipeline, config.task, model, loader, ood_algorithm, config)
 
         if config.task == 'train':
-            pipeline.load_task() # train model
+            startTrainTime = datetime.now()
+            if config.wandb:
+                run = wandb.init(
+                    project="global-local-modular-gnn",
+                    config=config,
+                    entity="mcstewe",
+                    name=f'{config.dataset.dataset_name}_{config.dataset.domain}{config.ood_dirname}_{config.util_model_dirname}_{config.random_seed}'
+                )
+                wandb.watch(pipeline.model, log="all", log_freq=10)
+
+            # Train model
+            pipeline.load_task()            
+            print(f'\nTraining end ({datetime.now() - startTrainTime}).\n')
+
+            # Eval model
             pipeline.task = 'test'
-            test_score, test_loss = pipeline.load_task()
-            test_scores["trained"].append(test_score)
+            test_score, test_loss = pipeline.load_task(load_param=True, load_split="id")
+            test_scores["saved_score"].append(test_score)
+            for s in ["id_val", "id_test", "val", "test"]:
+                sa = pipeline.evaluate(s, compute_suff=False)
+                test_scores[s].append(sa['score'])
         elif config.task == 'test':
             test_score, test_loss = pipeline.load_task(load_param=True, load_split="id")
-            for s in ["id_val", "id_test", "test"]:
+
+            # print(model.combinator.weight)
+            # print(model.combinator.bias)
+            # exit("combinator")
+            
+            # Set manual weights for DEBUG
+            # model.global_side_channel.classifier.classifier[0].weight = torch.nn.Parameter(
+            #     torch.tensor([[1.0, 0., 0.]], device=config.device)
+            # )
+            # model.global_side_channel.classifier.classifier[0].bias = torch.nn.Parameter(
+            #     torch.tensor([[-4.9]], device=config.device)
+            # )
+            # print(model.global_side_channel.classifier.classifier[0].weight)
+
+
+            for s in ["train", "id_val", "id_test", "val", "test"]:
                 sa = pipeline.evaluate(s, compute_suff=False)
                 test_scores[s].append(sa['score'])
                 test_losses[s].append(sa['loss'].item())
@@ -818,8 +949,24 @@ def main():
                         np.std(d[s])
                     )
         with open(f"storage/metric_results/acc_plaus.json", "w") as f:
-            json.dump(results_aggregated, f)     
+            json.dump(results_aggregated, f)  
 
+    if config.global_side_channel in ("simple", "simple_filternode"):
+        with torch.no_grad():
+            # Print weights of global channel
+            w = model.global_side_channel.classifier.classifier[0].weight.detach().cpu().numpy()
+            b = model.global_side_channel.classifier.classifier[0].bias.detach().cpu().numpy()
+            print(f"\nWeight vector of global side channel:\nW: {w}\nb:{b}")
+            print(f"\nBeta combination parameter of global side channel:{model.beta.sigmoid().item():.4f}\n")   
+
+            if config.global_side_channel == "simple_filternode":
+                # Print attention filter score for each unique node feature
+                feats = loader["test"].dataset.x.unique(dim=0).to(config.device)
+                node_feat_attn = model.global_side_channel.node_filter(feats)
+                print("Node filtering scores for unique test node features:\n", torch.cat((feats, node_feat_attn), dim=1))
+
+    if config.wandb and run:
+        run.finish()
 
 def goodtg():
     try:

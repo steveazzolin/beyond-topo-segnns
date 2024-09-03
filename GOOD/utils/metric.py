@@ -164,7 +164,7 @@ class Metric(object):
         """
         return mean_absolute_error(torch.tensor(y_true), torch.tensor(y_pred))
 
-    def acc(self, y_true, y_pred, pos_class=None):
+    def acc(self, true, pred_label, pos_class=None):
         r"""
         Calculate accuracy score
 
@@ -176,8 +176,10 @@ class Metric(object):
             accuracy score
 
         """
-        true = torch.tensor(y_true)
-        pred_label = torch.tensor(y_pred)
+        if not torch.is_tensor(true):
+            true = torch.tensor(true)
+        if not torch.is_tensor(pred_label):
+            pred_label = torch.tensor(pred_label)
         pred_label = pred_label.round() if self.dataset_task == "Binary classification" else torch.argmax(pred_label,
                                                                                                             dim=1)
         return accuracy_score(true, pred_label)

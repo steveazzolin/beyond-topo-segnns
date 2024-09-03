@@ -1,0 +1,20 @@
+includes:
+  - ../base.yaml
+model:
+  model_layer: 3
+  global_pool: mean
+  dim_hidden: 100
+  dim_ffn: 100
+  dropout_rate: 0.0
+train:
+  num_steps: 10
+  max_epoch: 100
+  train_bs: 64
+  val_bs: 512
+  test_bs: 512
+  weight_decay: 0.
+  lr_filternode: 0.005
+dataset:
+  dataset_name: TopoFeature
+  domain: basis
+  generate: false

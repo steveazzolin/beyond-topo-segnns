@@ -37,6 +37,8 @@ from GOOD.utils.initial import reset_random_seed
 import GOOD.kernel.pipelines.xai_metric_utils as xai_utils
 from GOOD.utils.splitting import split_graph, sparse_sort, relabel
 
+import wandb
+
 pbar_setting["disable"] = True
 
 class CustomDataset(InMemoryDataset):
@@ -142,17 +144,35 @@ class Pipeline:
         model_output = self.model(data=data, edge_weight=edge_weight, ood_algorithm=self.ood_algorithm)
         raw_pred = self.ood_algorithm.output_postprocess(model_output)
 
-        loss = self.ood_algorithm.loss_calculate(raw_pred, targets, mask, node_norm, self.config)
+        loss = self.ood_algorithm.loss_calculate(raw_pred, targets, mask, node_norm, self.config, batch=data.batch)
         loss = self.ood_algorithm.loss_postprocess(loss, data, mask, self.config)
+        
+        if False and self.config.global_side_channel in ("simple", "simple_filternode"):
+            loss_clf_global_side_channel = self.ood_algorithm.loss_global_side_channel(data.y, mask, self.config)
+            loss += 0.005 * loss_clf_global_side_channel
+        else:
+            loss_clf_global_side_channel = torch.tensor(0.)
+
+        # TODO: Fix this (temporary)
+        # l1_regularization = 0.
+        # for param in self.model.global_side_channel.parameters():
+        #     l1_regularization += param.abs().sum()
+        # loss += 0.1 * l1_regularization
 
         self.ood_algorithm.backward(loss)
+        
+        pred, target = eval_data_preprocess(data.y, raw_pred, mask, self.config)
 
-        return {'loss': loss.detach()}
+        return {'loss': loss.detach(), 'score': eval_score([pred], [target], self.config), 
+                'clf_loss': self.ood_algorithm.clf_loss, 'clf_global_side_loss': loss_clf_global_side_channel.item()}
 
     def train(self):
         r"""
         Training pipeline. (Project use only)
         """
+        if self.config.wandb:
+            wandb.login()
+
         # config model
         print('Config model')
         self.config_model('train')
@@ -161,10 +181,47 @@ class Pipeline:
         print('Load training utils')
         self.ood_algorithm.set_up(self.model, self.config)
 
+        if self.config.global_side_channel == "dt":
+            print(f"Training Decision Tree")
+            data_list = [self.loader["train"].dataset[i] for i in range(len(self.loader["train"].dataset))]
+            batch = Batch.from_data_list(data_list)
+            self.model.global_side_channel.fit(batch)
+            for split in ["train", "id_val", "id_test", "test"]:
+                data_list = [self.loader[split].dataset[i] for i in range(len(self.loader[split].dataset))]
+                batch = Batch.from_data_list(data_list)
+                acc = self.model.global_side_channel.score(batch)
+                print(f"DT {split} Acc={acc}")
+
+        print("Before training:")
+        epoch_train_stat = self.evaluate('eval_train')
+        id_val_stat = self.evaluate('id_val')
+        id_test_stat = self.evaluate('id_test')
+
+        if self.config.global_side_channel in ("simple_concept", ):
+            with torch.no_grad():
+                print("Concept relevance scores:\n", self.model.combinator.classifier[0].alpha_norm.cpu().numpy())
+                print("Gamma difference: \n", self.model.combinator.classifier[0].gamma.cpu().diff().item())
+
+        if self.config.wandb:
+            wandb.log({
+                    "epoch": -1,
+                    "all_train_loss": epoch_train_stat["loss"],
+                    "all_id_val_loss": id_val_stat["loss"],
+                    "train_score": epoch_train_stat["score"],
+                    "id_val_score": id_val_stat["score"],
+                    "id_test_score": id_test_stat["score"],
+                    "val_score": np.nan,
+                    "test_score": np.nan,
+                    "diff_concept_gamma": self.model.combinator.classifier[0].gamma.cpu().diff().item() 
+                                                    if self.config.global_side_channel == "simple_concept" else np.nan
+            }, step=0)
+
+
         # train the model
+        counter = 1
         for epoch in range(self.config.train.ctn_epoch, self.config.train.max_epoch):
             self.config.train.epoch = epoch
-            print(f'Epoch {epoch}:')
+            print(f'\nEpoch {epoch}:')
 
             mean_loss = 0
             spec_loss = 0
@@ -172,6 +229,11 @@ class Pipeline:
             self.ood_algorithm.stage_control(self.config)
 
             pbar = tqdm(enumerate(self.loader['train']), total=len(self.loader['train']), **pbar_setting)
+            loss_per_batch_dict = defaultdict(list)
+            edge_scores = []
+            node_feat_attn = torch.tensor([])
+            raw_global_only, raw_gnn_only, raw_targets = [], [], []
+            train_batch_score, clf_batch_loss, clf_global_batch_loss = [], [], []
             for index, data in pbar:
                 if data.batch is not None and (data.batch[-1] < self.config.train.train_bs - 1):
                     continue
@@ -182,7 +244,16 @@ class Pipeline:
 
                 # train a batch
                 train_stat = self.train_batch(data, pbar)
+                train_batch_score.append(train_stat["score"])
+                clf_batch_loss.append(train_stat["clf_loss"])
+                clf_global_batch_loss.append(train_stat["clf_global_side_loss"])
+
                 mean_loss = (mean_loss * index + self.ood_algorithm.mean_loss) / (index + 1)
+
+                if self.config.wandb:
+                    edge_scores.append(self.ood_algorithm.edge_att.detach().cpu())
+                    for l in ("mean_loss", "spec_loss", "entropy_filternode_loss", "side_channel_loss"):
+                        loss_per_batch_dict[l].append(getattr(self.ood_algorithm, l, np.nan))
 
                 if self.ood_algorithm.spec_loss is not None:
                     if isinstance(self.ood_algorithm.spec_loss, dict):
@@ -201,10 +272,17 @@ class Pipeline:
                 else:
                     pbar.set_description(f'Loss: {mean_loss:.4f}')
 
-            # Eval training score
+                if self.config.global_side_channel:
+                    pred_gnn, _ = eval_data_preprocess(data.y, self.ood_algorithm.logit_gnn.detach(), ~torch.isnan(data.y), self.config)
+                    pred_global, targets = eval_data_preprocess(data.y, self.ood_algorithm.logit_global.detach(), ~torch.isnan(data.y), self.config)
+
+                    raw_global_only.append(pred_global)
+                    raw_gnn_only.append(pred_gnn)
+                    raw_targets.append(targets)
 
             # Epoch val
             print('Evaluating...')
+            print("Clf loss: ", np.mean(clf_batch_loss))
             if self.ood_algorithm.spec_loss is not None:
                 if isinstance(self.ood_algorithm.spec_loss, dict):
                     desc = f'ML: {mean_loss:.4f}|'
@@ -216,22 +294,85 @@ class Pipeline:
             else:
                 print(f'Approximated average training loss {mean_loss.cpu().item():.4f}')
 
-            epoch_train_stat = self.evaluate('eval_train')
+            epoch_train_stat = self.evaluate('eval_train', compute_wiou=True)
             id_val_stat = self.evaluate('id_val')
             id_test_stat = self.evaluate('id_test')
-            val_stat = self.evaluate('val') # TODO: remove this
-            # val_stat = id_val_stat
-            test_stat = self.evaluate('test')
-            # test_stat = id_test_stat
+
+            if self.config.global_side_channel:
+                # preds_gnn_only = torch.cat(preds_gnn_only, dim=0).cpu()
+                # preds_global_only = torch.cat(preds_global_only, dim=0).cpu()
+                # labels = torch.cat(labels, dim=0).cpu()
+                # gnn_only_score = self.config.metric.score_func(labels, preds_gnn_only)
+                # global_only_score = self.config.metric.score_func(labels, preds_global_only)
+                # print(f"GNN only Acc: {gnn_only_score:.3f}")
+                # print(f"Global only Acc: {global_only_score:.3f}")
+                
+                global_only_score = eval_score(raw_global_only, raw_targets, self.config)
+                gnn_only_score = eval_score(raw_gnn_only, raw_targets, self.config)
+                print(f"Global only Acc: {global_only_score:.3f}")
+                print(f"GNN only Acc: {gnn_only_score:.3f}")
+
+                print(f"Beta param = {self.model.beta.sigmoid().item():.3f}")
+                if self.config.global_side_channel in ("simple_filternode", ):
+                    with torch.no_grad():
+                        # Print attention filter score for each unique node feature
+                        feats = self.loader["test"].dataset.x.unique(dim=0).to(self.config.device)
+                        node_feat_attn = self.model.global_side_channel.node_filter(feats)
+                        print(torch.cat((feats, node_feat_attn), dim=1))
+                if self.config.global_side_channel in ("simple_concept", ):
+                    with torch.no_grad():
+                        # Print concept attention scores
+                        print("Concept relevance scores:\n", self.model.combinator.classifier[0].alpha_norm.cpu().numpy())
+                        print("Gamma difference: \n", self.model.combinator.classifier[0].gamma.cpu().diff().item())
+
+                w = self.model.global_side_channel.classifier.classifier[0].weight.detach().cpu().numpy()
+                b = self.model.global_side_channel.classifier.classifier[0].bias.detach().cpu().numpy()
+                print(f"\nWeight vector of global side channel:\nW: {w} b:{b}")
+            
+            if self.config.dataset.shift_type == "no_shift":
+                val_stat = id_val_stat
+                test_stat = id_test_stat
+            else:
+                # val_stat = self.evaluate('val')
+                # test_stat = self.evaluate('test')
+                val_stat = id_val_stat
+                test_stat = id_test_stat
+
+            if self.config.wandb:
+                edge_scores = torch.cat(edge_scores, dim=0)
+                log_dict = {
+                    "epoch": epoch,
+                    "clf_loss": np.mean(clf_batch_loss),
+                    "clf_global_batch_loss": np.mean(clf_global_batch_loss),
+                    "mean_loss": self.ood_algorithm.mean_loss,
+                    "spec_loss": self.ood_algorithm.spec_loss,
+                    "entropy_filternode_loss": getattr(self.ood_algorithm, "entropy_filternode_loss", np.nan),
+                    "side_channel_loss": getattr(self.ood_algorithm, "side_channel_loss", np.nan),
+                    "all_train_loss": epoch_train_stat["loss"],
+                    "all_id_val_loss": id_val_stat["loss"],
+                    "train_batch_score": np.mean(train_batch_score),
+                    "train_score": epoch_train_stat["score"],
+                    "id_val_score": id_val_stat["score"],
+                    "id_test_score": id_test_stat["score"],
+                    "val_score": val_stat["score"],
+                    "test_score": test_stat["score"],
+                    "beta_combination_param": self.model.beta.sigmoid().item() if self.config.global_side_channel else np.nan,
+                    "edge_weight": wandb.Histogram(sequence=edge_scores, num_bins=100),
+                    "filternode": wandb.Histogram(sequence=node_feat_attn.detach().cpu(), num_bins=100),
+                    "GNN train score": gnn_only_score if self.config.global_side_channel else np.nan,
+                    "global train score": global_only_score if self.config.global_side_channel else np.nan,
+                    "wiou": epoch_train_stat["wiou"],
+                    "diff_concept_gamma": self.model.combinator.classifier[0].gamma.cpu().diff().item() 
+                                                    if self.config.global_side_channel == "simple_concept" else np.nan
+                }
+                wandb.log(log_dict, step=counter)
+                counter += 1
 
             # checkpoints save
             self.save_epoch(epoch, epoch_train_stat, id_val_stat, id_test_stat, val_stat, test_stat, self.config)
 
             # --- scheduler step ---
             self.ood_algorithm.scheduler.step()
-
-        print('\nTraining end.\n')
-
             
             
     @torch.no_grad()
@@ -638,6 +779,10 @@ class Pipeline:
                 reset_random_seed(self.config)
                 causal_subgraphs_r[SPLIT][ratio], spu_subgraphs_r[SPLIT][ratio], expl_accs_r[SPLIT][ratio], causal_masks[SPLIT][ratio] = self.get_subragphs_ratio(graphs[SPLIT], ratio, edge_scores[SPLIT])
                 if log:
+                    if self.config.dataset.dataset_name == "SimpleMotif":
+                        mask = labels[SPLIT] == 1
+                    else:
+                        mask = torch.ones_like(labels[SPLIT], dtype=torch.bool)
                     print(f"F1 for r={ratio} = {np.mean([e[1] for e in expl_accs_r[SPLIT][ratio]]):.3f}")
                     print(f"WIoU for r={ratio} = {np.mean([e[0] for e in expl_accs_r[SPLIT][ratio]]):.3f}")
         return (edge_scores, graphs, graphs_nx, labels, \
@@ -1218,8 +1363,10 @@ class Pipeline:
             print(f"Label distribution from {split}: {self.loader[split].dataset.y.unique(return_counts=True)}")        
 
         dataset = self.loader[split].dataset
+        
         if abs(dataset.y.unique(return_counts=True)[1].min() - dataset.y.unique(return_counts=True)[1].max()) > 1000:
             print(f"#D#Unbalanced warning for {self.config.dataset.dataset_name} ({split})")
+        
         if "hiv" in self.config.dataset.dataset_name.lower() and str(self.config.numsamples_budget) != "all":
             balanced_idx, _ = RandomUnderSampler(random_state=42).fit_resample(np.arange(len(dataset)).reshape(-1,1), dataset.y)
 
@@ -1278,7 +1425,7 @@ class Pipeline:
             self.plot_hist_score(attns[key], density=False, log=False, name=f"ref_{key}_edge_scores_w{ratio}.png")
 
     @torch.no_grad()
-    def evaluate(self, split: str, compute_suff=False):
+    def evaluate(self, split: str, compute_suff=False, compute_wiou=False):
         r"""
         This function is design to collect data results and calculate scores and loss given a dataset subset.
         (For project use only)
@@ -1291,18 +1438,24 @@ class Pipeline:
             A score and a loss.
 
         """
-        stat = {'score': None, 'loss': None}
+        stat = {'score': None, 'loss': None, 'wiou': None}
         if self.loader.get(split) is None:
             return stat
         
         was_training = self.model.training
         self.model.eval()
 
+        # self.model.gnn.encoder.batch_norms.train()
+        # for conv in self.model.gnn.encoder.convs:
+        #     conv.mlp.train()
+        # self.model.gnn.eval()
+
         loss_all = []
         mask_all = []
         pred_all = []
         target_all = []
         likelihoods_all = []
+        wious_all = []
         pbar = tqdm(self.loader[split], desc=f'Eval {split.capitalize()}', total=len(self.loader[split]),
                     **pbar_setting)
         for data in pbar:
@@ -1337,6 +1490,17 @@ class Pipeline:
             pred_all.append(pred)
             target_all.append(target)
 
+            # ------------- WIOU ------------------
+            if compute_wiou and self.config.model.model_name != "GIN":
+                wious_mask = torch.ones(data.batch.max() + 1, dtype=torch.bool)
+                if self.config.dataset.dataset_name == "TopoFeature" or self.config.dataset.dataset_name == "SimpleMotif":
+                    wious_mask[data.pattern == 0] = False # Mask out examples without the motif
+                
+                _, explanation = to_undirected(data.edge_index, self.ood_algorithm.att.squeeze(-1), reduce="mean")
+                wious_all.append(
+                    xai_utils.expl_acc_super_fast(data, explanation, reference_intersection=data.edge_gt)[wious_mask].mean().item()
+                )
+
         # ------- Loss calculate -------
         loss_all = torch.cat(loss_all)
         mask_all = torch.cat(mask_all)
@@ -1345,12 +1509,17 @@ class Pipeline:
         stat['likelihood_avg'] = likelihoods_all.mean()
         stat['likelihood_prod'] = torch.prod(likelihoods_all)
         stat['likelihood_logprod'] = torch.sum(likelihoods_all.log())
+        stat['wiou'] = np.mean(wious_all) if len(wious_all) > 0 else np.nan
 
         # --------------- Metric calculation including ROC_AUC, Accuracy, AP.  --------------------
         stat['score'] = eval_score(pred_all, target_all, self.config, self.loader[split].dataset.minority_class)
 
-        print(f'{split.capitalize()} {self.config.metric.score_name}: {stat["score"]:.4f}'
-              f'{split.capitalize()} Loss: {stat["loss"]:.4f}')
+        print(
+            f'{split.capitalize()} {self.config.metric.score_name}: {stat["score"]:.4f} \t' + 
+            f'{split.capitalize()} Loss: {stat["loss"]:.4f} \t' + 
+            (f'{split.capitalize()} WIoU: {stat["wiou"]:.3f} \t' if compute_wiou else '')
+        )
+
 
         if was_training:
             self.model.train()
@@ -1361,6 +1530,7 @@ class Pipeline:
             'likelihood_avg': stat['likelihood_avg'],
             'likelihood_prod': stat['likelihood_prod'],
             'likelihood_logprod': stat['likelihood_logprod'],
+            'wiou': stat['wiou']
         }
 
     def load_task(self, load_param=False, load_split="ood"):
@@ -1391,6 +1561,7 @@ class Pipeline:
 
         # load checkpoint
         if mode == 'train' and self.config.train.tr_ctn:
+            assert False
             ckpt = torch.load(os.path.join(self.config.ckpt_dir, f'last.ckpt'))
             self.model.load_state_dict(ckpt['state_dict'])
             best_ckpt = torch.load(os.path.join(self.config.ckpt_dir, f'best.ckpt'))
@@ -1461,6 +1632,111 @@ class Pipeline:
                 else:
                     self.model.gnn.load_state_dict(ckpt['state_dict'])
             return ckpt["test_score"], ckpt["test_loss"]
+
+    # @torch.no_grad()
+    # def save_epoch(self, epoch: int, train_stat: dir, id_val_stat: dir, id_test_stat: dir, val_stat: dir,
+    #                test_stat: dir, config: Union[CommonArgs, Munch]):
+    #     r"""
+    #     Training util for checkpoint saving.
+
+    #     Args:
+    #         epoch (int): epoch number
+    #         train_stat (dir): train statistics
+    #         id_val_stat (dir): in-domain validation statistics
+    #         id_test_stat (dir): in-domain test statistics
+    #         val_stat (dir): ood validation statistics
+    #         test_stat (dir): ood test statistics
+    #         config (Union[CommonArgs, Munch]): munchified dictionary of args (:obj:`config.ckpt_dir`, :obj:`config.dataset`, :obj:`config.train`, :obj:`config.model`, :obj:`config.metric`, :obj:`config.log_path`, :obj:`config.ood`)
+
+    #     Returns:
+    #         None
+
+    #     """
+    #     if epoch < config.train.pre_train:
+    #         return
+
+    #     if not (config.metric.best_stat['score'] is None or config.metric.lower_better * val_stat[
+    #         'score'] < config.metric.lower_better *
+    #             config.metric.best_stat['score']
+    #             or (id_val_stat.get('score') and (
+    #                     config.metric.id_best_stat['score'] is None or config.metric.lower_better * id_val_stat[
+    #                 'score'] < config.metric.lower_better * config.metric.id_best_stat['score']))
+    #             or epoch % config.train.save_gap == 0):
+    #         return
+        
+    #     state_dict = self.model.state_dict() if config.ood.ood_alg != 'EERM' else self.model.gnn.state_dict()
+    #     ckpt = {
+    #         'state_dict': state_dict,
+    #         'train_score': train_stat['score'],
+    #         'train_loss': train_stat['loss'],
+    #         'id_val_score': id_val_stat['score'],
+    #         'id_val_loss': id_val_stat['loss'],
+    #         'id_test_score': id_test_stat['score'],
+    #         'id_test_loss': id_test_stat['loss'],
+    #         'val_score': val_stat['score'],
+    #         'val_loss': val_stat['loss'],
+    #         'test_score': test_stat['score'],
+    #         'test_loss': test_stat['loss'],
+    #         'time': datetime.datetime.now().strftime('%b%d %Hh %M:%S'),
+    #         'model': {
+    #             'model name': f'{config.model.model_name} {config.model.model_level} layers',
+    #             'dim_hidden': config.model.dim_hidden,
+    #             'dim_ffn': config.model.dim_ffn,
+    #             'global pooling': config.model.global_pool
+    #         },
+    #         'dataset': config.dataset.dataset_name,
+    #         'train': {
+    #             'weight_decay': config.train.weight_decay,
+    #             'learning_rate': config.train.lr,
+    #             'mile stone': config.train.mile_stones,
+    #             'shift_type': config.dataset.shift_type,
+    #             'Batch size': f'{config.train.train_bs}, {config.train.val_bs}, {config.train.test_bs}'
+    #         },
+    #         'OOD': {
+    #             'OOD alg': config.ood.ood_alg,
+    #             'OOD param': config.ood.ood_param,
+    #             'number of environments': config.dataset.num_envs
+    #         },
+    #         'log file': config.log_path,
+    #         'epoch': epoch,
+    #         'max epoch': config.train.max_epoch
+    #     }
+
+    #     if not os.path.exists(config.ckpt_dir):
+    #         os.makedirs(config.ckpt_dir)
+    #         print(f'#W#Directory does not exists. Have built it automatically.\n'
+    #               f'{os.path.abspath(config.ckpt_dir)}')
+
+    #     saved_file = os.path.join(config.ckpt_dir, f'last.ckpt')
+    #     torch.save(ckpt, saved_file)
+
+    #     if not config.clean_save:
+    #         # WARNING: Original code was saving every epoch and then if 'clean_save' delete checkpoint
+    #         shutil.copy(saved_file, os.path.join(config.ckpt_dir, f'{epoch}.ckpt'))
+
+    #     # --- In-Domain checkpoint ---
+    #     # WARNING: Original code saves if 'score' is not None AND if valiation score is grater than best validation score
+    #     # if id_val_stat.get('score') and (
+    #     #         config.metric.id_best_stat['score'] is None or config.metric.lower_better * id_val_stat[
+    #     #     'score'] < config.metric.lower_better * config.metric.id_best_stat['score']):
+    #     if id_val_stat.get('loss') and (
+    #             config.metric.id_best_stat['loss'] is None or id_val_stat['loss'] < config.metric.id_best_stat['loss']):            
+    #         config.metric.id_best_stat['score'] = id_val_stat['score']
+    #         config.metric.id_best_stat['loss'] = id_val_stat['loss']
+    #         shutil.copy(saved_file, os.path.join(config.ckpt_dir, f'id_best.ckpt'))
+    #         print('#IM#Saved a new best In-Domain checkpoint based on validation loss.')
+
+    #     # --- Out-Of-Domain checkpoint ---
+    #     # if id_val_stat.get('score'):
+    #     #     if not (config.metric.lower_better * id_val_stat['score'] < config.metric.lower_better * val_stat['score']):
+    #     #         return
+    #     if val_stat.get('loss') and (
+    #             config.metric.best_stat['loss'] is None or val_stat['loss'] < config.metric.best_stat['loss']):
+            
+    #         config.metric.best_stat['score'] = val_stat['score']
+    #         config.metric.best_stat['loss'] = val_stat['loss']
+    #         shutil.copy(saved_file, os.path.join(config.ckpt_dir, f'best.ckpt'))
+    #         print('#IM#Saved a new best OOD checkpoint based on validation loss.')
 
     def save_epoch(self, epoch: int, train_stat: dir, id_val_stat: dir, id_test_stat: dir, val_stat: dir,
                    test_stat: dir, config: Union[CommonArgs, Munch]):
@@ -1562,14 +1838,19 @@ class Pipeline:
 
     def generate_panel(self):
         self.model.eval()
-        splits = ["train", "id_val", "test"] #, "test"
+        
+        # self.model.gnn.encoder.batch_norms.train()
+        # for conv in self.model.gnn.encoder.convs:
+        #     conv.mlp.train() # Make BN of ConvLayer in train mode
+
+        splits = ["train", "id_val", "id_test"] #, "test"
         n_row = 1
         fig, axs = plt.subplots(n_row, len(splits), figsize=(9,4))
         # plt.suptitle(f"{self.config.model.model_name[:4]}") # - {self.config.dataset.dataset_name} {self.config.dataset.domain}
         
         for i, split in enumerate(splits):            
-            acc = self.evaluate(split, compute_suff=False)["score"]
-            print(f"Acc ({split}) =  ({acc:.3f}%)")
+            # acc = self.evaluate(split, compute_suff=False)["score"]
+            # print(f"Acc ({split}) =  ({acc:.3f}%)")
             dataset = self.get_local_dataset(split)
 
             loader = DataLoader(dataset, batch_size=256, shuffle=False, num_workers=2)
@@ -1583,7 +1864,7 @@ class Pipeline:
                                 do_relabel=False,
                                 return_attn=False,
                                 ratio=None
-                        )  
+                        )
                 for j, g in enumerate(data.to_data_list()):
                     edge_scores.append(edge_score[data.batch[data.edge_index[0]] == j].detach().cpu().numpy().tolist())
                     if g.edge_index.shape[1] > 0:
@@ -1592,8 +1873,7 @@ class Pipeline:
                 edge_scores = [np.abs(np.array(e)) for e in edge_scores]
                 edge_scores = [(e - e.min()) / (e.max() - e.min() + 1e-7) for e in edge_scores if len(e) > 0]
 
-            print(min(np.concatenate(edge_scores)), max(np.concatenate(edge_scores)))
-            print(np.concatenate(edge_scores).shape)
+            print(min(np.concatenate(edge_scores)), max(np.concatenate(edge_scores)), np.mean(np.concatenate(edge_scores)), np.std(np.concatenate(edge_scores)))
             axs[int(i/n_row)].hist(np.concatenate(edge_scores) + np.random.normal(0, 0.001, np.concatenate(edge_scores).shape), density=True, log=False, bins=100) #100 or np.linspace(-1, 1, 100)
             # a,b = np.unique(np.concatenate(edge_scores), return_counts=True)
             # print(a)
@@ -1623,7 +1903,88 @@ class Pipeline:
 
         path += f"{self.config.load_split}_{self.config.dataset.dataset_name}_{self.config.dataset.domain}_{self.config.util_model_dirname}_{self.config.random_seed}"
         plt.savefig(path + ".png")
-        plt.savefig(f'GOOD/kernel/pipelines/plots/panels/pdfs/{self.config.load_split}_{self.config.dataset.dataset_name}_{self.config.dataset.domain}_{self.config.util_model_dirname}_{self.config.random_seed}.pdf')
+        # plt.savefig(f'GOOD/kernel/pipelines/plots/panels/pdfs/{self.config.load_split}_{self.config.dataset.dataset_name}_{self.config.dataset.domain}_{self.config.util_model_dirname}_{self.config.random_seed}.pdf')
+        print("\n Saved plot ", path, "\n")
+        plt.close()
+
+    @torch.no_grad()
+    def generate_global_explanation(self):
+        self.model.eval()
+        splits = ["train", "id_val", "id_test"] #, "test"
+        n_row = 1
+        fig, axs = plt.subplots(n_row, len(splits), figsize=(9,4))
+        
+        w = self.model.global_side_channel.classifier.classifier[0].weight.cpu().numpy()
+        b = self.model.global_side_channel.classifier.classifier[0].bias.cpu().numpy()
+        print(f"\nWeight vector of global side channel:\nW: {w}\nb:{b}")
+        print(f"\nBeta combination parameter of global side channel:{self.model.beta.sigmoid().item():.4f}\n")
+
+        for i, split in enumerate(splits):
+            dataset = self.get_local_dataset(split)
+
+            loader = DataLoader(dataset, batch_size=512, shuffle=False, num_workers=0)
+            samples, preds_global_only, preds_gnn_only = [], [], []
+            for data in loader:
+                data: Batch = data.to(self.config.device)   
+                encoding, _ = self.model.global_side_channel.encode(data=data)
+                logits_global_only, atnn = self.model.global_side_channel(data=data)
+                logits_gnn_only = self.ood_algorithm.output_postprocess(
+                    self.model(data=data, exclude_global=True)
+                )
+                samples.extend(encoding.cpu().tolist())
+
+                if logits_global_only.shape[-1] > 1:
+                    preds_global_only.extend(logits_global_only.argmax(dim=1).cpu().tolist())
+                    preds_gnn_only.extend(logits_gnn_only.argmax(dim=1).cpu().tolist())
+                else:
+                    preds_global_only.extend((logits_global_only.sigmoid() >= 0.5).to(torch.long).cpu().tolist())
+                    preds_gnn_only.extend((logits_gnn_only.sigmoid() >= 0.5).to(torch.long).cpu().tolist())
+            
+            samples = torch.tensor(samples)
+            preds_global_only = torch.tensor(preds_global_only).reshape(-1)
+            preds_gnn_only = torch.tensor(preds_gnn_only).reshape(-1)
+            labels = dataset.y.reshape(-1)
+
+            axs[int(i/n_row)].scatter(samples[preds_global_only == 0, 0], samples[preds_global_only == 0, 1], c="yellow", alpha=0.2, label="pred. class 0")
+            axs[int(i/n_row)].scatter(samples[preds_global_only == 1, 0], samples[preds_global_only == 1, 1], c="violet", alpha=0.2, label="pred. class 1")
+            axs[int(i/n_row)].scatter(samples[preds_global_only != labels, 0], samples[preds_global_only != labels, 1], c="red", alpha=0.8, marker="x")
+            
+            acc = self.evaluate(split, compute_suff=False)["score"]
+            print(f"Score overall model ({split}) =  {acc:.3f}%")
+            acc_global = self.config.metric.score_func(labels, preds_global_only, pos_class=1)
+            print(f"Score global channel only ({split}) =  {acc_global:.3f}%")
+            acc_gnn = self.config.metric.score_func(labels, preds_gnn_only, pos_class=1)
+            print(f"Score GNN only ({split}) =  {acc_gnn:.3f}%\n")
+
+
+            # TODO: Print general info also in plot_panel function
+            # Add a simple rule and train a DT
+            # Try BA2Color with DT and see if it uses just local explanations
+
+            # Plot classifier decision boundary
+            x_min, x_max = samples[:, 0].min() - 0.5, samples[:, 0].max() + 0.5
+            x_vals = np.linspace(x_min, x_max, 100)
+            for c in range(w.shape[0]):
+                w_c = w[c]
+                b_c = b[c]
+                y_vals = -(w_c[0] * x_vals + b_c) / w_c[1]
+                axs[int(i/n_row)].plot(x_vals, y_vals, color='black', label=f'Boundary {c}')
+
+            fig.supxlabel('global side channel decision boundary', fontsize=13)
+
+            # axs[n_row - int(i/n_row) -1, n_row - int(i%n_row) -1].fill_between(np.arange(len(means)), means - stds, means + stds, alpha=0.5)
+            # axs[n_row - int(i/n_row) -1, n_row - int(i%n_row) -1].set_title(f"Per sample attn. variability - {split}")
+            # axs[n_row - int(i/n_row) -1, n_row - int(i%n_row) -1].set_ylim(0, 1.1)
+
+        plt.legend()
+        plt.tight_layout(rect=[0, 0.03, 1, 0.95])
+        path = f'GOOD/kernel/pipelines/plots/global_explanations/{self.config.dataset.dataset_name}_{self.config.dataset.domain}/{self.config.ood_dirname}/'
+        if not os.path.exists(path):
+            os.makedirs(path)
+
+        path += f"{self.config.load_split}_{self.config.util_model_dirname}_{self.config.random_seed}"
+        plt.savefig(path + ".png")
+        # plt.savefig(f'GOOD/kernel/pipelines/plots/panels/pdfs/{self.config.load_split}_{self.config.dataset.dataset_name}_{self.config.dataset.domain}_{self.config.util_model_dirname}_{self.config.random_seed}.pdf')
         print("\n Saved plot ", path, "\n")
         plt.close()
 
@@ -2401,4 +2762,167 @@ class Pipeline:
                 # print(f"Model {dataset_metric} over intervened graphs for r={ratio} = ", round(acc_int.item(), 3))
                 # print(f"{metric.upper()} for r={ratio} all L1 = {scores[f'all_L1'][-1]} +- {aggr['L1'].std():.3f} (in-sample avg dev_std = {(aggr_std**2).mean().sqrt():.3f})")
         return scores, acc_ints, results
+
+
+    @torch.no_grad()
+    def generate_explanation_examples(
+        self,
+        seed,
+        ratios,
+        split: str,
+        metric: str,
+        edge_scores,
+        graphs,
+        graphs_nx,
+        labels,
+        avg_graph_size,
+        causal_subgraphs_r,
+        spu_subgraphs_r,
+        expl_accs_r,
+        causal_masks_r,
+        intervention_bank,
+        intervention_distrib:str = "model_dependent",
+        debug=False,
+    ):
+        print(f"\n\n")
+        print("-"*50)
+        print(f"\n\n#D#Plotting examples of explanations for {metric.upper()} over {split} across ratios (random_expl={self.config.random_expl})")
+        reset_random_seed(self.config)
+        self.model.eval()   
+
+        scores, results, acc_ints = defaultdict(list), {}, []
+        ratios = [1.0]
+        for ratio in ratios:
+            reset_random_seed(self.config)
+            print(f"\n\nratio={ratio}\n\n")            
+
+            eval_samples, belonging, reference = [], [], []
+            preds_ori, labels_ori, expl_acc_ori = [], [], []
+            empty_idx = set()
+
+            pbar = tqdm(range(len(edge_scores)), desc=f'Creating Intervent. distrib.', total=len(edge_scores), **pbar_setting)
+            for i in pbar:
+                if graphs[i].edge_index.shape[1] <= 6:
+                    continue                
+                if metric in ("suff", "suff++") and intervention_distrib == "model_dependent":
+                    G = graphs_nx[i].copy()
+                    G_filt = xai_utils.remove_from_graph(G, edge_index_to_remove=spu_subgraphs_r[ratio][i])
+                    num_elem = xai_utils.mark_frontier(G, G_filt)
+                    if len(G_filt) == 0 or num_elem == 0:
+                        continue
+                
+                eval_samples.append(graphs[i])
+                reference.append(len(eval_samples) - 1)
+                belonging.append(-1)
+                labels_ori.append(labels[i])
+                # expl_acc_ori.append(expl_accs_r[ratio][i])
+
+                if metric in ("nec", "nec++") or len(empty_idx) == len(graphs) or intervention_distrib in ("fixed", "bank"):
+                    assert False, "Computing NEC interventions"
+                    if metric in ("suff", "suff++", "suff_simple") and intervention_distrib in ("fixed", "bank") and i == 0:
+                        print(f"Using {intervention_distrib} interventional distribution")
+                    elif metric in ("suff", "suff++", "suff_simple") and intervention_distrib == "model_dependent":
+                        pass
+
+                    for m in range(self.config.expval_budget):                        
+                        G_c = xai_utils.sample_edges_tensorized(
+                            graphs[i],
+                            nec_number_samples=self.config.nec_number_samples,
+                            nec_alpha_1=self.config.nec_alpha_1,
+                            avg_graph_size=avg_graph_size,
+                            edge_index_to_remove=causal_masks_r[ratio][i],
+                            sampling_type="bernoulli" if metric in ("fidm", "fidp") else self.config.samplingtype
+                        )
+                        belonging.append(i)
+                        eval_samples.append(G_c)
+                elif metric == "suff" or metric == "suff++" or metric == "suff_simple":
+                    if ratio == 1.0:
+                        eval_samples.extend([graphs[i]]*self.config.expval_budget)
+                        belonging.extend([i]*self.config.expval_budget)
+                    else:
+                        z, c = -1, 0
+                        idxs = np.random.permutation(np.arange(len(labels))) #pick random from every class
+                        budget = self.config.expval_budget
+                        if metric == "suff++":
+                            budget = budget // 2
+                        if metric == "suff_simple":
+                            budget = 0 # just pick subsamples
+                        while c < budget:
+                            assert False, "I'm using suff-Simple at the moment"
+                            if z == len(idxs) - 1:
+                                break
+                            z += 1
+                            j = idxs[z]
+                            if j in empty_idx:
+                                continue
+
+                            G_union = self.get_intervened_graph(
+                                metric,
+                                intervention_distrib,
+                                graphs_nx[j],
+                                empty_idx,
+                                causal_subgraphs_r[ratio][j],
+                                spu_subgraphs_r[ratio][j],
+                                G_filt,
+                                debug,
+                                (i, j, c),
+                                feature_intervention=False,
+                                feature_bank=None
+                            )
+                            if G_union is None:
+                                continue
+                            eval_samples.append(G_union)
+                            belonging.append(i)
+                            c += 1
+                        for k in range(c, self.config.expval_budget): # if not enough interventions, pad with sub-sampling
+                            G_c = xai_utils.sample_edges_tensorized(
+                                graphs[i],
+                                nec_number_samples=self.config.nec_number_samples,
+                                nec_alpha_1=self.config.nec_alpha_1,
+                                avg_graph_size=avg_graph_size,
+                                edge_index_to_remove=~graphs[i].edge_gt, #~causal_masks_r[ratio][i]&
+                                sampling_type="bernoulli" if metric in ("fidm", "fidp") else self.config.samplingtype
+                            )
+                            belonging.append(i)
+                            eval_samples.append(G_c)
+            
+            int_dataset = CustomDataset("", eval_samples, belonging)
+            loader = DataLoader(int_dataset, batch_size=512, shuffle=False)
+
+            # PLOT EXAMPLES OF EXPLANATIONS (ORIGINAL SAMPLES)
+            print(len(edge_scores), len(graphs), len(int_dataset), self.config.expval_budget, avg_graph_size)
+            for i in range(15):
+                if i > 15:
+                    break
+                data = int_dataset[reference[i]]
+                g = to_networkx(data, node_attrs=["node_gt", "x"], to_undirected=True)
+                xai_utils.mark_edges(g, data.edge_index, data.edge_index[:, data.edge_gt == 1], inv_edge_w=edge_scores[i])
+                xai_utils.draw_colored(
+                    self.config,
+                    g,
+                    subfolder=f"plots_of_explanation_examples/{self.config.ood_dirname}/{self.config.dataset.dataset_name}_{self.config.dataset.domain}",
+                    name=f"graph_{reference[i]}",
+                    thrs=0.90,
+                    title=f"Class {data.y}"
+                )
+                print(f"graph_{reference[i]} is of class {labels_ori[reference[i]]}")
+
+            # PLOT EXAMPLES OF EXPLANATIONS (INTERVENED SAMPLES)
+            # for i, data in enumerate(loader):
+            #     if i > 15:
+            #         break
+            #     data: Batch = data.to(self.config.device)
+            #     edge_score = self.model.get_subgraph(
+            #         data=data,
+            #         edge_weight=None,
+            #         ood_algorithm=self.ood_algorithm,
+            #         do_relabel=False,
+            #         return_attn=False,
+            #         ratio=None
+            #     )
+            #     wiou = xai_utils.expl_acc_super_fast(None, data, edge_score)[0]
+            #     g = to_networkx(data, node_attrs=["node_gt"], to_undirected=True) #to_undirected=True
+            #     xai_utils.mark_edges(g, data.edge_index, data.edge_index[:, data.edge_gt == 1], inv_edge_w=edge_score)
+            #     xai_utils.draw(self.config, g, subfolder="plots_of_gt_stability_det", name=f"expl_{i}", title=wiou)
+        return 
     
