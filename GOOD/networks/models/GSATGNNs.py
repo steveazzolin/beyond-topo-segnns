@@ -140,7 +140,7 @@ class GSATGIN(GNNBasic):
             
             if self.config.global_side_channel == "simple_concept":
                 # LEN-like
-                logits = self.combinator(torch.cat((logits_gnn.sigmoid(), logits_side_channel.sigmoid()), dim=1))
+                logits = self.combinator(torch.cat((logits_gnn, logits_side_channel.detach()), dim=1))
             else:
                 # logits = self.beta.sigmoid() * logits_gnn + (1-self.beta.sigmoid()) * logits_side_channel
                 logits = self.beta.sigmoid() * logits_gnn.sigmoid() +  (1 - self.beta.sigmoid().detach()) * logits_side_channel.sigmoid().detach() # Combine them in probability space, and revert to logit for compliance with other code
@@ -336,7 +336,7 @@ class MLP(BatchSequential):
             if i < len(channels) - 1:
                 # m.append(InstanceNorm(channels[i])) # WARNING: Original GSAT was using this
                 # m.append(nn.BatchNorm1d(channels[i]))
-                m.append(nn.ReLU())
+                m.append(nn.ReLU()) # WARNING: Original GSAT and first working GL-GSAT for best global channel was using ReLU
                 m.append(nn.Dropout(dropout))
 
         super(MLP, self).__init__(*m)

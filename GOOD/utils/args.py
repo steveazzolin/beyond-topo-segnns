@@ -32,6 +32,8 @@ class TrainArgs(Tap):
     mile_stones: List[int] = None  #: Milestones for a scheduler to decrease learning rate: 0.1
     weight_decay: float = None  #: Weight decay.
     channel_int: float = None  #: Scaling coefficient for integrating local and global channels.
+    l_norm_coeff: float = None # Added by Steve
+    entr_coeff: float = None # Added by Steve
 
     alpha = None  #: A parameter for DANN.
 

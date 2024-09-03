@@ -240,7 +240,7 @@ def draw_colored(config, G, name, subfolder="", pos=None, save=True, figsize=(6.
     plt.title(title)
 
     if save:
-        path = f'GOOD/kernel/pipelines/plots/{subfolder}/{config.load_split}_{config.util_model_dirname}/'
+        path = f'GOOD/kernel/pipelines/plots/{subfolder}/{config.load_split}_{config.util_model_dirname}_{config.random_seed}/'
         if not os.path.exists(path):
             try:
                 os.makedirs(path)

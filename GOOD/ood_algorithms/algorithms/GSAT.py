@@ -35,6 +35,10 @@ class GSAT(BaseOODAlg):
         self.decay_interval = config.ood.extra_param[1]
         self.final_r = config.ood.extra_param[2]      # 0.5 or 0.7
 
+        # Placeholder variables
+        self.l_norm_loss = 0
+        self.entr_loss = 0
+
     def stage_control(self, config: Union[CommonArgs, Munch]):
         r"""
         Set valuables before each epoch. Largely used for controlling multi-stage training and epoch related parameter
@@ -65,7 +69,7 @@ class GSAT(BaseOODAlg):
             raw_out, self.att, self.edge_att = model_output
         return raw_out
 
-    def loss_postprocess(self, loss: Tensor, data: Batch, mask: Tensor, config: Union[CommonArgs, Munch],
+    def loss_postprocess(self, loss: Tensor, data: Batch, mask: Tensor, config: Union[CommonArgs, Munch], epoch:int,
                          **kwargs) -> Tensor:
         r"""
         Process loss based on GSAT algorithm
@@ -104,13 +108,19 @@ class GSAT(BaseOODAlg):
         # info_loss = scatter_sum(-attn_norm_per_batch * logattn, data.batch[data.edge_index[0]]).mean()
 
         # TESTING L1 sparsification (optionally + Entropy regularization as in GiSST)
-        info_loss = 0.5*att.squeeze(1).abs().mean(-1)
+        self.l_norm_loss = self.config.train.l_norm_coeff * att.squeeze(1).abs().mean(-1) # L1
+        # self.l_norm_loss = att.squeeze(1).pow(2).mean(-1) # L2        
         attn = att.squeeze(1)
-        info_loss = torch.mean(-attn * torch.log(attn + 1e-6) - (1 - attn) * torch.log(1 - attn + 1e-6))
-        # info_loss = torch.tensor(0.)
+        self.entr_loss = self.config.train.entr_coeff * torch.mean(-attn * torch.log(attn + 1e-6) - (1 - attn) * torch.log(1 - attn + 1e-6))
+        info_loss = self.l_norm_loss + self.entr_loss
 
         self.mean_loss = loss.mean()
-        self.spec_loss = config.ood.ood_param * info_loss
+
+        if epoch < 5: # pre-train phase
+            self.spec_loss = torch.tensor(0.)
+        else:
+            self.spec_loss = config.ood.ood_param * info_loss
+
         loss = self.mean_loss + self.spec_loss
         return loss
 

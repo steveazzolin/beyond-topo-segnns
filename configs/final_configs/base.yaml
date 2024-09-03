@@ -47,6 +47,8 @@ train:
   alpha: 0.2  # parameter for DANN
   stage_stones: []
   pre_train: 0
+  l_norm_coeff: 1
+  entr_coeff: 0.8
 model:
   dim_hidden: 300
   dim_ffn: 300

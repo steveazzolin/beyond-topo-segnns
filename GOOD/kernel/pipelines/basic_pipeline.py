@@ -120,7 +120,7 @@ class Pipeline:
         self.ood_algorithm: BaseOODAlg = ood_algorithm
         self.config: Union[CommonArgs, Munch] = config
 
-    def train_batch(self, data: Batch, pbar) -> dict:
+    def train_batch(self, data: Batch, pbar, epoch:int) -> dict:
         r"""
         Train a batch. (Project use only)
 
@@ -145,7 +145,7 @@ class Pipeline:
         raw_pred = self.ood_algorithm.output_postprocess(model_output)
 
         loss = self.ood_algorithm.loss_calculate(raw_pred, targets, mask, node_norm, self.config, batch=data.batch)
-        loss = self.ood_algorithm.loss_postprocess(loss, data, mask, self.config)
+        loss = self.ood_algorithm.loss_postprocess(loss, data, mask, self.config, epoch)
         
         if False and self.config.global_side_channel in ("simple", "simple_filternode"):
             loss_clf_global_side_channel = self.ood_algorithm.loss_global_side_channel(data.y, mask, self.config)
@@ -163,8 +163,15 @@ class Pipeline:
         
         pred, target = eval_data_preprocess(data.y, raw_pred, mask, self.config)
 
-        return {'loss': loss.detach(), 'score': eval_score([pred], [target], self.config), 
-                'clf_loss': self.ood_algorithm.clf_loss, 'clf_global_side_loss': loss_clf_global_side_channel.item()}
+        return {
+            'loss': loss.detach(),
+            'score': eval_score([pred], [target], self.config), 
+            'clf_loss': self.ood_algorithm.clf_loss,
+            'clf_global_side_loss': loss_clf_global_side_channel.item(),
+            'l_norm_loss': self.ood_algorithm.l_norm_loss.item(),
+            'entr_loss': self.ood_algorithm.entr_loss.item(),
+        }
+
 
     def train(self):
         r"""
@@ -233,7 +240,7 @@ class Pipeline:
             edge_scores = []
             node_feat_attn = torch.tensor([])
             raw_global_only, raw_gnn_only, raw_targets = [], [], []
-            train_batch_score, clf_batch_loss, clf_global_batch_loss = [], [], []
+            train_batch_score, clf_batch_loss, clf_global_batch_loss, l_norm_batch_loss, entr_batch_loss  = [], [], [], [], []
             for index, data in pbar:
                 if data.batch is not None and (data.batch[-1] < self.config.train.train_bs - 1):
                     continue
@@ -243,10 +250,12 @@ class Pipeline:
                 self.config.train.alpha = 2. / (1. + np.exp(-10 * p)) - 1
 
                 # train a batch
-                train_stat = self.train_batch(data, pbar)
+                train_stat = self.train_batch(data, pbar, epoch)
                 train_batch_score.append(train_stat["score"])
                 clf_batch_loss.append(train_stat["clf_loss"])
                 clf_global_batch_loss.append(train_stat["clf_global_side_loss"])
+                l_norm_batch_loss.append(train_stat["l_norm_loss"])
+                entr_batch_loss.append(train_stat["entr_loss"])
 
                 mean_loss = (mean_loss * index + self.ood_algorithm.mean_loss) / (index + 1)
 
@@ -363,7 +372,9 @@ class Pipeline:
                     "global train score": global_only_score if self.config.global_side_channel else np.nan,
                     "wiou": epoch_train_stat["wiou"],
                     "diff_concept_gamma": self.model.combinator.classifier[0].gamma.cpu().diff().item() 
-                                                    if self.config.global_side_channel == "simple_concept" else np.nan
+                                                    if self.config.global_side_channel == "simple_concept" else np.nan,
+                    "l_norm_loss": np.mean(l_norm_batch_loss),
+                    "entr_loss": np.mean(entr_batch_loss)
                 }
                 wandb.log(log_dict, step=counter)
                 counter += 1

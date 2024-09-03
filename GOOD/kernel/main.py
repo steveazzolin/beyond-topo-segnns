@@ -839,7 +839,7 @@ def main():
 
     run = None
     test_scores, test_losses = defaultdict(list), defaultdict(list)
-    test_likelihoods_avg, test_likelihoods_prod, test_likelihoods_logprod = defaultdict(list), defaultdict(list), defaultdict(list)
+    test_likelihoods_avg, test_likelihoods_prod, test_likelihoods_logprod, test_wious = defaultdict(list), defaultdict(list), defaultdict(list), defaultdict(list)
     for i, seed in enumerate(args.seeds.split("/")):
         seed = int(seed)
         print(f"\n\n#D#Running with seed = {seed}")
@@ -884,10 +884,6 @@ def main():
                 test_scores[s].append(sa['score'])
         elif config.task == 'test':
             test_score, test_loss = pipeline.load_task(load_param=True, load_split="id")
-
-            # print(model.combinator.weight)
-            # print(model.combinator.bias)
-            # exit("combinator")
             
             # Set manual weights for DEBUG
             # model.global_side_channel.classifier.classifier[0].weight = torch.nn.Parameter(
@@ -897,12 +893,18 @@ def main():
             #     torch.tensor([[-4.9]], device=config.device)
             # )
             # print(model.global_side_channel.classifier.classifier[0].weight)
+            # model.global_side_channel.classifier.classifier[0].reset_parameters()
 
 
             for s in ["train", "id_val", "id_test", "val", "test"]:
-                sa = pipeline.evaluate(s, compute_suff=False)
+                sa = pipeline.evaluate(
+                    s,
+                    compute_suff=False, 
+                    compute_wiou=config.global_side_channel == "simple_concept" and config.model.model_name != "GIN"
+                )
                 test_scores[s].append(sa['score'])
                 test_losses[s].append(sa['loss'].item())
+                test_wious[s].append(sa['wiou'].item())
                 test_likelihoods_avg[s].append(sa['likelihood_avg'].item())
                 test_likelihoods_prod[s].append(sa['likelihood_prod'].item())
                 test_likelihoods_logprod[s].append(sa['likelihood_logprod'].item())
@@ -920,7 +922,12 @@ def main():
     print("\n\nFinal accuracies: ")
     for s in test_scores.keys():
         print(f"{s.upper():<10} = {np.mean(test_scores[s]):.3f} +- {np.std(test_scores[s]):.3f}")
-    
+
+    if config.global_side_channel == "simple_concept" and config.model.model_name != "GIN":
+        print("\n\nFinal WIoUs: ")
+        for s in test_wious.keys():
+            print(f"{s.upper():<10} = {np.mean(test_wious[s]):.3f} +- {np.std(test_wious[s]):.3f}")
+
     print("\nFinal losses: ")
     for s in test_losses.keys():
         print(f"{s.upper():<10} = {np.mean(test_losses[s]):.4f} +- {np.std(test_losses[s]):.4f}")
@@ -951,13 +958,16 @@ def main():
         with open(f"storage/metric_results/acc_plaus.json", "w") as f:
             json.dump(results_aggregated, f)  
 
-    if config.global_side_channel in ("simple", "simple_filternode"):
+    if config.global_side_channel in ("simple", "simple_filternode", "simple_concept"):
         with torch.no_grad():
             # Print weights of global channel
-            w = model.global_side_channel.classifier.classifier[0].weight.detach().cpu().numpy()
-            b = model.global_side_channel.classifier.classifier[0].bias.detach().cpu().numpy()
-            print(f"\nWeight vector of global side channel:\nW: {w}\nb:{b}")
-            print(f"\nBeta combination parameter of global side channel:{model.beta.sigmoid().item():.4f}\n")   
+            if config.global_side_channel in ("simple", "simple_filternode"):
+                w = model.global_side_channel.classifier.classifier[0].weight.detach().cpu().numpy()
+                b = model.global_side_channel.classifier.classifier[0].bias.detach().cpu().numpy()
+                print(f"\nWeight vector of global side channel:\nW: {w}\nb:{b}")
+                print(f"\nBeta combination parameter of global side channel:{model.beta.sigmoid().item():.4f}\n")   
+            elif config.global_side_channel == "simple_concept":
+                print("\nConcept relevance scores:\n", model.combinator.classifier[0].alpha_norm.cpu().numpy(), "\n")
 
             if config.global_side_channel == "simple_filternode":
                 # Print attention filter score for each unique node feature

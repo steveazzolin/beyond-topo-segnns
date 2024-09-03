@@ -60,6 +60,7 @@ class EntropyLinear(nn.Module):
         self.alpha = None
         self.remove_attention = remove_attention
         self.weight = nn.Parameter(torch.Tensor(n_classes, out_features, in_features))
+        self.gamma = nn.Parameter(torch.randn((1, 2)))
         self.has_bias = bias
         if bias:
             self.bias = nn.Parameter(torch.Tensor(n_classes, 1, out_features))
@@ -79,7 +80,7 @@ class EntropyLinear(nn.Module):
             input = input.unsqueeze(0)
         
         # compute concept-awareness scores
-        self.gamma = self.weight.norm(dim=1, p=1)
+        # self.gamma = self.weight.norm(dim=1, p=1)
         self.alpha = torch.exp(self.gamma/self.temperature) / torch.sum(torch.exp(self.gamma/self.temperature), dim=1, keepdim=True)
 
         # weight the input concepts by awareness scores

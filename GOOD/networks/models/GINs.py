@@ -132,7 +132,8 @@ class GINEncoder(BasicEncoder):
         self.convs = nn.ModuleList()
         if kwargs.get('without_embed'):
             self.convs.append(GINConvAttn(nn.Sequential(nn.Linear(config.model.dim_hidden, 2 * config.model.dim_hidden),
-                                               self.get_norm_layer(config), nn.ReLU(),
+                                               self.get_norm_layer(config), 
+                                               nn.ReLU(),
                                                nn.Linear(2 * config.model.dim_hidden, config.model.dim_hidden)),
                                                emb_dim=config.model.dim_hidden,
                                                mitigation_backbone=config.mitigation_backbone))
@@ -143,7 +144,8 @@ class GINEncoder(BasicEncoder):
             #                                     nn.Linear(2 * config.model.dim_hidden, config.model.dim_hidden))))
             # else:
             self.convs.append(GINConvAttn(nn.Sequential(nn.Linear(config.dataset.dim_node, 2 * config.model.dim_hidden),
-                                            self.get_norm_layer(config), nn.ReLU(),
+                                            self.get_norm_layer(config), 
+                                            nn.ReLU(),
                                             nn.Linear(2 * config.model.dim_hidden, config.model.dim_hidden)),
                                             emb_dim=config.dataset.dim_node,
                                             mitigation_backbone=config.mitigation_backbone))
@@ -151,7 +153,8 @@ class GINEncoder(BasicEncoder):
         self.convs = self.convs.extend(
             [
                 GINConvAttn(nn.Sequential(nn.Linear(config.model.dim_hidden, 2 * config.model.dim_hidden),
-                                    self.get_norm_layer(config), nn.ReLU(),
+                                    self.get_norm_layer(config), 
+                                    nn.ReLU(),
                                     nn.Linear(2 * config.model.dim_hidden, config.model.dim_hidden)),
                                     emb_dim=config.model.dim_hidden,
                                     mitigation_backbone=config.mitigation_backbone)
@@ -298,12 +301,14 @@ class GINMolEncoder(BasicEncoder):
         self.convs = nn.ModuleList(
             [
                 GINEConv(nn.Sequential(nn.Linear(config.model.dim_hidden, 2 * config.model.dim_hidden),
-                                       self.get_norm_layer(config), nn.ReLU(),
+                                       self.get_norm_layer(config), 
+                                       nn.LeakyReLU(),
                                        nn.Linear(2 * config.model.dim_hidden, config.model.dim_hidden)), config)
             ] +
             [
                 GINEConv(nn.Sequential(nn.Linear(config.model.dim_hidden, 2 * config.model.dim_hidden),
-                                       self.get_norm_layer(config), nn.ReLU(),
+                                       self.get_norm_layer(config), 
+                                       nn.LeakyReLU(),
                                        nn.Linear(2 * config.model.dim_hidden, config.model.dim_hidden)), config)
                 for _ in range(num_layer - 1)
             ]
@@ -533,12 +538,12 @@ class SimpleGlobalChannel(torch.nn.Module):
                 nn.Sigmoid()
             ])
 
-        # self.classifier.classifier[0].weight = torch.nn.Parameter(
-        #     torch.tensor([[1.0, 0., 0.]], device=config.device)
-        # )
-        # self.classifier.classifier[0].bias = torch.nn.Parameter(
-        #     torch.tensor([[-1.9]], device=config.device)
-        # )
+        self.classifier.classifier[0].weight = torch.nn.Parameter(
+            torch.tensor([[1.0, 0., 0.]], device=config.device)
+        )
+        self.classifier.classifier[0].bias = torch.nn.Parameter(
+            torch.tensor([[-1.9]], device=config.device)
+        )
 
     def forward(self, **kwargs) -> torch.Tensor:
         r"""
