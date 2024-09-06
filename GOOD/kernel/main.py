@@ -840,6 +840,7 @@ def main():
     run = None
     test_scores, test_losses = defaultdict(list), defaultdict(list)
     test_likelihoods_avg, test_likelihoods_prod, test_likelihoods_logprod, test_wious = defaultdict(list), defaultdict(list), defaultdict(list), defaultdict(list)
+    channel_relevances, global_coeffs = [], []
     for i, seed in enumerate(args.seeds.split("/")):
         seed = int(seed)
         print(f"\n\n#D#Running with seed = {seed}")
@@ -895,25 +896,36 @@ def main():
             # print(model.global_side_channel.classifier.classifier[0].weight)
             # model.global_side_channel.classifier.classifier[0].reset_parameters()
 
-
             for s in ["train", "id_val", "id_test", "val", "test"]:
                 sa = pipeline.evaluate(
                     s,
                     compute_suff=False, 
-                    compute_wiou=config.global_side_channel == "simple_concept" and config.model.model_name != "GIN"
+                    compute_wiou=(config.dataset.dataset_name == "TopoFeature" or config.dataset.dataset_name == "SimpleMotif") 
+                                    and 
+                                 config.model.model_name != "GIN"
                 )
                 test_scores[s].append(sa['score'])
                 test_losses[s].append(sa['loss'].item())
-                test_wious[s].append(sa['wiou'].item())
+                test_wious[s].append(sa['wiou'])
                 test_likelihoods_avg[s].append(sa['likelihood_avg'].item())
                 test_likelihoods_prod[s].append(sa['likelihood_prod'].item())
                 test_likelihoods_logprod[s].append(sa['likelihood_logprod'].item())
+            
             # test_score, test_loss = pipeline.load_task(load_param=True, load_split="ood")
             # for s in ["train", "id_val", "val", "test"]:
             #     sa = pipeline.evaluate(s, compute_suff=False)
             #     test_scores["ood_" + s].append(sa['score'])
             #     test_losses["ood_" + s].append(sa['loss'].item())
             # print(f"Printing obtained and stored scores: {sa['score']} !=? {test_score}")
+
+            if config.global_side_channel == "simple_concept":
+                channel_relevances.append(model.combinator.classifier[0].alpha_norm.cpu().numpy())
+                print("\nConcept relevance scores for this run:\n", channel_relevances[-1], "\n")
+                w = model.global_side_channel.classifier.classifier[0].weight.detach().cpu().numpy()
+                b = model.global_side_channel.classifier.classifier[0].bias.detach().cpu().numpy()
+                global_coeffs.append(-b / w[0][0])
+                print(f"\nWeight vector of global side channel:\nW: {w} b:{b}")
+                print(f"\nCoeff rule on x1: x1 >= {global_coeffs[-1]}")
     
     if config.save_metrics:
         with open(f"storage/metric_results/acc_plaus.json", "r") as jsonFile:
@@ -924,11 +936,29 @@ def main():
         print(f"{s.upper():<10} = {np.mean(test_scores[s]):.3f} +- {np.std(test_scores[s]):.3f}")
 
     if config.global_side_channel == "simple_concept" and config.model.model_name != "GIN":
-        print("\n\nFinal WIoUs: ")
-        for s in test_wious.keys():
-            print(f"{s.upper():<10} = {np.mean(test_wious[s]):.3f} +- {np.std(test_wious[s]):.3f}")
+        threshold = 0.9
+        id_val_accs = np.array(test_scores["id_val"])
+        channel_relevances = np.concatenate(channel_relevances, axis=0)
 
-    print("\nFinal losses: ")
+        print("\n\nFinal accuracies (model with id_val acc above {threshold}% - {sum(id_val_accs >= threshold)} runs): ")
+        for s in test_scores.keys():
+            tmp = np.array(test_scores[s])[id_val_accs >= threshold]
+            print(f"{s.upper():<10} = {np.mean(tmp):.3f} +- {np.std(tmp):.3f}")
+
+        print(f"\n\nAveraged channel relevance scores (model with id_val acc above {threshold}% - {sum(id_val_accs >= threshold)} runs): ")
+        print(f"{channel_relevances[id_val_accs >= threshold].mean(0)} +- {channel_relevances[id_val_accs >= threshold].std(0)}")
+
+        print(f"\n\nFinal Test WIoUs (model with id_val acc above {threshold}% - {sum(id_val_accs >= threshold)} runs):")
+        for s in test_wious.keys():
+            tmp = np.array(test_wious[s])[id_val_accs >= threshold]
+            print(f"{s.upper():<10} = {np.mean(tmp):.3f} +- {np.std(tmp):.3f}")
+
+        print(f"\n\nGlobal side channel coefficient wrt x1 (model with id_val acc above {threshold}% - {sum(id_val_accs >= threshold)} runs):")
+        tmp = np.array(global_coeffs)[id_val_accs >= threshold]
+        print(f"{tmp.mean(0)} +- {tmp.std(0)}")
+        
+
+    print("\n\nFinal losses: ")
     for s in test_losses.keys():
         print(f"{s.upper():<10} = {np.mean(test_losses[s]):.4f} +- {np.std(test_losses[s]):.4f}")
             

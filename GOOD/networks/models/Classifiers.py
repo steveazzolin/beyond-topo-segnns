@@ -17,7 +17,7 @@ class Classifier(torch.nn.Module):
         Args:
             config (Union[CommonArgs, Munch]): munchified dictionary of args (:obj:`config.model.dim_hidden`, :obj:`config.dataset.num_classes`)
     """
-    def __init__(self, config: Union[CommonArgs, Munch]):
+    def __init__(self, config: Union[CommonArgs, Munch], output_dim:int = None):
 
         super(Classifier, self).__init__()
         # self.classifier = nn.Sequential(*(
@@ -25,7 +25,7 @@ class Classifier(torch.nn.Module):
         #         [nn.ReLU(), nn.Linear(2 * config.model.dim_ffn, config.dataset.num_classes)]
         # ))
         self.classifier = nn.Sequential(*(
-            [nn.Linear(config.model.dim_hidden, config.dataset.num_classes)]
+            [nn.Linear(config.model.dim_hidden, config.dataset.num_classes if output_dim is None else output_dim)]
         ))
 
     def forward(self, feat: Tensor) -> Tensor:
@@ -51,8 +51,6 @@ class EntropyLinear(nn.Module):
     def __init__(self, in_features: int, out_features: int, n_classes: int, temperature: float = 0.6,
                  bias: bool = True, remove_attention: bool = False) -> None:
         super(EntropyLinear, self).__init__()
-        assert n_classes == 1, n_classes
-
         self.in_features = in_features
         self.out_features = out_features
         self.n_classes = n_classes
@@ -60,7 +58,7 @@ class EntropyLinear(nn.Module):
         self.alpha = None
         self.remove_attention = remove_attention
         self.weight = nn.Parameter(torch.Tensor(n_classes, out_features, in_features))
-        self.gamma = nn.Parameter(torch.randn((1, 2)))
+        self.gamma = nn.Parameter(torch.randn((n_classes, in_features)))
         self.has_bias = bias
         if bias:
             self.bias = nn.Parameter(torch.Tensor(n_classes, 1, out_features))
@@ -106,18 +104,17 @@ class ConceptClassifier(torch.nn.Module):
 
         super(ConceptClassifier, self).__init__()
 
-        assert config.dataset.num_classes == 1, config.dataset.num_classes
-
         hidden_dim = 10
         self.classifier = nn.Sequential(*(
             [
-                EntropyLinear(2, hidden_dim, config.dataset.num_classes, bias=False),
+                EntropyLinear(config.dataset.num_classes * 2, hidden_dim, config.dataset.num_classes, bias=False),
                 torch.nn.LeakyReLU(),
                 nn.Linear(hidden_dim, hidden_dim),
                 torch.nn.LeakyReLU(),
-                nn.Linear(hidden_dim, config.dataset.num_classes)
+                nn.Linear(hidden_dim, 1)
             ]
         ))
+        self.config = config
 
     def forward(self, feat: Tensor) -> Tensor:
         r"""
@@ -130,4 +127,7 @@ class ConceptClassifier(torch.nn.Module):
             label predictions
 
         """
-        return self.classifier(feat)
+        out = self.classifier(feat)
+        if self.config.dataset.num_classes > 1:
+            out = out.squeeze(2)
+        return out

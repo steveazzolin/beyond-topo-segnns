@@ -34,6 +34,10 @@ class BaseOODAlg(ABC):
         self.spec_loss = None
         self.stage = 0
 
+        # Placeholder variables
+        self.l_norm_loss = torch.tensor(0)
+        self.entr_loss = torch.tensor(0)
+
     def stage_control(self, config):
         r"""
         Set valuables before each epoch. Largely used for controlling multi-stage training and epoch related parameter
@@ -156,7 +160,7 @@ class BaseOODAlg(ABC):
             entropy = torch.mean(entropy)
         return entropy
 
-    def loss_postprocess(self, loss: Tensor, data: Batch, mask: Tensor, config: Union[CommonArgs, Munch],
+    def loss_postprocess(self, loss: Tensor, data: Batch, mask: Tensor, config: Union[CommonArgs, Munch], epoch:int,
                          **kwargs) -> Tensor:
         r"""
         Process loss

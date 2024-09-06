@@ -105,7 +105,7 @@ class CIGA(BaseOODAlg):
 
         return loss
 
-    def loss_postprocess(self, loss: Tensor, data: Batch, mask: Tensor, config: Union[CommonArgs, Munch],
+    def loss_postprocess(self, loss: Tensor, data: Batch, mask: Tensor, config: Union[CommonArgs, Munch], epoch:int,
                          **kwargs) -> Tensor:
         return loss
 

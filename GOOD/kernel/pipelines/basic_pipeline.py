@@ -145,7 +145,7 @@ class Pipeline:
         raw_pred = self.ood_algorithm.output_postprocess(model_output)
 
         if self.config.global_side_channel == "simple_concept" and epoch < 20: 
-            # Little pretrain of individual channels
+            # Little pre-train of individual channels
             loss_global = self.ood_algorithm.loss_calculate(self.ood_algorithm.logit_global, targets, mask, node_norm, self.config, batch=data.batch)
             loss_global = loss_global.mean()
             loss_gnn    = self.ood_algorithm.loss_calculate(self.ood_algorithm.logit_gnn, targets, mask, node_norm, self.config, batch=data.batch)
@@ -209,7 +209,7 @@ class Pipeline:
         if self.config.global_side_channel in ("simple_concept", ):
             with torch.no_grad():
                 print("Concept relevance scores:\n", self.model.combinator.classifier[0].alpha_norm.cpu().numpy())
-                print("Gamma difference: \n", self.model.combinator.classifier[0].gamma.cpu().diff().item())
+                # print("Gamma difference: \n", self.model.combinator.classifier[0].gamma.cpu().diff().item())
 
         if self.config.wandb:
             wandb.log({
@@ -305,7 +305,12 @@ class Pipeline:
             else:
                 print(f'Approximated average training loss {mean_loss.cpu().item():.4f}')
 
-            epoch_train_stat = self.evaluate('eval_train', compute_wiou=True)
+            epoch_train_stat = self.evaluate(
+                'eval_train',
+                compute_wiou=(self.config.dataset.dataset_name == "TopoFeature" or self.config.dataset.dataset_name == "SimpleMotif") 
+                                and 
+                             self.config.model.model_name != "GIN"
+            )
             id_val_stat = self.evaluate('id_val')
             id_test_stat = self.evaluate('id_test')
 
@@ -334,7 +339,7 @@ class Pipeline:
                     with torch.no_grad():
                         # Print concept attention scores
                         print("Concept relevance scores:\n", self.model.combinator.classifier[0].alpha_norm.cpu().numpy())
-                        print("Gamma difference: \n", self.model.combinator.classifier[0].gamma.cpu().diff().item())
+                        # print("Gamma difference: \n", self.model.combinator.classifier[0].gamma.cpu().diff().item())
 
                 w = self.model.global_side_channel.classifier.classifier[0].weight.detach().cpu().numpy()
                 b = self.model.global_side_channel.classifier.classifier[0].bias.detach().cpu().numpy()
@@ -373,8 +378,8 @@ class Pipeline:
                     "GNN train score": gnn_only_score if self.config.global_side_channel else np.nan,
                     "global train score": global_only_score if self.config.global_side_channel else np.nan,
                     "wiou": epoch_train_stat["wiou"],
-                    "diff_concept_gamma": self.model.combinator.classifier[0].gamma.cpu().diff().item() 
-                                                    if self.config.global_side_channel == "simple_concept" else np.nan,
+                    # "diff_concept_gamma": self.model.combinator.classifier[0].gamma.cpu().diff().item() 
+                    #                                 if self.config.global_side_channel == "simple_concept" else np.nan,
                     "l_norm_loss": np.mean(l_norm_batch_loss),
                     "entr_loss": np.mean(entr_batch_loss)
                 }
@@ -1504,7 +1509,7 @@ class Pipeline:
             target_all.append(target)
 
             # ------------- WIOU ------------------
-            if compute_wiou and self.config.model.model_name != "GIN":
+            if compute_wiou:
                 wious_mask = torch.ones(data.batch.max() + 1, dtype=torch.bool)
                 if self.config.dataset.dataset_name == "TopoFeature" or self.config.dataset.dataset_name == "SimpleMotif":
                     wious_mask[data.pattern == 0] = False # Mask out examples without the motif
