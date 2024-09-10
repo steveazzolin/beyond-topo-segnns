@@ -149,7 +149,7 @@ class Pipeline:
         model_output = self.model(data=data, edge_weight=edge_weight, ood_algorithm=self.ood_algorithm)
         raw_pred = self.ood_algorithm.output_postprocess(model_output)
 
-        if self.config.global_side_channel == "simple_concept" and epoch < 20: 
+        if "simple_concept" in self.config.global_side_channel and epoch < 20: 
             # Little pre-train of individual channels
             loss_global = self.ood_algorithm.loss_calculate(self.ood_algorithm.logit_global, targets, mask, node_norm, self.config, batch=data.batch)
             loss_global = loss_global.mean()
@@ -211,7 +211,7 @@ class Pipeline:
         id_val_stat = self.evaluate('id_val')
         id_test_stat = self.evaluate('id_test')
 
-        if self.config.global_side_channel in ("simple_concept", ):
+        if self.config.global_side_channel in ("simple_concept", "simple_concept2"):
             with torch.no_grad():
                 print("Concept relevance scores:\n", self.model.combinator.classifier[0].alpha_norm.cpu().numpy())
                 # print("Gamma difference: \n", self.model.combinator.classifier[0].gamma.cpu().diff().item())
@@ -340,7 +340,7 @@ class Pipeline:
                         feats = self.loader["test"].dataset.x.unique(dim=0).to(self.config.device)
                         node_feat_attn = self.model.global_side_channel.node_filter(feats)
                         print(torch.cat((feats, node_feat_attn), dim=1))
-                if self.config.global_side_channel in ("simple_concept", ):
+                if self.config.global_side_channel in ("simple_concept", "simple_concept2"):
                     with torch.no_grad():
                         # Print concept attention scores
                         print("Concept relevance scores:\n", self.model.combinator.classifier[0].alpha_norm.cpu().numpy())
