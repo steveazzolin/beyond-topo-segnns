@@ -59,7 +59,7 @@ class EntropyLinear(nn.Module):
         self.remove_attention = remove_attention
         self.method = method
         self.has_bias = bias
-        
+
         self.weight = nn.Parameter(torch.Tensor(n_classes, out_features, in_features))
         if method is None:
             self.gamma = nn.Parameter(torch.randn((n_classes, in_features)))
@@ -85,12 +85,17 @@ class EntropyLinear(nn.Module):
             self.gamma = self.weight.norm(dim=1, p=1)
         self.alpha = torch.exp(self.gamma/self.temperature) / torch.sum(torch.exp(self.gamma/self.temperature), dim=1, keepdim=True)
 
-        # weight the input concepts by awareness scores
-        self.alpha_norm = self.alpha / self.alpha.max(dim=1)[0].unsqueeze(1)
+        if self.method == 2:
+            self.alpha_norm = self.alpha
+        else:
+            # Avoid numerical cancellations due to values close to zero
+            self.alpha_norm = self.alpha / self.alpha.max(dim=1)[0].unsqueeze(1)
+        
         if self.remove_attention:
             self.concept_mask = torch.ones_like(self.alpha_norm, dtype=torch.bool)
             x = input
         else:
+            # weight the input concepts by awareness scores
             self.concept_mask = self.alpha_norm > 0.5
             x = input.multiply(self.alpha_norm.unsqueeze(1))
 
