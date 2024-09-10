@@ -94,9 +94,10 @@ class GSAT(BaseOODAlg):
         eps = 1e-6
         
         # Original GSAT spec_loss
-        # r = self.get_r(self.decay_interval, self.decay_r, config.train.epoch, final_r=self.final_r)
-        # info_loss = (att * torch.log(att / r + eps) +
-        #              (1 - att) * torch.log((1 - att) / (1 - r + eps) + eps)).mean()
+        r = self.get_r(self.decay_interval, self.decay_r, config.train.epoch, final_r=self.final_r)
+        info_loss = (att * torch.log(att / r + eps) +
+                     (1 - att) * torch.log((1 - att) / (1 - r + eps) + eps)).mean()
+        self.spec_loss = config.ood.ood_param * info_loss
 
         # TESTING new GSAT spec_loss
         # _, att = to_undirected(data.edge_index, att.squeeze(-1), reduce="mean")
@@ -105,18 +106,18 @@ class GSAT(BaseOODAlg):
         # info_loss = scatter_sum(-attn_norm_per_batch * logattn, data.batch[data.edge_index[0]]).mean()
 
         # TESTING L1 sparsification (optionally + Entropy regularization as in GiSST)
-        self.l_norm_loss = self.config.train.l_norm_coeff * att.squeeze(1).abs().mean(-1) # L1
-        # self.l_norm_loss = att.squeeze(1).pow(2).mean(-1) # L2        
-        attn = att.squeeze(1)
-        self.entr_loss = self.config.train.entr_coeff * torch.mean(-attn * torch.log(attn + 1e-6) - (1 - attn) * torch.log(1 - attn + 1e-6))
-        info_loss = self.l_norm_loss + self.entr_loss
+        # self.l_norm_loss = self.config.train.l_norm_coeff * att.squeeze(1).abs().mean(-1) # L1
+        # # self.l_norm_loss = att.squeeze(1).pow(2).mean(-1) # L2        
+        # attn = att.squeeze(1)
+        # self.entr_loss = self.config.train.entr_coeff * torch.mean(-attn * torch.log(attn + 1e-6) - (1 - attn) * torch.log(1 - attn + 1e-6))
+        # info_loss = self.l_norm_loss + self.entr_loss
 
         self.mean_loss = loss.mean()
 
-        if epoch < 5: # pre-train phase
-            self.spec_loss = torch.tensor(0.)
-        else:
-            self.spec_loss = config.ood.ood_param * info_loss
+        # if epoch < 5: # pre-train phase
+        #     self.spec_loss = torch.tensor(0.)
+        # else:
+        #     self.spec_loss = config.ood.ood_param * info_loss
 
         loss = self.mean_loss + self.spec_loss
         return loss

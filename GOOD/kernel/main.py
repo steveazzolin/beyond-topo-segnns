@@ -894,10 +894,10 @@ def main():
             #     torch.tensor([[-4.9]], device=config.device)
             # )
             # print(model.global_side_channel.classifier.classifier[0].weight)
-            # model.global_side_channel.classifier.classifier[0].reset_parameters()
+            # model.global_side_channel.classifier.classifier[0].reset_parameters() # Remove Global Channel
             # model.gnn
             # model.extractor
-            # model.classifier.classifier[0].reset_parameters()
+            # model.classifier.classifier[0].reset_parameters() # Remove Local Channel
 
             for s in ["train", "id_val", "id_test", "val", "test"]:
                 sa = pipeline.evaluate(
@@ -943,7 +943,7 @@ def main():
         id_val_accs = np.array(test_scores["id_val"])
         channel_relevances = np.concatenate(channel_relevances, axis=0)
 
-        print("\n\nFinal accuracies (model with id_val acc above {threshold}% - {sum(id_val_accs >= threshold)} runs): ")
+        print(f"\n\nFinal accuracies (model with id_val acc above {threshold}% - {sum(id_val_accs >= threshold)} runs): ")
         for s in test_scores.keys():
             tmp = np.array(test_scores[s])[id_val_accs >= threshold]
             print(f"{s.upper():<10} = {np.mean(tmp):.3f} +- {np.std(tmp):.3f}")
