@@ -1821,27 +1821,32 @@ class Pipeline:
         if epoch < config.train.pre_train:
             return
 
-        if not (config.metric.best_stat['score'] is None or config.metric.lower_better * val_stat[
-            'score'] < config.metric.lower_better *
-                config.metric.best_stat['score']
-                or (id_val_stat.get('score') and (
-                        config.metric.id_best_stat['score'] is None or config.metric.lower_better * id_val_stat[
-                    'score'] < config.metric.lower_better * config.metric.id_best_stat['score']))
-                or epoch % config.train.save_gap == 0):
+        # WARNING: Original reference metric is 'score'
+        reference_metric = "loss"
+        lower_better = 1 if reference_metric == "loss" else -1
+
+        if not (config.metric.best_stat[reference_metric] is None or 
+                lower_better * val_stat[reference_metric] < lower_better *
+                config.metric.best_stat[reference_metric]
+            or (id_val_stat.get(reference_metric) and (
+                        config.metric.id_best_stat[reference_metric] is None or 
+                        lower_better * id_val_stat[reference_metric] < lower_better * config.metric.id_best_stat[reference_metric]))
+            or epoch % config.train.save_gap == 0):
             return
 
         if not os.path.exists(config.ckpt_dir):
             os.makedirs(config.ckpt_dir)
             print(f'#W#Directory does not exists. Have built it automatically.\n'
                   f'{os.path.abspath(config.ckpt_dir)}')
+        
         saved_file = os.path.join(config.ckpt_dir, f'{epoch}.ckpt')
         torch.save(ckpt, saved_file)
         shutil.copy(saved_file, os.path.join(config.ckpt_dir, f'last.ckpt'))
 
         # --- In-Domain checkpoint ---
-        if id_val_stat.get('score') and (
-                config.metric.id_best_stat['score'] is None or config.metric.lower_better * id_val_stat[
-            'score'] < config.metric.lower_better * config.metric.id_best_stat['score']):
+        if id_val_stat.get(reference_metric) and (
+                config.metric.id_best_stat[reference_metric] is None or lower_better * id_val_stat[
+            reference_metric] < lower_better * config.metric.id_best_stat[reference_metric]):
             config.metric.id_best_stat['score'] = id_val_stat['score']
             config.metric.id_best_stat['loss'] = id_val_stat['loss']
             shutil.copy(saved_file, os.path.join(config.ckpt_dir, f'id_best.ckpt'))
@@ -1851,9 +1856,9 @@ class Pipeline:
         # if id_val_stat.get('score'):
         #     if not (config.metric.lower_better * id_val_stat['score'] < config.metric.lower_better * val_stat['score']):
         #         return
-        if config.metric.best_stat['score'] is None or config.metric.lower_better * val_stat[
-            'score'] < config.metric.lower_better * \
-                config.metric.best_stat['score']:
+        if config.metric.best_stat[reference_metric] is None or lower_better * val_stat[
+            reference_metric] < lower_better * \
+                config.metric.best_stat[reference_metric]:
             config.metric.best_stat['score'] = val_stat['score']
             config.metric.best_stat['loss'] = val_stat['loss']
             shutil.copy(saved_file, os.path.join(config.ckpt_dir, f'best.ckpt'))
