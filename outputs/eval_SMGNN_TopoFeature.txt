@@ -1,0 +1,1275 @@
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Thu Sep  5 15:54:54 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset TopoFeature
+[0mTopoFeature
+loading:  /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/storage/datasets/TopoFeature/basis/processed/data_BA_numgraphs5000_min8_max80_redmax4_requiredred2_shiftno_shift.pt
+loading:  /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/storage/datasets/TopoFeature/basis/processed/data_BA_numgraphs5000_min150_max250_redmax4_requiredred2_shiftsize.pt
+loading:  /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/storage/datasets/TopoFeature/basis/processed/data_ER_numgraphs5000_min8_max80_redmax4_requiredred2_shiftER.pt
+[1;34mDEBUG[0m: 09/05/2024 03:54:54 PM : [1mDataset: {'train': TopoFeature(4000), 'id_val': TopoFeature(500), 'id_test': TopoFeature(500), 'metric': 'Accuracy', 'task': 'Binary classification', 'val': TopoFeature(5000), 'test': TopoFeature(5000)}
+[0m[1;34mDEBUG[0m: 09/05/2024 03:54:54 PM : [1m Data(x=[78, 3], edge_index=[2, 296], y=[1, 1], pattern=[1], node_gt=[78], edge_gt=[296])
+[0mData(x=[57, 3], edge_index=[2, 212], y=[1, 1], pattern=[1], node_gt=[57], edge_gt=[212])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/05/2024 03:54:54 PM : [1mInit GINFeatExtractor
+[0mUsing no_bn in BasicEncoder
+[1;34mDEBUG[0m: 09/05/2024 03:54:54 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/05/2024 03:54:54 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/05/2024 03:54:54 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/05/2024 03:54:54 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/05/2024 03:54:54 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/05/2024 03:54:54 PM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 09/05/2024 03:54:54 PM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 46...
+[0m[1;37mINFO[0m: [1mCheckpoint 46: 
+-----------------------------------
+Train ACCURACY: 0.7482
+Train Loss: 0.4813
+ID Validation ACCURACY: 0.7880
+ID Validation Loss: 0.4616
+ID Test ACCURACY: 0.7360
+ID Test Loss: 0.4927
+OOD Validation ACCURACY: 0.7880
+OOD Validation Loss: 0.4616
+OOD Test ACCURACY: 0.7360
+OOD Test Loss: 0.4927
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 46...
+[0m[1;37mINFO[0m: [1mCheckpoint 46: 
+-----------------------------------
+Train ACCURACY: 0.7482
+Train Loss: 0.4813
+ID Validation ACCURACY: 0.7880
+ID Validation Loss: 0.4616
+ID Test ACCURACY: 0.7360
+ID Test Loss: 0.4927
+OOD Validation ACCURACY: 0.7880
+OOD Validation Loss: 0.4616
+OOD Test ACCURACY: 0.7360
+OOD Test Loss: 0.4927
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.7360 0.7360 0.7360 0.7360 0.7880 0.7880[0mTrain ACCURACY: 0.7482 	Train Loss: 0.4813 	Train WIoU: 0.000 	
+Id_val ACCURACY: 0.7880 	Id_val Loss: 0.4616 	Id_val WIoU: 0.000 	
+Id_test ACCURACY: 0.7360 	Id_test Loss: 0.4927 	Id_test WIoU: 0.000 	
+Val ACCURACY: 0.6690 	Val Loss: 0.8806 	Val WIoU: 0.000 	
+Test ACCURACY: 0.7334 	Test Loss: 0.4911 	Test WIoU: 0.000 	
+
+Concept relevance scores for this run:
+ [[0.9944529 1.       ]] 
+
+
+Weight vector of global side channel:
+W: [[ 4.1272372e-01  3.9303324e-10 -1.3963700e-03]] b:[-0.69580346]
+
+Coeff rule on x1: x1 >= [1.685882]
+
+
+#D#Running with seed = 2
+model_dirname= repr_SMGNNGIN_3l_sumpool_0.0dp_mitig_backboneNone_mitig_samplingfeatgchannelsimple_conceptnormnoneavgedgeattnmean
+207 2
+{'acc_givenR': False,
+ 'argv': None,
+ 'average_edge_attn': 'mean',
+ 'ckpt_dir': None,
+ 'ckpt_root': None,
+ 'clean_save': None,
+ 'config_path': '/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/configs/final_configs/TopoFeature/basis/no_shift/SMGNN.yaml',
+ 'dataset': DatasetArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'debias': False,
+ 'device': None,
+ 'exp_round': 2,
+ 'expval_budget': None,
+ 'feat_int_alpha': None,
+ 'fidelity_alpha_2': None,
+ 'global_side_channel': 'simple_concept',
+ 'gpu_idx': 1,
+ 'id_test_ckpt': None,
+ 'intervention_distrib': 'model_dependent',
+ 'log_file': None,
+ 'log_id': '',
+ 'log_path': None,
+ 'mask': False,
+ 'metric': None,
+ 'metrics': '',
+ 'mitigation_backbone': None,
+ 'mitigation_expl_scores': 'default',
+ 'mitigation_expl_scores_topk': -1,
+ 'mitigation_readout': None,
+ 'mitigation_sampling': 'feat',
+ 'mitigation_virtual': None,
+ 'model': ModelArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'nec_alpha_1': None,
+ 'nec_marg_alpha': True,
+ 'nec_number_samples': 'prop_G_dataset',
+ 'num_workers': None,
+ 'numsamples_budget': None,
+ 'ood': OODArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'other_saved': None,
+ 'pipeline': None,
+ 'process_args_manual': <bound method CommonArgs.process_args_manual of CommonArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)>,
+ 'pytest': None,
+ 'random_expl': False,
+ 'random_seed': 2,
+ 'ratios': '',
+ 'samplingtype': 'deconfounded',
+ 'save_metrics': False,
+ 'save_tag': None,
+ 'seeds': '1/2/3/4/5/6/7/8/9/10',
+ 'splits': '',
+ 'task': 'test',
+ 'tensorboard_logdir': None,
+ 'test_ckpt': None,
+ 'train': TrainArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'use_norm': 'none',
+ 'wandb': False}
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Thu Sep  5 15:55:00 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset TopoFeature
+[0mTopoFeature
+loading:  /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/storage/datasets/TopoFeature/basis/processed/data_BA_numgraphs5000_min8_max80_redmax4_requiredred2_shiftno_shift.pt
+loading:  /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/storage/datasets/TopoFeature/basis/processed/data_BA_numgraphs5000_min150_max250_redmax4_requiredred2_shiftsize.pt
+loading:  /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/storage/datasets/TopoFeature/basis/processed/data_ER_numgraphs5000_min8_max80_redmax4_requiredred2_shiftER.pt
+[1;34mDEBUG[0m: 09/05/2024 03:55:00 PM : [1mDataset: {'train': TopoFeature(4000), 'id_val': TopoFeature(500), 'id_test': TopoFeature(500), 'metric': 'Accuracy', 'task': 'Binary classification', 'val': TopoFeature(5000), 'test': TopoFeature(5000)}
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:00 PM : [1m Data(x=[78, 3], edge_index=[2, 296], y=[1, 1], pattern=[1], node_gt=[78], edge_gt=[296])
+[0mData(x=[57, 3], edge_index=[2, 212], y=[1, 1], pattern=[1], node_gt=[57], edge_gt=[212])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:00 PM : [1mInit GINFeatExtractor
+[0mUsing no_bn in BasicEncoder
+[1;34mDEBUG[0m: 09/05/2024 03:55:00 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:00 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:00 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:00 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:00 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:00 PM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 09/05/2024 03:55:00 PM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 30...
+[0m[1;37mINFO[0m: [1mCheckpoint 30: 
+-----------------------------------
+Train ACCURACY: 0.9992
+Train Loss: 0.0414
+ID Validation ACCURACY: 1.0000
+ID Validation Loss: 0.0427
+ID Test ACCURACY: 1.0000
+ID Test Loss: 0.0421
+OOD Validation ACCURACY: 1.0000
+OOD Validation Loss: 0.0427
+OOD Test ACCURACY: 1.0000
+OOD Test Loss: 0.0421
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 30...
+[0m[1;37mINFO[0m: [1mCheckpoint 30: 
+-----------------------------------
+Train ACCURACY: 0.9992
+Train Loss: 0.0414
+ID Validation ACCURACY: 1.0000
+ID Validation Loss: 0.0427
+ID Test ACCURACY: 1.0000
+ID Test Loss: 0.0421
+OOD Validation ACCURACY: 1.0000
+OOD Validation Loss: 0.0427
+OOD Test ACCURACY: 1.0000
+OOD Test Loss: 0.0421
+
+[0m[1;37mINFO[0m: [1mChartInfo 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000[0mTrain ACCURACY: 0.9992 	Train Loss: 0.0414 	Train WIoU: 0.994 	
+Id_val ACCURACY: 1.0000 	Id_val Loss: 0.0427 	Id_val WIoU: 0.996 	
+Id_test ACCURACY: 1.0000 	Id_test Loss: 0.0421 	Id_test WIoU: 0.995 	
+Val ACCURACY: 0.9976 	Val Loss: 0.0441 	Val WIoU: 1.000 	
+Test ACCURACY: 0.9694 	Test Loss: 0.1520 	Test WIoU: 0.952 	
+
+Concept relevance scores for this run:
+ [[0.9503661 1.       ]] 
+
+
+Weight vector of global side channel:
+W: [[ 6.5753365e-01  1.5167551e-07 -1.3732679e-06]] b:[-0.67429364]
+
+Coeff rule on x1: x1 >= [1.0254892]
+
+
+#D#Running with seed = 3
+model_dirname= repr_SMGNNGIN_3l_sumpool_0.0dp_mitig_backboneNone_mitig_samplingfeatgchannelsimple_conceptnormnoneavgedgeattnmean
+304 3
+{'acc_givenR': False,
+ 'argv': None,
+ 'average_edge_attn': 'mean',
+ 'ckpt_dir': None,
+ 'ckpt_root': None,
+ 'clean_save': None,
+ 'config_path': '/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/configs/final_configs/TopoFeature/basis/no_shift/SMGNN.yaml',
+ 'dataset': DatasetArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'debias': False,
+ 'device': None,
+ 'exp_round': 3,
+ 'expval_budget': None,
+ 'feat_int_alpha': None,
+ 'fidelity_alpha_2': None,
+ 'global_side_channel': 'simple_concept',
+ 'gpu_idx': 1,
+ 'id_test_ckpt': None,
+ 'intervention_distrib': 'model_dependent',
+ 'log_file': None,
+ 'log_id': '',
+ 'log_path': None,
+ 'mask': False,
+ 'metric': None,
+ 'metrics': '',
+ 'mitigation_backbone': None,
+ 'mitigation_expl_scores': 'default',
+ 'mitigation_expl_scores_topk': -1,
+ 'mitigation_readout': None,
+ 'mitigation_sampling': 'feat',
+ 'mitigation_virtual': None,
+ 'model': ModelArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'nec_alpha_1': None,
+ 'nec_marg_alpha': True,
+ 'nec_number_samples': 'prop_G_dataset',
+ 'num_workers': None,
+ 'numsamples_budget': None,
+ 'ood': OODArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'other_saved': None,
+ 'pipeline': None,
+ 'process_args_manual': <bound method CommonArgs.process_args_manual of CommonArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)>,
+ 'pytest': None,
+ 'random_expl': False,
+ 'random_seed': 3,
+ 'ratios': '',
+ 'samplingtype': 'deconfounded',
+ 'save_metrics': False,
+ 'save_tag': None,
+ 'seeds': '1/2/3/4/5/6/7/8/9/10',
+ 'splits': '',
+ 'task': 'test',
+ 'tensorboard_logdir': None,
+ 'test_ckpt': None,
+ 'train': TrainArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'use_norm': 'none',
+ 'wandb': False}
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Thu Sep  5 15:55:05 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset TopoFeature
+[0mTopoFeature
+loading:  /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/storage/datasets/TopoFeature/basis/processed/data_BA_numgraphs5000_min8_max80_redmax4_requiredred2_shiftno_shift.pt
+loading:  /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/storage/datasets/TopoFeature/basis/processed/data_BA_numgraphs5000_min150_max250_redmax4_requiredred2_shiftsize.pt
+loading:  /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/storage/datasets/TopoFeature/basis/processed/data_ER_numgraphs5000_min8_max80_redmax4_requiredred2_shiftER.pt
+[1;34mDEBUG[0m: 09/05/2024 03:55:05 PM : [1mDataset: {'train': TopoFeature(4000), 'id_val': TopoFeature(500), 'id_test': TopoFeature(500), 'metric': 'Accuracy', 'task': 'Binary classification', 'val': TopoFeature(5000), 'test': TopoFeature(5000)}
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:05 PM : [1m Data(x=[78, 3], edge_index=[2, 296], y=[1, 1], pattern=[1], node_gt=[78], edge_gt=[296])
+[0mData(x=[57, 3], edge_index=[2, 212], y=[1, 1], pattern=[1], node_gt=[57], edge_gt=[212])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:05 PM : [1mInit GINFeatExtractor
+[0mUsing no_bn in BasicEncoder
+[1;34mDEBUG[0m: 09/05/2024 03:55:05 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:05 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:05 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:05 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:05 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:05 PM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 09/05/2024 03:55:05 PM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 30...
+[0m[1;37mINFO[0m: [1mCheckpoint 30: 
+-----------------------------------
+Train ACCURACY: 0.9995
+Train Loss: 0.0404
+ID Validation ACCURACY: 1.0000
+ID Validation Loss: 0.0408
+ID Test ACCURACY: 0.9980
+ID Test Loss: 0.0414
+OOD Validation ACCURACY: 1.0000
+OOD Validation Loss: 0.0408
+OOD Test ACCURACY: 0.9980
+OOD Test Loss: 0.0414
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 30...
+[0m[1;37mINFO[0m: [1mCheckpoint 30: 
+-----------------------------------
+Train ACCURACY: 0.9995
+Train Loss: 0.0404
+ID Validation ACCURACY: 1.0000
+ID Validation Loss: 0.0408
+ID Test ACCURACY: 0.9980
+ID Test Loss: 0.0414
+OOD Validation ACCURACY: 1.0000
+OOD Validation Loss: 0.0408
+OOD Test ACCURACY: 0.9980
+OOD Test Loss: 0.0414
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9980 0.9980 0.9980 0.9980 1.0000 1.0000[0mTrain ACCURACY: 0.9995 	Train Loss: 0.0404 	Train WIoU: 0.994 	
+Id_val ACCURACY: 1.0000 	Id_val Loss: 0.0408 	Id_val WIoU: 0.996 	
+Id_test ACCURACY: 0.9980 	Id_test Loss: 0.0414 	Id_test WIoU: 0.995 	
+Val ACCURACY: 0.7938 	Val Loss: 0.6932 	Val WIoU: 0.999 	
+Test ACCURACY: 0.9544 	Test Loss: 0.2054 	Test WIoU: 0.951 	
+
+Concept relevance scores for this run:
+ [[0.9964173 1.       ]] 
+
+
+Weight vector of global side channel:
+W: [[ 6.0370874e-01 -7.0819092e-06 -5.0296052e-03]] b:[-0.74545866]
+
+Coeff rule on x1: x1 >= [1.2347986]
+
+
+#D#Running with seed = 4
+model_dirname= repr_SMGNNGIN_3l_sumpool_0.0dp_mitig_backboneNone_mitig_samplingfeatgchannelsimple_conceptnormnoneavgedgeattnmean
+401 4
+{'acc_givenR': False,
+ 'argv': None,
+ 'average_edge_attn': 'mean',
+ 'ckpt_dir': None,
+ 'ckpt_root': None,
+ 'clean_save': None,
+ 'config_path': '/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/configs/final_configs/TopoFeature/basis/no_shift/SMGNN.yaml',
+ 'dataset': DatasetArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'debias': False,
+ 'device': None,
+ 'exp_round': 4,
+ 'expval_budget': None,
+ 'feat_int_alpha': None,
+ 'fidelity_alpha_2': None,
+ 'global_side_channel': 'simple_concept',
+ 'gpu_idx': 1,
+ 'id_test_ckpt': None,
+ 'intervention_distrib': 'model_dependent',
+ 'log_file': None,
+ 'log_id': '',
+ 'log_path': None,
+ 'mask': False,
+ 'metric': None,
+ 'metrics': '',
+ 'mitigation_backbone': None,
+ 'mitigation_expl_scores': 'default',
+ 'mitigation_expl_scores_topk': -1,
+ 'mitigation_readout': None,
+ 'mitigation_sampling': 'feat',
+ 'mitigation_virtual': None,
+ 'model': ModelArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'nec_alpha_1': None,
+ 'nec_marg_alpha': True,
+ 'nec_number_samples': 'prop_G_dataset',
+ 'num_workers': None,
+ 'numsamples_budget': None,
+ 'ood': OODArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'other_saved': None,
+ 'pipeline': None,
+ 'process_args_manual': <bound method CommonArgs.process_args_manual of CommonArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)>,
+ 'pytest': None,
+ 'random_expl': False,
+ 'random_seed': 4,
+ 'ratios': '',
+ 'samplingtype': 'deconfounded',
+ 'save_metrics': False,
+ 'save_tag': None,
+ 'seeds': '1/2/3/4/5/6/7/8/9/10',
+ 'splits': '',
+ 'task': 'test',
+ 'tensorboard_logdir': None,
+ 'test_ckpt': None,
+ 'train': TrainArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'use_norm': 'none',
+ 'wandb': False}
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Thu Sep  5 15:55:09 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset TopoFeature
+[0mTopoFeature
+loading:  /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/storage/datasets/TopoFeature/basis/processed/data_BA_numgraphs5000_min8_max80_redmax4_requiredred2_shiftno_shift.pt
+loading:  /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/storage/datasets/TopoFeature/basis/processed/data_BA_numgraphs5000_min150_max250_redmax4_requiredred2_shiftsize.pt
+loading:  /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/storage/datasets/TopoFeature/basis/processed/data_ER_numgraphs5000_min8_max80_redmax4_requiredred2_shiftER.pt
+[1;34mDEBUG[0m: 09/05/2024 03:55:09 PM : [1mDataset: {'train': TopoFeature(4000), 'id_val': TopoFeature(500), 'id_test': TopoFeature(500), 'metric': 'Accuracy', 'task': 'Binary classification', 'val': TopoFeature(5000), 'test': TopoFeature(5000)}
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:09 PM : [1m Data(x=[78, 3], edge_index=[2, 296], y=[1, 1], pattern=[1], node_gt=[78], edge_gt=[296])
+[0mData(x=[57, 3], edge_index=[2, 212], y=[1, 1], pattern=[1], node_gt=[57], edge_gt=[212])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:09 PM : [1mInit GINFeatExtractor
+[0mUsing no_bn in BasicEncoder
+[1;34mDEBUG[0m: 09/05/2024 03:55:09 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:09 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:09 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:09 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:09 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:09 PM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 09/05/2024 03:55:09 PM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 29...
+[0m[1;37mINFO[0m: [1mCheckpoint 29: 
+-----------------------------------
+Train ACCURACY: 0.7520
+Train Loss: 0.4954
+ID Validation ACCURACY: 0.7860
+ID Validation Loss: 0.4769
+ID Test ACCURACY: 0.7420
+ID Test Loss: 0.5043
+OOD Validation ACCURACY: 0.7860
+OOD Validation Loss: 0.4769
+OOD Test ACCURACY: 0.7420
+OOD Test Loss: 0.5043
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 29...
+[0m[1;37mINFO[0m: [1mCheckpoint 29: 
+-----------------------------------
+Train ACCURACY: 0.7520
+Train Loss: 0.4954
+ID Validation ACCURACY: 0.7860
+ID Validation Loss: 0.4769
+ID Test ACCURACY: 0.7420
+ID Test Loss: 0.5043
+OOD Validation ACCURACY: 0.7860
+OOD Validation Loss: 0.4769
+OOD Test ACCURACY: 0.7420
+OOD Test Loss: 0.5043
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.7420 0.7420 0.7420 0.7420 0.7860 0.7860[0mTrain ACCURACY: 0.7520 	Train Loss: 0.4954 	Train WIoU: 0.000 	
+Id_val ACCURACY: 0.7860 	Id_val Loss: 0.4769 	Id_val WIoU: 0.000 	
+Id_test ACCURACY: 0.7420 	Id_test Loss: 0.5043 	Id_test WIoU: 0.000 	
+Val ACCURACY: 0.6690 	Val Loss: 0.5470 	Val WIoU: 0.000 	
+Test ACCURACY: 0.7394 	Test Loss: 0.5053 	Test WIoU: 0.000 	
+
+Concept relevance scores for this run:
+ [[1.         0.98172224]] 
+
+
+Weight vector of global side channel:
+W: [[ 2.623553e-01  6.123674e-43 -9.302109e-04]] b:[0.01095975]
+
+Coeff rule on x1: x1 >= [-0.04177444]
+
+
+#D#Running with seed = 5
+model_dirname= repr_SMGNNGIN_3l_sumpool_0.0dp_mitig_backboneNone_mitig_samplingfeatgchannelsimple_conceptnormnoneavgedgeattnmean
+498 5
+{'acc_givenR': False,
+ 'argv': None,
+ 'average_edge_attn': 'mean',
+ 'ckpt_dir': None,
+ 'ckpt_root': None,
+ 'clean_save': None,
+ 'config_path': '/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/configs/final_configs/TopoFeature/basis/no_shift/SMGNN.yaml',
+ 'dataset': DatasetArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'debias': False,
+ 'device': None,
+ 'exp_round': 5,
+ 'expval_budget': None,
+ 'feat_int_alpha': None,
+ 'fidelity_alpha_2': None,
+ 'global_side_channel': 'simple_concept',
+ 'gpu_idx': 1,
+ 'id_test_ckpt': None,
+ 'intervention_distrib': 'model_dependent',
+ 'log_file': None,
+ 'log_id': '',
+ 'log_path': None,
+ 'mask': False,
+ 'metric': None,
+ 'metrics': '',
+ 'mitigation_backbone': None,
+ 'mitigation_expl_scores': 'default',
+ 'mitigation_expl_scores_topk': -1,
+ 'mitigation_readout': None,
+ 'mitigation_sampling': 'feat',
+ 'mitigation_virtual': None,
+ 'model': ModelArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'nec_alpha_1': None,
+ 'nec_marg_alpha': True,
+ 'nec_number_samples': 'prop_G_dataset',
+ 'num_workers': None,
+ 'numsamples_budget': None,
+ 'ood': OODArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'other_saved': None,
+ 'pipeline': None,
+ 'process_args_manual': <bound method CommonArgs.process_args_manual of CommonArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)>,
+ 'pytest': None,
+ 'random_expl': False,
+ 'random_seed': 5,
+ 'ratios': '',
+ 'samplingtype': 'deconfounded',
+ 'save_metrics': False,
+ 'save_tag': None,
+ 'seeds': '1/2/3/4/5/6/7/8/9/10',
+ 'splits': '',
+ 'task': 'test',
+ 'tensorboard_logdir': None,
+ 'test_ckpt': None,
+ 'train': TrainArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'use_norm': 'none',
+ 'wandb': False}
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Thu Sep  5 15:55:14 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset TopoFeature
+[0mTopoFeature
+loading:  /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/storage/datasets/TopoFeature/basis/processed/data_BA_numgraphs5000_min8_max80_redmax4_requiredred2_shiftno_shift.pt
+loading:  /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/storage/datasets/TopoFeature/basis/processed/data_BA_numgraphs5000_min150_max250_redmax4_requiredred2_shiftsize.pt
+loading:  /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/storage/datasets/TopoFeature/basis/processed/data_ER_numgraphs5000_min8_max80_redmax4_requiredred2_shiftER.pt
+[1;34mDEBUG[0m: 09/05/2024 03:55:14 PM : [1mDataset: {'train': TopoFeature(4000), 'id_val': TopoFeature(500), 'id_test': TopoFeature(500), 'metric': 'Accuracy', 'task': 'Binary classification', 'val': TopoFeature(5000), 'test': TopoFeature(5000)}
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:14 PM : [1m Data(x=[78, 3], edge_index=[2, 296], y=[1, 1], pattern=[1], node_gt=[78], edge_gt=[296])
+[0mData(x=[57, 3], edge_index=[2, 212], y=[1, 1], pattern=[1], node_gt=[57], edge_gt=[212])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:14 PM : [1mInit GINFeatExtractor
+[0mUsing no_bn in BasicEncoder
+[1;34mDEBUG[0m: 09/05/2024 03:55:14 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:14 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:14 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:14 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:14 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:14 PM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 09/05/2024 03:55:14 PM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 28...
+[0m[1;37mINFO[0m: [1mCheckpoint 28: 
+-----------------------------------
+Train ACCURACY: 0.7498
+Train Loss: 0.5201
+ID Validation ACCURACY: 0.7900
+ID Validation Loss: 0.5106
+ID Test ACCURACY: 0.7360
+ID Test Loss: 0.5370
+OOD Validation ACCURACY: 0.7900
+OOD Validation Loss: 0.5106
+OOD Test ACCURACY: 0.7360
+OOD Test Loss: 0.5370
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 28...
+[0m[1;37mINFO[0m: [1mCheckpoint 28: 
+-----------------------------------
+Train ACCURACY: 0.7498
+Train Loss: 0.5201
+ID Validation ACCURACY: 0.7900
+ID Validation Loss: 0.5106
+ID Test ACCURACY: 0.7360
+ID Test Loss: 0.5370
+OOD Validation ACCURACY: 0.7900
+OOD Validation Loss: 0.5106
+OOD Test ACCURACY: 0.7360
+OOD Test Loss: 0.5370
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.7360 0.7360 0.7360 0.7360 0.7900 0.7900[0mTrain ACCURACY: 0.7498 	Train Loss: 0.5201 	Train WIoU: 0.445 	
+Id_val ACCURACY: 0.7900 	Id_val Loss: 0.5106 	Id_val WIoU: 0.414 	
+Id_test ACCURACY: 0.7360 	Id_test Loss: 0.5370 	Id_test WIoU: 0.451 	
+Val ACCURACY: 0.6454 	Val Loss: 0.8934 	Val WIoU: 0.944 	
+Test ACCURACY: 0.7392 	Test Loss: 0.5733 	Test WIoU: 0.565 	
+
+Concept relevance scores for this run:
+ [[0.4161476 1.       ]] 
+
+
+Weight vector of global side channel:
+W: [[ 5.3850019e-01  5.2407253e-05 -4.8615956e-03]] b:[-0.3564299]
+
+Coeff rule on x1: x1 >= [0.6618937]
+
+
+#D#Running with seed = 6
+model_dirname= repr_SMGNNGIN_3l_sumpool_0.0dp_mitig_backboneNone_mitig_samplingfeatgchannelsimple_conceptnormnoneavgedgeattnmean
+595 6
+{'acc_givenR': False,
+ 'argv': None,
+ 'average_edge_attn': 'mean',
+ 'ckpt_dir': None,
+ 'ckpt_root': None,
+ 'clean_save': None,
+ 'config_path': '/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/configs/final_configs/TopoFeature/basis/no_shift/SMGNN.yaml',
+ 'dataset': DatasetArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'debias': False,
+ 'device': None,
+ 'exp_round': 6,
+ 'expval_budget': None,
+ 'feat_int_alpha': None,
+ 'fidelity_alpha_2': None,
+ 'global_side_channel': 'simple_concept',
+ 'gpu_idx': 1,
+ 'id_test_ckpt': None,
+ 'intervention_distrib': 'model_dependent',
+ 'log_file': None,
+ 'log_id': '',
+ 'log_path': None,
+ 'mask': False,
+ 'metric': None,
+ 'metrics': '',
+ 'mitigation_backbone': None,
+ 'mitigation_expl_scores': 'default',
+ 'mitigation_expl_scores_topk': -1,
+ 'mitigation_readout': None,
+ 'mitigation_sampling': 'feat',
+ 'mitigation_virtual': None,
+ 'model': ModelArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'nec_alpha_1': None,
+ 'nec_marg_alpha': True,
+ 'nec_number_samples': 'prop_G_dataset',
+ 'num_workers': None,
+ 'numsamples_budget': None,
+ 'ood': OODArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'other_saved': None,
+ 'pipeline': None,
+ 'process_args_manual': <bound method CommonArgs.process_args_manual of CommonArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)>,
+ 'pytest': None,
+ 'random_expl': False,
+ 'random_seed': 6,
+ 'ratios': '',
+ 'samplingtype': 'deconfounded',
+ 'save_metrics': False,
+ 'save_tag': None,
+ 'seeds': '1/2/3/4/5/6/7/8/9/10',
+ 'splits': '',
+ 'task': 'test',
+ 'tensorboard_logdir': None,
+ 'test_ckpt': None,
+ 'train': TrainArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'use_norm': 'none',
+ 'wandb': False}
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Thu Sep  5 15:55:18 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset TopoFeature
+[0mTopoFeature
+loading:  /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/storage/datasets/TopoFeature/basis/processed/data_BA_numgraphs5000_min8_max80_redmax4_requiredred2_shiftno_shift.pt
+loading:  /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/storage/datasets/TopoFeature/basis/processed/data_BA_numgraphs5000_min150_max250_redmax4_requiredred2_shiftsize.pt
+loading:  /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/storage/datasets/TopoFeature/basis/processed/data_ER_numgraphs5000_min8_max80_redmax4_requiredred2_shiftER.pt
+[1;34mDEBUG[0m: 09/05/2024 03:55:19 PM : [1mDataset: {'train': TopoFeature(4000), 'id_val': TopoFeature(500), 'id_test': TopoFeature(500), 'metric': 'Accuracy', 'task': 'Binary classification', 'val': TopoFeature(5000), 'test': TopoFeature(5000)}
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:19 PM : [1m Data(x=[78, 3], edge_index=[2, 296], y=[1, 1], pattern=[1], node_gt=[78], edge_gt=[296])
+[0mData(x=[57, 3], edge_index=[2, 212], y=[1, 1], pattern=[1], node_gt=[57], edge_gt=[212])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:19 PM : [1mInit GINFeatExtractor
+[0mUsing no_bn in BasicEncoder
+[1;34mDEBUG[0m: 09/05/2024 03:55:19 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:19 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:19 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:19 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:19 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:19 PM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 09/05/2024 03:55:19 PM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 25...
+[0m[1;37mINFO[0m: [1mCheckpoint 25: 
+-----------------------------------
+Train ACCURACY: 1.0000
+Train Loss: 0.0844
+ID Validation ACCURACY: 1.0000
+ID Validation Loss: 0.0865
+ID Test ACCURACY: 1.0000
+ID Test Loss: 0.0890
+OOD Validation ACCURACY: 1.0000
+OOD Validation Loss: 0.0865
+OOD Test ACCURACY: 1.0000
+OOD Test Loss: 0.0890
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 25...
+[0m[1;37mINFO[0m: [1mCheckpoint 25: 
+-----------------------------------
+Train ACCURACY: 1.0000
+Train Loss: 0.0844
+ID Validation ACCURACY: 1.0000
+ID Validation Loss: 0.0865
+ID Test ACCURACY: 1.0000
+ID Test Loss: 0.0890
+OOD Validation ACCURACY: 1.0000
+OOD Validation Loss: 0.0865
+OOD Test ACCURACY: 1.0000
+OOD Test Loss: 0.0890
+
+[0m[1;37mINFO[0m: [1mChartInfo 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000[0mTrain ACCURACY: 1.0000 	Train Loss: 0.0844 	Train WIoU: 0.986 	
+Id_val ACCURACY: 1.0000 	Id_val Loss: 0.0865 	Id_val WIoU: 0.986 	
+Id_test ACCURACY: 1.0000 	Id_test Loss: 0.0890 	Id_test WIoU: 0.987 	
+Val ACCURACY: 0.8848 	Val Loss: 0.1585 	Val WIoU: 0.983 	
+Test ACCURACY: 0.9728 	Test Loss: 0.1298 	Test WIoU: 0.955 	
+
+Concept relevance scores for this run:
+ [[0.37749434 1.        ]] 
+
+
+Weight vector of global side channel:
+W: [[ 6.078113e-01  4.188157e-11 -1.706369e-03]] b:[-0.11681285]
+
+Coeff rule on x1: x1 >= [0.19218604]
+
+
+#D#Running with seed = 7
+model_dirname= repr_SMGNNGIN_3l_sumpool_0.0dp_mitig_backboneNone_mitig_samplingfeatgchannelsimple_conceptnormnoneavgedgeattnmean
+692 7
+{'acc_givenR': False,
+ 'argv': None,
+ 'average_edge_attn': 'mean',
+ 'ckpt_dir': None,
+ 'ckpt_root': None,
+ 'clean_save': None,
+ 'config_path': '/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/configs/final_configs/TopoFeature/basis/no_shift/SMGNN.yaml',
+ 'dataset': DatasetArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'debias': False,
+ 'device': None,
+ 'exp_round': 7,
+ 'expval_budget': None,
+ 'feat_int_alpha': None,
+ 'fidelity_alpha_2': None,
+ 'global_side_channel': 'simple_concept',
+ 'gpu_idx': 1,
+ 'id_test_ckpt': None,
+ 'intervention_distrib': 'model_dependent',
+ 'log_file': None,
+ 'log_id': '',
+ 'log_path': None,
+ 'mask': False,
+ 'metric': None,
+ 'metrics': '',
+ 'mitigation_backbone': None,
+ 'mitigation_expl_scores': 'default',
+ 'mitigation_expl_scores_topk': -1,
+ 'mitigation_readout': None,
+ 'mitigation_sampling': 'feat',
+ 'mitigation_virtual': None,
+ 'model': ModelArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'nec_alpha_1': None,
+ 'nec_marg_alpha': True,
+ 'nec_number_samples': 'prop_G_dataset',
+ 'num_workers': None,
+ 'numsamples_budget': None,
+ 'ood': OODArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'other_saved': None,
+ 'pipeline': None,
+ 'process_args_manual': <bound method CommonArgs.process_args_manual of CommonArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)>,
+ 'pytest': None,
+ 'random_expl': False,
+ 'random_seed': 7,
+ 'ratios': '',
+ 'samplingtype': 'deconfounded',
+ 'save_metrics': False,
+ 'save_tag': None,
+ 'seeds': '1/2/3/4/5/6/7/8/9/10',
+ 'splits': '',
+ 'task': 'test',
+ 'tensorboard_logdir': None,
+ 'test_ckpt': None,
+ 'train': TrainArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'use_norm': 'none',
+ 'wandb': False}
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Thu Sep  5 15:55:23 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset TopoFeature
+[0mTopoFeature
+loading:  /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/storage/datasets/TopoFeature/basis/processed/data_BA_numgraphs5000_min8_max80_redmax4_requiredred2_shiftno_shift.pt
+loading:  /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/storage/datasets/TopoFeature/basis/processed/data_BA_numgraphs5000_min150_max250_redmax4_requiredred2_shiftsize.pt
+loading:  /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/storage/datasets/TopoFeature/basis/processed/data_ER_numgraphs5000_min8_max80_redmax4_requiredred2_shiftER.pt
+[1;34mDEBUG[0m: 09/05/2024 03:55:23 PM : [1mDataset: {'train': TopoFeature(4000), 'id_val': TopoFeature(500), 'id_test': TopoFeature(500), 'metric': 'Accuracy', 'task': 'Binary classification', 'val': TopoFeature(5000), 'test': TopoFeature(5000)}
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:23 PM : [1m Data(x=[78, 3], edge_index=[2, 296], y=[1, 1], pattern=[1], node_gt=[78], edge_gt=[296])
+[0mData(x=[57, 3], edge_index=[2, 212], y=[1, 1], pattern=[1], node_gt=[57], edge_gt=[212])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:23 PM : [1mInit GINFeatExtractor
+[0mUsing no_bn in BasicEncoder
+[1;34mDEBUG[0m: 09/05/2024 03:55:23 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:23 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:23 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:23 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:23 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:23 PM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 09/05/2024 03:55:23 PM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 24...
+[0m[1;37mINFO[0m: [1mCheckpoint 24: 
+-----------------------------------
+Train ACCURACY: 0.7520
+Train Loss: 0.5331
+ID Validation ACCURACY: 0.7860
+ID Validation Loss: 0.5220
+ID Test ACCURACY: 0.7420
+ID Test Loss: 0.5481
+OOD Validation ACCURACY: 0.7860
+OOD Validation Loss: 0.5220
+OOD Test ACCURACY: 0.7420
+OOD Test Loss: 0.5481
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 24...
+[0m[1;37mINFO[0m: [1mCheckpoint 24: 
+-----------------------------------
+Train ACCURACY: 0.7520
+Train Loss: 0.5331
+ID Validation ACCURACY: 0.7860
+ID Validation Loss: 0.5220
+ID Test ACCURACY: 0.7420
+ID Test Loss: 0.5481
+OOD Validation ACCURACY: 0.7860
+OOD Validation Loss: 0.5220
+OOD Test ACCURACY: 0.7420
+OOD Test Loss: 0.5481
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.7420 0.7420 0.7420 0.7420 0.7860 0.7860[0mTrain ACCURACY: 0.7520 	Train Loss: 0.5331 	Train WIoU: 0.000 	
+Id_val ACCURACY: 0.7860 	Id_val Loss: 0.5220 	Id_val WIoU: 0.000 	
+Id_test ACCURACY: 0.7420 	Id_test Loss: 0.5481 	Id_test WIoU: 0.000 	
+Val ACCURACY: 0.7462 	Val Loss: 0.5326 	Val WIoU: 0.000 	
+Test ACCURACY: 0.7394 	Test Loss: 0.5396 	Test WIoU: 0.000 	
+
+Concept relevance scores for this run:
+ [[0.9082904 1.       ]] 
+
+
+Weight vector of global side channel:
+W: [[2.6843634e-01 5.7204124e-22 2.3660155e-04]] b:[-0.62465686]
+
+Coeff rule on x1: x1 >= [2.3270204]
+
+
+#D#Running with seed = 8
+model_dirname= repr_SMGNNGIN_3l_sumpool_0.0dp_mitig_backboneNone_mitig_samplingfeatgchannelsimple_conceptnormnoneavgedgeattnmean
+789 8
+{'acc_givenR': False,
+ 'argv': None,
+ 'average_edge_attn': 'mean',
+ 'ckpt_dir': None,
+ 'ckpt_root': None,
+ 'clean_save': None,
+ 'config_path': '/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/configs/final_configs/TopoFeature/basis/no_shift/SMGNN.yaml',
+ 'dataset': DatasetArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'debias': False,
+ 'device': None,
+ 'exp_round': 8,
+ 'expval_budget': None,
+ 'feat_int_alpha': None,
+ 'fidelity_alpha_2': None,
+ 'global_side_channel': 'simple_concept',
+ 'gpu_idx': 1,
+ 'id_test_ckpt': None,
+ 'intervention_distrib': 'model_dependent',
+ 'log_file': None,
+ 'log_id': '',
+ 'log_path': None,
+ 'mask': False,
+ 'metric': None,
+ 'metrics': '',
+ 'mitigation_backbone': None,
+ 'mitigation_expl_scores': 'default',
+ 'mitigation_expl_scores_topk': -1,
+ 'mitigation_readout': None,
+ 'mitigation_sampling': 'feat',
+ 'mitigation_virtual': None,
+ 'model': ModelArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'nec_alpha_1': None,
+ 'nec_marg_alpha': True,
+ 'nec_number_samples': 'prop_G_dataset',
+ 'num_workers': None,
+ 'numsamples_budget': None,
+ 'ood': OODArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'other_saved': None,
+ 'pipeline': None,
+ 'process_args_manual': <bound method CommonArgs.process_args_manual of CommonArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)>,
+ 'pytest': None,
+ 'random_expl': False,
+ 'random_seed': 8,
+ 'ratios': '',
+ 'samplingtype': 'deconfounded',
+ 'save_metrics': False,
+ 'save_tag': None,
+ 'seeds': '1/2/3/4/5/6/7/8/9/10',
+ 'splits': '',
+ 'task': 'test',
+ 'tensorboard_logdir': None,
+ 'test_ckpt': None,
+ 'train': TrainArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'use_norm': 'none',
+ 'wandb': False}
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Thu Sep  5 15:55:28 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset TopoFeature
+[0mTopoFeature
+loading:  /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/storage/datasets/TopoFeature/basis/processed/data_BA_numgraphs5000_min8_max80_redmax4_requiredred2_shiftno_shift.pt
+loading:  /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/storage/datasets/TopoFeature/basis/processed/data_BA_numgraphs5000_min150_max250_redmax4_requiredred2_shiftsize.pt
+loading:  /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/storage/datasets/TopoFeature/basis/processed/data_ER_numgraphs5000_min8_max80_redmax4_requiredred2_shiftER.pt
+[1;34mDEBUG[0m: 09/05/2024 03:55:28 PM : [1mDataset: {'train': TopoFeature(4000), 'id_val': TopoFeature(500), 'id_test': TopoFeature(500), 'metric': 'Accuracy', 'task': 'Binary classification', 'val': TopoFeature(5000), 'test': TopoFeature(5000)}
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:28 PM : [1m Data(x=[78, 3], edge_index=[2, 296], y=[1, 1], pattern=[1], node_gt=[78], edge_gt=[296])
+[0mData(x=[57, 3], edge_index=[2, 212], y=[1, 1], pattern=[1], node_gt=[57], edge_gt=[212])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:28 PM : [1mInit GINFeatExtractor
+[0mUsing no_bn in BasicEncoder
+[1;34mDEBUG[0m: 09/05/2024 03:55:28 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:28 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:28 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:28 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:28 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:28 PM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 09/05/2024 03:55:28 PM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 39...
+[0m[1;37mINFO[0m: [1mCheckpoint 39: 
+-----------------------------------
+Train ACCURACY: 0.7520
+Train Loss: 0.4820
+ID Validation ACCURACY: 0.7900
+ID Validation Loss: 0.4630
+ID Test ACCURACY: 0.7400
+ID Test Loss: 0.4927
+OOD Validation ACCURACY: 0.7900
+OOD Validation Loss: 0.4630
+OOD Test ACCURACY: 0.7400
+OOD Test Loss: 0.4927
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 39...
+[0m[1;37mINFO[0m: [1mCheckpoint 39: 
+-----------------------------------
+Train ACCURACY: 0.7520
+Train Loss: 0.4820
+ID Validation ACCURACY: 0.7900
+ID Validation Loss: 0.4630
+ID Test ACCURACY: 0.7400
+ID Test Loss: 0.4927
+OOD Validation ACCURACY: 0.7900
+OOD Validation Loss: 0.4630
+OOD Test ACCURACY: 0.7400
+OOD Test Loss: 0.4927
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.7400 0.7400 0.7400 0.7400 0.7900 0.7900[0mTrain ACCURACY: 0.7520 	Train Loss: 0.4820 	Train WIoU: 0.000 	
+Id_val ACCURACY: 0.7900 	Id_val Loss: 0.4630 	Id_val WIoU: 0.000 	
+Id_test ACCURACY: 0.7400 	Id_test Loss: 0.4927 	Id_test WIoU: 0.000 	
+Val ACCURACY: 0.6690 	Val Loss: 0.7531 	Val WIoU: 0.000 	
+Test ACCURACY: 0.7382 	Test Loss: 0.4911 	Test WIoU: 0.000 	
+
+Concept relevance scores for this run:
+ [[1.        0.9958768]] 
+
+
+Weight vector of global side channel:
+W: [[ 4.7914594e-01  5.2128303e-43 -1.5480068e-03]] b:[-0.22289714]
+
+Coeff rule on x1: x1 >= [0.46519676]
+
+
+#D#Running with seed = 9
+model_dirname= repr_SMGNNGIN_3l_sumpool_0.0dp_mitig_backboneNone_mitig_samplingfeatgchannelsimple_conceptnormnoneavgedgeattnmean
+886 9
+{'acc_givenR': False,
+ 'argv': None,
+ 'average_edge_attn': 'mean',
+ 'ckpt_dir': None,
+ 'ckpt_root': None,
+ 'clean_save': None,
+ 'config_path': '/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/configs/final_configs/TopoFeature/basis/no_shift/SMGNN.yaml',
+ 'dataset': DatasetArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'debias': False,
+ 'device': None,
+ 'exp_round': 9,
+ 'expval_budget': None,
+ 'feat_int_alpha': None,
+ 'fidelity_alpha_2': None,
+ 'global_side_channel': 'simple_concept',
+ 'gpu_idx': 1,
+ 'id_test_ckpt': None,
+ 'intervention_distrib': 'model_dependent',
+ 'log_file': None,
+ 'log_id': '',
+ 'log_path': None,
+ 'mask': False,
+ 'metric': None,
+ 'metrics': '',
+ 'mitigation_backbone': None,
+ 'mitigation_expl_scores': 'default',
+ 'mitigation_expl_scores_topk': -1,
+ 'mitigation_readout': None,
+ 'mitigation_sampling': 'feat',
+ 'mitigation_virtual': None,
+ 'model': ModelArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'nec_alpha_1': None,
+ 'nec_marg_alpha': True,
+ 'nec_number_samples': 'prop_G_dataset',
+ 'num_workers': None,
+ 'numsamples_budget': None,
+ 'ood': OODArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'other_saved': None,
+ 'pipeline': None,
+ 'process_args_manual': <bound method CommonArgs.process_args_manual of CommonArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)>,
+ 'pytest': None,
+ 'random_expl': False,
+ 'random_seed': 9,
+ 'ratios': '',
+ 'samplingtype': 'deconfounded',
+ 'save_metrics': False,
+ 'save_tag': None,
+ 'seeds': '1/2/3/4/5/6/7/8/9/10',
+ 'splits': '',
+ 'task': 'test',
+ 'tensorboard_logdir': None,
+ 'test_ckpt': None,
+ 'train': TrainArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'use_norm': 'none',
+ 'wandb': False}
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Thu Sep  5 15:55:32 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset TopoFeature
+[0mTopoFeature
+loading:  /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/storage/datasets/TopoFeature/basis/processed/data_BA_numgraphs5000_min8_max80_redmax4_requiredred2_shiftno_shift.pt
+loading:  /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/storage/datasets/TopoFeature/basis/processed/data_BA_numgraphs5000_min150_max250_redmax4_requiredred2_shiftsize.pt
+loading:  /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/storage/datasets/TopoFeature/basis/processed/data_ER_numgraphs5000_min8_max80_redmax4_requiredred2_shiftER.pt
+[1;34mDEBUG[0m: 09/05/2024 03:55:33 PM : [1mDataset: {'train': TopoFeature(4000), 'id_val': TopoFeature(500), 'id_test': TopoFeature(500), 'metric': 'Accuracy', 'task': 'Binary classification', 'val': TopoFeature(5000), 'test': TopoFeature(5000)}
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:33 PM : [1m Data(x=[78, 3], edge_index=[2, 296], y=[1, 1], pattern=[1], node_gt=[78], edge_gt=[296])
+[0mData(x=[57, 3], edge_index=[2, 212], y=[1, 1], pattern=[1], node_gt=[57], edge_gt=[212])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:33 PM : [1mInit GINFeatExtractor
+[0mUsing no_bn in BasicEncoder
+[1;34mDEBUG[0m: 09/05/2024 03:55:33 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:33 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:33 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:33 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:33 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:33 PM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 09/05/2024 03:55:33 PM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 31...
+[0m[1;37mINFO[0m: [1mCheckpoint 31: 
+-----------------------------------
+Train ACCURACY: 1.0000
+Train Loss: 0.0504
+ID Validation ACCURACY: 1.0000
+ID Validation Loss: 0.0505
+ID Test ACCURACY: 1.0000
+ID Test Loss: 0.0540
+OOD Validation ACCURACY: 1.0000
+OOD Validation Loss: 0.0505
+OOD Test ACCURACY: 1.0000
+OOD Test Loss: 0.0540
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 31...
+[0m[1;37mINFO[0m: [1mCheckpoint 31: 
+-----------------------------------
+Train ACCURACY: 1.0000
+Train Loss: 0.0504
+ID Validation ACCURACY: 1.0000
+ID Validation Loss: 0.0505
+ID Test ACCURACY: 1.0000
+ID Test Loss: 0.0540
+OOD Validation ACCURACY: 1.0000
+OOD Validation Loss: 0.0505
+OOD Test ACCURACY: 1.0000
+OOD Test Loss: 0.0540
+
+[0m[1;37mINFO[0m: [1mChartInfo 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000[0mTrain ACCURACY: 1.0000 	Train Loss: 0.0504 	Train WIoU: 0.977 	
+Id_val ACCURACY: 1.0000 	Id_val Loss: 0.0505 	Id_val WIoU: 0.979 	
+Id_test ACCURACY: 1.0000 	Id_test Loss: 0.0540 	Id_test WIoU: 0.980 	
+Val ACCURACY: 0.9674 	Val Loss: 0.0994 	Val WIoU: 0.982 	
+Test ACCURACY: 0.9714 	Test Loss: 0.1479 	Test WIoU: 0.950 	
+
+Concept relevance scores for this run:
+ [[0.24077396 1.        ]] 
+
+
+Weight vector of global side channel:
+W: [[ 4.6930546e-01  5.4930900e-43 -1.0343523e-03]] b:[0.32693404]
+
+Coeff rule on x1: x1 >= [-0.6966338]
+
+
+#D#Running with seed = 10
+model_dirname= repr_SMGNNGIN_3l_sumpool_0.0dp_mitig_backboneNone_mitig_samplingfeatgchannelsimple_conceptnormnoneavgedgeattnmean
+983 10
+{'acc_givenR': False,
+ 'argv': None,
+ 'average_edge_attn': 'mean',
+ 'ckpt_dir': None,
+ 'ckpt_root': None,
+ 'clean_save': None,
+ 'config_path': '/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/configs/final_configs/TopoFeature/basis/no_shift/SMGNN.yaml',
+ 'dataset': DatasetArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'debias': False,
+ 'device': None,
+ 'exp_round': 10,
+ 'expval_budget': None,
+ 'feat_int_alpha': None,
+ 'fidelity_alpha_2': None,
+ 'global_side_channel': 'simple_concept',
+ 'gpu_idx': 1,
+ 'id_test_ckpt': None,
+ 'intervention_distrib': 'model_dependent',
+ 'log_file': None,
+ 'log_id': '',
+ 'log_path': None,
+ 'mask': False,
+ 'metric': None,
+ 'metrics': '',
+ 'mitigation_backbone': None,
+ 'mitigation_expl_scores': 'default',
+ 'mitigation_expl_scores_topk': -1,
+ 'mitigation_readout': None,
+ 'mitigation_sampling': 'feat',
+ 'mitigation_virtual': None,
+ 'model': ModelArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'nec_alpha_1': None,
+ 'nec_marg_alpha': True,
+ 'nec_number_samples': 'prop_G_dataset',
+ 'num_workers': None,
+ 'numsamples_budget': None,
+ 'ood': OODArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'other_saved': None,
+ 'pipeline': None,
+ 'process_args_manual': <bound method CommonArgs.process_args_manual of CommonArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)>,
+ 'pytest': None,
+ 'random_expl': False,
+ 'random_seed': 10,
+ 'ratios': '',
+ 'samplingtype': 'deconfounded',
+ 'save_metrics': False,
+ 'save_tag': None,
+ 'seeds': '1/2/3/4/5/6/7/8/9/10',
+ 'splits': '',
+ 'task': 'test',
+ 'tensorboard_logdir': None,
+ 'test_ckpt': None,
+ 'train': TrainArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'use_norm': 'none',
+ 'wandb': False}
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Thu Sep  5 15:55:37 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset TopoFeature
+[0mTopoFeature
+loading:  /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/storage/datasets/TopoFeature/basis/processed/data_BA_numgraphs5000_min8_max80_redmax4_requiredred2_shiftno_shift.pt
+loading:  /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/storage/datasets/TopoFeature/basis/processed/data_BA_numgraphs5000_min150_max250_redmax4_requiredred2_shiftsize.pt
+loading:  /mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/storage/datasets/TopoFeature/basis/processed/data_ER_numgraphs5000_min8_max80_redmax4_requiredred2_shiftER.pt
+[1;34mDEBUG[0m: 09/05/2024 03:55:37 PM : [1mDataset: {'train': TopoFeature(4000), 'id_val': TopoFeature(500), 'id_test': TopoFeature(500), 'metric': 'Accuracy', 'task': 'Binary classification', 'val': TopoFeature(5000), 'test': TopoFeature(5000)}
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:37 PM : [1m Data(x=[78, 3], edge_index=[2, 296], y=[1, 1], pattern=[1], node_gt=[78], edge_gt=[296])
+[0mData(x=[57, 3], edge_index=[2, 212], y=[1, 1], pattern=[1], node_gt=[57], edge_gt=[212])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:37 PM : [1mInit GINFeatExtractor
+[0mUsing no_bn in BasicEncoder
+[1;34mDEBUG[0m: 09/05/2024 03:55:37 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:37 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:37 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:37 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:37 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/05/2024 03:55:37 PM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 09/05/2024 03:55:37 PM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 32...
+[0m[1;37mINFO[0m: [1mCheckpoint 32: 
+-----------------------------------
+Train ACCURACY: 0.7490
+Train Loss: 0.4875
+ID Validation ACCURACY: 0.7900
+ID Validation Loss: 0.4711
+ID Test ACCURACY: 0.7380
+ID Test Loss: 0.4993
+OOD Validation ACCURACY: 0.7900
+OOD Validation Loss: 0.4711
+OOD Test ACCURACY: 0.7380
+OOD Test Loss: 0.4993
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 32...
+[0m[1;37mINFO[0m: [1mCheckpoint 32: 
+-----------------------------------
+Train ACCURACY: 0.7490
+Train Loss: 0.4875
+ID Validation ACCURACY: 0.7900
+ID Validation Loss: 0.4711
+ID Test ACCURACY: 0.7380
+ID Test Loss: 0.4993
+OOD Validation ACCURACY: 0.7900
+OOD Validation Loss: 0.4711
+OOD Test ACCURACY: 0.7380
+OOD Test Loss: 0.4993
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.7380 0.7380 0.7380 0.7380 0.7900 0.7900[0mTrain ACCURACY: 0.7490 	Train Loss: 0.4875 	Train WIoU: 0.000 	
+Id_val ACCURACY: 0.7900 	Id_val Loss: 0.4711 	Id_val WIoU: 0.000 	
+Id_test ACCURACY: 0.7380 	Id_test Loss: 0.4993 	Id_test WIoU: 0.000 	
+Val ACCURACY: 0.6690 	Val Loss: 0.6330 	Val WIoU: 0.000 	
+Test ACCURACY: 0.7350 	Test Loss: 0.4977 	Test WIoU: 0.000 	
+
+Concept relevance scores for this run:
+ [[0.9921002 1.       ]] 
+
+
+Weight vector of global side channel:
+W: [[ 5.6108385e-01  6.9510968e-31 -1.8560063e-03]] b:[-0.66718817]
+
+Coeff rule on x1: x1 >= [1.189106]
+
+
+Final accuracies: 
+TRAIN      = 0.850 +- 0.122
+ID_VAL     = 0.873 +- 0.104
+ID_TEST    = 0.843 +- 0.128
+VAL        = 0.771 +- 0.127
+TEST       = 0.829 +- 0.113
+
+
+Final accuracies (model with id_val acc above {threshold}% - {sum(id_val_accs >= threshold)} runs): 
+TRAIN      = 1.000 +- 0.000
+ID_VAL     = 1.000 +- 0.000
+ID_TEST    = 1.000 +- 0.001
+VAL        = 0.911 +- 0.079
+TEST       = 0.967 +- 0.007
+
+
+Averaged channel relevance scores (model with id_val acc above 0.9% - 4 runs): 
+[0.6412629 1.       ] +- [0.33602256 0.        ]
+
+
+Final Test WIoUs (model with id_val acc above 0.9% - 4 runs):
+TRAIN      = 0.988 +- 0.007
+ID_VAL     = 0.989 +- 0.007
+ID_TEST    = 0.989 +- 0.006
+VAL        = 0.991 +- 0.009
+TEST       = 0.952 +- 0.002
+
+
+Global side channel coefficient wrt x1 (model with id_val acc above 0.9% - 4 runs):
+[0.43896002] +- [0.76286405]
+
+
+Final losses: 
+TRAIN      = 0.3216 +- 0.2192
+ID_VAL     = 0.3126 +- 0.2113
+ID_TEST    = 0.3301 +- 0.2242
+VAL        = 0.5235 +- 0.3002
+TEST       = 0.3733 +- 0.1776
+Diff id_val-test  = 0.0608 
+
+Concept relevance scores:
+ [[0.9921002 1.       ]] 
+
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. The given 'InMemoryDataset' only references a subset of examples of the full dataset, but 'data' will contain information of the full dataset. The data of the dataset is already cached, so any modifications to `data` will not be reflected when accessing its elements. Clearing the cache now by removing all elements in `dataset._data_list`. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. The given 'InMemoryDataset' only references a subset of examples of the full dataset, but 'data' will contain information of the full dataset. The data of the dataset is already cached, so any modifications to `data` will not be reflected when accessing its elements. Clearing the cache now by removing all elements in `dataset._data_list`. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. The given 'InMemoryDataset' only references a subset of examples of the full dataset, but 'data' will contain information of the full dataset. The data of the dataset is already cached, so any modifications to `data` will not be reflected when accessing its elements. Clearing the cache now by removing all elements in `dataset._data_list`. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. The given 'InMemoryDataset' only references a subset of examples of the full dataset, but 'data' will contain information of the full dataset. The data of the dataset is already cached, so any modifications to `data` will not be reflected when accessing its elements. Clearing the cache now by removing all elements in `dataset._data_list`. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. The given 'InMemoryDataset' only references a subset of examples of the full dataset, but 'data' will contain information of the full dataset. The data of the dataset is already cached, so any modifications to `data` will not be reflected when accessing its elements. Clearing the cache now by removing all elements in `dataset._data_list`. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. The given 'InMemoryDataset' only references a subset of examples of the full dataset, but 'data' will contain information of the full dataset. The data of the dataset is already cached, so any modifications to `data` will not be reflected when accessing its elements. Clearing the cache now by removing all elements in `dataset._data_list`. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. The given 'InMemoryDataset' only references a subset of examples of the full dataset, but 'data' will contain information of the full dataset. The data of the dataset is already cached, so any modifications to `data` will not be reflected when accessing its elements. Clearing the cache now by removing all elements in `dataset._data_list`. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. The given 'InMemoryDataset' only references a subset of examples of the full dataset, but 'data' will contain information of the full dataset. The data of the dataset is already cached, so any modifications to `data` will not be reflected when accessing its elements. Clearing the cache now by removing all elements in `dataset._data_list`. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. The given 'InMemoryDataset' only references a subset of examples of the full dataset, but 'data' will contain information of the full dataset. The data of the dataset is already cached, so any modifications to `data` will not be reflected when accessing its elements. Clearing the cache now by removing all elements in `dataset._data_list`. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. The given 'InMemoryDataset' only references a subset of examples of the full dataset, but 'data' will contain information of the full dataset. The data of the dataset is already cached, so any modifications to `data` will not be reflected when accessing its elements. Clearing the cache now by removing all elements in `dataset._data_list`. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)

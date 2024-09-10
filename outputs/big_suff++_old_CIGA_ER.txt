@@ -1,0 +1,3742 @@
+nohup: ignoring input
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Thu May  9 09:53:32 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif
+[0m[1;34mDEBUG[0m: 05/09/2024 09:53:33 AM : [1mPermuting node indices to remove explanation bias for train
+[0m[1;34mDEBUG[0m: 05/09/2024 09:53:46 AM : [1mPermuting node indices to remove explanation bias for id_val
+[0m[1;34mDEBUG[0m: 05/09/2024 09:53:48 AM : [1mPermuting node indices to remove explanation bias for id_test
+[0m[1;34mDEBUG[0m: 05/09/2024 09:53:50 AM : [1mPermuting node indices to remove explanation bias for val
+[0m[1;34mDEBUG[0m: 05/09/2024 09:53:52 AM : [1mPermuting node indices to remove explanation bias for test
+[0m[1;34mDEBUG[0m: 05/09/2024 09:53:53 AM : [1mDataset: {'train': GOODMotif(18000), 'id_val': GOODMotif(3000), 'id_test': GOODMotif(3000), 'val': GOODMotif(3000), 'test': GOODMotif(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 05/09/2024 09:53:53 AM : [1m Data(edge_index=[2, 64], x=[18, 1], node_gt=[18], edge_gt=[64], y=[1], env_id=[1], ori_edge_index=[2, 64], node_perm=[18], num_nodes=18)
+[0mData(edge_index=[2, 52], x=[19, 1], node_gt=[19], edge_gt=[52], y=[1], env_id=[1], ori_edge_index=[2, 52], node_perm=[19], num_nodes=19)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/09/2024 09:53:53 AM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 05/09/2024 09:53:53 AM : [1mCreating GINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 09:53:53 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 09:53:53 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 09:53:53 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 09:53:53 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 09:53:53 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 09:53:53 AM : [1mUsing  1  layers for classifier
+[0m[1;34mDEBUG[0m: 05/09/2024 09:53:53 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  weighted
+[1;34mDEBUG[0m: 05/09/2024 09:53:53 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 09:53:53 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 09:53:53 AM : [1mUsing feature sampling = feat
+[0m[1;34mDEBUG[0m: 05/09/2024 09:53:53 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 95...
+[0m[1;37mINFO[0m: [1mCheckpoint 95: 
+-----------------------------------
+Train ACCURACY: 0.9236
+Train Loss: 0.3604
+ID Validation ACCURACY: 0.9227
+ID Validation Loss: 0.3790
+ID Test ACCURACY: 0.9237
+ID Test Loss: 0.3648
+OOD Validation ACCURACY: 0.4100
+OOD Validation Loss: 14.0711
+OOD Test ACCURACY: 0.6730
+OOD Test Loss: 0.9019
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 0...
+[0m[1;37mINFO[0m: [1mCheckpoint 0: 
+-----------------------------------
+Train ACCURACY: 0.8039
+Train Loss: 0.6801
+ID Validation ACCURACY: 0.7977
+ID Validation Loss: 0.7040
+ID Test ACCURACY: 0.8167
+ID Test Loss: 0.6746
+OOD Validation ACCURACY: 0.9300
+OOD Validation Loss: 0.4492
+OOD Test ACCURACY: 0.3700
+OOD Test Loss: 12.3785
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9237 0.6730 0.8167 0.3700 0.7977 0.9300[0mGOODMotif(3000)
+Data example from test: Data(edge_index=[2, 26], x=[12, 1], node_gt=[12], edge_gt=[26], y=[1], env_id=[1], ori_edge_index=[2, 26], node_perm=[12], num_nodes=12)
+Label distribution from test: (tensor([0, 1, 2]), tensor([1017,  962, 1021]))
+
+Gold ratio (test) =  tensor(0.3931) +- tensor(0.0982)
+F1 for r=0.6 = 0.577
+WIoU for r=0.6 = 0.438
+
+
+Evaluating SUFF++ for seed 1 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=False)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.65
+Model XAI F1 of binarized graphs for r=0.6 =  0.577325
+Model XAI WIoU of binarized graphs for r=0.6 =  0.43811374999999997
+len(reference) = 800
+Effective ratio: 0.616 +- 0.010
+Model Accuracy over intervened graphs for r=0.6 =  0.498
+SUFF++ for r=0.6 class 0 = 0.482 +- 0.251 (in-sample avg dev_std = 0.639)
+SUFF++ for r=0.6 class 1 = 0.56 +- 0.251 (in-sample avg dev_std = 0.639)
+SUFF++ for r=0.6 class 2 = 0.38 +- 0.251 (in-sample avg dev_std = 0.639)
+SUFF++ for r=0.6 all KL = 0.395 +- 0.251 (in-sample avg dev_std = 0.639)
+SUFF++ for r=0.6 all L1 = 0.472 +- 0.166 (in-sample avg dev_std = 0.639)
+
+
+Evaluating NEC for seed 1 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=False)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.65
+Model XAI F1 of binarized graphs for r=0.6 =  0.577325
+Model XAI WIoU of binarized graphs for r=0.6 =  0.43811374999999997
+len(reference) = 800
+Effective ratio: 0.616 +- 0.010
+Model Accuracy over intervened graphs for r=0.6 =  0.518
+NEC for r=0.6 class 0 = 0.542 +- 0.268 (in-sample avg dev_std = 0.521)
+NEC for r=0.6 class 1 = 0.383 +- 0.268 (in-sample avg dev_std = 0.521)
+NEC for r=0.6 class 2 = 0.526 +- 0.268 (in-sample avg dev_std = 0.521)
+NEC for r=0.6 all KL = 0.544 +- 0.268 (in-sample avg dev_std = 0.521)
+NEC for r=0.6 all L1 = 0.486 +- 0.194 (in-sample avg dev_std = 0.521)
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Thu May  9 09:54:14 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif
+[0m[1;34mDEBUG[0m: 05/09/2024 09:54:14 AM : [1mPermuting node indices to remove explanation bias for train
+[0m[1;34mDEBUG[0m: 05/09/2024 09:54:27 AM : [1mPermuting node indices to remove explanation bias for id_val
+[0m[1;34mDEBUG[0m: 05/09/2024 09:54:29 AM : [1mPermuting node indices to remove explanation bias for id_test
+[0m[1;34mDEBUG[0m: 05/09/2024 09:54:31 AM : [1mPermuting node indices to remove explanation bias for val
+[0m[1;34mDEBUG[0m: 05/09/2024 09:54:33 AM : [1mPermuting node indices to remove explanation bias for test
+[0m[1;34mDEBUG[0m: 05/09/2024 09:54:35 AM : [1mDataset: {'train': GOODMotif(18000), 'id_val': GOODMotif(3000), 'id_test': GOODMotif(3000), 'val': GOODMotif(3000), 'test': GOODMotif(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 05/09/2024 09:54:35 AM : [1m Data(edge_index=[2, 64], x=[18, 1], node_gt=[18], edge_gt=[64], y=[1], env_id=[1], ori_edge_index=[2, 64], node_perm=[18], num_nodes=18)
+[0mData(edge_index=[2, 52], x=[19, 1], node_gt=[19], edge_gt=[52], y=[1], env_id=[1], ori_edge_index=[2, 52], node_perm=[19], num_nodes=19)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/09/2024 09:54:35 AM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 05/09/2024 09:54:35 AM : [1mCreating GINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 09:54:35 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 09:54:35 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 09:54:35 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 09:54:35 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 09:54:35 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 09:54:35 AM : [1mUsing  1  layers for classifier
+[0m[1;34mDEBUG[0m: 05/09/2024 09:54:35 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  weighted
+[1;34mDEBUG[0m: 05/09/2024 09:54:35 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 09:54:35 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 09:54:35 AM : [1mUsing feature sampling = feat
+[0m[1;34mDEBUG[0m: 05/09/2024 09:54:35 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 38...
+[0m[1;37mINFO[0m: [1mCheckpoint 38: 
+-----------------------------------
+Train ACCURACY: 0.8845
+Train Loss: 0.5305
+ID Validation ACCURACY: 0.8827
+ID Validation Loss: 0.5555
+ID Test ACCURACY: 0.8790
+ID Test Loss: 0.5276
+OOD Validation ACCURACY: 0.4290
+OOD Validation Loss: 21.8019
+OOD Test ACCURACY: 0.5357
+OOD Test Loss: 1.5598
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 91...
+[0m[1;37mINFO[0m: [1mCheckpoint 91: 
+-----------------------------------
+Train ACCURACY: 0.7712
+Train Loss: 0.6710
+ID Validation ACCURACY: 0.7690
+ID Validation Loss: 0.6984
+ID Test ACCURACY: 0.7687
+ID Test Loss: 0.6839
+OOD Validation ACCURACY: 0.7957
+OOD Validation Loss: 0.6392
+OOD Test ACCURACY: 0.4723
+OOD Test Loss: 1.6875
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.8790 0.5357 0.7687 0.4723 0.7690 0.7957[0mGOODMotif(3000)
+Data example from test: Data(edge_index=[2, 26], x=[12, 1], node_gt=[12], edge_gt=[26], y=[1], env_id=[1], ori_edge_index=[2, 26], node_perm=[12], num_nodes=12)
+Label distribution from test: (tensor([0, 1, 2]), tensor([1017,  962, 1021]))
+
+Gold ratio (test) =  tensor(0.3931) +- tensor(0.0982)
+F1 for r=0.6 = 0.607
+WIoU for r=0.6 = 0.547
+
+
+Evaluating SUFF++ for seed 2 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=False)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.546
+Model XAI F1 of binarized graphs for r=0.6 =  0.60715375
+Model XAI WIoU of binarized graphs for r=0.6 =  0.54695
+len(reference) = 800
+Effective ratio: 0.616 +- 0.010
+Model Accuracy over intervened graphs for r=0.6 =  0.553
+SUFF++ for r=0.6 class 0 = 0.538 +- 0.293 (in-sample avg dev_std = 0.564)
+SUFF++ for r=0.6 class 1 = 0.532 +- 0.293 (in-sample avg dev_std = 0.564)
+SUFF++ for r=0.6 class 2 = 0.942 +- 0.293 (in-sample avg dev_std = 0.564)
+SUFF++ for r=0.6 all KL = 0.648 +- 0.293 (in-sample avg dev_std = 0.564)
+SUFF++ for r=0.6 all L1 = 0.673 +- 0.244 (in-sample avg dev_std = 0.564)
+
+
+Evaluating NEC for seed 2 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=False)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.546
+Model XAI F1 of binarized graphs for r=0.6 =  0.60715375
+Model XAI WIoU of binarized graphs for r=0.6 =  0.54695
+len(reference) = 800
+Effective ratio: 0.616 +- 0.010
+Model Accuracy over intervened graphs for r=0.6 =  0.438
+NEC for r=0.6 class 0 = 0.578 +- 0.320 (in-sample avg dev_std = 0.666)
+NEC for r=0.6 class 1 = 0.411 +- 0.320 (in-sample avg dev_std = 0.666)
+NEC for r=0.6 class 2 = 0.602 +- 0.320 (in-sample avg dev_std = 0.666)
+NEC for r=0.6 all KL = 0.625 +- 0.320 (in-sample avg dev_std = 0.666)
+NEC for r=0.6 all L1 = 0.532 +- 0.199 (in-sample avg dev_std = 0.666)
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Thu May  9 09:54:54 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif
+[0m[1;34mDEBUG[0m: 05/09/2024 09:54:54 AM : [1mPermuting node indices to remove explanation bias for train
+[0m[1;34mDEBUG[0m: 05/09/2024 09:55:07 AM : [1mPermuting node indices to remove explanation bias for id_val
+[0m[1;34mDEBUG[0m: 05/09/2024 09:55:09 AM : [1mPermuting node indices to remove explanation bias for id_test
+[0m[1;34mDEBUG[0m: 05/09/2024 09:55:12 AM : [1mPermuting node indices to remove explanation bias for val
+[0m[1;34mDEBUG[0m: 05/09/2024 09:55:13 AM : [1mPermuting node indices to remove explanation bias for test
+[0m[1;34mDEBUG[0m: 05/09/2024 09:55:15 AM : [1mDataset: {'train': GOODMotif(18000), 'id_val': GOODMotif(3000), 'id_test': GOODMotif(3000), 'val': GOODMotif(3000), 'test': GOODMotif(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 05/09/2024 09:55:15 AM : [1m Data(edge_index=[2, 64], x=[18, 1], node_gt=[18], edge_gt=[64], y=[1], env_id=[1], ori_edge_index=[2, 64], node_perm=[18], num_nodes=18)
+[0mData(edge_index=[2, 52], x=[19, 1], node_gt=[19], edge_gt=[52], y=[1], env_id=[1], ori_edge_index=[2, 52], node_perm=[19], num_nodes=19)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/09/2024 09:55:15 AM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 05/09/2024 09:55:15 AM : [1mCreating GINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 09:55:15 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 09:55:15 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 09:55:15 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 09:55:15 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 09:55:15 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 09:55:15 AM : [1mUsing  1  layers for classifier
+[0m[1;34mDEBUG[0m: 05/09/2024 09:55:15 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  weighted
+[1;34mDEBUG[0m: 05/09/2024 09:55:15 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 09:55:15 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 09:55:15 AM : [1mUsing feature sampling = feat
+[0m[1;34mDEBUG[0m: 05/09/2024 09:55:15 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 26...
+[0m[1;37mINFO[0m: [1mCheckpoint 26: 
+-----------------------------------
+Train ACCURACY: 0.8712
+Train Loss: 0.4857
+ID Validation ACCURACY: 0.8610
+ID Validation Loss: 0.5151
+ID Test ACCURACY: 0.8730
+ID Test Loss: 0.4697
+OOD Validation ACCURACY: 0.6573
+OOD Validation Loss: 2.5816
+OOD Test ACCURACY: 0.7480
+OOD Test Loss: 0.6393
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 54...
+[0m[1;37mINFO[0m: [1mCheckpoint 54: 
+-----------------------------------
+Train ACCURACY: 0.7893
+Train Loss: 0.6406
+ID Validation ACCURACY: 0.7840
+ID Validation Loss: 0.6862
+ID Test ACCURACY: 0.7930
+ID Test Loss: 0.6301
+OOD Validation ACCURACY: 0.9127
+OOD Validation Loss: 0.4331
+OOD Test ACCURACY: 0.5323
+OOD Test Loss: 1.1321
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.8730 0.7480 0.7930 0.5323 0.7840 0.9127[0mGOODMotif(3000)
+Data example from test: Data(edge_index=[2, 26], x=[12, 1], node_gt=[12], edge_gt=[26], y=[1], env_id=[1], ori_edge_index=[2, 26], node_perm=[12], num_nodes=12)
+Label distribution from test: (tensor([0, 1, 2]), tensor([1017,  962, 1021]))
+
+Gold ratio (test) =  tensor(0.3931) +- tensor(0.0982)
+F1 for r=0.6 = 0.555
+WIoU for r=0.6 = 0.504
+
+
+Evaluating SUFF++ for seed 3 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=False)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.745
+Model XAI F1 of binarized graphs for r=0.6 =  0.55481
+Model XAI WIoU of binarized graphs for r=0.6 =  0.50397625
+len(reference) = 800
+Effective ratio: 0.616 +- 0.010
+Model Accuracy over intervened graphs for r=0.6 =  0.655
+SUFF++ for r=0.6 class 0 = 0.537 +- 0.206 (in-sample avg dev_std = 0.475)
+SUFF++ for r=0.6 class 1 = 0.639 +- 0.206 (in-sample avg dev_std = 0.475)
+SUFF++ for r=0.6 class 2 = 0.793 +- 0.206 (in-sample avg dev_std = 0.475)
+SUFF++ for r=0.6 all KL = 0.711 +- 0.206 (in-sample avg dev_std = 0.475)
+SUFF++ for r=0.6 all L1 = 0.657 +- 0.172 (in-sample avg dev_std = 0.475)
+
+
+Evaluating NEC for seed 3 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=False)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.745
+Model XAI F1 of binarized graphs for r=0.6 =  0.55481
+Model XAI WIoU of binarized graphs for r=0.6 =  0.50397625
+len(reference) = 800
+Effective ratio: 0.616 +- 0.010
+Model Accuracy over intervened graphs for r=0.6 =  0.488
+NEC for r=0.6 class 0 = 0.493 +- 0.340 (in-sample avg dev_std = 0.500)
+NEC for r=0.6 class 1 = 0.23 +- 0.340 (in-sample avg dev_std = 0.500)
+NEC for r=0.6 class 2 = 0.67 +- 0.340 (in-sample avg dev_std = 0.500)
+NEC for r=0.6 all KL = 0.422 +- 0.340 (in-sample avg dev_std = 0.500)
+NEC for r=0.6 all L1 = 0.468 +- 0.226 (in-sample avg dev_std = 0.500)
+
+
+ -------------------------------------------------- 
+Printing evaluation results for load_split id
+
+
+
+Eval split test
+suff++ = [defaultdict(<class 'list'>, {'all_KL': [0.395], 'all_L1': [0.472]}), defaultdict(<class 'list'>, {'all_KL': [0.648], 'all_L1': [0.673]}), defaultdict(<class 'list'>, {'all_KL': [0.711], 'all_L1': [0.657]})]
+nec = [defaultdict(<class 'list'>, {'all_KL': [0.544], 'all_L1': [0.486]}), defaultdict(<class 'list'>, {'all_KL': [0.625], 'all_L1': [0.532]}), defaultdict(<class 'list'>, {'all_KL': [0.422], 'all_L1': [0.468]})]
+
+
+ -------------------------------------------------- 
+Printing evaluation averaged per seed
+
+Eval split test
+suff++ class all_L1  =  0.601 +- 0.091
+suff++ class all_KL  =  0.585 +- 0.137
+suff++_acc_int  =  0.568 +- 0.065
+nec class all_L1  =  0.495 +- 0.027
+nec class all_KL  =  0.530 +- 0.083
+nec_acc_int  =  0.481 +- 0.033
+
+
+ -------------------------------------------------- 
+Computing faithfulness
+
+Eval split test
+Faith. Aritm (L1)= 		  =  0.548 +- 0.051
+Faith. Armon (L1)= 		  =  0.540 +- 0.047
+Faith. GMean (L1)= 	  =  0.544 +- 0.049
+Faith. Aritm (KL)= 		  =  0.557 +- 0.068
+Faith. Armon (KL)= 		  =  0.541 +- 0.073
+Faith. GMean (KL)= 	  =  0.549 +- 0.071
+Computed for split load_split = id
+
+
+
+Completed in  0:02:06.038600  for CIGAGIN GOODMotif/basis
+
+
+
+DONE CIGA GOODMotif/basis readout
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Thu May  9 09:55:47 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif2
+[0m[1;34mDEBUG[0m: 05/09/2024 09:55:47 AM : [1mDataset: {'train': GOODMotif2(18000), 'id_val': GOODMotif2(3000), 'id_test': GOODMotif2(3000), 'val': GOODMotif2(3000), 'test': GOODMotif2(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 05/09/2024 09:55:47 AM : [1m Data(edge_index=[2, 84], x=[29, 1], node_gt=[29], edge_gt=[84], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[0mData(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/09/2024 09:55:47 AM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 05/09/2024 09:55:47 AM : [1mCreating GINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 09:55:47 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 09:55:47 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 09:55:47 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 09:55:47 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 09:55:47 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 09:55:47 AM : [1mUsing  1  layers for classifier
+[0m[1;34mDEBUG[0m: 05/09/2024 09:55:47 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  weighted
+[1;34mDEBUG[0m: 05/09/2024 09:55:47 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 09:55:47 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 09:55:47 AM : [1mUsing feature sampling = feat
+[0m[1;34mDEBUG[0m: 05/09/2024 09:55:47 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 49...
+[0m[1;37mINFO[0m: [1mCheckpoint 49: 
+-----------------------------------
+Train ACCURACY: 0.9018
+Train Loss: 0.4354
+ID Validation ACCURACY: 0.9037
+ID Validation Loss: 0.4370
+ID Test ACCURACY: 0.8970
+ID Test Loss: 0.4710
+OOD Validation ACCURACY: 0.7420
+OOD Validation Loss: 0.6904
+OOD Test ACCURACY: 0.4850
+OOD Test Loss: 11.6168
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 89...
+[0m[1;37mINFO[0m: [1mCheckpoint 89: 
+-----------------------------------
+Train ACCURACY: 0.8768
+Train Loss: 0.4361
+ID Validation ACCURACY: 0.8860
+ID Validation Loss: 0.4229
+ID Test ACCURACY: 0.8727
+ID Test Loss: 0.4687
+OOD Validation ACCURACY: 0.8807
+OOD Validation Loss: 0.4940
+OOD Test ACCURACY: 0.4280
+OOD Test Loss: 6.8125
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.8970 0.4850 0.8727 0.4280 0.8860 0.8807[0mGOODMotif2(3000)
+Data example from test: Data(edge_index=[2, 70], x=[20, 1], node_gt=[20], edge_gt=[70], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=20)
+Label distribution from test: (tensor([0, 1, 2]), tensor([ 971, 1026, 1003]))
+
+Gold ratio (test) =  tensor(0.2515) +- tensor(0.1001)
+F1 for r=0.8 = 0.293
+WIoU for r=0.8 = 0.163
+
+
+Evaluating SUFF++ for seed 1 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=False)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.491
+Model XAI F1 of binarized graphs for r=0.8 =  0.29258375000000003
+Model XAI WIoU of binarized graphs for r=0.8 =  0.16311374999999997
+len(reference) = 800
+Effective ratio: 0.806 +- 0.006
+Model Accuracy over intervened graphs for r=0.8 =  0.426
+SUFF++ for r=0.8 class 0 = 0.725 +- 0.371 (in-sample avg dev_std = 0.419)
+SUFF++ for r=0.8 class 1 = 0.779 +- 0.371 (in-sample avg dev_std = 0.419)
+SUFF++ for r=0.8 class 2 = 0.699 +- 0.371 (in-sample avg dev_std = 0.419)
+SUFF++ for r=0.8 all KL = 0.62 +- 0.371 (in-sample avg dev_std = 0.419)
+SUFF++ for r=0.8 all L1 = 0.735 +- 0.280 (in-sample avg dev_std = 0.419)
+
+
+Evaluating NEC for seed 1 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=False)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.491
+Model XAI F1 of binarized graphs for r=0.8 =  0.29258375000000003
+Model XAI WIoU of binarized graphs for r=0.8 =  0.16311374999999997
+len(reference) = 800
+Effective ratio: 0.806 +- 0.006
+Model Accuracy over intervened graphs for r=0.8 =  0.417
+NEC for r=0.8 class 0 = 0.415 +- 0.362 (in-sample avg dev_std = 0.558)
+NEC for r=0.8 class 1 = 0.242 +- 0.362 (in-sample avg dev_std = 0.558)
+NEC for r=0.8 class 2 = 0.492 +- 0.362 (in-sample avg dev_std = 0.558)
+NEC for r=0.8 all KL = 0.587 +- 0.362 (in-sample avg dev_std = 0.558)
+NEC for r=0.8 all L1 = 0.381 +- 0.274 (in-sample avg dev_std = 0.558)
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Thu May  9 09:56:11 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif2
+[0m[1;34mDEBUG[0m: 05/09/2024 09:56:11 AM : [1mDataset: {'train': GOODMotif2(18000), 'id_val': GOODMotif2(3000), 'id_test': GOODMotif2(3000), 'val': GOODMotif2(3000), 'test': GOODMotif2(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 05/09/2024 09:56:11 AM : [1m Data(edge_index=[2, 84], x=[29, 1], node_gt=[29], edge_gt=[84], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[0mData(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/09/2024 09:56:11 AM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 05/09/2024 09:56:11 AM : [1mCreating GINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 09:56:11 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 09:56:11 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 09:56:11 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 09:56:11 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 09:56:11 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 09:56:11 AM : [1mUsing  1  layers for classifier
+[0m[1;34mDEBUG[0m: 05/09/2024 09:56:11 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  weighted
+[1;34mDEBUG[0m: 05/09/2024 09:56:11 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 09:56:11 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 09:56:11 AM : [1mUsing feature sampling = feat
+[0m[1;34mDEBUG[0m: 05/09/2024 09:56:11 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 13...
+[0m[1;37mINFO[0m: [1mCheckpoint 13: 
+-----------------------------------
+Train ACCURACY: 0.9209
+Train Loss: 0.4610
+ID Validation ACCURACY: 0.9260
+ID Validation Loss: 0.4490
+ID Test ACCURACY: 0.9150
+ID Test Loss: 0.5098
+OOD Validation ACCURACY: 0.8717
+OOD Validation Loss: 0.5431
+OOD Test ACCURACY: 0.3343
+OOD Test Loss: 29.2798
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 71...
+[0m[1;37mINFO[0m: [1mCheckpoint 71: 
+-----------------------------------
+Train ACCURACY: 0.8146
+Train Loss: 0.6065
+ID Validation ACCURACY: 0.8143
+ID Validation Loss: 0.6034
+ID Test ACCURACY: 0.8157
+ID Test Loss: 0.6423
+OOD Validation ACCURACY: 0.9270
+OOD Validation Loss: 0.4652
+OOD Test ACCURACY: 0.3343
+OOD Test Loss: 40.5826
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9150 0.3343 0.8157 0.3343 0.8143 0.9270[0mGOODMotif2(3000)
+Data example from test: Data(edge_index=[2, 70], x=[20, 1], node_gt=[20], edge_gt=[70], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=20)
+Label distribution from test: (tensor([0, 1, 2]), tensor([ 971, 1026, 1003]))
+
+Gold ratio (test) =  tensor(0.2515) +- tensor(0.1001)
+F1 for r=0.8 = 0.346
+WIoU for r=0.8 = 0.209
+
+
+Evaluating SUFF++ for seed 2 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=False)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.334
+Model XAI F1 of binarized graphs for r=0.8 =  0.3457124999999999
+Model XAI WIoU of binarized graphs for r=0.8 =  0.20945375
+len(reference) = 800
+Effective ratio: 0.806 +- 0.006
+Model Accuracy over intervened graphs for r=0.8 =  0.337
+SUFF++ for r=0.8 class 0 = 0.994 +- 0.088 (in-sample avg dev_std = 0.095)
+SUFF++ for r=0.8 class 1 = 0.954 +- 0.088 (in-sample avg dev_std = 0.095)
+SUFF++ for r=0.8 class 2 = 1.0 +- 0.088 (in-sample avg dev_std = 0.095)
+SUFF++ for r=0.8 all KL = 0.972 +- 0.088 (in-sample avg dev_std = 0.095)
+SUFF++ for r=0.8 all L1 = 0.982 +- 0.057 (in-sample avg dev_std = 0.095)
+
+
+Evaluating NEC for seed 2 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=False)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.334
+Model XAI F1 of binarized graphs for r=0.8 =  0.3457124999999999
+Model XAI WIoU of binarized graphs for r=0.8 =  0.20945375
+len(reference) = 800
+Effective ratio: 0.806 +- 0.006
+Model Accuracy over intervened graphs for r=0.8 =  0.403
+NEC for r=0.8 class 0 = 0.233 +- 0.460 (in-sample avg dev_std = 0.512)
+NEC for r=0.8 class 1 = 0.26 +- 0.460 (in-sample avg dev_std = 0.512)
+NEC for r=0.8 class 2 = 0.104 +- 0.460 (in-sample avg dev_std = 0.512)
+NEC for r=0.8 all KL = 0.358 +- 0.460 (in-sample avg dev_std = 0.512)
+NEC for r=0.8 all L1 = 0.199 +- 0.280 (in-sample avg dev_std = 0.512)
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Thu May  9 09:56:33 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif2
+[0m[1;34mDEBUG[0m: 05/09/2024 09:56:34 AM : [1mDataset: {'train': GOODMotif2(18000), 'id_val': GOODMotif2(3000), 'id_test': GOODMotif2(3000), 'val': GOODMotif2(3000), 'test': GOODMotif2(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 05/09/2024 09:56:34 AM : [1m Data(edge_index=[2, 84], x=[29, 1], node_gt=[29], edge_gt=[84], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[0mData(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/09/2024 09:56:34 AM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 05/09/2024 09:56:34 AM : [1mCreating GINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 09:56:34 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 09:56:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 09:56:34 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 09:56:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 09:56:34 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 09:56:34 AM : [1mUsing  1  layers for classifier
+[0m[1;34mDEBUG[0m: 05/09/2024 09:56:34 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  weighted
+[1;34mDEBUG[0m: 05/09/2024 09:56:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 09:56:34 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 09:56:34 AM : [1mUsing feature sampling = feat
+[0m[1;34mDEBUG[0m: 05/09/2024 09:56:34 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 48...
+[0m[1;37mINFO[0m: [1mCheckpoint 48: 
+-----------------------------------
+Train ACCURACY: 0.9083
+Train Loss: 0.4178
+ID Validation ACCURACY: 0.9150
+ID Validation Loss: 0.3921
+ID Test ACCURACY: 0.9070
+ID Test Loss: 0.4430
+OOD Validation ACCURACY: 0.7490
+OOD Validation Loss: 0.6150
+OOD Test ACCURACY: 0.4973
+OOD Test Loss: 4.7022
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 93...
+[0m[1;37mINFO[0m: [1mCheckpoint 93: 
+-----------------------------------
+Train ACCURACY: 0.8751
+Train Loss: 0.4864
+ID Validation ACCURACY: 0.8857
+ID Validation Loss: 0.4608
+ID Test ACCURACY: 0.8740
+ID Test Loss: 0.5012
+OOD Validation ACCURACY: 0.9083
+OOD Validation Loss: 0.4673
+OOD Test ACCURACY: 0.5683
+OOD Test Loss: 3.0991
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9070 0.4973 0.8740 0.5683 0.8857 0.9083[0mGOODMotif2(3000)
+Data example from test: Data(edge_index=[2, 70], x=[20, 1], node_gt=[20], edge_gt=[70], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=20)
+Label distribution from test: (tensor([0, 1, 2]), tensor([ 971, 1026, 1003]))
+
+Gold ratio (test) =  tensor(0.2515) +- tensor(0.1001)
+F1 for r=0.8 = 0.331
+WIoU for r=0.8 = 0.202
+
+
+Evaluating SUFF++ for seed 3 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=False)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.504
+Model XAI F1 of binarized graphs for r=0.8 =  0.33074624999999996
+Model XAI WIoU of binarized graphs for r=0.8 =  0.20179624999999998
+len(reference) = 800
+Effective ratio: 0.806 +- 0.006
+Model Accuracy over intervened graphs for r=0.8 =  0.491
+SUFF++ for r=0.8 class 0 = 0.573 +- 0.346 (in-sample avg dev_std = 0.498)
+SUFF++ for r=0.8 class 1 = 0.757 +- 0.346 (in-sample avg dev_std = 0.498)
+SUFF++ for r=0.8 class 2 = 0.724 +- 0.346 (in-sample avg dev_std = 0.498)
+SUFF++ for r=0.8 all KL = 0.535 +- 0.346 (in-sample avg dev_std = 0.498)
+SUFF++ for r=0.8 all L1 = 0.686 +- 0.218 (in-sample avg dev_std = 0.498)
+
+
+Evaluating NEC for seed 3 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=False)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.504
+Model XAI F1 of binarized graphs for r=0.8 =  0.33074624999999996
+Model XAI WIoU of binarized graphs for r=0.8 =  0.20179624999999998
+len(reference) = 800
+Effective ratio: 0.806 +- 0.006
+Model Accuracy over intervened graphs for r=0.8 =  0.517
+NEC for r=0.8 class 0 = 0.443 +- 0.285 (in-sample avg dev_std = 0.616)
+NEC for r=0.8 class 1 = 0.481 +- 0.285 (in-sample avg dev_std = 0.616)
+NEC for r=0.8 class 2 = 0.356 +- 0.285 (in-sample avg dev_std = 0.616)
+NEC for r=0.8 all KL = 0.684 +- 0.285 (in-sample avg dev_std = 0.616)
+NEC for r=0.8 all L1 = 0.427 +- 0.176 (in-sample avg dev_std = 0.616)
+
+
+ -------------------------------------------------- 
+Printing evaluation results for load_split id
+
+
+
+Eval split test
+suff++ = [defaultdict(<class 'list'>, {'all_KL': [0.62], 'all_L1': [0.735]}), defaultdict(<class 'list'>, {'all_KL': [0.972], 'all_L1': [0.982]}), defaultdict(<class 'list'>, {'all_KL': [0.535], 'all_L1': [0.686]})]
+nec = [defaultdict(<class 'list'>, {'all_KL': [0.587], 'all_L1': [0.381]}), defaultdict(<class 'list'>, {'all_KL': [0.358], 'all_L1': [0.199]}), defaultdict(<class 'list'>, {'all_KL': [0.684], 'all_L1': [0.427]})]
+
+
+ -------------------------------------------------- 
+Printing evaluation averaged per seed
+
+Eval split test
+suff++ class all_L1  =  0.801 +- 0.130
+suff++ class all_KL  =  0.709 +- 0.189
+suff++_acc_int  =  0.418 +- 0.063
+nec class all_L1  =  0.336 +- 0.098
+nec class all_KL  =  0.543 +- 0.137
+nec_acc_int  =  0.446 +- 0.051
+
+
+ -------------------------------------------------- 
+Computing faithfulness
+
+Eval split test
+Faith. Aritm (L1)= 		  =  0.568 +- 0.016
+Faith. Armon (L1)= 		  =  0.453 +- 0.087
+Faith. GMean (L1)= 	  =  0.504 +- 0.044
+Faith. Aritm (KL)= 		  =  0.626 +- 0.028
+Faith. Armon (KL)= 		  =  0.576 +- 0.037
+Faith. GMean (KL)= 	  =  0.599 +- 0.007
+Computed for split load_split = id
+
+
+
+Completed in  0:01:10.246889  for CIGAGIN GOODMotif2/basis
+
+
+
+DONE CIGA GOODMotif2/basis readout
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Thu May  9 09:57:13 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif
+[0m[1;34mDEBUG[0m: 05/09/2024 09:57:13 AM : [1mPermuting node indices to remove explanation bias for train
+[0m[1;34mDEBUG[0m: 05/09/2024 09:57:26 AM : [1mPermuting node indices to remove explanation bias for id_val
+[0m[1;34mDEBUG[0m: 05/09/2024 09:57:28 AM : [1mPermuting node indices to remove explanation bias for id_test
+[0m[1;34mDEBUG[0m: 05/09/2024 09:57:30 AM : [1mPermuting node indices to remove explanation bias for val
+[0m[1;34mDEBUG[0m: 05/09/2024 09:57:34 AM : [1mPermuting node indices to remove explanation bias for test
+[0m[1;34mDEBUG[0m: 05/09/2024 09:57:41 AM : [1mDataset: {'train': GOODMotif(18000), 'id_val': GOODMotif(3000), 'id_test': GOODMotif(3000), 'val': GOODMotif(3000), 'test': GOODMotif(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 05/09/2024 09:57:41 AM : [1m Data(edge_index=[2, 58], x=[17, 1], node_gt=[17], edge_gt=[58], y=[1], env_id=[1], ori_edge_index=[2, 58], node_perm=[17], num_nodes=17)
+[0mData(edge_index=[2, 80], x=[22, 1], node_gt=[22], edge_gt=[80], y=[1], env_id=[1], ori_edge_index=[2, 80], node_perm=[22], num_nodes=22)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/09/2024 09:57:41 AM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 05/09/2024 09:57:41 AM : [1mCreating GINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 09:57:41 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 09:57:41 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 09:57:41 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 09:57:41 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 09:57:41 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 09:57:41 AM : [1mUsing  1  layers for classifier
+[0m[1;34mDEBUG[0m: 05/09/2024 09:57:41 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  weighted
+[1;34mDEBUG[0m: 05/09/2024 09:57:41 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 09:57:41 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 09:57:41 AM : [1mUsing feature sampling = feat
+[0m[1;34mDEBUG[0m: 05/09/2024 09:57:41 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 15...
+[0m[1;37mINFO[0m: [1mCheckpoint 15: 
+-----------------------------------
+Train ACCURACY: 0.8884
+Train Loss: 0.4866
+ID Validation ACCURACY: 0.8947
+ID Validation Loss: 0.4630
+ID Test ACCURACY: 0.8917
+ID Test Loss: 0.4878
+OOD Validation ACCURACY: 0.7910
+OOD Validation Loss: 0.6662
+OOD Test ACCURACY: 0.5353
+OOD Test Loss: 1.1040
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 15...
+[0m[1;37mINFO[0m: [1mCheckpoint 15: 
+-----------------------------------
+Train ACCURACY: 0.8884
+Train Loss: 0.4866
+ID Validation ACCURACY: 0.8947
+ID Validation Loss: 0.4630
+ID Test ACCURACY: 0.8917
+ID Test Loss: 0.4878
+OOD Validation ACCURACY: 0.7910
+OOD Validation Loss: 0.6662
+OOD Test ACCURACY: 0.5353
+OOD Test Loss: 1.1040
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.8917 0.5353 0.8917 0.5353 0.8947 0.7910[0mGOODMotif(3000)
+Data example from test: Data(edge_index=[2, 462], x=[149, 1], node_gt=[149], edge_gt=[462], y=[1], env_id=[1], ori_edge_index=[2, 462], node_perm=[149], num_nodes=149)
+Label distribution from test: (tensor([0, 1, 2]), tensor([1019, 1029,  952]))
+
+Gold ratio (test) =  tensor(0.0605) +- tensor(0.0246)
+F1 for r=0.8 = 0.138
+WIoU for r=0.8 = 0.172
+
+
+Evaluating SUFF++ for seed 1 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=False)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.536
+Model XAI F1 of binarized graphs for r=0.8 =  0.1376925
+Model XAI WIoU of binarized graphs for r=0.8 =  0.17154125
+len(reference) = 800
+Effective ratio: 0.802 +- 0.002
+Model Accuracy over intervened graphs for r=0.8 =  0.526
+SUFF++ for r=0.8 class 0 = 0.637 +- 0.185 (in-sample avg dev_std = 0.403)
+SUFF++ for r=0.8 class 1 = 0.638 +- 0.185 (in-sample avg dev_std = 0.403)
+SUFF++ for r=0.8 class 2 = 0.699 +- 0.185 (in-sample avg dev_std = 0.403)
+SUFF++ for r=0.8 all KL = 0.762 +- 0.185 (in-sample avg dev_std = 0.403)
+SUFF++ for r=0.8 all L1 = 0.657 +- 0.146 (in-sample avg dev_std = 0.403)
+
+
+Evaluating NEC for seed 1 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=False)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.536
+Model XAI F1 of binarized graphs for r=0.8 =  0.1376925
+Model XAI WIoU of binarized graphs for r=0.8 =  0.17154125
+len(reference) = 800
+Effective ratio: 0.802 +- 0.002
+Model Accuracy over intervened graphs for r=0.8 =  0.384
+NEC for r=0.8 class 0 = 0.424 +- 0.213 (in-sample avg dev_std = 0.210)
+NEC for r=0.8 class 1 = 0.399 +- 0.213 (in-sample avg dev_std = 0.210)
+NEC for r=0.8 class 2 = 0.388 +- 0.213 (in-sample avg dev_std = 0.210)
+NEC for r=0.8 all KL = 0.237 +- 0.213 (in-sample avg dev_std = 0.210)
+NEC for r=0.8 all L1 = 0.404 +- 0.167 (in-sample avg dev_std = 0.210)
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Thu May  9 09:58:46 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif
+[0m[1;34mDEBUG[0m: 05/09/2024 09:58:46 AM : [1mPermuting node indices to remove explanation bias for train
+[0m[1;34mDEBUG[0m: 05/09/2024 09:58:58 AM : [1mPermuting node indices to remove explanation bias for id_val
+[0m[1;34mDEBUG[0m: 05/09/2024 09:59:00 AM : [1mPermuting node indices to remove explanation bias for id_test
+[0m[1;34mDEBUG[0m: 05/09/2024 09:59:02 AM : [1mPermuting node indices to remove explanation bias for val
+[0m[1;34mDEBUG[0m: 05/09/2024 09:59:05 AM : [1mPermuting node indices to remove explanation bias for test
+[0m[1;34mDEBUG[0m: 05/09/2024 09:59:11 AM : [1mDataset: {'train': GOODMotif(18000), 'id_val': GOODMotif(3000), 'id_test': GOODMotif(3000), 'val': GOODMotif(3000), 'test': GOODMotif(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 05/09/2024 09:59:11 AM : [1m Data(edge_index=[2, 58], x=[17, 1], node_gt=[17], edge_gt=[58], y=[1], env_id=[1], ori_edge_index=[2, 58], node_perm=[17], num_nodes=17)
+[0mData(edge_index=[2, 80], x=[22, 1], node_gt=[22], edge_gt=[80], y=[1], env_id=[1], ori_edge_index=[2, 80], node_perm=[22], num_nodes=22)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/09/2024 09:59:11 AM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 05/09/2024 09:59:11 AM : [1mCreating GINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 09:59:11 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 09:59:11 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 09:59:11 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 09:59:11 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 09:59:11 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 09:59:11 AM : [1mUsing  1  layers for classifier
+[0m[1;34mDEBUG[0m: 05/09/2024 09:59:11 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  weighted
+[1;34mDEBUG[0m: 05/09/2024 09:59:11 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 09:59:11 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 09:59:11 AM : [1mUsing feature sampling = feat
+[0m[1;34mDEBUG[0m: 05/09/2024 09:59:11 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 44...
+[0m[1;37mINFO[0m: [1mCheckpoint 44: 
+-----------------------------------
+Train ACCURACY: 0.8914
+Train Loss: 0.5063
+ID Validation ACCURACY: 0.8997
+ID Validation Loss: 0.4882
+ID Test ACCURACY: 0.8967
+ID Test Loss: 0.4931
+OOD Validation ACCURACY: 0.7990
+OOD Validation Loss: 0.6163
+OOD Test ACCURACY: 0.5463
+OOD Test Loss: 5.1394
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 92...
+[0m[1;37mINFO[0m: [1mCheckpoint 92: 
+-----------------------------------
+Train ACCURACY: 0.8750
+Train Loss: 0.5856
+ID Validation ACCURACY: 0.8820
+ID Validation Loss: 0.5386
+ID Test ACCURACY: 0.8793
+ID Test Loss: 0.5812
+OOD Validation ACCURACY: 0.8227
+OOD Validation Loss: 0.6221
+OOD Test ACCURACY: 0.5200
+OOD Test Loss: 4.5541
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.8967 0.5463 0.8793 0.5200 0.8820 0.8227[0mGOODMotif(3000)
+Data example from test: Data(edge_index=[2, 462], x=[149, 1], node_gt=[149], edge_gt=[462], y=[1], env_id=[1], ori_edge_index=[2, 462], node_perm=[149], num_nodes=149)
+Label distribution from test: (tensor([0, 1, 2]), tensor([1019, 1029,  952]))
+
+Gold ratio (test) =  tensor(0.0605) +- tensor(0.0246)
+F1 for r=0.8 = 0.137
+WIoU for r=0.8 = 0.127
+
+
+Evaluating SUFF++ for seed 2 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=False)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.543
+Model XAI F1 of binarized graphs for r=0.8 =  0.13707125
+Model XAI WIoU of binarized graphs for r=0.8 =  0.12698874999999998
+len(reference) = 800
+Effective ratio: 0.802 +- 0.002
+Model Accuracy over intervened graphs for r=0.8 =  0.457
+SUFF++ for r=0.8 class 0 = 0.607 +- 0.314 (in-sample avg dev_std = 0.533)
+SUFF++ for r=0.8 class 1 = 0.56 +- 0.314 (in-sample avg dev_std = 0.533)
+SUFF++ for r=0.8 class 2 = 0.601 +- 0.314 (in-sample avg dev_std = 0.533)
+SUFF++ for r=0.8 all KL = 0.593 +- 0.314 (in-sample avg dev_std = 0.533)
+SUFF++ for r=0.8 all L1 = 0.589 +- 0.120 (in-sample avg dev_std = 0.533)
+
+
+Evaluating NEC for seed 2 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=False)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.543
+Model XAI F1 of binarized graphs for r=0.8 =  0.13707125
+Model XAI WIoU of binarized graphs for r=0.8 =  0.12698874999999998
+len(reference) = 800
+Effective ratio: 0.802 +- 0.002
+Model Accuracy over intervened graphs for r=0.8 =  0.41
+NEC for r=0.8 class 0 = 0.482 +- 0.327 (in-sample avg dev_std = 0.347)
+NEC for r=0.8 class 1 = 0.494 +- 0.327 (in-sample avg dev_std = 0.347)
+NEC for r=0.8 class 2 = 0.47 +- 0.327 (in-sample avg dev_std = 0.347)
+NEC for r=0.8 all KL = 0.39 +- 0.327 (in-sample avg dev_std = 0.347)
+NEC for r=0.8 all L1 = 0.482 +- 0.199 (in-sample avg dev_std = 0.347)
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Thu May  9 10:00:11 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif
+[0m[1;34mDEBUG[0m: 05/09/2024 10:00:12 AM : [1mPermuting node indices to remove explanation bias for train
+[0m[1;34mDEBUG[0m: 05/09/2024 10:00:23 AM : [1mPermuting node indices to remove explanation bias for id_val
+[0m[1;34mDEBUG[0m: 05/09/2024 10:00:25 AM : [1mPermuting node indices to remove explanation bias for id_test
+[0m[1;34mDEBUG[0m: 05/09/2024 10:00:27 AM : [1mPermuting node indices to remove explanation bias for val
+[0m[1;34mDEBUG[0m: 05/09/2024 10:00:30 AM : [1mPermuting node indices to remove explanation bias for test
+[0m[1;34mDEBUG[0m: 05/09/2024 10:00:37 AM : [1mDataset: {'train': GOODMotif(18000), 'id_val': GOODMotif(3000), 'id_test': GOODMotif(3000), 'val': GOODMotif(3000), 'test': GOODMotif(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 05/09/2024 10:00:37 AM : [1m Data(edge_index=[2, 58], x=[17, 1], node_gt=[17], edge_gt=[58], y=[1], env_id=[1], ori_edge_index=[2, 58], node_perm=[17], num_nodes=17)
+[0mData(edge_index=[2, 80], x=[22, 1], node_gt=[22], edge_gt=[80], y=[1], env_id=[1], ori_edge_index=[2, 80], node_perm=[22], num_nodes=22)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/09/2024 10:00:37 AM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 05/09/2024 10:00:37 AM : [1mCreating GINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 10:00:37 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:00:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:00:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:00:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:00:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:00:37 AM : [1mUsing  1  layers for classifier
+[0m[1;34mDEBUG[0m: 05/09/2024 10:00:37 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  weighted
+[1;34mDEBUG[0m: 05/09/2024 10:00:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:00:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:00:37 AM : [1mUsing feature sampling = feat
+[0m[1;34mDEBUG[0m: 05/09/2024 10:00:37 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 52...
+[0m[1;37mINFO[0m: [1mCheckpoint 52: 
+-----------------------------------
+Train ACCURACY: 0.8883
+Train Loss: 0.4479
+ID Validation ACCURACY: 0.8857
+ID Validation Loss: 0.4413
+ID Test ACCURACY: 0.8940
+ID Test Loss: 0.4470
+OOD Validation ACCURACY: 0.6337
+OOD Validation Loss: 0.7853
+OOD Test ACCURACY: 0.3707
+OOD Test Loss: 1.3105
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 64...
+[0m[1;37mINFO[0m: [1mCheckpoint 64: 
+-----------------------------------
+Train ACCURACY: 0.8548
+Train Loss: 0.5436
+ID Validation ACCURACY: 0.8480
+ID Validation Loss: 0.5519
+ID Test ACCURACY: 0.8573
+ID Test Loss: 0.5426
+OOD Validation ACCURACY: 0.7287
+OOD Validation Loss: 0.9406
+OOD Test ACCURACY: 0.3510
+OOD Test Loss: 8.4851
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.8940 0.3707 0.8573 0.3510 0.8480 0.7287[0mGOODMotif(3000)
+Data example from test: Data(edge_index=[2, 462], x=[149, 1], node_gt=[149], edge_gt=[462], y=[1], env_id=[1], ori_edge_index=[2, 462], node_perm=[149], num_nodes=149)
+Label distribution from test: (tensor([0, 1, 2]), tensor([1019, 1029,  952]))
+
+Gold ratio (test) =  tensor(0.0605) +- tensor(0.0246)
+F1 for r=0.8 = 0.093
+WIoU for r=0.8 = 0.109
+
+
+Evaluating SUFF++ for seed 3 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=False)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.376
+Model XAI F1 of binarized graphs for r=0.8 =  0.093335
+Model XAI WIoU of binarized graphs for r=0.8 =  0.10885500000000001
+len(reference) = 800
+Effective ratio: 0.802 +- 0.002
+Model Accuracy over intervened graphs for r=0.8 =  0.393
+SUFF++ for r=0.8 class 0 = 0.595 +- 0.206 (in-sample avg dev_std = 0.373)
+SUFF++ for r=0.8 class 1 = 0.653 +- 0.206 (in-sample avg dev_std = 0.373)
+SUFF++ for r=0.8 class 2 = 0.598 +- 0.206 (in-sample avg dev_std = 0.373)
+SUFF++ for r=0.8 all KL = 0.736 +- 0.206 (in-sample avg dev_std = 0.373)
+SUFF++ for r=0.8 all L1 = 0.616 +- 0.158 (in-sample avg dev_std = 0.373)
+
+
+Evaluating NEC for seed 3 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=False)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.376
+Model XAI F1 of binarized graphs for r=0.8 =  0.093335
+Model XAI WIoU of binarized graphs for r=0.8 =  0.10885500000000001
+len(reference) = 800
+Effective ratio: 0.802 +- 0.002
+Model Accuracy over intervened graphs for r=0.8 =  0.355
+NEC for r=0.8 class 0 = 0.457 +- 0.308 (in-sample avg dev_std = 0.258)
+NEC for r=0.8 class 1 = 0.453 +- 0.308 (in-sample avg dev_std = 0.258)
+NEC for r=0.8 class 2 = 0.447 +- 0.308 (in-sample avg dev_std = 0.258)
+NEC for r=0.8 all KL = 0.343 +- 0.308 (in-sample avg dev_std = 0.258)
+NEC for r=0.8 all L1 = 0.452 +- 0.241 (in-sample avg dev_std = 0.258)
+
+
+ -------------------------------------------------- 
+Printing evaluation results for load_split id
+
+
+
+Eval split test
+suff++ = [defaultdict(<class 'list'>, {'all_KL': [0.762], 'all_L1': [0.657]}), defaultdict(<class 'list'>, {'all_KL': [0.593], 'all_L1': [0.589]}), defaultdict(<class 'list'>, {'all_KL': [0.736], 'all_L1': [0.616]})]
+nec = [defaultdict(<class 'list'>, {'all_KL': [0.237], 'all_L1': [0.404]}), defaultdict(<class 'list'>, {'all_KL': [0.39], 'all_L1': [0.482]}), defaultdict(<class 'list'>, {'all_KL': [0.343], 'all_L1': [0.452]})]
+
+
+ -------------------------------------------------- 
+Printing evaluation averaged per seed
+
+Eval split test
+suff++ class all_L1  =  0.621 +- 0.028
+suff++ class all_KL  =  0.697 +- 0.074
+suff++_acc_int  =  0.459 +- 0.054
+nec class all_L1  =  0.446 +- 0.032
+nec class all_KL  =  0.323 +- 0.064
+nec_acc_int  =  0.383 +- 0.022
+
+
+ -------------------------------------------------- 
+Computing faithfulness
+
+Eval split test
+Faith. Aritm (L1)= 		  =  0.533 +- 0.002
+Faith. Armon (L1)= 		  =  0.517 +- 0.013
+Faith. GMean (L1)= 	  =  0.525 +- 0.007
+Faith. Aritm (KL)= 		  =  0.510 +- 0.021
+Faith. Armon (KL)= 		  =  0.433 +- 0.051
+Faith. GMean (KL)= 	  =  0.469 +- 0.033
+Computed for split load_split = id
+
+
+
+Completed in  0:04:24.705633  for CIGAGIN GOODMotif/size
+
+
+
+DONE CIGA GOODMotif/size readout
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Thu May  9 10:01:54 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODSST2
+[0m[1;34mDEBUG[0m: 05/09/2024 10:01:55 AM : [1mDataset: {'train': GOODSST2(24744), 'id_val': GOODSST2(5301), 'id_test': GOODSST2(5301), 'val': GOODSST2(17206), 'test': GOODSST2(17490), 'task': 'Binary classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 05/09/2024 10:01:55 AM : [1m Data(x=[6, 768], edge_index=[2, 10], y=[1, 1], idx=[1], sentence_tokens=[6], length=[1], domain_id=[1], env_id=[1])
+[0mData(x=[3, 768], edge_index=[2, 4], y=[1, 1], idx=[1], sentence_tokens=[3], length=[1], domain_id=[1], env_id=[1])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/09/2024 10:01:55 AM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 05/09/2024 10:01:55 AM : [1mCreating GINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 10:01:55 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:01:55 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:01:55 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:01:55 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:01:55 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:01:55 AM : [1mUsing  1  layers for classifier
+[0m[1;34mDEBUG[0m: 05/09/2024 10:01:55 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  weighted
+[1;34mDEBUG[0m: 05/09/2024 10:01:55 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:01:55 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:01:55 AM : [1mUsing feature sampling = feat
+[0m[1;34mDEBUG[0m: 05/09/2024 10:01:55 AM : [1mInit CIGAvGIN
+[0m[1;34mDEBUG[0m: 05/09/2024 10:01:55 AM : [1mInit Backbone:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 10:01:55 AM : [1mCreating vGINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 10:01:55 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:01:55 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:01:55 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:01:55 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:01:55 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:01:55 AM : [1mInit vGINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:01:55 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:01:55 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:01:55 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:01:55 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 05/09/2024 10:01:55 AM : [1mInit CLF:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 10:01:55 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:01:55 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:01:55 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:01:55 AM : [1mInit vGINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:01:55 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:01:55 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 05/09/2024 10:01:55 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 174...
+[0m[1;37mINFO[0m: [1mCheckpoint 174: 
+-----------------------------------
+Train ACCURACY: 0.9489
+Train Loss: 0.0751
+ID Validation ACCURACY: 0.8570
+ID Validation Loss: 1.0776
+ID Test ACCURACY: 0.8538
+ID Test Loss: 1.1832
+OOD Validation ACCURACY: 0.8127
+OOD Validation Loss: 1.9445
+OOD Test ACCURACY: 0.7096
+OOD Test Loss: 3.2829
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 66...
+[0m[1;37mINFO[0m: [1mCheckpoint 66: 
+-----------------------------------
+Train ACCURACY: 0.9462
+Train Loss: 0.0859
+ID Validation ACCURACY: 0.8468
+ID Validation Loss: 0.5292
+ID Test ACCURACY: 0.8487
+ID Test Loss: 0.5857
+OOD Validation ACCURACY: 0.8539
+OOD Validation Loss: 0.6808
+OOD Test ACCURACY: 0.8169
+OOD Test Loss: 0.7504
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.8538 0.7096 0.8487 0.8169 0.8468 0.8539[0mGOODSST2(17490)
+Data example from test: Data(x=[15, 768], edge_index=[2, 28], y=[1, 1], idx=[1], sentence_tokens=[15], length=[1], domain_id=[1])
+Label distribution from test: (tensor([0., 1.]), tensor([8463, 9027]))
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. The data of the dataset is already cached, so any modifications to `data` will not be reflected when accessing its elements. Clearing the cache now by removing all elements in `dataset._data_list`. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+F1 for r=0.8 = nan
+WIoU for r=0.8 = nan
+
+
+Evaluating SUFF++ for seed 1 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=False)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.715
+Model XAI F1 of binarized graphs for r=0.8 =  nan
+Model XAI WIoU of binarized graphs for r=0.8 =  nan
+len(reference) = 800
+Effective ratio: 0.810 +- 0.008
+Model Accuracy over intervened graphs for r=0.8 =  0.671
+SUFF++ for r=0.8 class 0.0 = 0.782 +- 0.284 (in-sample avg dev_std = 0.298)
+SUFF++ for r=0.8 class 1.0 = 0.972 +- 0.284 (in-sample avg dev_std = 0.298)
+SUFF++ for r=0.8 all KL = 0.836 +- 0.284 (in-sample avg dev_std = 0.298)
+SUFF++ for r=0.8 all L1 = 0.88 +- 0.215 (in-sample avg dev_std = 0.298)
+
+
+Evaluating NEC for seed 1 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=False)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.715
+Model XAI F1 of binarized graphs for r=0.8 =  nan
+Model XAI WIoU of binarized graphs for r=0.8 =  nan
+len(reference) = 800
+Effective ratio: 0.810 +- 0.008
+Model Accuracy over intervened graphs for r=0.8 =  0.705
+NEC for r=0.8 class 0.0 = 0.173 +- 0.240 (in-sample avg dev_std = 0.246)
+NEC for r=0.8 class 1.0 = 0.023 +- 0.240 (in-sample avg dev_std = 0.246)
+NEC for r=0.8 all KL = 0.109 +- 0.240 (in-sample avg dev_std = 0.246)
+NEC for r=0.8 all L1 = 0.095 +- 0.200 (in-sample avg dev_std = 0.246)
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Thu May  9 10:02:27 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODSST2
+[0m[1;34mDEBUG[0m: 05/09/2024 10:02:28 AM : [1mDataset: {'train': GOODSST2(24744), 'id_val': GOODSST2(5301), 'id_test': GOODSST2(5301), 'val': GOODSST2(17206), 'test': GOODSST2(17490), 'task': 'Binary classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 05/09/2024 10:02:28 AM : [1m Data(x=[6, 768], edge_index=[2, 10], y=[1, 1], idx=[1], sentence_tokens=[6], length=[1], domain_id=[1], env_id=[1])
+[0mData(x=[3, 768], edge_index=[2, 4], y=[1, 1], idx=[1], sentence_tokens=[3], length=[1], domain_id=[1], env_id=[1])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/09/2024 10:02:28 AM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 05/09/2024 10:02:28 AM : [1mCreating GINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 10:02:28 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:02:28 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:02:28 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:02:28 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:02:28 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:02:28 AM : [1mUsing  1  layers for classifier
+[0m[1;34mDEBUG[0m: 05/09/2024 10:02:28 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  weighted
+[1;34mDEBUG[0m: 05/09/2024 10:02:28 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:02:28 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:02:28 AM : [1mUsing feature sampling = feat
+[0m[1;34mDEBUG[0m: 05/09/2024 10:02:28 AM : [1mInit CIGAvGIN
+[0m[1;34mDEBUG[0m: 05/09/2024 10:02:28 AM : [1mInit Backbone:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 10:02:28 AM : [1mCreating vGINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 10:02:28 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:02:28 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:02:28 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:02:28 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:02:28 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:02:28 AM : [1mInit vGINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:02:28 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:02:28 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:02:28 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:02:28 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 05/09/2024 10:02:28 AM : [1mInit CLF:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 10:02:28 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:02:28 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:02:28 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:02:28 AM : [1mInit vGINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:02:28 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:02:28 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 05/09/2024 10:02:28 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 193...
+[0m[1;37mINFO[0m: [1mCheckpoint 193: 
+-----------------------------------
+Train ACCURACY: 0.9489
+Train Loss: 0.0750
+ID Validation ACCURACY: 0.8621
+ID Validation Loss: 1.0883
+ID Test ACCURACY: 0.8557
+ID Test Loss: 1.1549
+OOD Validation ACCURACY: 0.8230
+OOD Validation Loss: 1.8365
+OOD Test ACCURACY: 0.7082
+OOD Test Loss: 3.4909
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 125...
+[0m[1;37mINFO[0m: [1mCheckpoint 125: 
+-----------------------------------
+Train ACCURACY: 0.9435
+Train Loss: 0.0905
+ID Validation ACCURACY: 0.8459
+ID Validation Loss: 0.6688
+ID Test ACCURACY: 0.8398
+ID Test Loss: 0.7578
+OOD Validation ACCURACY: 0.8575
+OOD Validation Loss: 0.7711
+OOD Test ACCURACY: 0.8105
+OOD Test Loss: 0.8099
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.8557 0.7082 0.8398 0.8105 0.8459 0.8575[0mGOODSST2(17490)
+Data example from test: Data(x=[15, 768], edge_index=[2, 28], y=[1, 1], idx=[1], sentence_tokens=[15], length=[1], domain_id=[1])
+Label distribution from test: (tensor([0., 1.]), tensor([8463, 9027]))
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. The data of the dataset is already cached, so any modifications to `data` will not be reflected when accessing its elements. Clearing the cache now by removing all elements in `dataset._data_list`. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+F1 for r=0.8 = nan
+WIoU for r=0.8 = nan
+
+
+Evaluating SUFF++ for seed 2 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=False)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.714
+Model XAI F1 of binarized graphs for r=0.8 =  nan
+Model XAI WIoU of binarized graphs for r=0.8 =  nan
+len(reference) = 800
+Effective ratio: 0.810 +- 0.008
+Model Accuracy over intervened graphs for r=0.8 =  0.672
+SUFF++ for r=0.8 class 0.0 = 0.793 +- 0.269 (in-sample avg dev_std = 0.283)
+SUFF++ for r=0.8 class 1.0 = 0.974 +- 0.269 (in-sample avg dev_std = 0.283)
+SUFF++ for r=0.8 all KL = 0.851 +- 0.269 (in-sample avg dev_std = 0.283)
+SUFF++ for r=0.8 all L1 = 0.887 +- 0.213 (in-sample avg dev_std = 0.283)
+
+
+Evaluating NEC for seed 2 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=False)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.714
+Model XAI F1 of binarized graphs for r=0.8 =  nan
+Model XAI WIoU of binarized graphs for r=0.8 =  nan
+len(reference) = 800
+Effective ratio: 0.810 +- 0.008
+Model Accuracy over intervened graphs for r=0.8 =  0.714
+NEC for r=0.8 class 0.0 = 0.156 +- 0.216 (in-sample avg dev_std = 0.237)
+NEC for r=0.8 class 1.0 = 0.023 +- 0.216 (in-sample avg dev_std = 0.237)
+NEC for r=0.8 all KL = 0.097 +- 0.216 (in-sample avg dev_std = 0.237)
+NEC for r=0.8 all L1 = 0.088 +- 0.185 (in-sample avg dev_std = 0.237)
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Thu May  9 10:02:59 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODSST2
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:00 AM : [1mDataset: {'train': GOODSST2(24744), 'id_val': GOODSST2(5301), 'id_test': GOODSST2(5301), 'val': GOODSST2(17206), 'test': GOODSST2(17490), 'task': 'Binary classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:00 AM : [1m Data(x=[6, 768], edge_index=[2, 10], y=[1, 1], idx=[1], sentence_tokens=[6], length=[1], domain_id=[1], env_id=[1])
+[0mData(x=[3, 768], edge_index=[2, 4], y=[1, 1], idx=[1], sentence_tokens=[3], length=[1], domain_id=[1], env_id=[1])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:00 AM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:00 AM : [1mCreating GINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:00 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:03:00 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:00 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:00 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:00 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:00 AM : [1mUsing  1  layers for classifier
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:00 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  weighted
+[1;34mDEBUG[0m: 05/09/2024 10:03:00 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:00 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:00 AM : [1mUsing feature sampling = feat
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:00 AM : [1mInit CIGAvGIN
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:00 AM : [1mInit Backbone:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:00 AM : [1mCreating vGINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:00 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:03:00 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:00 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:00 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:00 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:00 AM : [1mInit vGINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:03:00 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:00 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:00 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:00 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 05/09/2024 10:03:00 AM : [1mInit CLF:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:00 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:03:00 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:00 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:00 AM : [1mInit vGINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:03:00 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:00 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 05/09/2024 10:03:00 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 95...
+[0m[1;37mINFO[0m: [1mCheckpoint 95: 
+-----------------------------------
+Train ACCURACY: 0.9487
+Train Loss: 0.0773
+ID Validation ACCURACY: 0.8581
+ID Validation Loss: 0.5674
+ID Test ACCURACY: 0.8602
+ID Test Loss: 0.6145
+OOD Validation ACCURACY: 0.8564
+OOD Validation Loss: 0.7958
+OOD Test ACCURACY: 0.8034
+OOD Test Loss: 0.9273
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 95...
+[0m[1;37mINFO[0m: [1mCheckpoint 95: 
+-----------------------------------
+Train ACCURACY: 0.9487
+Train Loss: 0.0773
+ID Validation ACCURACY: 0.8581
+ID Validation Loss: 0.5674
+ID Test ACCURACY: 0.8602
+ID Test Loss: 0.6145
+OOD Validation ACCURACY: 0.8564
+OOD Validation Loss: 0.7958
+OOD Test ACCURACY: 0.8034
+OOD Test Loss: 0.9273
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.8602 0.8034 0.8602 0.8034 0.8581 0.8564[0mGOODSST2(17490)
+Data example from test: Data(x=[15, 768], edge_index=[2, 28], y=[1, 1], idx=[1], sentence_tokens=[15], length=[1], domain_id=[1])
+Label distribution from test: (tensor([0., 1.]), tensor([8463, 9027]))
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. The data of the dataset is already cached, so any modifications to `data` will not be reflected when accessing its elements. Clearing the cache now by removing all elements in `dataset._data_list`. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+F1 for r=0.8 = nan
+WIoU for r=0.8 = nan
+
+
+Evaluating SUFF++ for seed 3 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=False)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.81
+Model XAI F1 of binarized graphs for r=0.8 =  nan
+Model XAI WIoU of binarized graphs for r=0.8 =  nan
+len(reference) = 800
+Effective ratio: 0.810 +- 0.008
+Model Accuracy over intervened graphs for r=0.8 =  0.799
+SUFF++ for r=0.8 class 0.0 = 0.877 +- 0.164 (in-sample avg dev_std = 0.224)
+SUFF++ for r=0.8 class 1.0 = 0.919 +- 0.164 (in-sample avg dev_std = 0.224)
+SUFF++ for r=0.8 all KL = 0.908 +- 0.164 (in-sample avg dev_std = 0.224)
+SUFF++ for r=0.8 all L1 = 0.899 +- 0.161 (in-sample avg dev_std = 0.224)
+
+
+Evaluating NEC for seed 3 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=False)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.81
+Model XAI F1 of binarized graphs for r=0.8 =  nan
+Model XAI WIoU of binarized graphs for r=0.8 =  nan
+len(reference) = 800
+Effective ratio: 0.810 +- 0.008
+Model Accuracy over intervened graphs for r=0.8 =  0.808
+NEC for r=0.8 class 0.0 = 0.098 +- 0.151 (in-sample avg dev_std = 0.181)
+NEC for r=0.8 class 1.0 = 0.079 +- 0.151 (in-sample avg dev_std = 0.181)
+NEC for r=0.8 all KL = 0.07 +- 0.151 (in-sample avg dev_std = 0.181)
+NEC for r=0.8 all L1 = 0.088 +- 0.156 (in-sample avg dev_std = 0.181)
+
+
+ -------------------------------------------------- 
+Printing evaluation results for load_split id
+
+
+
+Eval split test
+suff++ = [defaultdict(<class 'list'>, {'all_KL': [0.836], 'all_L1': [0.88]}), defaultdict(<class 'list'>, {'all_KL': [0.851], 'all_L1': [0.887]}), defaultdict(<class 'list'>, {'all_KL': [0.908], 'all_L1': [0.899]})]
+nec = [defaultdict(<class 'list'>, {'all_KL': [0.109], 'all_L1': [0.095]}), defaultdict(<class 'list'>, {'all_KL': [0.097], 'all_L1': [0.088]}), defaultdict(<class 'list'>, {'all_KL': [0.07], 'all_L1': [0.088]})]
+
+
+ -------------------------------------------------- 
+Printing evaluation averaged per seed
+
+Eval split test
+suff++ class all_L1  =  0.889 +- 0.008
+suff++ class all_KL  =  0.865 +- 0.031
+suff++_acc_int  =  0.714 +- 0.060
+nec class all_L1  =  0.090 +- 0.003
+nec class all_KL  =  0.092 +- 0.016
+nec_acc_int  =  0.742 +- 0.047
+
+
+ -------------------------------------------------- 
+Computing faithfulness
+
+Eval split test
+Faith. Aritm (L1)= 		  =  0.490 +- 0.003
+Faith. Armon (L1)= 		  =  0.164 +- 0.005
+Faith. GMean (L1)= 	  =  0.283 +- 0.004
+Faith. Aritm (KL)= 		  =  0.479 +- 0.007
+Faith. Armon (KL)= 		  =  0.166 +- 0.026
+Faith. GMean (KL)= 	  =  0.280 +- 0.021
+Computed for split load_split = id
+
+
+
+Completed in  0:01:38.470059  for CIGAvGIN GOODSST2/length
+
+
+
+DONE CIGA GOODSST2/length readout
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Thu May  9 10:03:49 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODTwitter
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:49 AM : [1mPermuting node indices to remove explanation bias for train
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:50 AM : [1mPermuting node indices to remove explanation bias for id_val
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:51 AM : [1mPermuting node indices to remove explanation bias for id_test
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:51 AM : [1mPermuting node indices to remove explanation bias for val
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:53 AM : [1mPermuting node indices to remove explanation bias for test
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:54 AM : [1mDataset: {'train': GOODTwitter(2590), 'id_val': GOODTwitter(554), 'id_test': GOODTwitter(554), 'val': GOODTwitter(1785), 'test': GOODTwitter(1457), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:54 AM : [1m Data(x=[7, 768], edge_index=[2, 12], y=[1], idx=[1], sentence_tokens=[7], length=[1], domain_id=[1], env_id=[1], ori_edge_index=[2, 12], node_perm=[7])
+[0mData(x=[10, 768], edge_index=[2, 18], y=[1], idx=[1], sentence_tokens=[10], length=[1], domain_id=[1], env_id=[1], ori_edge_index=[2, 18], node_perm=[10])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:54 AM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:54 AM : [1mCreating GINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:54 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:03:54 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:54 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:54 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:54 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:54 AM : [1mUsing  1  layers for classifier
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:54 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  weighted
+[1;34mDEBUG[0m: 05/09/2024 10:03:54 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:54 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:54 AM : [1mUsing feature sampling = feat
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:54 AM : [1mInit CIGAvGIN
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:54 AM : [1mInit Backbone:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:54 AM : [1mCreating vGINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:54 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:03:54 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:54 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:54 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:54 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:54 AM : [1mInit vGINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:03:54 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:54 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:54 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:54 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 05/09/2024 10:03:54 AM : [1mInit CLF:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:54 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:03:54 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:54 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:54 AM : [1mInit vGINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:03:54 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:03:54 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 05/09/2024 10:03:54 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 62...
+[0m[1;37mINFO[0m: [1mCheckpoint 62: 
+-----------------------------------
+Train ACCURACY: 1.0000
+Train Loss: 0.0001
+ID Validation ACCURACY: 0.7058
+ID Validation Loss: 1.4156
+ID Test ACCURACY: 0.6715
+ID Test Loss: 1.6499
+OOD Validation ACCURACY: 0.6258
+OOD Validation Loss: 1.7398
+OOD Test ACCURACY: 0.5635
+OOD Test Loss: 2.2884
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 56...
+[0m[1;37mINFO[0m: [1mCheckpoint 56: 
+-----------------------------------
+Train ACCURACY: 1.0000
+Train Loss: 0.0002
+ID Validation ACCURACY: 0.6841
+ID Validation Loss: 1.4339
+ID Test ACCURACY: 0.6715
+ID Test Loss: 1.5868
+OOD Validation ACCURACY: 0.6331
+OOD Validation Loss: 1.6768
+OOD Test ACCURACY: 0.5553
+OOD Test Loss: 2.2147
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.6715 0.5635 0.6715 0.5553 0.6841 0.6331[0mGOODTwitter(1457)
+Data example from test: Data(x=[28, 768], edge_index=[2, 54], y=[1], idx=[1], sentence_tokens=[28], length=[1], domain_id=[1], ori_edge_index=[2, 54], node_perm=[28])
+Label distribution from test: (tensor([0, 1, 2]), tensor([379, 719, 359]))
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. The data of the dataset is already cached, so any modifications to `data` will not be reflected when accessing its elements. Clearing the cache now by removing all elements in `dataset._data_list`. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+F1 for r=0.6 = nan
+WIoU for r=0.6 = nan
+
+
+Evaluating SUFF++ for seed 1 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=False)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.559
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.607 +- 0.004
+Model Accuracy over intervened graphs for r=0.6 =  0.539
+SUFF++ for r=0.6 class 0 = 0.783 +- 0.207 (in-sample avg dev_std = 0.371)
+SUFF++ for r=0.6 class 1 = 0.794 +- 0.207 (in-sample avg dev_std = 0.371)
+SUFF++ for r=0.6 class 2 = 0.733 +- 0.207 (in-sample avg dev_std = 0.371)
+SUFF++ for r=0.6 all KL = 0.775 +- 0.207 (in-sample avg dev_std = 0.371)
+SUFF++ for r=0.6 all L1 = 0.776 +- 0.181 (in-sample avg dev_std = 0.371)
+
+
+Evaluating NEC for seed 1 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=False)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.559
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.607 +- 0.004
+Model Accuracy over intervened graphs for r=0.6 =  0.557
+NEC for r=0.6 class 0 = 0.189 +- 0.208 (in-sample avg dev_std = 0.214)
+NEC for r=0.6 class 1 = 0.161 +- 0.208 (in-sample avg dev_std = 0.214)
+NEC for r=0.6 class 2 = 0.223 +- 0.208 (in-sample avg dev_std = 0.214)
+NEC for r=0.6 all KL = 0.136 +- 0.208 (in-sample avg dev_std = 0.214)
+NEC for r=0.6 all L1 = 0.183 +- 0.211 (in-sample avg dev_std = 0.214)
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Thu May  9 10:04:34 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODTwitter
+[0m[1;34mDEBUG[0m: 05/09/2024 10:04:34 AM : [1mPermuting node indices to remove explanation bias for train
+[0m[1;34mDEBUG[0m: 05/09/2024 10:04:36 AM : [1mPermuting node indices to remove explanation bias for id_val
+[0m[1;34mDEBUG[0m: 05/09/2024 10:04:36 AM : [1mPermuting node indices to remove explanation bias for id_test
+[0m[1;34mDEBUG[0m: 05/09/2024 10:04:36 AM : [1mPermuting node indices to remove explanation bias for val
+[0m[1;34mDEBUG[0m: 05/09/2024 10:04:38 AM : [1mPermuting node indices to remove explanation bias for test
+[0m[1;34mDEBUG[0m: 05/09/2024 10:04:39 AM : [1mDataset: {'train': GOODTwitter(2590), 'id_val': GOODTwitter(554), 'id_test': GOODTwitter(554), 'val': GOODTwitter(1785), 'test': GOODTwitter(1457), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 05/09/2024 10:04:39 AM : [1m Data(x=[7, 768], edge_index=[2, 12], y=[1], idx=[1], sentence_tokens=[7], length=[1], domain_id=[1], env_id=[1], ori_edge_index=[2, 12], node_perm=[7])
+[0mData(x=[10, 768], edge_index=[2, 18], y=[1], idx=[1], sentence_tokens=[10], length=[1], domain_id=[1], env_id=[1], ori_edge_index=[2, 18], node_perm=[10])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/09/2024 10:04:39 AM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 05/09/2024 10:04:39 AM : [1mCreating GINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 10:04:39 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:04:39 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:04:39 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:04:39 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:04:39 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:04:39 AM : [1mUsing  1  layers for classifier
+[0m[1;34mDEBUG[0m: 05/09/2024 10:04:39 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  weighted
+[1;34mDEBUG[0m: 05/09/2024 10:04:39 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:04:39 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:04:39 AM : [1mUsing feature sampling = feat
+[0m[1;34mDEBUG[0m: 05/09/2024 10:04:39 AM : [1mInit CIGAvGIN
+[0m[1;34mDEBUG[0m: 05/09/2024 10:04:39 AM : [1mInit Backbone:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 10:04:39 AM : [1mCreating vGINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 10:04:39 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:04:39 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:04:39 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:04:39 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:04:39 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:04:39 AM : [1mInit vGINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:04:39 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:04:39 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:04:39 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:04:39 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 05/09/2024 10:04:39 AM : [1mInit CLF:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 10:04:39 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:04:39 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:04:39 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:04:39 AM : [1mInit vGINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:04:39 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:04:39 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 05/09/2024 10:04:39 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 103...
+[0m[1;37mINFO[0m: [1mCheckpoint 103: 
+-----------------------------------
+Train ACCURACY: 1.0000
+Train Loss: 0.0001
+ID Validation ACCURACY: 0.6986
+ID Validation Loss: 1.6698
+ID Test ACCURACY: 0.6444
+ID Test Loss: 1.7400
+OOD Validation ACCURACY: 0.6129
+OOD Validation Loss: 1.8537
+OOD Test ACCURACY: 0.5367
+OOD Test Loss: 2.1560
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 86...
+[0m[1;37mINFO[0m: [1mCheckpoint 86: 
+-----------------------------------
+Train ACCURACY: 1.0000
+Train Loss: 0.0002
+ID Validation ACCURACY: 0.6823
+ID Validation Loss: 1.5415
+ID Test ACCURACY: 0.6751
+ID Test Loss: 1.6717
+OOD Validation ACCURACY: 0.6381
+OOD Validation Loss: 1.7231
+OOD Test ACCURACY: 0.5628
+OOD Test Loss: 2.0130
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.6444 0.5367 0.6751 0.5628 0.6823 0.6381[0mGOODTwitter(1457)
+Data example from test: Data(x=[28, 768], edge_index=[2, 54], y=[1], idx=[1], sentence_tokens=[28], length=[1], domain_id=[1], ori_edge_index=[2, 54], node_perm=[28])
+Label distribution from test: (tensor([0, 1, 2]), tensor([379, 719, 359]))
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. The data of the dataset is already cached, so any modifications to `data` will not be reflected when accessing its elements. Clearing the cache now by removing all elements in `dataset._data_list`. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+F1 for r=0.6 = nan
+WIoU for r=0.6 = nan
+
+
+Evaluating SUFF++ for seed 2 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=False)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.53
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.607 +- 0.004
+Model Accuracy over intervened graphs for r=0.6 =  0.526
+SUFF++ for r=0.6 class 0 = 0.743 +- 0.194 (in-sample avg dev_std = 0.393)
+SUFF++ for r=0.6 class 1 = 0.76 +- 0.194 (in-sample avg dev_std = 0.393)
+SUFF++ for r=0.6 class 2 = 0.73 +- 0.194 (in-sample avg dev_std = 0.393)
+SUFF++ for r=0.6 all KL = 0.752 +- 0.194 (in-sample avg dev_std = 0.393)
+SUFF++ for r=0.6 all L1 = 0.748 +- 0.169 (in-sample avg dev_std = 0.393)
+
+
+Evaluating NEC for seed 2 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=False)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.53
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.607 +- 0.004
+Model Accuracy over intervened graphs for r=0.6 =  0.523
+NEC for r=0.6 class 0 = 0.194 +- 0.184 (in-sample avg dev_std = 0.217)
+NEC for r=0.6 class 1 = 0.201 +- 0.184 (in-sample avg dev_std = 0.217)
+NEC for r=0.6 class 2 = 0.218 +- 0.184 (in-sample avg dev_std = 0.217)
+NEC for r=0.6 all KL = 0.14 +- 0.184 (in-sample avg dev_std = 0.217)
+NEC for r=0.6 all L1 = 0.203 +- 0.207 (in-sample avg dev_std = 0.217)
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Thu May  9 10:05:17 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODTwitter
+[0m[1;34mDEBUG[0m: 05/09/2024 10:05:17 AM : [1mPermuting node indices to remove explanation bias for train
+[0m[1;34mDEBUG[0m: 05/09/2024 10:05:19 AM : [1mPermuting node indices to remove explanation bias for id_val
+[0m[1;34mDEBUG[0m: 05/09/2024 10:05:19 AM : [1mPermuting node indices to remove explanation bias for id_test
+[0m[1;34mDEBUG[0m: 05/09/2024 10:05:20 AM : [1mPermuting node indices to remove explanation bias for val
+[0m[1;34mDEBUG[0m: 05/09/2024 10:05:21 AM : [1mPermuting node indices to remove explanation bias for test
+[0m[1;34mDEBUG[0m: 05/09/2024 10:05:22 AM : [1mDataset: {'train': GOODTwitter(2590), 'id_val': GOODTwitter(554), 'id_test': GOODTwitter(554), 'val': GOODTwitter(1785), 'test': GOODTwitter(1457), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 05/09/2024 10:05:22 AM : [1m Data(x=[7, 768], edge_index=[2, 12], y=[1], idx=[1], sentence_tokens=[7], length=[1], domain_id=[1], env_id=[1], ori_edge_index=[2, 12], node_perm=[7])
+[0mData(x=[10, 768], edge_index=[2, 18], y=[1], idx=[1], sentence_tokens=[10], length=[1], domain_id=[1], env_id=[1], ori_edge_index=[2, 18], node_perm=[10])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/09/2024 10:05:22 AM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 05/09/2024 10:05:22 AM : [1mCreating GINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 10:05:22 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:05:22 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:05:22 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:05:22 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:05:22 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:05:22 AM : [1mUsing  1  layers for classifier
+[0m[1;34mDEBUG[0m: 05/09/2024 10:05:22 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  weighted
+[1;34mDEBUG[0m: 05/09/2024 10:05:22 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:05:22 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:05:22 AM : [1mUsing feature sampling = feat
+[0m[1;34mDEBUG[0m: 05/09/2024 10:05:22 AM : [1mInit CIGAvGIN
+[0m[1;34mDEBUG[0m: 05/09/2024 10:05:22 AM : [1mInit Backbone:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 10:05:22 AM : [1mCreating vGINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 10:05:22 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:05:22 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:05:22 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:05:22 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:05:22 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:05:22 AM : [1mInit vGINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:05:22 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:05:22 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:05:22 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:05:22 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 05/09/2024 10:05:22 AM : [1mInit CLF:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 10:05:22 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:05:22 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:05:22 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:05:22 AM : [1mInit vGINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:05:22 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:05:22 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 05/09/2024 10:05:22 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 125...
+[0m[1;37mINFO[0m: [1mCheckpoint 125: 
+-----------------------------------
+Train ACCURACY: 0.9996
+Train Loss: 0.0013
+ID Validation ACCURACY: 0.6986
+ID Validation Loss: 1.7716
+ID Test ACCURACY: 0.6390
+ID Test Loss: 1.9140
+OOD Validation ACCURACY: 0.6392
+OOD Validation Loss: 1.9480
+OOD Test ACCURACY: 0.5470
+OOD Test Loss: 2.3429
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 181...
+[0m[1;37mINFO[0m: [1mCheckpoint 181: 
+-----------------------------------
+Train ACCURACY: 1.0000
+Train Loss: 0.0000
+ID Validation ACCURACY: 0.6625
+ID Validation Loss: 1.8607
+ID Test ACCURACY: 0.6462
+ID Test Loss: 1.9297
+OOD Validation ACCURACY: 0.6538
+OOD Validation Loss: 1.9479
+OOD Test ACCURACY: 0.5518
+OOD Test Loss: 2.4294
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.6390 0.5470 0.6462 0.5518 0.6625 0.6538[0mGOODTwitter(1457)
+Data example from test: Data(x=[28, 768], edge_index=[2, 54], y=[1], idx=[1], sentence_tokens=[28], length=[1], domain_id=[1], ori_edge_index=[2, 54], node_perm=[28])
+Label distribution from test: (tensor([0, 1, 2]), tensor([379, 719, 359]))
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. The data of the dataset is already cached, so any modifications to `data` will not be reflected when accessing its elements. Clearing the cache now by removing all elements in `dataset._data_list`. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+F1 for r=0.6 = nan
+WIoU for r=0.6 = nan
+
+
+Evaluating SUFF++ for seed 3 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=False)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.53
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.607 +- 0.004
+Model Accuracy over intervened graphs for r=0.6 =  0.532
+SUFF++ for r=0.6 class 0 = 0.78 +- 0.203 (in-sample avg dev_std = 0.351)
+SUFF++ for r=0.6 class 1 = 0.812 +- 0.203 (in-sample avg dev_std = 0.351)
+SUFF++ for r=0.6 class 2 = 0.755 +- 0.203 (in-sample avg dev_std = 0.351)
+SUFF++ for r=0.6 all KL = 0.792 +- 0.203 (in-sample avg dev_std = 0.351)
+SUFF++ for r=0.6 all L1 = 0.79 +- 0.185 (in-sample avg dev_std = 0.351)
+
+
+Evaluating NEC for seed 3 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=False)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.53
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.607 +- 0.004
+Model Accuracy over intervened graphs for r=0.6 =  0.531
+NEC for r=0.6 class 0 = 0.174 +- 0.171 (in-sample avg dev_std = 0.204)
+NEC for r=0.6 class 1 = 0.15 +- 0.171 (in-sample avg dev_std = 0.204)
+NEC for r=0.6 class 2 = 0.179 +- 0.171 (in-sample avg dev_std = 0.204)
+NEC for r=0.6 all KL = 0.113 +- 0.171 (in-sample avg dev_std = 0.204)
+NEC for r=0.6 all L1 = 0.163 +- 0.192 (in-sample avg dev_std = 0.204)
+
+
+ -------------------------------------------------- 
+Printing evaluation results for load_split id
+
+
+
+Eval split test
+suff++ = [defaultdict(<class 'list'>, {'all_KL': [0.775], 'all_L1': [0.776]}), defaultdict(<class 'list'>, {'all_KL': [0.752], 'all_L1': [0.748]}), defaultdict(<class 'list'>, {'all_KL': [0.792], 'all_L1': [0.79]})]
+nec = [defaultdict(<class 'list'>, {'all_KL': [0.136], 'all_L1': [0.183]}), defaultdict(<class 'list'>, {'all_KL': [0.14], 'all_L1': [0.203]}), defaultdict(<class 'list'>, {'all_KL': [0.113], 'all_L1': [0.163]})]
+
+
+ -------------------------------------------------- 
+Printing evaluation averaged per seed
+
+Eval split test
+suff++ class all_L1  =  0.771 +- 0.017
+suff++ class all_KL  =  0.773 +- 0.016
+suff++_acc_int  =  0.532 +- 0.005
+nec class all_L1  =  0.183 +- 0.016
+nec class all_KL  =  0.130 +- 0.012
+nec_acc_int  =  0.537 +- 0.015
+
+
+ -------------------------------------------------- 
+Computing faithfulness
+
+Eval split test
+Faith. Aritm (L1)= 		  =  0.477 +- 0.002
+Faith. Armon (L1)= 		  =  0.295 +- 0.020
+Faith. GMean (L1)= 	  =  0.375 +- 0.013
+Faith. Aritm (KL)= 		  =  0.451 +- 0.004
+Faith. Armon (KL)= 		  =  0.222 +- 0.017
+Faith. GMean (KL)= 	  =  0.316 +- 0.012
+Computed for split load_split = id
+
+
+
+Completed in  0:02:13.996609  for CIGAvGIN GOODTwitter/length
+
+
+
+DONE CIGA GOODTwitter/length readout
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Thu May  9 10:06:19 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODHIV
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:19 AM : [1mPermuting node indices to remove explanation bias for id_val
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:22 AM : [1mPermuting node indices to remove explanation bias for id_test
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:26 AM : [1mPermuting node indices to remove explanation bias for val
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:28 AM : [1mPermuting node indices to remove explanation bias for test
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:31 AM : [1mDataset: {'train': GOODHIV(24682), 'id_val': GOODHIV(4112), 'id_test': GOODHIV(4112), 'val': GOODHIV(4113), 'test': GOODHIV(4108), 'task': 'Binary classification', 'metric': 'ROC-AUC'}
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:31 AM : [1m Data(x=[21, 9], edge_index=[2, 46], edge_attr=[46, 3], y=[1, 1], smiles='CC1CCCN2C(=O)CN(Cc3ccccc3)CC(=O)N12', idx=[1], scaffold='O=C1CN(Cc2ccccc2)CC(=O)N2CCCCN12', domain_id=[1], env_id=[1])
+[0mData(x=[14, 9], edge_index=[2, 30], edge_attr=[30, 3], y=[1, 1], smiles='O=C1CSc2cc([N+](=O)[O-])ccc2N1', idx=[1], scaffold='O=C1CSc2ccccc2N1', domain_id=[1], env_id=[1], ori_edge_index=[2, 30], node_perm=[14])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:31 AM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:31 AM : [1mCreating GINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:31 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:06:31 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:31 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:31 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:31 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:31 AM : [1mUsing  1  layers for classifier
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:31 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  weighted
+[1;34mDEBUG[0m: 05/09/2024 10:06:31 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:31 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:31 AM : [1mUsing feature sampling = feat
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:31 AM : [1mInit CIGAvGIN
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:31 AM : [1mInit Backbone:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:31 AM : [1mCreating vGINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:31 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:06:31 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:31 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:31 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:31 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:31 AM : [1mInit vGINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:06:31 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:31 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:31 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:31 AM : [1mUsing the fixed _explain_ functionality
+[0mmitigation_virtual in vGINMolEncoder =  None
+[1;34mDEBUG[0m: 05/09/2024 10:06:31 AM : [1mInit CLF:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:31 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:06:31 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:31 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:31 AM : [1mInit vGINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:06:31 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:31 AM : [1mUsing the fixed _explain_ functionality
+[0mmitigation_virtual in vGINMolEncoder =  None
+[1;34mDEBUG[0m: 05/09/2024 10:06:31 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 129...
+[0m[1;37mINFO[0m: [1mCheckpoint 129: 
+-----------------------------------
+Train ROC-AUC: 0.9976
+Train Loss: 0.0246
+ID Validation ROC-AUC: 0.8451
+ID Validation Loss: 0.1961
+ID Test ROC-AUC: 0.8004
+ID Test Loss: 0.1892
+OOD Validation ROC-AUC: 0.7250
+OOD Validation Loss: 0.1961
+OOD Test ROC-AUC: 0.6668
+OOD Test Loss: 0.1584
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 41...
+[0m[1;37mINFO[0m: [1mCheckpoint 41: 
+-----------------------------------
+Train ROC-AUC: 0.9665
+Train Loss: 0.0729
+ID Validation ROC-AUC: 0.8288
+ID Validation Loss: 0.1456
+ID Test ROC-AUC: 0.7858
+ID Test Loss: 0.1351
+OOD Validation ROC-AUC: 0.7799
+OOD Validation Loss: 0.1266
+OOD Test ROC-AUC: 0.6771
+OOD Test Loss: 0.1073
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.8004 0.6668 0.7858 0.6771 0.8288 0.7799[0mGOODHIV(4108)
+Data example from test: Data(x=[19, 9], edge_index=[2, 40], edge_attr=[40, 3], y=[1, 1], smiles='Nc1ccc2nc3ccc(O)cc3nc2c1.[Na]S[Na]', idx=[1], scaffold='c1ccc2nc3ccccc3nc2c1', domain_id=[1], ori_edge_index=[2, 40], node_perm=[19])
+Label distribution from test: (tensor([0., 1.]), tensor([4027,   81]))
+[1;34mDEBUG[0m: 05/09/2024 10:06:32 AM : [1mUnbalanced warning for GOODHIV (test)
+[0mCreating balanced dataset: (tensor([0., 1.]), tensor([81, 81]))
+F1 for r=0.8 = nan
+WIoU for r=0.8 = nan
+
+
+Evaluating SUFF++ for seed 1 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=False)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model ROC-AUC of binarized graphs for r=0.8 =  0.562
+Model XAI F1 of binarized graphs for r=0.8 =  nan
+Model XAI WIoU of binarized graphs for r=0.8 =  nan
+len(reference) = 162
+Effective ratio: 0.810 +- 0.010
+Model ROC-AUC over intervened graphs for r=0.8 =  0.565
+SUFF++ for r=0.8 class 0.0 = 0.757 +- 0.095 (in-sample avg dev_std = 0.228)
+SUFF++ for r=0.8 class 1.0 = 0.747 +- 0.095 (in-sample avg dev_std = 0.228)
+SUFF++ for r=0.8 all KL = 0.888 +- 0.095 (in-sample avg dev_std = 0.228)
+SUFF++ for r=0.8 all L1 = 0.752 +- 0.082 (in-sample avg dev_std = 0.228)
+
+
+Evaluating NEC for seed 1 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=False)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model ROC-AUC of binarized graphs for r=0.8 =  0.562
+Model XAI F1 of binarized graphs for r=0.8 =  nan
+Model XAI WIoU of binarized graphs for r=0.8 =  nan
+len(reference) = 162
+Effective ratio: 0.810 +- 0.010
+Model ROC-AUC over intervened graphs for r=0.8 =  0.554
+NEC for r=0.8 class 0.0 = 0.199 +- 0.043 (in-sample avg dev_std = 0.095)
+NEC for r=0.8 class 1.0 = 0.192 +- 0.043 (in-sample avg dev_std = 0.095)
+NEC for r=0.8 all KL = 0.054 +- 0.043 (in-sample avg dev_std = 0.095)
+NEC for r=0.8 all L1 = 0.195 +- 0.093 (in-sample avg dev_std = 0.095)
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Thu May  9 10:06:38 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODHIV
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:38 AM : [1mPermuting node indices to remove explanation bias for id_val
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:41 AM : [1mPermuting node indices to remove explanation bias for id_test
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:45 AM : [1mPermuting node indices to remove explanation bias for val
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:48 AM : [1mPermuting node indices to remove explanation bias for test
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:50 AM : [1mDataset: {'train': GOODHIV(24682), 'id_val': GOODHIV(4112), 'id_test': GOODHIV(4112), 'val': GOODHIV(4113), 'test': GOODHIV(4108), 'task': 'Binary classification', 'metric': 'ROC-AUC'}
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:50 AM : [1m Data(x=[21, 9], edge_index=[2, 46], edge_attr=[46, 3], y=[1, 1], smiles='CC1CCCN2C(=O)CN(Cc3ccccc3)CC(=O)N12', idx=[1], scaffold='O=C1CN(Cc2ccccc2)CC(=O)N2CCCCN12', domain_id=[1], env_id=[1])
+[0mData(x=[14, 9], edge_index=[2, 30], edge_attr=[30, 3], y=[1, 1], smiles='O=C1CSc2cc([N+](=O)[O-])ccc2N1', idx=[1], scaffold='O=C1CSc2ccccc2N1', domain_id=[1], env_id=[1], ori_edge_index=[2, 30], node_perm=[14])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:50 AM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:50 AM : [1mCreating GINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:50 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:06:50 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:50 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:50 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:50 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:50 AM : [1mUsing  1  layers for classifier
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:50 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  weighted
+[1;34mDEBUG[0m: 05/09/2024 10:06:50 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:50 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:50 AM : [1mUsing feature sampling = feat
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:50 AM : [1mInit CIGAvGIN
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:50 AM : [1mInit Backbone:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:50 AM : [1mCreating vGINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:50 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:06:50 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:50 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:50 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:50 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:50 AM : [1mInit vGINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:06:50 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:50 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:50 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:50 AM : [1mUsing the fixed _explain_ functionality
+[0mmitigation_virtual in vGINMolEncoder =  None
+[1;34mDEBUG[0m: 05/09/2024 10:06:50 AM : [1mInit CLF:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:50 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:06:50 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:50 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:50 AM : [1mInit vGINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:06:50 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:50 AM : [1mUsing the fixed _explain_ functionality
+[0mmitigation_virtual in vGINMolEncoder =  None
+[1;34mDEBUG[0m: 05/09/2024 10:06:50 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 63...
+[0m[1;37mINFO[0m: [1mCheckpoint 63: 
+-----------------------------------
+Train ROC-AUC: 0.9783
+Train Loss: 0.0616
+ID Validation ROC-AUC: 0.8402
+ID Validation Loss: 0.1441
+ID Test ROC-AUC: 0.8095
+ID Test Loss: 0.1360
+OOD Validation ROC-AUC: 0.7259
+OOD Validation Loss: 0.1652
+OOD Test ROC-AUC: 0.7195
+OOD Test Loss: 0.1190
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 29...
+[0m[1;37mINFO[0m: [1mCheckpoint 29: 
+-----------------------------------
+Train ROC-AUC: 0.8974
+Train Loss: 0.1171
+ID Validation ROC-AUC: 0.8181
+ID Validation Loss: 0.1542
+ID Test ROC-AUC: 0.7779
+ID Test Loss: 0.1431
+OOD Validation ROC-AUC: 0.7900
+OOD Validation Loss: 0.1534
+OOD Test ROC-AUC: 0.7206
+OOD Test Loss: 0.0975
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.8095 0.7195 0.7779 0.7206 0.8181 0.7900[0mGOODHIV(4108)
+Data example from test: Data(x=[19, 9], edge_index=[2, 40], edge_attr=[40, 3], y=[1, 1], smiles='Nc1ccc2nc3ccc(O)cc3nc2c1.[Na]S[Na]', idx=[1], scaffold='c1ccc2nc3ccccc3nc2c1', domain_id=[1], ori_edge_index=[2, 40], node_perm=[19])
+Label distribution from test: (tensor([0., 1.]), tensor([4027,   81]))
+[1;34mDEBUG[0m: 05/09/2024 10:06:50 AM : [1mUnbalanced warning for GOODHIV (test)
+[0mCreating balanced dataset: (tensor([0., 1.]), tensor([81, 81]))
+F1 for r=0.8 = nan
+WIoU for r=0.8 = nan
+
+
+Evaluating SUFF++ for seed 2 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=False)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model ROC-AUC of binarized graphs for r=0.8 =  0.525
+Model XAI F1 of binarized graphs for r=0.8 =  nan
+Model XAI WIoU of binarized graphs for r=0.8 =  nan
+len(reference) = 162
+Effective ratio: 0.810 +- 0.010
+Model ROC-AUC over intervened graphs for r=0.8 =  0.485
+SUFF++ for r=0.8 class 0.0 = 0.849 +- 0.029 (in-sample avg dev_std = 0.129)
+SUFF++ for r=0.8 class 1.0 = 0.865 +- 0.029 (in-sample avg dev_std = 0.129)
+SUFF++ for r=0.8 all KL = 0.973 +- 0.029 (in-sample avg dev_std = 0.129)
+SUFF++ for r=0.8 all L1 = 0.857 +- 0.063 (in-sample avg dev_std = 0.129)
+
+
+Evaluating NEC for seed 2 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=False)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model ROC-AUC of binarized graphs for r=0.8 =  0.525
+Model XAI F1 of binarized graphs for r=0.8 =  nan
+Model XAI WIoU of binarized graphs for r=0.8 =  nan
+len(reference) = 162
+Effective ratio: 0.810 +- 0.010
+Model ROC-AUC over intervened graphs for r=0.8 =  0.506
+NEC for r=0.8 class 0.0 = 0.148 +- 0.015 (in-sample avg dev_std = 0.049)
+NEC for r=0.8 class 1.0 = 0.134 +- 0.015 (in-sample avg dev_std = 0.049)
+NEC for r=0.8 all KL = 0.018 +- 0.015 (in-sample avg dev_std = 0.049)
+NEC for r=0.8 all L1 = 0.141 +- 0.056 (in-sample avg dev_std = 0.049)
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Thu May  9 10:06:56 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODHIV
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:56 AM : [1mPermuting node indices to remove explanation bias for id_val
+[0m[1;34mDEBUG[0m: 05/09/2024 10:06:59 AM : [1mPermuting node indices to remove explanation bias for id_test
+[0m[1;34mDEBUG[0m: 05/09/2024 10:07:02 AM : [1mPermuting node indices to remove explanation bias for val
+[0m[1;34mDEBUG[0m: 05/09/2024 10:07:05 AM : [1mPermuting node indices to remove explanation bias for test
+[0m[1;34mDEBUG[0m: 05/09/2024 10:07:08 AM : [1mDataset: {'train': GOODHIV(24682), 'id_val': GOODHIV(4112), 'id_test': GOODHIV(4112), 'val': GOODHIV(4113), 'test': GOODHIV(4108), 'task': 'Binary classification', 'metric': 'ROC-AUC'}
+[0m[1;34mDEBUG[0m: 05/09/2024 10:07:08 AM : [1m Data(x=[21, 9], edge_index=[2, 46], edge_attr=[46, 3], y=[1, 1], smiles='CC1CCCN2C(=O)CN(Cc3ccccc3)CC(=O)N12', idx=[1], scaffold='O=C1CN(Cc2ccccc2)CC(=O)N2CCCCN12', domain_id=[1], env_id=[1])
+[0mData(x=[14, 9], edge_index=[2, 30], edge_attr=[30, 3], y=[1, 1], smiles='O=C1CSc2cc([N+](=O)[O-])ccc2N1', idx=[1], scaffold='O=C1CSc2ccccc2N1', domain_id=[1], env_id=[1], ori_edge_index=[2, 30], node_perm=[14])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/09/2024 10:07:08 AM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 05/09/2024 10:07:08 AM : [1mCreating GINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 10:07:08 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:07:08 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 10:07:08 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:07:08 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 10:07:08 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:07:08 AM : [1mUsing  1  layers for classifier
+[0m[1;34mDEBUG[0m: 05/09/2024 10:07:08 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  weighted
+[1;34mDEBUG[0m: 05/09/2024 10:07:08 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 10:07:08 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:07:08 AM : [1mUsing feature sampling = feat
+[0m[1;34mDEBUG[0m: 05/09/2024 10:07:08 AM : [1mInit CIGAvGIN
+[0m[1;34mDEBUG[0m: 05/09/2024 10:07:08 AM : [1mInit Backbone:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 10:07:08 AM : [1mCreating vGINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 10:07:08 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:07:08 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 10:07:08 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:07:08 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 10:07:08 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:07:08 AM : [1mInit vGINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:07:08 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 10:07:08 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:07:08 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 10:07:08 AM : [1mUsing the fixed _explain_ functionality
+[0mmitigation_virtual in vGINMolEncoder =  None
+[1;34mDEBUG[0m: 05/09/2024 10:07:08 AM : [1mInit CLF:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 10:07:08 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:07:08 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 10:07:08 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:07:08 AM : [1mInit vGINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:07:08 AM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 10:07:08 AM : [1mUsing the fixed _explain_ functionality
+[0mmitigation_virtual in vGINMolEncoder =  None
+[1;34mDEBUG[0m: 05/09/2024 10:07:08 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 82...
+[0m[1;37mINFO[0m: [1mCheckpoint 82: 
+-----------------------------------
+Train ROC-AUC: 0.9911
+Train Loss: 0.0431
+ID Validation ROC-AUC: 0.8503
+ID Validation Loss: 0.1485
+ID Test ROC-AUC: 0.8083
+ID Test Loss: 0.1421
+OOD Validation ROC-AUC: 0.7751
+OOD Validation Loss: 0.1501
+OOD Test ROC-AUC: 0.6717
+OOD Test Loss: 0.1245
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 76...
+[0m[1;37mINFO[0m: [1mCheckpoint 76: 
+-----------------------------------
+Train ROC-AUC: 0.9906
+Train Loss: 0.0461
+ID Validation ROC-AUC: 0.8310
+ID Validation Loss: 0.1652
+ID Test ROC-AUC: 0.8173
+ID Test Loss: 0.1510
+OOD Validation ROC-AUC: 0.7921
+OOD Validation Loss: 0.1494
+OOD Test ROC-AUC: 0.6742
+OOD Test Loss: 0.1246
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.8083 0.6717 0.8173 0.6742 0.8310 0.7921[0mGOODHIV(4108)
+Data example from test: Data(x=[19, 9], edge_index=[2, 40], edge_attr=[40, 3], y=[1, 1], smiles='Nc1ccc2nc3ccc(O)cc3nc2c1.[Na]S[Na]', idx=[1], scaffold='c1ccc2nc3ccccc3nc2c1', domain_id=[1], ori_edge_index=[2, 40], node_perm=[19])
+Label distribution from test: (tensor([0., 1.]), tensor([4027,   81]))
+[1;34mDEBUG[0m: 05/09/2024 10:07:08 AM : [1mUnbalanced warning for GOODHIV (test)
+[0mCreating balanced dataset: (tensor([0., 1.]), tensor([81, 81]))
+F1 for r=0.8 = nan
+WIoU for r=0.8 = nan
+
+
+Evaluating SUFF++ for seed 3 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=False)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model ROC-AUC of binarized graphs for r=0.8 =  0.52
+Model XAI F1 of binarized graphs for r=0.8 =  nan
+Model XAI WIoU of binarized graphs for r=0.8 =  nan
+len(reference) = 162
+Effective ratio: 0.810 +- 0.010
+Model ROC-AUC over intervened graphs for r=0.8 =  0.505
+SUFF++ for r=0.8 class 0.0 = 0.797 +- 0.148 (in-sample avg dev_std = 0.203)
+SUFF++ for r=0.8 class 1.0 = 0.812 +- 0.148 (in-sample avg dev_std = 0.203)
+SUFF++ for r=0.8 all KL = 0.901 +- 0.148 (in-sample avg dev_std = 0.203)
+SUFF++ for r=0.8 all L1 = 0.805 +- 0.197 (in-sample avg dev_std = 0.203)
+
+
+Evaluating NEC for seed 3 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=False)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model ROC-AUC of binarized graphs for r=0.8 =  0.52
+Model XAI F1 of binarized graphs for r=0.8 =  nan
+Model XAI WIoU of binarized graphs for r=0.8 =  nan
+len(reference) = 162
+Effective ratio: 0.810 +- 0.010
+Model ROC-AUC over intervened graphs for r=0.8 =  0.517
+NEC for r=0.8 class 0.0 = 0.146 +- 0.064 (in-sample avg dev_std = 0.081)
+NEC for r=0.8 class 1.0 = 0.124 +- 0.064 (in-sample avg dev_std = 0.081)
+NEC for r=0.8 all KL = 0.04 +- 0.064 (in-sample avg dev_std = 0.081)
+NEC for r=0.8 all L1 = 0.135 +- 0.147 (in-sample avg dev_std = 0.081)
+
+
+ -------------------------------------------------- 
+Printing evaluation results for load_split id
+
+
+
+Eval split test
+suff++ = [defaultdict(<class 'list'>, {'all_KL': [0.888], 'all_L1': [0.752]}), defaultdict(<class 'list'>, {'all_KL': [0.973], 'all_L1': [0.857]}), defaultdict(<class 'list'>, {'all_KL': [0.901], 'all_L1': [0.805]})]
+nec = [defaultdict(<class 'list'>, {'all_KL': [0.054], 'all_L1': [0.195]}), defaultdict(<class 'list'>, {'all_KL': [0.018], 'all_L1': [0.141]}), defaultdict(<class 'list'>, {'all_KL': [0.04], 'all_L1': [0.135]})]
+
+
+ -------------------------------------------------- 
+Printing evaluation averaged per seed
+
+Eval split test
+suff++ class all_L1  =  0.805 +- 0.043
+suff++ class all_KL  =  0.921 +- 0.037
+suff++_acc_int  =  0.518 +- 0.034
+nec class all_L1  =  0.157 +- 0.027
+nec class all_KL  =  0.037 +- 0.015
+nec_acc_int  =  0.526 +- 0.020
+
+
+ -------------------------------------------------- 
+Computing faithfulness
+
+Eval split test
+Faith. Aritm (L1)= 		  =  0.481 +- 0.013
+Faith. Armon (L1)= 		  =  0.261 +- 0.035
+Faith. GMean (L1)= 	  =  0.353 +- 0.022
+Faith. Aritm (KL)= 		  =  0.479 +- 0.012
+Faith. Armon (KL)= 		  =  0.071 +- 0.027
+Faith. GMean (KL)= 	  =  0.180 +- 0.036
+Computed for split load_split = id
+
+
+
+Completed in  0:00:56.064384  for CIGAvGIN GOODHIV/scaffold
+
+
+
+DONE CIGA GOODHIV/scaffold readout
+DONE all :)
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Thu May  9 10:08:51 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODCMNIST
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:52 AM : [1mLoading dataset with permuted nodes
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mLoading dataset with permuted nodes
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mLoading dataset with permuted nodes
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mLoading dataset with permuted nodes
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mLoading dataset with permuted nodes
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mDataset: {'train': GOODCMNIST(42000), 'id_val': GOODCMNIST(7000), 'id_test': GOODCMNIST(7000), 'val': GOODCMNIST(7000), 'test': GOODCMNIST(7000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1m Data(x=[75, 3], edge_index=[2, 1309], y=[1], pos=[75, 2], color=[1], env_id=[1], ori_edge_index=[2, 1309], node_perm=[75])
+[0mData(x=[75, 3], edge_index=[2, 1496], y=[1], pos=[75, 2], color=[1], env_id=[1], ori_edge_index=[2, 1496], node_perm=[75])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mCreating GINFeatExtractor:  5
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mUsing  3  layers for classifier
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  weighted
+[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mUsing feature sampling = feat
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mInit CIGAvGIN
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mInit Backbone:  5
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mCreating vGINFeatExtractor:  5
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mInit vGINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mInit CLF:  5
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mInit vGINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 05/09/2024 10:08:53 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 99...
+[0m[1;37mINFO[0m: [1mCheckpoint 99: 
+-----------------------------------
+Train ACCURACY: 0.6868
+Train Loss: 1.1340
+ID Validation ACCURACY: 0.6349
+ID Validation Loss: 1.4523
+ID Test ACCURACY: 0.6443
+ID Test Loss: 1.4493
+OOD Validation ACCURACY: 0.5267
+OOD Validation Loss: 2.4705
+OOD Test ACCURACY: 0.2393
+OOD Test Loss: 50.3153
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 85...
+[0m[1;37mINFO[0m: [1mCheckpoint 85: 
+-----------------------------------
+Train ACCURACY: 0.6818
+Train Loss: 1.0209
+ID Validation ACCURACY: 0.6344
+ID Validation Loss: 1.2867
+ID Test ACCURACY: 0.6417
+ID Test Loss: 1.2611
+OOD Validation ACCURACY: 0.5907
+OOD Validation Loss: 1.6844
+OOD Test ACCURACY: 0.2530
+OOD Test Loss: 30.3575
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.6443 0.2393 0.6417 0.2530 0.6344 0.5907[0mGOODCMNIST(7000)
+Data example from test: Data(x=[75, 3], edge_index=[2, 1431], y=[1], pos=[75, 2], color=[1], env_id=[1], ori_edge_index=[2, 1431], node_perm=[75])
+Label distribution from test: (tensor([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]), tensor([716, 781, 751, 697, 673, 616, 676, 705, 705, 680]))
+F1 for r=0.6 = nan
+WIoU for r=0.6 = nan
+
+
+Evaluating SUFF++ for seed 1 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=False)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.241
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.600 +- 0.000
+Model Accuracy over intervened graphs for r=0.6 =  0.168
+SUFF++ for r=0.6 class 0 = 0.487 +- 0.459 (in-sample avg dev_std = 0.496)
+SUFF++ for r=0.6 class 1 = 0.99 +- 0.459 (in-sample avg dev_std = 0.496)
+SUFF++ for r=0.6 class 2 = 0.511 +- 0.459 (in-sample avg dev_std = 0.496)
+SUFF++ for r=0.6 class 3 = 0.529 +- 0.459 (in-sample avg dev_std = 0.496)
+SUFF++ for r=0.6 class 4 = 0.774 +- 0.459 (in-sample avg dev_std = 0.496)
+SUFF++ for r=0.6 class 5 = 0.549 +- 0.459 (in-sample avg dev_std = 0.496)
+SUFF++ for r=0.6 class 6 = 0.799 +- 0.459 (in-sample avg dev_std = 0.496)
+SUFF++ for r=0.6 class 7 = 0.709 +- 0.459 (in-sample avg dev_std = 0.496)
+SUFF++ for r=0.6 class 8 = 0.666 +- 0.459 (in-sample avg dev_std = 0.496)
+SUFF++ for r=0.6 class 9 = 0.873 +- 0.459 (in-sample avg dev_std = 0.496)
+SUFF++ for r=0.6 all KL = 0.575 +- 0.459 (in-sample avg dev_std = 0.496)
+SUFF++ for r=0.6 all L1 = 0.691 +- 0.350 (in-sample avg dev_std = 0.496)
+
+
+Evaluating NEC for seed 1 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=False)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.241
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.600 +- 0.000
+Model Accuracy over intervened graphs for r=0.6 =  0.272
+NEC for r=0.6 class 0 = 0.494 +- 0.422 (in-sample avg dev_std = 0.393)
+NEC for r=0.6 class 1 = 0.017 +- 0.422 (in-sample avg dev_std = 0.393)
+NEC for r=0.6 class 2 = 0.689 +- 0.422 (in-sample avg dev_std = 0.393)
+NEC for r=0.6 class 3 = 0.592 +- 0.422 (in-sample avg dev_std = 0.393)
+NEC for r=0.6 class 4 = 0.495 +- 0.422 (in-sample avg dev_std = 0.393)
+NEC for r=0.6 class 5 = 0.609 +- 0.422 (in-sample avg dev_std = 0.393)
+NEC for r=0.6 class 6 = 0.527 +- 0.422 (in-sample avg dev_std = 0.393)
+NEC for r=0.6 class 7 = 0.558 +- 0.422 (in-sample avg dev_std = 0.393)
+NEC for r=0.6 class 8 = 0.503 +- 0.422 (in-sample avg dev_std = 0.393)
+NEC for r=0.6 class 9 = 0.296 +- 0.422 (in-sample avg dev_std = 0.393)
+NEC for r=0.6 all KL = 0.664 +- 0.422 (in-sample avg dev_std = 0.393)
+NEC for r=0.6 all L1 = 0.473 +- 0.357 (in-sample avg dev_std = 0.393)
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Thu May  9 10:11:21 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODCMNIST
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mLoading dataset with permuted nodes
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mLoading dataset with permuted nodes
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mLoading dataset with permuted nodes
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mLoading dataset with permuted nodes
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mLoading dataset with permuted nodes
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mDataset: {'train': GOODCMNIST(42000), 'id_val': GOODCMNIST(7000), 'id_test': GOODCMNIST(7000), 'val': GOODCMNIST(7000), 'test': GOODCMNIST(7000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1m Data(x=[75, 3], edge_index=[2, 1309], y=[1], pos=[75, 2], color=[1], env_id=[1], ori_edge_index=[2, 1309], node_perm=[75])
+[0mData(x=[75, 3], edge_index=[2, 1496], y=[1], pos=[75, 2], color=[1], env_id=[1], ori_edge_index=[2, 1496], node_perm=[75])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mCreating GINFeatExtractor:  5
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mUsing  3  layers for classifier
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  weighted
+[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mUsing feature sampling = feat
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mInit CIGAvGIN
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mInit Backbone:  5
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mCreating vGINFeatExtractor:  5
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mInit vGINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mInit CLF:  5
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mInit vGINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 05/09/2024 10:11:22 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 78...
+[0m[1;37mINFO[0m: [1mCheckpoint 78: 
+-----------------------------------
+Train ACCURACY: 0.3406
+Train Loss: 2.8099
+ID Validation ACCURACY: 0.3361
+ID Validation Loss: 2.8348
+ID Test ACCURACY: 0.3410
+ID Test Loss: 2.8208
+OOD Validation ACCURACY: 0.3401
+OOD Validation Loss: 3.0656
+OOD Test ACCURACY: 0.2519
+OOD Test Loss: 4.4899
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 78...
+[0m[1;37mINFO[0m: [1mCheckpoint 78: 
+-----------------------------------
+Train ACCURACY: 0.3406
+Train Loss: 2.8099
+ID Validation ACCURACY: 0.3361
+ID Validation Loss: 2.8348
+ID Test ACCURACY: 0.3410
+ID Test Loss: 2.8208
+OOD Validation ACCURACY: 0.3401
+OOD Validation Loss: 3.0656
+OOD Test ACCURACY: 0.2519
+OOD Test Loss: 4.4899
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.3410 0.2519 0.3410 0.2519 0.3361 0.3401[0mGOODCMNIST(7000)
+Data example from test: Data(x=[75, 3], edge_index=[2, 1431], y=[1], pos=[75, 2], color=[1], env_id=[1], ori_edge_index=[2, 1431], node_perm=[75])
+Label distribution from test: (tensor([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]), tensor([716, 781, 751, 697, 673, 616, 676, 705, 705, 680]))
+F1 for r=0.6 = nan
+WIoU for r=0.6 = nan
+
+
+Evaluating SUFF++ for seed 2 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=False)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.241
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.600 +- 0.000
+Model Accuracy over intervened graphs for r=0.6 =  0.208
+SUFF++ for r=0.6 class 0 = 0.262 +- 0.288 (in-sample avg dev_std = 0.509)
+SUFF++ for r=0.6 class 1 = 0.805 +- 0.288 (in-sample avg dev_std = 0.509)
+SUFF++ for r=0.6 class 2 = 0.237 +- 0.288 (in-sample avg dev_std = 0.509)
+SUFF++ for r=0.6 class 3 = 0.251 +- 0.288 (in-sample avg dev_std = 0.509)
+SUFF++ for r=0.6 class 4 = 0.205 +- 0.288 (in-sample avg dev_std = 0.509)
+SUFF++ for r=0.6 class 5 = 0.249 +- 0.288 (in-sample avg dev_std = 0.509)
+SUFF++ for r=0.6 class 6 = 0.223 +- 0.288 (in-sample avg dev_std = 0.509)
+SUFF++ for r=0.6 class 7 = 0.258 +- 0.288 (in-sample avg dev_std = 0.509)
+SUFF++ for r=0.6 class 8 = 0.24 +- 0.288 (in-sample avg dev_std = 0.509)
+SUFF++ for r=0.6 class 9 = 0.248 +- 0.288 (in-sample avg dev_std = 0.509)
+SUFF++ for r=0.6 all KL = 0.139 +- 0.288 (in-sample avg dev_std = 0.509)
+SUFF++ for r=0.6 all L1 = 0.304 +- 0.219 (in-sample avg dev_std = 0.509)
+
+
+Evaluating NEC for seed 2 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=False)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.241
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.600 +- 0.000
+Model Accuracy over intervened graphs for r=0.6 =  0.228
+NEC for r=0.6 class 0 = 0.538 +- 0.222 (in-sample avg dev_std = 0.273)
+NEC for r=0.6 class 1 = 0.229 +- 0.222 (in-sample avg dev_std = 0.273)
+NEC for r=0.6 class 2 = 0.518 +- 0.222 (in-sample avg dev_std = 0.273)
+NEC for r=0.6 class 3 = 0.521 +- 0.222 (in-sample avg dev_std = 0.273)
+NEC for r=0.6 class 4 = 0.497 +- 0.222 (in-sample avg dev_std = 0.273)
+NEC for r=0.6 class 5 = 0.527 +- 0.222 (in-sample avg dev_std = 0.273)
+NEC for r=0.6 class 6 = 0.523 +- 0.222 (in-sample avg dev_std = 0.273)
+NEC for r=0.6 class 7 = 0.522 +- 0.222 (in-sample avg dev_std = 0.273)
+NEC for r=0.6 class 8 = 0.533 +- 0.222 (in-sample avg dev_std = 0.273)
+NEC for r=0.6 class 9 = 0.523 +- 0.222 (in-sample avg dev_std = 0.273)
+NEC for r=0.6 all KL = 0.429 +- 0.222 (in-sample avg dev_std = 0.273)
+NEC for r=0.6 all L1 = 0.49 +- 0.182 (in-sample avg dev_std = 0.273)
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Thu May  9 10:13:46 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODCMNIST
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mLoading dataset with permuted nodes
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mLoading dataset with permuted nodes
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mLoading dataset with permuted nodes
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mLoading dataset with permuted nodes
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mLoading dataset with permuted nodes
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mDataset: {'train': GOODCMNIST(42000), 'id_val': GOODCMNIST(7000), 'id_test': GOODCMNIST(7000), 'val': GOODCMNIST(7000), 'test': GOODCMNIST(7000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1m Data(x=[75, 3], edge_index=[2, 1309], y=[1], pos=[75, 2], color=[1], env_id=[1], ori_edge_index=[2, 1309], node_perm=[75])
+[0mData(x=[75, 3], edge_index=[2, 1496], y=[1], pos=[75, 2], color=[1], env_id=[1], ori_edge_index=[2, 1496], node_perm=[75])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mCreating GINFeatExtractor:  5
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mUsing  3  layers for classifier
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  weighted
+[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mUsing feature sampling = feat
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mInit CIGAvGIN
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mInit Backbone:  5
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mCreating vGINFeatExtractor:  5
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mInit vGINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mInit CLF:  5
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mInit vGINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 05/09/2024 10:13:47 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 90...
+[0m[1;37mINFO[0m: [1mCheckpoint 90: 
+-----------------------------------
+Train ACCURACY: 0.7166
+Train Loss: 0.8744
+ID Validation ACCURACY: 0.6586
+ID Validation Loss: 1.1864
+ID Test ACCURACY: 0.6627
+ID Test Loss: 1.1704
+OOD Validation ACCURACY: 0.5016
+OOD Validation Loss: 2.0563
+OOD Test ACCURACY: 0.2053
+OOD Test Loss: 7.1389
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 29...
+[0m[1;37mINFO[0m: [1mCheckpoint 29: 
+-----------------------------------
+Train ACCURACY: 0.5742
+Train Loss: 1.2504
+ID Validation ACCURACY: 0.5544
+ID Validation Loss: 1.3208
+ID Test ACCURACY: 0.5559
+ID Test Loss: 1.3027
+OOD Validation ACCURACY: 0.5757
+OOD Validation Loss: 1.2810
+OOD Test ACCURACY: 0.2889
+OOD Test Loss: 2.5977
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.6627 0.2053 0.5559 0.2889 0.5544 0.5757[0mGOODCMNIST(7000)
+Data example from test: Data(x=[75, 3], edge_index=[2, 1431], y=[1], pos=[75, 2], color=[1], env_id=[1], ori_edge_index=[2, 1431], node_perm=[75])
+Label distribution from test: (tensor([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]), tensor([716, 781, 751, 697, 673, 616, 676, 705, 705, 680]))
+F1 for r=0.6 = nan
+WIoU for r=0.6 = nan
+
+
+Evaluating SUFF++ for seed 3 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=False)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.188
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.600 +- 0.000
+Model Accuracy over intervened graphs for r=0.6 =  0.188
+SUFF++ for r=0.6 class 0 = 0.304 +- 0.305 (in-sample avg dev_std = 0.528)
+SUFF++ for r=0.6 class 1 = 0.76 +- 0.305 (in-sample avg dev_std = 0.528)
+SUFF++ for r=0.6 class 2 = 0.308 +- 0.305 (in-sample avg dev_std = 0.528)
+SUFF++ for r=0.6 class 3 = 0.338 +- 0.305 (in-sample avg dev_std = 0.528)
+SUFF++ for r=0.6 class 4 = 0.355 +- 0.305 (in-sample avg dev_std = 0.528)
+SUFF++ for r=0.6 class 5 = 0.352 +- 0.305 (in-sample avg dev_std = 0.528)
+SUFF++ for r=0.6 class 6 = 0.396 +- 0.305 (in-sample avg dev_std = 0.528)
+SUFF++ for r=0.6 class 7 = 0.405 +- 0.305 (in-sample avg dev_std = 0.528)
+SUFF++ for r=0.6 class 8 = 0.381 +- 0.305 (in-sample avg dev_std = 0.528)
+SUFF++ for r=0.6 class 9 = 0.468 +- 0.305 (in-sample avg dev_std = 0.528)
+SUFF++ for r=0.6 all KL = 0.255 +- 0.305 (in-sample avg dev_std = 0.528)
+SUFF++ for r=0.6 all L1 = 0.411 +- 0.254 (in-sample avg dev_std = 0.528)
+
+
+Evaluating NEC for seed 3 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=False)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.188
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.600 +- 0.000
+Model Accuracy over intervened graphs for r=0.6 =  0.168
+NEC for r=0.6 class 0 = 0.591 +- 0.303 (in-sample avg dev_std = 0.376)
+NEC for r=0.6 class 1 = 0.185 +- 0.303 (in-sample avg dev_std = 0.376)
+NEC for r=0.6 class 2 = 0.594 +- 0.303 (in-sample avg dev_std = 0.376)
+NEC for r=0.6 class 3 = 0.529 +- 0.303 (in-sample avg dev_std = 0.376)
+NEC for r=0.6 class 4 = 0.487 +- 0.303 (in-sample avg dev_std = 0.376)
+NEC for r=0.6 class 5 = 0.571 +- 0.303 (in-sample avg dev_std = 0.376)
+NEC for r=0.6 class 6 = 0.463 +- 0.303 (in-sample avg dev_std = 0.376)
+NEC for r=0.6 class 7 = 0.48 +- 0.303 (in-sample avg dev_std = 0.376)
+NEC for r=0.6 class 8 = 0.477 +- 0.303 (in-sample avg dev_std = 0.376)
+NEC for r=0.6 class 9 = 0.366 +- 0.303 (in-sample avg dev_std = 0.376)
+NEC for r=0.6 all KL = 0.508 +- 0.303 (in-sample avg dev_std = 0.376)
+NEC for r=0.6 all L1 = 0.471 +- 0.247 (in-sample avg dev_std = 0.376)
+
+
+ -------------------------------------------------- 
+Printing evaluation results for load_split id
+
+
+
+Eval split test
+suff++ = [defaultdict(<class 'list'>, {'all_KL': [0.575], 'all_L1': [0.691]}), defaultdict(<class 'list'>, {'all_KL': [0.139], 'all_L1': [0.304]}), defaultdict(<class 'list'>, {'all_KL': [0.255], 'all_L1': [0.411]})]
+nec = [defaultdict(<class 'list'>, {'all_KL': [0.664], 'all_L1': [0.473]}), defaultdict(<class 'list'>, {'all_KL': [0.429], 'all_L1': [0.49]}), defaultdict(<class 'list'>, {'all_KL': [0.508], 'all_L1': [0.471]})]
+
+
+ -------------------------------------------------- 
+Printing evaluation averaged per seed
+
+Eval split test
+suff++ class all_L1  =  0.469 +- 0.163
+suff++ class all_KL  =  0.323 +- 0.184
+suff++_acc_int  =  0.188 +- 0.016
+nec class all_L1  =  0.478 +- 0.009
+nec class all_KL  =  0.534 +- 0.098
+nec_acc_int  =  0.223 +- 0.043
+
+
+ -------------------------------------------------- 
+Computing faithfulness
+
+Eval split test
+Faith. Aritm (L1)= 		  =  0.473 +- 0.079
+Faith. Armon (L1)= 		  =  0.459 +- 0.077
+Faith. GMean (L1)= 	  =  0.466 +- 0.078
+Faith. Aritm (KL)= 		  =  0.428 +- 0.141
+Faith. Armon (KL)= 		  =  0.389 +- 0.169
+Faith. GMean (KL)= 	  =  0.407 +- 0.156
+Computed for split load_split = id
+
+
+
+Completed in  0:07:23.892744  for CIGAvGIN GOODCMNIST/color
+
+
+
+DONE CIGA GOODCMNIST/color readout
+DONE all :)
+Time to compute metrics!
+Traceback (most recent call last):
+  File "/mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/goodtg", line 33, in <module>
+    sys.exit(load_entry_point('graph-ood', 'console_scripts', 'goodtg')())
+  File "/mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/goodtg", line 25, in importlib_load_entry_point
+    return next(matches).load()
+  File "/mnt/cimec-storage6/users/steve.azzolin/miniconda3/lib/python3.8/importlib/metadata.py", line 77, in load
+    module = import_module(match.group('module'))
+  File "/mnt/cimec-storage6/users/steve.azzolin/miniconda3/lib/python3.8/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 961, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 961, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 975, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 671, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/__init__.py", line 1, in <module>
+    from .utils import config_summoner, args_parser
+  File "/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/__init__.py", line 5, in <module>
+    from .config_reader import config_summoner
+  File "/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py", line 11, in <module>
+    import torch
+  File "/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch/__init__.py", line 1437, in <module>
+    from torch import hub as hub
+  File "/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch/hub.py", line 17, in <module>
+    from urllib.request import urlopen, Request
+  File "/mnt/cimec-storage6/users/steve.azzolin/miniconda3/lib/python3.8/urllib/request.py", line 88, in <module>
+    import http.client
+  File "/mnt/cimec-storage6/users/steve.azzolin/miniconda3/lib/python3.8/http/client.py", line 72, in <module>
+    import email.message
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 975, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 671, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 839, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 971, in get_code
+  File "<frozen importlib._bootstrap_external>", line 640, in _compile_bytecode
+KeyboardInterrupt
+Time to compute metrics!
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Thu May  9 16:07:35 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset LBAPcore
+[0m[1;34mDEBUG[0m: 05/09/2024 04:07:36 PM : [1mPermuting node indices to remove explanation bias for train
+[0m[1;34mDEBUG[0m: 05/09/2024 04:08:10 PM : [1mPermuting node indices to remove explanation bias for id_val
+[0m[1;34mDEBUG[0m: 05/09/2024 04:08:21 PM : [1mPermuting node indices to remove explanation bias for id_test
+[0m[1;34mDEBUG[0m: 05/09/2024 04:08:32 PM : [1mPermuting node indices to remove explanation bias for val
+[0m[1;34mDEBUG[0m: 05/09/2024 04:08:49 PM : [1mPermuting node indices to remove explanation bias for test
+[0m[1;34mDEBUG[0m: 05/09/2024 04:09:06 PM : [1mDataset: {'train': LBAPcore(34179), 'id_val': LBAPcore(11314), 'id_test': LBAPcore(11683), 'val': LBAPcore(19028), 'test': LBAPcore(19032), 'task': 'Binary classification', 'metric': 'ROC-AUC'}
+[0m[1;34mDEBUG[0m: 05/09/2024 04:09:06 PM : [1m Data(x=[31, 39], edge_index=[2, 68], edge_attr=[68, 10], y=[1, 1], env_id=[1], ori_edge_index=[2, 68], node_perm=[31])
+[0mData(x=[30, 39], edge_index=[2, 66], edge_attr=[66, 10], y=[1, 1], env_id=[1], ori_edge_index=[2, 66], node_perm=[30])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/09/2024 04:09:06 PM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 05/09/2024 04:09:06 PM : [1mCreating GINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 04:09:06 PM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 04:09:06 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 04:09:06 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 04:09:06 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 04:09:06 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 04:09:06 PM : [1mUsing  1  layers for classifier
+[0m[1;34mDEBUG[0m: 05/09/2024 04:09:06 PM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  weighted
+[1;34mDEBUG[0m: 05/09/2024 04:09:06 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 04:09:06 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 04:09:06 PM : [1mUsing feature sampling = feat
+[0m[1;34mDEBUG[0m: 05/09/2024 04:09:06 PM : [1mInit CIGAvGIN
+[0m[1;34mDEBUG[0m: 05/09/2024 04:09:06 PM : [1mInit Backbone:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 04:09:06 PM : [1mCreating vGINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 04:09:06 PM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 04:09:06 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 04:09:06 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 04:09:06 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 04:09:06 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 04:09:06 PM : [1mInit vGINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 04:09:06 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 04:09:06 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 04:09:06 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 04:09:06 PM : [1mUsing the fixed _explain_ functionality
+[0mmitigation_virtual in vGINMolEncoder =  None
+[1;34mDEBUG[0m: 05/09/2024 04:09:06 PM : [1mInit CLF:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 04:09:06 PM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 04:09:06 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 04:09:06 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 04:09:06 PM : [1mInit vGINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 04:09:06 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 04:09:06 PM : [1mUsing the fixed _explain_ functionality
+[0mmitigation_virtual in vGINMolEncoder =  None
+[1;34mDEBUG[0m: 05/09/2024 04:09:06 PM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 64...
+[0m[1;37mINFO[0m: [1mCheckpoint 64: 
+-----------------------------------
+Train ROC-AUC: 0.9925
+Train Loss: 0.0975
+ID Validation ROC-AUC: 0.9178
+ID Validation Loss: 0.3060
+ID Test ROC-AUC: 0.9170
+ID Test Loss: 0.3147
+OOD Validation ROC-AUC: 0.6215
+OOD Validation Loss: 0.5097
+OOD Test ROC-AUC: 0.6702
+OOD Test Loss: 0.7230
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 8...
+[0m[1;37mINFO[0m: [1mCheckpoint 8: 
+-----------------------------------
+Train ROC-AUC: 0.8878
+Train Loss: 0.2467
+ID Validation ROC-AUC: 0.8703
+ID Validation Loss: 0.2604
+ID Test ROC-AUC: 0.8722
+ID Test Loss: 0.2607
+OOD Validation ROC-AUC: 0.6813
+OOD Validation Loss: 0.3373
+OOD Test ROC-AUC: 0.6909
+OOD Test Loss: 0.4560
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9170 0.6702 0.8722 0.6909 0.8703 0.6813[0mLBAPcore(19032)
+Data example from test: Data(x=[28, 39], edge_index=[2, 64], edge_attr=[64, 10], y=[1, 1], env_id=[1], ori_edge_index=[2, 64], node_perm=[28])
+Label distribution from test: (tensor([0., 1.]), tensor([ 3168, 15864]))
+[1;34mDEBUG[0m: 05/09/2024 04:09:07 PM : [1mUnbalanced warning for LBAPcore (test)
+[0mF1 for r=0.6 = nan
+WIoU for r=0.6 = nan
+
+
+Evaluating SUFF++ for seed 1 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=False)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model ROC-AUC of binarized graphs for r=0.6 =  0.645
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.608 +- 0.006
+Model ROC-AUC over intervened graphs for r=0.6 =  0.604
+SUFF++ for r=0.6 class 0.0 = 0.986 +- 0.014 (in-sample avg dev_std = 0.014)
+SUFF++ for r=0.6 class 1.0 = 0.995 +- 0.014 (in-sample avg dev_std = 0.014)
+SUFF++ for r=0.6 all KL = 0.997 +- 0.014 (in-sample avg dev_std = 0.014)
+SUFF++ for r=0.6 all L1 = 0.994 +- 0.027 (in-sample avg dev_std = 0.014)
+
+
+Evaluating NEC for seed 1 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=False)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model ROC-AUC of binarized graphs for r=0.6 =  0.645
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.608 +- 0.006
+Model ROC-AUC over intervened graphs for r=0.6 =  0.644
+NEC for r=0.6 class 0.0 = 0.009 +- 0.005 (in-sample avg dev_std = 0.009)
+NEC for r=0.6 class 1.0 = 0.003 +- 0.005 (in-sample avg dev_std = 0.009)
+NEC for r=0.6 all KL = 0.001 +- 0.005 (in-sample avg dev_std = 0.009)
+NEC for r=0.6 all L1 = 0.004 +- 0.018 (in-sample avg dev_std = 0.009)
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Thu May  9 16:09:43 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset LBAPcore
+[0m[1;34mDEBUG[0m: 05/09/2024 04:09:44 PM : [1mPermuting node indices to remove explanation bias for train
+[0m[1;34mDEBUG[0m: 05/09/2024 04:10:17 PM : [1mPermuting node indices to remove explanation bias for id_val
+[0m[1;34mDEBUG[0m: 05/09/2024 04:10:28 PM : [1mPermuting node indices to remove explanation bias for id_test
+[0m[1;34mDEBUG[0m: 05/09/2024 04:10:39 PM : [1mPermuting node indices to remove explanation bias for val
+[0m[1;34mDEBUG[0m: 05/09/2024 04:10:59 PM : [1mPermuting node indices to remove explanation bias for test
+[0m[1;34mDEBUG[0m: 05/09/2024 04:11:16 PM : [1mDataset: {'train': LBAPcore(34179), 'id_val': LBAPcore(11314), 'id_test': LBAPcore(11683), 'val': LBAPcore(19028), 'test': LBAPcore(19032), 'task': 'Binary classification', 'metric': 'ROC-AUC'}
+[0m[1;34mDEBUG[0m: 05/09/2024 04:11:16 PM : [1m Data(x=[31, 39], edge_index=[2, 68], edge_attr=[68, 10], y=[1, 1], env_id=[1], ori_edge_index=[2, 68], node_perm=[31])
+[0mData(x=[30, 39], edge_index=[2, 66], edge_attr=[66, 10], y=[1, 1], env_id=[1], ori_edge_index=[2, 66], node_perm=[30])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/09/2024 04:11:16 PM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 05/09/2024 04:11:16 PM : [1mCreating GINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 04:11:16 PM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 04:11:16 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 04:11:16 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 04:11:16 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 04:11:16 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 04:11:16 PM : [1mUsing  1  layers for classifier
+[0m[1;34mDEBUG[0m: 05/09/2024 04:11:16 PM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  weighted
+[1;34mDEBUG[0m: 05/09/2024 04:11:16 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 04:11:16 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 04:11:16 PM : [1mUsing feature sampling = feat
+[0m[1;34mDEBUG[0m: 05/09/2024 04:11:16 PM : [1mInit CIGAvGIN
+[0m[1;34mDEBUG[0m: 05/09/2024 04:11:16 PM : [1mInit Backbone:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 04:11:16 PM : [1mCreating vGINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 04:11:16 PM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 04:11:16 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 04:11:16 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 04:11:16 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 04:11:16 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 04:11:16 PM : [1mInit vGINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 04:11:16 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 04:11:16 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 04:11:16 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 04:11:16 PM : [1mUsing the fixed _explain_ functionality
+[0mmitigation_virtual in vGINMolEncoder =  None
+[1;34mDEBUG[0m: 05/09/2024 04:11:16 PM : [1mInit CLF:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 04:11:16 PM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 04:11:16 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 04:11:16 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 04:11:16 PM : [1mInit vGINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 04:11:16 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 04:11:16 PM : [1mUsing the fixed _explain_ functionality
+[0mmitigation_virtual in vGINMolEncoder =  None
+[1;34mDEBUG[0m: 05/09/2024 04:11:16 PM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 71...
+[0m[1;37mINFO[0m: [1mCheckpoint 71: 
+-----------------------------------
+Train ROC-AUC: 0.9942
+Train Loss: 0.0721
+ID Validation ROC-AUC: 0.9179
+ID Validation Loss: 0.2928
+ID Test ROC-AUC: 0.9171
+ID Test Loss: 0.2997
+OOD Validation ROC-AUC: 0.6280
+OOD Validation Loss: 0.5802
+OOD Test ROC-AUC: 0.6756
+OOD Test Loss: 0.7411
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 2...
+[0m[1;37mINFO[0m: [1mCheckpoint 2: 
+-----------------------------------
+Train ROC-AUC: 0.8761
+Train Loss: 0.2569
+ID Validation ROC-AUC: 0.8739
+ID Validation Loss: 0.2600
+ID Test ROC-AUC: 0.8719
+ID Test Loss: 0.2637
+OOD Validation ROC-AUC: 0.6912
+OOD Validation Loss: 0.2846
+OOD Test ROC-AUC: 0.7078
+OOD Test Loss: 0.4249
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9171 0.6756 0.8719 0.7078 0.8739 0.6912[0mLBAPcore(19032)
+Data example from test: Data(x=[28, 39], edge_index=[2, 64], edge_attr=[64, 10], y=[1, 1], env_id=[1], ori_edge_index=[2, 64], node_perm=[28])
+Label distribution from test: (tensor([0., 1.]), tensor([ 3168, 15864]))
+[1;34mDEBUG[0m: 05/09/2024 04:11:16 PM : [1mUnbalanced warning for LBAPcore (test)
+[0mF1 for r=0.6 = nan
+WIoU for r=0.6 = nan
+
+
+Evaluating SUFF++ for seed 2 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=False)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model ROC-AUC of binarized graphs for r=0.6 =  0.634
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.608 +- 0.006
+Model ROC-AUC over intervened graphs for r=0.6 =  0.603
+SUFF++ for r=0.6 class 0.0 = 0.947 +- 0.011 (in-sample avg dev_std = 0.034)
+SUFF++ for r=0.6 class 1.0 = 0.966 +- 0.011 (in-sample avg dev_std = 0.034)
+SUFF++ for r=0.6 all KL = 0.993 +- 0.011 (in-sample avg dev_std = 0.034)
+SUFF++ for r=0.6 all L1 = 0.963 +- 0.039 (in-sample avg dev_std = 0.034)
+
+
+Evaluating NEC for seed 2 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=False)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model ROC-AUC of binarized graphs for r=0.6 =  0.634
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.608 +- 0.006
+Model ROC-AUC over intervened graphs for r=0.6 =  0.633
+NEC for r=0.6 class 0.0 = 0.037 +- 0.006 (in-sample avg dev_std = 0.016)
+NEC for r=0.6 class 1.0 = 0.023 +- 0.006 (in-sample avg dev_std = 0.016)
+NEC for r=0.6 all KL = 0.003 +- 0.006 (in-sample avg dev_std = 0.016)
+NEC for r=0.6 all L1 = 0.025 +- 0.031 (in-sample avg dev_std = 0.016)
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Thu May  9 16:11:50 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset LBAPcore
+[0m[1;34mDEBUG[0m: 05/09/2024 04:11:51 PM : [1mPermuting node indices to remove explanation bias for train
+[0m[1;34mDEBUG[0m: 05/09/2024 04:12:25 PM : [1mPermuting node indices to remove explanation bias for id_val
+[0m[1;34mDEBUG[0m: 05/09/2024 04:12:35 PM : [1mPermuting node indices to remove explanation bias for id_test
+[0m[1;34mDEBUG[0m: 05/09/2024 04:12:47 PM : [1mPermuting node indices to remove explanation bias for val
+[0m[1;34mDEBUG[0m: 05/09/2024 04:13:03 PM : [1mPermuting node indices to remove explanation bias for test
+[0m[1;34mDEBUG[0m: 05/09/2024 04:13:21 PM : [1mDataset: {'train': LBAPcore(34179), 'id_val': LBAPcore(11314), 'id_test': LBAPcore(11683), 'val': LBAPcore(19028), 'test': LBAPcore(19032), 'task': 'Binary classification', 'metric': 'ROC-AUC'}
+[0m[1;34mDEBUG[0m: 05/09/2024 04:13:21 PM : [1m Data(x=[31, 39], edge_index=[2, 68], edge_attr=[68, 10], y=[1, 1], env_id=[1], ori_edge_index=[2, 68], node_perm=[31])
+[0mData(x=[30, 39], edge_index=[2, 66], edge_attr=[66, 10], y=[1, 1], env_id=[1], ori_edge_index=[2, 66], node_perm=[30])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 05/09/2024 04:13:21 PM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 05/09/2024 04:13:21 PM : [1mCreating GINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 04:13:21 PM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 04:13:21 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 04:13:21 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 04:13:21 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 04:13:21 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 04:13:21 PM : [1mUsing  1  layers for classifier
+[0m[1;34mDEBUG[0m: 05/09/2024 04:13:21 PM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  weighted
+[1;34mDEBUG[0m: 05/09/2024 04:13:21 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 04:13:21 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 04:13:21 PM : [1mUsing feature sampling = feat
+[0m[1;34mDEBUG[0m: 05/09/2024 04:13:21 PM : [1mInit CIGAvGIN
+[0m[1;34mDEBUG[0m: 05/09/2024 04:13:21 PM : [1mInit Backbone:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 04:13:21 PM : [1mCreating vGINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 04:13:21 PM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 04:13:21 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 04:13:21 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 04:13:21 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 04:13:21 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 04:13:21 PM : [1mInit vGINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 04:13:21 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 04:13:21 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 04:13:22 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 04:13:22 PM : [1mUsing the fixed _explain_ functionality
+[0mmitigation_virtual in vGINMolEncoder =  None
+[1;34mDEBUG[0m: 05/09/2024 04:13:22 PM : [1mInit CLF:  3
+[0m[1;34mDEBUG[0m: 05/09/2024 04:13:22 PM : [1mInit GINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 04:13:22 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 04:13:22 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 05/09/2024 04:13:22 PM : [1mInit vGINFeatExtractor
+[0mmitigation_readout =  None
+[1;34mDEBUG[0m: 05/09/2024 04:13:22 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 05/09/2024 04:13:22 PM : [1mUsing the fixed _explain_ functionality
+[0mmitigation_virtual in vGINMolEncoder =  None
+[1;34mDEBUG[0m: 05/09/2024 04:13:22 PM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 33...
+[0m[1;37mINFO[0m: [1mCheckpoint 33: 
+-----------------------------------
+Train ROC-AUC: 0.9750
+Train Loss: 0.1417
+ID Validation ROC-AUC: 0.9182
+ID Validation Loss: 0.2388
+ID Test ROC-AUC: 0.9183
+ID Test Loss: 0.2437
+OOD Validation ROC-AUC: 0.6336
+OOD Validation Loss: 0.4159
+OOD Test ROC-AUC: 0.6692
+OOD Test Loss: 0.5811
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 3...
+[0m[1;37mINFO[0m: [1mCheckpoint 3: 
+-----------------------------------
+Train ROC-AUC: 0.8791
+Train Loss: 0.2903
+ID Validation ROC-AUC: 0.8687
+ID Validation Loss: 0.2995
+ID Test ROC-AUC: 0.8711
+ID Test Loss: 0.2998
+OOD Validation ROC-AUC: 0.6926
+OOD Validation Loss: 0.2862
+OOD Test ROC-AUC: 0.7124
+OOD Test Loss: 0.4811
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9183 0.6692 0.8711 0.7124 0.8687 0.6926[0mLBAPcore(19032)
+Data example from test: Data(x=[28, 39], edge_index=[2, 64], edge_attr=[64, 10], y=[1, 1], env_id=[1], ori_edge_index=[2, 64], node_perm=[28])
+Label distribution from test: (tensor([0., 1.]), tensor([ 3168, 15864]))
+[1;34mDEBUG[0m: 05/09/2024 04:13:22 PM : [1mUnbalanced warning for LBAPcore (test)
+[0mF1 for r=0.6 = nan
+WIoU for r=0.6 = nan
+
+
+Evaluating SUFF++ for seed 3 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=False)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model ROC-AUC of binarized graphs for r=0.6 =  0.674
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.608 +- 0.006
+Model ROC-AUC over intervened graphs for r=0.6 =  0.631
+SUFF++ for r=0.6 class 0.0 = 0.918 +- 0.020 (in-sample avg dev_std = 0.046)
+SUFF++ for r=0.6 class 1.0 = 0.951 +- 0.020 (in-sample avg dev_std = 0.046)
+SUFF++ for r=0.6 all KL = 0.984 +- 0.020 (in-sample avg dev_std = 0.046)
+SUFF++ for r=0.6 all L1 = 0.946 +- 0.060 (in-sample avg dev_std = 0.046)
+
+
+Evaluating NEC for seed 3 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=False)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model ROC-AUC of binarized graphs for r=0.6 =  0.674
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.608 +- 0.006
+Model ROC-AUC over intervened graphs for r=0.6 =  0.663
+NEC for r=0.6 class 0.0 = 0.063 +- 0.011 (in-sample avg dev_std = 0.021)
+NEC for r=0.6 class 1.0 = 0.032 +- 0.011 (in-sample avg dev_std = 0.021)
+NEC for r=0.6 all KL = 0.007 +- 0.011 (in-sample avg dev_std = 0.021)
+NEC for r=0.6 all L1 = 0.037 +- 0.050 (in-sample avg dev_std = 0.021)
+
+
+ -------------------------------------------------- 
+Printing evaluation results for load_split id
+
+
+
+Eval split test
+suff++ = [defaultdict(<class 'list'>, {'all_KL': [0.997], 'all_L1': [0.994]}), defaultdict(<class 'list'>, {'all_KL': [0.993], 'all_L1': [0.963]}), defaultdict(<class 'list'>, {'all_KL': [0.984], 'all_L1': [0.946]})]
+nec = [defaultdict(<class 'list'>, {'all_KL': [0.001], 'all_L1': [0.004]}), defaultdict(<class 'list'>, {'all_KL': [0.003], 'all_L1': [0.025]}), defaultdict(<class 'list'>, {'all_KL': [0.007], 'all_L1': [0.037]})]
+
+
+ -------------------------------------------------- 
+Printing evaluation averaged per seed
+
+Eval split test
+suff++ class all_L1  =  0.968 +- 0.020
+suff++ class all_KL  =  0.991 +- 0.005
+suff++_acc_int  =  0.613 +- 0.013
+nec class all_L1  =  0.022 +- 0.014
+nec class all_KL  =  0.004 +- 0.002
+nec_acc_int  =  0.647 +- 0.012
+
+
+ -------------------------------------------------- 
+Computing faithfulness
+
+Eval split test
+Faith. Aritm (L1)= 		  =  0.495 +- 0.003
+Faith. Armon (L1)= 		  =  0.043 +- 0.026
+Faith. GMean (L1)= 	  =  0.135 +- 0.053
+Faith. Aritm (KL)= 		  =  0.498 +- 0.001
+Faith. Armon (KL)= 		  =  0.007 +- 0.005
+Faith. GMean (KL)= 	  =  0.056 +- 0.021
+Computed for split load_split = id
+
+
+
+Completed in  0:06:22.988273  for CIGAvGIN LBAPcore/assay
+
+
+
+DONE CIGA LBAPcore/assay readout
+DONE all :)
