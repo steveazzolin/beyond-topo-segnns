@@ -223,7 +223,9 @@ class CIGAGIN(GNNBasic):
                 data.edge_attr = edge_attr_sorted  
             if hasattr(data, "edge_gt") and not data.edge_gt is None:
                 edge_index_sorted, edge_gt_sorted = coalesce(data.ori_edge_index, data.edge_gt, is_sorted=False)
-                data.edge_gt = edge_gt_sorted 
+                data.edge_gt = edge_gt_sorted
+            if hasattr(data, "causal_mask") and not data.causal_mask is None:
+                _, data.causal_mask = coalesce(data.ori_edge_index, data.causal_mask, is_sorted=False)
 
         if kwargs.get('return_attn', False):
             self.attn_distrib = self.att_net.gnn_node.encoder.get_attn_distrib()

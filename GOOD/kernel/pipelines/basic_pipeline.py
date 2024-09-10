@@ -66,6 +66,10 @@ class CustomDataset(InMemoryDataset):
                     data.node_gt = G.node_gt
                 if hasattr(G, "causal_mask"): # added for stability of detector analysis
                     data.causal_mask = G.causal_mask
+                if hasattr(G, "num_edge_removed"): # added for stability of detector analysis
+                    data.num_edge_removed = torch.tensor(G.num_edge_removed, dtype=torch.long)
+                else:
+                    data.num_edge_removed = torch.tensor(0, dtype=torch.long)
 
             if not hasattr(data, "ori_x"):
                 print(i, data, type(data))
@@ -75,6 +79,7 @@ class CustomDataset(InMemoryDataset):
 
             data.x = data.ori_x
             data.belonging = belonging[i]
+            data.idx = i
             
             # del data.num_nodes
             # del data.env_id
@@ -221,8 +226,8 @@ class Pipeline:
                     "id_test_score": id_test_stat["score"],
                     "val_score": np.nan,
                     "test_score": np.nan,
-                    "diff_concept_gamma": self.model.combinator.classifier[0].gamma.cpu().diff().item() 
-                                                    if self.config.global_side_channel == "simple_concept" else np.nan
+                    # "diff_concept_gamma": self.model.combinator.classifier[0].gamma.cpu().diff().item() 
+                    #                                 if self.config.global_side_channel == "simple_concept" else np.nan
             }, step=0)
 
 
@@ -261,8 +266,8 @@ class Pipeline:
 
                 mean_loss = (mean_loss * index + self.ood_algorithm.mean_loss) / (index + 1)
 
-                if self.config.wandb:
-                    edge_scores.append(self.ood_algorithm.edge_att.detach().cpu())
+                edge_scores.append(self.ood_algorithm.edge_att.detach().cpu()) # TODO: move inside config.wandb
+                if self.config.wandb:                    
                     for l in ("mean_loss", "spec_loss", "entropy_filternode_loss", "side_channel_loss"):
                         loss_per_batch_dict[l].append(getattr(self.ood_algorithm, l, np.nan))
 
@@ -307,7 +312,7 @@ class Pipeline:
 
             epoch_train_stat = self.evaluate(
                 'eval_train',
-                compute_wiou=(self.config.dataset.dataset_name == "TopoFeature" or self.config.dataset.dataset_name == "SimpleMotif") 
+                compute_wiou=(self.config.dataset.dataset_name == "TopoFeature" or self.config.dataset.dataset_name == "SimpleMotif" or self.config.dataset.dataset_name == "GOODMotif") 
                                 and 
                              self.config.model.model_name != "GIN"
             )
@@ -353,6 +358,8 @@ class Pipeline:
                 # test_stat = self.evaluate('test')
                 val_stat = id_val_stat
                 test_stat = id_test_stat
+
+            print("edge_weight: ", torch.cat(edge_scores, dim=0).min(), torch.cat(edge_scores, dim=0).max(), torch.cat(edge_scores, dim=0).mean())
 
             if self.config.wandb:
                 edge_scores = torch.cat(edge_scores, dim=0)
@@ -2305,6 +2312,43 @@ class Pipeline:
                     sampling_type=self.config.samplingtype,
                     budget=self.config.expval_budget
                 )
+
+                # intervened_graphs = []
+                # self.config.expval_budget
+                # for k in range(0, 2): # if not enough interventions, pad with sub-sampling
+                #     G_c = xai_utils.sample_edges_tensorized(
+                #         graphs[i],
+                #         nec_number_samples=self.config.nec_number_samples,
+                #         nec_alpha_1=self.config.nec_alpha_1,
+                #         avg_graph_size=avg_graph_size,
+                #         edge_index_to_remove=~graphs[i].causal_mask & ~graphs[i].edge_gt, # intervene outside of explanation and outside of GT
+                #         sampling_type=self.config.samplingtype,
+                #     )
+                #     intervened_graphs.append(G_c)
+
+                # print(len(intervened_graphs))
+                # g0 = to_networkx(graphs[i], edge_attrs=["edge_gt", "causal_mask"], node_attrs=["node_gt"], to_undirected=True)
+                # g1 = to_networkx(intervened_graphs[0], edge_attrs=["edge_gt", "causal_mask"], node_attrs=["node_gt"], to_undirected=True)
+                # g2 = to_networkx(intervened_graphs[1], edge_attrs=["edge_gt", "causal_mask"], node_attrs=["node_gt"], to_undirected=True)
+                # print(intervened_graphs[0].num_nodes)
+                # print(intervened_graphs[0].edge_index.shape)
+                # print(graphs[i].causal_mask)
+                # print(intervened_graphs[0].causal_mask)
+                # print(intervened_graphs[1].causal_mask)
+                # print(graphs[i].edge_index[:, graphs[i].causal_mask == True])
+                # print(intervened_graphs[0].edge_index[:, intervened_graphs[0].causal_mask == True])
+                # print(intervened_graphs[1].edge_index[:, intervened_graphs[1].causal_mask == True])
+                # # nx.set_edge_attributes(g0, "spu", "origin")
+                # # nx.set_edge_attributes(g1, "spu", "origin")
+                # # nx.set_edge_attributes(g2, "spu", "origin")
+                # nx.set_edge_attributes(g0, {(u,v): "inv" if val["causal_mask"] else "spu" for u,v,val in g0.edges(data=True)}, "origin")
+                # nx.set_edge_attributes(g1, {(u,v): "inv" if val["causal_mask"] else "spu" for u,v,val in g1.edges(data=True)}, "origin")
+                # nx.set_edge_attributes(g2, {(u,v): "inv" if val["causal_mask"] else "spu" for u,v,val in g2.edges(data=True)}, "origin")
+                # xai_utils.draw(self.config, g0, subfolder="plots_of_gt_stability_det", name=f"int_ori", title=50)
+                # xai_utils.draw(self.config, g1, subfolder="plots_of_gt_stability_det", name=f"int_{i}", title=50)
+                # xai_utils.draw(self.config, g2, subfolder="plots_of_gt_stability_det", name=f"int_{i}_1", title=50)
+                # exit()
+
                 if intervened_graphs is not None:
                     eval_samples.append(graphs[i])
                     reference.append(len(eval_samples) - 1)
@@ -2320,6 +2364,17 @@ class Pipeline:
 
             int_dataset = CustomDataset("", eval_samples, belonging)
             loader = DataLoader(int_dataset, batch_size=512, shuffle=False)
+
+            # print(int_dataset[0].causal_mask)
+            # print(int_dataset[0].edge_index)
+            # print()
+            # print(int_dataset[1].causal_mask)
+            # print(int_dataset[1].edge_index)
+            # print()
+
+            # tmp = iter(loader)
+            # print(next(tmp).edge_index)
+            # print(next(tmp).edge_index)
 
             # return explanations and make predictions
             plausibility_wious = torch.tensor([], device=self.config.device)
@@ -2342,10 +2397,12 @@ class Pipeline:
                 if "CIGA" in self.config.model.model_name:
                     explanations = explanations.sigmoid() # normalize scores for computing WIOU
 
+                # wrt GT
                 plausibility_wious = torch.cat(
                     (plausibility_wious, xai_utils.expl_acc_super_fast(data, explanations, reference_intersection=data.edge_gt)),
                     dim=0
                 )
+                # wrt predicted explanation
                 stability_wious = torch.cat(
                     (stability_wious, xai_utils.expl_acc_super_fast(data, explanations, reference_intersection=data.causal_mask)),
                     dim=0
@@ -2360,34 +2417,54 @@ class Pipeline:
                     dim=0
                 )
 
-                (causal_edge_index, _, _, causal_batch), \
-                    (spu_edge_index, _, _), mask = split_graph(
-                        data,
-                        explanations,
-                        ratio,
-                        return_batch=True
-                )     
+                
+                # DEBUG: Check that F1 and MCC scores are meaningful by plotting some examples
+                # (causal_edge_index, _, _, causal_batch), \
+                #     (spu_edge_index, _, _), mask_batch = split_graph(
+                #         data,
+                #         explanations,
+                #         ratio,
+                #         return_batch=True,
+                #         compensate_edge_removal=data.num_edge_removed
+                # )
+                # pos = None
+                # for j, d_ori in enumerate(data.to_data_list()):
+                #     d = d_ori.clone()
+                #     if j > 8:
+                #         exit("SUUU")
+                #     # Make mask and causal_mask both undirected. Othewrise there could be a mismatch since split_graph()
+                #     # does not always return both directionalities for a certain edge, while for intervened graphs 
+                #     # causal_mask is forced to do so.
+                #     mask = mask_batch[data.batch[data.edge_index[0]] == j]                    
+                #     row, col = d.edge_index
+                #     undirected = d.edge_index[:, row <= col]          
+                #     undirected_mask = mask[row <= col]
+                #     mask = torch.cat((undirected_mask, undirected_mask), dim=0)
+                #     d.edge_index = torch.cat((undirected, undirected.flip(0)), dim=1)
+                #     d.causal_mask = torch.cat((d.causal_mask[row <= col], d.causal_mask[row <= col]), dim=0)
 
-                # TODO: Check that F1 and MCC scores are meaningful by plotting some examples
-                pos = None
-                cumnum = torch.tensor([g.num_nodes for g in graphs]).cumsum(0)
-                cumnum[-1] = 0
-                for j, d in enumerate(data.to_data_list()):
-                    if j > 20:
-                        exit("SUUU")
+                #     cumnum = torch.tensor([g.num_nodes for g in data.to_data_list()]).cumsum(0)
+                #     cumnum[-1] = 0
+                #     causal_subgraph = causal_edge_index[:, data.batch[causal_edge_index[0]] == j] - cumnum[j-1]
+                #     spu_subgraph = spu_edge_index[:, data.batch[spu_edge_index[0]] == j] - cumnum[j-1]
 
-                    causal_subgraph = causal_edge_index[:, data.batch[causal_edge_index[0]] == j] - cumnum[j-1]
-                    spu_subgraph = spu_edge_index[:, data.batch[spu_edge_index[0]] == j] - cumnum[j-1]
+                #     # g = to_networkx(d_ori, node_attrs=["node_gt"], to_undirected=True)
+                #     # xai_utils.mark_edges(g, d_ori.edge_index, d_ori.edge_index[:, d_ori.edge_gt == 1], inv_edge_w=explanations[data.batch[data.edge_index[0]] == j])
+                #     # pos_here = xai_utils.draw(self.config, g, subfolder="plots_of_gt_stability_det", name=f"expl_{i}_{j}", title=f"vediamo {50}", pos=pos)
+                #     g = to_networkx(d, node_attrs=["node_gt"], to_undirected=True)
+                #     xai_utils.mark_edges(g, causal_subgraph, spu_subgraph)
+                #     pos_here = xai_utils.draw(self.config, g, subfolder="plots_of_gt_stability_det", name=f"expl_{i}_{j}", pos=pos, title=50)
+                                        
+                #     print("causal_mask = ", torch.argwhere(d.causal_mask==True).flatten())
+                #     print(d.edge_index[:, torch.argwhere(d.causal_mask==True).flatten()])
 
-                    g = to_networkx(d, node_attrs=["node_gt"], to_undirected=True)
-                    # xai_utils.mark_edges(g, d.edge_index, d.edge_index[:, d.edge_gt == 1], inv_edge_w=explanations[data.batch[data.edge_index[0]] == j])
-                    # pos_here = xai_utils.draw(self.config, g, subfolder="plots_of_gt_stability_det", name=f"expl_{j}", title=f"vediamo {50}", pos=pos)
-                    xai_utils.mark_edges(g, causal_subgraph, spu_subgraph)
-                    pos_here = xai_utils.draw(self.config, g, subfolder="plots_of_gt_stability_det", name=f"graph_{i}", pos=pos, title=50)
-                    print(f"{j}: {plausibility_wious[j]} - {stability_wious[j]} - {stability_mcc[j]} - {stability_f1[j]}")
-                    if j % self.config.expval_budget == 0:
-                        pos = pos_here
+                #     print("mask = ", torch.argwhere(mask==True).flatten())
+                #     print(d.edge_index[:, torch.argwhere(mask==True).flatten()])                    
 
+                #     print(f"{j}: {plausibility_wious[j]} - {stability_wious[j]} - {stability_mcc[j]} - {stability_f1[j]}")
+                #     print("\n\n")
+                #     if j % self.config.expval_budget == 0:
+                #         pos = pos_here
 
                 # threshold explanation before feeding to classifier
             #     (causal_edge_index, causal_edge_attr, edge_att), _ = split_graph(data, edge_score, ratio)

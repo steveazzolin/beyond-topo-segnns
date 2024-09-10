@@ -120,11 +120,12 @@ class LECIGIN(GNNBasic):
                 else:
                     # data.ori_edge_index = data.edge_index.detach().clone() #for backup and debug
                     if not data.edge_attr is None:
-                        edge_index_sorted, data.edge_attr = coalesce(data.edge_index, data.edge_attr, is_sorted=False)                    
+                        edge_index_sorted, data.edge_attr = coalesce(data.edge_index, data.edge_attr, is_sorted=False)
                         # assert torch.all(
                         #     torch.tensor([edge_index_sorted.T[i][0] == data.edge_index.T[i][0] and edge_index_sorted.T[i][1] == data.edge_index.T[i][1] 
                         #                 for i in range(len(data.edge_index.T))])
                         # )
+                    
                     data.edge_index, edge_att = to_undirected(data.edge_index, att.squeeze(-1), reduce="mean")
                 # for i, (u,v) in enumerate(data.edge_index.T):
                 #     if u == 0 or v == 0:
@@ -316,6 +317,8 @@ class LECIGIN(GNNBasic):
                         _, data.edge_attr = coalesce(data.edge_index, data.edge_attr, is_sorted=False)
                     if hasattr(data, "edge_gt") and not data.edge_gt is None:
                         _, data.edge_gt = coalesce(data.edge_index, data.edge_gt, is_sorted=False)
+                    if hasattr(data, "causal_mask") and not data.causal_mask is None:
+                        _, data.causal_mask = coalesce(data.edge_index, data.causal_mask, is_sorted=False)
                     data.edge_index, edge_att = to_undirected(data.edge_index, att.squeeze(-1), reduce="mean")
 
                     # for i, (u,v) in enumerate(data.edge_index.T):

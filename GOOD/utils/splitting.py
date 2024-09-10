@@ -1,7 +1,7 @@
 import torch
 from torch_geometric.utils import degree, cumsum, scatter, softmax
 
-def split_graph(data, edge_score, ratio, debug=False, return_batch=False):
+def split_graph(data, edge_score, ratio, debug=False, return_batch=False, compensate_edge_removal=None):
     # if debug:
     #     print("\nstarting")
     #     for i in range(6):
@@ -23,7 +23,7 @@ def split_graph(data, edge_score, ratio, debug=False, return_batch=False):
         index = data.batch[data.edge_index[0]]
     
     # new_idx_reserve, new_idx_drop, _, perm, mask = sparse_topk(edge_score, data.batch[data.edge_index[0]], ratio, descending=True, debug=debug)
-    new_idx_reserve, new_idx_drop, perm, mask = topK(edge_score, ratio, index, min_score=None, debug=debug)    
+    new_idx_reserve, new_idx_drop, perm, mask = topK(edge_score, ratio, index, min_score=None, debug=debug, compensate_edge_removal=compensate_edge_removal)
     
     if debug:
         index = data.batch[data.edge_index[0]]
@@ -125,7 +125,7 @@ def relabel(x, edge_index, batch, pos=None):
         pos = pos[sub_nodes]
     return x, edge_index, batch, pos
 
-def topK(x, ratio, batch, min_score, tol=1e-7, debug=False):
+def topK(x, ratio, batch, min_score, tol=1e-7, debug=False, compensate_edge_removal=None):
     if min_score is not None:
         # Make sure that we do not drop all nodes in a graph.
         scores_max = scatter(x, batch, reduce='max')[batch] - tol
@@ -138,25 +138,28 @@ def topK(x, ratio, batch, min_score, tol=1e-7, debug=False):
         return torch.arange(x.shape[0], device=x.device), torch.tensor([], dtype=torch.long), None, None
 
     if ratio is not None:
-        num_nodes = scatter(batch.new_ones(x.size(0)), batch, reduce='sum')
+        num_edges = scatter(batch.new_ones(x.size(0)), batch, reduce='sum')
+
         if ratio >= 1:
-            k = num_nodes.new_full((num_nodes.size(0), ), int(ratio))
+            k = num_edges.new_full((num_edges.size(0), ), int(ratio))
         else:
-            k = (float(ratio) * num_nodes.to(x.dtype)).ceil().to(torch.long)
+            if compensate_edge_removal is not None:
+                # When applying perturbations the number of edges decreases. In the following line, avoid that the 
+                # reduced number of edges will change the binarized explanation
+                tmp = num_edges + compensate_edge_removal
+            else:
+                tmp = num_edges
+
+            k = (float(ratio) * tmp.to(x.dtype)).ceil().to(torch.long)
 
         x, x_perm = torch.sort(x.view(-1), descending=True, stable=True)
         batch = batch[x_perm]
         batch, batch_perm = torch.sort(batch, descending=False, stable=True)
 
         arange = torch.arange(x.size(0), dtype=torch.long, device=x.device)
-        ptr = cumsum(num_nodes)
+        ptr = cumsum(num_edges)
         batched_arange = arange - ptr[batch]
         mask = batched_arange < k[batch]
-
-        # if debug:
-        #     print(batch_perm)
-        #     print(mask)
-        #     exit()
 
         return x_perm[batch_perm[mask]], x_perm[batch_perm[~mask]].sort()[0], x_perm, mask
 

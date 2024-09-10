@@ -12,10 +12,10 @@ from torch_scatter import scatter_sum, scatter_add
 from GOOD.utils.splitting import split_graph
 
 edge_colors = {
-    # "inv": "green",
-    # "spu": "blue",
-    "inv": "black",
-    "spu": "green",
+    "inv": "green",
+    "spu": "black",
+    # "inv": "black",
+    # "spu": "green",
     "added": "red"
 }
 node_colors = {
@@ -91,10 +91,10 @@ def draw(config, G, name, subfolder="", pos=None, save=True, figsize=(6.4, 4.8),
     if pos is None:
         pos = nx.kamada_kawai_layout(G)
 
-    # edge_color = list(map(lambda x: edge_colors[x], nx.get_edge_attributes(G,'origin').values()))
+    edge_color = list(map(lambda x: edge_colors[x], nx.get_edge_attributes(G,'origin').values()))
     node_gt = list(nx.get_node_attributes(G, "node_gt").values())
-    edge_color = list(nx.get_edge_attributes(G, "attn_weight").values())
-    edge_color = ["red" if e > 0.90 else "black" for e in edge_color]
+    # edge_color = list(nx.get_edge_attributes(G, "attn_weight").values())
+    # edge_color = ["red" if e > 0.90 else "black" for e in edge_color]
     # nx.draw_networkx_edges(
     #     G,
     #     pos=pos,
@@ -332,7 +332,7 @@ def expl_acc(expl, data, expl_weight=None):
     wiou = wiou / den
     return round(wiou, 3), round(f1, 3)
 
-def expl_acc_fast(expl, data, expl_weight=None):
+def expl_acc_fast(expl, data, expl_weight=None, reference_intersection=None):
     """
         Works under the assumption that expl=edge_index of the entire graph.
         This is because the stability_detector analysis is done via WIOU, which
@@ -341,9 +341,14 @@ def expl_acc_fast(expl, data, expl_weight=None):
     """
     f1 = 0.0
 
-    intersection = torch.sum(expl_weight[data.edge_gt == 1])
+    if reference_intersection is None:
+        mask = data.edge_gt == 1
+    else:
+        mask = reference_intersection
+
+    intersection = torch.sum(expl_weight[mask])
     union        = torch.sum(expl_weight)
-    wiou_fast = intersection / union
+    wiou_fast = intersection / (union + 1e-10)
     return torch.round(wiou_fast, decimals=3).item(), f1
 
 def expl_acc_super_fast(batch_data, batch_edge_score, reference_intersection):
@@ -438,7 +443,7 @@ def sample_edges_tensorized(data, nec_number_samples, sampling_type, nec_alpha_1
         candidate_mask = edge_index_to_remove[row <= col]
         candidate_idxs = torch.argwhere(candidate_mask)
         
-        # Version of the main paper with permutation (requires for loop)
+        # Version of the main paper with permutation (requires for-loop)
         perm = torch.randperm(candidate_idxs.shape[0])
         to_keep = perm[:-k]
         removed = perm[-k:]
@@ -458,6 +463,9 @@ def sample_edges_tensorized(data, nec_number_samples, sampling_type, nec_alpha_1
         if hasattr(data, "edge_gt"):            
             undirected_edge_gt = data.edge_gt[row <= col]
             data.edge_gt = torch.cat((undirected_edge_gt[to_keep], undirected_edge_gt[to_keep]), dim=0)
+        if hasattr(data, "causal_mask"):
+            undirected_causal_mask = data.causal_mask[row <= col]
+            data.causal_mask = torch.cat((undirected_causal_mask[to_keep], undirected_causal_mask[to_keep]), dim=0)
 
         data.edge_index, data.edge_attr, mask = remove_isolated_nodes(data.edge_index, data.edge_attr, num_nodes=data.x.shape[0])
         data.x = data.x[mask]
@@ -531,15 +539,17 @@ def sample_edges_tensorized_batched(
                 undirected_causal_mask = intervened_data.causal_mask[row <= col]
                 intervened_data.causal_mask = torch.cat((undirected_causal_mask[to_keep[k]], undirected_causal_mask[to_keep[k]]), dim=0)
 
-            intervened_data.edge_index, intervened_data.edge_attr, mask = remove_isolated_nodes(
-                intervened_data.edge_index,
-                intervened_data.edge_attr,
-                num_nodes=intervened_data.x.shape[0]
-            )
-            if (~mask).sum() > 0: # at least one node was removed
-                assert intervened_data.edge_index.shape[1] ==  intervened_data.edge_gt.shape[0], f"shape mismatch after remove_isolated_nodes(): {intervened_data.edge_index.shape[1]} vs {intervened_data.edge_gt.shape[0]}"
-            intervened_data.x = intervened_data.x[mask]
-            intervened_data.num_nodes = intervened_data.x.shape[0]
+            # intervened_data.edge_index, intervened_data.edge_attr, mask = remove_isolated_nodes(
+            #     intervened_data.edge_index,
+            #     intervened_data.edge_attr,
+            #     num_nodes=intervened_data.x.shape[0]
+            # )
+            # if (~mask).sum() > 0: # at least one node was removed
+            #     assert intervened_data.edge_index.shape[1] ==  intervened_data.edge_gt.shape[0], f"shape mismatch after remove_isolated_nodes(): {intervened_data.edge_index.shape[1]} vs {intervened_data.edge_gt.shape[0]}"
+            # intervened_data.x = intervened_data.x[mask]
+            # intervened_data.node_gt = intervened_data.node_gt[mask]
+            # intervened_data.num_nodes = intervened_data.x.shape[0]
+            intervened_data.num_edge_removed = data.edge_index.shape[1] - intervened_data.edge_index.shape[1]
             intervened_graphs.append(intervened_data)
         return intervened_graphs
     else:
@@ -561,11 +571,12 @@ def explanation_stability_hard(data, explanations, ratio):
     """
     # Extract new hard explanation
     (causal_edge_index, _, _, causal_batch), \
-        _, mask = split_graph(
+        _, mask_batch = split_graph(
             data,
             explanations,
             ratio,
-            return_batch=True
+            return_batch=True,
+            compensate_edge_removal=data.num_edge_removed
     )     
 
     # (Slow version)
@@ -582,8 +593,24 @@ def explanation_stability_hard(data, explanations, ratio):
 
     # (Fast version)
     eps = 1e-6
-    input = mask
-    target = data.causal_mask
+    input = [] # mask
+    target = [] # data.causal_mask
+
+    # Make mask and causal_mask both undirected. Othewrise there could be a mismatch since split_graph()
+    # does not always return both directionalities for a certain edge, while for intervened graphs 
+    # causal_mask is forced to do so.
+    for j, d in enumerate(data.to_data_list()):
+        mask = mask_batch[data.batch[data.edge_index[0]] == j]
+        row, col = d.edge_index
+        undirected_mask = mask[row <= col]
+        mask = torch.cat((undirected_mask, undirected_mask), dim=0)
+        causal_mask = torch.cat((d.causal_mask[row <= col], d.causal_mask[row <= col]), dim=0)
+
+        input.append(mask)
+        target.append(causal_mask)
+
+    input = torch.cat(input, dim=0)
+    target = torch.cat(target, dim=0)
 
     # TODO: for interventions adding elements, manually add novel edges to the counts
     TP = scatter_add((input & target).to(int), data.batch[data.edge_index[0]], dim=0)
