@@ -50,6 +50,10 @@ class SMGNNGIN(GNNBasic):
             self.global_side_channel = SimpleGlobalChannel(config)
             self.beta = torch.tensor(torch.nan)
             self.combinator = ConceptClassifier(config)
+        elif config.global_side_channel == "simple_concept2":
+            self.global_side_channel = SimpleGlobalChannel(config)
+            self.beta = torch.tensor(torch.nan)
+            self.combinator = ConceptClassifier(config, method=2)
         elif config.global_side_channel == "dt":
             self.global_side_channel = DecisionTreeGlobalChannel(config)
             self.beta = torch.nn.Parameter(data=torch.tensor(0.0), requires_grad=True)
@@ -130,7 +134,7 @@ class SMGNNGIN(GNNBasic):
             logits_side_channel, filter_attn = self.global_side_channel(**kwargs)
             logits_gnn = logits
             
-            if self.config.global_side_channel == "simple_concept":
+            if "simple_concept" in self.config.global_side_channel:
                 logits = self.combinator(torch.cat((logits_gnn, logits_side_channel), dim=1))
             else:
                 # logits = self.beta.sigmoid() * logits_gnn + (1-self.beta.sigmoid()) * logits_side_channel
@@ -332,6 +336,7 @@ class MLP(BatchSequential):
 
         super(MLP, self).__init__(*m)
 
+#  goodtg --config_path final_configs/GOODMotif/basis/covariate/SMGNN.yaml --seeds "99" --task train --average_edge_attn mean --global_pool sum --gpu_idx 0 --global_side_channel "" --extra_param True 10 0.1 --ood_param 0.001 --lr_filternode 0.001 --lr 0.1 --train_bs 256
 
 def set_masks(mask: Tensor, model: nn.Module):
     r"""

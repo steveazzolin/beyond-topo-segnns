@@ -895,6 +895,9 @@ def main():
             # )
             # print(model.global_side_channel.classifier.classifier[0].weight)
             # model.global_side_channel.classifier.classifier[0].reset_parameters()
+            # model.gnn
+            # model.extractor
+            # model.classifier.classifier[0].reset_parameters()
 
             for s in ["train", "id_val", "id_test", "val", "test"]:
                 sa = pipeline.evaluate(
@@ -918,7 +921,7 @@ def main():
             #     test_losses["ood_" + s].append(sa['loss'].item())
             # print(f"Printing obtained and stored scores: {sa['score']} !=? {test_score}")
 
-            if config.global_side_channel == "simple_concept":
+            if "simple_concept" in config.global_side_channel:
                 channel_relevances.append(model.combinator.classifier[0].alpha_norm.cpu().numpy())
                 print("\nConcept relevance scores for this run:\n", channel_relevances[-1], "\n")
                 w = model.global_side_channel.classifier.classifier[0].weight.detach().cpu().numpy()
@@ -935,7 +938,7 @@ def main():
     for s in test_scores.keys():
         print(f"{s.upper():<10} = {np.mean(test_scores[s]):.3f} +- {np.std(test_scores[s]):.3f}")
 
-    if config.global_side_channel == "simple_concept" and config.model.model_name != "GIN":
+    if "simple_concept" in config.global_side_channel and config.model.model_name != "GIN" and len(channel_relevances) > 0:
         threshold = 0.9
         id_val_accs = np.array(test_scores["id_val"])
         channel_relevances = np.concatenate(channel_relevances, axis=0)
@@ -988,7 +991,7 @@ def main():
         with open(f"storage/metric_results/acc_plaus.json", "w") as f:
             json.dump(results_aggregated, f)  
 
-    if config.global_side_channel in ("simple", "simple_filternode", "simple_concept"):
+    if config.global_side_channel in ("simple", "simple_filternode", "simple_concept", "simple_concept2"):
         with torch.no_grad():
             # Print weights of global channel
             if config.global_side_channel in ("simple", "simple_filternode"):
@@ -996,7 +999,7 @@ def main():
                 b = model.global_side_channel.classifier.classifier[0].bias.detach().cpu().numpy()
                 print(f"\nWeight vector of global side channel:\nW: {w}\nb:{b}")
                 print(f"\nBeta combination parameter of global side channel:{model.beta.sigmoid().item():.4f}\n")   
-            elif config.global_side_channel == "simple_concept":
+            elif config.global_side_channel in ("simple_concept", "simple_concept2"):
                 print("\nConcept relevance scores:\n", model.combinator.classifier[0].alpha_norm.cpu().numpy(), "\n")
 
             if config.global_side_channel == "simple_filternode":

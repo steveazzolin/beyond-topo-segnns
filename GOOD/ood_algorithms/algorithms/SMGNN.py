@@ -98,13 +98,12 @@ class SMGNN(BaseOODAlg):
         self.entr_loss = self.config.train.entr_coeff * torch.mean(-attn * torch.log(attn + 1e-6) - (1 - attn) * torch.log(1 - attn + 1e-6))
         info_loss = self.l_norm_loss + self.entr_loss
 
-        self.mean_loss = loss.mean()
-
         if epoch < 5: # pre-train phase
             self.spec_loss = torch.tensor(0.)
         else:
             self.spec_loss = config.ood.ood_param * info_loss
 
+        self.mean_loss = loss.mean()
         loss = self.mean_loss + self.spec_loss
         return loss
     

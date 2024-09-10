@@ -49,7 +49,7 @@ class EntropyLinear(nn.Module):
     """
 
     def __init__(self, in_features: int, out_features: int, n_classes: int, temperature: float = 0.6,
-                 bias: bool = True, remove_attention: bool = False) -> None:
+                 bias: bool = True, remove_attention: bool = False, method=None) -> None:
         super(EntropyLinear, self).__init__()
         self.in_features = in_features
         self.out_features = out_features
@@ -57,9 +57,12 @@ class EntropyLinear(nn.Module):
         self.temperature = temperature
         self.alpha = None
         self.remove_attention = remove_attention
-        self.weight = nn.Parameter(torch.Tensor(n_classes, out_features, in_features))
-        self.gamma = nn.Parameter(torch.randn((n_classes, in_features)))
+        self.method = method
         self.has_bias = bias
+        
+        self.weight = nn.Parameter(torch.Tensor(n_classes, out_features, in_features))
+        if method is None:
+            self.gamma = nn.Parameter(torch.randn((n_classes, in_features)))
         if bias:
             self.bias = nn.Parameter(torch.Tensor(n_classes, 1, out_features))
         else:
@@ -78,7 +81,8 @@ class EntropyLinear(nn.Module):
             input = input.unsqueeze(0)
         
         # compute concept-awareness scores
-        # self.gamma = self.weight.norm(dim=1, p=1)
+        if self.method == 2:
+            self.gamma = self.weight.norm(dim=1, p=1)
         self.alpha = torch.exp(self.gamma/self.temperature) / torch.sum(torch.exp(self.gamma/self.temperature), dim=1, keepdim=True)
 
         # weight the input concepts by awareness scores
@@ -100,14 +104,14 @@ class EntropyLinear(nn.Module):
 class ConceptClassifier(torch.nn.Module):
     r"""
     """
-    def __init__(self, config: Union[CommonArgs, Munch]):
+    def __init__(self, config: Union[CommonArgs, Munch], method=None):
 
         super(ConceptClassifier, self).__init__()
 
         hidden_dim = 10
         self.classifier = nn.Sequential(*(
             [
-                EntropyLinear(config.dataset.num_classes * 2, hidden_dim, config.dataset.num_classes, bias=False),
+                EntropyLinear(config.dataset.num_classes * 2, hidden_dim, config.dataset.num_classes, bias=False, method=method),
                 torch.nn.LeakyReLU(),
                 nn.Linear(hidden_dim, hidden_dim),
                 torch.nn.LeakyReLU(),
