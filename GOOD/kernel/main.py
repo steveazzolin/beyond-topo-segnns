@@ -27,6 +27,7 @@ from GOOD.definitions import OOM_CODE
 import numpy as np
 import matplotlib.pyplot as plt
 import wandb
+from scipy.stats import pearsonr
 
 if pyg_v == "2.4.0":
     torch.set_num_threads(6)
@@ -227,7 +228,7 @@ def stability_detector_extended(args):
                     for s in ["_original", "_perturbed"]:
                         results[load_split][split][m + s].append(score[m + s])
     
-    print(f"\n\nDONE {config.dataset.dataset_name} - {config.model.model_name}")
+    print(f"\n\FINISHED {config.dataset.dataset_name} - {config.model.model_name}")
     for load_split in results.keys():
         for split in results[load_split]:
             for m in ["plausibility_wiou", "stability_wiou", "stability_f1", "stability_mcc"]:
@@ -236,8 +237,9 @@ def stability_detector_extended(args):
                     matrix = np.array(results[load_split][split][metric])
                     mean_over_seeds = np.mean(matrix, axis=0)
                     mean_over_ratios = np.mean(mean_over_seeds)
-                    std = np.std(matrix, axis=0)
-                    print(f"({load_split}) ({split}) {metric.upper()}: \t{mean_over_seeds} +- {std} (mean across ratios: {mean_over_ratios:.3f})")
+                    std_over_seeds = np.std(matrix, axis=0)
+                    std_over_ratios = np.sqrt(1/(mean_over_seeds.shape[0]**2) * np.sum(std_over_seeds**2)) # Var((a+b)/2) = 1/4[Var(a) + Var(b) - Cov(a,b)] (assuming a indip. b Cov(a,b)=0)
+                    print(f"({load_split}) ({split}) {metric.upper()}: \t{mean_over_seeds} +- {std_over_seeds} (mean across ratios: {mean_over_ratios:.2f} +- {std_over_ratios:.2f})")
                 print()
     print("Overall time of execution: ", datetime.now() - startOverallTime)
 
@@ -903,7 +905,7 @@ def main():
                 sa = pipeline.evaluate(
                     s,
                     compute_suff=False, 
-                    compute_wiou=(config.dataset.dataset_name == "TopoFeature" or config.dataset.dataset_name == "SimpleMotif") 
+                    compute_wiou=(config.dataset.dataset_name == "TopoFeature" or config.dataset.dataset_name == "SimpleMotif" or config.dataset.dataset_name == "GOODMotif")
                                     and 
                                  config.model.model_name != "GIN"
                 )
@@ -921,7 +923,7 @@ def main():
             #     test_losses["ood_" + s].append(sa['loss'].item())
             # print(f"Printing obtained and stored scores: {sa['score']} !=? {test_score}")
 
-            if "simple_concept" in config.global_side_channel:
+            if config.global_side_channel and "simple_concept" in config.global_side_channel:
                 channel_relevances.append(model.combinator.classifier[0].alpha_norm.cpu().numpy())
                 print("\nConcept relevance scores for this run:\n", channel_relevances[-1], "\n")
                 w = model.global_side_channel.classifier.classifier[0].weight.detach().cpu().numpy()
@@ -938,7 +940,7 @@ def main():
     for s in test_scores.keys():
         print(f"{s.upper():<10} = {np.mean(test_scores[s]):.3f} +- {np.std(test_scores[s]):.3f}")
 
-    if "simple_concept" in config.global_side_channel and config.model.model_name != "GIN" and len(channel_relevances) > 0:
+    if config.global_side_channel and "simple_concept" in config.global_side_channel and config.model.model_name != "GIN" and len(channel_relevances) > 0:
         threshold = 0.9
         id_val_accs = np.array(test_scores["id_val"])
         channel_relevances = np.concatenate(channel_relevances, axis=0)
@@ -959,6 +961,9 @@ def main():
         print(f"\n\nGlobal side channel coefficient wrt x1 (model with id_val acc above {threshold}% - {sum(id_val_accs >= threshold)} runs):")
         tmp = np.array(global_coeffs)[id_val_accs >= threshold]
         print(f"{tmp.mean(0)} +- {tmp.std(0)}")
+
+        print(f"\n\nCorrelation local channel importance-OOD Test Acc")
+        print(pearsonr(test_scores["test"], channel_relevances[:, 0]))
         
 
     print("\n\nFinal losses: ")

@@ -149,7 +149,7 @@ class Pipeline:
         model_output = self.model(data=data, edge_weight=edge_weight, ood_algorithm=self.ood_algorithm)
         raw_pred = self.ood_algorithm.output_postprocess(model_output)
 
-        if "simple_concept" in self.config.global_side_channel and epoch < 20: 
+        if "simple_concept" in self.config.global_side_channel and self.config.dataset.dataset_name != "BAColor" and epoch < 20: 
             # Little pre-train of individual channels
             loss_global = self.ood_algorithm.loss_calculate(self.ood_algorithm.logit_global, targets, mask, node_norm, self.config, batch=data.batch)
             loss_global = loss_global.mean()
@@ -790,7 +790,8 @@ class Pipeline:
 
             if convert_to_nx:
                 # TODO: remove edge_gt for real-world experiments (added for stability analysis)
-                graphs_nx[SPLIT] = [to_networkx(g, node_attrs=["ori_x"], edge_attrs=["edge_gt"]) for g in graphs[SPLIT]]
+                # graphs_nx[SPLIT] = [to_networkx(g, node_attrs=["ori_x"], edge_attrs=["edge_gt"]) for g in graphs[SPLIT]]
+                graphs_nx[SPLIT] = [to_networkx(g, node_attrs=["ori_x"]) for g in graphs[SPLIT]]
                 # graphs_nx[SPLIT] = [to_networkx(g, node_attrs=["ori_x"], edge_attrs=["edge_attr", "edge_gt"] if not g.edge_attr is None else None) for g in graphs[SPLIT]]
             else:
                 graphs_nx[SPLIT] = list()
@@ -986,7 +987,7 @@ class Pipeline:
                 # tmp = graphs_nx[i].copy()
                 # xai_utils.mark_edges(tmp, causal_subgraphs_r[ratio][i], spu_subgraphs_r[ratio][i])
                 # xai_utils.draw(self.config, tmp, subfolder="plots_of_suff_scores", name=f"graph_{i}")
-                
+
                 eval_samples.append(graphs[i])
                 reference.append(len(eval_samples) - 1)
                 belonging.append(-1)
@@ -1521,7 +1522,7 @@ class Pipeline:
                 if self.config.dataset.dataset_name == "TopoFeature" or self.config.dataset.dataset_name == "SimpleMotif":
                     wious_mask[data.pattern == 0] = False # Mask out examples without the motif
                 
-                _, explanation = to_undirected(data.edge_index, self.ood_algorithm.att.squeeze(-1), reduce="mean")
+                _, explanation = to_undirected(data.edge_index, self.ood_algorithm.edge_att.squeeze(-1), reduce="mean")
                 wious_all.append(
                     xai_utils.expl_acc_super_fast(data, explanation, reference_intersection=data.edge_gt)[wious_mask].mean().item()
                 )
@@ -2318,8 +2319,10 @@ class Pipeline:
                     budget=self.config.expval_budget
                 )
 
+                ## This different way to obtain 'intervened_graphs' is calling a different function, which is removing isolated_nodes
+                ## I found using remove_isolated_nodes cumbersome, as it creates problem with the correct assignment of node_gt
+                ## Therefore I preferred to keep isolated nodes, as the goal of the analysis is to check the different in edge removals.
                 # intervened_graphs = []
-                # self.config.expval_budget
                 # for k in range(0, 2): # if not enough interventions, pad with sub-sampling
                 #     G_c = xai_utils.sample_edges_tensorized(
                 #         graphs[i],
@@ -2331,28 +2334,32 @@ class Pipeline:
                 #     )
                 #     intervened_graphs.append(G_c)
 
-                # print(len(intervened_graphs))
-                # g0 = to_networkx(graphs[i], edge_attrs=["edge_gt", "causal_mask"], node_attrs=["node_gt"], to_undirected=True)
-                # g1 = to_networkx(intervened_graphs[0], edge_attrs=["edge_gt", "causal_mask"], node_attrs=["node_gt"], to_undirected=True)
-                # g2 = to_networkx(intervened_graphs[1], edge_attrs=["edge_gt", "causal_mask"], node_attrs=["node_gt"], to_undirected=True)
-                # print(intervened_graphs[0].num_nodes)
-                # print(intervened_graphs[0].edge_index.shape)
-                # print(graphs[i].causal_mask)
-                # print(intervened_graphs[0].causal_mask)
-                # print(intervened_graphs[1].causal_mask)
-                # print(graphs[i].edge_index[:, graphs[i].causal_mask == True])
-                # print(intervened_graphs[0].edge_index[:, intervened_graphs[0].causal_mask == True])
-                # print(intervened_graphs[1].edge_index[:, intervened_graphs[1].causal_mask == True])
-                # # nx.set_edge_attributes(g0, "spu", "origin")
-                # # nx.set_edge_attributes(g1, "spu", "origin")
-                # # nx.set_edge_attributes(g2, "spu", "origin")
-                # nx.set_edge_attributes(g0, {(u,v): "inv" if val["causal_mask"] else "spu" for u,v,val in g0.edges(data=True)}, "origin")
-                # nx.set_edge_attributes(g1, {(u,v): "inv" if val["causal_mask"] else "spu" for u,v,val in g1.edges(data=True)}, "origin")
-                # nx.set_edge_attributes(g2, {(u,v): "inv" if val["causal_mask"] else "spu" for u,v,val in g2.edges(data=True)}, "origin")
-                # xai_utils.draw(self.config, g0, subfolder="plots_of_gt_stability_det", name=f"int_ori", title=50)
-                # xai_utils.draw(self.config, g1, subfolder="plots_of_gt_stability_det", name=f"int_{i}", title=50)
-                # xai_utils.draw(self.config, g2, subfolder="plots_of_gt_stability_det", name=f"int_{i}_1", title=50)
-                # exit()
+                # if i == 1:
+                #     print(len(intervened_graphs))
+                #     g0 = to_networkx(graphs[i], edge_attrs=["edge_gt", "causal_mask"], node_attrs=["node_gt"], to_undirected=True)
+                #     g1 = to_networkx(intervened_graphs[0], edge_attrs=["edge_gt", "causal_mask"], node_attrs=["node_gt"], to_undirected=True)
+                #     g2 = to_networkx(intervened_graphs[1], edge_attrs=["edge_gt", "causal_mask"], node_attrs=["node_gt"], to_undirected=True)
+                #     print(intervened_graphs[0].num_nodes)
+                #     print(intervened_graphs[0].edge_index.shape)
+                #     print(graphs[i].causal_mask)
+                #     print(intervened_graphs[0].causal_mask)
+                #     print(intervened_graphs[1].causal_mask)
+                #     print(graphs[i].edge_index[:, graphs[i].causal_mask == True])
+                #     print(intervened_graphs[0].edge_index[:, intervened_graphs[0].causal_mask == True])
+                #     print(intervened_graphs[1].edge_index[:, intervened_graphs[1].causal_mask == True])
+                #     print(graphs[i].node_gt)
+                #     print(intervened_graphs[1].node_gt)
+                #     print(g2.nodes(data=True))
+                #     # nx.set_edge_attributes(g0, "spu", "origin")
+                #     # nx.set_edge_attributes(g1, "spu", "origin")
+                #     # nx.set_edge_attributes(g2, "spu", "origin")
+                #     nx.set_edge_attributes(g0, {(u,v): "inv" if val["causal_mask"] else "spu" for u,v,val in g0.edges(data=True)}, "origin")
+                #     nx.set_edge_attributes(g1, {(u,v): "inv" if val["causal_mask"] else "spu" for u,v,val in g1.edges(data=True)}, "origin")
+                #     nx.set_edge_attributes(g2, {(u,v): "inv" if val["causal_mask"] else "spu" for u,v,val in g2.edges(data=True)}, "origin")
+                #     xai_utils.draw(self.config, g0, subfolder="plots_of_gt_stability_det", name=f"int_ori_{i}", title=50)
+                #     xai_utils.draw(self.config, g1, subfolder="plots_of_gt_stability_det", name=f"int_{i}_1", title=50)
+                #     xai_utils.draw(self.config, g2, subfolder="plots_of_gt_stability_det", name=f"int_{i}_2", title=50)
+                #     exit()
 
                 if intervened_graphs is not None:
                     eval_samples.append(graphs[i])
@@ -2369,17 +2376,6 @@ class Pipeline:
 
             int_dataset = CustomDataset("", eval_samples, belonging)
             loader = DataLoader(int_dataset, batch_size=512, shuffle=False)
-
-            # print(int_dataset[0].causal_mask)
-            # print(int_dataset[0].edge_index)
-            # print()
-            # print(int_dataset[1].causal_mask)
-            # print(int_dataset[1].edge_index)
-            # print()
-
-            # tmp = iter(loader)
-            # print(next(tmp).edge_index)
-            # print(next(tmp).edge_index)
 
             # return explanations and make predictions
             plausibility_wious = torch.tensor([], device=self.config.device)
@@ -2423,7 +2419,7 @@ class Pipeline:
                 )
 
                 
-                # DEBUG: Check that F1 and MCC scores are meaningful by plotting some examples
+                ## DEBUG: Check that F1 and MCC scores are meaningful by plotting some examples
                 # (causal_edge_index, _, _, causal_batch), \
                 #     (spu_edge_index, _, _), mask_batch = split_graph(
                 #         data,
@@ -2437,6 +2433,7 @@ class Pipeline:
                 #     d = d_ori.clone()
                 #     if j > 8:
                 #         exit("SUUU")
+
                 #     # Make mask and causal_mask both undirected. Othewrise there could be a mismatch since split_graph()
                 #     # does not always return both directionalities for a certain edge, while for intervened graphs 
                 #     # causal_mask is forced to do so.
@@ -2453,39 +2450,39 @@ class Pipeline:
                 #     causal_subgraph = causal_edge_index[:, data.batch[causal_edge_index[0]] == j] - cumnum[j-1]
                 #     spu_subgraph = spu_edge_index[:, data.batch[spu_edge_index[0]] == j] - cumnum[j-1]
 
-                #     # g = to_networkx(d_ori, node_attrs=["node_gt"], to_undirected=True)
-                #     # xai_utils.mark_edges(g, d_ori.edge_index, d_ori.edge_index[:, d_ori.edge_gt == 1], inv_edge_w=explanations[data.batch[data.edge_index[0]] == j])
-                #     # pos_here = xai_utils.draw(self.config, g, subfolder="plots_of_gt_stability_det", name=f"expl_{i}_{j}", title=f"vediamo {50}", pos=pos)
-                #     g = to_networkx(d, node_attrs=["node_gt"], to_undirected=True)
-                #     xai_utils.mark_edges(g, causal_subgraph, spu_subgraph)
-                #     pos_here = xai_utils.draw(self.config, g, subfolder="plots_of_gt_stability_det", name=f"expl_{i}_{j}", pos=pos, title=50)
+                #     g = to_networkx(d_ori, node_attrs=["node_gt"], to_undirected=True)
+                #     xai_utils.mark_edges(g, d_ori.edge_index, d_ori.edge_index[:, d_ori.edge_gt == 1], inv_edge_w=explanations[data.batch[data.edge_index[0]] == j])
+                #     pos_here = xai_utils.draw(self.config, g, subfolder="plots_of_gt_stability_det", name=f"expl_gt_{i}_{j}", pos=pos)
+                #     # g = to_networkx(d, node_attrs=["node_gt"], to_undirected=True)
+                #     # xai_utils.mark_edges(g, causal_subgraph, spu_subgraph)
+                #     # pos_here = xai_utils.draw(self.config, g, subfolder="plots_of_gt_stability_det", name=f"expl_{i}_{j}", pos=pos)
                                         
                 #     print("causal_mask = ", torch.argwhere(d.causal_mask==True).flatten())
                 #     print(d.edge_index[:, torch.argwhere(d.causal_mask==True).flatten()])
 
                 #     print("mask = ", torch.argwhere(mask==True).flatten())
-                #     print(d.edge_index[:, torch.argwhere(mask==True).flatten()])                    
+                #     print(d.edge_index[:, torch.argwhere(mask==True).flatten()])
 
                 #     print(f"{j}: {plausibility_wious[j]} - {stability_wious[j]} - {stability_mcc[j]} - {stability_f1[j]}")
                 #     print("\n\n")
                 #     if j % self.config.expval_budget == 0:
                 #         pos = pos_here
 
-                # threshold explanation before feeding to classifier
-            #     (causal_edge_index, causal_edge_attr, edge_att), _ = split_graph(data, edge_score, ratio)
-            #     data.x, data.edge_index, data.batch, _ = relabel(data.x, causal_edge_index, data.batch)
-            #     if not data.edge_attr is None:
-            #         data.edge_attr = causal_edge_attr
+                # # threshold explanation before feeding to classifier
+                # (causal_edge_index, causal_edge_attr, edge_att), _ = split_graph(data, edge_score, ratio)
+                # data.x, data.edge_index, data.batch, _ = relabel(data.x, causal_edge_index, data.batch)
+                # if not data.edge_attr is None:
+                #     data.edge_attr = causal_edge_attr
 
-            #     ori_out = self.model.predict_from_subgraph(
-            #         edge_att=edge_att,
-            #         data=data,
-            #         edge_weight=None,
-            #         ood_algorithm=self.ood_algorithm,
-            #         log=True,
-            #         eval_kl=True
-            #     )
-            #     preds_eval.extend(ori_out.detach().cpu().numpy().tolist())
+                # ori_out = self.model.predict_from_subgraph(
+                #     edge_att=edge_att,
+                #     data=data,
+                #     edge_weight=None,
+                #     ood_algorithm=self.ood_algorithm,
+                #     log=True,
+                #     eval_kl=True
+                # )
+                # preds_eval.extend(ori_out.detach().cpu().numpy().tolist())
                 # belonging.extend(data.belonging.detach().cpu().numpy().tolist())
                 belonging = torch.cat((belonging, data.belonging), dim=0)
             # preds_eval = torch.tensor(preds_eval)

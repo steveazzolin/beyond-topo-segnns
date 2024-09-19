@@ -246,7 +246,7 @@ def process_configs(config: Union[CommonArgs, Munch], args=None):
 
     # --- Checkpoint setting ---
     if config.ckpt_root is None:
-        config.ckpt_root = opj(STORAGE_DIR, 'checkpoints')
+        config.ckpt_root = opj(STORAGE_DIR, 'checkpoints') # checkpoints_backup30042024
     if config.ckpt_dir is None:
         config.ckpt_dir = opj(config.ckpt_root, 'round' + str(config.exp_round))
         config.ckpt_dir = opj(config.ckpt_dir, dataset_dirname, model_dirname, train_dirname, ood_dirname)

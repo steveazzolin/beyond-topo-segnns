@@ -116,19 +116,10 @@ def draw(config, G, name, subfolder="", pos=None, save=True, figsize=(6.4, 4.8),
     # Annotate with edge scores
     if nx.get_edge_attributes(G, 'attn_weight') != {}:
         nx.draw_networkx_edge_labels(G, pos, edge_labels=nx.get_edge_attributes(G, 'attn_weight'), font_size=6, alpha=0.8)
-
-    # options = {
-    #     "node_color":"#cccccc",
-    #     "edge_color": colors,
-    #     "width": 2,
-    #     "edge_cmap": plt.cm.Reds,
-    #     "with_labels": False,
-    #     "node_size":25}
-    # nx.draw_networkx(g,pos=pos,ax=ax,**options)
     
     title = title if title is not None else f"Selected {sum([e == 'green' for e in edge_color])} relevant edges"
     plt.title(title)
-    print(f"Selected {sum([e == 'green' for e in edge_color])} relevant edges over {len(G.edges())}")
+    # print(f"Selected {sum([e == 'green' for e in edge_color])} relevant edges over {len(G.edges())}")
 
     if save:
         path = f'GOOD/kernel/pipelines/plots/{subfolder}/{config.load_split}_{config.util_model_dirname}/'
@@ -281,8 +272,9 @@ def random_attach_no_target_frontier(S, T):
     edge_attrs = list(nx.get_edge_attributes(S, "edge_attr").values())
     edge_gts = list(nx.get_edge_attributes(S, "edge_gt").values())
     S_frontier = list(filter(lambda x: nx.get_node_attributes(S,'frontier').get(x, False), S.nodes()))
-
-    nx.set_edge_attributes(T, 0, "edge_gt") # mark every edge of target graph as not GT edge
+    
+    if edge_gts != []:
+        nx.set_edge_attributes(T, 0, "edge_gt") # mark every edge of target graph as not GT edge
 
     ret = nx.union(S, T, rename=("", "T"))
     for n in S_frontier:
@@ -297,8 +289,12 @@ def random_attach_no_target_frontier(S, T):
             ret.add_edge(str(n), v, edge_attr=edge_attrs[attr])
             ret.add_edge(v, str(n), edge_attr=edge_attrs[attr])
         elif edge_gts != []:
-            ret.add_edge(str(n), v, edge_gt=0)
-            ret.add_edge(v, str(n), edge_gt=0)
+            if edge_gts == []:
+                ret.add_edge(str(n), v, edge_gt=0)
+                ret.add_edge(v, str(n), edge_gt=0)
+            else:
+                ret.add_edge(str(n), v)
+                ret.add_edge(v, str(n))
         else:
             ret.add_edge(str(n), v)
             ret.add_edge(v, str(n))
