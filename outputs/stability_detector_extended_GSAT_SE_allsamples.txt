@@ -1,0 +1,2034 @@
+nohup: ignoring input
+I'm the stability of the DET :))
+The PID of this script is: 3392605
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument lr_filternod in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Wed Sep 18 09:08:08 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif2
+[0m[1;34mDEBUG[0m: 09/18/2024 09:08:08 AM : [1mDataset: {'train': GOODMotif2(18000), 'id_val': GOODMotif2(3000), 'id_test': GOODMotif2(3000), 'val': GOODMotif2(3000), 'test': GOODMotif2(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/18/2024 09:08:08 AM : [1m Data(edge_index=[2, 84], x=[29, 1], node_gt=[29], edge_gt=[84], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[0mData(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/18/2024 09:08:08 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/18/2024 09:08:08 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:08:08 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/18/2024 09:08:08 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:08:08 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/18/2024 09:08:08 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:08:08 AM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 09/18/2024 09:08:08 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 22...
+[0m[1;37mINFO[0m: [1mCheckpoint 22: 
+-----------------------------------
+Train ACCURACY: 0.9222
+Train Loss: 0.3693
+ID Validation ACCURACY: 0.9267
+ID Validation Loss: 0.3559
+ID Test ACCURACY: 0.9203
+ID Test Loss: 0.3852
+OOD Validation ACCURACY: 0.8900
+OOD Validation Loss: 0.4914
+OOD Test ACCURACY: 0.5517
+OOD Test Loss: 1.5316
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 29...
+[0m[1;37mINFO[0m: [1mCheckpoint 29: 
+-----------------------------------
+Train ACCURACY: 0.9157
+Train Loss: 0.3791
+ID Validation ACCURACY: 0.9230
+ID Validation Loss: 0.3661
+ID Test ACCURACY: 0.9137
+ID Test Loss: 0.3922
+OOD Validation ACCURACY: 0.9270
+OOD Validation Loss: 0.4447
+OOD Test ACCURACY: 0.6490
+OOD Test Loss: 1.4331
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9203 0.5517 0.9137 0.6490 0.9230 0.9270[0mGOODMotif2(3000)
+Data example from id_val: Data(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+Label distribution from id_val: (tensor([0, 1, 2]), tensor([1002, 1009,  989]))
+F1 for r=0.3 = 0.000
+WIoU for r=0.3 = 0.494
+F1 for r=0.6 = 0.000
+WIoU for r=0.6 = 0.423
+
+
+ -------------------------------------------------- 
+
+#D#Computing stability detector extended under SUFF_SIMPLE over id_val across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Interventions completed in  0:00:05.898105
+Plausibility completed in  0:00:18.813976
+Original Plaus. XAI WIoU for r=0.3 =  tensor(0.3102, device='cuda:0')  +-  tensor(0.1587, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.3 =  tensor(0.3478, device='cuda:0')  +-  tensor(0.2098, device='cuda:0') (0.003)
+Original Plaus. XAI WIoU for r=0.3 =  tensor(0.3102, device='cuda:0')  +-  tensor(0.1587, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.3 =  tensor(0.3646, device='cuda:0')  +-  tensor(0.0774, device='cuda:0') (0.002)
+Original Stability MCC for r=0.3 = 0.997 +- 0.034
+Intervened Stability MCC for r=0.3 = 0.014 +- 0.235
+Original Stability F1 for r=0.3 = 0.998 +- 0.023
+Intervened Stability F1 for r=0.3 = 0.341 +- 0.158
+Intervened samples: 2935
+
+
+ratio=0.6
+
+
+Interventions completed in  0:00:05.722051
+Plausibility completed in  0:00:19.075487
+Original Plaus. XAI WIoU for r=0.6 =  tensor(0.3060, device='cuda:0')  +-  tensor(0.1547, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.6 =  tensor(0.3381, device='cuda:0')  +-  tensor(0.2060, device='cuda:0') (0.002)
+Original Plaus. XAI WIoU for r=0.6 =  tensor(0.3060, device='cuda:0')  +-  tensor(0.1547, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.6 =  tensor(0.6839, device='cuda:0')  +-  tensor(0.1424, device='cuda:0') (0.001)
+Original Stability MCC for r=0.6 = 0.998 +- 0.026
+Intervened Stability MCC for r=0.6 = 0.079 +- 0.273
+Original Stability F1 for r=0.6 = 0.999 +- 0.009
+Intervened Stability F1 for r=0.6 = 0.717 +- 0.102
+Intervened samples: 2901
+COMPUTING STABILITY DETECTOR FOR LOAD SPLIT = id AND SEED 2
+
+
+model_dirname= repr_GSATGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingfeatavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Wed Sep 18 09:09:16 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif2
+[0m[1;34mDEBUG[0m: 09/18/2024 09:09:16 AM : [1mDataset: {'train': GOODMotif2(18000), 'id_val': GOODMotif2(3000), 'id_test': GOODMotif2(3000), 'val': GOODMotif2(3000), 'test': GOODMotif2(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/18/2024 09:09:16 AM : [1m Data(edge_index=[2, 84], x=[29, 1], node_gt=[29], edge_gt=[84], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[0mData(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/18/2024 09:09:16 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/18/2024 09:09:16 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:09:16 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/18/2024 09:09:16 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:09:16 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/18/2024 09:09:16 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:09:16 AM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 09/18/2024 09:09:16 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 28...
+[0m[1;37mINFO[0m: [1mCheckpoint 28: 
+-----------------------------------
+Train ACCURACY: 0.9236
+Train Loss: 0.3823
+ID Validation ACCURACY: 0.9273
+ID Validation Loss: 0.3640
+ID Test ACCURACY: 0.9223
+ID Test Loss: 0.3970
+OOD Validation ACCURACY: 0.9163
+OOD Validation Loss: 0.4602
+OOD Test ACCURACY: 0.6380
+OOD Test Loss: 1.7702
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 20...
+[0m[1;37mINFO[0m: [1mCheckpoint 20: 
+-----------------------------------
+Train ACCURACY: 0.9191
+Train Loss: 0.3765
+ID Validation ACCURACY: 0.9240
+ID Validation Loss: 0.3656
+ID Test ACCURACY: 0.9180
+ID Test Loss: 0.3905
+OOD Validation ACCURACY: 0.9257
+OOD Validation Loss: 0.4647
+OOD Test ACCURACY: 0.5130
+OOD Test Loss: 1.8937
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9223 0.6380 0.9180 0.5130 0.9240 0.9257[0mGOODMotif2(3000)
+Data example from id_val: Data(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+Label distribution from id_val: (tensor([0, 1, 2]), tensor([1002, 1009,  989]))
+F1 for r=0.3 = 0.000
+WIoU for r=0.3 = 0.482
+F1 for r=0.6 = 0.000
+WIoU for r=0.6 = 0.398
+
+
+ -------------------------------------------------- 
+
+#D#Computing stability detector extended under SUFF_SIMPLE over id_val across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Interventions completed in  0:00:05.972834
+Plausibility completed in  0:00:19.404687
+Original Plaus. XAI WIoU for r=0.3 =  tensor(0.3163, device='cuda:0')  +-  tensor(0.1625, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.3 =  tensor(0.3650, device='cuda:0')  +-  tensor(0.2143, device='cuda:0') (0.003)
+Original Plaus. XAI WIoU for r=0.3 =  tensor(0.3163, device='cuda:0')  +-  tensor(0.1625, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.3 =  tensor(0.3759, device='cuda:0')  +-  tensor(0.0607, device='cuda:0') (0.002)
+Original Stability MCC for r=0.3 = 0.993 +- 0.048
+Intervened Stability MCC for r=0.3 = 0.008 +- 0.249
+Original Stability F1 for r=0.3 = 0.995 +- 0.033
+Intervened Stability F1 for r=0.3 = 0.345 +- 0.167
+Intervened samples: 3000
+
+
+ratio=0.6
+
+
+Interventions completed in  0:00:05.616672
+Plausibility completed in  0:00:18.838007
+Original Plaus. XAI WIoU for r=0.6 =  tensor(0.3065, device='cuda:0')  +-  tensor(0.1554, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.6 =  tensor(0.3389, device='cuda:0')  +-  tensor(0.2063, device='cuda:0') (0.002)
+Original Plaus. XAI WIoU for r=0.6 =  tensor(0.3065, device='cuda:0')  +-  tensor(0.1554, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.6 =  tensor(0.6945, device='cuda:0')  +-  tensor(0.1442, device='cuda:0') (0.001)
+Original Stability MCC for r=0.6 = 0.999 +- 0.013
+Intervened Stability MCC for r=0.6 = 0.051 +- 0.270
+Original Stability F1 for r=0.6 = 1.000 +- 0.005
+Intervened Stability F1 for r=0.6 = 0.714 +- 0.105
+Intervened samples: 2907
+COMPUTING STABILITY DETECTOR FOR LOAD SPLIT = id AND SEED 3
+
+
+model_dirname= repr_GSATGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingfeatavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Wed Sep 18 09:10:22 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif2
+[0m[1;34mDEBUG[0m: 09/18/2024 09:10:22 AM : [1mDataset: {'train': GOODMotif2(18000), 'id_val': GOODMotif2(3000), 'id_test': GOODMotif2(3000), 'val': GOODMotif2(3000), 'test': GOODMotif2(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/18/2024 09:10:22 AM : [1m Data(edge_index=[2, 84], x=[29, 1], node_gt=[29], edge_gt=[84], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[0mData(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/18/2024 09:10:22 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/18/2024 09:10:22 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:10:22 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/18/2024 09:10:22 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:10:22 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/18/2024 09:10:22 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:10:22 AM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 09/18/2024 09:10:22 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 25...
+[0m[1;37mINFO[0m: [1mCheckpoint 25: 
+-----------------------------------
+Train ACCURACY: 0.9211
+Train Loss: 0.3738
+ID Validation ACCURACY: 0.9273
+ID Validation Loss: 0.3569
+ID Test ACCURACY: 0.9193
+ID Test Loss: 0.3863
+OOD Validation ACCURACY: 0.8863
+OOD Validation Loss: 0.4868
+OOD Test ACCURACY: 0.6483
+OOD Test Loss: 1.2024
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 29...
+[0m[1;37mINFO[0m: [1mCheckpoint 29: 
+-----------------------------------
+Train ACCURACY: 0.9178
+Train Loss: 0.3688
+ID Validation ACCURACY: 0.9257
+ID Validation Loss: 0.3548
+ID Test ACCURACY: 0.9177
+ID Test Loss: 0.3860
+OOD Validation ACCURACY: 0.9277
+OOD Validation Loss: 0.4565
+OOD Test ACCURACY: 0.6407
+OOD Test Loss: 1.2257
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9193 0.6483 0.9177 0.6407 0.9257 0.9277[0mGOODMotif2(3000)
+Data example from id_val: Data(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+Label distribution from id_val: (tensor([0, 1, 2]), tensor([1002, 1009,  989]))
+F1 for r=0.3 = 0.000
+WIoU for r=0.3 = 0.511
+F1 for r=0.6 = 0.000
+WIoU for r=0.6 = 0.411
+
+
+ -------------------------------------------------- 
+
+#D#Computing stability detector extended under SUFF_SIMPLE over id_val across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Interventions completed in  0:00:05.829634
+Plausibility completed in  0:00:19.639389
+Original Plaus. XAI WIoU for r=0.3 =  tensor(0.3156, device='cuda:0')  +-  tensor(0.1632, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.3 =  tensor(0.3637, device='cuda:0')  +-  tensor(0.2136, device='cuda:0') (0.003)
+Original Plaus. XAI WIoU for r=0.3 =  tensor(0.3156, device='cuda:0')  +-  tensor(0.1632, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.3 =  tensor(0.3755, device='cuda:0')  +-  tensor(0.0586, device='cuda:0') (0.002)
+Original Stability MCC for r=0.3 = 0.994 +- 0.044
+Intervened Stability MCC for r=0.3 = 0.019 +- 0.255
+Original Stability F1 for r=0.3 = 0.996 +- 0.031
+Intervened Stability F1 for r=0.3 = 0.351 +- 0.169
+Intervened samples: 3000
+
+
+ratio=0.6
+
+
+Interventions completed in  0:00:05.806688
+Plausibility completed in  0:00:19.509965
+Original Plaus. XAI WIoU for r=0.6 =  tensor(0.3156, device='cuda:0')  +-  tensor(0.1632, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.6 =  tensor(0.3597, device='cuda:0')  +-  tensor(0.2064, device='cuda:0') (0.003)
+Original Plaus. XAI WIoU for r=0.6 =  tensor(0.3156, device='cuda:0')  +-  tensor(0.1632, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.6 =  tensor(0.7073, device='cuda:0')  +-  tensor(0.0650, device='cuda:0') (0.001)
+Original Stability MCC for r=0.6 = 0.999 +- 0.018
+Intervened Stability MCC for r=0.6 = 0.056 +- 0.293
+Original Stability F1 for r=0.6 = 0.999 +- 0.006
+Intervened Stability F1 for r=0.6 = 0.714 +- 0.098
+Intervened samples: 3000
+COMPUTING STABILITY DETECTOR FOR LOAD SPLIT = id AND SEED 4
+
+
+model_dirname= repr_GSATGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingfeatavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Wed Sep 18 09:11:32 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif2
+[0m[1;34mDEBUG[0m: 09/18/2024 09:11:32 AM : [1mDataset: {'train': GOODMotif2(18000), 'id_val': GOODMotif2(3000), 'id_test': GOODMotif2(3000), 'val': GOODMotif2(3000), 'test': GOODMotif2(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/18/2024 09:11:32 AM : [1m Data(edge_index=[2, 84], x=[29, 1], node_gt=[29], edge_gt=[84], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[0mData(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/18/2024 09:11:32 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/18/2024 09:11:32 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:11:32 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/18/2024 09:11:32 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:11:32 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/18/2024 09:11:32 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:11:32 AM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 09/18/2024 09:11:32 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 26...
+[0m[1;37mINFO[0m: [1mCheckpoint 26: 
+-----------------------------------
+Train ACCURACY: 0.9218
+Train Loss: 0.3744
+ID Validation ACCURACY: 0.9283
+ID Validation Loss: 0.3613
+ID Test ACCURACY: 0.9190
+ID Test Loss: 0.3906
+OOD Validation ACCURACY: 0.7447
+OOD Validation Loss: 0.5801
+OOD Test ACCURACY: 0.5590
+OOD Test Loss: 1.9371
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 19...
+[0m[1;37mINFO[0m: [1mCheckpoint 19: 
+-----------------------------------
+Train ACCURACY: 0.9174
+Train Loss: 0.3778
+ID Validation ACCURACY: 0.9213
+ID Validation Loss: 0.3598
+ID Test ACCURACY: 0.9153
+ID Test Loss: 0.3903
+OOD Validation ACCURACY: 0.9237
+OOD Validation Loss: 0.4252
+OOD Test ACCURACY: 0.4633
+OOD Test Loss: 2.5793
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9190 0.5590 0.9153 0.4633 0.9213 0.9237[0mGOODMotif2(3000)
+Data example from id_val: Data(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+Label distribution from id_val: (tensor([0, 1, 2]), tensor([1002, 1009,  989]))
+F1 for r=0.3 = 0.000
+WIoU for r=0.3 = 0.538
+F1 for r=0.6 = 0.000
+WIoU for r=0.6 = 0.437
+
+
+ -------------------------------------------------- 
+
+#D#Computing stability detector extended under SUFF_SIMPLE over id_val across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Interventions completed in  0:00:06.004774
+Plausibility completed in  0:00:20.804974
+Original Plaus. XAI WIoU for r=0.3 =  tensor(0.3186, device='cuda:0')  +-  tensor(0.1642, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.3 =  tensor(0.3667, device='cuda:0')  +-  tensor(0.2152, device='cuda:0') (0.003)
+Original Plaus. XAI WIoU for r=0.3 =  tensor(0.3186, device='cuda:0')  +-  tensor(0.1642, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.3 =  tensor(0.3774, device='cuda:0')  +-  tensor(0.0596, device='cuda:0') (0.002)
+Original Stability MCC for r=0.3 = 0.994 +- 0.043
+Intervened Stability MCC for r=0.3 = 0.005 +- 0.251
+Original Stability F1 for r=0.3 = 0.996 +- 0.029
+Intervened Stability F1 for r=0.3 = 0.342 +- 0.170
+Intervened samples: 3000
+
+
+ratio=0.6
+
+
+Interventions completed in  0:00:05.774561
+Plausibility completed in  0:00:19.331174
+Original Plaus. XAI WIoU for r=0.6 =  tensor(0.3186, device='cuda:0')  +-  tensor(0.1642, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.6 =  tensor(0.3630, device='cuda:0')  +-  tensor(0.2082, device='cuda:0') (0.003)
+Original Plaus. XAI WIoU for r=0.6 =  tensor(0.3186, device='cuda:0')  +-  tensor(0.1642, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.6 =  tensor(0.7120, device='cuda:0')  +-  tensor(0.0692, device='cuda:0') (0.001)
+Original Stability MCC for r=0.6 = 0.998 +- 0.020
+Intervened Stability MCC for r=0.6 = 0.031 +- 0.271
+Original Stability F1 for r=0.6 = 0.999 +- 0.008
+Intervened Stability F1 for r=0.6 = 0.706 +- 0.099
+Intervened samples: 3000
+COMPUTING STABILITY DETECTOR FOR LOAD SPLIT = id AND SEED 5
+
+
+model_dirname= repr_GSATGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingfeatavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Wed Sep 18 09:12:41 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif2
+[0m[1;34mDEBUG[0m: 09/18/2024 09:12:41 AM : [1mDataset: {'train': GOODMotif2(18000), 'id_val': GOODMotif2(3000), 'id_test': GOODMotif2(3000), 'val': GOODMotif2(3000), 'test': GOODMotif2(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/18/2024 09:12:41 AM : [1m Data(edge_index=[2, 84], x=[29, 1], node_gt=[29], edge_gt=[84], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[0mData(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/18/2024 09:12:41 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/18/2024 09:12:41 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:12:41 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/18/2024 09:12:41 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:12:41 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/18/2024 09:12:41 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:12:41 AM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 09/18/2024 09:12:41 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 24...
+[0m[1;37mINFO[0m: [1mCheckpoint 24: 
+-----------------------------------
+Train ACCURACY: 0.9188
+Train Loss: 0.3755
+ID Validation ACCURACY: 0.9260
+ID Validation Loss: 0.3545
+ID Test ACCURACY: 0.9160
+ID Test Loss: 0.3848
+OOD Validation ACCURACY: 0.9263
+OOD Validation Loss: 0.4576
+OOD Test ACCURACY: 0.6873
+OOD Test Loss: 1.1964
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 24...
+[0m[1;37mINFO[0m: [1mCheckpoint 24: 
+-----------------------------------
+Train ACCURACY: 0.9188
+Train Loss: 0.3755
+ID Validation ACCURACY: 0.9260
+ID Validation Loss: 0.3545
+ID Test ACCURACY: 0.9160
+ID Test Loss: 0.3848
+OOD Validation ACCURACY: 0.9263
+OOD Validation Loss: 0.4576
+OOD Test ACCURACY: 0.6873
+OOD Test Loss: 1.1964
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9160 0.6873 0.9160 0.6873 0.9260 0.9263[0mGOODMotif2(3000)
+Data example from id_val: Data(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+Label distribution from id_val: (tensor([0, 1, 2]), tensor([1002, 1009,  989]))
+F1 for r=0.3 = 0.000
+WIoU for r=0.3 = 0.501
+F1 for r=0.6 = 0.000
+WIoU for r=0.6 = 0.409
+
+
+ -------------------------------------------------- 
+
+#D#Computing stability detector extended under SUFF_SIMPLE over id_val across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Interventions completed in  0:00:05.979007
+Plausibility completed in  0:00:19.404690
+Original Plaus. XAI WIoU for r=0.3 =  tensor(0.3181, device='cuda:0')  +-  tensor(0.1652, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.3 =  tensor(0.3667, device='cuda:0')  +-  tensor(0.2162, device='cuda:0') (0.004)
+Original Plaus. XAI WIoU for r=0.3 =  tensor(0.3181, device='cuda:0')  +-  tensor(0.1652, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.3 =  tensor(0.3777, device='cuda:0')  +-  tensor(0.0626, device='cuda:0') (0.002)
+Original Stability MCC for r=0.3 = 0.999 +- 0.018
+Intervened Stability MCC for r=0.3 = 0.053 +- 0.253
+Original Stability F1 for r=0.3 = 0.999 +- 0.012
+Intervened Stability F1 for r=0.3 = 0.370 +- 0.169
+Intervened samples: 3000
+
+
+ratio=0.6
+
+
+Interventions completed in  0:00:06.608195
+Plausibility completed in  0:00:20.790409
+Original Plaus. XAI WIoU for r=0.6 =  tensor(0.3181, device='cuda:0')  +-  tensor(0.1652, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.6 =  tensor(0.3668, device='cuda:0')  +-  tensor(0.2154, device='cuda:0') (0.002)
+Original Plaus. XAI WIoU for r=0.6 =  tensor(0.3181, device='cuda:0')  +-  tensor(0.1652, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.6 =  tensor(0.7142, device='cuda:0')  +-  tensor(0.0698, device='cuda:0') (0.002)
+Original Stability MCC for r=0.6 = 0.998 +- 0.023
+Intervened Stability MCC for r=0.6 = 0.100 +- 0.312
+Original Stability F1 for r=0.6 = 0.999 +- 0.009
+Intervened Stability F1 for r=0.6 = 0.723 +- 0.104
+Intervened samples: 3000
+
+\FINISHED GOODMotif2 - GSATGIN
+(id) (id_val) PLAUSIBILITY_WIOU_ORIGINAL: 	[0.31574789 0.31294068] +- [0.00299505 0.00558677] (mean across ratios: 0.31 +- 0.00)
+(id) (id_val) PLAUSIBILITY_WIOU_PERTURBED: 	[0.36196886 0.35331178] +- [0.00719551 0.01227819] (mean across ratios: 0.36 +- 0.01)
+
+(id) (id_val) STABILITY_WIOU_ORIGINAL: 	[0.32625159 0.62428849] +- [0.00117663 0.00127111] (mean across ratios: 0.48 +- 0.00)
+(id) (id_val) STABILITY_WIOU_PERTURBED: 	[0.3742191  0.70236504] +- [0.00488552 0.01148612] (mean across ratios: 0.54 +- 0.01)
+
+(id) (id_val) STABILITY_F1_ORIGINAL: 	[0.99671842 0.99932905] +- [0.00141828 0.0002026 ] (mean across ratios: 1.00 +- 0.00)
+(id) (id_val) STABILITY_F1_PERTURBED: 	[0.34994466 0.71488903] +- [0.01084385 0.00541665] (mean across ratios: 0.53 +- 0.01)
+
+(id) (id_val) STABILITY_MCC_ORIGINAL: 	[0.99520882 0.99817536] +- [0.00205832 0.00054592] (mean across ratios: 1.00 +- 0.00)
+(id) (id_val) STABILITY_MCC_PERTURBED: 	[0.01982362 0.06340281] +- [0.01744566 0.02374975] (mean across ratios: 0.04 +- 0.01)
+
+Overall time of execution:  0:05:44.535868
+DONE GSAT GOODMotif2/basis 0.05
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument lr_filternod in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Wed Sep 18 09:14:05 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif2
+[0m[1;34mDEBUG[0m: 09/18/2024 09:14:05 AM : [1mDataset: {'train': GOODMotif2(18000), 'id_val': GOODMotif2(3000), 'id_test': GOODMotif2(3000), 'val': GOODMotif2(3000), 'test': GOODMotif2(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/18/2024 09:14:05 AM : [1m Data(edge_index=[2, 84], x=[29, 1], node_gt=[29], edge_gt=[84], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[0mData(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/18/2024 09:14:05 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/18/2024 09:14:05 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:14:05 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/18/2024 09:14:05 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:14:05 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/18/2024 09:14:05 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:14:05 AM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 09/18/2024 09:14:05 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 22...
+[0m[1;37mINFO[0m: [1mCheckpoint 22: 
+-----------------------------------
+Train ACCURACY: 0.9222
+Train Loss: 0.3693
+ID Validation ACCURACY: 0.9267
+ID Validation Loss: 0.3559
+ID Test ACCURACY: 0.9203
+ID Test Loss: 0.3852
+OOD Validation ACCURACY: 0.8900
+OOD Validation Loss: 0.4914
+OOD Test ACCURACY: 0.5517
+OOD Test Loss: 1.5316
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 29...
+[0m[1;37mINFO[0m: [1mCheckpoint 29: 
+-----------------------------------
+Train ACCURACY: 0.9157
+Train Loss: 0.3791
+ID Validation ACCURACY: 0.9230
+ID Validation Loss: 0.3661
+ID Test ACCURACY: 0.9137
+ID Test Loss: 0.3922
+OOD Validation ACCURACY: 0.9270
+OOD Validation Loss: 0.4447
+OOD Test ACCURACY: 0.6490
+OOD Test Loss: 1.4331
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9203 0.5517 0.9137 0.6490 0.9230 0.9270[0mGOODMotif2(3000)
+Data example from id_val: Data(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+Label distribution from id_val: (tensor([0, 1, 2]), tensor([1002, 1009,  989]))
+F1 for r=0.3 = 0.000
+WIoU for r=0.3 = 0.494
+F1 for r=0.6 = 0.000
+WIoU for r=0.6 = 0.423
+
+
+ -------------------------------------------------- 
+
+#D#Computing stability detector extended under SUFF_SIMPLE over id_val across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Interventions completed in  0:00:06.056640
+Plausibility completed in  0:00:19.746559
+Original Plaus. XAI WIoU for r=0.3 =  tensor(0.3102, device='cuda:0')  +-  tensor(0.1587, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.3 =  tensor(0.4026, device='cuda:0')  +-  tensor(0.2592, device='cuda:0') (0.003)
+Original Plaus. XAI WIoU for r=0.3 =  tensor(0.3102, device='cuda:0')  +-  tensor(0.1587, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.3 =  tensor(0.4151, device='cuda:0')  +-  tensor(0.1039, device='cuda:0') (0.002)
+Original Stability MCC for r=0.3 = 0.997 +- 0.032
+Intervened Stability MCC for r=0.3 = 0.065 +- 0.231
+Original Stability F1 for r=0.3 = 0.998 +- 0.022
+Intervened Stability F1 for r=0.3 = 0.446 +- 0.165
+Intervened samples: 2935
+
+
+ratio=0.6
+
+
+Interventions completed in  0:00:05.744614
+Plausibility completed in  0:00:20.774773
+Original Plaus. XAI WIoU for r=0.6 =  tensor(0.3060, device='cuda:0')  +-  tensor(0.1547, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.6 =  tensor(0.3864, device='cuda:0')  +-  tensor(0.2474, device='cuda:0') (0.002)
+Original Plaus. XAI WIoU for r=0.6 =  tensor(0.3060, device='cuda:0')  +-  tensor(0.1547, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.6 =  tensor(0.7710, device='cuda:0')  +-  tensor(0.1820, device='cuda:0') (0.001)
+Original Stability MCC for r=0.6 = 0.998 +- 0.027
+Intervened Stability MCC for r=0.6 = -0.003 +- 0.191
+Original Stability F1 for r=0.6 = 0.999 +- 0.009
+Intervened Stability F1 for r=0.6 = 0.798 +- 0.130
+Intervened samples: 2901
+COMPUTING STABILITY DETECTOR FOR LOAD SPLIT = id AND SEED 2
+
+
+model_dirname= repr_GSATGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingfeatavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Wed Sep 18 09:15:16 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif2
+[0m[1;34mDEBUG[0m: 09/18/2024 09:15:16 AM : [1mDataset: {'train': GOODMotif2(18000), 'id_val': GOODMotif2(3000), 'id_test': GOODMotif2(3000), 'val': GOODMotif2(3000), 'test': GOODMotif2(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/18/2024 09:15:16 AM : [1m Data(edge_index=[2, 84], x=[29, 1], node_gt=[29], edge_gt=[84], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[0mData(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/18/2024 09:15:16 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/18/2024 09:15:16 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:15:16 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/18/2024 09:15:16 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:15:16 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/18/2024 09:15:16 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:15:16 AM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 09/18/2024 09:15:16 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 28...
+[0m[1;37mINFO[0m: [1mCheckpoint 28: 
+-----------------------------------
+Train ACCURACY: 0.9236
+Train Loss: 0.3823
+ID Validation ACCURACY: 0.9273
+ID Validation Loss: 0.3640
+ID Test ACCURACY: 0.9223
+ID Test Loss: 0.3970
+OOD Validation ACCURACY: 0.9163
+OOD Validation Loss: 0.4602
+OOD Test ACCURACY: 0.6380
+OOD Test Loss: 1.7702
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 20...
+[0m[1;37mINFO[0m: [1mCheckpoint 20: 
+-----------------------------------
+Train ACCURACY: 0.9191
+Train Loss: 0.3765
+ID Validation ACCURACY: 0.9240
+ID Validation Loss: 0.3656
+ID Test ACCURACY: 0.9180
+ID Test Loss: 0.3905
+OOD Validation ACCURACY: 0.9257
+OOD Validation Loss: 0.4647
+OOD Test ACCURACY: 0.5130
+OOD Test Loss: 1.8937
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9223 0.6380 0.9180 0.5130 0.9240 0.9257[0mGOODMotif2(3000)
+Data example from id_val: Data(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+Label distribution from id_val: (tensor([0, 1, 2]), tensor([1002, 1009,  989]))
+F1 for r=0.3 = 0.000
+WIoU for r=0.3 = 0.482
+F1 for r=0.6 = 0.000
+WIoU for r=0.6 = 0.398
+
+
+ -------------------------------------------------- 
+
+#D#Computing stability detector extended under SUFF_SIMPLE over id_val across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Interventions completed in  0:00:06.111004
+Plausibility completed in  0:00:19.986801
+Original Plaus. XAI WIoU for r=0.3 =  tensor(0.3163, device='cuda:0')  +-  tensor(0.1625, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.3 =  tensor(0.4179, device='cuda:0')  +-  tensor(0.2560, device='cuda:0') (0.003)
+Original Plaus. XAI WIoU for r=0.3 =  tensor(0.3163, device='cuda:0')  +-  tensor(0.1625, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.3 =  tensor(0.4252, device='cuda:0')  +-  tensor(0.0864, device='cuda:0') (0.002)
+Original Stability MCC for r=0.3 = 0.992 +- 0.050
+Intervened Stability MCC for r=0.3 = 0.002 +- 0.236
+Original Stability F1 for r=0.3 = 0.995 +- 0.035
+Intervened Stability F1 for r=0.3 = 0.416 +- 0.159
+Intervened samples: 3000
+
+
+ratio=0.6
+
+
+Interventions completed in  0:00:05.765218
+Plausibility completed in  0:00:19.373039
+Original Plaus. XAI WIoU for r=0.6 =  tensor(0.3065, device='cuda:0')  +-  tensor(0.1554, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.6 =  tensor(0.3800, device='cuda:0')  +-  tensor(0.2392, device='cuda:0') (0.001)
+Original Plaus. XAI WIoU for r=0.6 =  tensor(0.3065, device='cuda:0')  +-  tensor(0.1554, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.6 =  tensor(0.7727, device='cuda:0')  +-  tensor(0.1782, device='cuda:0') (0.001)
+Original Stability MCC for r=0.6 = 0.999 +- 0.012
+Intervened Stability MCC for r=0.6 = -0.007 +- 0.197
+Original Stability F1 for r=0.6 = 1.000 +- 0.005
+Intervened Stability F1 for r=0.6 = 0.793 +- 0.130
+Intervened samples: 2907
+COMPUTING STABILITY DETECTOR FOR LOAD SPLIT = id AND SEED 3
+
+
+model_dirname= repr_GSATGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingfeatavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Wed Sep 18 09:16:26 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif2
+[0m[1;34mDEBUG[0m: 09/18/2024 09:16:26 AM : [1mDataset: {'train': GOODMotif2(18000), 'id_val': GOODMotif2(3000), 'id_test': GOODMotif2(3000), 'val': GOODMotif2(3000), 'test': GOODMotif2(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/18/2024 09:16:26 AM : [1m Data(edge_index=[2, 84], x=[29, 1], node_gt=[29], edge_gt=[84], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[0mData(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/18/2024 09:16:26 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/18/2024 09:16:26 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:16:26 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/18/2024 09:16:26 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:16:26 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/18/2024 09:16:26 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:16:26 AM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 09/18/2024 09:16:26 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 25...
+[0m[1;37mINFO[0m: [1mCheckpoint 25: 
+-----------------------------------
+Train ACCURACY: 0.9211
+Train Loss: 0.3738
+ID Validation ACCURACY: 0.9273
+ID Validation Loss: 0.3569
+ID Test ACCURACY: 0.9193
+ID Test Loss: 0.3863
+OOD Validation ACCURACY: 0.8863
+OOD Validation Loss: 0.4868
+OOD Test ACCURACY: 0.6483
+OOD Test Loss: 1.2024
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 29...
+[0m[1;37mINFO[0m: [1mCheckpoint 29: 
+-----------------------------------
+Train ACCURACY: 0.9178
+Train Loss: 0.3688
+ID Validation ACCURACY: 0.9257
+ID Validation Loss: 0.3548
+ID Test ACCURACY: 0.9177
+ID Test Loss: 0.3860
+OOD Validation ACCURACY: 0.9277
+OOD Validation Loss: 0.4565
+OOD Test ACCURACY: 0.6407
+OOD Test Loss: 1.2257
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9193 0.6483 0.9177 0.6407 0.9257 0.9277[0mGOODMotif2(3000)
+Data example from id_val: Data(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+Label distribution from id_val: (tensor([0, 1, 2]), tensor([1002, 1009,  989]))
+F1 for r=0.3 = 0.000
+WIoU for r=0.3 = 0.511
+F1 for r=0.6 = 0.000
+WIoU for r=0.6 = 0.411
+
+
+ -------------------------------------------------- 
+
+#D#Computing stability detector extended under SUFF_SIMPLE over id_val across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Interventions completed in  0:00:06.600462
+Plausibility completed in  0:00:20.500384
+Original Plaus. XAI WIoU for r=0.3 =  tensor(0.3156, device='cuda:0')  +-  tensor(0.1632, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.3 =  tensor(0.4214, device='cuda:0')  +-  tensor(0.2653, device='cuda:0') (0.004)
+Original Plaus. XAI WIoU for r=0.3 =  tensor(0.3156, device='cuda:0')  +-  tensor(0.1632, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.3 =  tensor(0.4279, device='cuda:0')  +-  tensor(0.0875, device='cuda:0') (0.002)
+Original Stability MCC for r=0.3 = 0.995 +- 0.038
+Intervened Stability MCC for r=0.3 = 0.026 +- 0.259
+Original Stability F1 for r=0.3 = 0.997 +- 0.026
+Intervened Stability F1 for r=0.3 = 0.432 +- 0.173
+Intervened samples: 3000
+
+
+ratio=0.6
+
+
+Interventions completed in  0:00:05.916368
+Plausibility completed in  0:00:20.041318
+Original Plaus. XAI WIoU for r=0.6 =  tensor(0.3156, device='cuda:0')  +-  tensor(0.1632, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.6 =  tensor(0.4049, device='cuda:0')  +-  tensor(0.2388, device='cuda:0') (0.002)
+Original Plaus. XAI WIoU for r=0.6 =  tensor(0.3156, device='cuda:0')  +-  tensor(0.1632, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.6 =  tensor(0.7921, device='cuda:0')  +-  tensor(0.1097, device='cuda:0') (0.001)
+Original Stability MCC for r=0.6 = 0.999 +- 0.014
+Intervened Stability MCC for r=0.6 = 0.011 +- 0.208
+Original Stability F1 for r=0.6 = 1.000 +- 0.005
+Intervened Stability F1 for r=0.6 = 0.795 +- 0.126
+Intervened samples: 3000
+COMPUTING STABILITY DETECTOR FOR LOAD SPLIT = id AND SEED 4
+
+
+model_dirname= repr_GSATGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingfeatavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Wed Sep 18 09:17:37 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif2
+[0m[1;34mDEBUG[0m: 09/18/2024 09:17:37 AM : [1mDataset: {'train': GOODMotif2(18000), 'id_val': GOODMotif2(3000), 'id_test': GOODMotif2(3000), 'val': GOODMotif2(3000), 'test': GOODMotif2(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/18/2024 09:17:37 AM : [1m Data(edge_index=[2, 84], x=[29, 1], node_gt=[29], edge_gt=[84], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[0mData(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/18/2024 09:17:37 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/18/2024 09:17:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:17:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/18/2024 09:17:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:17:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/18/2024 09:17:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:17:37 AM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 09/18/2024 09:17:37 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 26...
+[0m[1;37mINFO[0m: [1mCheckpoint 26: 
+-----------------------------------
+Train ACCURACY: 0.9218
+Train Loss: 0.3744
+ID Validation ACCURACY: 0.9283
+ID Validation Loss: 0.3613
+ID Test ACCURACY: 0.9190
+ID Test Loss: 0.3906
+OOD Validation ACCURACY: 0.7447
+OOD Validation Loss: 0.5801
+OOD Test ACCURACY: 0.5590
+OOD Test Loss: 1.9371
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 19...
+[0m[1;37mINFO[0m: [1mCheckpoint 19: 
+-----------------------------------
+Train ACCURACY: 0.9174
+Train Loss: 0.3778
+ID Validation ACCURACY: 0.9213
+ID Validation Loss: 0.3598
+ID Test ACCURACY: 0.9153
+ID Test Loss: 0.3903
+OOD Validation ACCURACY: 0.9237
+OOD Validation Loss: 0.4252
+OOD Test ACCURACY: 0.4633
+OOD Test Loss: 2.5793
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9190 0.5590 0.9153 0.4633 0.9213 0.9237[0mGOODMotif2(3000)
+Data example from id_val: Data(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+Label distribution from id_val: (tensor([0, 1, 2]), tensor([1002, 1009,  989]))
+F1 for r=0.3 = 0.000
+WIoU for r=0.3 = 0.538
+F1 for r=0.6 = 0.000
+WIoU for r=0.6 = 0.437
+
+
+ -------------------------------------------------- 
+
+#D#Computing stability detector extended under SUFF_SIMPLE over id_val across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Interventions completed in  0:00:06.104545
+Plausibility completed in  0:00:20.368878
+Original Plaus. XAI WIoU for r=0.3 =  tensor(0.3186, device='cuda:0')  +-  tensor(0.1642, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.3 =  tensor(0.4213, device='cuda:0')  +-  tensor(0.2602, device='cuda:0') (0.003)
+Original Plaus. XAI WIoU for r=0.3 =  tensor(0.3186, device='cuda:0')  +-  tensor(0.1642, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.3 =  tensor(0.4281, device='cuda:0')  +-  tensor(0.0868, device='cuda:0') (0.002)
+Original Stability MCC for r=0.3 = 0.994 +- 0.046
+Intervened Stability MCC for r=0.3 = 0.039 +- 0.262
+Original Stability F1 for r=0.3 = 0.996 +- 0.031
+Intervened Stability F1 for r=0.3 = 0.432 +- 0.182
+Intervened samples: 3000
+
+
+ratio=0.6
+
+
+Interventions completed in  0:00:06.090091
+Plausibility completed in  0:00:19.994954
+Original Plaus. XAI WIoU for r=0.6 =  tensor(0.3186, device='cuda:0')  +-  tensor(0.1642, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.6 =  tensor(0.4092, device='cuda:0')  +-  tensor(0.2407, device='cuda:0') (0.002)
+Original Plaus. XAI WIoU for r=0.6 =  tensor(0.3186, device='cuda:0')  +-  tensor(0.1642, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.6 =  tensor(0.7973, device='cuda:0')  +-  tensor(0.1151, device='cuda:0') (0.001)
+Original Stability MCC for r=0.6 = 0.999 +- 0.015
+Intervened Stability MCC for r=0.6 = 0.010 +- 0.232
+Original Stability F1 for r=0.6 = 0.999 +- 0.006
+Intervened Stability F1 for r=0.6 = 0.794 +- 0.126
+Intervened samples: 3000
+COMPUTING STABILITY DETECTOR FOR LOAD SPLIT = id AND SEED 5
+
+
+model_dirname= repr_GSATGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingfeatavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Wed Sep 18 09:18:46 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif2
+[0m[1;34mDEBUG[0m: 09/18/2024 09:18:47 AM : [1mDataset: {'train': GOODMotif2(18000), 'id_val': GOODMotif2(3000), 'id_test': GOODMotif2(3000), 'val': GOODMotif2(3000), 'test': GOODMotif2(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/18/2024 09:18:47 AM : [1m Data(edge_index=[2, 84], x=[29, 1], node_gt=[29], edge_gt=[84], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[0mData(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/18/2024 09:18:47 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/18/2024 09:18:47 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:18:47 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/18/2024 09:18:47 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:18:47 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/18/2024 09:18:47 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:18:47 AM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 09/18/2024 09:18:47 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 24...
+[0m[1;37mINFO[0m: [1mCheckpoint 24: 
+-----------------------------------
+Train ACCURACY: 0.9188
+Train Loss: 0.3755
+ID Validation ACCURACY: 0.9260
+ID Validation Loss: 0.3545
+ID Test ACCURACY: 0.9160
+ID Test Loss: 0.3848
+OOD Validation ACCURACY: 0.9263
+OOD Validation Loss: 0.4576
+OOD Test ACCURACY: 0.6873
+OOD Test Loss: 1.1964
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 24...
+[0m[1;37mINFO[0m: [1mCheckpoint 24: 
+-----------------------------------
+Train ACCURACY: 0.9188
+Train Loss: 0.3755
+ID Validation ACCURACY: 0.9260
+ID Validation Loss: 0.3545
+ID Test ACCURACY: 0.9160
+ID Test Loss: 0.3848
+OOD Validation ACCURACY: 0.9263
+OOD Validation Loss: 0.4576
+OOD Test ACCURACY: 0.6873
+OOD Test Loss: 1.1964
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9160 0.6873 0.9160 0.6873 0.9260 0.9263[0mGOODMotif2(3000)
+Data example from id_val: Data(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+Label distribution from id_val: (tensor([0, 1, 2]), tensor([1002, 1009,  989]))
+F1 for r=0.3 = 0.000
+WIoU for r=0.3 = 0.501
+F1 for r=0.6 = 0.000
+WIoU for r=0.6 = 0.409
+
+
+ -------------------------------------------------- 
+
+#D#Computing stability detector extended under SUFF_SIMPLE over id_val across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Interventions completed in  0:00:06.118856
+Plausibility completed in  0:00:20.085631
+Original Plaus. XAI WIoU for r=0.3 =  tensor(0.3181, device='cuda:0')  +-  tensor(0.1652, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.3 =  tensor(0.4212, device='cuda:0')  +-  tensor(0.2599, device='cuda:0') (0.004)
+Original Plaus. XAI WIoU for r=0.3 =  tensor(0.3181, device='cuda:0')  +-  tensor(0.1652, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.3 =  tensor(0.4290, device='cuda:0')  +-  tensor(0.0907, device='cuda:0') (0.002)
+Original Stability MCC for r=0.3 = 0.998 +- 0.019
+Intervened Stability MCC for r=0.3 = 0.076 +- 0.249
+Original Stability F1 for r=0.3 = 0.999 +- 0.013
+Intervened Stability F1 for r=0.3 = 0.451 +- 0.168
+Intervened samples: 3000
+
+
+ratio=0.6
+
+
+Interventions completed in  0:00:05.931692
+Plausibility completed in  0:00:23.128300
+Original Plaus. XAI WIoU for r=0.6 =  tensor(0.3181, device='cuda:0')  +-  tensor(0.1652, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.6 =  tensor(0.4105, device='cuda:0')  +-  tensor(0.2470, device='cuda:0') (0.002)
+Original Plaus. XAI WIoU for r=0.6 =  tensor(0.3181, device='cuda:0')  +-  tensor(0.1652, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.6 =  tensor(0.7939, device='cuda:0')  +-  tensor(0.1065, device='cuda:0') (0.001)
+Original Stability MCC for r=0.6 = 0.997 +- 0.024
+Intervened Stability MCC for r=0.6 = 0.015 +- 0.213
+Original Stability F1 for r=0.6 = 0.999 +- 0.009
+Intervened Stability F1 for r=0.6 = 0.796 +- 0.119
+Intervened samples: 3000
+
+\FINISHED GOODMotif2 - GSATGIN
+(id) (id_val) PLAUSIBILITY_WIOU_ORIGINAL: 	[0.31574789 0.31294068] +- [0.00299505 0.00558677] (mean across ratios: 0.31 +- 0.00)
+(id) (id_val) PLAUSIBILITY_WIOU_PERTURBED: 	[0.41687062 0.39820763] +- [0.007253   0.01253365] (mean across ratios: 0.41 +- 0.01)
+
+(id) (id_val) STABILITY_WIOU_ORIGINAL: 	[0.32625152 0.62428849] +- [0.00117651 0.00127111] (mean across ratios: 0.48 +- 0.00)
+(id) (id_val) STABILITY_WIOU_PERTURBED: 	[0.42507166 0.78538411] +- [0.00514143 0.01122738] (mean across ratios: 0.61 +- 0.01)
+
+(id) (id_val) STABILITY_F1_ORIGINAL: 	[0.99681906 0.99938248] +- [0.00146715 0.00020947] (mean across ratios: 1.00 +- 0.00)
+(id) (id_val) STABILITY_F1_PERTURBED: 	[0.43524956 0.79516624] +- [0.01231663 0.00140442] (mean across ratios: 0.62 +- 0.01)
+
+(id) (id_val) STABILITY_MCC_ORIGINAL: 	[0.99535738 0.99832711] +- [0.0021256  0.00059785] (mean across ratios: 1.00 +- 0.00)
+(id) (id_val) STABILITY_MCC_PERTURBED: 	[0.04162712 0.0050549 ] +- [0.0264701  0.00866331] (mean across ratios: 0.02 +- 0.01)
+
+Overall time of execution:  0:05:55.044924
+DONE GSAT GOODMotif2/basis 0.10
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Wed Sep 18 09:20:12 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif
+[0m[1;34mDEBUG[0m: 09/18/2024 09:20:12 AM : [1mPermuting node indices to remove explanation bias for train
+[0m[1;34mDEBUG[0m: 09/18/2024 09:20:24 AM : [1mPermuting node indices to remove explanation bias for id_val
+[0m[1;34mDEBUG[0m: 09/18/2024 09:20:26 AM : [1mPermuting node indices to remove explanation bias for id_test
+[0m[1;34mDEBUG[0m: 09/18/2024 09:20:28 AM : [1mPermuting node indices to remove explanation bias for val
+[0m[1;34mDEBUG[0m: 09/18/2024 09:20:31 AM : [1mPermuting node indices to remove explanation bias for test
+[0m[1;34mDEBUG[0m: 09/18/2024 09:20:37 AM : [1mDataset: {'train': GOODMotif(18000), 'id_val': GOODMotif(3000), 'id_test': GOODMotif(3000), 'val': GOODMotif(3000), 'test': GOODMotif(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/18/2024 09:20:37 AM : [1m Data(edge_index=[2, 58], x=[17, 1], node_gt=[17], edge_gt=[58], y=[1], env_id=[1], ori_edge_index=[2, 58], node_perm=[17], num_nodes=17)
+[0mData(edge_index=[2, 80], x=[22, 1], node_gt=[22], edge_gt=[80], y=[1], env_id=[1], ori_edge_index=[2, 80], node_perm=[22], num_nodes=22)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/18/2024 09:20:37 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/18/2024 09:20:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:20:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/18/2024 09:20:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:20:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/18/2024 09:20:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:20:37 AM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 09/18/2024 09:20:37 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 24...
+[0m[1;37mINFO[0m: [1mCheckpoint 24: 
+-----------------------------------
+Train ACCURACY: 0.9010
+Train Loss: 0.4113
+ID Validation ACCURACY: 0.9050
+ID Validation Loss: 0.3841
+ID Test ACCURACY: 0.9073
+ID Test Loss: 0.4060
+OOD Validation ACCURACY: 0.7423
+OOD Validation Loss: 0.6636
+OOD Test ACCURACY: 0.4077
+OOD Test Loss: 1.2302
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 28...
+[0m[1;37mINFO[0m: [1mCheckpoint 28: 
+-----------------------------------
+Train ACCURACY: 0.8978
+Train Loss: 0.4102
+ID Validation ACCURACY: 0.8993
+ID Validation Loss: 0.3779
+ID Test ACCURACY: 0.9033
+ID Test Loss: 0.4072
+OOD Validation ACCURACY: 0.8020
+OOD Validation Loss: 0.6381
+OOD Test ACCURACY: 0.5353
+OOD Test Loss: 1.1219
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9073 0.4077 0.9033 0.5353 0.8993 0.8020[0mGOODMotif(3000)
+Data example from id_val: Data(edge_index=[2, 80], x=[22, 1], node_gt=[22], edge_gt=[80], y=[1], env_id=[1], ori_edge_index=[2, 80], node_perm=[22], num_nodes=22)
+Label distribution from id_val: (tensor([0, 1, 2]), tensor([1019,  973, 1008]))
+F1 for r=0.3 = 0.000
+WIoU for r=0.3 = 0.506
+F1 for r=0.6 = 0.000
+WIoU for r=0.6 = 0.430
+
+
+ -------------------------------------------------- 
+
+#D#Computing stability detector extended under SUFF_SIMPLE over id_val across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Interventions completed in  0:00:06.196590
+Plausibility completed in  0:00:20.465597
+Original Plaus. XAI WIoU for r=0.3 =  tensor(0.3643, device='cuda:0')  +-  tensor(0.1755, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.3 =  tensor(0.4196, device='cuda:0')  +-  tensor(0.2313, device='cuda:0') (0.002)
+Original Plaus. XAI WIoU for r=0.3 =  tensor(0.3643, device='cuda:0')  +-  tensor(0.1755, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.3 =  tensor(0.3960, device='cuda:0')  +-  tensor(0.0764, device='cuda:0') (0.002)
+Original Stability MCC for r=0.3 = 0.996 +- 0.039
+Intervened Stability MCC for r=0.3 = 0.278 +- 0.302
+Original Stability F1 for r=0.3 = 0.997 +- 0.026
+Intervened Stability F1 for r=0.3 = 0.555 +- 0.197
+Intervened samples: 2971
+
+
+ratio=0.6
+
+
+Interventions completed in  0:00:05.743767
+Plausibility completed in  0:00:18.339607
+Original Plaus. XAI WIoU for r=0.6 =  tensor(0.3515, device='cuda:0')  +-  tensor(0.1686, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.6 =  tensor(0.3706, device='cuda:0')  +-  tensor(0.2319, device='cuda:0') (0.001)
+Original Plaus. XAI WIoU for r=0.6 =  tensor(0.3515, device='cuda:0')  +-  tensor(0.1686, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.6 =  tensor(0.6744, device='cuda:0')  +-  tensor(0.2082, device='cuda:0') (0.002)
+Original Stability MCC for r=0.6 = 0.999 +- 0.011
+Intervened Stability MCC for r=0.6 = 0.228 +- 0.332
+Original Stability F1 for r=0.6 = 1.000 +- 0.004
+Intervened Stability F1 for r=0.6 = 0.786 +- 0.112
+Intervened samples: 2771
+COMPUTING STABILITY DETECTOR FOR LOAD SPLIT = id AND SEED 2
+
+
+model_dirname= repr_GSATGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingfeatavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Wed Sep 18 09:21:45 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif
+[0m[1;34mDEBUG[0m: 09/18/2024 09:21:45 AM : [1mPermuting node indices to remove explanation bias for train
+[0m[1;34mDEBUG[0m: 09/18/2024 09:21:56 AM : [1mPermuting node indices to remove explanation bias for id_val
+[0m[1;34mDEBUG[0m: 09/18/2024 09:21:58 AM : [1mPermuting node indices to remove explanation bias for id_test
+[0m[1;34mDEBUG[0m: 09/18/2024 09:22:00 AM : [1mPermuting node indices to remove explanation bias for val
+[0m[1;34mDEBUG[0m: 09/18/2024 09:22:04 AM : [1mPermuting node indices to remove explanation bias for test
+[0m[1;34mDEBUG[0m: 09/18/2024 09:22:10 AM : [1mDataset: {'train': GOODMotif(18000), 'id_val': GOODMotif(3000), 'id_test': GOODMotif(3000), 'val': GOODMotif(3000), 'test': GOODMotif(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/18/2024 09:22:10 AM : [1m Data(edge_index=[2, 58], x=[17, 1], node_gt=[17], edge_gt=[58], y=[1], env_id=[1], ori_edge_index=[2, 58], node_perm=[17], num_nodes=17)
+[0mData(edge_index=[2, 80], x=[22, 1], node_gt=[22], edge_gt=[80], y=[1], env_id=[1], ori_edge_index=[2, 80], node_perm=[22], num_nodes=22)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/18/2024 09:22:10 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/18/2024 09:22:10 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:22:10 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/18/2024 09:22:10 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:22:10 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/18/2024 09:22:10 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:22:10 AM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 09/18/2024 09:22:10 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 26...
+[0m[1;37mINFO[0m: [1mCheckpoint 26: 
+-----------------------------------
+Train ACCURACY: 0.8982
+Train Loss: 0.4154
+ID Validation ACCURACY: 0.9063
+ID Validation Loss: 0.3884
+ID Test ACCURACY: 0.9040
+ID Test Loss: 0.4108
+OOD Validation ACCURACY: 0.7660
+OOD Validation Loss: 0.6770
+OOD Test ACCURACY: 0.3893
+OOD Test Loss: 1.9553
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 17...
+[0m[1;37mINFO[0m: [1mCheckpoint 17: 
+-----------------------------------
+Train ACCURACY: 0.8992
+Train Loss: 0.4251
+ID Validation ACCURACY: 0.9040
+ID Validation Loss: 0.3990
+ID Test ACCURACY: 0.9030
+ID Test Loss: 0.4150
+OOD Validation ACCURACY: 0.8080
+OOD Validation Loss: 0.6806
+OOD Test ACCURACY: 0.5023
+OOD Test Loss: 1.2075
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9040 0.3893 0.9030 0.5023 0.9040 0.8080[0mGOODMotif(3000)
+Data example from id_val: Data(edge_index=[2, 80], x=[22, 1], node_gt=[22], edge_gt=[80], y=[1], env_id=[1], ori_edge_index=[2, 80], node_perm=[22], num_nodes=22)
+Label distribution from id_val: (tensor([0, 1, 2]), tensor([1019,  973, 1008]))
+F1 for r=0.3 = 0.000
+WIoU for r=0.3 = 0.507
+F1 for r=0.6 = 0.000
+WIoU for r=0.6 = 0.473
+
+
+ -------------------------------------------------- 
+
+#D#Computing stability detector extended under SUFF_SIMPLE over id_val across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Interventions completed in  0:00:06.686932
+Plausibility completed in  0:00:20.212848
+Original Plaus. XAI WIoU for r=0.3 =  tensor(0.3632, device='cuda:0')  +-  tensor(0.1751, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.3 =  tensor(0.4185, device='cuda:0')  +-  tensor(0.2305, device='cuda:0') (0.002)
+Original Plaus. XAI WIoU for r=0.3 =  tensor(0.3632, device='cuda:0')  +-  tensor(0.1751, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.3 =  tensor(0.3884, device='cuda:0')  +-  tensor(0.0729, device='cuda:0') (0.002)
+Original Stability MCC for r=0.3 = 0.996 +- 0.037
+Intervened Stability MCC for r=0.3 = 0.270 +- 0.302
+Original Stability F1 for r=0.3 = 0.998 +- 0.025
+Intervened Stability F1 for r=0.3 = 0.546 +- 0.196
+Intervened samples: 2971
+
+
+ratio=0.6
+
+
+Interventions completed in  0:00:06.160784
+Plausibility completed in  0:00:20.753017
+Original Plaus. XAI WIoU for r=0.6 =  tensor(0.3604, device='cuda:0')  +-  tensor(0.1734, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.6 =  tensor(0.4070, device='cuda:0')  +-  tensor(0.2289, device='cuda:0') (0.001)
+Original Plaus. XAI WIoU for r=0.6 =  tensor(0.3604, device='cuda:0')  +-  tensor(0.1734, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.6 =  tensor(0.7252, device='cuda:0')  +-  tensor(0.1409, device='cuda:0') (0.001)
+Original Stability MCC for r=0.6 = 0.999 +- 0.014
+Intervened Stability MCC for r=0.6 = 0.183 +- 0.334
+Original Stability F1 for r=0.6 = 1.000 +- 0.005
+Intervened Stability F1 for r=0.6 = 0.787 +- 0.112
+Intervened samples: 2929
+COMPUTING STABILITY DETECTOR FOR LOAD SPLIT = id AND SEED 3
+
+
+model_dirname= repr_GSATGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingfeatavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Wed Sep 18 09:23:21 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif
+[0m[1;34mDEBUG[0m: 09/18/2024 09:23:21 AM : [1mPermuting node indices to remove explanation bias for train
+[0m[1;34mDEBUG[0m: 09/18/2024 09:23:32 AM : [1mPermuting node indices to remove explanation bias for id_val
+[0m[1;34mDEBUG[0m: 09/18/2024 09:23:34 AM : [1mPermuting node indices to remove explanation bias for id_test
+[0m[1;34mDEBUG[0m: 09/18/2024 09:23:36 AM : [1mPermuting node indices to remove explanation bias for val
+[0m[1;34mDEBUG[0m: 09/18/2024 09:23:39 AM : [1mPermuting node indices to remove explanation bias for test
+[0m[1;34mDEBUG[0m: 09/18/2024 09:23:45 AM : [1mDataset: {'train': GOODMotif(18000), 'id_val': GOODMotif(3000), 'id_test': GOODMotif(3000), 'val': GOODMotif(3000), 'test': GOODMotif(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/18/2024 09:23:45 AM : [1m Data(edge_index=[2, 58], x=[17, 1], node_gt=[17], edge_gt=[58], y=[1], env_id=[1], ori_edge_index=[2, 58], node_perm=[17], num_nodes=17)
+[0mData(edge_index=[2, 80], x=[22, 1], node_gt=[22], edge_gt=[80], y=[1], env_id=[1], ori_edge_index=[2, 80], node_perm=[22], num_nodes=22)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/18/2024 09:23:45 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/18/2024 09:23:45 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:23:45 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/18/2024 09:23:45 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:23:45 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/18/2024 09:23:45 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:23:45 AM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 09/18/2024 09:23:45 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 25...
+[0m[1;37mINFO[0m: [1mCheckpoint 25: 
+-----------------------------------
+Train ACCURACY: 0.8945
+Train Loss: 0.4116
+ID Validation ACCURACY: 0.9040
+ID Validation Loss: 0.3795
+ID Test ACCURACY: 0.8997
+ID Test Loss: 0.4107
+OOD Validation ACCURACY: 0.7253
+OOD Validation Loss: 0.6863
+OOD Test ACCURACY: 0.4013
+OOD Test Loss: 2.0413
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 26...
+[0m[1;37mINFO[0m: [1mCheckpoint 26: 
+-----------------------------------
+Train ACCURACY: 0.8913
+Train Loss: 0.4172
+ID Validation ACCURACY: 0.8983
+ID Validation Loss: 0.3806
+ID Test ACCURACY: 0.8980
+ID Test Loss: 0.4151
+OOD Validation ACCURACY: 0.8380
+OOD Validation Loss: 0.6095
+OOD Test ACCURACY: 0.5037
+OOD Test Loss: 0.9645
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.8997 0.4013 0.8980 0.5037 0.8983 0.8380[0mGOODMotif(3000)
+Data example from id_val: Data(edge_index=[2, 80], x=[22, 1], node_gt=[22], edge_gt=[80], y=[1], env_id=[1], ori_edge_index=[2, 80], node_perm=[22], num_nodes=22)
+Label distribution from id_val: (tensor([0, 1, 2]), tensor([1019,  973, 1008]))
+F1 for r=0.3 = 0.000
+WIoU for r=0.3 = 0.477
+F1 for r=0.6 = 0.000
+WIoU for r=0.6 = 0.432
+
+
+ -------------------------------------------------- 
+
+#D#Computing stability detector extended under SUFF_SIMPLE over id_val across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Interventions completed in  0:00:05.971449
+Plausibility completed in  0:00:19.998122
+Original Plaus. XAI WIoU for r=0.3 =  tensor(0.3628, device='cuda:0')  +-  tensor(0.1756, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.3 =  tensor(0.4158, device='cuda:0')  +-  tensor(0.2299, device='cuda:0') (0.002)
+Original Plaus. XAI WIoU for r=0.3 =  tensor(0.3628, device='cuda:0')  +-  tensor(0.1756, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.3 =  tensor(0.3853, device='cuda:0')  +-  tensor(0.0758, device='cuda:0') (0.002)
+Original Stability MCC for r=0.3 = 0.996 +- 0.035
+Intervened Stability MCC for r=0.3 = 0.240 +- 0.307
+Original Stability F1 for r=0.3 = 0.997 +- 0.023
+Intervened Stability F1 for r=0.3 = 0.528 +- 0.193
+Intervened samples: 2965
+
+
+ratio=0.6
+
+
+Interventions completed in  0:00:05.775443
+Plausibility completed in  0:00:18.877855
+Original Plaus. XAI WIoU for r=0.6 =  tensor(0.3525, device='cuda:0')  +-  tensor(0.1723, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.6 =  tensor(0.3747, device='cuda:0')  +-  tensor(0.2320, device='cuda:0') (0.001)
+Original Plaus. XAI WIoU for r=0.6 =  tensor(0.3525, device='cuda:0')  +-  tensor(0.1723, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.6 =  tensor(0.6825, device='cuda:0')  +-  tensor(0.2040, device='cuda:0') (0.001)
+Original Stability MCC for r=0.6 = 0.999 +- 0.017
+Intervened Stability MCC for r=0.6 = 0.122 +- 0.313
+Original Stability F1 for r=0.6 = 0.999 +- 0.006
+Intervened Stability F1 for r=0.6 = 0.771 +- 0.110
+Intervened samples: 2790
+COMPUTING STABILITY DETECTOR FOR LOAD SPLIT = id AND SEED 4
+
+
+model_dirname= repr_GSATGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingfeatavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Wed Sep 18 09:24:52 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif
+[0m[1;34mDEBUG[0m: 09/18/2024 09:24:52 AM : [1mPermuting node indices to remove explanation bias for train
+[0m[1;34mDEBUG[0m: 09/18/2024 09:25:03 AM : [1mPermuting node indices to remove explanation bias for id_val
+[0m[1;34mDEBUG[0m: 09/18/2024 09:25:05 AM : [1mPermuting node indices to remove explanation bias for id_test
+[0m[1;34mDEBUG[0m: 09/18/2024 09:25:07 AM : [1mPermuting node indices to remove explanation bias for val
+[0m[1;34mDEBUG[0m: 09/18/2024 09:25:10 AM : [1mPermuting node indices to remove explanation bias for test
+[0m[1;34mDEBUG[0m: 09/18/2024 09:25:16 AM : [1mDataset: {'train': GOODMotif(18000), 'id_val': GOODMotif(3000), 'id_test': GOODMotif(3000), 'val': GOODMotif(3000), 'test': GOODMotif(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/18/2024 09:25:16 AM : [1m Data(edge_index=[2, 58], x=[17, 1], node_gt=[17], edge_gt=[58], y=[1], env_id=[1], ori_edge_index=[2, 58], node_perm=[17], num_nodes=17)
+[0mData(edge_index=[2, 80], x=[22, 1], node_gt=[22], edge_gt=[80], y=[1], env_id=[1], ori_edge_index=[2, 80], node_perm=[22], num_nodes=22)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/18/2024 09:25:16 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/18/2024 09:25:16 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:25:16 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/18/2024 09:25:16 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:25:16 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/18/2024 09:25:16 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:25:16 AM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 09/18/2024 09:25:16 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 27...
+[0m[1;37mINFO[0m: [1mCheckpoint 27: 
+-----------------------------------
+Train ACCURACY: 0.8979
+Train Loss: 0.4122
+ID Validation ACCURACY: 0.9040
+ID Validation Loss: 0.3819
+ID Test ACCURACY: 0.9023
+ID Test Loss: 0.4090
+OOD Validation ACCURACY: 0.7800
+OOD Validation Loss: 0.6749
+OOD Test ACCURACY: 0.4270
+OOD Test Loss: 1.3846
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 21...
+[0m[1;37mINFO[0m: [1mCheckpoint 21: 
+-----------------------------------
+Train ACCURACY: 0.8968
+Train Loss: 0.4227
+ID Validation ACCURACY: 0.9027
+ID Validation Loss: 0.3960
+ID Test ACCURACY: 0.8967
+ID Test Loss: 0.4154
+OOD Validation ACCURACY: 0.7857
+OOD Validation Loss: 0.6848
+OOD Test ACCURACY: 0.4540
+OOD Test Loss: 1.3474
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9023 0.4270 0.8967 0.4540 0.9027 0.7857[0mGOODMotif(3000)
+Data example from id_val: Data(edge_index=[2, 80], x=[22, 1], node_gt=[22], edge_gt=[80], y=[1], env_id=[1], ori_edge_index=[2, 80], node_perm=[22], num_nodes=22)
+Label distribution from id_val: (tensor([0, 1, 2]), tensor([1019,  973, 1008]))
+F1 for r=0.3 = 0.000
+WIoU for r=0.3 = 0.467
+F1 for r=0.6 = 0.000
+WIoU for r=0.6 = 0.406
+
+
+ -------------------------------------------------- 
+
+#D#Computing stability detector extended under SUFF_SIMPLE over id_val across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Interventions completed in  0:00:06.129707
+Plausibility completed in  0:00:20.027483
+Original Plaus. XAI WIoU for r=0.3 =  tensor(0.3626, device='cuda:0')  +-  tensor(0.1748, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.3 =  tensor(0.4175, device='cuda:0')  +-  tensor(0.2306, device='cuda:0') (0.002)
+Original Plaus. XAI WIoU for r=0.3 =  tensor(0.3626, device='cuda:0')  +-  tensor(0.1748, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.3 =  tensor(0.3920, device='cuda:0')  +-  tensor(0.0752, device='cuda:0') (0.002)
+Original Stability MCC for r=0.3 = 0.997 +- 0.033
+Intervened Stability MCC for r=0.3 = 0.287 +- 0.302
+Original Stability F1 for r=0.3 = 0.998 +- 0.022
+Intervened Stability F1 for r=0.3 = 0.558 +- 0.198
+Intervened samples: 2971
+
+
+ratio=0.6
+
+
+Interventions completed in  0:00:05.835990
+Plausibility completed in  0:00:18.974163
+Original Plaus. XAI WIoU for r=0.6 =  tensor(0.3566, device='cuda:0')  +-  tensor(0.1737, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.6 =  tensor(0.3804, device='cuda:0')  +-  tensor(0.2323, device='cuda:0') (0.001)
+Original Plaus. XAI WIoU for r=0.6 =  tensor(0.3566, device='cuda:0')  +-  tensor(0.1737, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.6 =  tensor(0.6861, device='cuda:0')  +-  tensor(0.1949, device='cuda:0') (0.001)
+Original Stability MCC for r=0.6 = 0.997 +- 0.030
+Intervened Stability MCC for r=0.6 = 0.209 +- 0.330
+Original Stability F1 for r=0.6 = 0.999 +- 0.011
+Intervened Stability F1 for r=0.6 = 0.785 +- 0.112
+Intervened samples: 2808
+COMPUTING STABILITY DETECTOR FOR LOAD SPLIT = id AND SEED 5
+
+
+model_dirname= repr_GSATGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingfeatavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Wed Sep 18 09:26:23 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif
+[0m[1;34mDEBUG[0m: 09/18/2024 09:26:23 AM : [1mPermuting node indices to remove explanation bias for train
+[0m[1;34mDEBUG[0m: 09/18/2024 09:26:35 AM : [1mPermuting node indices to remove explanation bias for id_val
+[0m[1;34mDEBUG[0m: 09/18/2024 09:26:37 AM : [1mPermuting node indices to remove explanation bias for id_test
+[0m[1;34mDEBUG[0m: 09/18/2024 09:26:39 AM : [1mPermuting node indices to remove explanation bias for val
+[0m[1;34mDEBUG[0m: 09/18/2024 09:26:42 AM : [1mPermuting node indices to remove explanation bias for test
+[0m[1;34mDEBUG[0m: 09/18/2024 09:26:48 AM : [1mDataset: {'train': GOODMotif(18000), 'id_val': GOODMotif(3000), 'id_test': GOODMotif(3000), 'val': GOODMotif(3000), 'test': GOODMotif(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/18/2024 09:26:48 AM : [1m Data(edge_index=[2, 58], x=[17, 1], node_gt=[17], edge_gt=[58], y=[1], env_id=[1], ori_edge_index=[2, 58], node_perm=[17], num_nodes=17)
+[0mData(edge_index=[2, 80], x=[22, 1], node_gt=[22], edge_gt=[80], y=[1], env_id=[1], ori_edge_index=[2, 80], node_perm=[22], num_nodes=22)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/18/2024 09:26:48 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/18/2024 09:26:48 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:26:48 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/18/2024 09:26:48 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:26:48 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/18/2024 09:26:48 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:26:48 AM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 09/18/2024 09:26:48 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 27...
+[0m[1;37mINFO[0m: [1mCheckpoint 27: 
+-----------------------------------
+Train ACCURACY: 0.9022
+Train Loss: 0.4024
+ID Validation ACCURACY: 0.9063
+ID Validation Loss: 0.3754
+ID Test ACCURACY: 0.9057
+ID Test Loss: 0.3967
+OOD Validation ACCURACY: 0.8143
+OOD Validation Loss: 0.6194
+OOD Test ACCURACY: 0.5047
+OOD Test Loss: 0.9707
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 26...
+[0m[1;37mINFO[0m: [1mCheckpoint 26: 
+-----------------------------------
+Train ACCURACY: 0.8958
+Train Loss: 0.4127
+ID Validation ACCURACY: 0.9017
+ID Validation Loss: 0.3839
+ID Test ACCURACY: 0.8987
+ID Test Loss: 0.4093
+OOD Validation ACCURACY: 0.8263
+OOD Validation Loss: 0.6432
+OOD Test ACCURACY: 0.5150
+OOD Test Loss: 1.2884
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9057 0.5047 0.8987 0.5150 0.9017 0.8263[0mGOODMotif(3000)
+Data example from id_val: Data(edge_index=[2, 80], x=[22, 1], node_gt=[22], edge_gt=[80], y=[1], env_id=[1], ori_edge_index=[2, 80], node_perm=[22], num_nodes=22)
+Label distribution from id_val: (tensor([0, 1, 2]), tensor([1019,  973, 1008]))
+F1 for r=0.3 = 0.000
+WIoU for r=0.3 = 0.534
+F1 for r=0.6 = 0.000
+WIoU for r=0.6 = 0.471
+
+
+ -------------------------------------------------- 
+
+#D#Computing stability detector extended under SUFF_SIMPLE over id_val across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Interventions completed in  0:00:06.582600
+Plausibility completed in  0:00:19.897951
+Original Plaus. XAI WIoU for r=0.3 =  tensor(0.3683, device='cuda:0')  +-  tensor(0.1760, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.3 =  tensor(0.4227, device='cuda:0')  +-  tensor(0.2311, device='cuda:0') (0.003)
+Original Plaus. XAI WIoU for r=0.3 =  tensor(0.3683, device='cuda:0')  +-  tensor(0.1760, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.3 =  tensor(0.3900, device='cuda:0')  +-  tensor(0.0740, device='cuda:0') (0.002)
+Original Stability MCC for r=0.3 = 0.994 +- 0.049
+Intervened Stability MCC for r=0.3 = 0.259 +- 0.297
+Original Stability F1 for r=0.3 = 0.996 +- 0.033
+Intervened Stability F1 for r=0.3 = 0.541 +- 0.189
+Intervened samples: 2971
+
+
+ratio=0.6
+
+
+Interventions completed in  0:00:06.038051
+Plausibility completed in  0:00:19.151496
+Original Plaus. XAI WIoU for r=0.6 =  tensor(0.3568, device='cuda:0')  +-  tensor(0.1693, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.6 =  tensor(0.3886, device='cuda:0')  +-  tensor(0.2270, device='cuda:0') (0.002)
+Original Plaus. XAI WIoU for r=0.6 =  tensor(0.3568, device='cuda:0')  +-  tensor(0.1693, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.6 =  tensor(0.7050, device='cuda:0')  +-  tensor(0.1813, device='cuda:0') (0.002)
+Original Stability MCC for r=0.6 = 0.999 +- 0.009
+Intervened Stability MCC for r=0.6 = 0.158 +- 0.325
+Original Stability F1 for r=0.6 = 1.000 +- 0.003
+Intervened Stability F1 for r=0.6 = 0.782 +- 0.112
+Intervened samples: 2852
+
+\FINISHED GOODMotif - GSATGIN
+(id) (id_val) PLAUSIBILITY_WIOU_ORIGINAL: 	[0.36424012 0.35556282] +- [0.00212091 0.00322038] (mean across ratios: 0.36 +- 0.00)
+(id) (id_val) PLAUSIBILITY_WIOU_PERTURBED: 	[0.41881514 0.38426167] +- [0.00229172 0.01289006] (mean across ratios: 0.40 +- 0.01)
+
+(id) (id_val) STABILITY_WIOU_ORIGINAL: 	[0.32947156 0.62780615] +- [0.00177914 0.00155908] (mean across ratios: 0.48 +- 0.00)
+(id) (id_val) STABILITY_WIOU_PERTURBED: 	[0.39031959 0.69463762] +- [0.00356043 0.01828967] (mean across ratios: 0.54 +- 0.01)
+
+(id) (id_val) STABILITY_F1_ORIGINAL: 	[0.99716911 0.99946514] +- [0.00078452 0.00033659] (mean across ratios: 1.00 +- 0.00)
+(id) (id_val) STABILITY_F1_PERTURBED: 	[0.54542164 0.78222753] +- [0.0105521  0.00596541] (mean across ratios: 0.66 +- 0.01)
+
+(id) (id_val) STABILITY_MCC_ORIGINAL: 	[0.995813   0.99855999] +- [0.00114451 0.00090954] (mean across ratios: 1.00 +- 0.00)
+(id) (id_val) STABILITY_MCC_PERTURBED: 	[0.26695762 0.18024991] +- [0.01648959 0.03734064] (mean across ratios: 0.22 +- 0.02)
+
+Overall time of execution:  0:07:44.153884
+DONE GSAT GOODMotif/size 0.05
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Wed Sep 18 09:28:09 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif
+[0m[1;34mDEBUG[0m: 09/18/2024 09:28:09 AM : [1mPermuting node indices to remove explanation bias for train
+[0m[1;34mDEBUG[0m: 09/18/2024 09:28:20 AM : [1mPermuting node indices to remove explanation bias for id_val
+[0m[1;34mDEBUG[0m: 09/18/2024 09:28:22 AM : [1mPermuting node indices to remove explanation bias for id_test
+[0m[1;34mDEBUG[0m: 09/18/2024 09:28:24 AM : [1mPermuting node indices to remove explanation bias for val
+[0m[1;34mDEBUG[0m: 09/18/2024 09:28:27 AM : [1mPermuting node indices to remove explanation bias for test
+[0m[1;34mDEBUG[0m: 09/18/2024 09:28:33 AM : [1mDataset: {'train': GOODMotif(18000), 'id_val': GOODMotif(3000), 'id_test': GOODMotif(3000), 'val': GOODMotif(3000), 'test': GOODMotif(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/18/2024 09:28:33 AM : [1m Data(edge_index=[2, 58], x=[17, 1], node_gt=[17], edge_gt=[58], y=[1], env_id=[1], ori_edge_index=[2, 58], node_perm=[17], num_nodes=17)
+[0mData(edge_index=[2, 80], x=[22, 1], node_gt=[22], edge_gt=[80], y=[1], env_id=[1], ori_edge_index=[2, 80], node_perm=[22], num_nodes=22)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/18/2024 09:28:33 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/18/2024 09:28:33 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:28:33 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/18/2024 09:28:33 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:28:33 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/18/2024 09:28:33 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:28:33 AM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 09/18/2024 09:28:33 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 24...
+[0m[1;37mINFO[0m: [1mCheckpoint 24: 
+-----------------------------------
+Train ACCURACY: 0.9010
+Train Loss: 0.4113
+ID Validation ACCURACY: 0.9050
+ID Validation Loss: 0.3841
+ID Test ACCURACY: 0.9073
+ID Test Loss: 0.4060
+OOD Validation ACCURACY: 0.7423
+OOD Validation Loss: 0.6636
+OOD Test ACCURACY: 0.4077
+OOD Test Loss: 1.2302
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 28...
+[0m[1;37mINFO[0m: [1mCheckpoint 28: 
+-----------------------------------
+Train ACCURACY: 0.8978
+Train Loss: 0.4102
+ID Validation ACCURACY: 0.8993
+ID Validation Loss: 0.3779
+ID Test ACCURACY: 0.9033
+ID Test Loss: 0.4072
+OOD Validation ACCURACY: 0.8020
+OOD Validation Loss: 0.6381
+OOD Test ACCURACY: 0.5353
+OOD Test Loss: 1.1219
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9073 0.4077 0.9033 0.5353 0.8993 0.8020[0mGOODMotif(3000)
+Data example from id_val: Data(edge_index=[2, 80], x=[22, 1], node_gt=[22], edge_gt=[80], y=[1], env_id=[1], ori_edge_index=[2, 80], node_perm=[22], num_nodes=22)
+Label distribution from id_val: (tensor([0, 1, 2]), tensor([1019,  973, 1008]))
+F1 for r=0.3 = 0.000
+WIoU for r=0.3 = 0.506
+F1 for r=0.6 = 0.000
+WIoU for r=0.6 = 0.430
+
+
+ -------------------------------------------------- 
+
+#D#Computing stability detector extended under SUFF_SIMPLE over id_val across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Interventions completed in  0:00:06.415293
+Plausibility completed in  0:00:20.594463
+Original Plaus. XAI WIoU for r=0.3 =  tensor(0.3643, device='cuda:0')  +-  tensor(0.1755, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.3 =  tensor(0.4794, device='cuda:0')  +-  tensor(0.2675, device='cuda:0') (0.002)
+Original Plaus. XAI WIoU for r=0.3 =  tensor(0.3643, device='cuda:0')  +-  tensor(0.1755, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.3 =  tensor(0.4502, device='cuda:0')  +-  tensor(0.1010, device='cuda:0') (0.002)
+Original Stability MCC for r=0.3 = 0.995 +- 0.042
+Intervened Stability MCC for r=0.3 = 0.272 +- 0.321
+Original Stability F1 for r=0.3 = 0.997 +- 0.028
+Intervened Stability F1 for r=0.3 = 0.592 +- 0.196
+Intervened samples: 2971
+
+
+ratio=0.6
+
+
+Interventions completed in  0:00:05.513825
+Plausibility completed in  0:00:17.841281
+Original Plaus. XAI WIoU for r=0.6 =  tensor(0.3515, device='cuda:0')  +-  tensor(0.1686, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.6 =  tensor(0.4097, device='cuda:0')  +-  tensor(0.2607, device='cuda:0') (0.001)
+Original Plaus. XAI WIoU for r=0.6 =  tensor(0.3515, device='cuda:0')  +-  tensor(0.1686, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.6 =  tensor(0.7412, device='cuda:0')  +-  tensor(0.2347, device='cuda:0') (0.001)
+Original Stability MCC for r=0.6 = 0.999 +- 0.018
+Intervened Stability MCC for r=0.6 = 0.170 +- 0.334
+Original Stability F1 for r=0.6 = 1.000 +- 0.006
+Intervened Stability F1 for r=0.6 = 0.836 +- 0.112
+Intervened samples: 2771
+COMPUTING STABILITY DETECTOR FOR LOAD SPLIT = id AND SEED 2
+
+
+model_dirname= repr_GSATGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingfeatavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Wed Sep 18 09:29:42 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif
+[0m[1;34mDEBUG[0m: 09/18/2024 09:29:42 AM : [1mPermuting node indices to remove explanation bias for train
+[0m[1;34mDEBUG[0m: 09/18/2024 09:29:53 AM : [1mPermuting node indices to remove explanation bias for id_val
+[0m[1;34mDEBUG[0m: 09/18/2024 09:29:55 AM : [1mPermuting node indices to remove explanation bias for id_test
+[0m[1;34mDEBUG[0m: 09/18/2024 09:29:57 AM : [1mPermuting node indices to remove explanation bias for val
+[0m[1;34mDEBUG[0m: 09/18/2024 09:30:00 AM : [1mPermuting node indices to remove explanation bias for test
+[0m[1;34mDEBUG[0m: 09/18/2024 09:30:06 AM : [1mDataset: {'train': GOODMotif(18000), 'id_val': GOODMotif(3000), 'id_test': GOODMotif(3000), 'val': GOODMotif(3000), 'test': GOODMotif(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/18/2024 09:30:06 AM : [1m Data(edge_index=[2, 58], x=[17, 1], node_gt=[17], edge_gt=[58], y=[1], env_id=[1], ori_edge_index=[2, 58], node_perm=[17], num_nodes=17)
+[0mData(edge_index=[2, 80], x=[22, 1], node_gt=[22], edge_gt=[80], y=[1], env_id=[1], ori_edge_index=[2, 80], node_perm=[22], num_nodes=22)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/18/2024 09:30:06 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/18/2024 09:30:06 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:30:06 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/18/2024 09:30:06 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:30:06 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/18/2024 09:30:06 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:30:06 AM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 09/18/2024 09:30:06 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 26...
+[0m[1;37mINFO[0m: [1mCheckpoint 26: 
+-----------------------------------
+Train ACCURACY: 0.8982
+Train Loss: 0.4154
+ID Validation ACCURACY: 0.9063
+ID Validation Loss: 0.3884
+ID Test ACCURACY: 0.9040
+ID Test Loss: 0.4108
+OOD Validation ACCURACY: 0.7660
+OOD Validation Loss: 0.6770
+OOD Test ACCURACY: 0.3893
+OOD Test Loss: 1.9553
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 17...
+[0m[1;37mINFO[0m: [1mCheckpoint 17: 
+-----------------------------------
+Train ACCURACY: 0.8992
+Train Loss: 0.4251
+ID Validation ACCURACY: 0.9040
+ID Validation Loss: 0.3990
+ID Test ACCURACY: 0.9030
+ID Test Loss: 0.4150
+OOD Validation ACCURACY: 0.8080
+OOD Validation Loss: 0.6806
+OOD Test ACCURACY: 0.5023
+OOD Test Loss: 1.2075
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9040 0.3893 0.9030 0.5023 0.9040 0.8080[0mGOODMotif(3000)
+Data example from id_val: Data(edge_index=[2, 80], x=[22, 1], node_gt=[22], edge_gt=[80], y=[1], env_id=[1], ori_edge_index=[2, 80], node_perm=[22], num_nodes=22)
+Label distribution from id_val: (tensor([0, 1, 2]), tensor([1019,  973, 1008]))
+F1 for r=0.3 = 0.000
+WIoU for r=0.3 = 0.507
+F1 for r=0.6 = 0.000
+WIoU for r=0.6 = 0.473
+
+
+ -------------------------------------------------- 
+
+#D#Computing stability detector extended under SUFF_SIMPLE over id_val across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Interventions completed in  0:00:06.071151
+Plausibility completed in  0:00:19.999501
+Original Plaus. XAI WIoU for r=0.3 =  tensor(0.3632, device='cuda:0')  +-  tensor(0.1751, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.3 =  tensor(0.4811, device='cuda:0')  +-  tensor(0.2706, device='cuda:0') (0.002)
+Original Plaus. XAI WIoU for r=0.3 =  tensor(0.3632, device='cuda:0')  +-  tensor(0.1751, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.3 =  tensor(0.4424, device='cuda:0')  +-  tensor(0.0968, device='cuda:0') (0.002)
+Original Stability MCC for r=0.3 = 0.996 +- 0.039
+Intervened Stability MCC for r=0.3 = 0.229 +- 0.333
+Original Stability F1 for r=0.3 = 0.997 +- 0.027
+Intervened Stability F1 for r=0.3 = 0.568 +- 0.196
+Intervened samples: 2971
+
+
+ratio=0.6
+
+
+Interventions completed in  0:00:05.872471
+Plausibility completed in  0:00:19.267400
+Original Plaus. XAI WIoU for r=0.6 =  tensor(0.3604, device='cuda:0')  +-  tensor(0.1734, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.6 =  tensor(0.4556, device='cuda:0')  +-  tensor(0.2585, device='cuda:0') (0.001)
+Original Plaus. XAI WIoU for r=0.6 =  tensor(0.3604, device='cuda:0')  +-  tensor(0.1734, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.6 =  tensor(0.8062, device='cuda:0')  +-  tensor(0.1648, device='cuda:0') (0.001)
+Original Stability MCC for r=0.6 = 0.999 +- 0.010
+Intervened Stability MCC for r=0.6 = 0.121 +- 0.324
+Original Stability F1 for r=0.6 = 1.000 +- 0.004
+Intervened Stability F1 for r=0.6 = 0.847 +- 0.117
+Intervened samples: 2929
+COMPUTING STABILITY DETECTOR FOR LOAD SPLIT = id AND SEED 3
+
+
+model_dirname= repr_GSATGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingfeatavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Wed Sep 18 09:31:13 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif
+[0m[1;34mDEBUG[0m: 09/18/2024 09:31:13 AM : [1mPermuting node indices to remove explanation bias for train
+[0m[1;34mDEBUG[0m: 09/18/2024 09:31:24 AM : [1mPermuting node indices to remove explanation bias for id_val
+[0m[1;34mDEBUG[0m: 09/18/2024 09:31:26 AM : [1mPermuting node indices to remove explanation bias for id_test
+[0m[1;34mDEBUG[0m: 09/18/2024 09:31:28 AM : [1mPermuting node indices to remove explanation bias for val
+[0m[1;34mDEBUG[0m: 09/18/2024 09:31:31 AM : [1mPermuting node indices to remove explanation bias for test
+[0m[1;34mDEBUG[0m: 09/18/2024 09:31:37 AM : [1mDataset: {'train': GOODMotif(18000), 'id_val': GOODMotif(3000), 'id_test': GOODMotif(3000), 'val': GOODMotif(3000), 'test': GOODMotif(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/18/2024 09:31:37 AM : [1m Data(edge_index=[2, 58], x=[17, 1], node_gt=[17], edge_gt=[58], y=[1], env_id=[1], ori_edge_index=[2, 58], node_perm=[17], num_nodes=17)
+[0mData(edge_index=[2, 80], x=[22, 1], node_gt=[22], edge_gt=[80], y=[1], env_id=[1], ori_edge_index=[2, 80], node_perm=[22], num_nodes=22)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/18/2024 09:31:37 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/18/2024 09:31:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:31:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/18/2024 09:31:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:31:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/18/2024 09:31:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:31:37 AM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 09/18/2024 09:31:37 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 25...
+[0m[1;37mINFO[0m: [1mCheckpoint 25: 
+-----------------------------------
+Train ACCURACY: 0.8945
+Train Loss: 0.4116
+ID Validation ACCURACY: 0.9040
+ID Validation Loss: 0.3795
+ID Test ACCURACY: 0.8997
+ID Test Loss: 0.4107
+OOD Validation ACCURACY: 0.7253
+OOD Validation Loss: 0.6863
+OOD Test ACCURACY: 0.4013
+OOD Test Loss: 2.0413
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 26...
+[0m[1;37mINFO[0m: [1mCheckpoint 26: 
+-----------------------------------
+Train ACCURACY: 0.8913
+Train Loss: 0.4172
+ID Validation ACCURACY: 0.8983
+ID Validation Loss: 0.3806
+ID Test ACCURACY: 0.8980
+ID Test Loss: 0.4151
+OOD Validation ACCURACY: 0.8380
+OOD Validation Loss: 0.6095
+OOD Test ACCURACY: 0.5037
+OOD Test Loss: 0.9645
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.8997 0.4013 0.8980 0.5037 0.8983 0.8380[0mGOODMotif(3000)
+Data example from id_val: Data(edge_index=[2, 80], x=[22, 1], node_gt=[22], edge_gt=[80], y=[1], env_id=[1], ori_edge_index=[2, 80], node_perm=[22], num_nodes=22)
+Label distribution from id_val: (tensor([0, 1, 2]), tensor([1019,  973, 1008]))
+F1 for r=0.3 = 0.000
+WIoU for r=0.3 = 0.477
+F1 for r=0.6 = 0.000
+WIoU for r=0.6 = 0.432
+
+
+ -------------------------------------------------- 
+
+#D#Computing stability detector extended under SUFF_SIMPLE over id_val across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Interventions completed in  0:00:06.071180
+Plausibility completed in  0:00:20.200442
+Original Plaus. XAI WIoU for r=0.3 =  tensor(0.3628, device='cuda:0')  +-  tensor(0.1756, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.3 =  tensor(0.4707, device='cuda:0')  +-  tensor(0.2620, device='cuda:0') (0.002)
+Original Plaus. XAI WIoU for r=0.3 =  tensor(0.3628, device='cuda:0')  +-  tensor(0.1756, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.3 =  tensor(0.4336, device='cuda:0')  +-  tensor(0.0928, device='cuda:0') (0.002)
+Original Stability MCC for r=0.3 = 0.997 +- 0.034
+Intervened Stability MCC for r=0.3 = 0.213 +- 0.321
+Original Stability F1 for r=0.3 = 0.998 +- 0.023
+Intervened Stability F1 for r=0.3 = 0.553 +- 0.191
+Intervened samples: 2965
+
+
+ratio=0.6
+
+
+Interventions completed in  0:00:05.584550
+Plausibility completed in  0:00:18.295776
+Original Plaus. XAI WIoU for r=0.6 =  tensor(0.3525, device='cuda:0')  +-  tensor(0.1723, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.6 =  tensor(0.4151, device='cuda:0')  +-  tensor(0.2600, device='cuda:0') (0.001)
+Original Plaus. XAI WIoU for r=0.6 =  tensor(0.3525, device='cuda:0')  +-  tensor(0.1723, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.6 =  tensor(0.7530, device='cuda:0')  +-  tensor(0.2305, device='cuda:0') (0.001)
+Original Stability MCC for r=0.6 = 0.999 +- 0.013
+Intervened Stability MCC for r=0.6 = 0.074 +- 0.290
+Original Stability F1 for r=0.6 = 1.000 +- 0.004
+Intervened Stability F1 for r=0.6 = 0.829 +- 0.115
+Intervened samples: 2790
+COMPUTING STABILITY DETECTOR FOR LOAD SPLIT = id AND SEED 4
+
+
+model_dirname= repr_GSATGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingfeatavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Wed Sep 18 09:32:43 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif
+[0m[1;34mDEBUG[0m: 09/18/2024 09:32:43 AM : [1mPermuting node indices to remove explanation bias for train
+[0m[1;34mDEBUG[0m: 09/18/2024 09:32:55 AM : [1mPermuting node indices to remove explanation bias for id_val
+[0m[1;34mDEBUG[0m: 09/18/2024 09:32:57 AM : [1mPermuting node indices to remove explanation bias for id_test
+[0m[1;34mDEBUG[0m: 09/18/2024 09:32:58 AM : [1mPermuting node indices to remove explanation bias for val
+[0m[1;34mDEBUG[0m: 09/18/2024 09:33:02 AM : [1mPermuting node indices to remove explanation bias for test
+[0m[1;34mDEBUG[0m: 09/18/2024 09:33:08 AM : [1mDataset: {'train': GOODMotif(18000), 'id_val': GOODMotif(3000), 'id_test': GOODMotif(3000), 'val': GOODMotif(3000), 'test': GOODMotif(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/18/2024 09:33:08 AM : [1m Data(edge_index=[2, 58], x=[17, 1], node_gt=[17], edge_gt=[58], y=[1], env_id=[1], ori_edge_index=[2, 58], node_perm=[17], num_nodes=17)
+[0mData(edge_index=[2, 80], x=[22, 1], node_gt=[22], edge_gt=[80], y=[1], env_id=[1], ori_edge_index=[2, 80], node_perm=[22], num_nodes=22)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/18/2024 09:33:08 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/18/2024 09:33:08 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:33:08 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/18/2024 09:33:08 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:33:08 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/18/2024 09:33:08 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:33:08 AM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 09/18/2024 09:33:08 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 27...
+[0m[1;37mINFO[0m: [1mCheckpoint 27: 
+-----------------------------------
+Train ACCURACY: 0.8979
+Train Loss: 0.4122
+ID Validation ACCURACY: 0.9040
+ID Validation Loss: 0.3819
+ID Test ACCURACY: 0.9023
+ID Test Loss: 0.4090
+OOD Validation ACCURACY: 0.7800
+OOD Validation Loss: 0.6749
+OOD Test ACCURACY: 0.4270
+OOD Test Loss: 1.3846
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 21...
+[0m[1;37mINFO[0m: [1mCheckpoint 21: 
+-----------------------------------
+Train ACCURACY: 0.8968
+Train Loss: 0.4227
+ID Validation ACCURACY: 0.9027
+ID Validation Loss: 0.3960
+ID Test ACCURACY: 0.8967
+ID Test Loss: 0.4154
+OOD Validation ACCURACY: 0.7857
+OOD Validation Loss: 0.6848
+OOD Test ACCURACY: 0.4540
+OOD Test Loss: 1.3474
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9023 0.4270 0.8967 0.4540 0.9027 0.7857[0mGOODMotif(3000)
+Data example from id_val: Data(edge_index=[2, 80], x=[22, 1], node_gt=[22], edge_gt=[80], y=[1], env_id=[1], ori_edge_index=[2, 80], node_perm=[22], num_nodes=22)
+Label distribution from id_val: (tensor([0, 1, 2]), tensor([1019,  973, 1008]))
+F1 for r=0.3 = 0.000
+WIoU for r=0.3 = 0.467
+F1 for r=0.6 = 0.000
+WIoU for r=0.6 = 0.406
+
+
+ -------------------------------------------------- 
+
+#D#Computing stability detector extended under SUFF_SIMPLE over id_val across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Interventions completed in  0:00:06.050777
+Plausibility completed in  0:00:21.071708
+Original Plaus. XAI WIoU for r=0.3 =  tensor(0.3626, device='cuda:0')  +-  tensor(0.1748, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.3 =  tensor(0.4773, device='cuda:0')  +-  tensor(0.2666, device='cuda:0') (0.002)
+Original Plaus. XAI WIoU for r=0.3 =  tensor(0.3626, device='cuda:0')  +-  tensor(0.1748, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.3 =  tensor(0.4449, device='cuda:0')  +-  tensor(0.0973, device='cuda:0') (0.002)
+Original Stability MCC for r=0.3 = 0.997 +- 0.035
+Intervened Stability MCC for r=0.3 = 0.268 +- 0.318
+Original Stability F1 for r=0.3 = 0.998 +- 0.023
+Intervened Stability F1 for r=0.3 = 0.587 +- 0.195
+Intervened samples: 2971
+
+
+ratio=0.6
+
+
+Interventions completed in  0:00:05.567039
+Plausibility completed in  0:00:18.273009
+Original Plaus. XAI WIoU for r=0.6 =  tensor(0.3566, device='cuda:0')  +-  tensor(0.1737, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.6 =  tensor(0.4156, device='cuda:0')  +-  tensor(0.2556, device='cuda:0') (0.001)
+Original Plaus. XAI WIoU for r=0.6 =  tensor(0.3566, device='cuda:0')  +-  tensor(0.1737, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.6 =  tensor(0.7483, device='cuda:0')  +-  tensor(0.2187, device='cuda:0') (0.001)
+Original Stability MCC for r=0.6 = 0.997 +- 0.029
+Intervened Stability MCC for r=0.6 = 0.163 +- 0.334
+Original Stability F1 for r=0.6 = 0.999 +- 0.011
+Intervened Stability F1 for r=0.6 = 0.831 +- 0.117
+Intervened samples: 2808
+COMPUTING STABILITY DETECTOR FOR LOAD SPLIT = id AND SEED 5
+
+
+model_dirname= repr_GSATGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingfeatavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Wed Sep 18 09:34:16 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif
+[0m[1;34mDEBUG[0m: 09/18/2024 09:34:16 AM : [1mPermuting node indices to remove explanation bias for train
+[0m[1;34mDEBUG[0m: 09/18/2024 09:34:27 AM : [1mPermuting node indices to remove explanation bias for id_val
+[0m[1;34mDEBUG[0m: 09/18/2024 09:34:29 AM : [1mPermuting node indices to remove explanation bias for id_test
+[0m[1;34mDEBUG[0m: 09/18/2024 09:34:31 AM : [1mPermuting node indices to remove explanation bias for val
+[0m[1;34mDEBUG[0m: 09/18/2024 09:34:34 AM : [1mPermuting node indices to remove explanation bias for test
+[0m[1;34mDEBUG[0m: 09/18/2024 09:34:40 AM : [1mDataset: {'train': GOODMotif(18000), 'id_val': GOODMotif(3000), 'id_test': GOODMotif(3000), 'val': GOODMotif(3000), 'test': GOODMotif(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/18/2024 09:34:40 AM : [1m Data(edge_index=[2, 58], x=[17, 1], node_gt=[17], edge_gt=[58], y=[1], env_id=[1], ori_edge_index=[2, 58], node_perm=[17], num_nodes=17)
+[0mData(edge_index=[2, 80], x=[22, 1], node_gt=[22], edge_gt=[80], y=[1], env_id=[1], ori_edge_index=[2, 80], node_perm=[22], num_nodes=22)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/18/2024 09:34:40 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/18/2024 09:34:40 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:34:40 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/18/2024 09:34:40 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:34:40 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/18/2024 09:34:40 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/18/2024 09:34:40 AM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 09/18/2024 09:34:40 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 27...
+[0m[1;37mINFO[0m: [1mCheckpoint 27: 
+-----------------------------------
+Train ACCURACY: 0.9022
+Train Loss: 0.4024
+ID Validation ACCURACY: 0.9063
+ID Validation Loss: 0.3754
+ID Test ACCURACY: 0.9057
+ID Test Loss: 0.3967
+OOD Validation ACCURACY: 0.8143
+OOD Validation Loss: 0.6194
+OOD Test ACCURACY: 0.5047
+OOD Test Loss: 0.9707
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 26...
+[0m[1;37mINFO[0m: [1mCheckpoint 26: 
+-----------------------------------
+Train ACCURACY: 0.8958
+Train Loss: 0.4127
+ID Validation ACCURACY: 0.9017
+ID Validation Loss: 0.3839
+ID Test ACCURACY: 0.8987
+ID Test Loss: 0.4093
+OOD Validation ACCURACY: 0.8263
+OOD Validation Loss: 0.6432
+OOD Test ACCURACY: 0.5150
+OOD Test Loss: 1.2884
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9057 0.5047 0.8987 0.5150 0.9017 0.8263[0mGOODMotif(3000)
+Data example from id_val: Data(edge_index=[2, 80], x=[22, 1], node_gt=[22], edge_gt=[80], y=[1], env_id=[1], ori_edge_index=[2, 80], node_perm=[22], num_nodes=22)
+Label distribution from id_val: (tensor([0, 1, 2]), tensor([1019,  973, 1008]))
+F1 for r=0.3 = 0.000
+WIoU for r=0.3 = 0.534
+F1 for r=0.6 = 0.000
+WIoU for r=0.6 = 0.471
+
+
+ -------------------------------------------------- 
+
+#D#Computing stability detector extended under SUFF_SIMPLE over id_val across ratios (random_expl=False)
+
+
+ratio=0.3
+
+
+Interventions completed in  0:00:05.910997
+Plausibility completed in  0:00:20.670603
+Original Plaus. XAI WIoU for r=0.3 =  tensor(0.3683, device='cuda:0')  +-  tensor(0.1760, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.3 =  tensor(0.4812, device='cuda:0')  +-  tensor(0.2654, device='cuda:0') (0.003)
+Original Plaus. XAI WIoU for r=0.3 =  tensor(0.3683, device='cuda:0')  +-  tensor(0.1760, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.3 =  tensor(0.4422, device='cuda:0')  +-  tensor(0.0956, device='cuda:0') (0.003)
+Original Stability MCC for r=0.3 = 0.993 +- 0.049
+Intervened Stability MCC for r=0.3 = 0.233 +- 0.313
+Original Stability F1 for r=0.3 = 0.995 +- 0.032
+Intervened Stability F1 for r=0.3 = 0.568 +- 0.188
+Intervened samples: 2971
+
+
+ratio=0.6
+
+
+Interventions completed in  0:00:05.680925
+Plausibility completed in  0:00:18.605898
+Original Plaus. XAI WIoU for r=0.6 =  tensor(0.3568, device='cuda:0')  +-  tensor(0.1693, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.6 =  tensor(0.4327, device='cuda:0')  +-  tensor(0.2552, device='cuda:0') (0.001)
+Original Plaus. XAI WIoU for r=0.6 =  tensor(0.3568, device='cuda:0')  +-  tensor(0.1693, device='cuda:0')
+Intervened Plaus. XAI WIoU for r=0.6 =  tensor(0.7816, device='cuda:0')  +-  tensor(0.2069, device='cuda:0') (0.001)
+Original Stability MCC for r=0.6 = 0.999 +- 0.010
+Intervened Stability MCC for r=0.6 = 0.115 +- 0.318
+Original Stability F1 for r=0.6 = 1.000 +- 0.004
+Intervened Stability F1 for r=0.6 = 0.842 +- 0.118
+Intervened samples: 2852
+
+\FINISHED GOODMotif - GSATGIN
+(id) (id_val) PLAUSIBILITY_WIOU_ORIGINAL: 	[0.36424005 0.35556282] +- [0.00212095 0.00322038] (mean across ratios: 0.36 +- 0.00)
+(id) (id_val) PLAUSIBILITY_WIOU_PERTURBED: 	[0.47793012 0.42574131] +- [0.00390673 0.01680071] (mean across ratios: 0.45 +- 0.01)
+
+(id) (id_val) STABILITY_WIOU_ORIGINAL: 	[0.3294715  0.62780615] +- [0.00177916 0.00155908] (mean across ratios: 0.48 +- 0.00)
+(id) (id_val) STABILITY_WIOU_PERTURBED: 	[0.44267602 0.76605612] +- [0.00538558 0.02431395] (mean across ratios: 0.60 +- 0.01)
+
+(id) (id_val) STABILITY_F1_ORIGINAL: 	[0.99705352 0.9995171 ] +- [0.00085115 0.00030371] (mean across ratios: 1.00 +- 0.00)
+(id) (id_val) STABILITY_F1_PERTURBED: 	[0.57372692 0.83692456] +- [0.01434953 0.00671896] (mean across ratios: 0.71 +- 0.01)
+
+(id) (id_val) STABILITY_MCC_ORIGINAL: 	[0.99563746 0.99869411] +- [0.00124936 0.00080991] (mean across ratios: 1.00 +- 0.00)
+(id) (id_val) STABILITY_MCC_PERTURBED: 	[0.24295232 0.12861366] +- [0.02312508 0.03485046] (mean across ratios: 0.19 +- 0.02)
+
+Overall time of execution:  0:07:39.833018
+DONE GSAT GOODMotif/size 0.10
+DONE all :)
