@@ -1610,7 +1610,7 @@ class Pipeline:
 
         if mode == 'test':
             try:
-                ckpt = torch.load(self.config.test_ckpt, map_location=self.config.device)
+                ckpt = torch.load(self.config.test_ckpt, map_location=self.config.device, weights_only=False)
             except FileNotFoundError:
                 print(f'#E#Checkpoint not found at {os.path.abspath(self.config.test_ckpt)}')
                 exit(1)

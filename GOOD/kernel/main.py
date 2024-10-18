@@ -24,6 +24,7 @@ from GOOD.utils.logger import load_logger
 from GOOD.utils.metric import assign_dict
 from GOOD.definitions import OOM_CODE
 
+import warnings
 import numpy as np
 import matplotlib.pyplot as plt
 import wandb
@@ -31,6 +32,8 @@ from scipy.stats import pearsonr
 
 if pyg_v == "2.4.0":
     torch.set_num_threads(6)
+
+warnings.simplefilter(action='ignore', category=FutureWarning)
 
 def initialize_model_dataset(config: Union[CommonArgs, Munch]) -> Tuple[torch.nn.Module, Union[dict, DataLoader]]:
     r"""
