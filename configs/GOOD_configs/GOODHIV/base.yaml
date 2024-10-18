@@ -1,8 +1,0 @@
-includes:
-  - ../base.yaml
-model:
-  model_layer: 3
-  global_pool: mean
-train:
-  num_steps: 10
-  mile_stones: [150]
