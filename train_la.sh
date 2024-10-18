@@ -1,9 +1,9 @@
 set -e
 
 echo "Time to train models with hard masking!"
+echo "The PID of this script is: $$"
 
-
-# for DATASET in GOODMotif2/basis GOODSST2/length GOODMotif/basis GOODTwitter/length; do
+# for DATASET in GOODTwitter/length; do
 #     goodtg --config_path final_configs/${DATASET}/covariate/CIGA.yaml \
 #             --seeds "1/2/3/4/5" \
 #             --mitigation_sampling feat \
@@ -28,41 +28,33 @@ echo "Time to train models with hard masking!"
 # done
 
 
-for DATASET in GOODCMNIST/color LBAPcore/assay GOODHIV/scaffold; do
+for DATASET in LBAPcore/assay GOODHIV/scaffold; do
     goodtg --config_path final_configs/${DATASET}/covariate/CIGA.yaml \
             --seeds "1/2/3/4/5" \
             --mitigation_sampling feat \
             --task train \
             --average_edge_attn mean \
-            --gpu_idx 0 \
-            --model_name CIGAGIN
+            --gpu_idx 1 \
+            --model_name CIGAGIN \
+            --train_bs 256 \
+            --val_bs 512 \
+            --test_bs 512 \
             # --mitigation_expl_scores topK \
             # --mitigation_expl_scores_topk 0.8 \
             # --mitigation_readout weighted \
             # --mitigation_virtual weighted
-    echo "DONE TRAINCIGA ${DATASET}"
+    echo "DONE TRAIN CIGA ${DATASET}"
 
-    if [ "$DATASET" = "GOODCMNIST/color" ]; then
-        goodtg --config_path final_configs/${DATASET}/covariate/GSAT.yaml \
+    goodtg --config_path final_configs/${DATASET}/covariate/GSAT.yaml \
             --seeds "1/2/3/4/5" \
             --mitigation_sampling feat \
             --task train \
             --average_edge_attn mean \
-            --gpu_idx 0 \
+            --gpu_idx 1 \
+            --model_name GSATGIN \
             --train_bs 256 \
-            --val_bs 256 \
-            --test_bs 256 \
-            --num_workers 2 \
-            --model_name GSATGIN
-    else
-        goodtg --config_path final_configs/${DATASET}/covariate/GSAT.yaml \
-            --seeds "1/2/3/4/5" \
-            --mitigation_sampling feat \
-            --task train \
-            --average_edge_attn mean \
-            --gpu_idx 0 \
-            --model_name GSATGIN
-    fi
+            --val_bs 512 \
+            --test_bs 512 \
     echo "DONE TRAIN GSAT ${DATASET}"
 done
 

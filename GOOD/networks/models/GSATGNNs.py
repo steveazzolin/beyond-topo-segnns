@@ -76,7 +76,6 @@ class GSATGIN(GNNBasic):
         emb = self.gnn(*args, without_readout=True, **kwargs)        
         att_log_logits = self.extractor(emb, data.edge_index, data.batch)
         att = self.sampling(att_log_logits, self.training, self.config.mitigation_expl_scores) # WARNING: Original GSAT
-        # att = self.sampling(att_log_logits, False, self.config.mitigation_expl_scores) # WARNING: modification to skip Gumbel sampling
 
         if self.learn_edge_att:
             if is_undirected(data.edge_index):
@@ -135,6 +134,7 @@ class GSATGIN(GNNBasic):
         self.edge_mask = edge_att
 
         if self.config.global_side_channel and not kwargs.get('exclude_global', False):
+            assert False
             logits_side_channel, filter_attn = self.global_side_channel(**kwargs)
             logits_gnn = logits
             
@@ -154,8 +154,8 @@ class GSATGIN(GNNBasic):
 
             return logits, att, att_log_logits.sigmoid(), filter_attn, (logits_gnn, logits_side_channel) # WARNING: I replaced edge_attn with att_log_logits.sigmoid()
         else:
-            return logits, att, att_log_logits.sigmoid() # WARNING: I replaced edge_attn with att_log_logits.sigmoid()
-            # return logits, att, edge_att
+            # return logits, att, att_log_logits.sigmoid() # WARNING: I replaced edge_attn with att_log_logits.sigmoid()
+            return logits, att, edge_att
 
     def sampling(self, att_log_logits, training, mitigation_expl_scores):
         if mitigation_expl_scores == "anneal":
@@ -251,14 +251,18 @@ class GSATGIN(GNNBasic):
                     edge_att = (att + transpose(data.edge_index, att, nodesize, nodesize, coalesced=False)[1]) / 2
                 else:
                     data.ori_edge_index = data.edge_index.detach().clone() #for backup and debug
-                    data.edge_index, edge_att = to_undirected(data.edge_index, att.squeeze(-1), reduce="mean")
+                    # data.edge_index, edge_att = to_undirected(data.edge_index, att.squeeze(-1), reduce="mean") # WARNING: it was here before fixing stability
 
                     if not data.edge_attr is None:
                         edge_index_sorted, edge_attr_sorted = coalesce(data.ori_edge_index, data.edge_attr, is_sorted=False)
                         data.edge_attr = edge_attr_sorted   
                     if hasattr(data, "edge_gt") and not data.edge_gt is None:
                         edge_index_sorted, edge_gt_sorted = coalesce(data.ori_edge_index, data.edge_gt, is_sorted=False)
-                        data.edge_gt = edge_gt_sorted 
+                        data.edge_gt = edge_gt_sorted
+                    if hasattr(data, "causal_mask") and not data.causal_mask is None:
+                        _, data.causal_mask = coalesce(data.edge_index, data.causal_mask, is_sorted=False)
+
+                    data.edge_index, edge_att = to_undirected(data.edge_index, att.squeeze(-1), reduce="mean")
             else:
                 edge_att = att
         else:
@@ -334,7 +338,7 @@ class MLP(BatchSequential):
             m.append(nn.Linear(channels[i - 1], channels[i], bias))
 
             if i < len(channels) - 1:
-                # m.append(InstanceNorm(channels[i])) # WARNING: Original GSAT was using this
+                m.append(InstanceNorm(channels[i]))
                 # m.append(nn.BatchNorm1d(channels[i]))
                 m.append(nn.ReLU()) # WARNING: Original GSAT and first working GL-GSAT for best global channel was using ReLU
                 m.append(nn.Dropout(dropout))

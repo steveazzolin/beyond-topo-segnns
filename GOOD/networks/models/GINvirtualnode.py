@@ -195,7 +195,10 @@ class vGINMolEncoder(GINMolEncoder, VirtualNodeEncoder):
 
         if self.without_readout or kwargs.get('without_readout'):
             return node_repr
-        out_readout = self.readout(node_repr, batch, batch_size, edge_index=edge_index, edge_mask=self.convs[0].__edge_mask__)
+        if hasattr(self.convs[0], "__edge_mask__"):
+            out_readout = self.readout(node_repr, batch, batch_size, edge_index=edge_index, edge_mask=self.convs[0].__edge_mask__)
+        else:
+            out_readout = self.readout(node_repr, batch, batch_size)
         return out_readout
 
     def get_node_repr(self, x, edge_index, edge_attr, batch, batch_size, **kwargs):

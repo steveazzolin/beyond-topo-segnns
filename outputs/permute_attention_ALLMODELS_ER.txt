@@ -1,0 +1,2852 @@
+Time to evaluate models!
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument lr_filternod in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Mon Sep 30 10:33:01 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif2
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:01 AM : [1mDataset: {'train': GOODMotif2(18000), 'id_val': GOODMotif2(3000), 'id_test': GOODMotif2(3000), 'val': GOODMotif2(3000), 'test': GOODMotif2(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:01 AM : [1m Data(edge_index=[2, 84], x=[29, 1], node_gt=[29], edge_gt=[84], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[0mData(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:01 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:33:01 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:01 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:01 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:01 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:01 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:01 AM : [1mUsing no mitigation (None)
+[0mUsing feature sampling := feat
+self.EF = 0
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:33:01 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:33:01 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:01 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:01 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:01 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:01 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:01 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:01 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:33:01 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:01 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:01 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:01 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:01 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:01 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:01 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:33:01 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:01 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:01 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:01 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:01 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:01 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:01 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:33:01 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:01 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:01 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:01 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:01 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:01 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:01 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 106...
+[0m[1;37mINFO[0m: [1mCheckpoint 106: 
+-----------------------------------
+Train ACCURACY: 0.9077
+Train Loss: 0.4320
+ID Validation ACCURACY: 0.9117
+ID Validation Loss: 0.4033
+ID Test ACCURACY: 0.9047
+ID Test Loss: 0.4417
+OOD Validation ACCURACY: 0.9277
+OOD Validation Loss: 0.3670
+OOD Test ACCURACY: 0.9023
+OOD Test Loss: 0.4492
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 130...
+[0m[1;37mINFO[0m: [1mCheckpoint 130: 
+-----------------------------------
+Train ACCURACY: 0.8641
+Train Loss: 0.4637
+ID Validation ACCURACY: 0.8727
+ID Validation Loss: 0.4477
+ID Test ACCURACY: 0.8610
+ID Test Loss: 0.4772
+OOD Validation ACCURACY: 0.9313
+OOD Validation Loss: 0.3851
+OOD Test ACCURACY: 0.7927
+OOD Test Loss: 0.6936
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9047 0.9023 0.8610 0.7927 0.8727 0.9313[0mTrying to replace attention weigths for id_val:
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.912
+ACCURACY permuted: 0.344
+Trying to replace attention weigths for val:
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.928
+ACCURACY permuted: 0.343
+Trying to replace attention weigths for test:
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.902
+ACCURACY permuted: 0.450
+GENERATING ATTN. PERMUTATION FOR LOAD SPLIT = id AND SEED 2
+
+
+model_dirname= repr_LECIGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingfeatmitig_readoutweightedavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Mon Sep 30 10:33:09 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif2
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:09 AM : [1mDataset: {'train': GOODMotif2(18000), 'id_val': GOODMotif2(3000), 'id_test': GOODMotif2(3000), 'val': GOODMotif2(3000), 'test': GOODMotif2(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:09 AM : [1m Data(edge_index=[2, 84], x=[29, 1], node_gt=[29], edge_gt=[84], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[0mData(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:09 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:33:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:09 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:09 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:09 AM : [1mUsing no mitigation (None)
+[0mUsing feature sampling := feat
+self.EF = 0
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:33:09 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:33:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:09 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:09 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:09 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:09 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:33:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:09 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:09 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:09 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:09 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:33:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:09 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:09 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:09 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:09 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:33:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:09 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:09 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:09 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:09 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 188...
+[0m[1;37mINFO[0m: [1mCheckpoint 188: 
+-----------------------------------
+Train ACCURACY: 0.9162
+Train Loss: 0.4093
+ID Validation ACCURACY: 0.9230
+ID Validation Loss: 0.3818
+ID Test ACCURACY: 0.9110
+ID Test Loss: 0.4274
+OOD Validation ACCURACY: 0.9130
+OOD Validation Loss: 0.4851
+OOD Test ACCURACY: 0.8380
+OOD Test Loss: 0.4985
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 119...
+[0m[1;37mINFO[0m: [1mCheckpoint 119: 
+-----------------------------------
+Train ACCURACY: 0.8970
+Train Loss: 0.4289
+ID Validation ACCURACY: 0.9023
+ID Validation Loss: 0.4071
+ID Test ACCURACY: 0.8917
+ID Test Loss: 0.4442
+OOD Validation ACCURACY: 0.9293
+OOD Validation Loss: 0.4515
+OOD Test ACCURACY: 0.8837
+OOD Test Loss: 0.4862
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9110 0.8380 0.8917 0.8837 0.9023 0.9293[0mTrying to replace attention weigths for id_val:
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument lr_filternod in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.923
+ACCURACY permuted: 0.333
+Trying to replace attention weigths for val:
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.913
+ACCURACY permuted: 0.339
+Trying to replace attention weigths for test:
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.838
+ACCURACY permuted: 0.331
+GENERATING ATTN. PERMUTATION FOR LOAD SPLIT = id AND SEED 3
+
+
+model_dirname= repr_LECIGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingfeatmitig_readoutweightedavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Mon Sep 30 10:33:16 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif2
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:16 AM : [1mDataset: {'train': GOODMotif2(18000), 'id_val': GOODMotif2(3000), 'id_test': GOODMotif2(3000), 'val': GOODMotif2(3000), 'test': GOODMotif2(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:16 AM : [1m Data(edge_index=[2, 84], x=[29, 1], node_gt=[29], edge_gt=[84], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[0mData(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:16 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:33:16 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:16 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:16 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:16 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:16 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:16 AM : [1mUsing no mitigation (None)
+[0mUsing feature sampling := feat
+self.EF = 0
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:33:16 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:33:16 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:16 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:16 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:16 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:16 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:16 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:16 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:33:16 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:16 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:16 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:16 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:16 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:16 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:16 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:33:16 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:16 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:16 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:16 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:16 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:16 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:16 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:33:16 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:16 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:16 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:16 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:16 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:16 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:16 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 171...
+[0m[1;37mINFO[0m: [1mCheckpoint 171: 
+-----------------------------------
+Train ACCURACY: 0.9011
+Train Loss: 0.4339
+ID Validation ACCURACY: 0.9127
+ID Validation Loss: 0.4039
+ID Test ACCURACY: 0.9043
+ID Test Loss: 0.4420
+OOD Validation ACCURACY: 0.9230
+OOD Validation Loss: 0.4746
+OOD Test ACCURACY: 0.8267
+OOD Test Loss: 0.4981
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 143...
+[0m[1;37mINFO[0m: [1mCheckpoint 143: 
+-----------------------------------
+Train ACCURACY: 0.8969
+Train Loss: 0.4316
+ID Validation ACCURACY: 0.9050
+ID Validation Loss: 0.4049
+ID Test ACCURACY: 0.8977
+ID Test Loss: 0.4367
+OOD Validation ACCURACY: 0.9297
+OOD Validation Loss: 0.4768
+OOD Test ACCURACY: 0.8177
+OOD Test Loss: 0.5880
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9043 0.8267 0.8977 0.8177 0.9050 0.9297[0mTrying to replace attention weigths for id_val:
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument lr_filternod in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.913
+ACCURACY permuted: 0.337
+Trying to replace attention weigths for val:
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.923
+ACCURACY permuted: 0.331
+Trying to replace attention weigths for test:
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.827
+ACCURACY permuted: 0.319
+GENERATING ATTN. PERMUTATION FOR LOAD SPLIT = id AND SEED 4
+
+
+model_dirname= repr_LECIGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingfeatmitig_readoutweightedavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Mon Sep 30 10:33:23 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif2
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:23 AM : [1mDataset: {'train': GOODMotif2(18000), 'id_val': GOODMotif2(3000), 'id_test': GOODMotif2(3000), 'val': GOODMotif2(3000), 'test': GOODMotif2(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:23 AM : [1m Data(edge_index=[2, 84], x=[29, 1], node_gt=[29], edge_gt=[84], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[0mData(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:23 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:33:23 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:23 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:23 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:23 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:23 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:23 AM : [1mUsing no mitigation (None)
+[0mUsing feature sampling := feat
+self.EF = 0
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:33:23 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:33:23 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:23 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:23 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:23 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:23 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:23 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:23 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:33:23 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:23 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:23 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:23 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:23 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:23 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:23 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:33:23 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:23 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:23 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:23 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:23 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:23 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:23 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:33:23 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:23 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:23 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:23 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:23 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:23 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:23 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 134...
+[0m[1;37mINFO[0m: [1mCheckpoint 134: 
+-----------------------------------
+Train ACCURACY: 0.8988
+Train Loss: 0.4539
+ID Validation ACCURACY: 0.9030
+ID Validation Loss: 0.4374
+ID Test ACCURACY: 0.8997
+ID Test Loss: 0.4667
+OOD Validation ACCURACY: 0.9270
+OOD Validation Loss: 0.4777
+OOD Test ACCURACY: 0.8460
+OOD Test Loss: 0.5987
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 137...
+[0m[1;37mINFO[0m: [1mCheckpoint 137: 
+-----------------------------------
+Train ACCURACY: 0.8639
+Train Loss: 0.4728
+ID Validation ACCURACY: 0.8680
+ID Validation Loss: 0.4616
+ID Test ACCURACY: 0.8647
+ID Test Loss: 0.4806
+OOD Validation ACCURACY: 0.9313
+OOD Validation Loss: 0.4486
+OOD Test ACCURACY: 0.7277
+OOD Test Loss: 0.7415
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.8997 0.8460 0.8647 0.7277 0.8680 0.9313[0mTrying to replace attention weigths for id_val:
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument lr_filternod in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.903
+ACCURACY permuted: 0.338
+Trying to replace attention weigths for val:
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.927
+ACCURACY permuted: 0.336
+Trying to replace attention weigths for test:
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.846
+ACCURACY permuted: 0.499
+GENERATING ATTN. PERMUTATION FOR LOAD SPLIT = id AND SEED 5
+
+
+model_dirname= repr_LECIGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingfeatmitig_readoutweightedavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Mon Sep 30 10:33:30 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif2
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:30 AM : [1mDataset: {'train': GOODMotif2(18000), 'id_val': GOODMotif2(3000), 'id_test': GOODMotif2(3000), 'val': GOODMotif2(3000), 'test': GOODMotif2(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:30 AM : [1m Data(edge_index=[2, 84], x=[29, 1], node_gt=[29], edge_gt=[84], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[0mData(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:30 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:33:30 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:30 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:30 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:30 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:30 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:30 AM : [1mUsing no mitigation (None)
+[0mUsing feature sampling := feat
+self.EF = 0
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:33:30 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:33:30 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:30 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:30 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:30 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:30 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:30 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:30 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:33:30 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:30 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:30 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:30 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:30 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:30 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:30 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:33:30 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:30 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:30 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:30 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:30 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:30 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:30 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:33:30 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:30 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:30 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:30 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:30 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:30 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:30 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 150...
+[0m[1;37mINFO[0m: [1mCheckpoint 150: 
+-----------------------------------
+Train ACCURACY: 0.9096
+Train Loss: 0.4091
+ID Validation ACCURACY: 0.9127
+ID Validation Loss: 0.3875
+ID Test ACCURACY: 0.9030
+ID Test Loss: 0.4331
+OOD Validation ACCURACY: 0.9240
+OOD Validation Loss: 0.4585
+OOD Test ACCURACY: 0.8997
+OOD Test Loss: 0.4258
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 109...
+[0m[1;37mINFO[0m: [1mCheckpoint 109: 
+-----------------------------------
+Train ACCURACY: 0.8893
+Train Loss: 0.4702
+ID Validation ACCURACY: 0.8970
+ID Validation Loss: 0.4634
+ID Test ACCURACY: 0.8937
+ID Test Loss: 0.4939
+OOD Validation ACCURACY: 0.9293
+OOD Validation Loss: 0.4938
+OOD Test ACCURACY: 0.8903
+OOD Test Loss: 0.4810
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9030 0.8997 0.8937 0.8903 0.8970 0.9293[0mTrying to replace attention weigths for id_val:
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument lr_filternod in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.913
+ACCURACY permuted: 0.346
+Trying to replace attention weigths for val:
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.924
+ACCURACY permuted: 0.331
+Trying to replace attention weigths for test:
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.900
+ACCURACY permuted: 0.349
+GOODMotif2 - LECIGIN
+(id) id_val Accuracy orig.: 	0.913 +- 0.006
+(id) id_val Accuracy perm.: 	0.339 +- 0.005
+(id) val Accuracy orig.: 	0.923 +- 0.005
+(id) val Accuracy perm.: 	0.336 +- 0.005
+(id) test Accuracy orig.: 	0.863 +- 0.032
+(id) test Accuracy perm.: 	0.389 +- 0.072
+DONE EVAL LECI GOODMotif2/basis hard
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument lr_filternod in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Mon Sep 30 10:33:50 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif2
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:50 AM : [1mDataset: {'train': GOODMotif2(18000), 'id_val': GOODMotif2(3000), 'id_test': GOODMotif2(3000), 'val': GOODMotif2(3000), 'test': GOODMotif2(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:50 AM : [1m Data(edge_index=[2, 84], x=[29, 1], node_gt=[29], edge_gt=[84], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[0mData(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:50 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:33:50 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:50 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:50 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:50 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:50 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:50 AM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 09/30/2024 10:33:50 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 149...
+[0m[1;37mINFO[0m: [1mCheckpoint 149: 
+-----------------------------------
+Train ACCURACY: 0.9301
+Train Loss: 0.3224
+ID Validation ACCURACY: 0.9360
+ID Validation Loss: 0.3055
+ID Test ACCURACY: 0.9257
+ID Test Loss: 0.3402
+OOD Validation ACCURACY: 0.7387
+OOD Validation Loss: 0.6602
+OOD Test ACCURACY: 0.6417
+OOD Test Loss: 1.1222
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 28...
+[0m[1;37mINFO[0m: [1mCheckpoint 28: 
+-----------------------------------
+Train ACCURACY: 0.9281
+Train Loss: 0.3370
+ID Validation ACCURACY: 0.9327
+ID Validation Loss: 0.3225
+ID Test ACCURACY: 0.9240
+ID Test Loss: 0.3558
+OOD Validation ACCURACY: 0.9200
+OOD Validation Loss: 0.4528
+OOD Test ACCURACY: 0.6980
+OOD Test Loss: 1.4036
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9257 0.6417 0.9240 0.6980 0.9327 0.9200[0mTrying to replace attention weigths for id_val:
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.936
+ACCURACY permuted: 0.898
+Trying to replace attention weigths for val:
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.739
+ACCURACY permuted: 0.676
+Trying to replace attention weigths for test:
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.642
+ACCURACY permuted: 0.595
+GENERATING ATTN. PERMUTATION FOR LOAD SPLIT = id AND SEED 2
+
+
+model_dirname= repr_GSATGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingfeatmitig_readoutweightedavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Mon Sep 30 10:33:59 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif2
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:59 AM : [1mDataset: {'train': GOODMotif2(18000), 'id_val': GOODMotif2(3000), 'id_test': GOODMotif2(3000), 'val': GOODMotif2(3000), 'test': GOODMotif2(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:59 AM : [1m Data(edge_index=[2, 84], x=[29, 1], node_gt=[29], edge_gt=[84], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[0mData(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:59 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:33:59 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:59 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:59 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:59 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:59 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:33:59 AM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 09/30/2024 10:33:59 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 133...
+[0m[1;37mINFO[0m: [1mCheckpoint 133: 
+-----------------------------------
+Train ACCURACY: 0.9294
+Train Loss: 0.3188
+ID Validation ACCURACY: 0.9347
+ID Validation Loss: 0.3050
+ID Test ACCURACY: 0.9253
+ID Test Loss: 0.3427
+OOD Validation ACCURACY: 0.9233
+OOD Validation Loss: 0.3537
+OOD Test ACCURACY: 0.5027
+OOD Test Loss: 1.2959
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 145...
+[0m[1;37mINFO[0m: [1mCheckpoint 145: 
+-----------------------------------
+Train ACCURACY: 0.9271
+Train Loss: 0.3300
+ID Validation ACCURACY: 0.9323
+ID Validation Loss: 0.3113
+ID Test ACCURACY: 0.9240
+ID Test Loss: 0.3472
+OOD Validation ACCURACY: 0.9297
+OOD Validation Loss: 0.3600
+OOD Test ACCURACY: 0.5900
+OOD Test Loss: 1.4067
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9253 0.5027 0.9240 0.5900 0.9323 0.9297[0mTrying to replace attention weigths for id_val:
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument lr_filternod in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.935
+ACCURACY permuted: 0.894
+Trying to replace attention weigths for val:
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.923
+ACCURACY permuted: 0.909
+Trying to replace attention weigths for test:
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.503
+ACCURACY permuted: 0.492
+GENERATING ATTN. PERMUTATION FOR LOAD SPLIT = id AND SEED 3
+
+
+model_dirname= repr_GSATGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingfeatmitig_readoutweightedavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Mon Sep 30 10:34:05 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif2
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:05 AM : [1mDataset: {'train': GOODMotif2(18000), 'id_val': GOODMotif2(3000), 'id_test': GOODMotif2(3000), 'val': GOODMotif2(3000), 'test': GOODMotif2(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:05 AM : [1m Data(edge_index=[2, 84], x=[29, 1], node_gt=[29], edge_gt=[84], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[0mData(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:05 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:34:05 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:05 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:05 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:05 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:05 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:05 AM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 09/30/2024 10:34:05 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 189...
+[0m[1;37mINFO[0m: [1mCheckpoint 189: 
+-----------------------------------
+Train ACCURACY: 0.9308
+Train Loss: 0.3191
+ID Validation ACCURACY: 0.9370
+ID Validation Loss: 0.3044
+ID Test ACCURACY: 0.9263
+ID Test Loss: 0.3380
+OOD Validation ACCURACY: 0.9270
+OOD Validation Loss: 0.3803
+OOD Test ACCURACY: 0.6390
+OOD Test Loss: 1.0273
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 41...
+[0m[1;37mINFO[0m: [1mCheckpoint 41: 
+-----------------------------------
+Train ACCURACY: 0.9197
+Train Loss: 0.3431
+ID Validation ACCURACY: 0.9267
+ID Validation Loss: 0.3258
+ID Test ACCURACY: 0.9177
+ID Test Loss: 0.3707
+OOD Validation ACCURACY: 0.9290
+OOD Validation Loss: 0.3668
+OOD Test ACCURACY: 0.7483
+OOD Test Loss: 1.8033
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9263 0.6390 0.9177 0.7483 0.9267 0.9290[0mTrying to replace attention weigths for id_val:
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument lr_filternod in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.937
+ACCURACY permuted: 0.899
+Trying to replace attention weigths for val:
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.927
+ACCURACY permuted: 0.904
+Trying to replace attention weigths for test:
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.639
+ACCURACY permuted: 0.606
+GENERATING ATTN. PERMUTATION FOR LOAD SPLIT = id AND SEED 4
+
+
+model_dirname= repr_GSATGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingfeatmitig_readoutweightedavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Mon Sep 30 10:34:12 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif2
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:12 AM : [1mDataset: {'train': GOODMotif2(18000), 'id_val': GOODMotif2(3000), 'id_test': GOODMotif2(3000), 'val': GOODMotif2(3000), 'test': GOODMotif2(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:12 AM : [1m Data(edge_index=[2, 84], x=[29, 1], node_gt=[29], edge_gt=[84], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[0mData(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:12 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:34:12 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:12 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:12 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:12 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:12 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:12 AM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 09/30/2024 10:34:12 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 141...
+[0m[1;37mINFO[0m: [1mCheckpoint 141: 
+-----------------------------------
+Train ACCURACY: 0.9309
+Train Loss: 0.3182
+ID Validation ACCURACY: 0.9360
+ID Validation Loss: 0.3060
+ID Test ACCURACY: 0.9263
+ID Test Loss: 0.3404
+OOD Validation ACCURACY: 0.9267
+OOD Validation Loss: 0.3565
+OOD Test ACCURACY: 0.7483
+OOD Test Loss: 0.8473
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 44...
+[0m[1;37mINFO[0m: [1mCheckpoint 44: 
+-----------------------------------
+Train ACCURACY: 0.9266
+Train Loss: 0.3333
+ID Validation ACCURACY: 0.9320
+ID Validation Loss: 0.3169
+ID Test ACCURACY: 0.9243
+ID Test Loss: 0.3533
+OOD Validation ACCURACY: 0.9297
+OOD Validation Loss: 0.3816
+OOD Test ACCURACY: 0.7223
+OOD Test Loss: 1.4805
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9263 0.7483 0.9243 0.7223 0.9320 0.9297[0mTrying to replace attention weigths for id_val:
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument lr_filternod in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.936
+ACCURACY permuted: 0.897
+Trying to replace attention weigths for val:
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.927
+ACCURACY permuted: 0.909
+Trying to replace attention weigths for test:
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.748
+ACCURACY permuted: 0.689
+GENERATING ATTN. PERMUTATION FOR LOAD SPLIT = id AND SEED 5
+
+
+model_dirname= repr_GSATGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingfeatmitig_readoutweightedavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Mon Sep 30 10:34:19 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif2
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:19 AM : [1mDataset: {'train': GOODMotif2(18000), 'id_val': GOODMotif2(3000), 'id_test': GOODMotif2(3000), 'val': GOODMotif2(3000), 'test': GOODMotif2(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:19 AM : [1m Data(edge_index=[2, 84], x=[29, 1], node_gt=[29], edge_gt=[84], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[0mData(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:19 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:34:19 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:19 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:19 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:19 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:19 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:19 AM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 09/30/2024 10:34:19 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 188...
+[0m[1;37mINFO[0m: [1mCheckpoint 188: 
+-----------------------------------
+Train ACCURACY: 0.9288
+Train Loss: 0.3202
+ID Validation ACCURACY: 0.9347
+ID Validation Loss: 0.3069
+ID Test ACCURACY: 0.9253
+ID Test Loss: 0.3425
+OOD Validation ACCURACY: 0.9070
+OOD Validation Loss: 0.4360
+OOD Test ACCURACY: 0.6230
+OOD Test Loss: 1.1103
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 61...
+[0m[1;37mINFO[0m: [1mCheckpoint 61: 
+-----------------------------------
+Train ACCURACY: 0.9275
+Train Loss: 0.3347
+ID Validation ACCURACY: 0.9320
+ID Validation Loss: 0.3170
+ID Test ACCURACY: 0.9240
+ID Test Loss: 0.3484
+OOD Validation ACCURACY: 0.9283
+OOD Validation Loss: 0.3823
+OOD Test ACCURACY: 0.6687
+OOD Test Loss: 1.1273
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9253 0.6230 0.9240 0.6687 0.9320 0.9283[0mTrying to replace attention weigths for id_val:
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument lr_filternod in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.935
+ACCURACY permuted: 0.900
+Trying to replace attention weigths for val:
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.907
+ACCURACY permuted: 0.853
+Trying to replace attention weigths for test:
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.623
+ACCURACY permuted: 0.502
+GOODMotif2 - GSATGIN
+(id) id_val Accuracy orig.: 	0.936 +- 0.001
+(id) id_val Accuracy perm.: 	0.898 +- 0.002
+(id) val Accuracy orig.: 	0.885 +- 0.073
+(id) val Accuracy perm.: 	0.850 +- 0.090
+(id) test Accuracy orig.: 	0.631 +- 0.078
+(id) test Accuracy perm.: 	0.577 +- 0.073
+DONE EVAL GSAT GOODMotif2/basis hard
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument lr_filternod in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Mon Sep 30 10:34:45 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif2
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:45 AM : [1mDataset: {'train': GOODMotif2(18000), 'id_val': GOODMotif2(3000), 'id_test': GOODMotif2(3000), 'val': GOODMotif2(3000), 'test': GOODMotif2(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:45 AM : [1m Data(edge_index=[2, 84], x=[29, 1], node_gt=[29], edge_gt=[84], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[0mData(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:45 AM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:45 AM : [1mCreating GINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:45 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:34:45 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:45 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:45 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:45 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:45 AM : [1mUsing  1  layers for classifier
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:45 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:34:45 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:45 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:45 AM : [1mUsing feature sampling = feat
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:45 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 49...
+[0m[1;37mINFO[0m: [1mCheckpoint 49: 
+-----------------------------------
+Train ACCURACY: 0.9018
+Train Loss: 0.4354
+ID Validation ACCURACY: 0.9037
+ID Validation Loss: 0.4370
+ID Test ACCURACY: 0.8970
+ID Test Loss: 0.4710
+OOD Validation ACCURACY: 0.7420
+OOD Validation Loss: 0.6904
+OOD Test ACCURACY: 0.4850
+OOD Test Loss: 11.6168
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 89...
+[0m[1;37mINFO[0m: [1mCheckpoint 89: 
+-----------------------------------
+Train ACCURACY: 0.8768
+Train Loss: 0.4361
+ID Validation ACCURACY: 0.8860
+ID Validation Loss: 0.4229
+ID Test ACCURACY: 0.8727
+ID Test Loss: 0.4687
+OOD Validation ACCURACY: 0.8807
+OOD Validation Loss: 0.4940
+OOD Test ACCURACY: 0.4280
+OOD Test Loss: 6.8125
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.8970 0.4850 0.8727 0.4280 0.8860 0.8807[0mTrying to replace attention weigths for id_val:
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.904
+ACCURACY permuted: 0.586
+Trying to replace attention weigths for val:
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.742
+ACCURACY permuted: 0.406
+Trying to replace attention weigths for test:
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.485
+ACCURACY permuted: 0.433
+GENERATING ATTN. PERMUTATION FOR LOAD SPLIT = id AND SEED 2
+
+
+model_dirname= repr_CIGAGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingfeatmitig_readoutweightedavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Mon Sep 30 10:34:54 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif2
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:54 AM : [1mDataset: {'train': GOODMotif2(18000), 'id_val': GOODMotif2(3000), 'id_test': GOODMotif2(3000), 'val': GOODMotif2(3000), 'test': GOODMotif2(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:54 AM : [1m Data(edge_index=[2, 84], x=[29, 1], node_gt=[29], edge_gt=[84], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[0mData(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:54 AM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:54 AM : [1mCreating GINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:54 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:34:54 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:54 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:54 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:54 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:54 AM : [1mUsing  1  layers for classifier
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:54 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:34:54 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:54 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:54 AM : [1mUsing feature sampling = feat
+[0m[1;34mDEBUG[0m: 09/30/2024 10:34:54 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 13...
+[0m[1;37mINFO[0m: [1mCheckpoint 13: 
+-----------------------------------
+Train ACCURACY: 0.9209
+Train Loss: 0.4610
+ID Validation ACCURACY: 0.9260
+ID Validation Loss: 0.4490
+ID Test ACCURACY: 0.9150
+ID Test Loss: 0.5098
+OOD Validation ACCURACY: 0.8717
+OOD Validation Loss: 0.5431
+OOD Test ACCURACY: 0.3343
+OOD Test Loss: 29.2798
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 71...
+[0m[1;37mINFO[0m: [1mCheckpoint 71: 
+-----------------------------------
+Train ACCURACY: 0.8146
+Train Loss: 0.6065
+ID Validation ACCURACY: 0.8143
+ID Validation Loss: 0.6034
+ID Test ACCURACY: 0.8157
+ID Test Loss: 0.6423
+OOD Validation ACCURACY: 0.9270
+OOD Validation Loss: 0.4652
+OOD Test ACCURACY: 0.3343
+OOD Test Loss: 40.5826
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9150 0.3343 0.8157 0.3343 0.8143 0.9270[0mTrying to replace attention weigths for id_val:
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument lr_filternod in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.926
+ACCURACY permuted: 0.772
+Trying to replace attention weigths for val:
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.872
+ACCURACY permuted: 0.590
+Trying to replace attention weigths for test:
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.334
+ACCURACY permuted: 0.376
+GENERATING ATTN. PERMUTATION FOR LOAD SPLIT = id AND SEED 3
+
+
+model_dirname= repr_CIGAGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingfeatmitig_readoutweightedavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Mon Sep 30 10:35:01 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif2
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:01 AM : [1mDataset: {'train': GOODMotif2(18000), 'id_val': GOODMotif2(3000), 'id_test': GOODMotif2(3000), 'val': GOODMotif2(3000), 'test': GOODMotif2(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:01 AM : [1m Data(edge_index=[2, 84], x=[29, 1], node_gt=[29], edge_gt=[84], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[0mData(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:01 AM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:01 AM : [1mCreating GINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:01 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:35:01 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:01 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:01 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:01 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:01 AM : [1mUsing  1  layers for classifier
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:01 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:35:01 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:01 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:01 AM : [1mUsing feature sampling = feat
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:01 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 48...
+[0m[1;37mINFO[0m: [1mCheckpoint 48: 
+-----------------------------------
+Train ACCURACY: 0.9083
+Train Loss: 0.4178
+ID Validation ACCURACY: 0.9150
+ID Validation Loss: 0.3921
+ID Test ACCURACY: 0.9070
+ID Test Loss: 0.4430
+OOD Validation ACCURACY: 0.7490
+OOD Validation Loss: 0.6150
+OOD Test ACCURACY: 0.4973
+OOD Test Loss: 4.7022
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 93...
+[0m[1;37mINFO[0m: [1mCheckpoint 93: 
+-----------------------------------
+Train ACCURACY: 0.8751
+Train Loss: 0.4864
+ID Validation ACCURACY: 0.8857
+ID Validation Loss: 0.4608
+ID Test ACCURACY: 0.8740
+ID Test Loss: 0.5012
+OOD Validation ACCURACY: 0.9083
+OOD Validation Loss: 0.4673
+OOD Test ACCURACY: 0.5683
+OOD Test Loss: 3.0991
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9070 0.4973 0.8740 0.5683 0.8857 0.9083[0mTrying to replace attention weigths for id_val:
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument lr_filternod in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.915
+ACCURACY permuted: 0.648
+Trying to replace attention weigths for val:
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.749
+ACCURACY permuted: 0.538
+Trying to replace attention weigths for test:
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.497
+ACCURACY permuted: 0.376
+GENERATING ATTN. PERMUTATION FOR LOAD SPLIT = id AND SEED 4
+
+
+model_dirname= repr_CIGAGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingfeatmitig_readoutweightedavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Mon Sep 30 10:35:09 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif2
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:09 AM : [1mDataset: {'train': GOODMotif2(18000), 'id_val': GOODMotif2(3000), 'id_test': GOODMotif2(3000), 'val': GOODMotif2(3000), 'test': GOODMotif2(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:09 AM : [1m Data(edge_index=[2, 84], x=[29, 1], node_gt=[29], edge_gt=[84], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[0mData(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:09 AM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:09 AM : [1mCreating GINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:09 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:35:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:09 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:09 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:09 AM : [1mUsing  1  layers for classifier
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:09 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:35:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:09 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:09 AM : [1mUsing feature sampling = feat
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:09 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 140...
+[0m[1;37mINFO[0m: [1mCheckpoint 140: 
+-----------------------------------
+Train ACCURACY: 0.9114
+Train Loss: 0.3792
+ID Validation ACCURACY: 0.9143
+ID Validation Loss: 0.3758
+ID Test ACCURACY: 0.9077
+ID Test Loss: 0.4035
+OOD Validation ACCURACY: 0.8203
+OOD Validation Loss: 0.5376
+OOD Test ACCURACY: 0.5747
+OOD Test Loss: 2.8057
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 95...
+[0m[1;37mINFO[0m: [1mCheckpoint 95: 
+-----------------------------------
+Train ACCURACY: 0.8786
+Train Loss: 0.4845
+ID Validation ACCURACY: 0.8843
+ID Validation Loss: 0.4701
+ID Test ACCURACY: 0.8797
+ID Test Loss: 0.5157
+OOD Validation ACCURACY: 0.8787
+OOD Validation Loss: 0.4998
+OOD Test ACCURACY: 0.5490
+OOD Test Loss: 1.6271
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9077 0.5747 0.8797 0.5490 0.8843 0.8787[0mTrying to replace attention weigths for id_val:
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument lr_filternod in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.914
+ACCURACY permuted: 0.655
+Trying to replace attention weigths for val:
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.820
+ACCURACY permuted: 0.477
+Trying to replace attention weigths for test:
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.575
+ACCURACY permuted: 0.400
+GENERATING ATTN. PERMUTATION FOR LOAD SPLIT = id AND SEED 5
+
+
+model_dirname= repr_CIGAGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingfeatmitig_readoutweightedavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Mon Sep 30 10:35:16 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif2
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:16 AM : [1mDataset: {'train': GOODMotif2(18000), 'id_val': GOODMotif2(3000), 'id_test': GOODMotif2(3000), 'val': GOODMotif2(3000), 'test': GOODMotif2(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:16 AM : [1m Data(edge_index=[2, 84], x=[29, 1], node_gt=[29], edge_gt=[84], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[0mData(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:16 AM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:16 AM : [1mCreating GINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:16 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:35:16 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:16 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:16 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:16 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:16 AM : [1mUsing  1  layers for classifier
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:16 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:35:16 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:16 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:16 AM : [1mUsing feature sampling = feat
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:16 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 19...
+[0m[1;37mINFO[0m: [1mCheckpoint 19: 
+-----------------------------------
+Train ACCURACY: 0.9057
+Train Loss: 0.4458
+ID Validation ACCURACY: 0.9100
+ID Validation Loss: 0.4449
+ID Test ACCURACY: 0.9023
+ID Test Loss: 0.4743
+OOD Validation ACCURACY: 0.6823
+OOD Validation Loss: 0.7176
+OOD Test ACCURACY: 0.3343
+OOD Test Loss: 11.3225
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 14...
+[0m[1;37mINFO[0m: [1mCheckpoint 14: 
+-----------------------------------
+Train ACCURACY: 0.8665
+Train Loss: 0.5395
+ID Validation ACCURACY: 0.8680
+ID Validation Loss: 0.5306
+ID Test ACCURACY: 0.8620
+ID Test Loss: 0.5767
+OOD Validation ACCURACY: 0.8170
+OOD Validation Loss: 0.6338
+OOD Test ACCURACY: 0.4653
+OOD Test Loss: 8.5253
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9023 0.3343 0.8620 0.4653 0.8680 0.8170[0mTrying to replace attention weigths for id_val:
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument lr_filternod in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.910
+ACCURACY permuted: 0.711
+Trying to replace attention weigths for val:
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.682
+ACCURACY permuted: 0.505
+Trying to replace attention weigths for test:
+torch.Size([3000]) torch.Size([3000]) torch.Size([3000])
+ACCURACY original: 0.334
+ACCURACY permuted: 0.363
+GOODMotif2 - CIGAGIN
+(id) id_val Accuracy orig.: 	0.914 +- 0.007
+(id) id_val Accuracy perm.: 	0.674 +- 0.063
+(id) val Accuracy orig.: 	0.773 +- 0.066
+(id) val Accuracy perm.: 	0.503 +- 0.062
+(id) test Accuracy orig.: 	0.445 +- 0.096
+(id) test Accuracy perm.: 	0.390 +- 0.025
+DONE EVAL CIGA GOODMotif2/basis hard
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Mon Sep 30 10:35:35 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODSST2
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mDataset: {'train': GOODSST2(24744), 'id_val': GOODSST2(5301), 'id_test': GOODSST2(5301), 'val': GOODSST2(17206), 'test': GOODSST2(17490), 'task': 'Binary classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1m Data(x=[6, 768], edge_index=[2, 10], y=[1, 1], idx=[1], sentence_tokens=[6], length=[1], domain_id=[1], env_id=[1])
+[0mData(x=[3, 768], edge_index=[2, 4], y=[1, 1], idx=[1], sentence_tokens=[3], length=[1], domain_id=[1], env_id=[1])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0mUsing feature sampling := feat
+self.EF = 0.01
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0mLECIvGIN
+[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mInit vGINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mInit vGINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mInit vGINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mInit vGINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mInit vGINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 09/30/2024 10:35:36 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 171...
+[0m[1;37mINFO[0m: [1mCheckpoint 171: 
+-----------------------------------
+Train ACCURACY: 0.9489
+Train Loss: 0.0751
+ID Validation ACCURACY: 0.8762
+ID Validation Loss: 0.4772
+ID Test ACCURACY: 0.8732
+ID Test Loss: 0.5405
+OOD Validation ACCURACY: 0.8785
+OOD Validation Loss: 0.6693
+OOD Test ACCURACY: 0.8286
+OOD Test Loss: 1.1668
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 155...
+[0m[1;37mINFO[0m: [1mCheckpoint 155: 
+-----------------------------------
+Train ACCURACY: 0.9489
+Train Loss: 0.0752
+ID Validation ACCURACY: 0.8738
+ID Validation Loss: 0.4331
+ID Test ACCURACY: 0.8747
+ID Test Loss: 0.4825
+OOD Validation ACCURACY: 0.8831
+OOD Validation Loss: 0.5611
+OOD Test ACCURACY: 0.8341
+OOD Test Loss: 0.9574
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.8732 0.8286 0.8747 0.8341 0.8738 0.8831[0mTrying to replace attention weigths for id_val:
+[1;34mDEBUG[0m: 09/30/2024 10:35:38 AM : [1mUnbalanced warning for GOODSST2 (id_val)
+[0m/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. The data of the dataset is already cached, so any modifications to `data` will not be reflected when accessing its elements. Clearing the cache now by removing all elements in `dataset._data_list`. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+torch.Size([5301, 1]) torch.Size([5301, 1]) torch.Size([5301, 1])
+ACCURACY original: 0.876
+ACCURACY permuted: 0.876
+Trying to replace attention weigths for val:
+torch.Size([17206, 1]) torch.Size([17206, 1]) torch.Size([17206, 1])
+ACCURACY original: 0.879
+ACCURACY permuted: 0.879
+Trying to replace attention weigths for test:
+torch.Size([17490, 1]) torch.Size([17490, 1]) torch.Size([17490, 1])
+ACCURACY original: 0.829
+ACCURACY permuted: 0.829
+GENERATING ATTN. PERMUTATION FOR LOAD SPLIT = id AND SEED 2
+
+
+model_dirname= repr_LECIvGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingfeatmitig_readoutweightedavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Mon Sep 30 10:36:07 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODSST2
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mDataset: {'train': GOODSST2(24744), 'id_val': GOODSST2(5301), 'id_test': GOODSST2(5301), 'val': GOODSST2(17206), 'test': GOODSST2(17490), 'task': 'Binary classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1m Data(x=[6, 768], edge_index=[2, 10], y=[1, 1], idx=[1], sentence_tokens=[6], length=[1], domain_id=[1], env_id=[1])
+[0mData(x=[3, 768], edge_index=[2, 4], y=[1, 1], idx=[1], sentence_tokens=[3], length=[1], domain_id=[1], env_id=[1])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing no mitigation (None)
+[0mUsing feature sampling := feat
+self.EF = 0.01
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing no mitigation (None)
+[0mLECIvGIN
+[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mInit vGINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mInit vGINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 09/30/2024 10:36:08 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:36:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:09 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:09 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:09 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:09 AM : [1mInit vGINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:36:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:09 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:09 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:09 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 09/30/2024 10:36:09 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:36:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:09 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:09 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:09 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:09 AM : [1mInit vGINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:36:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:09 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:09 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:09 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 09/30/2024 10:36:09 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:36:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:09 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:09 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:09 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:09 AM : [1mInit vGINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:36:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:09 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:09 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:09 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:09 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 09/30/2024 10:36:09 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 199...
+[0m[1;37mINFO[0m: [1mCheckpoint 199: 
+-----------------------------------
+Train ACCURACY: 0.9489
+Train Loss: 0.0750
+ID Validation ACCURACY: 0.8810
+ID Validation Loss: 0.5004
+ID Test ACCURACY: 0.8753
+ID Test Loss: 0.5729
+OOD Validation ACCURACY: 0.8835
+OOD Validation Loss: 0.6764
+OOD Test ACCURACY: 0.8298
+OOD Test Loss: 1.2856
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 198...
+[0m[1;37mINFO[0m: [1mCheckpoint 198: 
+-----------------------------------
+Train ACCURACY: 0.9489
+Train Loss: 0.0751
+ID Validation ACCURACY: 0.8795
+ID Validation Loss: 0.4785
+ID Test ACCURACY: 0.8753
+ID Test Loss: 0.5475
+OOD Validation ACCURACY: 0.8846
+OOD Validation Loss: 0.6262
+OOD Test ACCURACY: 0.8300
+OOD Test Loss: 1.0355
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.8753 0.8298 0.8753 0.8300 0.8795 0.8846[0mTrying to replace attention weigths for id_val:
+[1;34mDEBUG[0m: 09/30/2024 10:36:09 AM : [1mUnbalanced warning for GOODSST2 (id_val)
+[0m/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. The data of the dataset is already cached, so any modifications to `data` will not be reflected when accessing its elements. Clearing the cache now by removing all elements in `dataset._data_list`. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+torch.Size([5301, 1]) torch.Size([5301, 1]) torch.Size([5301, 1])
+ACCURACY original: 0.881
+ACCURACY permuted: 0.881
+Trying to replace attention weigths for val:
+torch.Size([17206, 1]) torch.Size([17206, 1]) torch.Size([17206, 1])
+ACCURACY original: 0.883
+ACCURACY permuted: 0.883
+Trying to replace attention weigths for test:
+torch.Size([17490, 1]) torch.Size([17490, 1]) torch.Size([17490, 1])
+ACCURACY original: 0.830
+ACCURACY permuted: 0.830
+GENERATING ATTN. PERMUTATION FOR LOAD SPLIT = id AND SEED 3
+
+
+model_dirname= repr_LECIvGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingfeatmitig_readoutweightedavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Mon Sep 30 10:36:36 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODSST2
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mDataset: {'train': GOODSST2(24744), 'id_val': GOODSST2(5301), 'id_test': GOODSST2(5301), 'val': GOODSST2(17206), 'test': GOODSST2(17490), 'task': 'Binary classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1m Data(x=[6, 768], edge_index=[2, 10], y=[1, 1], idx=[1], sentence_tokens=[6], length=[1], domain_id=[1], env_id=[1])
+[0mData(x=[3, 768], edge_index=[2, 4], y=[1, 1], idx=[1], sentence_tokens=[3], length=[1], domain_id=[1], env_id=[1])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0mUsing feature sampling := feat
+self.EF = 0.01
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0mLECIvGIN
+[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mInit vGINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mInit vGINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mInit vGINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mInit vGINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mInit vGINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 159...
+[0m[1;37mINFO[0m: [1mCheckpoint 159: 
+-----------------------------------
+Train ACCURACY: 0.9489
+Train Loss: 0.0752
+ID Validation ACCURACY: 0.8796
+ID Validation Loss: 0.4389
+ID Test ACCURACY: 0.8757
+ID Test Loss: 0.4942
+OOD Validation ACCURACY: 0.8781
+OOD Validation Loss: 0.5616
+OOD Test ACCURACY: 0.8223
+OOD Test Loss: 0.8763
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 97...
+[0m[1;37mINFO[0m: [1mCheckpoint 97: 
+-----------------------------------
+Train ACCURACY: 0.9488
+Train Loss: 0.0772
+ID Validation ACCURACY: 0.8764
+ID Validation Loss: 0.3801
+ID Test ACCURACY: 0.8732
+ID Test Loss: 0.4337
+OOD Validation ACCURACY: 0.8807
+OOD Validation Loss: 0.4866
+OOD Test ACCURACY: 0.8229
+OOD Test Loss: 0.8869
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.8757 0.8223 0.8732 0.8229 0.8764 0.8807[0mTrying to replace attention weigths for id_val:
+[1;34mDEBUG[0m: 09/30/2024 10:36:37 AM : [1mUnbalanced warning for GOODSST2 (id_val)
+[0m/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. The data of the dataset is already cached, so any modifications to `data` will not be reflected when accessing its elements. Clearing the cache now by removing all elements in `dataset._data_list`. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+torch.Size([5301, 1]) torch.Size([5301, 1]) torch.Size([5301, 1])
+ACCURACY original: 0.880
+ACCURACY permuted: 0.880
+Trying to replace attention weigths for val:
+torch.Size([17206, 1]) torch.Size([17206, 1]) torch.Size([17206, 1])
+ACCURACY original: 0.878
+ACCURACY permuted: 0.878
+Trying to replace attention weigths for test:
+torch.Size([17490, 1]) torch.Size([17490, 1]) torch.Size([17490, 1])
+ACCURACY original: 0.822
+ACCURACY permuted: 0.822
+GENERATING ATTN. PERMUTATION FOR LOAD SPLIT = id AND SEED 4
+
+
+model_dirname= repr_LECIvGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingfeatmitig_readoutweightedavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Mon Sep 30 10:37:05 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODSST2
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:06 AM : [1mDataset: {'train': GOODSST2(24744), 'id_val': GOODSST2(5301), 'id_test': GOODSST2(5301), 'val': GOODSST2(17206), 'test': GOODSST2(17490), 'task': 'Binary classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:06 AM : [1m Data(x=[6, 768], edge_index=[2, 10], y=[1, 1], idx=[1], sentence_tokens=[6], length=[1], domain_id=[1], env_id=[1])
+[0mData(x=[3, 768], edge_index=[2, 4], y=[1, 1], idx=[1], sentence_tokens=[3], length=[1], domain_id=[1], env_id=[1])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:06 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:37:06 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:06 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:06 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:06 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:06 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:06 AM : [1mUsing no mitigation (None)
+[0mUsing feature sampling := feat
+self.EF = 0.01
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:37:06 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing no mitigation (None)
+[0mLECIvGIN
+[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mInit vGINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mInit vGINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mInit vGINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mInit vGINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mInit vGINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 142...
+[0m[1;37mINFO[0m: [1mCheckpoint 142: 
+-----------------------------------
+Train ACCURACY: 0.9489
+Train Loss: 0.0758
+ID Validation ACCURACY: 0.8795
+ID Validation Loss: 0.3939
+ID Test ACCURACY: 0.8734
+ID Test Loss: 0.4467
+OOD Validation ACCURACY: 0.8811
+OOD Validation Loss: 0.5654
+OOD Test ACCURACY: 0.8098
+OOD Test Loss: 1.1500
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 193...
+[0m[1;37mINFO[0m: [1mCheckpoint 193: 
+-----------------------------------
+Train ACCURACY: 0.9489
+Train Loss: 0.0751
+ID Validation ACCURACY: 0.8776
+ID Validation Loss: 0.4561
+ID Test ACCURACY: 0.8779
+ID Test Loss: 0.5161
+OOD Validation ACCURACY: 0.8846
+OOD Validation Loss: 0.6825
+OOD Test ACCURACY: 0.8120
+OOD Test Loss: 1.3717
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.8734 0.8098 0.8779 0.8120 0.8776 0.8846[0mTrying to replace attention weigths for id_val:
+[1;34mDEBUG[0m: 09/30/2024 10:37:07 AM : [1mUnbalanced warning for GOODSST2 (id_val)
+[0m/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. The data of the dataset is already cached, so any modifications to `data` will not be reflected when accessing its elements. Clearing the cache now by removing all elements in `dataset._data_list`. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+torch.Size([5301, 1]) torch.Size([5301, 1]) torch.Size([5301, 1])
+ACCURACY original: 0.879
+ACCURACY permuted: 0.879
+Trying to replace attention weigths for val:
+torch.Size([17206, 1]) torch.Size([17206, 1]) torch.Size([17206, 1])
+ACCURACY original: 0.881
+ACCURACY permuted: 0.881
+Trying to replace attention weigths for test:
+torch.Size([17490, 1]) torch.Size([17490, 1]) torch.Size([17490, 1])
+ACCURACY original: 0.810
+ACCURACY permuted: 0.810
+GENERATING ATTN. PERMUTATION FOR LOAD SPLIT = id AND SEED 5
+
+
+model_dirname= repr_LECIvGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingfeatmitig_readoutweightedavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Mon Sep 30 10:37:33 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODSST2
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mDataset: {'train': GOODSST2(24744), 'id_val': GOODSST2(5301), 'id_test': GOODSST2(5301), 'val': GOODSST2(17206), 'test': GOODSST2(17490), 'task': 'Binary classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1m Data(x=[6, 768], edge_index=[2, 10], y=[1, 1], idx=[1], sentence_tokens=[6], length=[1], domain_id=[1], env_id=[1])
+[0mData(x=[3, 768], edge_index=[2, 4], y=[1, 1], idx=[1], sentence_tokens=[3], length=[1], domain_id=[1], env_id=[1])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing no mitigation (None)
+[0mUsing feature sampling := feat
+self.EF = 0.01
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing no mitigation (None)
+[0mLECIvGIN
+[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mInit vGINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mInit vGINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mInit vGINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mInit vGINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 09/30/2024 10:37:34 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:37:35 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:35 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:35 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:35 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:35 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:35 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:35 AM : [1mInit vGINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:37:35 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:35 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:35 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:35 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:35 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:37:35 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 09/30/2024 10:37:35 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 192...
+[0m[1;37mINFO[0m: [1mCheckpoint 192: 
+-----------------------------------
+Train ACCURACY: 0.9489
+Train Loss: 0.0750
+ID Validation ACCURACY: 0.8781
+ID Validation Loss: 0.5140
+ID Test ACCURACY: 0.8742
+ID Test Loss: 0.5848
+OOD Validation ACCURACY: 0.8821
+OOD Validation Loss: 0.6982
+OOD Test ACCURACY: 0.8264
+OOD Test Loss: 1.2184
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 191...
+[0m[1;37mINFO[0m: [1mCheckpoint 191: 
+-----------------------------------
+Train ACCURACY: 0.9489
+Train Loss: 0.0750
+ID Validation ACCURACY: 0.8755
+ID Validation Loss: 0.4966
+ID Test ACCURACY: 0.8761
+ID Test Loss: 0.5645
+OOD Validation ACCURACY: 0.8860
+OOD Validation Loss: 0.6638
+OOD Test ACCURACY: 0.8338
+OOD Test Loss: 1.0510
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.8742 0.8264 0.8761 0.8338 0.8755 0.8860[0mTrying to replace attention weigths for id_val:
+[1;34mDEBUG[0m: 09/30/2024 10:37:35 AM : [1mUnbalanced warning for GOODSST2 (id_val)
+[0m/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. The data of the dataset is already cached, so any modifications to `data` will not be reflected when accessing its elements. Clearing the cache now by removing all elements in `dataset._data_list`. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+torch.Size([5301, 1]) torch.Size([5301, 1]) torch.Size([5301, 1])
+ACCURACY original: 0.878
+ACCURACY permuted: 0.878
+Trying to replace attention weigths for val:
+torch.Size([17206, 1]) torch.Size([17206, 1]) torch.Size([17206, 1])
+ACCURACY original: 0.882
+ACCURACY permuted: 0.882
+Trying to replace attention weigths for test:
+torch.Size([17490, 1]) torch.Size([17490, 1]) torch.Size([17490, 1])
+ACCURACY original: 0.826
+ACCURACY permuted: 0.826
+GOODSST2 - LECIvGIN
+(id) id_val Accuracy orig.: 	0.879 +- 0.002
+(id) id_val Accuracy perm.: 	0.879 +- 0.002
+(id) val Accuracy orig.: 	0.881 +- 0.002
+(id) val Accuracy perm.: 	0.881 +- 0.002
+(id) test Accuracy orig.: 	0.823 +- 0.007
+(id) test Accuracy perm.: 	0.823 +- 0.007
+DONE EVAL LECI GOODSST2/length hard
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Mon Sep 30 10:38:22 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODSST2
+[0m[1;34mDEBUG[0m: 09/30/2024 10:38:23 AM : [1mDataset: {'train': GOODSST2(24744), 'id_val': GOODSST2(5301), 'id_test': GOODSST2(5301), 'val': GOODSST2(17206), 'test': GOODSST2(17490), 'task': 'Binary classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/30/2024 10:38:23 AM : [1m Data(x=[6, 768], edge_index=[2, 10], y=[1, 1], idx=[1], sentence_tokens=[6], length=[1], domain_id=[1], env_id=[1])
+[0mData(x=[3, 768], edge_index=[2, 4], y=[1, 1], idx=[1], sentence_tokens=[3], length=[1], domain_id=[1], env_id=[1])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/30/2024 10:38:23 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:38:23 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:38:23 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:38:23 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:38:23 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:38:23 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:38:23 AM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 09/30/2024 10:38:23 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:38:23 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:38:23 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:38:23 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:38:23 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:38:23 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:38:23 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:38:23 AM : [1mInit vGINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:38:23 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:38:23 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:38:23 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:38:23 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:38:23 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:38:23 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 09/30/2024 10:38:23 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 132...
+[0m[1;37mINFO[0m: [1mCheckpoint 132: 
+-----------------------------------
+Train ACCURACY: 0.9472
+Train Loss: 0.0807
+ID Validation ACCURACY: 0.8638
+ID Validation Loss: 0.5569
+ID Test ACCURACY: 0.8542
+ID Test Loss: 0.6640
+OOD Validation ACCURACY: 0.8582
+OOD Validation Loss: 1.2856
+OOD Test ACCURACY: 0.8136
+OOD Test Loss: 3.3019
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 54...
+[0m[1;37mINFO[0m: [1mCheckpoint 54: 
+-----------------------------------
+Train ACCURACY: 0.9439
+Train Loss: 0.0928
+ID Validation ACCURACY: 0.8502
+ID Validation Loss: 0.4924
+ID Test ACCURACY: 0.8523
+ID Test Loss: 0.5678
+OOD Validation ACCURACY: 0.8595
+OOD Validation Loss: 0.9019
+OOD Test ACCURACY: 0.8168
+OOD Test Loss: 2.0206
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.8542 0.8136 0.8523 0.8168 0.8502 0.8595[0mTrying to replace attention weigths for id_val:
+[1;34mDEBUG[0m: 09/30/2024 10:38:24 AM : [1mUnbalanced warning for GOODSST2 (id_val)
+[0m/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. The data of the dataset is already cached, so any modifications to `data` will not be reflected when accessing its elements. Clearing the cache now by removing all elements in `dataset._data_list`. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+torch.Size([5301, 1]) torch.Size([5301, 1]) torch.Size([5301, 1])
+ACCURACY original: 0.864
+ACCURACY permuted: 0.864
+Trying to replace attention weigths for val:
+torch.Size([17206, 1]) torch.Size([17206, 1]) torch.Size([17206, 1])
+ACCURACY original: 0.858
+ACCURACY permuted: 0.858
+Trying to replace attention weigths for test:
+torch.Size([17490, 1]) torch.Size([17490, 1]) torch.Size([17490, 1])
+ACCURACY original: 0.814
+ACCURACY permuted: 0.814
+GENERATING ATTN. PERMUTATION FOR LOAD SPLIT = id AND SEED 2
+
+
+model_dirname= repr_GSATvGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingfeatmitig_readoutweightedavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Mon Sep 30 10:38:52 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODSST2
+[0m[1;34mDEBUG[0m: 09/30/2024 10:38:54 AM : [1mDataset: {'train': GOODSST2(24744), 'id_val': GOODSST2(5301), 'id_test': GOODSST2(5301), 'val': GOODSST2(17206), 'test': GOODSST2(17490), 'task': 'Binary classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/30/2024 10:38:54 AM : [1m Data(x=[6, 768], edge_index=[2, 10], y=[1, 1], idx=[1], sentence_tokens=[6], length=[1], domain_id=[1], env_id=[1])
+[0mData(x=[3, 768], edge_index=[2, 4], y=[1, 1], idx=[1], sentence_tokens=[3], length=[1], domain_id=[1], env_id=[1])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/30/2024 10:38:54 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:38:54 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:38:54 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:38:54 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:38:54 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:38:54 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:38:54 AM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 09/30/2024 10:38:54 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:38:54 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:38:54 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:38:54 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:38:54 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:38:54 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:38:54 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:38:54 AM : [1mInit vGINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:38:54 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:38:54 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:38:54 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:38:54 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:38:54 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:38:54 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 09/30/2024 10:38:54 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 174...
+[0m[1;37mINFO[0m: [1mCheckpoint 174: 
+-----------------------------------
+Train ACCURACY: 0.9489
+Train Loss: 0.0755
+ID Validation ACCURACY: 0.8640
+ID Validation Loss: 0.6847
+ID Test ACCURACY: 0.8623
+ID Test Loss: 0.7604
+OOD Validation ACCURACY: 0.8614
+OOD Validation Loss: 1.0820
+OOD Test ACCURACY: 0.8157
+OOD Test Loss: 2.1369
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 191...
+[0m[1;37mINFO[0m: [1mCheckpoint 191: 
+-----------------------------------
+Train ACCURACY: 0.9489
+Train Loss: 0.0754
+ID Validation ACCURACY: 0.8619
+ID Validation Loss: 0.7617
+ID Test ACCURACY: 0.8598
+ID Test Loss: 0.8515
+OOD Validation ACCURACY: 0.8642
+OOD Validation Loss: 1.0488
+OOD Test ACCURACY: 0.8181
+OOD Test Loss: 2.0109
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.8623 0.8157 0.8598 0.8181 0.8619 0.8642[0mTrying to replace attention weigths for id_val:
+[1;34mDEBUG[0m: 09/30/2024 10:38:54 AM : [1mUnbalanced warning for GOODSST2 (id_val)
+[0m/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. The data of the dataset is already cached, so any modifications to `data` will not be reflected when accessing its elements. Clearing the cache now by removing all elements in `dataset._data_list`. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+torch.Size([5301, 1]) torch.Size([5301, 1]) torch.Size([5301, 1])
+ACCURACY original: 0.864
+ACCURACY permuted: 0.864
+Trying to replace attention weigths for val:
+torch.Size([17206, 1]) torch.Size([17206, 1]) torch.Size([17206, 1])
+ACCURACY original: 0.861
+ACCURACY permuted: 0.862
+Trying to replace attention weigths for test:
+torch.Size([17490, 1]) torch.Size([17490, 1]) torch.Size([17490, 1])
+ACCURACY original: 0.816
+ACCURACY permuted: 0.816
+GENERATING ATTN. PERMUTATION FOR LOAD SPLIT = id AND SEED 3
+
+
+model_dirname= repr_GSATvGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingfeatmitig_readoutweightedavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Mon Sep 30 10:39:21 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODSST2
+[0m[1;34mDEBUG[0m: 09/30/2024 10:39:22 AM : [1mDataset: {'train': GOODSST2(24744), 'id_val': GOODSST2(5301), 'id_test': GOODSST2(5301), 'val': GOODSST2(17206), 'test': GOODSST2(17490), 'task': 'Binary classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/30/2024 10:39:22 AM : [1m Data(x=[6, 768], edge_index=[2, 10], y=[1, 1], idx=[1], sentence_tokens=[6], length=[1], domain_id=[1], env_id=[1])
+[0mData(x=[3, 768], edge_index=[2, 4], y=[1, 1], idx=[1], sentence_tokens=[3], length=[1], domain_id=[1], env_id=[1])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/30/2024 10:39:22 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:39:22 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:39:22 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:39:22 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:39:22 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:39:22 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:39:22 AM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 09/30/2024 10:39:22 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:39:22 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:39:22 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:39:22 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:39:22 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:39:22 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:39:22 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:39:22 AM : [1mInit vGINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:39:22 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:39:22 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:39:22 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:39:22 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:39:22 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:39:22 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 09/30/2024 10:39:22 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 190...
+[0m[1;37mINFO[0m: [1mCheckpoint 190: 
+-----------------------------------
+Train ACCURACY: 0.9489
+Train Loss: 0.0750
+ID Validation ACCURACY: 0.8630
+ID Validation Loss: 0.8408
+ID Test ACCURACY: 0.8625
+ID Test Loss: 0.9711
+OOD Validation ACCURACY: 0.8587
+OOD Validation Loss: 1.3017
+OOD Test ACCURACY: 0.7962
+OOD Test Loss: 2.1004
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 136...
+[0m[1;37mINFO[0m: [1mCheckpoint 136: 
+-----------------------------------
+Train ACCURACY: 0.9474
+Train Loss: 0.0804
+ID Validation ACCURACY: 0.8585
+ID Validation Loss: 0.5789
+ID Test ACCURACY: 0.8617
+ID Test Loss: 0.6702
+OOD Validation ACCURACY: 0.8607
+OOD Validation Loss: 0.9609
+OOD Test ACCURACY: 0.8074
+OOD Test Loss: 1.7859
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.8625 0.7962 0.8617 0.8074 0.8585 0.8607[0mTrying to replace attention weigths for id_val:
+[1;34mDEBUG[0m: 09/30/2024 10:39:22 AM : [1mUnbalanced warning for GOODSST2 (id_val)
+[0m/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. The data of the dataset is already cached, so any modifications to `data` will not be reflected when accessing its elements. Clearing the cache now by removing all elements in `dataset._data_list`. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+torch.Size([5301, 1]) torch.Size([5301, 1]) torch.Size([5301, 1])
+ACCURACY original: 0.863
+ACCURACY permuted: 0.863
+Trying to replace attention weigths for val:
+torch.Size([17206, 1]) torch.Size([17206, 1]) torch.Size([17206, 1])
+ACCURACY original: 0.859
+ACCURACY permuted: 0.859
+Trying to replace attention weigths for test:
+torch.Size([17490, 1]) torch.Size([17490, 1]) torch.Size([17490, 1])
+ACCURACY original: 0.796
+ACCURACY permuted: 0.796
+GENERATING ATTN. PERMUTATION FOR LOAD SPLIT = id AND SEED 4
+
+
+model_dirname= repr_GSATvGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingfeatmitig_readoutweightedavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Mon Sep 30 10:39:50 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODSST2
+[0m[1;34mDEBUG[0m: 09/30/2024 10:39:51 AM : [1mDataset: {'train': GOODSST2(24744), 'id_val': GOODSST2(5301), 'id_test': GOODSST2(5301), 'val': GOODSST2(17206), 'test': GOODSST2(17490), 'task': 'Binary classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/30/2024 10:39:51 AM : [1m Data(x=[6, 768], edge_index=[2, 10], y=[1, 1], idx=[1], sentence_tokens=[6], length=[1], domain_id=[1], env_id=[1])
+[0mData(x=[3, 768], edge_index=[2, 4], y=[1, 1], idx=[1], sentence_tokens=[3], length=[1], domain_id=[1], env_id=[1])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/30/2024 10:39:51 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:39:51 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:39:51 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:39:51 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:39:51 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:39:51 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:39:51 AM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 09/30/2024 10:39:51 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:39:51 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:39:51 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:39:51 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:39:51 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:39:51 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:39:51 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:39:51 AM : [1mInit vGINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:39:51 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:39:51 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:39:51 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:39:51 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:39:51 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:39:51 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 09/30/2024 10:39:51 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 179...
+[0m[1;37mINFO[0m: [1mCheckpoint 179: 
+-----------------------------------
+Train ACCURACY: 0.9489
+Train Loss: 0.0753
+ID Validation ACCURACY: 0.8664
+ID Validation Loss: 0.7891
+ID Test ACCURACY: 0.8602
+ID Test Loss: 0.8571
+OOD Validation ACCURACY: 0.8539
+OOD Validation Loss: 1.3496
+OOD Test ACCURACY: 0.7823
+OOD Test Loss: 3.4741
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 96...
+[0m[1;37mINFO[0m: [1mCheckpoint 96: 
+-----------------------------------
+Train ACCURACY: 0.9474
+Train Loss: 0.0816
+ID Validation ACCURACY: 0.8564
+ID Validation Loss: 0.6260
+ID Test ACCURACY: 0.8576
+ID Test Loss: 0.7197
+OOD Validation ACCURACY: 0.8616
+OOD Validation Loss: 1.2995
+OOD Test ACCURACY: 0.8121
+OOD Test Loss: 2.8311
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.8602 0.7823 0.8576 0.8121 0.8564 0.8616[0mTrying to replace attention weigths for id_val:
+[1;34mDEBUG[0m: 09/30/2024 10:39:51 AM : [1mUnbalanced warning for GOODSST2 (id_val)
+[0m/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. The data of the dataset is already cached, so any modifications to `data` will not be reflected when accessing its elements. Clearing the cache now by removing all elements in `dataset._data_list`. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+torch.Size([5301, 1]) torch.Size([5301, 1]) torch.Size([5301, 1])
+ACCURACY original: 0.866
+ACCURACY permuted: 0.866
+Trying to replace attention weigths for val:
+torch.Size([17206, 1]) torch.Size([17206, 1]) torch.Size([17206, 1])
+ACCURACY original: 0.854
+ACCURACY permuted: 0.854
+Trying to replace attention weigths for test:
+torch.Size([17490, 1]) torch.Size([17490, 1]) torch.Size([17490, 1])
+ACCURACY original: 0.782
+ACCURACY permuted: 0.782
+GENERATING ATTN. PERMUTATION FOR LOAD SPLIT = id AND SEED 5
+
+
+model_dirname= repr_GSATvGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingfeatmitig_readoutweightedavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Mon Sep 30 10:40:20 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODSST2
+[0m[1;34mDEBUG[0m: 09/30/2024 10:40:21 AM : [1mDataset: {'train': GOODSST2(24744), 'id_val': GOODSST2(5301), 'id_test': GOODSST2(5301), 'val': GOODSST2(17206), 'test': GOODSST2(17490), 'task': 'Binary classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/30/2024 10:40:21 AM : [1m Data(x=[6, 768], edge_index=[2, 10], y=[1, 1], idx=[1], sentence_tokens=[6], length=[1], domain_id=[1], env_id=[1])
+[0mData(x=[3, 768], edge_index=[2, 4], y=[1, 1], idx=[1], sentence_tokens=[3], length=[1], domain_id=[1], env_id=[1])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/30/2024 10:40:21 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:40:21 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:40:21 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:40:21 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:40:21 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:40:21 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:40:21 AM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 09/30/2024 10:40:21 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:40:21 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:40:21 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:40:21 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:40:21 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:40:21 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:40:21 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:40:21 AM : [1mInit vGINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:40:21 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:40:21 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:40:21 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:40:21 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:40:21 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:40:21 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 09/30/2024 10:40:21 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 160...
+[0m[1;37mINFO[0m: [1mCheckpoint 160: 
+-----------------------------------
+Train ACCURACY: 0.9483
+Train Loss: 0.0767
+ID Validation ACCURACY: 0.8630
+ID Validation Loss: 0.7098
+ID Test ACCURACY: 0.8564
+ID Test Loss: 0.8617
+OOD Validation ACCURACY: 0.8566
+OOD Validation Loss: 1.3829
+OOD Test ACCURACY: 0.8027
+OOD Test Loss: 3.1845
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 172...
+[0m[1;37mINFO[0m: [1mCheckpoint 172: 
+-----------------------------------
+Train ACCURACY: 0.9489
+Train Loss: 0.0751
+ID Validation ACCURACY: 0.8630
+ID Validation Loss: 0.7238
+ID Test ACCURACY: 0.8580
+ID Test Loss: 0.8646
+OOD Validation ACCURACY: 0.8584
+OOD Validation Loss: 1.4575
+OOD Test ACCURACY: 0.8023
+OOD Test Loss: 3.6392
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.8564 0.8027 0.8580 0.8023 0.8630 0.8584[0mTrying to replace attention weigths for id_val:
+[1;34mDEBUG[0m: 09/30/2024 10:40:21 AM : [1mUnbalanced warning for GOODSST2 (id_val)
+[0m/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. The data of the dataset is already cached, so any modifications to `data` will not be reflected when accessing its elements. Clearing the cache now by removing all elements in `dataset._data_list`. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+torch.Size([5301, 1]) torch.Size([5301, 1]) torch.Size([5301, 1])
+ACCURACY original: 0.863
+ACCURACY permuted: 0.863
+Trying to replace attention weigths for val:
+torch.Size([17206, 1]) torch.Size([17206, 1]) torch.Size([17206, 1])
+ACCURACY original: 0.857
+ACCURACY permuted: 0.857
+Trying to replace attention weigths for test:
+torch.Size([17490, 1]) torch.Size([17490, 1]) torch.Size([17490, 1])
+ACCURACY original: 0.803
+ACCURACY permuted: 0.803
+GOODSST2 - GSATvGIN
+(id) id_val Accuracy orig.: 	0.864 +- 0.001
+(id) id_val Accuracy perm.: 	0.864 +- 0.001
+(id) val Accuracy orig.: 	0.858 +- 0.002
+(id) val Accuracy perm.: 	0.858 +- 0.003
+(id) test Accuracy orig.: 	0.802 +- 0.012
+(id) test Accuracy perm.: 	0.802 +- 0.012
+DONE EVAL GSAT GOODSST2/length hard
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Mon Sep 30 10:41:11 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODSST2
+[0m[1;34mDEBUG[0m: 09/30/2024 10:41:11 AM : [1mDataset: {'train': GOODSST2(24744), 'id_val': GOODSST2(5301), 'id_test': GOODSST2(5301), 'val': GOODSST2(17206), 'test': GOODSST2(17490), 'task': 'Binary classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/30/2024 10:41:11 AM : [1m Data(x=[6, 768], edge_index=[2, 10], y=[1, 1], idx=[1], sentence_tokens=[6], length=[1], domain_id=[1], env_id=[1])
+[0mData(x=[3, 768], edge_index=[2, 4], y=[1, 1], idx=[1], sentence_tokens=[3], length=[1], domain_id=[1], env_id=[1])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/30/2024 10:41:12 AM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 09/30/2024 10:41:12 AM : [1mCreating GINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 09/30/2024 10:41:12 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:41:12 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:41:12 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:41:12 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:41:12 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:41:12 AM : [1mUsing  1  layers for classifier
+[0m[1;34mDEBUG[0m: 09/30/2024 10:41:12 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/30/2024 10:41:12 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:41:12 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:41:12 AM : [1mUsing feature sampling = feat
+[0m[1;34mDEBUG[0m: 09/30/2024 10:41:12 AM : [1mInit CIGAvGIN
+[0m[1;34mDEBUG[0m: 09/30/2024 10:41:12 AM : [1mInit Backbone:  3
+[0m[1;34mDEBUG[0m: 09/30/2024 10:41:12 AM : [1mCreating vGINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 09/30/2024 10:41:12 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:41:12 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:41:12 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:41:12 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:41:12 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:41:12 AM : [1mInit vGINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:41:12 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:41:12 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:41:12 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:41:12 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 09/30/2024 10:41:12 AM : [1mInit CLF:  3
+[0m[1;34mDEBUG[0m: 09/30/2024 10:41:12 AM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:41:12 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:41:12 AM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/30/2024 10:41:12 AM : [1mInit vGINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/30/2024 10:41:12 AM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/30/2024 10:41:12 AM : [1mUsing no mitigation (None)
+[0mmitigation_virtual in vGINEncoder =  None
+[1;34mDEBUG[0m: 09/30/2024 10:41:12 AM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 174...
+[0m[1;37mINFO[0m: [1mCheckpoint 174: 
+-----------------------------------
+Train ACCURACY: 0.9489
+Train Loss: 0.0751
+ID Validation ACCURACY: 0.8570
+ID Validation Loss: 1.0776
+ID Test ACCURACY: 0.8538
+ID Test Loss: 1.1832
+OOD Validation ACCURACY: 0.8127
+OOD Validation Loss: 1.9445
+OOD Test ACCURACY: 0.7096
+OOD Test Loss: 3.2829
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 66...
+[0m[1;37mINFO[0m: [1mCheckpoint 66: 
+-----------------------------------
+Train ACCURACY: 0.9462
+Train Loss: 0.0859
+ID Validation ACCURACY: 0.8468
+ID Validation Loss: 0.5292
+ID Test ACCURACY: 0.8487
+ID Test Loss: 0.5857
+OOD Validation ACCURACY: 0.8539
+OOD Validation Loss: 0.6808
+OOD Test ACCURACY: 0.8169
+OOD Test Loss: 0.7504
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.8538 0.7096 0.8487 0.8169 0.8468 0.8539[0mTrying to replace attention weigths for id_val:
+[1;34mDEBUG[0m: 09/30/2024 10:41:13 AM : [1mUnbalanced warning for GOODSST2 (id_val)
+[0m/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. The data of the dataset is already cached, so any modifications to `data` will not be reflected when accessing its elements. Clearing the cache now by removing all elements in `dataset._data_list`. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+torch.Size([5295, 1]) torch.Size([5295, 1]) torch.Size([5301, 1])
+[1;31mERROR[0m: 09/30/2024 10:41:17 AM - utils.py - line 87 : [1mTraceback (most recent call last):
+  File "/mnt/cimec-storage6/users/steve.azzolin/venv/leci/bin/goodtg", line 33, in <module>
+    sys.exit(load_entry_point('graph-ood', 'console_scripts', 'goodtg')())
+  File "/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/kernel/main.py", line 1020, in goodtg
+    main()
+  File "/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/kernel/main.py", line 827, in main
+    permute_attention_scores(args)
+  File "/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/kernel/main.py", line 338, in permute_attention_scores
+    acc_ori, acc = pipeline.permute_attention_scores(s)
+  File "/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch/utils/_contextlib.py", line 115, in decorate_context
+    return func(*args, **kwargs)
+  File "/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/kernel/pipelines/basic_pipeline.py", line 2185, in permute_attention_scores
+    acc_ori = accuracy_score(dataset.y.numpy(), ori_preds)
+  File "/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/sklearn/utils/_param_validation.py", line 214, in wrapper
+    return func(*args, **kwargs)
+  File "/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/sklearn/metrics/_classification.py", line 220, in accuracy_score
+    y_type, y_true, y_pred = _check_targets(y_true, y_pred)
+  File "/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/sklearn/metrics/_classification.py", line 84, in _check_targets
+    check_consistent_length(y_true, y_pred)
+  File "/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/sklearn/utils/validation.py", line 407, in check_consistent_length
+    raise ValueError(
+ValueError: Found input variables with inconsistent numbers of samples: [5301, 5295]
+[0m

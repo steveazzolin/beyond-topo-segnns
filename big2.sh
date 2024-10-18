@@ -1,11 +1,11 @@
-# for running experiments on GSAT and CIGA
-
 echo "Time to compute metrics!"
+echo "The PID of this script is: $$"
 set -e
 
-
-for DATASET in GOODMotif/basis GOODMotif/size GOODMotif2/basis GOODSST2/length GOODTwitter/length; do #GOODMotif/basis GOODMotif/size GOODMotif2/basis GOODSST2/length GOODTwitter/length GOODHIV/scaffold GOODCMNIST/color LBAPcore/assay
-       for MODEL in CIGA; do # CIGA LECI GSAT
+# GOODMotif2/basis 
+# GOODTwitter/length GOODMotif/size GOODHIV/scaffold
+for DATASET in GOODCMNIST/color; do #GOODMotif/basis GOODMotif/size GOODMotif2/basis GOODSST2/length GOODTwitter/length GOODHIV/scaffold GOODCMNIST/color LBAPcore/assay
+       for MODEL in LECI; do # CIGA LECI GSAT
               goodtg --config_path final_configs/${DATASET}/covariate/${MODEL}.yaml \
                      --seeds "1/2/3/4/5" \
                      --task eval_metric \
@@ -13,15 +13,17 @@ for DATASET in GOODMotif/basis GOODMotif/size GOODMotif2/basis GOODSST2/length G
                      --splits "test" \
                      --average_edge_attn mean \
                      --mitigation_sampling feat \
+                     --model_name LECIGIN \
                      --mitigation_readout weighted \
-                     --gpu_idx 2 \
+                     --mitigation_expl_scores hard \
+                     --gpu_idx 1 \
                      --mask  \
                      --debias \
                      --samplingtype deconfounded \
                      --nec_number_samples prop_G_dataset \
-                     # --save_metrics \
-                     # --log_id suff++_old_mitigreadout_weighted
-              echo "DONE ${MODEL} ${DATASET} readout"
+                     --save_metrics \
+                     --log_id suff++_old_allmitig_paper
+              echo "DONE ${MODEL} ${DATASET} all mitig"
        done
 done
 

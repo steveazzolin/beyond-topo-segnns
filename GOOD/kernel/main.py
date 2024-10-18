@@ -309,7 +309,7 @@ def plot_explanation_examples(args):
                 )
 
 def permute_attention_scores(args):
-    load_splits = ["ood"]
+    load_splits = ["id"]
     splits = ["id_val", "val", "test"]
     results = {l: {k: defaultdict(list) for k in splits} for l in load_splits}
     for l, load_split in enumerate(load_splits):
@@ -768,7 +768,6 @@ def evaluate_metric(args):
         print(f"Computed for split load_split = {load_split}\n\n\n")
     
     if config.save_metrics:
-        exit("NO!") #TODO: remove me
         with open(f"storage/metric_results/aggregated_{load_split}_results_{config.log_id}.json", "w") as f:
             json.dump(results_aggregated, f)     
     

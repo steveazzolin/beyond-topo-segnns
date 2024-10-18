@@ -1,0 +1,4126 @@
+nohup: ignoring input
+Time to compute metrics for random explanations!
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument lr_filternod in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Sun Sep 29 13:48:57 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif2
+[0m[1;34mDEBUG[0m: 09/29/2024 01:48:57 PM : [1mDataset: {'train': GOODMotif2(18000), 'id_val': GOODMotif2(3000), 'id_test': GOODMotif2(3000), 'val': GOODMotif2(3000), 'test': GOODMotif2(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/29/2024 01:48:57 PM : [1m Data(edge_index=[2, 84], x=[29, 1], node_gt=[29], edge_gt=[84], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[0mData(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/29/2024 01:48:57 PM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 09/29/2024 01:48:57 PM : [1mCreating GINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 09/29/2024 01:48:57 PM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/29/2024 01:48:57 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:48:57 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:48:57 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:48:57 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:48:57 PM : [1mUsing  3  layers for classifier
+[0m[1;34mDEBUG[0m: 09/29/2024 01:48:57 PM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/29/2024 01:48:57 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:48:57 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:48:57 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:48:57 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:48:57 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:48:57 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:48:57 PM : [1mUsing feature sampling = raw
+[0m[1;34mDEBUG[0m: 09/29/2024 01:48:57 PM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 133...
+[0m[1;37mINFO[0m: [1mCheckpoint 133: 
+-----------------------------------
+Train ACCURACY: 0.4515
+Train Loss: 2.0116
+ID Validation ACCURACY: 0.4543
+ID Validation Loss: 2.0095
+ID Test ACCURACY: 0.4537
+ID Test Loss: 1.9627
+OOD Validation ACCURACY: 0.3667
+OOD Validation Loss: 1.7075
+OOD Test ACCURACY: 0.4907
+OOD Test Loss: 20.5069
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 49...
+[0m[1;37mINFO[0m: [1mCheckpoint 49: 
+-----------------------------------
+Train ACCURACY: 0.3873
+Train Loss: 2.8169
+ID Validation ACCURACY: 0.4017
+ID Validation Loss: 2.8787
+ID Test ACCURACY: 0.3987
+ID Test Loss: 2.7126
+OOD Validation ACCURACY: 0.4830
+OOD Validation Loss: 1.4196
+OOD Test ACCURACY: 0.3533
+OOD Test Loss: 4.9358
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.4537 0.4907 0.3987 0.3533 0.4017 0.4830[0mGOODMotif2(3000)
+Data example from id_val: Data(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+Label distribution from id_val: (tensor([0, 1, 2]), tensor([1002, 1009,  989]))
+F1 for r=0.8 = 0.000
+WIoU for r=0.8 = 0.290
+F1 for r=1.0 = 0.000
+WIoU for r=1.0 = 0.310
+GOODMotif2(3000)
+Data example from test: Data(edge_index=[2, 70], x=[20, 1], node_gt=[20], edge_gt=[70], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=20)
+Label distribution from test: (tensor([0, 1, 2]), tensor([ 971, 1026, 1003]))
+F1 for r=0.8 = 0.000
+WIoU for r=0.8 = 0.237
+F1 for r=1.0 = 0.000
+WIoU for r=1.0 = 0.252
+
+
+Evaluating SUFF++ for seed 1 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over id_val across ratios (random_expl=True)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.441
+Model XAI F1 of binarized graphs for r=0.8 =  0.0
+Model XAI WIoU of binarized graphs for r=0.8 =  0.28950625
+len(reference) = 800
+Effective ratio: 0.812 +- 0.010
+Model Accuracy over intervened graphs for r=0.8 =  0.366
+SUFF++ for r=0.8 class 0 = 0.599 +- 0.273 (in-sample avg dev_std = 0.432)
+SUFF++ for r=0.8 class 1 = 0.587 +- 0.273 (in-sample avg dev_std = 0.432)
+SUFF++ for r=0.8 class 2 = 0.64 +- 0.273 (in-sample avg dev_std = 0.432)
+SUFF++ for r=0.8 all KL = 0.644 +- 0.273 (in-sample avg dev_std = 0.432)
+SUFF++ for r=0.8 all L1 = 0.608 +- 0.205 (in-sample avg dev_std = 0.432)
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=True)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.498
+Model XAI F1 of binarized graphs for r=0.8 =  0.0
+Model XAI WIoU of binarized graphs for r=0.8 =  0.2371625
+len(reference) = 800
+Effective ratio: 0.806 +- 0.006
+Model Accuracy over intervened graphs for r=0.8 =  0.393
+SUFF++ for r=0.8 class 0 = 0.416 +- 0.288 (in-sample avg dev_std = 0.503)
+SUFF++ for r=0.8 class 1 = 0.614 +- 0.288 (in-sample avg dev_std = 0.503)
+SUFF++ for r=0.8 class 2 = 0.456 +- 0.288 (in-sample avg dev_std = 0.503)
+SUFF++ for r=0.8 all KL = 0.43 +- 0.288 (in-sample avg dev_std = 0.503)
+SUFF++ for r=0.8 all L1 = 0.497 +- 0.199 (in-sample avg dev_std = 0.503)
+
+
+Evaluating NEC for seed 1 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over id_val across ratios (random_expl=True)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.441
+Model XAI F1 of binarized graphs for r=0.8 =  0.0
+Model XAI WIoU of binarized graphs for r=0.8 =  0.28950625
+len(reference) = 800
+Effective ratio: 0.812 +- 0.010
+Model Accuracy over intervened graphs for r=0.8 =  0.36
+NEC for r=0.8 class 0 = 0.352 +- 0.282 (in-sample avg dev_std = 0.420)
+NEC for r=0.8 class 1 = 0.402 +- 0.282 (in-sample avg dev_std = 0.420)
+NEC for r=0.8 class 2 = 0.304 +- 0.282 (in-sample avg dev_std = 0.420)
+NEC for r=0.8 all KL = 0.308 +- 0.282 (in-sample avg dev_std = 0.420)
+NEC for r=0.8 all L1 = 0.353 +- 0.202 (in-sample avg dev_std = 0.420)
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=True)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.498
+Model XAI F1 of binarized graphs for r=0.8 =  0.0
+Model XAI WIoU of binarized graphs for r=0.8 =  0.2371625
+len(reference) = 800
+Effective ratio: 0.806 +- 0.006
+Model Accuracy over intervened graphs for r=0.8 =  0.399
+NEC for r=0.8 class 0 = 0.546 +- 0.304 (in-sample avg dev_std = 0.515)
+NEC for r=0.8 class 1 = 0.38 +- 0.304 (in-sample avg dev_std = 0.515)
+NEC for r=0.8 class 2 = 0.51 +- 0.304 (in-sample avg dev_std = 0.515)
+NEC for r=0.8 all KL = 0.527 +- 0.304 (in-sample avg dev_std = 0.515)
+NEC for r=0.8 all L1 = 0.477 +- 0.196 (in-sample avg dev_std = 0.515)
+model_dirname= repr_CIGAGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingrawmitig_readoutweightedavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Sun Sep 29 13:49:49 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif2
+[0m[1;34mDEBUG[0m: 09/29/2024 01:49:49 PM : [1mDataset: {'train': GOODMotif2(18000), 'id_val': GOODMotif2(3000), 'id_test': GOODMotif2(3000), 'val': GOODMotif2(3000), 'test': GOODMotif2(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/29/2024 01:49:49 PM : [1m Data(edge_index=[2, 84], x=[29, 1], node_gt=[29], edge_gt=[84], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[0mData(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/29/2024 01:49:49 PM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 09/29/2024 01:49:49 PM : [1mCreating GINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 09/29/2024 01:49:49 PM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/29/2024 01:49:49 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:49:49 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:49:49 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:49:49 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:49:49 PM : [1mUsing  3  layers for classifier
+[0m[1;34mDEBUG[0m: 09/29/2024 01:49:49 PM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/29/2024 01:49:49 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:49:49 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:49:49 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:49:49 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:49:49 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:49:49 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:49:49 PM : [1mUsing feature sampling = raw
+[0m[1;34mDEBUG[0m: 09/29/2024 01:49:49 PM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 32...
+[0m[1;37mINFO[0m: [1mCheckpoint 32: 
+-----------------------------------
+Train ACCURACY: 0.5550
+Train Loss: 1.0486
+ID Validation ACCURACY: 0.5667
+ID Validation Loss: 1.0182
+ID Test ACCURACY: 0.5497
+ID Test Loss: 1.0586
+OOD Validation ACCURACY: 0.2923
+OOD Validation Loss: 1.8056
+OOD Test ACCURACY: 0.3420
+OOD Test Loss: 2.4359
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 156...
+[0m[1;37mINFO[0m: [1mCheckpoint 156: 
+-----------------------------------
+Train ACCURACY: 0.3756
+Train Loss: 1.3215
+ID Validation ACCURACY: 0.3880
+ID Validation Loss: 1.2841
+ID Test ACCURACY: 0.3630
+ID Test Loss: 1.3120
+OOD Validation ACCURACY: 0.4910
+OOD Validation Loss: 1.0719
+OOD Test ACCURACY: 0.4573
+OOD Test Loss: 1.3658
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.5497 0.3420 0.3630 0.4573 0.3880 0.4910[0mGOODMotif2(3000)
+Data example from id_val: Data(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+Label distribution from id_val: (tensor([0, 1, 2]), tensor([1002, 1009,  989]))
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument lr_filternod in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+F1 for r=0.8 = 0.000
+WIoU for r=0.8 = 0.290
+F1 for r=1.0 = 0.000
+WIoU for r=1.0 = 0.310
+GOODMotif2(3000)
+Data example from test: Data(edge_index=[2, 70], x=[20, 1], node_gt=[20], edge_gt=[70], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=20)
+Label distribution from test: (tensor([0, 1, 2]), tensor([ 971, 1026, 1003]))
+F1 for r=0.8 = 0.000
+WIoU for r=0.8 = 0.240
+F1 for r=1.0 = 0.000
+WIoU for r=1.0 = 0.251
+
+
+Evaluating SUFF++ for seed 2 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over id_val across ratios (random_expl=True)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.57
+Model XAI F1 of binarized graphs for r=0.8 =  0.0
+Model XAI WIoU of binarized graphs for r=0.8 =  0.28968375
+len(reference) = 800
+Effective ratio: 0.812 +- 0.010
+Model Accuracy over intervened graphs for r=0.8 =  0.386
+SUFF++ for r=0.8 class 0 = 0.63 +- 0.173 (in-sample avg dev_std = 0.281)
+SUFF++ for r=0.8 class 1 = 0.683 +- 0.173 (in-sample avg dev_std = 0.281)
+SUFF++ for r=0.8 class 2 = 0.541 +- 0.173 (in-sample avg dev_std = 0.281)
+SUFF++ for r=0.8 all KL = 0.763 +- 0.173 (in-sample avg dev_std = 0.281)
+SUFF++ for r=0.8 all L1 = 0.618 +- 0.154 (in-sample avg dev_std = 0.281)
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=True)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.343
+Model XAI F1 of binarized graphs for r=0.8 =  0.0
+Model XAI WIoU of binarized graphs for r=0.8 =  0.24023375000000002
+len(reference) = 800
+Effective ratio: 0.806 +- 0.006
+Model Accuracy over intervened graphs for r=0.8 =  0.362
+SUFF++ for r=0.8 class 0 = 0.803 +- 0.154 (in-sample avg dev_std = 0.238)
+SUFF++ for r=0.8 class 1 = 0.803 +- 0.154 (in-sample avg dev_std = 0.238)
+SUFF++ for r=0.8 class 2 = 0.757 +- 0.154 (in-sample avg dev_std = 0.238)
+SUFF++ for r=0.8 all KL = 0.834 +- 0.154 (in-sample avg dev_std = 0.238)
+SUFF++ for r=0.8 all L1 = 0.788 +- 0.142 (in-sample avg dev_std = 0.238)
+
+
+Evaluating NEC for seed 2 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over id_val across ratios (random_expl=True)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.57
+Model XAI F1 of binarized graphs for r=0.8 =  0.0
+Model XAI WIoU of binarized graphs for r=0.8 =  0.28968375
+len(reference) = 800
+Effective ratio: 0.812 +- 0.010
+Model Accuracy over intervened graphs for r=0.8 =  0.36
+NEC for r=0.8 class 0 = 0.382 +- 0.199 (in-sample avg dev_std = 0.326)
+NEC for r=0.8 class 1 = 0.385 +- 0.199 (in-sample avg dev_std = 0.326)
+NEC for r=0.8 class 2 = 0.454 +- 0.199 (in-sample avg dev_std = 0.326)
+NEC for r=0.8 all KL = 0.275 +- 0.199 (in-sample avg dev_std = 0.326)
+NEC for r=0.8 all L1 = 0.407 +- 0.158 (in-sample avg dev_std = 0.326)
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=True)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.343
+Model XAI F1 of binarized graphs for r=0.8 =  0.0
+Model XAI WIoU of binarized graphs for r=0.8 =  0.24023375000000002
+len(reference) = 800
+Effective ratio: 0.806 +- 0.006
+Model Accuracy over intervened graphs for r=0.8 =  0.351
+NEC for r=0.8 class 0 = 0.164 +- 0.136 (in-sample avg dev_std = 0.236)
+NEC for r=0.8 class 1 = 0.179 +- 0.136 (in-sample avg dev_std = 0.236)
+NEC for r=0.8 class 2 = 0.21 +- 0.136 (in-sample avg dev_std = 0.236)
+NEC for r=0.8 all KL = 0.126 +- 0.136 (in-sample avg dev_std = 0.236)
+NEC for r=0.8 all L1 = 0.184 +- 0.145 (in-sample avg dev_std = 0.236)
+model_dirname= repr_CIGAGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingrawmitig_readoutweightedavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Sun Sep 29 13:50:41 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif2
+[0m[1;34mDEBUG[0m: 09/29/2024 01:50:41 PM : [1mDataset: {'train': GOODMotif2(18000), 'id_val': GOODMotif2(3000), 'id_test': GOODMotif2(3000), 'val': GOODMotif2(3000), 'test': GOODMotif2(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/29/2024 01:50:41 PM : [1m Data(edge_index=[2, 84], x=[29, 1], node_gt=[29], edge_gt=[84], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[0mData(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/29/2024 01:50:41 PM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 09/29/2024 01:50:41 PM : [1mCreating GINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 09/29/2024 01:50:41 PM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/29/2024 01:50:41 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:50:41 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:50:41 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:50:41 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:50:41 PM : [1mUsing  3  layers for classifier
+[0m[1;34mDEBUG[0m: 09/29/2024 01:50:41 PM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/29/2024 01:50:41 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:50:41 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:50:41 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:50:41 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:50:41 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:50:41 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:50:41 PM : [1mUsing feature sampling = raw
+[0m[1;34mDEBUG[0m: 09/29/2024 01:50:41 PM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 83...
+[0m[1;37mINFO[0m: [1mCheckpoint 83: 
+-----------------------------------
+Train ACCURACY: 0.3922
+Train Loss: 2.5243
+ID Validation ACCURACY: 0.4000
+ID Validation Loss: 2.6128
+ID Test ACCURACY: 0.4023
+ID Test Loss: 2.4780
+OOD Validation ACCURACY: 0.3473
+OOD Validation Loss: 1.5777
+OOD Test ACCURACY: 0.4613
+OOD Test Loss: 12.1111
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 105...
+[0m[1;37mINFO[0m: [1mCheckpoint 105: 
+-----------------------------------
+Train ACCURACY: 0.3601
+Train Loss: 2.8396
+ID Validation ACCURACY: 0.3580
+ID Validation Loss: 2.9725
+ID Test ACCURACY: 0.3643
+ID Test Loss: 2.7594
+OOD Validation ACCURACY: 0.4673
+OOD Validation Loss: 1.2057
+OOD Test ACCURACY: 0.3347
+OOD Test Loss: 10.3926
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.4023 0.4613 0.3643 0.3347 0.3580 0.4673[0mGOODMotif2(3000)
+Data example from id_val: Data(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+Label distribution from id_val: (tensor([0, 1, 2]), tensor([1002, 1009,  989]))
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument lr_filternod in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+F1 for r=0.8 = 0.000
+WIoU for r=0.8 = 0.283
+F1 for r=1.0 = 0.000
+WIoU for r=1.0 = 0.310
+GOODMotif2(3000)
+Data example from test: Data(edge_index=[2, 70], x=[20, 1], node_gt=[20], edge_gt=[70], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=20)
+Label distribution from test: (tensor([0, 1, 2]), tensor([ 971, 1026, 1003]))
+F1 for r=0.8 = 0.000
+WIoU for r=0.8 = 0.237
+F1 for r=1.0 = 0.000
+WIoU for r=1.0 = 0.251
+
+
+Evaluating SUFF++ for seed 3 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over id_val across ratios (random_expl=True)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.379
+Model XAI F1 of binarized graphs for r=0.8 =  0.0
+Model XAI WIoU of binarized graphs for r=0.8 =  0.28278875
+len(reference) = 800
+Effective ratio: 0.812 +- 0.010
+Model Accuracy over intervened graphs for r=0.8 =  0.336
+SUFF++ for r=0.8 class 0 = 0.665 +- 0.227 (in-sample avg dev_std = 0.403)
+SUFF++ for r=0.8 class 1 = 0.661 +- 0.227 (in-sample avg dev_std = 0.403)
+SUFF++ for r=0.8 class 2 = 0.712 +- 0.227 (in-sample avg dev_std = 0.403)
+SUFF++ for r=0.8 all KL = 0.73 +- 0.227 (in-sample avg dev_std = 0.403)
+SUFF++ for r=0.8 all L1 = 0.679 +- 0.192 (in-sample avg dev_std = 0.403)
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=True)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.454
+Model XAI F1 of binarized graphs for r=0.8 =  0.0
+Model XAI WIoU of binarized graphs for r=0.8 =  0.23687750000000002
+len(reference) = 800
+Effective ratio: 0.806 +- 0.006
+Model Accuracy over intervened graphs for r=0.8 =  0.313
+SUFF++ for r=0.8 class 0 = 0.711 +- 0.325 (in-sample avg dev_std = 0.406)
+SUFF++ for r=0.8 class 1 = 0.703 +- 0.325 (in-sample avg dev_std = 0.406)
+SUFF++ for r=0.8 class 2 = 0.718 +- 0.325 (in-sample avg dev_std = 0.406)
+SUFF++ for r=0.8 all KL = 0.62 +- 0.325 (in-sample avg dev_std = 0.406)
+SUFF++ for r=0.8 all L1 = 0.711 +- 0.288 (in-sample avg dev_std = 0.406)
+
+
+Evaluating NEC for seed 3 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over id_val across ratios (random_expl=True)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.379
+Model XAI F1 of binarized graphs for r=0.8 =  0.0
+Model XAI WIoU of binarized graphs for r=0.8 =  0.28278875
+len(reference) = 800
+Effective ratio: 0.812 +- 0.010
+Model Accuracy over intervened graphs for r=0.8 =  0.324
+NEC for r=0.8 class 0 = 0.272 +- 0.228 (in-sample avg dev_std = 0.321)
+NEC for r=0.8 class 1 = 0.323 +- 0.228 (in-sample avg dev_std = 0.321)
+NEC for r=0.8 class 2 = 0.211 +- 0.228 (in-sample avg dev_std = 0.321)
+NEC for r=0.8 all KL = 0.192 +- 0.228 (in-sample avg dev_std = 0.321)
+NEC for r=0.8 all L1 = 0.269 +- 0.196 (in-sample avg dev_std = 0.321)
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=True)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.454
+Model XAI F1 of binarized graphs for r=0.8 =  0.0
+Model XAI WIoU of binarized graphs for r=0.8 =  0.23687750000000002
+len(reference) = 800
+Effective ratio: 0.806 +- 0.006
+Model Accuracy over intervened graphs for r=0.8 =  0.281
+NEC for r=0.8 class 0 = 0.219 +- 0.283 (in-sample avg dev_std = 0.325)
+NEC for r=0.8 class 1 = 0.277 +- 0.283 (in-sample avg dev_std = 0.325)
+NEC for r=0.8 class 2 = 0.173 +- 0.283 (in-sample avg dev_std = 0.325)
+NEC for r=0.8 all KL = 0.212 +- 0.283 (in-sample avg dev_std = 0.325)
+NEC for r=0.8 all L1 = 0.224 +- 0.259 (in-sample avg dev_std = 0.325)
+model_dirname= repr_CIGAGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingrawmitig_readoutweightedavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Sun Sep 29 13:51:36 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif2
+[0m[1;34mDEBUG[0m: 09/29/2024 01:51:36 PM : [1mDataset: {'train': GOODMotif2(18000), 'id_val': GOODMotif2(3000), 'id_test': GOODMotif2(3000), 'val': GOODMotif2(3000), 'test': GOODMotif2(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/29/2024 01:51:36 PM : [1m Data(edge_index=[2, 84], x=[29, 1], node_gt=[29], edge_gt=[84], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[0mData(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/29/2024 01:51:36 PM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 09/29/2024 01:51:36 PM : [1mCreating GINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 09/29/2024 01:51:36 PM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/29/2024 01:51:36 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:51:36 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:51:36 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:51:36 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:51:36 PM : [1mUsing  3  layers for classifier
+[0m[1;34mDEBUG[0m: 09/29/2024 01:51:36 PM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/29/2024 01:51:36 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:51:36 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:51:36 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:51:36 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:51:36 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:51:36 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:51:36 PM : [1mUsing feature sampling = raw
+[0m[1;34mDEBUG[0m: 09/29/2024 01:51:36 PM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 191...
+[0m[1;37mINFO[0m: [1mCheckpoint 191: 
+-----------------------------------
+Train ACCURACY: 0.4899
+Train Loss: 2.0486
+ID Validation ACCURACY: 0.4887
+ID Validation Loss: 2.1187
+ID Test ACCURACY: 0.4963
+ID Test Loss: 1.9416
+OOD Validation ACCURACY: 0.3943
+OOD Validation Loss: 1.1884
+OOD Test ACCURACY: 0.4750
+OOD Test Loss: 32.6168
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 43...
+[0m[1;37mINFO[0m: [1mCheckpoint 43: 
+-----------------------------------
+Train ACCURACY: 0.3959
+Train Loss: 2.6359
+ID Validation ACCURACY: 0.4100
+ID Validation Loss: 2.6788
+ID Test ACCURACY: 0.4033
+ID Test Loss: 2.6084
+OOD Validation ACCURACY: 0.5240
+OOD Validation Loss: 1.4202
+OOD Test ACCURACY: 0.4643
+OOD Test Loss: 2.3969
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.4963 0.4750 0.4033 0.4643 0.4100 0.5240[0mGOODMotif2(3000)
+Data example from id_val: Data(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+Label distribution from id_val: (tensor([0, 1, 2]), tensor([1002, 1009,  989]))
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument lr_filternod in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+F1 for r=0.8 = 0.000
+WIoU for r=0.8 = 0.289
+F1 for r=1.0 = 0.000
+WIoU for r=1.0 = 0.310
+GOODMotif2(3000)
+Data example from test: Data(edge_index=[2, 70], x=[20, 1], node_gt=[20], edge_gt=[70], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=20)
+Label distribution from test: (tensor([0, 1, 2]), tensor([ 971, 1026, 1003]))
+F1 for r=0.8 = 0.000
+WIoU for r=0.8 = 0.241
+F1 for r=1.0 = 0.000
+WIoU for r=1.0 = 0.252
+
+
+Evaluating SUFF++ for seed 4 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over id_val across ratios (random_expl=True)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.481
+Model XAI F1 of binarized graphs for r=0.8 =  0.0
+Model XAI WIoU of binarized graphs for r=0.8 =  0.2885975
+len(reference) = 800
+Effective ratio: 0.812 +- 0.010
+Model Accuracy over intervened graphs for r=0.8 =  0.352
+SUFF++ for r=0.8 class 0 = 0.546 +- 0.229 (in-sample avg dev_std = 0.396)
+SUFF++ for r=0.8 class 1 = 0.502 +- 0.229 (in-sample avg dev_std = 0.396)
+SUFF++ for r=0.8 class 2 = 0.595 +- 0.229 (in-sample avg dev_std = 0.396)
+SUFF++ for r=0.8 all KL = 0.633 +- 0.229 (in-sample avg dev_std = 0.396)
+SUFF++ for r=0.8 all L1 = 0.547 +- 0.190 (in-sample avg dev_std = 0.396)
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=True)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.472
+Model XAI F1 of binarized graphs for r=0.8 =  0.0
+Model XAI WIoU of binarized graphs for r=0.8 =  0.2406525
+len(reference) = 800
+Effective ratio: 0.806 +- 0.006
+Model Accuracy over intervened graphs for r=0.8 =  0.337
+SUFF++ for r=0.8 class 0 = 0.748 +- 0.326 (in-sample avg dev_std = 0.381)
+SUFF++ for r=0.8 class 1 = 0.738 +- 0.326 (in-sample avg dev_std = 0.381)
+SUFF++ for r=0.8 class 2 = 0.741 +- 0.326 (in-sample avg dev_std = 0.381)
+SUFF++ for r=0.8 all KL = 0.736 +- 0.326 (in-sample avg dev_std = 0.381)
+SUFF++ for r=0.8 all L1 = 0.742 +- 0.301 (in-sample avg dev_std = 0.381)
+
+
+Evaluating NEC for seed 4 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over id_val across ratios (random_expl=True)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.481
+Model XAI F1 of binarized graphs for r=0.8 =  0.0
+Model XAI WIoU of binarized graphs for r=0.8 =  0.2885975
+len(reference) = 800
+Effective ratio: 0.812 +- 0.010
+Model Accuracy over intervened graphs for r=0.8 =  0.331
+NEC for r=0.8 class 0 = 0.422 +- 0.240 (in-sample avg dev_std = 0.379)
+NEC for r=0.8 class 1 = 0.503 +- 0.240 (in-sample avg dev_std = 0.379)
+NEC for r=0.8 class 2 = 0.348 +- 0.240 (in-sample avg dev_std = 0.379)
+NEC for r=0.8 all KL = 0.33 +- 0.240 (in-sample avg dev_std = 0.379)
+NEC for r=0.8 all L1 = 0.425 +- 0.199 (in-sample avg dev_std = 0.379)
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=True)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.472
+Model XAI F1 of binarized graphs for r=0.8 =  0.0
+Model XAI WIoU of binarized graphs for r=0.8 =  0.2406525
+len(reference) = 800
+Effective ratio: 0.806 +- 0.006
+Model Accuracy over intervened graphs for r=0.8 =  0.321
+NEC for r=0.8 class 0 = 0.264 +- 0.350 (in-sample avg dev_std = 0.368)
+NEC for r=0.8 class 1 = 0.267 +- 0.350 (in-sample avg dev_std = 0.368)
+NEC for r=0.8 class 2 = 0.27 +- 0.350 (in-sample avg dev_std = 0.368)
+NEC for r=0.8 all KL = 0.271 +- 0.350 (in-sample avg dev_std = 0.368)
+NEC for r=0.8 all L1 = 0.267 +- 0.309 (in-sample avg dev_std = 0.368)
+model_dirname= repr_CIGAGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingrawmitig_readoutweightedavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Sun Sep 29 13:52:30 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODMotif2
+[0m[1;34mDEBUG[0m: 09/29/2024 01:52:30 PM : [1mDataset: {'train': GOODMotif2(18000), 'id_val': GOODMotif2(3000), 'id_test': GOODMotif2(3000), 'val': GOODMotif2(3000), 'test': GOODMotif2(3000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/29/2024 01:52:30 PM : [1m Data(edge_index=[2, 84], x=[29, 1], node_gt=[29], edge_gt=[84], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[0mData(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/29/2024 01:52:30 PM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 09/29/2024 01:52:30 PM : [1mCreating GINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 09/29/2024 01:52:30 PM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/29/2024 01:52:30 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:52:30 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:52:30 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:52:30 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:52:30 PM : [1mUsing  3  layers for classifier
+[0m[1;34mDEBUG[0m: 09/29/2024 01:52:30 PM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/29/2024 01:52:30 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:52:30 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:52:30 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:52:30 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:52:30 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:52:30 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:52:30 PM : [1mUsing feature sampling = raw
+[0m[1;34mDEBUG[0m: 09/29/2024 01:52:30 PM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 42...
+[0m[1;37mINFO[0m: [1mCheckpoint 42: 
+-----------------------------------
+Train ACCURACY: 0.5243
+Train Loss: 1.6300
+ID Validation ACCURACY: 0.5290
+ID Validation Loss: 1.6217
+ID Test ACCURACY: 0.5153
+ID Test Loss: 1.6486
+OOD Validation ACCURACY: 0.3360
+OOD Validation Loss: 2.9312
+OOD Test ACCURACY: 0.5983
+OOD Test Loss: 1.1300
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 57...
+[0m[1;37mINFO[0m: [1mCheckpoint 57: 
+-----------------------------------
+Train ACCURACY: 0.3722
+Train Loss: 2.1560
+ID Validation ACCURACY: 0.3763
+ID Validation Loss: 2.0934
+ID Test ACCURACY: 0.3590
+ID Test Loss: 2.1927
+OOD Validation ACCURACY: 0.4270
+OOD Validation Loss: 1.7656
+OOD Test ACCURACY: 0.5453
+OOD Test Loss: 1.2780
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.5153 0.5983 0.3590 0.5453 0.3763 0.4270[0mGOODMotif2(3000)
+Data example from id_val: Data(edge_index=[2, 86], x=[29, 1], node_gt=[29], edge_gt=[86], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=29)
+Label distribution from id_val: (tensor([0, 1, 2]), tensor([1002, 1009,  989]))
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument lr_filternod in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+F1 for r=0.8 = 0.000
+WIoU for r=0.8 = 0.291
+F1 for r=1.0 = 0.000
+WIoU for r=1.0 = 0.308
+GOODMotif2(3000)
+Data example from test: Data(edge_index=[2, 70], x=[20, 1], node_gt=[20], edge_gt=[70], basis_id=[1], motif_id=[1], y=[1], env_id=[1], num_nodes=20)
+Label distribution from test: (tensor([0, 1, 2]), tensor([ 971, 1026, 1003]))
+F1 for r=0.8 = 0.000
+WIoU for r=0.8 = 0.240
+F1 for r=1.0 = 0.000
+WIoU for r=1.0 = 0.251
+
+
+Evaluating SUFF++ for seed 5 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over id_val across ratios (random_expl=True)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.541
+Model XAI F1 of binarized graphs for r=0.8 =  0.0
+Model XAI WIoU of binarized graphs for r=0.8 =  0.29124875
+len(reference) = 800
+Effective ratio: 0.812 +- 0.010
+Model Accuracy over intervened graphs for r=0.8 =  0.381
+SUFF++ for r=0.8 class 0 = 0.685 +- 0.268 (in-sample avg dev_std = 0.348)
+SUFF++ for r=0.8 class 1 = 0.682 +- 0.268 (in-sample avg dev_std = 0.348)
+SUFF++ for r=0.8 class 2 = 0.477 +- 0.268 (in-sample avg dev_std = 0.348)
+SUFF++ for r=0.8 all KL = 0.66 +- 0.268 (in-sample avg dev_std = 0.348)
+SUFF++ for r=0.8 all L1 = 0.615 +- 0.218 (in-sample avg dev_std = 0.348)
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=True)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.591
+Model XAI F1 of binarized graphs for r=0.8 =  0.0
+Model XAI WIoU of binarized graphs for r=0.8 =  0.23992749999999996
+len(reference) = 800
+Effective ratio: 0.806 +- 0.006
+Model Accuracy over intervened graphs for r=0.8 =  0.402
+SUFF++ for r=0.8 class 0 = 0.714 +- 0.266 (in-sample avg dev_std = 0.302)
+SUFF++ for r=0.8 class 1 = 0.701 +- 0.266 (in-sample avg dev_std = 0.302)
+SUFF++ for r=0.8 class 2 = 0.462 +- 0.266 (in-sample avg dev_std = 0.302)
+SUFF++ for r=0.8 all KL = 0.722 +- 0.266 (in-sample avg dev_std = 0.302)
+SUFF++ for r=0.8 all L1 = 0.625 +- 0.190 (in-sample avg dev_std = 0.302)
+
+
+Evaluating NEC for seed 5 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over id_val across ratios (random_expl=True)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.541
+Model XAI F1 of binarized graphs for r=0.8 =  0.0
+Model XAI WIoU of binarized graphs for r=0.8 =  0.29124875
+len(reference) = 800
+Effective ratio: 0.812 +- 0.010
+Model Accuracy over intervened graphs for r=0.8 =  0.375
+NEC for r=0.8 class 0 = 0.309 +- 0.278 (in-sample avg dev_std = 0.398)
+NEC for r=0.8 class 1 = 0.361 +- 0.278 (in-sample avg dev_std = 0.398)
+NEC for r=0.8 class 2 = 0.482 +- 0.278 (in-sample avg dev_std = 0.398)
+NEC for r=0.8 all KL = 0.336 +- 0.278 (in-sample avg dev_std = 0.398)
+NEC for r=0.8 all L1 = 0.383 +- 0.223 (in-sample avg dev_std = 0.398)
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=True)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.591
+Model XAI F1 of binarized graphs for r=0.8 =  0.0
+Model XAI WIoU of binarized graphs for r=0.8 =  0.23992749999999996
+len(reference) = 800
+Effective ratio: 0.806 +- 0.006
+Model Accuracy over intervened graphs for r=0.8 =  0.42
+NEC for r=0.8 class 0 = 0.224 +- 0.264 (in-sample avg dev_std = 0.308)
+NEC for r=0.8 class 1 = 0.279 +- 0.264 (in-sample avg dev_std = 0.308)
+NEC for r=0.8 class 2 = 0.491 +- 0.264 (in-sample avg dev_std = 0.308)
+NEC for r=0.8 all KL = 0.239 +- 0.264 (in-sample avg dev_std = 0.308)
+NEC for r=0.8 all L1 = 0.332 +- 0.191 (in-sample avg dev_std = 0.308)
+
+
+ -------------------------------------------------- 
+Printing evaluation results for load_split id
+
+
+
+Eval split id_val
+suff++ = [defaultdict(<class 'list'>, {'all_KL': [0.644], 'all_L1': [0.608]}), defaultdict(<class 'list'>, {'all_KL': [0.763], 'all_L1': [0.618]}), defaultdict(<class 'list'>, {'all_KL': [0.73], 'all_L1': [0.679]}), defaultdict(<class 'list'>, {'all_KL': [0.633], 'all_L1': [0.547]}), defaultdict(<class 'list'>, {'all_KL': [0.66], 'all_L1': [0.615]})]
+nec = [defaultdict(<class 'list'>, {'all_KL': [0.308], 'all_L1': [0.353]}), defaultdict(<class 'list'>, {'all_KL': [0.275], 'all_L1': [0.407]}), defaultdict(<class 'list'>, {'all_KL': [0.192], 'all_L1': [0.269]}), defaultdict(<class 'list'>, {'all_KL': [0.33], 'all_L1': [0.425]}), defaultdict(<class 'list'>, {'all_KL': [0.336], 'all_L1': [0.383]})]
+
+Eval split test
+suff++ = [defaultdict(<class 'list'>, {'all_KL': [0.43], 'all_L1': [0.497]}), defaultdict(<class 'list'>, {'all_KL': [0.834], 'all_L1': [0.788]}), defaultdict(<class 'list'>, {'all_KL': [0.62], 'all_L1': [0.711]}), defaultdict(<class 'list'>, {'all_KL': [0.736], 'all_L1': [0.742]}), defaultdict(<class 'list'>, {'all_KL': [0.722], 'all_L1': [0.625]})]
+nec = [defaultdict(<class 'list'>, {'all_KL': [0.527], 'all_L1': [0.477]}), defaultdict(<class 'list'>, {'all_KL': [0.126], 'all_L1': [0.184]}), defaultdict(<class 'list'>, {'all_KL': [0.212], 'all_L1': [0.224]}), defaultdict(<class 'list'>, {'all_KL': [0.271], 'all_L1': [0.267]}), defaultdict(<class 'list'>, {'all_KL': [0.239], 'all_L1': [0.332]})]
+
+
+ -------------------------------------------------- 
+Printing evaluation averaged per seed
+
+Eval split id_val
+suff++ class all_L1  =  0.613 +- 0.042
+suff++ class all_KL  =  0.686 +- 0.051
+suff++_acc_int  =  0.364 +- 0.019
+nec class all_L1  =  0.367 +- 0.055
+nec class all_KL  =  0.288 +- 0.053
+nec_acc_int  =  0.350 +- 0.019
+
+Eval split test
+suff++ class all_L1  =  0.673 +- 0.103
+suff++ class all_KL  =  0.668 +- 0.137
+suff++_acc_int  =  0.361 +- 0.033
+nec class all_L1  =  0.297 +- 0.103
+nec class all_KL  =  0.275 +- 0.135
+nec_acc_int  =  0.354 +- 0.051
+
+
+ -------------------------------------------------- 
+Computing faithfulness
+
+Eval split id_val
+Faith. Aritm (L1)= 		  =  0.490 +- 0.014
+Faith. Armon (L1)= 		  =  0.455 +- 0.038
+Faith. GMean (L1)= 	  =  0.472 +- 0.025
+Faith. Aritm (KL)= 		  =  0.487 +- 0.020
+Faith. Armon (KL)= 		  =  0.401 +- 0.050
+Faith. GMean (KL)= 	  =  0.441 +- 0.034
+
+Eval split test
+Faith. Aritm (L1)= 		  =  0.485 +- 0.012
+Faith. Armon (L1)= 		  =  0.390 +- 0.067
+Faith. GMean (L1)= 	  =  0.433 +- 0.039
+Faith. Aritm (KL)= 		  =  0.472 +- 0.029
+Faith. Armon (KL)= 		  =  0.353 +- 0.085
+Faith. GMean (KL)= 	  =  0.405 +- 0.055
+Computed for split load_split = id
+
+
+
+Completed in  0:04:29.154618  for CIGAGIN GOODMotif2/basis
+
+
+
+DONE CIGA GOODMotif2/basis
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Sun Sep 29 13:53:38 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODSST2
+[0m[1;34mDEBUG[0m: 09/29/2024 01:53:39 PM : [1mDataset: {'train': GOODSST2(24744), 'id_val': GOODSST2(5301), 'id_test': GOODSST2(5301), 'val': GOODSST2(17206), 'test': GOODSST2(17490), 'task': 'Binary classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/29/2024 01:53:39 PM : [1m Data(x=[6, 768], edge_index=[2, 10], y=[1, 1], idx=[1], sentence_tokens=[6], length=[1], domain_id=[1], env_id=[1])
+[0mData(x=[3, 768], edge_index=[2, 4], y=[1, 1], idx=[1], sentence_tokens=[3], length=[1], domain_id=[1], env_id=[1])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/29/2024 01:53:39 PM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 09/29/2024 01:53:39 PM : [1mCreating GINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 09/29/2024 01:53:39 PM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/29/2024 01:53:39 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:53:39 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:53:39 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:53:39 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:53:39 PM : [1mUsing  3  layers for classifier
+[0m[1;34mDEBUG[0m: 09/29/2024 01:53:39 PM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/29/2024 01:53:39 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:53:39 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:53:39 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:53:39 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:53:39 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:53:39 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:53:39 PM : [1mUsing feature sampling = raw
+[0m[1;34mDEBUG[0m: 09/29/2024 01:53:39 PM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 17...
+[0m[1;37mINFO[0m: [1mCheckpoint 17: 
+-----------------------------------
+Train ACCURACY: 0.8550
+Train Loss: 0.4111
+ID Validation ACCURACY: 0.8098
+ID Validation Loss: 0.4890
+ID Test ACCURACY: 0.8080
+ID Test Loss: 0.5001
+OOD Validation ACCURACY: 0.7392
+OOD Validation Loss: 0.5336
+OOD Test ACCURACY: 0.5942
+OOD Test Loss: 0.6023
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 17...
+[0m[1;37mINFO[0m: [1mCheckpoint 17: 
+-----------------------------------
+Train ACCURACY: 0.8550
+Train Loss: 0.4111
+ID Validation ACCURACY: 0.8098
+ID Validation Loss: 0.4890
+ID Test ACCURACY: 0.8080
+ID Test Loss: 0.5001
+OOD Validation ACCURACY: 0.7392
+OOD Validation Loss: 0.5336
+OOD Test ACCURACY: 0.5942
+OOD Test Loss: 0.6023
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.8080 0.5942 0.8080 0.5942 0.8098 0.7392[0mGOODSST2(5301)
+Data example from id_val: Data(x=[3, 768], edge_index=[2, 4], y=[1, 1], idx=[1], sentence_tokens=[3], length=[1], domain_id=[1], env_id=[1])
+Label distribution from id_val: (tensor([0., 1.]), tensor([2144, 3157]))
+[1;34mDEBUG[0m: 09/29/2024 01:53:40 PM : [1mUnbalanced warning for GOODSST2 (id_val)
+[0m/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. The data of the dataset is already cached, so any modifications to `data` will not be reflected when accessing its elements. Clearing the cache now by removing all elements in `dataset._data_list`. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+F1 for r=0.8 = nan
+WIoU for r=0.8 = nan
+F1 for r=1.0 = nan
+WIoU for r=1.0 = nan
+GOODSST2(17490)
+Data example from test: Data(x=[15, 768], edge_index=[2, 28], y=[1, 1], idx=[1], sentence_tokens=[15], length=[1], domain_id=[1])
+Label distribution from test: (tensor([0., 1.]), tensor([8463, 9027]))
+F1 for r=0.8 = nan
+WIoU for r=0.8 = nan
+F1 for r=1.0 = nan
+WIoU for r=1.0 = nan
+
+
+Evaluating SUFF++ for seed 1 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over id_val across ratios (random_expl=True)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.842
+Model XAI F1 of binarized graphs for r=0.8 =  nan
+Model XAI WIoU of binarized graphs for r=0.8 =  nan
+len(reference) = 285
+Effective ratio: 0.796 +- 0.301
+Model Accuracy over intervened graphs for r=0.8 =  0.801
+SUFF++ for r=0.8 class 0.0 = 0.913 +- 0.053 (in-sample avg dev_std = 0.130)
+SUFF++ for r=0.8 class 1.0 = 0.91 +- 0.053 (in-sample avg dev_std = 0.130)
+SUFF++ for r=0.8 all KL = 0.965 +- 0.053 (in-sample avg dev_std = 0.130)
+SUFF++ for r=0.8 all L1 = 0.912 +- 0.081 (in-sample avg dev_std = 0.130)
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=True)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.591
+Model XAI F1 of binarized graphs for r=0.8 =  nan
+Model XAI WIoU of binarized graphs for r=0.8 =  nan
+len(reference) = 800
+Effective ratio: 0.810 +- 0.008
+Model Accuracy over intervened graphs for r=0.8 =  0.556
+SUFF++ for r=0.8 class 0.0 = 0.909 +- 0.027 (in-sample avg dev_std = 0.091)
+SUFF++ for r=0.8 class 1.0 = 0.913 +- 0.027 (in-sample avg dev_std = 0.091)
+SUFF++ for r=0.8 all KL = 0.981 +- 0.027 (in-sample avg dev_std = 0.091)
+SUFF++ for r=0.8 all L1 = 0.911 +- 0.050 (in-sample avg dev_std = 0.091)
+
+
+Evaluating NEC for seed 1 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over id_val across ratios (random_expl=True)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.839
+Model XAI F1 of binarized graphs for r=0.8 =  nan
+Model XAI WIoU of binarized graphs for r=0.8 =  nan
+len(reference) = 285
+Effective ratio: 0.796 +- 0.301
+Model Accuracy over intervened graphs for r=0.8 =  0.787
+NEC for r=0.8 class 0.0 = 0.082 +- 0.074 (in-sample avg dev_std = 0.091)
+NEC for r=0.8 class 1.0 = 0.099 +- 0.074 (in-sample avg dev_std = 0.091)
+NEC for r=0.8 all KL = 0.042 +- 0.074 (in-sample avg dev_std = 0.091)
+NEC for r=0.8 all L1 = 0.092 +- 0.086 (in-sample avg dev_std = 0.091)
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=True)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.589
+Model XAI F1 of binarized graphs for r=0.8 =  nan
+Model XAI WIoU of binarized graphs for r=0.8 =  nan
+len(reference) = 800
+Effective ratio: 0.810 +- 0.008
+Model Accuracy over intervened graphs for r=0.8 =  0.57
+NEC for r=0.8 class 0.0 = 0.066 +- 0.022 (in-sample avg dev_std = 0.054)
+NEC for r=0.8 class 1.0 = 0.068 +- 0.022 (in-sample avg dev_std = 0.054)
+NEC for r=0.8 all KL = 0.01 +- 0.022 (in-sample avg dev_std = 0.054)
+NEC for r=0.8 all L1 = 0.067 +- 0.046 (in-sample avg dev_std = 0.054)
+model_dirname= repr_CIGAGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingrawmitig_readoutweightedavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Sun Sep 29 13:54:30 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODSST2
+[0m[1;34mDEBUG[0m: 09/29/2024 01:54:32 PM : [1mDataset: {'train': GOODSST2(24744), 'id_val': GOODSST2(5301), 'id_test': GOODSST2(5301), 'val': GOODSST2(17206), 'test': GOODSST2(17490), 'task': 'Binary classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/29/2024 01:54:32 PM : [1m Data(x=[6, 768], edge_index=[2, 10], y=[1, 1], idx=[1], sentence_tokens=[6], length=[1], domain_id=[1], env_id=[1])
+[0mData(x=[3, 768], edge_index=[2, 4], y=[1, 1], idx=[1], sentence_tokens=[3], length=[1], domain_id=[1], env_id=[1])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/29/2024 01:54:32 PM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 09/29/2024 01:54:32 PM : [1mCreating GINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 09/29/2024 01:54:32 PM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/29/2024 01:54:32 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:54:32 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:54:32 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:54:32 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:54:32 PM : [1mUsing  3  layers for classifier
+[0m[1;34mDEBUG[0m: 09/29/2024 01:54:32 PM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/29/2024 01:54:32 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:54:32 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:54:32 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:54:32 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:54:32 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:54:32 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:54:32 PM : [1mUsing feature sampling = raw
+[0m[1;34mDEBUG[0m: 09/29/2024 01:54:32 PM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 99...
+[0m[1;37mINFO[0m: [1mCheckpoint 99: 
+-----------------------------------
+Train ACCURACY: 0.9489
+Train Loss: 0.0754
+ID Validation ACCURACY: 0.8604
+ID Validation Loss: 1.0229
+ID Test ACCURACY: 0.8561
+ID Test Loss: 1.1527
+OOD Validation ACCURACY: 0.8477
+OOD Validation Loss: 3.3872
+OOD Test ACCURACY: 0.7903
+OOD Test Loss: 4.9558
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 118...
+[0m[1;37mINFO[0m: [1mCheckpoint 118: 
+-----------------------------------
+Train ACCURACY: 0.9484
+Train Loss: 0.0768
+ID Validation ACCURACY: 0.8532
+ID Validation Loss: 1.2979
+ID Test ACCURACY: 0.8521
+ID Test Loss: 1.5484
+OOD Validation ACCURACY: 0.8587
+OOD Validation Loss: 3.8430
+OOD Test ACCURACY: 0.8120
+OOD Test Loss: 5.5150
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.8561 0.7903 0.8521 0.8120 0.8532 0.8587[0mGOODSST2(5301)
+Data example from id_val: Data(x=[3, 768], edge_index=[2, 4], y=[1, 1], idx=[1], sentence_tokens=[3], length=[1], domain_id=[1], env_id=[1])
+Label distribution from id_val: (tensor([0., 1.]), tensor([2144, 3157]))
+[1;34mDEBUG[0m: 09/29/2024 01:54:32 PM : [1mUnbalanced warning for GOODSST2 (id_val)
+[0m/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. The data of the dataset is already cached, so any modifications to `data` will not be reflected when accessing its elements. Clearing the cache now by removing all elements in `dataset._data_list`. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+F1 for r=0.8 = nan
+WIoU for r=0.8 = nan
+F1 for r=1.0 = nan
+WIoU for r=1.0 = nan
+GOODSST2(17490)
+Data example from test: Data(x=[15, 768], edge_index=[2, 28], y=[1, 1], idx=[1], sentence_tokens=[15], length=[1], domain_id=[1])
+Label distribution from test: (tensor([0., 1.]), tensor([8463, 9027]))
+F1 for r=0.8 = nan
+WIoU for r=0.8 = nan
+F1 for r=1.0 = nan
+WIoU for r=1.0 = nan
+
+
+Evaluating SUFF++ for seed 2 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over id_val across ratios (random_expl=True)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.881
+Model XAI F1 of binarized graphs for r=0.8 =  nan
+Model XAI WIoU of binarized graphs for r=0.8 =  nan
+len(reference) = 285
+Effective ratio: 0.796 +- 0.301
+Model Accuracy over intervened graphs for r=0.8 =  0.843
+SUFF++ for r=0.8 class 0.0 = 0.878 +- 0.324 (in-sample avg dev_std = 0.328)
+SUFF++ for r=0.8 class 1.0 = 0.897 +- 0.324 (in-sample avg dev_std = 0.328)
+SUFF++ for r=0.8 all KL = 0.778 +- 0.324 (in-sample avg dev_std = 0.328)
+SUFF++ for r=0.8 all L1 = 0.889 +- 0.174 (in-sample avg dev_std = 0.328)
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=True)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.812
+Model XAI F1 of binarized graphs for r=0.8 =  nan
+Model XAI WIoU of binarized graphs for r=0.8 =  nan
+len(reference) = 800
+Effective ratio: 0.810 +- 0.008
+Model Accuracy over intervened graphs for r=0.8 =  0.804
+SUFF++ for r=0.8 class 0.0 = 0.836 +- 0.350 (in-sample avg dev_std = 0.383)
+SUFF++ for r=0.8 class 1.0 = 0.899 +- 0.350 (in-sample avg dev_std = 0.383)
+SUFF++ for r=0.8 all KL = 0.741 +- 0.350 (in-sample avg dev_std = 0.383)
+SUFF++ for r=0.8 all L1 = 0.868 +- 0.204 (in-sample avg dev_std = 0.383)
+
+
+Evaluating NEC for seed 2 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over id_val across ratios (random_expl=True)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.884
+Model XAI F1 of binarized graphs for r=0.8 =  nan
+Model XAI WIoU of binarized graphs for r=0.8 =  nan
+len(reference) = 285
+Effective ratio: 0.796 +- 0.301
+Model Accuracy over intervened graphs for r=0.8 =  0.857
+NEC for r=0.8 class 0.0 = 0.077 +- 0.206 (in-sample avg dev_std = 0.174)
+NEC for r=0.8 class 1.0 = 0.067 +- 0.206 (in-sample avg dev_std = 0.174)
+NEC for r=0.8 all KL = 0.093 +- 0.206 (in-sample avg dev_std = 0.174)
+NEC for r=0.8 all L1 = 0.072 +- 0.155 (in-sample avg dev_std = 0.174)
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=True)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.816
+Model XAI F1 of binarized graphs for r=0.8 =  nan
+Model XAI WIoU of binarized graphs for r=0.8 =  nan
+len(reference) = 800
+Effective ratio: 0.810 +- 0.008
+Model Accuracy over intervened graphs for r=0.8 =  0.812
+NEC for r=0.8 class 0.0 = 0.132 +- 0.299 (in-sample avg dev_std = 0.285)
+NEC for r=0.8 class 1.0 = 0.07 +- 0.299 (in-sample avg dev_std = 0.285)
+NEC for r=0.8 all KL = 0.162 +- 0.299 (in-sample avg dev_std = 0.285)
+NEC for r=0.8 all L1 = 0.1 +- 0.193 (in-sample avg dev_std = 0.285)
+model_dirname= repr_CIGAGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingrawmitig_readoutweightedavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Sun Sep 29 13:55:17 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODSST2
+[0m[1;34mDEBUG[0m: 09/29/2024 01:55:18 PM : [1mDataset: {'train': GOODSST2(24744), 'id_val': GOODSST2(5301), 'id_test': GOODSST2(5301), 'val': GOODSST2(17206), 'test': GOODSST2(17490), 'task': 'Binary classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/29/2024 01:55:18 PM : [1m Data(x=[6, 768], edge_index=[2, 10], y=[1, 1], idx=[1], sentence_tokens=[6], length=[1], domain_id=[1], env_id=[1])
+[0mData(x=[3, 768], edge_index=[2, 4], y=[1, 1], idx=[1], sentence_tokens=[3], length=[1], domain_id=[1], env_id=[1])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/29/2024 01:55:18 PM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 09/29/2024 01:55:18 PM : [1mCreating GINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 09/29/2024 01:55:18 PM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/29/2024 01:55:18 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:55:18 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:55:18 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:55:18 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:55:18 PM : [1mUsing  3  layers for classifier
+[0m[1;34mDEBUG[0m: 09/29/2024 01:55:18 PM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/29/2024 01:55:18 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:55:18 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:55:18 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:55:18 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:55:18 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:55:18 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:55:18 PM : [1mUsing feature sampling = raw
+[0m[1;34mDEBUG[0m: 09/29/2024 01:55:18 PM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 194...
+[0m[1;37mINFO[0m: [1mCheckpoint 194: 
+-----------------------------------
+Train ACCURACY: 0.9489
+Train Loss: 0.0750
+ID Validation ACCURACY: 0.8623
+ID Validation Loss: 2.4682
+ID Test ACCURACY: 0.8612
+ID Test Loss: 2.9010
+OOD Validation ACCURACY: 0.8557
+OOD Validation Loss: 5.3706
+OOD Test ACCURACY: 0.7949
+OOD Test Loss: 8.1971
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 74...
+[0m[1;37mINFO[0m: [1mCheckpoint 74: 
+-----------------------------------
+Train ACCURACY: 0.9484
+Train Loss: 0.0805
+ID Validation ACCURACY: 0.8544
+ID Validation Loss: 0.8464
+ID Test ACCURACY: 0.8542
+ID Test Loss: 1.0687
+OOD Validation ACCURACY: 0.8595
+OOD Validation Loss: 2.9836
+OOD Test ACCURACY: 0.7982
+OOD Test Loss: 3.4505
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.8612 0.7949 0.8542 0.7982 0.8544 0.8595[0mGOODSST2(5301)
+Data example from id_val: Data(x=[3, 768], edge_index=[2, 4], y=[1, 1], idx=[1], sentence_tokens=[3], length=[1], domain_id=[1], env_id=[1])
+Label distribution from id_val: (tensor([0., 1.]), tensor([2144, 3157]))
+[1;34mDEBUG[0m: 09/29/2024 01:55:18 PM : [1mUnbalanced warning for GOODSST2 (id_val)
+[0m/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. The data of the dataset is already cached, so any modifications to `data` will not be reflected when accessing its elements. Clearing the cache now by removing all elements in `dataset._data_list`. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+F1 for r=0.8 = nan
+WIoU for r=0.8 = nan
+F1 for r=1.0 = nan
+WIoU for r=1.0 = nan
+GOODSST2(17490)
+Data example from test: Data(x=[15, 768], edge_index=[2, 28], y=[1, 1], idx=[1], sentence_tokens=[15], length=[1], domain_id=[1])
+Label distribution from test: (tensor([0., 1.]), tensor([8463, 9027]))
+F1 for r=0.8 = nan
+WIoU for r=0.8 = nan
+F1 for r=1.0 = nan
+WIoU for r=1.0 = nan
+
+
+Evaluating SUFF++ for seed 3 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over id_val across ratios (random_expl=True)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.884
+Model XAI F1 of binarized graphs for r=0.8 =  nan
+Model XAI WIoU of binarized graphs for r=0.8 =  nan
+len(reference) = 285
+Effective ratio: 0.796 +- 0.301
+Model Accuracy over intervened graphs for r=0.8 =  0.854
+SUFF++ for r=0.8 class 0.0 = 0.875 +- 0.377 (in-sample avg dev_std = 0.393)
+SUFF++ for r=0.8 class 1.0 = 0.921 +- 0.377 (in-sample avg dev_std = 0.393)
+SUFF++ for r=0.8 all KL = 0.754 +- 0.377 (in-sample avg dev_std = 0.393)
+SUFF++ for r=0.8 all L1 = 0.902 +- 0.178 (in-sample avg dev_std = 0.393)
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=True)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.815
+Model XAI F1 of binarized graphs for r=0.8 =  nan
+Model XAI WIoU of binarized graphs for r=0.8 =  nan
+len(reference) = 800
+Effective ratio: 0.810 +- 0.008
+Model Accuracy over intervened graphs for r=0.8 =  0.785
+SUFF++ for r=0.8 class 0.0 = 0.828 +- 0.397 (in-sample avg dev_std = 0.417)
+SUFF++ for r=0.8 class 1.0 = 0.917 +- 0.397 (in-sample avg dev_std = 0.417)
+SUFF++ for r=0.8 all KL = 0.726 +- 0.397 (in-sample avg dev_std = 0.417)
+SUFF++ for r=0.8 all L1 = 0.874 +- 0.212 (in-sample avg dev_std = 0.417)
+
+
+Evaluating NEC for seed 3 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over id_val across ratios (random_expl=True)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.884
+Model XAI F1 of binarized graphs for r=0.8 =  nan
+Model XAI WIoU of binarized graphs for r=0.8 =  nan
+len(reference) = 285
+Effective ratio: 0.796 +- 0.301
+Model Accuracy over intervened graphs for r=0.8 =  0.87
+NEC for r=0.8 class 0.0 = 0.064 +- 0.255 (in-sample avg dev_std = 0.206)
+NEC for r=0.8 class 1.0 = 0.048 +- 0.255 (in-sample avg dev_std = 0.206)
+NEC for r=0.8 all KL = 0.094 +- 0.255 (in-sample avg dev_std = 0.206)
+NEC for r=0.8 all L1 = 0.054 +- 0.163 (in-sample avg dev_std = 0.206)
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=True)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.817
+Model XAI F1 of binarized graphs for r=0.8 =  nan
+Model XAI WIoU of binarized graphs for r=0.8 =  nan
+len(reference) = 800
+Effective ratio: 0.810 +- 0.008
+Model Accuracy over intervened graphs for r=0.8 =  0.788
+NEC for r=0.8 class 0.0 = 0.133 +- 0.336 (in-sample avg dev_std = 0.326)
+NEC for r=0.8 class 1.0 = 0.063 +- 0.336 (in-sample avg dev_std = 0.326)
+NEC for r=0.8 all KL = 0.172 +- 0.336 (in-sample avg dev_std = 0.326)
+NEC for r=0.8 all L1 = 0.097 +- 0.208 (in-sample avg dev_std = 0.326)
+model_dirname= repr_CIGAGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingrawmitig_readoutweightedavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Sun Sep 29 13:56:06 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODSST2
+[0m[1;34mDEBUG[0m: 09/29/2024 01:56:07 PM : [1mDataset: {'train': GOODSST2(24744), 'id_val': GOODSST2(5301), 'id_test': GOODSST2(5301), 'val': GOODSST2(17206), 'test': GOODSST2(17490), 'task': 'Binary classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/29/2024 01:56:07 PM : [1m Data(x=[6, 768], edge_index=[2, 10], y=[1, 1], idx=[1], sentence_tokens=[6], length=[1], domain_id=[1], env_id=[1])
+[0mData(x=[3, 768], edge_index=[2, 4], y=[1, 1], idx=[1], sentence_tokens=[3], length=[1], domain_id=[1], env_id=[1])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/29/2024 01:56:07 PM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 09/29/2024 01:56:07 PM : [1mCreating GINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 09/29/2024 01:56:07 PM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/29/2024 01:56:07 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:56:07 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:56:07 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:56:07 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:56:07 PM : [1mUsing  3  layers for classifier
+[0m[1;34mDEBUG[0m: 09/29/2024 01:56:07 PM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/29/2024 01:56:07 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:56:07 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:56:07 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:56:07 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:56:07 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:56:07 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:56:07 PM : [1mUsing feature sampling = raw
+[0m[1;34mDEBUG[0m: 09/29/2024 01:56:07 PM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 170...
+[0m[1;37mINFO[0m: [1mCheckpoint 170: 
+-----------------------------------
+Train ACCURACY: 0.9489
+Train Loss: 0.0750
+ID Validation ACCURACY: 0.8623
+ID Validation Loss: 1.5974
+ID Test ACCURACY: 0.8544
+ID Test Loss: 2.0365
+OOD Validation ACCURACY: 0.8543
+OOD Validation Loss: 3.4836
+OOD Test ACCURACY: 0.7864
+OOD Test Loss: 7.7740
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 132...
+[0m[1;37mINFO[0m: [1mCheckpoint 132: 
+-----------------------------------
+Train ACCURACY: 0.9488
+Train Loss: 0.0755
+ID Validation ACCURACY: 0.8536
+ID Validation Loss: 1.0924
+ID Test ACCURACY: 0.8563
+ID Test Loss: 1.3289
+OOD Validation ACCURACY: 0.8577
+OOD Validation Loss: 2.8081
+OOD Test ACCURACY: 0.7972
+OOD Test Loss: 3.9612
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.8544 0.7864 0.8563 0.7972 0.8536 0.8577[0mGOODSST2(5301)
+Data example from id_val: Data(x=[3, 768], edge_index=[2, 4], y=[1, 1], idx=[1], sentence_tokens=[3], length=[1], domain_id=[1], env_id=[1])
+Label distribution from id_val: (tensor([0., 1.]), tensor([2144, 3157]))
+[1;34mDEBUG[0m: 09/29/2024 01:56:07 PM : [1mUnbalanced warning for GOODSST2 (id_val)
+[0m/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. The data of the dataset is already cached, so any modifications to `data` will not be reflected when accessing its elements. Clearing the cache now by removing all elements in `dataset._data_list`. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+F1 for r=0.8 = nan
+WIoU for r=0.8 = nan
+F1 for r=1.0 = nan
+WIoU for r=1.0 = nan
+GOODSST2(17490)
+Data example from test: Data(x=[15, 768], edge_index=[2, 28], y=[1, 1], idx=[1], sentence_tokens=[15], length=[1], domain_id=[1])
+Label distribution from test: (tensor([0., 1.]), tensor([8463, 9027]))
+F1 for r=0.8 = nan
+WIoU for r=0.8 = nan
+F1 for r=1.0 = nan
+WIoU for r=1.0 = nan
+
+
+Evaluating SUFF++ for seed 4 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over id_val across ratios (random_expl=True)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.874
+Model XAI F1 of binarized graphs for r=0.8 =  nan
+Model XAI WIoU of binarized graphs for r=0.8 =  nan
+len(reference) = 285
+Effective ratio: 0.796 +- 0.301
+Model Accuracy over intervened graphs for r=0.8 =  0.845
+SUFF++ for r=0.8 class 0.0 = 0.878 +- 0.369 (in-sample avg dev_std = 0.391)
+SUFF++ for r=0.8 class 1.0 = 0.907 +- 0.369 (in-sample avg dev_std = 0.391)
+SUFF++ for r=0.8 all KL = 0.756 +- 0.369 (in-sample avg dev_std = 0.391)
+SUFF++ for r=0.8 all L1 = 0.895 +- 0.182 (in-sample avg dev_std = 0.391)
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=True)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.789
+Model XAI F1 of binarized graphs for r=0.8 =  nan
+Model XAI WIoU of binarized graphs for r=0.8 =  nan
+len(reference) = 800
+Effective ratio: 0.810 +- 0.008
+Model Accuracy over intervened graphs for r=0.8 =  0.776
+SUFF++ for r=0.8 class 0.0 = 0.83 +- 0.388 (in-sample avg dev_std = 0.406)
+SUFF++ for r=0.8 class 1.0 = 0.926 +- 0.388 (in-sample avg dev_std = 0.406)
+SUFF++ for r=0.8 all KL = 0.743 +- 0.388 (in-sample avg dev_std = 0.406)
+SUFF++ for r=0.8 all L1 = 0.88 +- 0.206 (in-sample avg dev_std = 0.406)
+
+
+Evaluating NEC for seed 4 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over id_val across ratios (random_expl=True)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.874
+Model XAI F1 of binarized graphs for r=0.8 =  nan
+Model XAI WIoU of binarized graphs for r=0.8 =  nan
+len(reference) = 285
+Effective ratio: 0.796 +- 0.301
+Model Accuracy over intervened graphs for r=0.8 =  0.86
+NEC for r=0.8 class 0.0 = 0.083 +- 0.277 (in-sample avg dev_std = 0.237)
+NEC for r=0.8 class 1.0 = 0.073 +- 0.277 (in-sample avg dev_std = 0.237)
+NEC for r=0.8 all KL = 0.113 +- 0.277 (in-sample avg dev_std = 0.237)
+NEC for r=0.8 all L1 = 0.077 +- 0.194 (in-sample avg dev_std = 0.237)
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=True)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.79
+Model XAI F1 of binarized graphs for r=0.8 =  nan
+Model XAI WIoU of binarized graphs for r=0.8 =  nan
+len(reference) = 800
+Effective ratio: 0.810 +- 0.008
+Model Accuracy over intervened graphs for r=0.8 =  0.79
+NEC for r=0.8 class 0.0 = 0.121 +- 0.323 (in-sample avg dev_std = 0.316)
+NEC for r=0.8 class 1.0 = 0.063 +- 0.323 (in-sample avg dev_std = 0.316)
+NEC for r=0.8 all KL = 0.158 +- 0.323 (in-sample avg dev_std = 0.316)
+NEC for r=0.8 all L1 = 0.091 +- 0.200 (in-sample avg dev_std = 0.316)
+model_dirname= repr_CIGAGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingrawmitig_readoutweightedavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Sun Sep 29 13:56:57 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODSST2
+[0m[1;34mDEBUG[0m: 09/29/2024 01:56:58 PM : [1mDataset: {'train': GOODSST2(24744), 'id_val': GOODSST2(5301), 'id_test': GOODSST2(5301), 'val': GOODSST2(17206), 'test': GOODSST2(17490), 'task': 'Binary classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/29/2024 01:56:58 PM : [1m Data(x=[6, 768], edge_index=[2, 10], y=[1, 1], idx=[1], sentence_tokens=[6], length=[1], domain_id=[1], env_id=[1])
+[0mData(x=[3, 768], edge_index=[2, 4], y=[1, 1], idx=[1], sentence_tokens=[3], length=[1], domain_id=[1], env_id=[1])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/29/2024 01:56:58 PM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 09/29/2024 01:56:58 PM : [1mCreating GINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 09/29/2024 01:56:58 PM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/29/2024 01:56:58 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:56:58 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:56:58 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:56:58 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:56:58 PM : [1mUsing  3  layers for classifier
+[0m[1;34mDEBUG[0m: 09/29/2024 01:56:58 PM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/29/2024 01:56:58 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:56:58 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:56:58 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:56:58 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:56:58 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:56:58 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 01:56:58 PM : [1mUsing feature sampling = raw
+[0m[1;34mDEBUG[0m: 09/29/2024 01:56:58 PM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 110...
+[0m[1;37mINFO[0m: [1mCheckpoint 110: 
+-----------------------------------
+Train ACCURACY: 0.9488
+Train Loss: 0.0757
+ID Validation ACCURACY: 0.8610
+ID Validation Loss: 0.8028
+ID Test ACCURACY: 0.8600
+ID Test Loss: 1.0996
+OOD Validation ACCURACY: 0.8599
+OOD Validation Loss: 2.7628
+OOD Test ACCURACY: 0.8133
+OOD Test Loss: 3.9052
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 109...
+[0m[1;37mINFO[0m: [1mCheckpoint 109: 
+-----------------------------------
+Train ACCURACY: 0.9481
+Train Loss: 0.0779
+ID Validation ACCURACY: 0.8563
+ID Validation Loss: 0.7223
+ID Test ACCURACY: 0.8585
+ID Test Loss: 0.9870
+OOD Validation ACCURACY: 0.8610
+OOD Validation Loss: 2.2647
+OOD Test ACCURACY: 0.8027
+OOD Test Loss: 3.2630
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.8600 0.8133 0.8585 0.8027 0.8563 0.8610[0mGOODSST2(5301)
+Data example from id_val: Data(x=[3, 768], edge_index=[2, 4], y=[1, 1], idx=[1], sentence_tokens=[3], length=[1], domain_id=[1], env_id=[1])
+Label distribution from id_val: (tensor([0., 1.]), tensor([2144, 3157]))
+[1;34mDEBUG[0m: 09/29/2024 01:56:58 PM : [1mUnbalanced warning for GOODSST2 (id_val)
+[0m/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. The data of the dataset is already cached, so any modifications to `data` will not be reflected when accessing its elements. Clearing the cache now by removing all elements in `dataset._data_list`. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/mnt/cimec-storage6/users/steve.azzolin/venv/leci/lib/python3.8/site-packages/torch_geometric/data/in_memory_dataset.py:284: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+F1 for r=0.8 = nan
+WIoU for r=0.8 = nan
+F1 for r=1.0 = nan
+WIoU for r=1.0 = nan
+GOODSST2(17490)
+Data example from test: Data(x=[15, 768], edge_index=[2, 28], y=[1, 1], idx=[1], sentence_tokens=[15], length=[1], domain_id=[1])
+Label distribution from test: (tensor([0., 1.]), tensor([8463, 9027]))
+F1 for r=0.8 = nan
+WIoU for r=0.8 = nan
+F1 for r=1.0 = nan
+WIoU for r=1.0 = nan
+
+
+Evaluating SUFF++ for seed 5 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over id_val across ratios (random_expl=True)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.888
+Model XAI F1 of binarized graphs for r=0.8 =  nan
+Model XAI WIoU of binarized graphs for r=0.8 =  nan
+len(reference) = 285
+Effective ratio: 0.796 +- 0.301
+Model Accuracy over intervened graphs for r=0.8 =  0.873
+SUFF++ for r=0.8 class 0.0 = 0.898 +- 0.303 (in-sample avg dev_std = 0.320)
+SUFF++ for r=0.8 class 1.0 = 0.908 +- 0.303 (in-sample avg dev_std = 0.320)
+SUFF++ for r=0.8 all KL = 0.801 +- 0.303 (in-sample avg dev_std = 0.320)
+SUFF++ for r=0.8 all L1 = 0.904 +- 0.169 (in-sample avg dev_std = 0.320)
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=True)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.829
+Model XAI F1 of binarized graphs for r=0.8 =  nan
+Model XAI WIoU of binarized graphs for r=0.8 =  nan
+len(reference) = 800
+Effective ratio: 0.810 +- 0.008
+Model Accuracy over intervened graphs for r=0.8 =  0.801
+SUFF++ for r=0.8 class 0.0 = 0.862 +- 0.339 (in-sample avg dev_std = 0.369)
+SUFF++ for r=0.8 class 1.0 = 0.89 +- 0.339 (in-sample avg dev_std = 0.369)
+SUFF++ for r=0.8 all KL = 0.757 +- 0.339 (in-sample avg dev_std = 0.369)
+SUFF++ for r=0.8 all L1 = 0.877 +- 0.194 (in-sample avg dev_std = 0.369)
+
+
+Evaluating NEC for seed 5 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over id_val across ratios (random_expl=True)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.888
+Model XAI F1 of binarized graphs for r=0.8 =  nan
+Model XAI WIoU of binarized graphs for r=0.8 =  nan
+len(reference) = 285
+Effective ratio: 0.796 +- 0.301
+Model Accuracy over intervened graphs for r=0.8 =  0.877
+NEC for r=0.8 class 0.0 = 0.069 +- 0.227 (in-sample avg dev_std = 0.166)
+NEC for r=0.8 class 1.0 = 0.075 +- 0.227 (in-sample avg dev_std = 0.166)
+NEC for r=0.8 all KL = 0.095 +- 0.227 (in-sample avg dev_std = 0.166)
+NEC for r=0.8 all L1 = 0.072 +- 0.170 (in-sample avg dev_std = 0.166)
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=True)
+
+
+ratio=0.8
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.8 =  0.827
+Model XAI F1 of binarized graphs for r=0.8 =  nan
+Model XAI WIoU of binarized graphs for r=0.8 =  nan
+len(reference) = 800
+Effective ratio: 0.810 +- 0.008
+Model Accuracy over intervened graphs for r=0.8 =  0.82
+NEC for r=0.8 class 0.0 = 0.097 +- 0.260 (in-sample avg dev_std = 0.233)
+NEC for r=0.8 class 1.0 = 0.074 +- 0.260 (in-sample avg dev_std = 0.233)
+NEC for r=0.8 all KL = 0.127 +- 0.260 (in-sample avg dev_std = 0.233)
+NEC for r=0.8 all L1 = 0.085 +- 0.178 (in-sample avg dev_std = 0.233)
+
+
+ -------------------------------------------------- 
+Printing evaluation results for load_split id
+
+
+
+Eval split id_val
+suff++ = [defaultdict(<class 'list'>, {'all_KL': [0.965], 'all_L1': [0.912]}), defaultdict(<class 'list'>, {'all_KL': [0.778], 'all_L1': [0.889]}), defaultdict(<class 'list'>, {'all_KL': [0.754], 'all_L1': [0.902]}), defaultdict(<class 'list'>, {'all_KL': [0.756], 'all_L1': [0.895]}), defaultdict(<class 'list'>, {'all_KL': [0.801], 'all_L1': [0.904]})]
+nec = [defaultdict(<class 'list'>, {'all_KL': [0.042], 'all_L1': [0.092]}), defaultdict(<class 'list'>, {'all_KL': [0.093], 'all_L1': [0.072]}), defaultdict(<class 'list'>, {'all_KL': [0.094], 'all_L1': [0.054]}), defaultdict(<class 'list'>, {'all_KL': [0.113], 'all_L1': [0.077]}), defaultdict(<class 'list'>, {'all_KL': [0.095], 'all_L1': [0.072]})]
+
+Eval split test
+suff++ = [defaultdict(<class 'list'>, {'all_KL': [0.981], 'all_L1': [0.911]}), defaultdict(<class 'list'>, {'all_KL': [0.741], 'all_L1': [0.868]}), defaultdict(<class 'list'>, {'all_KL': [0.726], 'all_L1': [0.874]}), defaultdict(<class 'list'>, {'all_KL': [0.743], 'all_L1': [0.88]}), defaultdict(<class 'list'>, {'all_KL': [0.757], 'all_L1': [0.877]})]
+nec = [defaultdict(<class 'list'>, {'all_KL': [0.01], 'all_L1': [0.067]}), defaultdict(<class 'list'>, {'all_KL': [0.162], 'all_L1': [0.1]}), defaultdict(<class 'list'>, {'all_KL': [0.172], 'all_L1': [0.097]}), defaultdict(<class 'list'>, {'all_KL': [0.158], 'all_L1': [0.091]}), defaultdict(<class 'list'>, {'all_KL': [0.127], 'all_L1': [0.085]})]
+
+
+ -------------------------------------------------- 
+Printing evaluation averaged per seed
+
+Eval split id_val
+suff++ class all_L1  =  0.900 +- 0.008
+suff++ class all_KL  =  0.811 +- 0.079
+suff++_acc_int  =  0.843 +- 0.024
+nec class all_L1  =  0.073 +- 0.012
+nec class all_KL  =  0.087 +- 0.024
+nec_acc_int  =  0.850 +- 0.032
+
+Eval split test
+suff++ class all_L1  =  0.882 +- 0.015
+suff++ class all_KL  =  0.790 +- 0.096
+suff++_acc_int  =  0.744 +- 0.095
+nec class all_L1  =  0.088 +- 0.012
+nec class all_KL  =  0.126 +- 0.060
+nec_acc_int  =  0.756 +- 0.094
+
+
+ -------------------------------------------------- 
+Computing faithfulness
+
+Eval split id_val
+Faith. Aritm (L1)= 		  =  0.487 +- 0.008
+Faith. Armon (L1)= 		  =  0.135 +- 0.021
+Faith. GMean (L1)= 	  =  0.256 +- 0.022
+Faith. Aritm (KL)= 		  =  0.449 +- 0.028
+Faith. Armon (KL)= 		  =  0.156 +- 0.039
+Faith. GMean (KL)= 	  =  0.261 +- 0.031
+
+Eval split test
+Faith. Aritm (L1)= 		  =  0.485 +- 0.003
+Faith. Armon (L1)= 		  =  0.160 +- 0.019
+Faith. GMean (L1)= 	  =  0.278 +- 0.017
+Faith. Aritm (KL)= 		  =  0.458 +- 0.019
+Faith. Armon (KL)= 		  =  0.208 +- 0.096
+Faith. GMean (KL)= 	  =  0.290 +- 0.097
+Computed for split load_split = id
+
+
+
+Completed in  0:04:07.039226  for CIGAGIN GOODSST2/length
+
+
+
+DONE CIGA GOODSST2/length
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Sun Sep 29 13:57:57 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset LBAPcore
+[0m[1;34mDEBUG[0m: 09/29/2024 01:57:57 PM : [1mPermuting node indices to remove explanation bias for train
+[0m[1;34mDEBUG[0m: 09/29/2024 01:58:28 PM : [1mPermuting node indices to remove explanation bias for id_val
+[0m[1;34mDEBUG[0m: 09/29/2024 01:58:39 PM : [1mPermuting node indices to remove explanation bias for id_test
+[0m[1;34mDEBUG[0m: 09/29/2024 01:58:52 PM : [1mPermuting node indices to remove explanation bias for val
+[0m[1;34mDEBUG[0m: 09/29/2024 01:59:08 PM : [1mPermuting node indices to remove explanation bias for test
+[0m[1;34mDEBUG[0m: 09/29/2024 01:59:26 PM : [1mDataset: {'train': LBAPcore(34179), 'id_val': LBAPcore(11314), 'id_test': LBAPcore(11683), 'val': LBAPcore(19028), 'test': LBAPcore(19032), 'task': 'Binary classification', 'metric': 'ROC-AUC'}
+[0m[1;34mDEBUG[0m: 09/29/2024 01:59:26 PM : [1m Data(x=[31, 39], edge_index=[2, 68], edge_attr=[68, 10], y=[1, 1], env_id=[1], ori_edge_index=[2, 68], node_perm=[31])
+[0mData(x=[30, 39], edge_index=[2, 66], edge_attr=[66, 10], y=[1, 1], env_id=[1], ori_edge_index=[2, 66], node_perm=[30])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/29/2024 01:59:26 PM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 09/29/2024 01:59:26 PM : [1mCreating GINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 09/29/2024 01:59:26 PM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/29/2024 01:59:26 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 09/29/2024 01:59:26 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:59:26 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 09/29/2024 01:59:26 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:59:26 PM : [1mUsing  3  layers for classifier
+[0m[1;34mDEBUG[0m: 09/29/2024 01:59:26 PM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/29/2024 01:59:26 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 09/29/2024 01:59:26 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:59:26 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 09/29/2024 01:59:26 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:59:26 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 09/29/2024 01:59:26 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 01:59:26 PM : [1mUsing feature sampling = raw
+[0m[1;34mDEBUG[0m: 09/29/2024 01:59:26 PM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 150...
+[0m[1;37mINFO[0m: [1mCheckpoint 150: 
+-----------------------------------
+Train ROC-AUC: 0.9480
+Train Loss: 0.3695
+ID Validation ROC-AUC: 0.9027
+ID Validation Loss: 0.4699
+ID Test ROC-AUC: 0.9084
+ID Test Loss: 0.4696
+OOD Validation ROC-AUC: 0.5843
+OOD Validation Loss: 0.5387
+OOD Test ROC-AUC: 0.6552
+OOD Test Loss: 0.8904
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 45...
+[0m[1;37mINFO[0m: [1mCheckpoint 45: 
+-----------------------------------
+Train ROC-AUC: 0.9099
+Train Loss: 0.2545
+ID Validation ROC-AUC: 0.8783
+ID Validation Loss: 0.2915
+ID Test ROC-AUC: 0.8887
+ID Test Loss: 0.2844
+OOD Validation ROC-AUC: 0.6509
+OOD Validation Loss: 0.3384
+OOD Test ROC-AUC: 0.6766
+OOD Test Loss: 0.5363
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9084 0.6552 0.8887 0.6766 0.8783 0.6509[0mLBAPcore(11314)
+Data example from id_val: Data(x=[30, 39], edge_index=[2, 66], edge_attr=[66, 10], y=[1, 1], env_id=[1], ori_edge_index=[2, 66], node_perm=[30])
+Label distribution from id_val: (tensor([0., 1.]), tensor([1318, 9996]))
+[1;34mDEBUG[0m: 09/29/2024 01:59:27 PM : [1mUnbalanced warning for LBAPcore (id_val)
+[0mF1 for r=0.6 = nan
+WIoU for r=0.6 = nan
+F1 for r=1.0 = nan
+WIoU for r=1.0 = nan
+LBAPcore(19032)
+Data example from test: Data(x=[28, 39], edge_index=[2, 64], edge_attr=[64, 10], y=[1, 1], env_id=[1], ori_edge_index=[2, 64], node_perm=[28])
+Label distribution from test: (tensor([0., 1.]), tensor([ 3168, 15864]))
+[1;34mDEBUG[0m: 09/29/2024 01:59:37 PM : [1mUnbalanced warning for LBAPcore (test)
+[0mF1 for r=0.6 = nan
+WIoU for r=0.6 = nan
+F1 for r=1.0 = nan
+WIoU for r=1.0 = nan
+
+
+Evaluating SUFF++ for seed 1 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over id_val across ratios (random_expl=True)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model ROC-AUC of binarized graphs for r=0.6 =  0.589
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.607 +- 0.005
+Model ROC-AUC over intervened graphs for r=0.6 =  0.577
+SUFF++ for r=0.6 class 0.0 = 0.747 +- 0.162 (in-sample avg dev_std = 0.258)
+SUFF++ for r=0.6 class 1.0 = 0.699 +- 0.162 (in-sample avg dev_std = 0.258)
+SUFF++ for r=0.6 all KL = 0.841 +- 0.162 (in-sample avg dev_std = 0.258)
+SUFF++ for r=0.6 all L1 = 0.704 +- 0.167 (in-sample avg dev_std = 0.258)
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=True)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model ROC-AUC of binarized graphs for r=0.6 =  0.551
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.608 +- 0.006
+Model ROC-AUC over intervened graphs for r=0.6 =  0.502
+SUFF++ for r=0.6 class 0.0 = 0.747 +- 0.161 (in-sample avg dev_std = 0.257)
+SUFF++ for r=0.6 class 1.0 = 0.712 +- 0.161 (in-sample avg dev_std = 0.257)
+SUFF++ for r=0.6 all KL = 0.838 +- 0.161 (in-sample avg dev_std = 0.257)
+SUFF++ for r=0.6 all L1 = 0.718 +- 0.170 (in-sample avg dev_std = 0.257)
+
+
+Evaluating NEC for seed 1 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over id_val across ratios (random_expl=True)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model ROC-AUC of binarized graphs for r=0.6 =  0.589
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.607 +- 0.005
+Model ROC-AUC over intervened graphs for r=0.6 =  0.593
+NEC for r=0.6 class 0.0 = 0.224 +- 0.130 (in-sample avg dev_std = 0.227)
+NEC for r=0.6 class 1.0 = 0.274 +- 0.130 (in-sample avg dev_std = 0.227)
+NEC for r=0.6 all KL = 0.131 +- 0.130 (in-sample avg dev_std = 0.227)
+NEC for r=0.6 all L1 = 0.268 +- 0.157 (in-sample avg dev_std = 0.227)
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=True)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model ROC-AUC of binarized graphs for r=0.6 =  0.547
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.608 +- 0.006
+Model ROC-AUC over intervened graphs for r=0.6 =  0.528
+NEC for r=0.6 class 0.0 = 0.24 +- 0.146 (in-sample avg dev_std = 0.226)
+NEC for r=0.6 class 1.0 = 0.265 +- 0.146 (in-sample avg dev_std = 0.226)
+NEC for r=0.6 all KL = 0.138 +- 0.146 (in-sample avg dev_std = 0.226)
+NEC for r=0.6 all L1 = 0.261 +- 0.175 (in-sample avg dev_std = 0.226)
+model_dirname= repr_CIGAGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingrawmitig_readoutweightedavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Sun Sep 29 14:00:46 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset LBAPcore
+[0m[1;34mDEBUG[0m: 09/29/2024 02:00:46 PM : [1mPermuting node indices to remove explanation bias for train
+[0m[1;34mDEBUG[0m: 09/29/2024 02:01:18 PM : [1mPermuting node indices to remove explanation bias for id_val
+[0m[1;34mDEBUG[0m: 09/29/2024 02:01:30 PM : [1mPermuting node indices to remove explanation bias for id_test
+[0m[1;34mDEBUG[0m: 09/29/2024 02:01:40 PM : [1mPermuting node indices to remove explanation bias for val
+[0m[1;34mDEBUG[0m: 09/29/2024 02:01:58 PM : [1mPermuting node indices to remove explanation bias for test
+[0m[1;34mDEBUG[0m: 09/29/2024 02:02:15 PM : [1mDataset: {'train': LBAPcore(34179), 'id_val': LBAPcore(11314), 'id_test': LBAPcore(11683), 'val': LBAPcore(19028), 'test': LBAPcore(19032), 'task': 'Binary classification', 'metric': 'ROC-AUC'}
+[0m[1;34mDEBUG[0m: 09/29/2024 02:02:15 PM : [1m Data(x=[31, 39], edge_index=[2, 68], edge_attr=[68, 10], y=[1, 1], env_id=[1], ori_edge_index=[2, 68], node_perm=[31])
+[0mData(x=[30, 39], edge_index=[2, 66], edge_attr=[66, 10], y=[1, 1], env_id=[1], ori_edge_index=[2, 66], node_perm=[30])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/29/2024 02:02:15 PM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 09/29/2024 02:02:15 PM : [1mCreating GINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 09/29/2024 02:02:15 PM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/29/2024 02:02:15 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 09/29/2024 02:02:15 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:02:15 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 09/29/2024 02:02:15 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:02:15 PM : [1mUsing  3  layers for classifier
+[0m[1;34mDEBUG[0m: 09/29/2024 02:02:15 PM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/29/2024 02:02:15 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 09/29/2024 02:02:15 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:02:15 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 09/29/2024 02:02:15 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:02:15 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 09/29/2024 02:02:15 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:02:15 PM : [1mUsing feature sampling = raw
+[0m[1;34mDEBUG[0m: 09/29/2024 02:02:15 PM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 150...
+[0m[1;37mINFO[0m: [1mCheckpoint 150: 
+-----------------------------------
+Train ROC-AUC: 0.9689
+Train Loss: 0.1480
+ID Validation ROC-AUC: 0.9058
+ID Validation Loss: 0.2470
+ID Test ROC-AUC: 0.9023
+ID Test Loss: 0.2550
+OOD Validation ROC-AUC: 0.6055
+OOD Validation Loss: 0.6083
+OOD Test ROC-AUC: 0.6627
+OOD Test Loss: 0.6582
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 10...
+[0m[1;37mINFO[0m: [1mCheckpoint 10: 
+-----------------------------------
+Train ROC-AUC: 0.8477
+Train Loss: 0.3118
+ID Validation ROC-AUC: 0.8262
+ID Validation Loss: 0.3219
+ID Test ROC-AUC: 0.8375
+ID Test Loss: 0.3183
+OOD Validation ROC-AUC: 0.6697
+OOD Validation Loss: 0.4002
+OOD Test ROC-AUC: 0.6582
+OOD Test Loss: 0.4850
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9023 0.6627 0.8375 0.6582 0.8262 0.6697[0mLBAPcore(11314)
+Data example from id_val: Data(x=[30, 39], edge_index=[2, 66], edge_attr=[66, 10], y=[1, 1], env_id=[1], ori_edge_index=[2, 66], node_perm=[30])
+Label distribution from id_val: (tensor([0., 1.]), tensor([1318, 9996]))
+[1;34mDEBUG[0m: 09/29/2024 02:02:16 PM : [1mUnbalanced warning for LBAPcore (id_val)
+[0m/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+F1 for r=0.6 = nan
+WIoU for r=0.6 = nan
+F1 for r=1.0 = nan
+WIoU for r=1.0 = nan
+LBAPcore(19032)
+Data example from test: Data(x=[28, 39], edge_index=[2, 64], edge_attr=[64, 10], y=[1, 1], env_id=[1], ori_edge_index=[2, 64], node_perm=[28])
+Label distribution from test: (tensor([0., 1.]), tensor([ 3168, 15864]))
+[1;34mDEBUG[0m: 09/29/2024 02:02:25 PM : [1mUnbalanced warning for LBAPcore (test)
+[0mF1 for r=0.6 = nan
+WIoU for r=0.6 = nan
+F1 for r=1.0 = nan
+WIoU for r=1.0 = nan
+
+
+Evaluating SUFF++ for seed 2 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over id_val across ratios (random_expl=True)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model ROC-AUC of binarized graphs for r=0.6 =  0.543
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.607 +- 0.005
+Model ROC-AUC over intervened graphs for r=0.6 =  0.555
+SUFF++ for r=0.6 class 0.0 = 1.0 +- 0.111 (in-sample avg dev_std = 0.108)
+SUFF++ for r=0.6 class 1.0 = 0.993 +- 0.111 (in-sample avg dev_std = 0.108)
+SUFF++ for r=0.6 all KL = 0.988 +- 0.111 (in-sample avg dev_std = 0.108)
+SUFF++ for r=0.6 all L1 = 0.994 +- 0.055 (in-sample avg dev_std = 0.108)
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=True)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model ROC-AUC of binarized graphs for r=0.6 =  0.537
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.608 +- 0.006
+Model ROC-AUC over intervened graphs for r=0.6 =  0.54
+SUFF++ for r=0.6 class 0.0 = 1.0 +- 0.050 (in-sample avg dev_std = 0.053)
+SUFF++ for r=0.6 class 1.0 = 0.998 +- 0.050 (in-sample avg dev_std = 0.053)
+SUFF++ for r=0.6 all KL = 0.997 +- 0.050 (in-sample avg dev_std = 0.053)
+SUFF++ for r=0.6 all L1 = 0.999 +- 0.029 (in-sample avg dev_std = 0.053)
+
+
+Evaluating NEC for seed 2 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over id_val across ratios (random_expl=True)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model ROC-AUC of binarized graphs for r=0.6 =  0.547
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.607 +- 0.005
+Model ROC-AUC over intervened graphs for r=0.6 =  0.499
+NEC for r=0.6 class 0.0 = 0.0 +- 0.000 (in-sample avg dev_std = 0.000)
+NEC for r=0.6 class 1.0 = 0.0 +- 0.000 (in-sample avg dev_std = 0.000)
+NEC for r=0.6 all KL = 0.0 +- 0.000 (in-sample avg dev_std = 0.000)
+NEC for r=0.6 all L1 = 0.0 +- 0.000 (in-sample avg dev_std = 0.000)
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=True)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model ROC-AUC of binarized graphs for r=0.6 =  0.536
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.608 +- 0.006
+Model ROC-AUC over intervened graphs for r=0.6 =  0.52
+NEC for r=0.6 class 0.0 = 0.0 +- 0.000 (in-sample avg dev_std = 0.000)
+NEC for r=0.6 class 1.0 = 0.0 +- 0.000 (in-sample avg dev_std = 0.000)
+NEC for r=0.6 all KL = 0.0 +- 0.000 (in-sample avg dev_std = 0.000)
+NEC for r=0.6 all L1 = 0.0 +- 0.000 (in-sample avg dev_std = 0.000)
+model_dirname= repr_CIGAGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingrawmitig_readoutweightedavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Sun Sep 29 14:03:33 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset LBAPcore
+[0m[1;34mDEBUG[0m: 09/29/2024 02:03:33 PM : [1mPermuting node indices to remove explanation bias for train
+[0m[1;34mDEBUG[0m: 09/29/2024 02:04:04 PM : [1mPermuting node indices to remove explanation bias for id_val
+[0m[1;34mDEBUG[0m: 09/29/2024 02:04:16 PM : [1mPermuting node indices to remove explanation bias for id_test
+[0m[1;34mDEBUG[0m: 09/29/2024 02:04:26 PM : [1mPermuting node indices to remove explanation bias for val
+[0m[1;34mDEBUG[0m: 09/29/2024 02:04:43 PM : [1mPermuting node indices to remove explanation bias for test
+[0m[1;34mDEBUG[0m: 09/29/2024 02:05:00 PM : [1mDataset: {'train': LBAPcore(34179), 'id_val': LBAPcore(11314), 'id_test': LBAPcore(11683), 'val': LBAPcore(19028), 'test': LBAPcore(19032), 'task': 'Binary classification', 'metric': 'ROC-AUC'}
+[0m[1;34mDEBUG[0m: 09/29/2024 02:05:00 PM : [1m Data(x=[31, 39], edge_index=[2, 68], edge_attr=[68, 10], y=[1, 1], env_id=[1], ori_edge_index=[2, 68], node_perm=[31])
+[0mData(x=[30, 39], edge_index=[2, 66], edge_attr=[66, 10], y=[1, 1], env_id=[1], ori_edge_index=[2, 66], node_perm=[30])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/29/2024 02:05:00 PM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 09/29/2024 02:05:00 PM : [1mCreating GINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 09/29/2024 02:05:00 PM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/29/2024 02:05:00 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 09/29/2024 02:05:00 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:05:00 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 09/29/2024 02:05:00 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:05:00 PM : [1mUsing  3  layers for classifier
+[0m[1;34mDEBUG[0m: 09/29/2024 02:05:00 PM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/29/2024 02:05:00 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 09/29/2024 02:05:00 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:05:00 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 09/29/2024 02:05:00 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:05:00 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 09/29/2024 02:05:00 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:05:00 PM : [1mUsing feature sampling = raw
+[0m[1;34mDEBUG[0m: 09/29/2024 02:05:00 PM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 127...
+[0m[1;37mINFO[0m: [1mCheckpoint 127: 
+-----------------------------------
+Train ROC-AUC: 0.9459
+Train Loss: 0.2739
+ID Validation ROC-AUC: 0.9033
+ID Validation Loss: 0.3429
+ID Test ROC-AUC: 0.9089
+ID Test Loss: 0.3383
+OOD Validation ROC-AUC: 0.6038
+OOD Validation Loss: 0.4024
+OOD Test ROC-AUC: 0.6620
+OOD Test Loss: 0.6481
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 14...
+[0m[1;37mINFO[0m: [1mCheckpoint 14: 
+-----------------------------------
+Train ROC-AUC: 0.8786
+Train Loss: 0.2942
+ID Validation ROC-AUC: 0.8634
+ID Validation Loss: 0.3109
+ID Test ROC-AUC: 0.8696
+ID Test Loss: 0.3099
+OOD Validation ROC-AUC: 0.6437
+OOD Validation Loss: 0.3274
+OOD Test ROC-AUC: 0.6934
+OOD Test Loss: 0.5211
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9089 0.6620 0.8696 0.6934 0.8634 0.6437[0mLBAPcore(11314)
+Data example from id_val: Data(x=[30, 39], edge_index=[2, 66], edge_attr=[66, 10], y=[1, 1], env_id=[1], ori_edge_index=[2, 66], node_perm=[30])
+Label distribution from id_val: (tensor([0., 1.]), tensor([1318, 9996]))
+[1;34mDEBUG[0m: 09/29/2024 02:05:01 PM : [1mUnbalanced warning for LBAPcore (id_val)
+[0m/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+F1 for r=0.6 = nan
+WIoU for r=0.6 = nan
+F1 for r=1.0 = nan
+WIoU for r=1.0 = nan
+LBAPcore(19032)
+Data example from test: Data(x=[28, 39], edge_index=[2, 64], edge_attr=[64, 10], y=[1, 1], env_id=[1], ori_edge_index=[2, 64], node_perm=[28])
+Label distribution from test: (tensor([0., 1.]), tensor([ 3168, 15864]))
+[1;34mDEBUG[0m: 09/29/2024 02:05:09 PM : [1mUnbalanced warning for LBAPcore (test)
+[0mF1 for r=0.6 = nan
+WIoU for r=0.6 = nan
+F1 for r=1.0 = nan
+WIoU for r=1.0 = nan
+
+
+Evaluating SUFF++ for seed 3 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over id_val across ratios (random_expl=True)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model ROC-AUC of binarized graphs for r=0.6 =  0.551
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.607 +- 0.005
+Model ROC-AUC over intervened graphs for r=0.6 =  0.494
+SUFF++ for r=0.6 class 0.0 = 0.837 +- 0.326 (in-sample avg dev_std = 0.404)
+SUFF++ for r=0.6 class 1.0 = 0.838 +- 0.326 (in-sample avg dev_std = 0.404)
+SUFF++ for r=0.6 all KL = 0.673 +- 0.326 (in-sample avg dev_std = 0.404)
+SUFF++ for r=0.6 all L1 = 0.838 +- 0.185 (in-sample avg dev_std = 0.404)
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=True)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model ROC-AUC of binarized graphs for r=0.6 =  0.566
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.608 +- 0.006
+Model ROC-AUC over intervened graphs for r=0.6 =  0.516
+SUFF++ for r=0.6 class 0.0 = 0.793 +- 0.318 (in-sample avg dev_std = 0.437)
+SUFF++ for r=0.6 class 1.0 = 0.807 +- 0.318 (in-sample avg dev_std = 0.437)
+SUFF++ for r=0.6 all KL = 0.627 +- 0.318 (in-sample avg dev_std = 0.437)
+SUFF++ for r=0.6 all L1 = 0.804 +- 0.188 (in-sample avg dev_std = 0.437)
+
+
+Evaluating NEC for seed 3 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over id_val across ratios (random_expl=True)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model ROC-AUC of binarized graphs for r=0.6 =  0.551
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.607 +- 0.005
+Model ROC-AUC over intervened graphs for r=0.6 =  0.538
+NEC for r=0.6 class 0.0 = 0.172 +- 0.341 (in-sample avg dev_std = 0.396)
+NEC for r=0.6 class 1.0 = 0.148 +- 0.341 (in-sample avg dev_std = 0.396)
+NEC for r=0.6 all KL = 0.288 +- 0.341 (in-sample avg dev_std = 0.396)
+NEC for r=0.6 all L1 = 0.151 +- 0.194 (in-sample avg dev_std = 0.396)
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=True)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model ROC-AUC of binarized graphs for r=0.6 =  0.568
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.608 +- 0.006
+Model ROC-AUC over intervened graphs for r=0.6 =  0.506
+NEC for r=0.6 class 0.0 = 0.187 +- 0.348 (in-sample avg dev_std = 0.435)
+NEC for r=0.6 class 1.0 = 0.187 +- 0.348 (in-sample avg dev_std = 0.435)
+NEC for r=0.6 all KL = 0.329 +- 0.348 (in-sample avg dev_std = 0.435)
+NEC for r=0.6 all L1 = 0.187 +- 0.215 (in-sample avg dev_std = 0.435)
+model_dirname= repr_CIGAGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingrawmitig_readoutweightedavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Sun Sep 29 14:06:18 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset LBAPcore
+[0m[1;34mDEBUG[0m: 09/29/2024 02:06:18 PM : [1mPermuting node indices to remove explanation bias for train
+[0m[1;34mDEBUG[0m: 09/29/2024 02:06:51 PM : [1mPermuting node indices to remove explanation bias for id_val
+[0m[1;34mDEBUG[0m: 09/29/2024 02:07:03 PM : [1mPermuting node indices to remove explanation bias for id_test
+[0m[1;34mDEBUG[0m: 09/29/2024 02:07:13 PM : [1mPermuting node indices to remove explanation bias for val
+[0m[1;34mDEBUG[0m: 09/29/2024 02:07:31 PM : [1mPermuting node indices to remove explanation bias for test
+[0m[1;34mDEBUG[0m: 09/29/2024 02:07:46 PM : [1mDataset: {'train': LBAPcore(34179), 'id_val': LBAPcore(11314), 'id_test': LBAPcore(11683), 'val': LBAPcore(19028), 'test': LBAPcore(19032), 'task': 'Binary classification', 'metric': 'ROC-AUC'}
+[0m[1;34mDEBUG[0m: 09/29/2024 02:07:46 PM : [1m Data(x=[31, 39], edge_index=[2, 68], edge_attr=[68, 10], y=[1, 1], env_id=[1], ori_edge_index=[2, 68], node_perm=[31])
+[0mData(x=[30, 39], edge_index=[2, 66], edge_attr=[66, 10], y=[1, 1], env_id=[1], ori_edge_index=[2, 66], node_perm=[30])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/29/2024 02:07:46 PM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 09/29/2024 02:07:46 PM : [1mCreating GINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 09/29/2024 02:07:46 PM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/29/2024 02:07:46 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 09/29/2024 02:07:46 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:07:46 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 09/29/2024 02:07:46 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:07:46 PM : [1mUsing  3  layers for classifier
+[0m[1;34mDEBUG[0m: 09/29/2024 02:07:46 PM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/29/2024 02:07:46 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 09/29/2024 02:07:46 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:07:46 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 09/29/2024 02:07:46 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:07:46 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 09/29/2024 02:07:46 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:07:46 PM : [1mUsing feature sampling = raw
+[0m[1;34mDEBUG[0m: 09/29/2024 02:07:46 PM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 159...
+[0m[1;37mINFO[0m: [1mCheckpoint 159: 
+-----------------------------------
+Train ROC-AUC: 0.9548
+Train Loss: 0.3192
+ID Validation ROC-AUC: 0.9041
+ID Validation Loss: 0.4545
+ID Test ROC-AUC: 0.9006
+ID Test Loss: 0.4686
+OOD Validation ROC-AUC: 0.5961
+OOD Validation Loss: 0.5439
+OOD Test ROC-AUC: 0.6685
+OOD Test Loss: 0.8654
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 15...
+[0m[1;37mINFO[0m: [1mCheckpoint 15: 
+-----------------------------------
+Train ROC-AUC: 0.8746
+Train Loss: 0.3120
+ID Validation ROC-AUC: 0.8599
+ID Validation Loss: 0.3287
+ID Test ROC-AUC: 0.8641
+ID Test Loss: 0.3301
+OOD Validation ROC-AUC: 0.6526
+OOD Validation Loss: 0.3467
+OOD Test ROC-AUC: 0.6783
+OOD Test Loss: 0.5797
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9006 0.6685 0.8641 0.6783 0.8599 0.6526[0mLBAPcore(11314)
+Data example from id_val: Data(x=[30, 39], edge_index=[2, 66], edge_attr=[66, 10], y=[1, 1], env_id=[1], ori_edge_index=[2, 66], node_perm=[30])
+Label distribution from id_val: (tensor([0., 1.]), tensor([1318, 9996]))
+[1;34mDEBUG[0m: 09/29/2024 02:07:46 PM : [1mUnbalanced warning for LBAPcore (id_val)
+[0m/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+F1 for r=0.6 = nan
+WIoU for r=0.6 = nan
+F1 for r=1.0 = nan
+WIoU for r=1.0 = nan
+LBAPcore(19032)
+Data example from test: Data(x=[28, 39], edge_index=[2, 64], edge_attr=[64, 10], y=[1, 1], env_id=[1], ori_edge_index=[2, 64], node_perm=[28])
+Label distribution from test: (tensor([0., 1.]), tensor([ 3168, 15864]))
+[1;34mDEBUG[0m: 09/29/2024 02:07:56 PM : [1mUnbalanced warning for LBAPcore (test)
+[0mF1 for r=0.6 = nan
+WIoU for r=0.6 = nan
+F1 for r=1.0 = nan
+WIoU for r=1.0 = nan
+
+
+Evaluating SUFF++ for seed 4 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over id_val across ratios (random_expl=True)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model ROC-AUC of binarized graphs for r=0.6 =  0.479
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.607 +- 0.005
+Model ROC-AUC over intervened graphs for r=0.6 =  0.503
+SUFF++ for r=0.6 class 0.0 = 0.585 +- 0.293 (in-sample avg dev_std = 0.646)
+SUFF++ for r=0.6 class 1.0 = 0.585 +- 0.293 (in-sample avg dev_std = 0.646)
+SUFF++ for r=0.6 all KL = 0.424 +- 0.293 (in-sample avg dev_std = 0.646)
+SUFF++ for r=0.6 all L1 = 0.585 +- 0.217 (in-sample avg dev_std = 0.646)
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=True)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model ROC-AUC of binarized graphs for r=0.6 =  0.525
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.608 +- 0.006
+Model ROC-AUC over intervened graphs for r=0.6 =  0.53
+SUFF++ for r=0.6 class 0.0 = 0.569 +- 0.288 (in-sample avg dev_std = 0.658)
+SUFF++ for r=0.6 class 1.0 = 0.576 +- 0.288 (in-sample avg dev_std = 0.658)
+SUFF++ for r=0.6 all KL = 0.414 +- 0.288 (in-sample avg dev_std = 0.658)
+SUFF++ for r=0.6 all L1 = 0.575 +- 0.212 (in-sample avg dev_std = 0.658)
+
+
+Evaluating NEC for seed 4 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over id_val across ratios (random_expl=True)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model ROC-AUC of binarized graphs for r=0.6 =  0.479
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.607 +- 0.005
+Model ROC-AUC over intervened graphs for r=0.6 =  0.477
+NEC for r=0.6 class 0.0 = 0.402 +- 0.321 (in-sample avg dev_std = 0.564)
+NEC for r=0.6 class 1.0 = 0.392 +- 0.321 (in-sample avg dev_std = 0.564)
+NEC for r=0.6 all KL = 0.531 +- 0.321 (in-sample avg dev_std = 0.564)
+NEC for r=0.6 all L1 = 0.393 +- 0.238 (in-sample avg dev_std = 0.564)
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=True)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model ROC-AUC of binarized graphs for r=0.6 =  0.525
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.608 +- 0.006
+Model ROC-AUC over intervened graphs for r=0.6 =  0.53
+NEC for r=0.6 class 0.0 = 0.437 +- 0.329 (in-sample avg dev_std = 0.568)
+NEC for r=0.6 class 1.0 = 0.396 +- 0.329 (in-sample avg dev_std = 0.568)
+NEC for r=0.6 all KL = 0.537 +- 0.329 (in-sample avg dev_std = 0.568)
+NEC for r=0.6 all L1 = 0.403 +- 0.240 (in-sample avg dev_std = 0.568)
+model_dirname= repr_CIGAGIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingrawmitig_readoutweightedavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Sun Sep 29 14:09:04 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset LBAPcore
+[0m[1;34mDEBUG[0m: 09/29/2024 02:09:04 PM : [1mPermuting node indices to remove explanation bias for train
+[0m[1;34mDEBUG[0m: 09/29/2024 02:09:38 PM : [1mPermuting node indices to remove explanation bias for id_val
+[0m[1;34mDEBUG[0m: 09/29/2024 02:09:49 PM : [1mPermuting node indices to remove explanation bias for id_test
+[0m[1;34mDEBUG[0m: 09/29/2024 02:10:02 PM : [1mPermuting node indices to remove explanation bias for val
+[0m[1;34mDEBUG[0m: 09/29/2024 02:10:18 PM : [1mPermuting node indices to remove explanation bias for test
+[0m[1;34mDEBUG[0m: 09/29/2024 02:10:34 PM : [1mDataset: {'train': LBAPcore(34179), 'id_val': LBAPcore(11314), 'id_test': LBAPcore(11683), 'val': LBAPcore(19028), 'test': LBAPcore(19032), 'task': 'Binary classification', 'metric': 'ROC-AUC'}
+[0m[1;34mDEBUG[0m: 09/29/2024 02:10:34 PM : [1m Data(x=[31, 39], edge_index=[2, 68], edge_attr=[68, 10], y=[1, 1], env_id=[1], ori_edge_index=[2, 68], node_perm=[31])
+[0mData(x=[30, 39], edge_index=[2, 66], edge_attr=[66, 10], y=[1, 1], env_id=[1], ori_edge_index=[2, 66], node_perm=[30])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/29/2024 02:10:34 PM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 09/29/2024 02:10:34 PM : [1mCreating GINFeatExtractor:  3
+[0m[1;34mDEBUG[0m: 09/29/2024 02:10:34 PM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/29/2024 02:10:34 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 09/29/2024 02:10:34 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:10:34 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 09/29/2024 02:10:34 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:10:34 PM : [1mUsing  3  layers for classifier
+[0m[1;34mDEBUG[0m: 09/29/2024 02:10:34 PM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/29/2024 02:10:34 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 09/29/2024 02:10:34 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:10:34 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 09/29/2024 02:10:34 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:10:34 PM : [1mUsing no mitigation None
+[0m[1;34mDEBUG[0m: 09/29/2024 02:10:34 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:10:34 PM : [1mUsing feature sampling = raw
+[0m[1;34mDEBUG[0m: 09/29/2024 02:10:34 PM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 152...
+[0m[1;37mINFO[0m: [1mCheckpoint 152: 
+-----------------------------------
+Train ROC-AUC: 0.9637
+Train Loss: 0.2273
+ID Validation ROC-AUC: 0.9083
+ID Validation Loss: 0.3490
+ID Test ROC-AUC: 0.9104
+ID Test Loss: 0.3513
+OOD Validation ROC-AUC: 0.5940
+OOD Validation Loss: 0.4940
+OOD Test ROC-AUC: 0.6574
+OOD Test Loss: 0.7667
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 24...
+[0m[1;37mINFO[0m: [1mCheckpoint 24: 
+-----------------------------------
+Train ROC-AUC: 0.8938
+Train Loss: 0.2424
+ID Validation ROC-AUC: 0.8717
+ID Validation Loss: 0.2611
+ID Test ROC-AUC: 0.8711
+ID Test Loss: 0.2630
+OOD Validation ROC-AUC: 0.6590
+OOD Validation Loss: 0.3149
+OOD Test ROC-AUC: 0.6741
+OOD Test Loss: 0.4665
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.9104 0.6574 0.8711 0.6741 0.8717 0.6590[0mLBAPcore(11314)
+Data example from id_val: Data(x=[30, 39], edge_index=[2, 66], edge_attr=[66, 10], y=[1, 1], env_id=[1], ori_edge_index=[2, 66], node_perm=[30])
+Label distribution from id_val: (tensor([0., 1.]), tensor([1318, 9996]))
+[1;34mDEBUG[0m: 09/29/2024 02:10:34 PM : [1mUnbalanced warning for LBAPcore (id_val)
+[0m/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+F1 for r=0.6 = nan
+WIoU for r=0.6 = nan
+F1 for r=1.0 = nan
+WIoU for r=1.0 = nan
+LBAPcore(19032)
+Data example from test: Data(x=[28, 39], edge_index=[2, 64], edge_attr=[64, 10], y=[1, 1], env_id=[1], ori_edge_index=[2, 64], node_perm=[28])
+Label distribution from test: (tensor([0., 1.]), tensor([ 3168, 15864]))
+[1;34mDEBUG[0m: 09/29/2024 02:10:43 PM : [1mUnbalanced warning for LBAPcore (test)
+[0mF1 for r=0.6 = nan
+WIoU for r=0.6 = nan
+F1 for r=1.0 = nan
+WIoU for r=1.0 = nan
+
+
+Evaluating SUFF++ for seed 5 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over id_val across ratios (random_expl=True)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model ROC-AUC of binarized graphs for r=0.6 =  0.437
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.607 +- 0.005
+Model ROC-AUC over intervened graphs for r=0.6 =  0.53
+SUFF++ for r=0.6 class 0.0 = 0.826 +- 0.278 (in-sample avg dev_std = 0.303)
+SUFF++ for r=0.6 class 1.0 = 0.879 +- 0.278 (in-sample avg dev_std = 0.303)
+SUFF++ for r=0.6 all KL = 0.822 +- 0.278 (in-sample avg dev_std = 0.303)
+SUFF++ for r=0.6 all L1 = 0.873 +- 0.213 (in-sample avg dev_std = 0.303)
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=True)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model ROC-AUC of binarized graphs for r=0.6 =  0.379
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.608 +- 0.006
+Model ROC-AUC over intervened graphs for r=0.6 =  0.462
+SUFF++ for r=0.6 class 0.0 = 0.782 +- 0.302 (in-sample avg dev_std = 0.338)
+SUFF++ for r=0.6 class 1.0 = 0.871 +- 0.302 (in-sample avg dev_std = 0.338)
+SUFF++ for r=0.6 all KL = 0.79 +- 0.302 (in-sample avg dev_std = 0.338)
+SUFF++ for r=0.6 all L1 = 0.856 +- 0.219 (in-sample avg dev_std = 0.338)
+
+
+Evaluating NEC for seed 5 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over id_val across ratios (random_expl=True)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model ROC-AUC of binarized graphs for r=0.6 =  0.434
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.607 +- 0.005
+Model ROC-AUC over intervened graphs for r=0.6 =  0.51
+NEC for r=0.6 class 0.0 = 0.17 +- 0.255 (in-sample avg dev_std = 0.238)
+NEC for r=0.6 class 1.0 = 0.098 +- 0.255 (in-sample avg dev_std = 0.238)
+NEC for r=0.6 all KL = 0.132 +- 0.255 (in-sample avg dev_std = 0.238)
+NEC for r=0.6 all L1 = 0.106 +- 0.206 (in-sample avg dev_std = 0.238)
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=True)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model ROC-AUC of binarized graphs for r=0.6 =  0.379
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.608 +- 0.006
+Model ROC-AUC over intervened graphs for r=0.6 =  0.448
+NEC for r=0.6 class 0.0 = 0.181 +- 0.259 (in-sample avg dev_std = 0.240)
+NEC for r=0.6 class 1.0 = 0.095 +- 0.259 (in-sample avg dev_std = 0.240)
+NEC for r=0.6 all KL = 0.137 +- 0.259 (in-sample avg dev_std = 0.240)
+NEC for r=0.6 all L1 = 0.109 +- 0.209 (in-sample avg dev_std = 0.240)
+
+
+ -------------------------------------------------- 
+Printing evaluation results for load_split id
+
+
+
+Eval split id_val
+suff++ = [defaultdict(<class 'list'>, {'all_KL': [0.841], 'all_L1': [0.704]}), defaultdict(<class 'list'>, {'all_KL': [0.988], 'all_L1': [0.994]}), defaultdict(<class 'list'>, {'all_KL': [0.673], 'all_L1': [0.838]}), defaultdict(<class 'list'>, {'all_KL': [0.424], 'all_L1': [0.585]}), defaultdict(<class 'list'>, {'all_KL': [0.822], 'all_L1': [0.873]})]
+nec = [defaultdict(<class 'list'>, {'all_KL': [0.131], 'all_L1': [0.268]}), defaultdict(<class 'list'>, {'all_KL': [0.0], 'all_L1': [0.0]}), defaultdict(<class 'list'>, {'all_KL': [0.288], 'all_L1': [0.151]}), defaultdict(<class 'list'>, {'all_KL': [0.531], 'all_L1': [0.393]}), defaultdict(<class 'list'>, {'all_KL': [0.132], 'all_L1': [0.106]})]
+
+Eval split test
+suff++ = [defaultdict(<class 'list'>, {'all_KL': [0.838], 'all_L1': [0.718]}), defaultdict(<class 'list'>, {'all_KL': [0.997], 'all_L1': [0.999]}), defaultdict(<class 'list'>, {'all_KL': [0.627], 'all_L1': [0.804]}), defaultdict(<class 'list'>, {'all_KL': [0.414], 'all_L1': [0.575]}), defaultdict(<class 'list'>, {'all_KL': [0.79], 'all_L1': [0.856]})]
+nec = [defaultdict(<class 'list'>, {'all_KL': [0.138], 'all_L1': [0.261]}), defaultdict(<class 'list'>, {'all_KL': [0.0], 'all_L1': [0.0]}), defaultdict(<class 'list'>, {'all_KL': [0.329], 'all_L1': [0.187]}), defaultdict(<class 'list'>, {'all_KL': [0.537], 'all_L1': [0.403]}), defaultdict(<class 'list'>, {'all_KL': [0.137], 'all_L1': [0.109]})]
+
+
+ -------------------------------------------------- 
+Printing evaluation averaged per seed
+
+Eval split id_val
+suff++ class all_L1  =  0.799 +- 0.141
+suff++ class all_KL  =  0.750 +- 0.191
+suff++_acc_int  =  0.532 +- 0.031
+nec class all_L1  =  0.184 +- 0.135
+nec class all_KL  =  0.216 +- 0.182
+nec_acc_int  =  0.523 +- 0.040
+
+Eval split test
+suff++ class all_L1  =  0.790 +- 0.141
+suff++ class all_KL  =  0.733 +- 0.198
+suff++_acc_int  =  0.510 +- 0.027
+nec class all_L1  =  0.192 +- 0.136
+nec class all_KL  =  0.228 +- 0.187
+nec_acc_int  =  0.506 +- 0.030
+
+
+ -------------------------------------------------- 
+Computing faithfulness
+
+Eval split id_val
+Faith. Aritm (L1)= 		  =  0.491 +- 0.004
+Faith. Armon (L1)= 		  =  0.261 +- 0.163
+Faith. GMean (L1)= 	  =  0.315 +- 0.169
+Faith. Aritm (KL)= 		  =  0.483 +- 0.006
+Faith. Armon (KL)= 		  =  0.266 +- 0.164
+Faith. GMean (KL)= 	  =  0.315 +- 0.168
+
+Eval split test
+Faith. Aritm (L1)= 		  =  0.491 +- 0.006
+Faith. Armon (L1)= 		  =  0.271 +- 0.164
+Faith. GMean (L1)= 	  =  0.321 +- 0.171
+Faith. Aritm (KL)= 		  =  0.481 +- 0.012
+Faith. Armon (KL)= 		  =  0.274 +- 0.168
+Faith. GMean (KL)= 	  =  0.319 +- 0.170
+Computed for split load_split = id
+
+
+
+Completed in  0:13:56.362860  for CIGAGIN LBAPcore/assay
+
+
+
+DONE CIGA LBAPcore/assay
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Sun Sep 29 14:12:07 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODCMNIST
+[0m[1;34mDEBUG[0m: 09/29/2024 02:12:08 PM : [1mLoading dataset with permuted nodes
+[0m[1;34mDEBUG[0m: 09/29/2024 02:12:08 PM : [1mLoading dataset with permuted nodes
+[0m[1;34mDEBUG[0m: 09/29/2024 02:12:08 PM : [1mLoading dataset with permuted nodes
+[0m[1;34mDEBUG[0m: 09/29/2024 02:12:08 PM : [1mLoading dataset with permuted nodes
+[0m[1;34mDEBUG[0m: 09/29/2024 02:12:08 PM : [1mLoading dataset with permuted nodes
+[0m[1;34mDEBUG[0m: 09/29/2024 02:12:08 PM : [1mDataset: {'train': GOODCMNIST(42000), 'id_val': GOODCMNIST(7000), 'id_test': GOODCMNIST(7000), 'val': GOODCMNIST(7000), 'test': GOODCMNIST(7000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/29/2024 02:12:08 PM : [1m Data(x=[75, 3], edge_index=[2, 1309], y=[1], pos=[75, 2], color=[1], env_id=[1], ori_edge_index=[2, 1309], node_perm=[75])
+[0mData(x=[75, 3], edge_index=[2, 1496], y=[1], pos=[75, 2], color=[1], env_id=[1], ori_edge_index=[2, 1496], node_perm=[75])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/29/2024 02:12:08 PM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 09/29/2024 02:12:08 PM : [1mCreating GINFeatExtractor:  5
+[0m[1;34mDEBUG[0m: 09/29/2024 02:12:08 PM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/29/2024 02:12:08 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:12:08 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 02:12:08 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:12:08 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 02:12:08 PM : [1mUsing  5  layers for classifier
+[0m[1;34mDEBUG[0m: 09/29/2024 02:12:08 PM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/29/2024 02:12:08 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:12:08 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 02:12:08 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:12:08 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 02:12:08 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:12:08 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 02:12:08 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:12:08 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 02:12:08 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:12:08 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 02:12:08 PM : [1mUsing feature sampling = raw
+[0m[1;34mDEBUG[0m: 09/29/2024 02:12:08 PM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 98...
+[0m[1;37mINFO[0m: [1mCheckpoint 98: 
+-----------------------------------
+Train ACCURACY: 0.2955
+Train Loss: 2.1309
+ID Validation ACCURACY: 0.2990
+ID Validation Loss: 2.1134
+ID Test ACCURACY: 0.2890
+ID Test Loss: 2.1875
+OOD Validation ACCURACY: 0.2706
+OOD Validation Loss: 2.4837
+OOD Test ACCURACY: 0.2086
+OOD Test Loss: 4.6387
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 99...
+[0m[1;37mINFO[0m: [1mCheckpoint 99: 
+-----------------------------------
+Train ACCURACY: 0.2797
+Train Loss: 2.1018
+ID Validation ACCURACY: 0.2841
+ID Validation Loss: 2.0829
+ID Test ACCURACY: 0.2744
+ID Test Loss: 2.1502
+OOD Validation ACCURACY: 0.2713
+OOD Validation Loss: 2.2479
+OOD Test ACCURACY: 0.1836
+OOD Test Loss: 3.7387
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.2890 0.2086 0.2744 0.1836 0.2841 0.2713[0mGOODCMNIST(7000)
+Data example from id_val: Data(x=[75, 3], edge_index=[2, 1496], y=[1], pos=[75, 2], color=[1], env_id=[1], ori_edge_index=[2, 1496], node_perm=[75])
+Label distribution from id_val: (tensor([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]), tensor([704, 788, 715, 765, 668, 583, 676, 769, 678, 654]))
+F1 for r=0.6 = nan
+WIoU for r=0.6 = nan
+F1 for r=1.0 = nan
+WIoU for r=1.0 = nan
+GOODCMNIST(7000)
+Data example from test: Data(x=[75, 3], edge_index=[2, 1431], y=[1], pos=[75, 2], color=[1], env_id=[1], ori_edge_index=[2, 1431], node_perm=[75])
+Label distribution from test: (tensor([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]), tensor([716, 781, 751, 697, 673, 616, 676, 705, 705, 680]))
+F1 for r=0.6 = nan
+WIoU for r=0.6 = nan
+F1 for r=1.0 = nan
+WIoU for r=1.0 = nan
+
+
+Evaluating SUFF++ for seed 1 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over id_val across ratios (random_expl=True)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.301
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.600 +- 0.000
+Model Accuracy over intervened graphs for r=0.6 =  0.235
+SUFF++ for r=0.6 class 0 = 0.482 +- 0.236 (in-sample avg dev_std = 0.372)
+SUFF++ for r=0.6 class 1 = 0.35 +- 0.236 (in-sample avg dev_std = 0.372)
+SUFF++ for r=0.6 class 2 = 0.507 +- 0.236 (in-sample avg dev_std = 0.372)
+SUFF++ for r=0.6 class 3 = 0.483 +- 0.236 (in-sample avg dev_std = 0.372)
+SUFF++ for r=0.6 class 4 = 0.489 +- 0.236 (in-sample avg dev_std = 0.372)
+SUFF++ for r=0.6 class 5 = 0.505 +- 0.236 (in-sample avg dev_std = 0.372)
+SUFF++ for r=0.6 class 6 = 0.486 +- 0.236 (in-sample avg dev_std = 0.372)
+SUFF++ for r=0.6 class 7 = 0.488 +- 0.236 (in-sample avg dev_std = 0.372)
+SUFF++ for r=0.6 class 8 = 0.454 +- 0.236 (in-sample avg dev_std = 0.372)
+SUFF++ for r=0.6 class 9 = 0.484 +- 0.236 (in-sample avg dev_std = 0.372)
+SUFF++ for r=0.6 all KL = 0.428 +- 0.236 (in-sample avg dev_std = 0.372)
+SUFF++ for r=0.6 all L1 = 0.471 +- 0.095 (in-sample avg dev_std = 0.372)
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=True)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.192
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.600 +- 0.000
+Model Accuracy over intervened graphs for r=0.6 =  0.184
+SUFF++ for r=0.6 class 0 = 0.406 +- 0.178 (in-sample avg dev_std = 0.387)
+SUFF++ for r=0.6 class 1 = 0.314 +- 0.178 (in-sample avg dev_std = 0.387)
+SUFF++ for r=0.6 class 2 = 0.405 +- 0.178 (in-sample avg dev_std = 0.387)
+SUFF++ for r=0.6 class 3 = 0.391 +- 0.178 (in-sample avg dev_std = 0.387)
+SUFF++ for r=0.6 class 4 = 0.369 +- 0.178 (in-sample avg dev_std = 0.387)
+SUFF++ for r=0.6 class 5 = 0.384 +- 0.178 (in-sample avg dev_std = 0.387)
+SUFF++ for r=0.6 class 6 = 0.364 +- 0.178 (in-sample avg dev_std = 0.387)
+SUFF++ for r=0.6 class 7 = 0.341 +- 0.178 (in-sample avg dev_std = 0.387)
+SUFF++ for r=0.6 class 8 = 0.361 +- 0.178 (in-sample avg dev_std = 0.387)
+SUFF++ for r=0.6 class 9 = 0.344 +- 0.178 (in-sample avg dev_std = 0.387)
+SUFF++ for r=0.6 all KL = 0.19 +- 0.178 (in-sample avg dev_std = 0.387)
+SUFF++ for r=0.6 all L1 = 0.368 +- 0.080 (in-sample avg dev_std = 0.387)
+
+
+Evaluating NEC for seed 1 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over id_val across ratios (random_expl=True)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.296
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.600 +- 0.000
+Model Accuracy over intervened graphs for r=0.6 =  0.323
+NEC for r=0.6 class 0 = 0.343 +- 0.158 (in-sample avg dev_std = 0.177)
+NEC for r=0.6 class 1 = 0.427 +- 0.158 (in-sample avg dev_std = 0.177)
+NEC for r=0.6 class 2 = 0.349 +- 0.158 (in-sample avg dev_std = 0.177)
+NEC for r=0.6 class 3 = 0.377 +- 0.158 (in-sample avg dev_std = 0.177)
+NEC for r=0.6 class 4 = 0.384 +- 0.158 (in-sample avg dev_std = 0.177)
+NEC for r=0.6 class 5 = 0.379 +- 0.158 (in-sample avg dev_std = 0.177)
+NEC for r=0.6 class 6 = 0.406 +- 0.158 (in-sample avg dev_std = 0.177)
+NEC for r=0.6 class 7 = 0.403 +- 0.158 (in-sample avg dev_std = 0.177)
+NEC for r=0.6 class 8 = 0.392 +- 0.158 (in-sample avg dev_std = 0.177)
+NEC for r=0.6 class 9 = 0.384 +- 0.158 (in-sample avg dev_std = 0.177)
+NEC for r=0.6 all KL = 0.257 +- 0.158 (in-sample avg dev_std = 0.177)
+NEC for r=0.6 all L1 = 0.385 +- 0.115 (in-sample avg dev_std = 0.177)
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=True)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.198
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.600 +- 0.000
+Model Accuracy over intervened graphs for r=0.6 =  0.24
+NEC for r=0.6 class 0 = 0.516 +- 0.208 (in-sample avg dev_std = 0.222)
+NEC for r=0.6 class 1 = 0.5 +- 0.208 (in-sample avg dev_std = 0.222)
+NEC for r=0.6 class 2 = 0.511 +- 0.208 (in-sample avg dev_std = 0.222)
+NEC for r=0.6 class 3 = 0.513 +- 0.208 (in-sample avg dev_std = 0.222)
+NEC for r=0.6 class 4 = 0.52 +- 0.208 (in-sample avg dev_std = 0.222)
+NEC for r=0.6 class 5 = 0.521 +- 0.208 (in-sample avg dev_std = 0.222)
+NEC for r=0.6 class 6 = 0.538 +- 0.208 (in-sample avg dev_std = 0.222)
+NEC for r=0.6 class 7 = 0.551 +- 0.208 (in-sample avg dev_std = 0.222)
+NEC for r=0.6 class 8 = 0.523 +- 0.208 (in-sample avg dev_std = 0.222)
+NEC for r=0.6 class 9 = 0.511 +- 0.208 (in-sample avg dev_std = 0.222)
+NEC for r=0.6 all KL = 0.484 +- 0.208 (in-sample avg dev_std = 0.222)
+NEC for r=0.6 all L1 = 0.52 +- 0.141 (in-sample avg dev_std = 0.222)
+model_dirname= repr_CIGAGIN_5l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingrawmitig_readoutweightedavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Sun Sep 29 14:17:37 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODCMNIST
+[0m[1;34mDEBUG[0m: 09/29/2024 02:17:37 PM : [1mLoading dataset with permuted nodes
+[0m[1;34mDEBUG[0m: 09/29/2024 02:17:38 PM : [1mLoading dataset with permuted nodes
+[0m[1;34mDEBUG[0m: 09/29/2024 02:17:38 PM : [1mLoading dataset with permuted nodes
+[0m[1;34mDEBUG[0m: 09/29/2024 02:17:38 PM : [1mLoading dataset with permuted nodes
+[0m[1;34mDEBUG[0m: 09/29/2024 02:17:38 PM : [1mLoading dataset with permuted nodes
+[0m[1;34mDEBUG[0m: 09/29/2024 02:17:38 PM : [1mDataset: {'train': GOODCMNIST(42000), 'id_val': GOODCMNIST(7000), 'id_test': GOODCMNIST(7000), 'val': GOODCMNIST(7000), 'test': GOODCMNIST(7000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/29/2024 02:17:38 PM : [1m Data(x=[75, 3], edge_index=[2, 1309], y=[1], pos=[75, 2], color=[1], env_id=[1], ori_edge_index=[2, 1309], node_perm=[75])
+[0mData(x=[75, 3], edge_index=[2, 1496], y=[1], pos=[75, 2], color=[1], env_id=[1], ori_edge_index=[2, 1496], node_perm=[75])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/29/2024 02:17:38 PM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 09/29/2024 02:17:38 PM : [1mCreating GINFeatExtractor:  5
+[0m[1;34mDEBUG[0m: 09/29/2024 02:17:38 PM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/29/2024 02:17:38 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:17:38 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 02:17:38 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:17:38 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 02:17:38 PM : [1mUsing  5  layers for classifier
+[0m[1;34mDEBUG[0m: 09/29/2024 02:17:38 PM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/29/2024 02:17:38 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:17:38 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 02:17:38 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:17:38 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 02:17:38 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:17:38 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 02:17:38 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:17:38 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 02:17:38 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:17:38 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 02:17:38 PM : [1mUsing feature sampling = raw
+[0m[1;34mDEBUG[0m: 09/29/2024 02:17:38 PM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 95...
+[0m[1;37mINFO[0m: [1mCheckpoint 95: 
+-----------------------------------
+Train ACCURACY: 0.4261
+Train Loss: 1.5957
+ID Validation ACCURACY: 0.4141
+ID Validation Loss: 1.6418
+ID Test ACCURACY: 0.4197
+ID Test Loss: 1.6257
+OOD Validation ACCURACY: 0.3443
+OOD Validation Loss: 2.1405
+OOD Test ACCURACY: 0.2526
+OOD Test Loss: 2.5709
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 98...
+[0m[1;37mINFO[0m: [1mCheckpoint 98: 
+-----------------------------------
+Train ACCURACY: 0.3952
+Train Loss: 1.7198
+ID Validation ACCURACY: 0.3889
+ID Validation Loss: 1.7556
+ID Test ACCURACY: 0.3903
+ID Test Loss: 1.7504
+OOD Validation ACCURACY: 0.3587
+OOD Validation Loss: 2.0597
+OOD Test ACCURACY: 0.2260
+OOD Test Loss: 2.7268
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.4197 0.2526 0.3903 0.2260 0.3889 0.3587[0mGOODCMNIST(7000)
+Data example from id_val: Data(x=[75, 3], edge_index=[2, 1496], y=[1], pos=[75, 2], color=[1], env_id=[1], ori_edge_index=[2, 1496], node_perm=[75])
+Label distribution from id_val: (tensor([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]), tensor([704, 788, 715, 765, 668, 583, 676, 769, 678, 654]))
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+F1 for r=0.6 = nan
+WIoU for r=0.6 = nan
+F1 for r=1.0 = nan
+WIoU for r=1.0 = nan
+GOODCMNIST(7000)
+Data example from test: Data(x=[75, 3], edge_index=[2, 1431], y=[1], pos=[75, 2], color=[1], env_id=[1], ori_edge_index=[2, 1431], node_perm=[75])
+Label distribution from test: (tensor([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]), tensor([716, 781, 751, 697, 673, 616, 676, 705, 705, 680]))
+F1 for r=0.6 = nan
+WIoU for r=0.6 = nan
+F1 for r=1.0 = nan
+WIoU for r=1.0 = nan
+
+
+Evaluating SUFF++ for seed 2 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over id_val across ratios (random_expl=True)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.415
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.600 +- 0.000
+Model Accuracy over intervened graphs for r=0.6 =  0.24
+SUFF++ for r=0.6 class 0 = 0.692 +- 0.238 (in-sample avg dev_std = 0.732)
+SUFF++ for r=0.6 class 1 = 0.34 +- 0.238 (in-sample avg dev_std = 0.732)
+SUFF++ for r=0.6 class 2 = 0.313 +- 0.238 (in-sample avg dev_std = 0.732)
+SUFF++ for r=0.6 class 3 = 0.3 +- 0.238 (in-sample avg dev_std = 0.732)
+SUFF++ for r=0.6 class 4 = 0.306 +- 0.238 (in-sample avg dev_std = 0.732)
+SUFF++ for r=0.6 class 5 = 0.316 +- 0.238 (in-sample avg dev_std = 0.732)
+SUFF++ for r=0.6 class 6 = 0.302 +- 0.238 (in-sample avg dev_std = 0.732)
+SUFF++ for r=0.6 class 7 = 0.302 +- 0.238 (in-sample avg dev_std = 0.732)
+SUFF++ for r=0.6 class 8 = 0.294 +- 0.238 (in-sample avg dev_std = 0.732)
+SUFF++ for r=0.6 class 9 = 0.317 +- 0.238 (in-sample avg dev_std = 0.732)
+SUFF++ for r=0.6 all KL = 0.2 +- 0.238 (in-sample avg dev_std = 0.732)
+SUFF++ for r=0.6 all L1 = 0.348 +- 0.155 (in-sample avg dev_std = 0.732)
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=True)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.251
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.600 +- 0.000
+Model Accuracy over intervened graphs for r=0.6 =  0.196
+SUFF++ for r=0.6 class 0 = 0.399 +- 0.223 (in-sample avg dev_std = 0.664)
+SUFF++ for r=0.6 class 1 = 0.336 +- 0.223 (in-sample avg dev_std = 0.664)
+SUFF++ for r=0.6 class 2 = 0.343 +- 0.223 (in-sample avg dev_std = 0.664)
+SUFF++ for r=0.6 class 3 = 0.359 +- 0.223 (in-sample avg dev_std = 0.664)
+SUFF++ for r=0.6 class 4 = 0.315 +- 0.223 (in-sample avg dev_std = 0.664)
+SUFF++ for r=0.6 class 5 = 0.309 +- 0.223 (in-sample avg dev_std = 0.664)
+SUFF++ for r=0.6 class 6 = 0.288 +- 0.223 (in-sample avg dev_std = 0.664)
+SUFF++ for r=0.6 class 7 = 0.286 +- 0.223 (in-sample avg dev_std = 0.664)
+SUFF++ for r=0.6 class 8 = 0.294 +- 0.223 (in-sample avg dev_std = 0.664)
+SUFF++ for r=0.6 class 9 = 0.316 +- 0.223 (in-sample avg dev_std = 0.664)
+SUFF++ for r=0.6 all KL = 0.209 +- 0.223 (in-sample avg dev_std = 0.664)
+SUFF++ for r=0.6 all L1 = 0.325 +- 0.141 (in-sample avg dev_std = 0.664)
+
+
+Evaluating NEC for seed 2 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over id_val across ratios (random_expl=True)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.411
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.600 +- 0.000
+Model Accuracy over intervened graphs for r=0.6 =  0.377
+NEC for r=0.6 class 0 = 0.231 +- 0.150 (in-sample avg dev_std = 0.198)
+NEC for r=0.6 class 1 = 0.164 +- 0.150 (in-sample avg dev_std = 0.198)
+NEC for r=0.6 class 2 = 0.402 +- 0.150 (in-sample avg dev_std = 0.198)
+NEC for r=0.6 class 3 = 0.388 +- 0.150 (in-sample avg dev_std = 0.198)
+NEC for r=0.6 class 4 = 0.393 +- 0.150 (in-sample avg dev_std = 0.198)
+NEC for r=0.6 class 5 = 0.416 +- 0.150 (in-sample avg dev_std = 0.198)
+NEC for r=0.6 class 6 = 0.426 +- 0.150 (in-sample avg dev_std = 0.198)
+NEC for r=0.6 class 7 = 0.435 +- 0.150 (in-sample avg dev_std = 0.198)
+NEC for r=0.6 class 8 = 0.425 +- 0.150 (in-sample avg dev_std = 0.198)
+NEC for r=0.6 class 9 = 0.402 +- 0.150 (in-sample avg dev_std = 0.198)
+NEC for r=0.6 all KL = 0.224 +- 0.150 (in-sample avg dev_std = 0.198)
+NEC for r=0.6 all L1 = 0.365 +- 0.155 (in-sample avg dev_std = 0.198)
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=True)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.252
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.600 +- 0.000
+Model Accuracy over intervened graphs for r=0.6 =  0.288
+NEC for r=0.6 class 0 = 0.514 +- 0.212 (in-sample avg dev_std = 0.249)
+NEC for r=0.6 class 1 = 0.324 +- 0.212 (in-sample avg dev_std = 0.249)
+NEC for r=0.6 class 2 = 0.458 +- 0.212 (in-sample avg dev_std = 0.249)
+NEC for r=0.6 class 3 = 0.453 +- 0.212 (in-sample avg dev_std = 0.249)
+NEC for r=0.6 class 4 = 0.428 +- 0.212 (in-sample avg dev_std = 0.249)
+NEC for r=0.6 class 5 = 0.497 +- 0.212 (in-sample avg dev_std = 0.249)
+NEC for r=0.6 class 6 = 0.473 +- 0.212 (in-sample avg dev_std = 0.249)
+NEC for r=0.6 class 7 = 0.454 +- 0.212 (in-sample avg dev_std = 0.249)
+NEC for r=0.6 class 8 = 0.474 +- 0.212 (in-sample avg dev_std = 0.249)
+NEC for r=0.6 class 9 = 0.447 +- 0.212 (in-sample avg dev_std = 0.249)
+NEC for r=0.6 all KL = 0.337 +- 0.212 (in-sample avg dev_std = 0.249)
+NEC for r=0.6 all L1 = 0.451 +- 0.174 (in-sample avg dev_std = 0.249)
+model_dirname= repr_CIGAGIN_5l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingrawmitig_readoutweightedavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Sun Sep 29 14:23:55 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODCMNIST
+[0m[1;34mDEBUG[0m: 09/29/2024 02:23:55 PM : [1mLoading dataset with permuted nodes
+[0m[1;34mDEBUG[0m: 09/29/2024 02:23:56 PM : [1mLoading dataset with permuted nodes
+[0m[1;34mDEBUG[0m: 09/29/2024 02:23:56 PM : [1mLoading dataset with permuted nodes
+[0m[1;34mDEBUG[0m: 09/29/2024 02:23:56 PM : [1mLoading dataset with permuted nodes
+[0m[1;34mDEBUG[0m: 09/29/2024 02:23:56 PM : [1mLoading dataset with permuted nodes
+[0m[1;34mDEBUG[0m: 09/29/2024 02:23:56 PM : [1mDataset: {'train': GOODCMNIST(42000), 'id_val': GOODCMNIST(7000), 'id_test': GOODCMNIST(7000), 'val': GOODCMNIST(7000), 'test': GOODCMNIST(7000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/29/2024 02:23:56 PM : [1m Data(x=[75, 3], edge_index=[2, 1309], y=[1], pos=[75, 2], color=[1], env_id=[1], ori_edge_index=[2, 1309], node_perm=[75])
+[0mData(x=[75, 3], edge_index=[2, 1496], y=[1], pos=[75, 2], color=[1], env_id=[1], ori_edge_index=[2, 1496], node_perm=[75])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/29/2024 02:23:56 PM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 09/29/2024 02:23:56 PM : [1mCreating GINFeatExtractor:  5
+[0m[1;34mDEBUG[0m: 09/29/2024 02:23:56 PM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/29/2024 02:23:56 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:23:56 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 02:23:56 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:23:56 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 02:23:56 PM : [1mUsing  5  layers for classifier
+[0m[1;34mDEBUG[0m: 09/29/2024 02:23:56 PM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/29/2024 02:23:56 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:23:56 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 02:23:56 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:23:56 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 02:23:56 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:23:56 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 02:23:56 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:23:56 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 02:23:56 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:23:56 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 02:23:56 PM : [1mUsing feature sampling = raw
+[0m[1;34mDEBUG[0m: 09/29/2024 02:23:56 PM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 96...
+[0m[1;37mINFO[0m: [1mCheckpoint 96: 
+-----------------------------------
+Train ACCURACY: 0.3742
+Train Loss: 1.7882
+ID Validation ACCURACY: 0.3836
+ID Validation Loss: 1.7873
+ID Test ACCURACY: 0.3733
+ID Test Loss: 1.8005
+OOD Validation ACCURACY: 0.3237
+OOD Validation Loss: 2.1818
+OOD Test ACCURACY: 0.1913
+OOD Test Loss: 3.2680
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 93...
+[0m[1;37mINFO[0m: [1mCheckpoint 93: 
+-----------------------------------
+Train ACCURACY: 0.3845
+Train Loss: 1.7577
+ID Validation ACCURACY: 0.3803
+ID Validation Loss: 1.7604
+ID Test ACCURACY: 0.3764
+ID Test Loss: 1.7715
+OOD Validation ACCURACY: 0.3377
+OOD Validation Loss: 2.0441
+OOD Test ACCURACY: 0.1530
+OOD Test Loss: 4.8804
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.3733 0.1913 0.3764 0.1530 0.3803 0.3377[0mGOODCMNIST(7000)
+Data example from id_val: Data(x=[75, 3], edge_index=[2, 1496], y=[1], pos=[75, 2], color=[1], env_id=[1], ori_edge_index=[2, 1496], node_perm=[75])
+Label distribution from id_val: (tensor([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]), tensor([704, 788, 715, 765, 668, 583, 676, 769, 678, 654]))
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+F1 for r=0.6 = nan
+WIoU for r=0.6 = nan
+F1 for r=1.0 = nan
+WIoU for r=1.0 = nan
+GOODCMNIST(7000)
+Data example from test: Data(x=[75, 3], edge_index=[2, 1431], y=[1], pos=[75, 2], color=[1], env_id=[1], ori_edge_index=[2, 1431], node_perm=[75])
+Label distribution from test: (tensor([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]), tensor([716, 781, 751, 697, 673, 616, 676, 705, 705, 680]))
+F1 for r=0.6 = nan
+WIoU for r=0.6 = nan
+F1 for r=1.0 = nan
+WIoU for r=1.0 = nan
+
+
+Evaluating SUFF++ for seed 3 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over id_val across ratios (random_expl=True)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.349
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.600 +- 0.000
+Model Accuracy over intervened graphs for r=0.6 =  0.234
+SUFF++ for r=0.6 class 0 = 0.673 +- 0.231 (in-sample avg dev_std = 0.645)
+SUFF++ for r=0.6 class 1 = 0.354 +- 0.231 (in-sample avg dev_std = 0.645)
+SUFF++ for r=0.6 class 2 = 0.344 +- 0.231 (in-sample avg dev_std = 0.645)
+SUFF++ for r=0.6 class 3 = 0.325 +- 0.231 (in-sample avg dev_std = 0.645)
+SUFF++ for r=0.6 class 4 = 0.365 +- 0.231 (in-sample avg dev_std = 0.645)
+SUFF++ for r=0.6 class 5 = 0.345 +- 0.231 (in-sample avg dev_std = 0.645)
+SUFF++ for r=0.6 class 6 = 0.35 +- 0.231 (in-sample avg dev_std = 0.645)
+SUFF++ for r=0.6 class 7 = 0.346 +- 0.231 (in-sample avg dev_std = 0.645)
+SUFF++ for r=0.6 class 8 = 0.319 +- 0.231 (in-sample avg dev_std = 0.645)
+SUFF++ for r=0.6 class 9 = 0.367 +- 0.231 (in-sample avg dev_std = 0.645)
+SUFF++ for r=0.6 all KL = 0.225 +- 0.231 (in-sample avg dev_std = 0.645)
+SUFF++ for r=0.6 all L1 = 0.378 +- 0.141 (in-sample avg dev_std = 0.645)
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=True)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.184
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.600 +- 0.000
+Model Accuracy over intervened graphs for r=0.6 =  0.195
+SUFF++ for r=0.6 class 0 = 0.353 +- 0.179 (in-sample avg dev_std = 0.605)
+SUFF++ for r=0.6 class 1 = 0.327 +- 0.179 (in-sample avg dev_std = 0.605)
+SUFF++ for r=0.6 class 2 = 0.304 +- 0.179 (in-sample avg dev_std = 0.605)
+SUFF++ for r=0.6 class 3 = 0.311 +- 0.179 (in-sample avg dev_std = 0.605)
+SUFF++ for r=0.6 class 4 = 0.319 +- 0.179 (in-sample avg dev_std = 0.605)
+SUFF++ for r=0.6 class 5 = 0.315 +- 0.179 (in-sample avg dev_std = 0.605)
+SUFF++ for r=0.6 class 6 = 0.296 +- 0.179 (in-sample avg dev_std = 0.605)
+SUFF++ for r=0.6 class 7 = 0.284 +- 0.179 (in-sample avg dev_std = 0.605)
+SUFF++ for r=0.6 class 8 = 0.308 +- 0.179 (in-sample avg dev_std = 0.605)
+SUFF++ for r=0.6 class 9 = 0.311 +- 0.179 (in-sample avg dev_std = 0.605)
+SUFF++ for r=0.6 all KL = 0.147 +- 0.179 (in-sample avg dev_std = 0.605)
+SUFF++ for r=0.6 all L1 = 0.313 +- 0.101 (in-sample avg dev_std = 0.605)
+
+
+Evaluating NEC for seed 3 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over id_val across ratios (random_expl=True)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.35
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.600 +- 0.000
+Model Accuracy over intervened graphs for r=0.6 =  0.358
+NEC for r=0.6 class 0 = 0.231 +- 0.143 (in-sample avg dev_std = 0.191)
+NEC for r=0.6 class 1 = 0.131 +- 0.143 (in-sample avg dev_std = 0.191)
+NEC for r=0.6 class 2 = 0.434 +- 0.143 (in-sample avg dev_std = 0.191)
+NEC for r=0.6 class 3 = 0.414 +- 0.143 (in-sample avg dev_std = 0.191)
+NEC for r=0.6 class 4 = 0.375 +- 0.143 (in-sample avg dev_std = 0.191)
+NEC for r=0.6 class 5 = 0.429 +- 0.143 (in-sample avg dev_std = 0.191)
+NEC for r=0.6 class 6 = 0.403 +- 0.143 (in-sample avg dev_std = 0.191)
+NEC for r=0.6 class 7 = 0.424 +- 0.143 (in-sample avg dev_std = 0.191)
+NEC for r=0.6 class 8 = 0.452 +- 0.143 (in-sample avg dev_std = 0.191)
+NEC for r=0.6 class 9 = 0.391 +- 0.143 (in-sample avg dev_std = 0.191)
+NEC for r=0.6 all KL = 0.22 +- 0.143 (in-sample avg dev_std = 0.191)
+NEC for r=0.6 all L1 = 0.365 +- 0.156 (in-sample avg dev_std = 0.191)
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=True)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.181
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.600 +- 0.000
+Model Accuracy over intervened graphs for r=0.6 =  0.27
+NEC for r=0.6 class 0 = 0.591 +- 0.239 (in-sample avg dev_std = 0.275)
+NEC for r=0.6 class 1 = 0.294 +- 0.239 (in-sample avg dev_std = 0.275)
+NEC for r=0.6 class 2 = 0.534 +- 0.239 (in-sample avg dev_std = 0.275)
+NEC for r=0.6 class 3 = 0.517 +- 0.239 (in-sample avg dev_std = 0.275)
+NEC for r=0.6 class 4 = 0.501 +- 0.239 (in-sample avg dev_std = 0.275)
+NEC for r=0.6 class 5 = 0.513 +- 0.239 (in-sample avg dev_std = 0.275)
+NEC for r=0.6 class 6 = 0.525 +- 0.239 (in-sample avg dev_std = 0.275)
+NEC for r=0.6 class 7 = 0.527 +- 0.239 (in-sample avg dev_std = 0.275)
+NEC for r=0.6 class 8 = 0.514 +- 0.239 (in-sample avg dev_std = 0.275)
+NEC for r=0.6 class 9 = 0.498 +- 0.239 (in-sample avg dev_std = 0.275)
+NEC for r=0.6 all KL = 0.442 +- 0.239 (in-sample avg dev_std = 0.275)
+NEC for r=0.6 all L1 = 0.499 +- 0.197 (in-sample avg dev_std = 0.275)
+model_dirname= repr_CIGAGIN_5l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingrawmitig_readoutweightedavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Sun Sep 29 14:30:26 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODCMNIST
+[0m[1;34mDEBUG[0m: 09/29/2024 02:30:27 PM : [1mLoading dataset with permuted nodes
+[0m[1;34mDEBUG[0m: 09/29/2024 02:30:27 PM : [1mLoading dataset with permuted nodes
+[0m[1;34mDEBUG[0m: 09/29/2024 02:30:27 PM : [1mLoading dataset with permuted nodes
+[0m[1;34mDEBUG[0m: 09/29/2024 02:30:27 PM : [1mLoading dataset with permuted nodes
+[0m[1;34mDEBUG[0m: 09/29/2024 02:30:28 PM : [1mLoading dataset with permuted nodes
+[0m[1;34mDEBUG[0m: 09/29/2024 02:30:28 PM : [1mDataset: {'train': GOODCMNIST(42000), 'id_val': GOODCMNIST(7000), 'id_test': GOODCMNIST(7000), 'val': GOODCMNIST(7000), 'test': GOODCMNIST(7000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/29/2024 02:30:28 PM : [1m Data(x=[75, 3], edge_index=[2, 1309], y=[1], pos=[75, 2], color=[1], env_id=[1], ori_edge_index=[2, 1309], node_perm=[75])
+[0mData(x=[75, 3], edge_index=[2, 1496], y=[1], pos=[75, 2], color=[1], env_id=[1], ori_edge_index=[2, 1496], node_perm=[75])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/29/2024 02:30:28 PM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 09/29/2024 02:30:28 PM : [1mCreating GINFeatExtractor:  5
+[0m[1;34mDEBUG[0m: 09/29/2024 02:30:28 PM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/29/2024 02:30:28 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:30:28 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 02:30:28 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:30:28 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 02:30:28 PM : [1mUsing  5  layers for classifier
+[0m[1;34mDEBUG[0m: 09/29/2024 02:30:28 PM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/29/2024 02:30:28 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:30:28 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 02:30:28 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:30:28 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 02:30:28 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:30:28 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 02:30:28 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:30:28 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 02:30:28 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:30:28 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 02:30:28 PM : [1mUsing feature sampling = raw
+[0m[1;34mDEBUG[0m: 09/29/2024 02:30:28 PM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 88...
+[0m[1;37mINFO[0m: [1mCheckpoint 88: 
+-----------------------------------
+Train ACCURACY: 0.4318
+Train Loss: 1.6191
+ID Validation ACCURACY: 0.4249
+ID Validation Loss: 1.6400
+ID Test ACCURACY: 0.4277
+ID Test Loss: 1.6411
+OOD Validation ACCURACY: 0.3363
+OOD Validation Loss: 2.1037
+OOD Test ACCURACY: 0.2310
+OOD Test Loss: 2.6250
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 83...
+[0m[1;37mINFO[0m: [1mCheckpoint 83: 
+-----------------------------------
+Train ACCURACY: 0.4277
+Train Loss: 1.6056
+ID Validation ACCURACY: 0.4169
+ID Validation Loss: 1.6171
+ID Test ACCURACY: 0.4223
+ID Test Loss: 1.6322
+OOD Validation ACCURACY: 0.3510
+OOD Validation Loss: 1.9996
+OOD Test ACCURACY: 0.2556
+OOD Test Loss: 2.4187
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.4277 0.2310 0.4223 0.2556 0.4169 0.3510[0mGOODCMNIST(7000)
+Data example from id_val: Data(x=[75, 3], edge_index=[2, 1496], y=[1], pos=[75, 2], color=[1], env_id=[1], ori_edge_index=[2, 1496], node_perm=[75])
+Label distribution from id_val: (tensor([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]), tensor([704, 788, 715, 765, 668, 583, 676, 769, 678, 654]))
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+F1 for r=0.6 = nan
+WIoU for r=0.6 = nan
+F1 for r=1.0 = nan
+WIoU for r=1.0 = nan
+GOODCMNIST(7000)
+Data example from test: Data(x=[75, 3], edge_index=[2, 1431], y=[1], pos=[75, 2], color=[1], env_id=[1], ori_edge_index=[2, 1431], node_perm=[75])
+Label distribution from test: (tensor([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]), tensor([716, 781, 751, 697, 673, 616, 676, 705, 705, 680]))
+F1 for r=0.6 = nan
+WIoU for r=0.6 = nan
+F1 for r=1.0 = nan
+WIoU for r=1.0 = nan
+
+
+Evaluating SUFF++ for seed 4 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over id_val across ratios (random_expl=True)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.428
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.600 +- 0.000
+Model Accuracy over intervened graphs for r=0.6 =  0.248
+SUFF++ for r=0.6 class 0 = 0.679 +- 0.235 (in-sample avg dev_std = 0.733)
+SUFF++ for r=0.6 class 1 = 0.355 +- 0.235 (in-sample avg dev_std = 0.733)
+SUFF++ for r=0.6 class 2 = 0.319 +- 0.235 (in-sample avg dev_std = 0.733)
+SUFF++ for r=0.6 class 3 = 0.304 +- 0.235 (in-sample avg dev_std = 0.733)
+SUFF++ for r=0.6 class 4 = 0.323 +- 0.235 (in-sample avg dev_std = 0.733)
+SUFF++ for r=0.6 class 5 = 0.314 +- 0.235 (in-sample avg dev_std = 0.733)
+SUFF++ for r=0.6 class 6 = 0.317 +- 0.235 (in-sample avg dev_std = 0.733)
+SUFF++ for r=0.6 class 7 = 0.315 +- 0.235 (in-sample avg dev_std = 0.733)
+SUFF++ for r=0.6 class 8 = 0.31 +- 0.235 (in-sample avg dev_std = 0.733)
+SUFF++ for r=0.6 class 9 = 0.337 +- 0.235 (in-sample avg dev_std = 0.733)
+SUFF++ for r=0.6 all KL = 0.203 +- 0.235 (in-sample avg dev_std = 0.733)
+SUFF++ for r=0.6 all L1 = 0.358 +- 0.148 (in-sample avg dev_std = 0.733)
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=True)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.224
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.600 +- 0.000
+Model Accuracy over intervened graphs for r=0.6 =  0.19
+SUFF++ for r=0.6 class 0 = 0.406 +- 0.229 (in-sample avg dev_std = 0.651)
+SUFF++ for r=0.6 class 1 = 0.331 +- 0.229 (in-sample avg dev_std = 0.651)
+SUFF++ for r=0.6 class 2 = 0.358 +- 0.229 (in-sample avg dev_std = 0.651)
+SUFF++ for r=0.6 class 3 = 0.367 +- 0.229 (in-sample avg dev_std = 0.651)
+SUFF++ for r=0.6 class 4 = 0.334 +- 0.229 (in-sample avg dev_std = 0.651)
+SUFF++ for r=0.6 class 5 = 0.341 +- 0.229 (in-sample avg dev_std = 0.651)
+SUFF++ for r=0.6 class 6 = 0.303 +- 0.229 (in-sample avg dev_std = 0.651)
+SUFF++ for r=0.6 class 7 = 0.29 +- 0.229 (in-sample avg dev_std = 0.651)
+SUFF++ for r=0.6 class 8 = 0.313 +- 0.229 (in-sample avg dev_std = 0.651)
+SUFF++ for r=0.6 class 9 = 0.334 +- 0.229 (in-sample avg dev_std = 0.651)
+SUFF++ for r=0.6 all KL = 0.229 +- 0.229 (in-sample avg dev_std = 0.651)
+SUFF++ for r=0.6 all L1 = 0.338 +- 0.137 (in-sample avg dev_std = 0.651)
+
+
+Evaluating NEC for seed 4 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over id_val across ratios (random_expl=True)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.425
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.600 +- 0.000
+Model Accuracy over intervened graphs for r=0.6 =  0.386
+NEC for r=0.6 class 0 = 0.235 +- 0.127 (in-sample avg dev_std = 0.185)
+NEC for r=0.6 class 1 = 0.116 +- 0.127 (in-sample avg dev_std = 0.185)
+NEC for r=0.6 class 2 = 0.378 +- 0.127 (in-sample avg dev_std = 0.185)
+NEC for r=0.6 class 3 = 0.366 +- 0.127 (in-sample avg dev_std = 0.185)
+NEC for r=0.6 class 4 = 0.382 +- 0.127 (in-sample avg dev_std = 0.185)
+NEC for r=0.6 class 5 = 0.411 +- 0.127 (in-sample avg dev_std = 0.185)
+NEC for r=0.6 class 6 = 0.399 +- 0.127 (in-sample avg dev_std = 0.185)
+NEC for r=0.6 class 7 = 0.422 +- 0.127 (in-sample avg dev_std = 0.185)
+NEC for r=0.6 class 8 = 0.398 +- 0.127 (in-sample avg dev_std = 0.185)
+NEC for r=0.6 class 9 = 0.381 +- 0.127 (in-sample avg dev_std = 0.185)
+NEC for r=0.6 all KL = 0.191 +- 0.127 (in-sample avg dev_std = 0.185)
+NEC for r=0.6 all L1 = 0.345 +- 0.147 (in-sample avg dev_std = 0.185)
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=True)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.228
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.600 +- 0.000
+Model Accuracy over intervened graphs for r=0.6 =  0.28
+NEC for r=0.6 class 0 = 0.52 +- 0.220 (in-sample avg dev_std = 0.241)
+NEC for r=0.6 class 1 = 0.378 +- 0.220 (in-sample avg dev_std = 0.241)
+NEC for r=0.6 class 2 = 0.437 +- 0.220 (in-sample avg dev_std = 0.241)
+NEC for r=0.6 class 3 = 0.416 +- 0.220 (in-sample avg dev_std = 0.241)
+NEC for r=0.6 class 4 = 0.427 +- 0.220 (in-sample avg dev_std = 0.241)
+NEC for r=0.6 class 5 = 0.455 +- 0.220 (in-sample avg dev_std = 0.241)
+NEC for r=0.6 class 6 = 0.467 +- 0.220 (in-sample avg dev_std = 0.241)
+NEC for r=0.6 class 7 = 0.441 +- 0.220 (in-sample avg dev_std = 0.241)
+NEC for r=0.6 class 8 = 0.435 +- 0.220 (in-sample avg dev_std = 0.241)
+NEC for r=0.6 class 9 = 0.455 +- 0.220 (in-sample avg dev_std = 0.241)
+NEC for r=0.6 all KL = 0.316 +- 0.220 (in-sample avg dev_std = 0.241)
+NEC for r=0.6 all L1 = 0.442 +- 0.171 (in-sample avg dev_std = 0.241)
+model_dirname= repr_CIGAGIN_5l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingrawmitig_readoutweightedavgedgeattnmean
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Sun Sep 29 14:37:16 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODCMNIST
+[0m[1;34mDEBUG[0m: 09/29/2024 02:37:17 PM : [1mLoading dataset with permuted nodes
+[0m[1;34mDEBUG[0m: 09/29/2024 02:37:17 PM : [1mLoading dataset with permuted nodes
+[0m[1;34mDEBUG[0m: 09/29/2024 02:37:17 PM : [1mLoading dataset with permuted nodes
+[0m[1;34mDEBUG[0m: 09/29/2024 02:37:17 PM : [1mLoading dataset with permuted nodes
+[0m[1;34mDEBUG[0m: 09/29/2024 02:37:18 PM : [1mLoading dataset with permuted nodes
+[0m[1;34mDEBUG[0m: 09/29/2024 02:37:18 PM : [1mDataset: {'train': GOODCMNIST(42000), 'id_val': GOODCMNIST(7000), 'id_test': GOODCMNIST(7000), 'val': GOODCMNIST(7000), 'test': GOODCMNIST(7000), 'task': 'Multi-label classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 09/29/2024 02:37:18 PM : [1m Data(x=[75, 3], edge_index=[2, 1309], y=[1], pos=[75, 2], color=[1], env_id=[1], ori_edge_index=[2, 1309], node_perm=[75])
+[0mData(x=[75, 3], edge_index=[2, 1496], y=[1], pos=[75, 2], color=[1], env_id=[1], ori_edge_index=[2, 1496], node_perm=[75])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 09/29/2024 02:37:18 PM : [1m Init CIGAGIN
+[0m[1;34mDEBUG[0m: 09/29/2024 02:37:18 PM : [1mCreating GINFeatExtractor:  5
+[0m[1;34mDEBUG[0m: 09/29/2024 02:37:18 PM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 09/29/2024 02:37:18 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:37:18 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 02:37:18 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:37:18 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 02:37:18 PM : [1mUsing  5  layers for classifier
+[0m[1;34mDEBUG[0m: 09/29/2024 02:37:18 PM : [1mInit GINFeatExtractor
+[0mUsing BN in BasicEncoder
+mitigation_readout =  weighted
+[1;34mDEBUG[0m: 09/29/2024 02:37:18 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:37:18 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 02:37:18 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:37:18 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 02:37:18 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:37:18 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 02:37:18 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:37:18 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 02:37:18 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 09/29/2024 02:37:18 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 09/29/2024 02:37:18 PM : [1mUsing feature sampling = raw
+[0m[1;34mDEBUG[0m: 09/29/2024 02:37:18 PM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 72...
+[0m[1;37mINFO[0m: [1mCheckpoint 72: 
+-----------------------------------
+Train ACCURACY: 0.4111
+Train Loss: 1.6693
+ID Validation ACCURACY: 0.4090
+ID Validation Loss: 1.6845
+ID Test ACCURACY: 0.4119
+ID Test Loss: 1.6805
+OOD Validation ACCURACY: 0.3519
+OOD Validation Loss: 2.0506
+OOD Test ACCURACY: 0.2664
+OOD Test Loss: 2.5518
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 72...
+[0m[1;37mINFO[0m: [1mCheckpoint 72: 
+-----------------------------------
+Train ACCURACY: 0.4111
+Train Loss: 1.6693
+ID Validation ACCURACY: 0.4090
+ID Validation Loss: 1.6845
+ID Test ACCURACY: 0.4119
+ID Test Loss: 1.6805
+OOD Validation ACCURACY: 0.3519
+OOD Validation Loss: 2.0506
+OOD Test ACCURACY: 0.2664
+OOD Test Loss: 2.5518
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.4119 0.2664 0.4119 0.2664 0.4090 0.3519[0mGOODCMNIST(7000)
+Data example from id_val: Data(x=[75, 3], edge_index=[2, 1496], y=[1], pos=[75, 2], color=[1], env_id=[1], ori_edge_index=[2, 1496], node_perm=[75])
+Label distribution from id_val: (tensor([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]), tensor([704, 788, 715, 765, 668, 583, 676, 769, 678, 654]))
+/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/GOOD/utils/config_reader.py:166: UserWarning: Argument channel_weight_decay in the chosen config yaml file are not defined in command arguments, which will lead to incomplete code detection and the lack of argument temporary modification by adding command arguments.
+  warnings.warn(f'Argument {key} in the chosen config yaml file are not defined in command arguments, '
+F1 for r=0.6 = nan
+WIoU for r=0.6 = nan
+F1 for r=1.0 = nan
+WIoU for r=1.0 = nan
+GOODCMNIST(7000)
+Data example from test: Data(x=[75, 3], edge_index=[2, 1431], y=[1], pos=[75, 2], color=[1], env_id=[1], ori_edge_index=[2, 1431], node_perm=[75])
+Label distribution from test: (tensor([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]), tensor([716, 781, 751, 697, 673, 616, 676, 705, 705, 680]))
+F1 for r=0.6 = nan
+WIoU for r=0.6 = nan
+F1 for r=1.0 = nan
+WIoU for r=1.0 = nan
+
+
+Evaluating SUFF++ for seed 5 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over id_val across ratios (random_expl=True)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.407
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.600 +- 0.000
+Model Accuracy over intervened graphs for r=0.6 =  0.241
+SUFF++ for r=0.6 class 0 = 0.673 +- 0.239 (in-sample avg dev_std = 0.658)
+SUFF++ for r=0.6 class 1 = 0.344 +- 0.239 (in-sample avg dev_std = 0.658)
+SUFF++ for r=0.6 class 2 = 0.36 +- 0.239 (in-sample avg dev_std = 0.658)
+SUFF++ for r=0.6 class 3 = 0.348 +- 0.239 (in-sample avg dev_std = 0.658)
+SUFF++ for r=0.6 class 4 = 0.398 +- 0.239 (in-sample avg dev_std = 0.658)
+SUFF++ for r=0.6 class 5 = 0.368 +- 0.239 (in-sample avg dev_std = 0.658)
+SUFF++ for r=0.6 class 6 = 0.378 +- 0.239 (in-sample avg dev_std = 0.658)
+SUFF++ for r=0.6 class 7 = 0.367 +- 0.239 (in-sample avg dev_std = 0.658)
+SUFF++ for r=0.6 class 8 = 0.342 +- 0.239 (in-sample avg dev_std = 0.658)
+SUFF++ for r=0.6 class 9 = 0.395 +- 0.239 (in-sample avg dev_std = 0.658)
+SUFF++ for r=0.6 all KL = 0.283 +- 0.239 (in-sample avg dev_std = 0.658)
+SUFF++ for r=0.6 all L1 = 0.397 +- 0.139 (in-sample avg dev_std = 0.658)
+
+
+
+--------------------------------------------------
+
+
+#D#Computing SUFF++ over test across ratios (random_expl=True)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.273
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.600 +- 0.000
+Model Accuracy over intervened graphs for r=0.6 =  0.212
+SUFF++ for r=0.6 class 0 = 0.316 +- 0.155 (in-sample avg dev_std = 0.723)
+SUFF++ for r=0.6 class 1 = 0.359 +- 0.155 (in-sample avg dev_std = 0.723)
+SUFF++ for r=0.6 class 2 = 0.3 +- 0.155 (in-sample avg dev_std = 0.723)
+SUFF++ for r=0.6 class 3 = 0.312 +- 0.155 (in-sample avg dev_std = 0.723)
+SUFF++ for r=0.6 class 4 = 0.312 +- 0.155 (in-sample avg dev_std = 0.723)
+SUFF++ for r=0.6 class 5 = 0.285 +- 0.155 (in-sample avg dev_std = 0.723)
+SUFF++ for r=0.6 class 6 = 0.302 +- 0.155 (in-sample avg dev_std = 0.723)
+SUFF++ for r=0.6 class 7 = 0.301 +- 0.155 (in-sample avg dev_std = 0.723)
+SUFF++ for r=0.6 class 8 = 0.286 +- 0.155 (in-sample avg dev_std = 0.723)
+SUFF++ for r=0.6 class 9 = 0.319 +- 0.155 (in-sample avg dev_std = 0.723)
+SUFF++ for r=0.6 all KL = 0.102 +- 0.155 (in-sample avg dev_std = 0.723)
+SUFF++ for r=0.6 all L1 = 0.31 +- 0.092 (in-sample avg dev_std = 0.723)
+
+
+Evaluating NEC for seed 5 with load_split id
+
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over id_val across ratios (random_expl=True)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.41
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.600 +- 0.000
+Model Accuracy over intervened graphs for r=0.6 =  0.38
+NEC for r=0.6 class 0 = 0.252 +- 0.134 (in-sample avg dev_std = 0.182)
+NEC for r=0.6 class 1 = 0.107 +- 0.134 (in-sample avg dev_std = 0.182)
+NEC for r=0.6 class 2 = 0.356 +- 0.134 (in-sample avg dev_std = 0.182)
+NEC for r=0.6 class 3 = 0.374 +- 0.134 (in-sample avg dev_std = 0.182)
+NEC for r=0.6 class 4 = 0.382 +- 0.134 (in-sample avg dev_std = 0.182)
+NEC for r=0.6 class 5 = 0.385 +- 0.134 (in-sample avg dev_std = 0.182)
+NEC for r=0.6 class 6 = 0.38 +- 0.134 (in-sample avg dev_std = 0.182)
+NEC for r=0.6 class 7 = 0.402 +- 0.134 (in-sample avg dev_std = 0.182)
+NEC for r=0.6 class 8 = 0.387 +- 0.134 (in-sample avg dev_std = 0.182)
+NEC for r=0.6 class 9 = 0.371 +- 0.134 (in-sample avg dev_std = 0.182)
+NEC for r=0.6 all KL = 0.187 +- 0.134 (in-sample avg dev_std = 0.182)
+NEC for r=0.6 all L1 = 0.336 +- 0.147 (in-sample avg dev_std = 0.182)
+
+
+
+--------------------------------------------------
+
+
+#D#Computing NEC over test across ratios (random_expl=True)
+
+
+ratio=0.6
+
+
+Computing with masking
+
+Model Accuracy of binarized graphs for r=0.6 =  0.268
+Model XAI F1 of binarized graphs for r=0.6 =  nan
+Model XAI WIoU of binarized graphs for r=0.6 =  nan
+len(reference) = 800
+Effective ratio: 0.600 +- 0.000
+Model Accuracy over intervened graphs for r=0.6 =  0.321
+NEC for r=0.6 class 0 = 0.567 +- 0.218 (in-sample avg dev_std = 0.253)
+NEC for r=0.6 class 1 = 0.075 +- 0.218 (in-sample avg dev_std = 0.253)
+NEC for r=0.6 class 2 = 0.452 +- 0.218 (in-sample avg dev_std = 0.253)
+NEC for r=0.6 class 3 = 0.44 +- 0.218 (in-sample avg dev_std = 0.253)
+NEC for r=0.6 class 4 = 0.423 +- 0.218 (in-sample avg dev_std = 0.253)
+NEC for r=0.6 class 5 = 0.493 +- 0.218 (in-sample avg dev_std = 0.253)
+NEC for r=0.6 class 6 = 0.428 +- 0.218 (in-sample avg dev_std = 0.253)
+NEC for r=0.6 class 7 = 0.444 +- 0.218 (in-sample avg dev_std = 0.253)
+NEC for r=0.6 class 8 = 0.475 +- 0.218 (in-sample avg dev_std = 0.253)
+NEC for r=0.6 class 9 = 0.404 +- 0.218 (in-sample avg dev_std = 0.253)
+NEC for r=0.6 all KL = 0.312 +- 0.218 (in-sample avg dev_std = 0.253)
+NEC for r=0.6 all L1 = 0.416 +- 0.186 (in-sample avg dev_std = 0.253)
+
+
+ -------------------------------------------------- 
+Printing evaluation results for load_split id
+
+
+
+Eval split id_val
+suff++ = [defaultdict(<class 'list'>, {'all_KL': [0.428], 'all_L1': [0.471]}), defaultdict(<class 'list'>, {'all_KL': [0.2], 'all_L1': [0.348]}), defaultdict(<class 'list'>, {'all_KL': [0.225], 'all_L1': [0.378]}), defaultdict(<class 'list'>, {'all_KL': [0.203], 'all_L1': [0.358]}), defaultdict(<class 'list'>, {'all_KL': [0.283], 'all_L1': [0.397]})]
+nec = [defaultdict(<class 'list'>, {'all_KL': [0.257], 'all_L1': [0.385]}), defaultdict(<class 'list'>, {'all_KL': [0.224], 'all_L1': [0.365]}), defaultdict(<class 'list'>, {'all_KL': [0.22], 'all_L1': [0.365]}), defaultdict(<class 'list'>, {'all_KL': [0.191], 'all_L1': [0.345]}), defaultdict(<class 'list'>, {'all_KL': [0.187], 'all_L1': [0.336]})]
+
+Eval split test
+suff++ = [defaultdict(<class 'list'>, {'all_KL': [0.19], 'all_L1': [0.368]}), defaultdict(<class 'list'>, {'all_KL': [0.209], 'all_L1': [0.325]}), defaultdict(<class 'list'>, {'all_KL': [0.147], 'all_L1': [0.313]}), defaultdict(<class 'list'>, {'all_KL': [0.229], 'all_L1': [0.338]}), defaultdict(<class 'list'>, {'all_KL': [0.102], 'all_L1': [0.31]})]
+nec = [defaultdict(<class 'list'>, {'all_KL': [0.484], 'all_L1': [0.52]}), defaultdict(<class 'list'>, {'all_KL': [0.337], 'all_L1': [0.451]}), defaultdict(<class 'list'>, {'all_KL': [0.442], 'all_L1': [0.499]}), defaultdict(<class 'list'>, {'all_KL': [0.316], 'all_L1': [0.442]}), defaultdict(<class 'list'>, {'all_KL': [0.312], 'all_L1': [0.416]})]
+
+
+ -------------------------------------------------- 
+Printing evaluation averaged per seed
+
+Eval split id_val
+suff++ class all_L1  =  0.390 +- 0.044
+suff++ class all_KL  =  0.268 +- 0.085
+suff++_acc_int  =  0.240 +- 0.005
+nec class all_L1  =  0.359 +- 0.017
+nec class all_KL  =  0.216 +- 0.025
+nec_acc_int  =  0.365 +- 0.023
+
+Eval split test
+suff++ class all_L1  =  0.331 +- 0.021
+suff++ class all_KL  =  0.175 +- 0.046
+suff++_acc_int  =  0.196 +- 0.009
+nec class all_L1  =  0.466 +- 0.038
+nec class all_KL  =  0.378 +- 0.071
+nec_acc_int  =  0.280 +- 0.026
+
+
+ -------------------------------------------------- 
+Computing faithfulness
+
+Eval split id_val
+Faith. Aritm (L1)= 		  =  0.375 +- 0.028
+Faith. Armon (L1)= 		  =  0.373 +- 0.026
+Faith. GMean (L1)= 	  =  0.374 +- 0.027
+Faith. Aritm (KL)= 		  =  0.242 +- 0.052
+Faith. Armon (KL)= 		  =  0.235 +- 0.044
+Faith. GMean (KL)= 	  =  0.239 +- 0.048
+
+Eval split test
+Faith. Aritm (L1)= 		  =  0.398 +- 0.027
+Faith. Armon (L1)= 		  =  0.386 +- 0.025
+Faith. GMean (L1)= 	  =  0.392 +- 0.026
+Faith. Aritm (KL)= 		  =  0.277 +- 0.042
+Faith. Armon (KL)= 		  =  0.234 +- 0.044
+Faith. GMean (KL)= 	  =  0.254 +- 0.041
+Computed for split load_split = id
+
+
+
+Completed in  0:31:24.775541  for CIGAGIN GOODCMNIST/color
+
+
+
+DONE CIGA GOODCMNIST/color
+big_random.sh: line 54: syntax error near unexpected token `)'

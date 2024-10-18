@@ -314,16 +314,12 @@ class LECIGIN(GNNBasic):
                 else:
                     # data.ori_edge_index = data.edge_index.detach().clone() #for backup and debug
                     if not data.edge_attr is None:
-                        _, data.edge_attr = coalesce(data.edge_index, data.edge_attr, is_sorted=False)
+                        _, data.edge_attr = coalesce(data.edge_index, data.edge_attr, is_sorted=False)                
                     if hasattr(data, "edge_gt") and not data.edge_gt is None:
                         _, data.edge_gt = coalesce(data.edge_index, data.edge_gt, is_sorted=False)
                     if hasattr(data, "causal_mask") and not data.causal_mask is None:
                         _, data.causal_mask = coalesce(data.edge_index, data.causal_mask, is_sorted=False)
                     data.edge_index, edge_att = to_undirected(data.edge_index, att.squeeze(-1), reduce="mean")
-
-                    # for i, (u,v) in enumerate(data.edge_index.T):
-                    #     print((u,v), edge_att[i])
-                    # exit()
             else:
                 edge_att = att
         else:

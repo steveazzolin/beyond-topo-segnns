@@ -89,7 +89,7 @@ class GSAT(BaseOODAlg):
             loss based on GSAT algorithm
 
         """
-        att = self.edge_att # WARNING: original version was using self.att
+        att = self.att # WARNING: original version was using self.att
         # att = self.att
         eps = 1e-6
         

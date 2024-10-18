@@ -664,10 +664,295 @@ def ablation_expval_budget_faith():
     plt.savefig(f"GOOD/kernel/pipelines/plots/illustrations/automatic/pdfs/ablation_expval_budget_faith_{datasets[0]}.pdf")
     plt.close()
 
+def print_faith_suff():
+    ##
+    # Print faith and SUF values
+    ##
+
+    with open(f"storage/metric_results/aggregated_id_results_suff++_old_allmitig_paper.json", "r") as jsonFile:
+        data = json.load(jsonFile)        
+
+    num_cols = 3
+    num_rows = 1
+    fig, axs = plt.subplots(num_rows, num_cols, figsize=(12, 5))
+    datasets = ["GOODMotif2 basis", "GOODCMNIST color", "LBAPcore assay", "GOODSST2 length"] #"GOODMotif2 basis", "GOODMotif size", "GOODCMNIST color"
+    metrics = ["suff++_L1"] # "faith_armon_L1", 
+
+    faiths, faiths_std = defaultdict(list), defaultdict(list)
+    for dataset in datasets:
+        
+        if not dataset in data.keys():
+            continue    
+        print(dataset)
+
+        for i, split_metric in enumerate(["id_val"]):
+            print(f"\t{split_metric}")
+            for model in ["LECIGIN", "LECIvGIN", "GSATGIN", "GSATvGIN", "CIGAGIN", "CIGAvGIN"]:
+                
+                print(f"\t\t{model}")
+                for j, metric in enumerate(metrics):
+                    if not model in data[dataset].keys() or not split_metric in data[dataset][model].keys():
+                        continue    
+                    
+                    if metric == "faith_armon_L1":
+                        best_r = pick_best_faith(data[dataset][model], split_metric, metric)
+                        best_value     = np.array(data[dataset][model][split_metric][metric])[best_r]
+                        print(f"\t\t\t{metric}: {best_value:.3f}")
+                    else:
+                        if "CIGA" in model:
+                            mean_value     = np.array(data[dataset][model][split_metric][metric])[0]
+                        else:
+                            mean_value     = np.mean(np.array(data[dataset][model][split_metric][metric])[:-1])
+                        print(f"\t\t\t{metric}: {mean_value:.3f}")
+                    # faiths[split_metric].append(faith)
+                    
+    
+
+def stability_faith_corr():
+    results = {
+        "GOODMotif2": {
+            "LECI": {
+                "stability": 44,
+                "suff++_L1_id_val": 67,
+                "suff++_L1_test": 71,
+            },
+            "LECI LA": {
+                "stability": np.nan,
+                "suff++_L1_id_val": np.nan,
+                "suff++_L1_test": np.nan,
+            },
+            "LECI ALL": {
+                "stability": 47,
+                "suff++_L1_id_val": 66,
+                "suff++_L1_test": 69,
+            },
+            "CIGA": {
+                "stability": 53,
+                "suff++_L1_id_val": 65,
+                "suff++_L1_test": 86,
+            },
+            "CIGA LA": {
+                "stability": np.nan,
+                "suff++_L1_id_val": np.nan,
+                "suff++_L1_test": np.nan,
+            },
+            "CIGA ALL": {
+                "stability": 52,
+                "suff++_L1_id_val": 63,
+                "suff++_L1_test": 72,
+            },
+            "GSAT": {
+                "stability": 8,
+                "suff++_L1_id_val": 64,
+                "suff++_L1_test": 54,
+            },
+            "GSAT LA": {
+                "stability": np.nan,
+                "suff++_L1_id_val": np.nan,
+                "suff++_L1_test": np.nan,
+            },
+            "GSAT ALL": {
+                "stability": 19,
+                "suff++_L1_id_val": 69,
+                "suff++_L1_test": 66,
+            }
+        },
+        "GOODCMNIST": {
+            "LECI": {
+                "stability": 92,
+                "suff++_L1_id_val": 55,
+                "suff++_L1_test": 56,
+            },
+            "LECI LA": {
+                "stability": 76,
+                "suff++_L1_id_val": 53,
+                "suff++_L1_test": 55,
+            },
+            "LECI ALL": {
+                "stability": 99,
+                "suff++_L1_id_val": 66,
+                "suff++_L1_test": 67,
+            },
+            "CIGA": {
+                "stability": 72,
+                "suff++_L1_id_val": 30,
+                "suff++_L1_test": 35,
+            },
+            "CIGA LA": {
+                "stability": 65,
+                "suff++_L1_id_val": 30,
+                "suff++_L1_test": 36,
+            },
+            "CIGA ALL": {
+                "stability": 70,
+                "suff++_L1_id_val": 50,
+                "suff++_L1_test": 47,
+            },
+            "GSAT": {
+                "stability": 42,
+                "suff++_L1_id_val": 41,
+                "suff++_L1_test": 48,
+            },
+            "GSAT LA": {
+                "stability": 44,
+                "suff++_L1_id_val": 39,
+                "suff++_L1_test": 38,
+            },
+            "GSAT ALL": {
+                "stability": 46,
+                "suff++_L1_id_val": 36,
+                "suff++_L1_test": 41,
+            },
+        },
+        "LBAPcore": {
+            "LECI": {
+                "stability": 87,
+                "suff++_L1_id_val": 81,
+                "suff++_L1_test": 78,
+            },
+            "LECI LA": {
+                "stability": 81,
+                "suff++_L1_id_val": 84,
+                "suff++_L1_test": 84,
+            },
+            "LECI ALL": {
+                "stability": 90,
+                "suff++_L1_id_val": 94,
+                "suff++_L1_test": 93,
+            },
+            "CIGA": {
+                "stability": 79,
+                "suff++_L1_id_val": 83,
+                "suff++_L1_test": 82,
+            },
+            "CIGA LA": {
+                "stability": 71,
+                "suff++_L1_id_val": 86,
+                "suff++_L1_test": 81,
+            },
+            "CIGA ALL": {
+                "stability": 73,
+                "suff++_L1_id_val": 91,
+                "suff++_L1_test": 87,
+            },
+            "GSAT": {
+                "stability": 20,
+                "suff++_L1_id_val": 73,
+                "suff++_L1_test": 75,
+            },
+            "GSAT LA": {
+                "stability": 19,
+                "suff++_L1_id_val": 81,
+                "suff++_L1_test": 75,
+            },
+            "GSAT ALL": {
+                "stability": 19,
+                "suff++_L1_id_val": 80,
+                "suff++_L1_test": 76,
+            },
+        },
+        "GOODSST2": {
+            "LECI": {
+                "stability": 34,
+                "suff++_L1_id_val": 91,
+                "suff++_L1_test": 85,
+            },
+            "LECI LA": {
+                "stability": 47,
+                "suff++_L1_id_val": 91,
+                "suff++_L1_test": 91,
+            },
+            "LECI ALL": {
+                "stability": 57,
+                "suff++_L1_id_val": 95,
+                "suff++_L1_test": 95,
+            },
+            "CIGA": {
+                "stability": 58,
+                "suff++_L1_id_val": 90,
+                "suff++_L1_test": 88,
+            },
+            "CIGA LA": {
+                "stability": 54,
+                "suff++_L1_id_val": 91,
+                "suff++_L1_test": 89,
+            },
+            "CIGA ALL": {
+                "stability": 60,
+                "suff++_L1_id_val": 90,
+                "suff++_L1_test": 89,
+            },
+            "GSAT": {
+                "stability": 13,
+                "suff++_L1_id_val": 90,
+                "suff++_L1_test": 86,
+            },
+            "GSAT LA": {
+                "stability": 12,
+                "suff++_L1_id_val": 89,
+                "suff++_L1_test": 85,
+            },
+            "GSAT ALL": {
+                "stability": 1,
+                "suff++_L1_id_val": 94,
+                "suff++_L1_test": 94,
+            },
+        }
+    }
+
+    # Plain correlation between stability and SUFF
+    stabilities , suffs_idval, suffs_test = [], [], []
+    for dataset in ["GOODMotif2", "GOODCMNIST", "LBAPcore", "GOODSST2"]:
+        for model in ["LECI", "CIGA", "GSAT"]:
+            for mitigation in ["", " LA", " ALL"]:
+                if np.isnan(results[dataset][model + mitigation]["stability"]) or \
+                   np.isnan(results[dataset][model + mitigation]["suff++_L1_id_val"]) or \
+                   np.isnan(results[dataset][model + mitigation]["suff++_L1_test"]):
+                   continue
+
+                stabilities.append(results[dataset][model + mitigation]["stability"])
+                suffs_idval.append(results[dataset][model + mitigation]["suff++_L1_id_val"])
+                suffs_test.append(results[dataset][model + mitigation]["suff++_L1_test"])
+
+    print("\nCorr stability - suff (id_val): ", pearsonr(stabilities, suffs_idval))
+    print("Corr stability - suff (test): ", pearsonr(stabilities, suffs_test))
+    print("\n\n")
+
+
+    # Plot change in stability vs change in SUF
+    for model in ["LECI", "CIGA", "GSAT"]:
+        stabilities , suffs_idval, suffs_test = [], [], []
+        for dataset in ["GOODMotif2", "GOODCMNIST", "LBAPcore", "GOODSST2"]:
+            for mitigation in [" LA", " ALL"]:
+                if np.isnan(results[dataset][model + mitigation]["stability"]) or \
+                   np.isnan(results[dataset][model + mitigation]["suff++_L1_id_val"]) or \
+                   np.isnan(results[dataset][model + mitigation]["suff++_L1_test"]):
+                   continue
+
+                stabilities.append(results[dataset][model + mitigation]["stability"] - results[dataset][model]["stability"])
+                suffs_idval.append(results[dataset][model + mitigation]["suff++_L1_id_val"] - results[dataset][model]["suff++_L1_id_val"])
+                suffs_test.append(results[dataset][model + mitigation]["suff++_L1_test"] - results[dataset][model]["suff++_L1_test"])
+
+        plt.scatter(suffs_test, stabilities, c=colors[model + "GIN"])
+        print(f"Corr stability - suff (id_val - {model}): ", pearsonr(stabilities, suffs_idval))
+        print(f"Corr stability - suff (test - {model}): ", pearsonr(stabilities, suffs_test))
+    
+    legend_elements = []
+    for model in ["LECI", "CIGA", "GSAT"]:
+        legend_elements.append(
+            Patch(facecolor=colors[model + "GIN"], label=model)
+        )
+    plt.xlabel("gain in suff")
+    plt.ylabel("gain in stability")
+    plt.legend(handles=legend_elements, loc='upper right', fontsize='small') #, loc='center'
+    plt.savefig("GOOD/kernel/pipelines/plots/illustrations/automatic/stability_faith_corr")
+    plt.close()
+
+
 
 if __name__ == "__main__":
     # low_discrepancy()
-    lower_bound_plaus()
+    # lower_bound_plaus()
     # plaus_nec_correlation()
     # lower_bound_unsup()
     # faith_acc_gain()
@@ -677,6 +962,9 @@ if __name__ == "__main__":
     # ablation_expval_budget_faith()
 
     # scatter_trio()    
+
+    # print_faith_suff()
+    stability_faith_corr()
 
 
     

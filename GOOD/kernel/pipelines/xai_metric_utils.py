@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 
-from torch_geometric.utils import remove_isolated_nodes, dropout_edge
+from torch_geometric.utils import remove_isolated_nodes, dropout_edge, to_networkx
 from torch_scatter import scatter_sum, scatter_add
 
 from GOOD.utils.splitting import split_graph
@@ -135,6 +135,51 @@ def draw(config, G, name, subfolder="", pos=None, save=True, figsize=(6.4, 4.8),
 
     if ax is None:
         plt.close()
+    return pos
+
+def draw_antonio(config, d, pos, subfolder, name, save=True):
+    what_take = "mask"
+    g1 = to_networkx(d, edge_attrs=["causal_mask", "mask"], to_undirected=False)
+    e_col = []
+    for e in g1.edges():
+        if g1.edges()[e][what_take]:
+            e_col.append("green")
+        else:
+            e_col.append("black")
+    
+    if pos is None:
+        pos = nx.kamada_kawai_layout(g1)
+
+    plt.figure(figsize=(10,10))
+    
+    # Draw nodes
+    nx.draw_networkx_nodes(g1, pos, node_color='lightblue', node_size=40)
+    nx.draw_networkx_labels(g1, pos, )
+
+    # Draw labels
+    # Draw directed edges with rounded style to show bidirectionality
+    nx.draw_networkx_edges(
+        g1, 
+        pos,
+        edgelist=g1.edges(),
+        edge_color= e_col,
+        arrowstyle='->',
+        arrowsize=20,
+        connectionstyle='arc3,rad=0.1'  # The 'rad' parameter makes edges curved
+    )
+
+    # Display the graph
+    if save:
+        path = f'GOOD/kernel/pipelines/plots/{subfolder}/{config.load_split}_{config.util_model_dirname}/'
+        if not os.path.exists(path):
+            try:
+                os.makedirs(path)
+            except Exception as e:
+                print(e)
+                exit(e)
+        plt.savefig(f'{path}/{name}.png')
+    else:
+        plt.show()
     return pos
 
 def draw_topk(config, G, name, k, subfolder="", pos=None):
@@ -551,6 +596,8 @@ def sample_edges_tensorized_batched(
     else:
         raise ValueError(f"sampling_type {sampling_type} not valid")
 
+        
+
 def explanation_stability_hard(data, explanations, ratio):
     """
         Minimal example of the pitfall of F1:
@@ -598,11 +645,15 @@ def explanation_stability_hard(data, explanations, ratio):
     for j, d in enumerate(data.to_data_list()):
         mask = mask_batch[data.batch[data.edge_index[0]] == j]
         row, col = d.edge_index
-        undirected_mask = mask[row <= col]
-        mask = torch.cat((undirected_mask, undirected_mask), dim=0)
-        causal_mask = torch.cat((d.causal_mask[row <= col], d.causal_mask[row <= col]), dim=0)
+        undirected_mask = mask[row < col]
+        new_mask = torch.cat((undirected_mask, undirected_mask), dim=0)
+        causal_mask = torch.cat((d.causal_mask[row < col], d.causal_mask[row < col]), dim=0)
 
-        input.append(mask)
+        # Manually add individual self-loops that, being directed, are excluded from above
+        new_mask = torch.cat((new_mask, mask[row == col]), dim=0)
+        causal_mask = torch.cat((causal_mask, d.causal_mask[row == col]), dim=0)
+
+        input.append(new_mask)
         target.append(causal_mask)
 
     input = torch.cat(input, dim=0)
