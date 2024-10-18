@@ -15,5 +15,6 @@ train:
   mile_stones:
     - 150
   weight_decay: 0.0
+  channel_weight_decay: 0.001
 log_file: exp_0
 clean_save: true

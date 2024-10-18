@@ -34,6 +34,7 @@ class TrainArgs(Tap):
     channel_int: float = None  #: Scaling coefficient for integrating local and global channels.
     l_norm_coeff: float = None # Added by Steve
     entr_coeff: float = None # Added by Steve
+    channel_weight_decay: float = 0.001 # Added by Steve
 
     alpha = None  #: A parameter for DANN.
 
