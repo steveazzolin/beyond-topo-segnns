@@ -60,6 +60,7 @@ class EntropyLinear(nn.Module):
         self.method = method
         self.has_bias = bias
 
+        n_classes = 1 # WARNING: experimenting for Motif
         self.weight = nn.Parameter(torch.Tensor(n_classes, out_features, in_features))
         if method is None:
             self.gamma = nn.Parameter(torch.randn((n_classes, in_features)))
@@ -113,14 +114,15 @@ class ConceptClassifier(torch.nn.Module):
 
         super(ConceptClassifier, self).__init__()
 
-        hidden_dim = 10
+        hidden_dim = config.dataset.num_classes * 2 * 5
         self.classifier = nn.Sequential(*(
             [
                 EntropyLinear(config.dataset.num_classes * 2, hidden_dim, config.dataset.num_classes, bias=False, method=method),
                 torch.nn.LeakyReLU(),
                 nn.Linear(hidden_dim, hidden_dim),
                 torch.nn.LeakyReLU(),
-                nn.Linear(hidden_dim, 1)
+                # nn.Linear(hidden_dim, 1)
+                nn.Linear(hidden_dim, config.dataset.num_classes) # WARNING: experimenting for Motif
             ]
         ))
         self.config = config
@@ -137,6 +139,6 @@ class ConceptClassifier(torch.nn.Module):
 
         """
         out = self.classifier(feat)
-        if self.config.dataset.num_classes > 1:
-            out = out.squeeze(2)
+        # if self.config.dataset.num_classes > 1:
+        #     out = out.squeeze(2)
         return out

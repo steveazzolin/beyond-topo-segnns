@@ -75,7 +75,8 @@ class SMGNNGIN(GNNBasic):
         
         emb = self.gnn(*args, without_readout=True, **kwargs)        
         att_log_logits = self.extractor(emb, data.edge_index, data.batch)
-        att = self.sampling(att_log_logits, self.training, self.config.mitigation_expl_scores)
+        # att = self.sampling(att_log_logits, self.training, self.config.mitigation_expl_scores)
+        att = self.sampling(att_log_logits, False, self.config.mitigation_expl_scores)
 
         if self.learn_edge_att:
             if is_undirected(data.edge_index):
@@ -135,6 +136,7 @@ class SMGNNGIN(GNNBasic):
             logits_gnn = logits
             
             if "simple_concept" in self.config.global_side_channel:
+                # mask_channel = torch.zeros_like(logits_side_channel)
                 logits = self.combinator(torch.cat((logits_gnn, logits_side_channel), dim=1))
             else:
                 # logits = self.beta.sigmoid() * logits_gnn + (1-self.beta.sigmoid()) * logits_side_channel
@@ -147,7 +149,7 @@ class SMGNNGIN(GNNBasic):
                 # A*B
                 # logits = logits_gnn.sigmoid() * logits_side_channel.sigmoid().round().detach()
 
-            return logits, att, att_log_logits.sigmoid(), filter_attn, (logits_gnn, logits_side_channel) # WARNING: I replaced edge_attn with att_log_logits.sigmoid()
+            return logits, att_log_logits, att_log_logits.sigmoid(), filter_attn, (logits_gnn, logits_side_channel) # WARNING: I replaced edge_attn with att_log_logits.sigmoid()
         else:
             return logits, att, att_log_logits.sigmoid() # WARNING: I replaced edge_attn with att_log_logits.sigmoid()
             # return logits, att, edge_att
