@@ -292,11 +292,11 @@ class TopoFeature(InMemoryDataset):
 
         # Define networks' output shape.
         if train_dataset.task == 'Binary classification':
-            meta_info.num_classes = train_dataset.data.y.shape[1]
+            meta_info.num_classes = train_dataset._data.y.shape[1]
         elif train_dataset.task == 'Regression':
             meta_info.num_classes = 1
         elif train_dataset.task == 'Multi-label classification':
-            meta_info.num_classes = torch.unique(train_dataset.data.y).shape[0]
+            meta_info.num_classes = torch.unique(train_dataset._data.y).shape[0]
 
         train_dataset.minority_class = None
         id_val_dataset.minority_class = None
@@ -316,6 +316,7 @@ class TopoFeature(InMemoryDataset):
             id_test_dataset._data_list = None
             val_dataset._data_list = None
             test_dataset._data_list = None
+
 
         return {'train': train_dataset, 'id_val': id_val_dataset, 'id_test': id_test_dataset,
                 'metric': 'Accuracy', 'task': dataset.task,
