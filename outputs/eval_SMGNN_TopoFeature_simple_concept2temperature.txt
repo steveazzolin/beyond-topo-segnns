@@ -1,0 +1,1235 @@
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Sun Oct 20 18:23:21 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset TopoFeature
+[0mTopoFeature
+loading:  /home/azzolin/sedignn/global_local_sedignn/storage/datasets/TopoFeature/basis/processed/data_BA_numgraphs5000_min8_max80_redmax4_requiredred2_shiftno_shift.pt
+loading:  /home/azzolin/sedignn/global_local_sedignn/storage/datasets/TopoFeature/basis/processed/data_BA_numgraphs5000_min150_max250_redmax4_requiredred2_shiftsize.pt
+loading:  /home/azzolin/sedignn/global_local_sedignn/storage/datasets/TopoFeature/basis/processed/data_ER_numgraphs5000_min8_max80_redmax4_requiredred2_shiftER.pt
+[1;34mDEBUG[0m: 10/20/2024 06:23:21 PM : [1mDataset: {'train': TopoFeature(4000), 'id_val': TopoFeature(500), 'id_test': TopoFeature(500), 'metric': 'Accuracy', 'task': 'Binary classification', 'val': TopoFeature(5000), 'test': TopoFeature(5000)}
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:21 PM : [1m Data(x=[78, 3], edge_index=[2, 296], y=[1, 1], pattern=[1], node_gt=[78], edge_gt=[296])
+[0mData(x=[57, 3], edge_index=[2, 212], y=[1, 1], pattern=[1], node_gt=[57], edge_gt=[212])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:21 PM : [1mInit GINFeatExtractor
+[0mUsing no_bn in BasicEncoder
+[1;34mDEBUG[0m: 10/20/2024 06:23:21 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:21 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:21 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:21 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:21 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:21 PM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 10/20/2024 06:23:21 PM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 99 in /home/azzolin/sedignn/global_local_sedignn/storage/checkpoints/round1/TopoFeature_basis_no_shift/repr_SMGNNGIN_3l_sumpool_0.0dp_mitig_backboneNone_mitig_samplingfeatgchannelsimple_concept2temperaturenormnoneavgedgeattnmean/0.001lr_0.0wd/SMGNN_0.001_True_10_0.01/id_best.ckpt
+[0m[1;37mINFO[0m: [1mCheckpoint 99: 
+-----------------------------------
+Train ACCURACY: 1.0000
+Train Loss: 0.0015
+ID Validation ACCURACY: 1.0000
+ID Validation Loss: 0.0015
+ID Test ACCURACY: 1.0000
+ID Test Loss: 0.0015
+OOD Validation ACCURACY: 1.0000
+OOD Validation Loss: 0.0015
+OOD Test ACCURACY: 1.0000
+OOD Test Loss: 0.0015
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 99...
+[0m[1;37mINFO[0m: [1mCheckpoint 99: 
+-----------------------------------
+Train ACCURACY: 1.0000
+Train Loss: 0.0015
+ID Validation ACCURACY: 1.0000
+ID Validation Loss: 0.0015
+ID Test ACCURACY: 1.0000
+ID Test Loss: 0.0015
+OOD Validation ACCURACY: 1.0000
+OOD Validation Loss: 0.0015
+OOD Test ACCURACY: 1.0000
+OOD Test Loss: 0.0015
+
+[0m[1;37mINFO[0m: [1mChartInfo 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000[0mTrain ACCURACY: 1.0000 	Train Loss: 0.0015 	Train WIoU: 0.952 	
+Id_val ACCURACY: 1.0000 	Id_val Loss: 0.0015 	Id_val WIoU: 0.949 	
+Id_test ACCURACY: 1.0000 	Id_test Loss: 0.0015 	Id_test WIoU: 0.958 	
+Val ACCURACY: 1.0000 	Val Loss: 0.0216 	Val WIoU: 0.931 	
+Test ACCURACY: 0.9834 	Test Loss: 0.1028 	Test WIoU: 0.916 	
+
+Weight vector of global side channel:
+W: [[ 8.9699262e-01  4.9521888e-42 -1.9106716e-03]] b:[-1.345805]
+
+Coeff rule on x1: x1 >= [1.5003524]
+
+Concept relevance scores for this run:
+ [[0.22166398 0.77833605]] 
+
+
+
+#D#Running with seed = 2
+model_dirname= repr_SMGNNGIN_3l_sumpool_0.0dp_mitig_backboneNone_mitig_samplingfeatgchannelsimple_concept2temperaturenormnoneavgedgeattnmean
+207 2
+{'acc_givenR': False,
+ 'argv': None,
+ 'average_edge_attn': 'mean',
+ 'ckpt_dir': None,
+ 'ckpt_root': None,
+ 'clean_save': None,
+ 'config_path': '/home/azzolin/sedignn/global_local_sedignn/configs/final_configs/TopoFeature/basis/no_shift/SMGNN.yaml',
+ 'dataset': DatasetArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'debias': False,
+ 'device': None,
+ 'exp_round': 2,
+ 'expval_budget': None,
+ 'feat_int_alpha': None,
+ 'fidelity_alpha_2': None,
+ 'global_side_channel': 'simple_concept2temperature',
+ 'gpu_idx': 0,
+ 'id_test_ckpt': None,
+ 'intervention_distrib': 'model_dependent',
+ 'log_file': None,
+ 'log_id': '',
+ 'log_path': None,
+ 'mask': False,
+ 'metric': None,
+ 'metrics': '',
+ 'mitigation_backbone': None,
+ 'mitigation_expl_scores': 'default',
+ 'mitigation_expl_scores_topk': -1,
+ 'mitigation_readout': None,
+ 'mitigation_sampling': 'feat',
+ 'mitigation_virtual': None,
+ 'model': ModelArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'nec_alpha_1': None,
+ 'nec_marg_alpha': True,
+ 'nec_number_samples': 'prop_G_dataset',
+ 'num_workers': None,
+ 'numsamples_budget': None,
+ 'ood': OODArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'other_saved': None,
+ 'pipeline': None,
+ 'process_args_manual': <bound method CommonArgs.process_args_manual of CommonArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)>,
+ 'pytest': None,
+ 'random_expl': False,
+ 'random_seed': 2,
+ 'ratios': '',
+ 'samplingtype': 'deconfounded',
+ 'save_metrics': False,
+ 'save_tag': None,
+ 'seeds': '1/2/3/4/5/6/7/8/9/10',
+ 'splits': '',
+ 'task': 'test',
+ 'tensorboard_logdir': None,
+ 'test_ckpt': None,
+ 'train': TrainArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'use_norm': 'none',
+ 'wandb': False}
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Sun Oct 20 18:23:23 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset TopoFeature
+[0mTopoFeature
+loading:  /home/azzolin/sedignn/global_local_sedignn/storage/datasets/TopoFeature/basis/processed/data_BA_numgraphs5000_min8_max80_redmax4_requiredred2_shiftno_shift.pt
+loading:  /home/azzolin/sedignn/global_local_sedignn/storage/datasets/TopoFeature/basis/processed/data_BA_numgraphs5000_min150_max250_redmax4_requiredred2_shiftsize.pt
+loading:  /home/azzolin/sedignn/global_local_sedignn/storage/datasets/TopoFeature/basis/processed/data_ER_numgraphs5000_min8_max80_redmax4_requiredred2_shiftER.pt
+[1;34mDEBUG[0m: 10/20/2024 06:23:23 PM : [1mDataset: {'train': TopoFeature(4000), 'id_val': TopoFeature(500), 'id_test': TopoFeature(500), 'metric': 'Accuracy', 'task': 'Binary classification', 'val': TopoFeature(5000), 'test': TopoFeature(5000)}
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:23 PM : [1m Data(x=[78, 3], edge_index=[2, 296], y=[1, 1], pattern=[1], node_gt=[78], edge_gt=[296])
+[0mData(x=[57, 3], edge_index=[2, 212], y=[1, 1], pattern=[1], node_gt=[57], edge_gt=[212])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:23 PM : [1mInit GINFeatExtractor
+[0mUsing no_bn in BasicEncoder
+[1;34mDEBUG[0m: 10/20/2024 06:23:23 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:23 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:23 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:23 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:23 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:23 PM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 10/20/2024 06:23:23 PM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 59 in /home/azzolin/sedignn/global_local_sedignn/storage/checkpoints/round2/TopoFeature_basis_no_shift/repr_SMGNNGIN_3l_sumpool_0.0dp_mitig_backboneNone_mitig_samplingfeatgchannelsimple_concept2temperaturenormnoneavgedgeattnmean/0.001lr_0.0wd/SMGNN_0.001_True_10_0.01/id_best.ckpt
+[0m[1;37mINFO[0m: [1mCheckpoint 59: 
+-----------------------------------
+Train ACCURACY: 1.0000
+Train Loss: 0.0008
+ID Validation ACCURACY: 1.0000
+ID Validation Loss: 0.0009
+ID Test ACCURACY: 1.0000
+ID Test Loss: 0.0008
+OOD Validation ACCURACY: 1.0000
+OOD Validation Loss: 0.0009
+OOD Test ACCURACY: 1.0000
+OOD Test Loss: 0.0008
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 59...
+[0m[1;37mINFO[0m: [1mCheckpoint 59: 
+-----------------------------------
+Train ACCURACY: 1.0000
+Train Loss: 0.0008
+ID Validation ACCURACY: 1.0000
+ID Validation Loss: 0.0009
+ID Test ACCURACY: 1.0000
+ID Test Loss: 0.0008
+OOD Validation ACCURACY: 1.0000
+OOD Validation Loss: 0.0009
+OOD Test ACCURACY: 1.0000
+OOD Test Loss: 0.0008
+
+[0m[1;37mINFO[0m: [1mChartInfo 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000[0mTrain ACCURACY: 1.0000 	Train Loss: 0.0008 	Train WIoU: 0.823 	
+Id_val ACCURACY: 1.0000 	Id_val Loss: 0.0009 	Id_val WIoU: 0.818 	
+Id_test ACCURACY: 1.0000 	Id_test Loss: 0.0008 	Id_test WIoU: 0.826 	
+Val ACCURACY: 1.0000 	Val Loss: 0.0028 	Val WIoU: 0.815 	
+Test ACCURACY: 0.9898 	Test Loss: 0.0661 	Test WIoU: 0.905 	
+
+Weight vector of global side channel:
+W: [[ 9.1513592e-01 -1.4979079e-33 -2.1556295e-03]] b:[-1.0896432]
+
+Coeff rule on x1: x1 >= [1.19069]
+
+Concept relevance scores for this run:
+ [[0.42466655 0.5753335 ]] 
+
+
+
+#D#Running with seed = 3
+model_dirname= repr_SMGNNGIN_3l_sumpool_0.0dp_mitig_backboneNone_mitig_samplingfeatgchannelsimple_concept2temperaturenormnoneavgedgeattnmean
+304 3
+{'acc_givenR': False,
+ 'argv': None,
+ 'average_edge_attn': 'mean',
+ 'ckpt_dir': None,
+ 'ckpt_root': None,
+ 'clean_save': None,
+ 'config_path': '/home/azzolin/sedignn/global_local_sedignn/configs/final_configs/TopoFeature/basis/no_shift/SMGNN.yaml',
+ 'dataset': DatasetArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'debias': False,
+ 'device': None,
+ 'exp_round': 3,
+ 'expval_budget': None,
+ 'feat_int_alpha': None,
+ 'fidelity_alpha_2': None,
+ 'global_side_channel': 'simple_concept2temperature',
+ 'gpu_idx': 0,
+ 'id_test_ckpt': None,
+ 'intervention_distrib': 'model_dependent',
+ 'log_file': None,
+ 'log_id': '',
+ 'log_path': None,
+ 'mask': False,
+ 'metric': None,
+ 'metrics': '',
+ 'mitigation_backbone': None,
+ 'mitigation_expl_scores': 'default',
+ 'mitigation_expl_scores_topk': -1,
+ 'mitigation_readout': None,
+ 'mitigation_sampling': 'feat',
+ 'mitigation_virtual': None,
+ 'model': ModelArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'nec_alpha_1': None,
+ 'nec_marg_alpha': True,
+ 'nec_number_samples': 'prop_G_dataset',
+ 'num_workers': None,
+ 'numsamples_budget': None,
+ 'ood': OODArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'other_saved': None,
+ 'pipeline': None,
+ 'process_args_manual': <bound method CommonArgs.process_args_manual of CommonArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)>,
+ 'pytest': None,
+ 'random_expl': False,
+ 'random_seed': 3,
+ 'ratios': '',
+ 'samplingtype': 'deconfounded',
+ 'save_metrics': False,
+ 'save_tag': None,
+ 'seeds': '1/2/3/4/5/6/7/8/9/10',
+ 'splits': '',
+ 'task': 'test',
+ 'tensorboard_logdir': None,
+ 'test_ckpt': None,
+ 'train': TrainArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'use_norm': 'none',
+ 'wandb': False}
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Sun Oct 20 18:23:25 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset TopoFeature
+[0mTopoFeature
+loading:  /home/azzolin/sedignn/global_local_sedignn/storage/datasets/TopoFeature/basis/processed/data_BA_numgraphs5000_min8_max80_redmax4_requiredred2_shiftno_shift.pt
+loading:  /home/azzolin/sedignn/global_local_sedignn/storage/datasets/TopoFeature/basis/processed/data_BA_numgraphs5000_min150_max250_redmax4_requiredred2_shiftsize.pt
+loading:  /home/azzolin/sedignn/global_local_sedignn/storage/datasets/TopoFeature/basis/processed/data_ER_numgraphs5000_min8_max80_redmax4_requiredred2_shiftER.pt
+[1;34mDEBUG[0m: 10/20/2024 06:23:25 PM : [1mDataset: {'train': TopoFeature(4000), 'id_val': TopoFeature(500), 'id_test': TopoFeature(500), 'metric': 'Accuracy', 'task': 'Binary classification', 'val': TopoFeature(5000), 'test': TopoFeature(5000)}
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:25 PM : [1m Data(x=[78, 3], edge_index=[2, 296], y=[1, 1], pattern=[1], node_gt=[78], edge_gt=[296])
+[0mData(x=[57, 3], edge_index=[2, 212], y=[1, 1], pattern=[1], node_gt=[57], edge_gt=[212])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:25 PM : [1mInit GINFeatExtractor
+[0mUsing no_bn in BasicEncoder
+[1;34mDEBUG[0m: 10/20/2024 06:23:25 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:25 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:25 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:25 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:25 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:25 PM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 10/20/2024 06:23:25 PM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 49 in /home/azzolin/sedignn/global_local_sedignn/storage/checkpoints/round3/TopoFeature_basis_no_shift/repr_SMGNNGIN_3l_sumpool_0.0dp_mitig_backboneNone_mitig_samplingfeatgchannelsimple_concept2temperaturenormnoneavgedgeattnmean/0.001lr_0.0wd/SMGNN_0.001_True_10_0.01/id_best.ckpt
+[0m[1;37mINFO[0m: [1mCheckpoint 49: 
+-----------------------------------
+Train ACCURACY: 1.0000
+Train Loss: 0.0038
+ID Validation ACCURACY: 1.0000
+ID Validation Loss: 0.0039
+ID Test ACCURACY: 1.0000
+ID Test Loss: 0.0038
+OOD Validation ACCURACY: 1.0000
+OOD Validation Loss: 0.0039
+OOD Test ACCURACY: 1.0000
+OOD Test Loss: 0.0038
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 49...
+[0m[1;37mINFO[0m: [1mCheckpoint 49: 
+-----------------------------------
+Train ACCURACY: 1.0000
+Train Loss: 0.0038
+ID Validation ACCURACY: 1.0000
+ID Validation Loss: 0.0039
+ID Test ACCURACY: 1.0000
+ID Test Loss: 0.0038
+OOD Validation ACCURACY: 1.0000
+OOD Validation Loss: 0.0039
+OOD Test ACCURACY: 1.0000
+OOD Test Loss: 0.0038
+
+[0m[1;37mINFO[0m: [1mChartInfo 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000[0mTrain ACCURACY: 1.0000 	Train Loss: 0.0038 	Train WIoU: 0.795 	
+Id_val ACCURACY: 1.0000 	Id_val Loss: 0.0039 	Id_val WIoU: 0.788 	
+Id_test ACCURACY: 1.0000 	Id_test Loss: 0.0038 	Id_test WIoU: 0.799 	
+Val ACCURACY: 0.9294 	Val Loss: 0.1469 	Val WIoU: 0.770 	
+Test ACCURACY: 0.9872 	Test Loss: 0.0717 	Test WIoU: 0.891 	
+
+Weight vector of global side channel:
+W: [[ 9.987592e-01 -1.904533e-14 -4.141183e-03]] b:[-1.0240908]
+
+Coeff rule on x1: x1 >= [1.025363]
+
+Concept relevance scores for this run:
+ [[0.5389441  0.46105585]] 
+
+
+
+#D#Running with seed = 4
+model_dirname= repr_SMGNNGIN_3l_sumpool_0.0dp_mitig_backboneNone_mitig_samplingfeatgchannelsimple_concept2temperaturenormnoneavgedgeattnmean
+401 4
+{'acc_givenR': False,
+ 'argv': None,
+ 'average_edge_attn': 'mean',
+ 'ckpt_dir': None,
+ 'ckpt_root': None,
+ 'clean_save': None,
+ 'config_path': '/home/azzolin/sedignn/global_local_sedignn/configs/final_configs/TopoFeature/basis/no_shift/SMGNN.yaml',
+ 'dataset': DatasetArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'debias': False,
+ 'device': None,
+ 'exp_round': 4,
+ 'expval_budget': None,
+ 'feat_int_alpha': None,
+ 'fidelity_alpha_2': None,
+ 'global_side_channel': 'simple_concept2temperature',
+ 'gpu_idx': 0,
+ 'id_test_ckpt': None,
+ 'intervention_distrib': 'model_dependent',
+ 'log_file': None,
+ 'log_id': '',
+ 'log_path': None,
+ 'mask': False,
+ 'metric': None,
+ 'metrics': '',
+ 'mitigation_backbone': None,
+ 'mitigation_expl_scores': 'default',
+ 'mitigation_expl_scores_topk': -1,
+ 'mitigation_readout': None,
+ 'mitigation_sampling': 'feat',
+ 'mitigation_virtual': None,
+ 'model': ModelArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'nec_alpha_1': None,
+ 'nec_marg_alpha': True,
+ 'nec_number_samples': 'prop_G_dataset',
+ 'num_workers': None,
+ 'numsamples_budget': None,
+ 'ood': OODArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'other_saved': None,
+ 'pipeline': None,
+ 'process_args_manual': <bound method CommonArgs.process_args_manual of CommonArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)>,
+ 'pytest': None,
+ 'random_expl': False,
+ 'random_seed': 4,
+ 'ratios': '',
+ 'samplingtype': 'deconfounded',
+ 'save_metrics': False,
+ 'save_tag': None,
+ 'seeds': '1/2/3/4/5/6/7/8/9/10',
+ 'splits': '',
+ 'task': 'test',
+ 'tensorboard_logdir': None,
+ 'test_ckpt': None,
+ 'train': TrainArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'use_norm': 'none',
+ 'wandb': False}
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Sun Oct 20 18:23:26 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset TopoFeature
+[0mTopoFeature
+loading:  /home/azzolin/sedignn/global_local_sedignn/storage/datasets/TopoFeature/basis/processed/data_BA_numgraphs5000_min8_max80_redmax4_requiredred2_shiftno_shift.pt
+loading:  /home/azzolin/sedignn/global_local_sedignn/storage/datasets/TopoFeature/basis/processed/data_BA_numgraphs5000_min150_max250_redmax4_requiredred2_shiftsize.pt
+loading:  /home/azzolin/sedignn/global_local_sedignn/storage/datasets/TopoFeature/basis/processed/data_ER_numgraphs5000_min8_max80_redmax4_requiredred2_shiftER.pt
+[1;34mDEBUG[0m: 10/20/2024 06:23:26 PM : [1mDataset: {'train': TopoFeature(4000), 'id_val': TopoFeature(500), 'id_test': TopoFeature(500), 'metric': 'Accuracy', 'task': 'Binary classification', 'val': TopoFeature(5000), 'test': TopoFeature(5000)}
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:26 PM : [1m Data(x=[78, 3], edge_index=[2, 296], y=[1, 1], pattern=[1], node_gt=[78], edge_gt=[296])
+[0mData(x=[57, 3], edge_index=[2, 212], y=[1, 1], pattern=[1], node_gt=[57], edge_gt=[212])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:26 PM : [1mInit GINFeatExtractor
+[0mUsing no_bn in BasicEncoder
+[1;34mDEBUG[0m: 10/20/2024 06:23:26 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:26 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:26 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:26 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:26 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:26 PM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 10/20/2024 06:23:26 PM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 99 in /home/azzolin/sedignn/global_local_sedignn/storage/checkpoints/round4/TopoFeature_basis_no_shift/repr_SMGNNGIN_3l_sumpool_0.0dp_mitig_backboneNone_mitig_samplingfeatgchannelsimple_concept2temperaturenormnoneavgedgeattnmean/0.001lr_0.0wd/SMGNN_0.001_True_10_0.01/id_best.ckpt
+[0m[1;37mINFO[0m: [1mCheckpoint 99: 
+-----------------------------------
+Train ACCURACY: 1.0000
+Train Loss: 0.0125
+ID Validation ACCURACY: 1.0000
+ID Validation Loss: 0.0127
+ID Test ACCURACY: 1.0000
+ID Test Loss: 0.0125
+OOD Validation ACCURACY: 1.0000
+OOD Validation Loss: 0.0127
+OOD Test ACCURACY: 1.0000
+OOD Test Loss: 0.0125
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 99...
+[0m[1;37mINFO[0m: [1mCheckpoint 99: 
+-----------------------------------
+Train ACCURACY: 1.0000
+Train Loss: 0.0125
+ID Validation ACCURACY: 1.0000
+ID Validation Loss: 0.0127
+ID Test ACCURACY: 1.0000
+ID Test Loss: 0.0125
+OOD Validation ACCURACY: 1.0000
+OOD Validation Loss: 0.0127
+OOD Test ACCURACY: 1.0000
+OOD Test Loss: 0.0125
+
+[0m[1;37mINFO[0m: [1mChartInfo 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000[0mTrain ACCURACY: 1.0000 	Train Loss: 0.0125 	Train WIoU: 0.808 	
+Id_val ACCURACY: 1.0000 	Id_val Loss: 0.0127 	Id_val WIoU: 0.806 	
+Id_test ACCURACY: 1.0000 	Id_test Loss: 0.0125 	Id_test WIoU: 0.813 	
+Val ACCURACY: 0.8800 	Val Loss: 0.2182 	Val WIoU: 0.620 	
+Test ACCURACY: 0.9792 	Test Loss: 0.1045 	Test WIoU: 0.890 	
+
+Weight vector of global side channel:
+W: [[ 6.6301852e-01  5.8013756e-42 -2.8171428e-03]] b:[-0.7805679]
+
+Coeff rule on x1: x1 >= [1.1772943]
+
+Concept relevance scores for this run:
+ [[0.27011684 0.7298832 ]] 
+
+
+
+#D#Running with seed = 5
+model_dirname= repr_SMGNNGIN_3l_sumpool_0.0dp_mitig_backboneNone_mitig_samplingfeatgchannelsimple_concept2temperaturenormnoneavgedgeattnmean
+498 5
+{'acc_givenR': False,
+ 'argv': None,
+ 'average_edge_attn': 'mean',
+ 'ckpt_dir': None,
+ 'ckpt_root': None,
+ 'clean_save': None,
+ 'config_path': '/home/azzolin/sedignn/global_local_sedignn/configs/final_configs/TopoFeature/basis/no_shift/SMGNN.yaml',
+ 'dataset': DatasetArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'debias': False,
+ 'device': None,
+ 'exp_round': 5,
+ 'expval_budget': None,
+ 'feat_int_alpha': None,
+ 'fidelity_alpha_2': None,
+ 'global_side_channel': 'simple_concept2temperature',
+ 'gpu_idx': 0,
+ 'id_test_ckpt': None,
+ 'intervention_distrib': 'model_dependent',
+ 'log_file': None,
+ 'log_id': '',
+ 'log_path': None,
+ 'mask': False,
+ 'metric': None,
+ 'metrics': '',
+ 'mitigation_backbone': None,
+ 'mitigation_expl_scores': 'default',
+ 'mitigation_expl_scores_topk': -1,
+ 'mitigation_readout': None,
+ 'mitigation_sampling': 'feat',
+ 'mitigation_virtual': None,
+ 'model': ModelArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'nec_alpha_1': None,
+ 'nec_marg_alpha': True,
+ 'nec_number_samples': 'prop_G_dataset',
+ 'num_workers': None,
+ 'numsamples_budget': None,
+ 'ood': OODArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'other_saved': None,
+ 'pipeline': None,
+ 'process_args_manual': <bound method CommonArgs.process_args_manual of CommonArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)>,
+ 'pytest': None,
+ 'random_expl': False,
+ 'random_seed': 5,
+ 'ratios': '',
+ 'samplingtype': 'deconfounded',
+ 'save_metrics': False,
+ 'save_tag': None,
+ 'seeds': '1/2/3/4/5/6/7/8/9/10',
+ 'splits': '',
+ 'task': 'test',
+ 'tensorboard_logdir': None,
+ 'test_ckpt': None,
+ 'train': TrainArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'use_norm': 'none',
+ 'wandb': False}
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Sun Oct 20 18:23:28 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset TopoFeature
+[0mTopoFeature
+loading:  /home/azzolin/sedignn/global_local_sedignn/storage/datasets/TopoFeature/basis/processed/data_BA_numgraphs5000_min8_max80_redmax4_requiredred2_shiftno_shift.pt
+loading:  /home/azzolin/sedignn/global_local_sedignn/storage/datasets/TopoFeature/basis/processed/data_BA_numgraphs5000_min150_max250_redmax4_requiredred2_shiftsize.pt
+loading:  /home/azzolin/sedignn/global_local_sedignn/storage/datasets/TopoFeature/basis/processed/data_ER_numgraphs5000_min8_max80_redmax4_requiredred2_shiftER.pt
+[1;34mDEBUG[0m: 10/20/2024 06:23:28 PM : [1mDataset: {'train': TopoFeature(4000), 'id_val': TopoFeature(500), 'id_test': TopoFeature(500), 'metric': 'Accuracy', 'task': 'Binary classification', 'val': TopoFeature(5000), 'test': TopoFeature(5000)}
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:28 PM : [1m Data(x=[78, 3], edge_index=[2, 296], y=[1, 1], pattern=[1], node_gt=[78], edge_gt=[296])
+[0mData(x=[57, 3], edge_index=[2, 212], y=[1, 1], pattern=[1], node_gt=[57], edge_gt=[212])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:28 PM : [1mInit GINFeatExtractor
+[0mUsing no_bn in BasicEncoder
+[1;34mDEBUG[0m: 10/20/2024 06:23:28 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:28 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:28 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:28 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:28 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:28 PM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 10/20/2024 06:23:28 PM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 99 in /home/azzolin/sedignn/global_local_sedignn/storage/checkpoints/round5/TopoFeature_basis_no_shift/repr_SMGNNGIN_3l_sumpool_0.0dp_mitig_backboneNone_mitig_samplingfeatgchannelsimple_concept2temperaturenormnoneavgedgeattnmean/0.001lr_0.0wd/SMGNN_0.001_True_10_0.01/id_best.ckpt
+[0m[1;37mINFO[0m: [1mCheckpoint 99: 
+-----------------------------------
+Train ACCURACY: 1.0000
+Train Loss: 0.0020
+ID Validation ACCURACY: 1.0000
+ID Validation Loss: 0.0020
+ID Test ACCURACY: 1.0000
+ID Test Loss: 0.0020
+OOD Validation ACCURACY: 1.0000
+OOD Validation Loss: 0.0020
+OOD Test ACCURACY: 1.0000
+OOD Test Loss: 0.0020
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 99...
+[0m[1;37mINFO[0m: [1mCheckpoint 99: 
+-----------------------------------
+Train ACCURACY: 1.0000
+Train Loss: 0.0020
+ID Validation ACCURACY: 1.0000
+ID Validation Loss: 0.0020
+ID Test ACCURACY: 1.0000
+ID Test Loss: 0.0020
+OOD Validation ACCURACY: 1.0000
+OOD Validation Loss: 0.0020
+OOD Test ACCURACY: 1.0000
+OOD Test Loss: 0.0020
+
+[0m[1;37mINFO[0m: [1mChartInfo 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000[0mTrain ACCURACY: 1.0000 	Train Loss: 0.0020 	Train WIoU: 0.948 	
+Id_val ACCURACY: 1.0000 	Id_val Loss: 0.0020 	Id_val WIoU: 0.947 	
+Id_test ACCURACY: 1.0000 	Id_test Loss: 0.0020 	Id_test WIoU: 0.952 	
+Val ACCURACY: 0.9450 	Val Loss: 0.0945 	Val WIoU: 0.906 	
+Test ACCURACY: 0.9876 	Test Loss: 0.0806 	Test WIoU: 0.928 	
+
+Weight vector of global side channel:
+W: [[ 8.3767074e-01 -4.9507875e-42 -2.5995171e-03]] b:[-1.1228317]
+
+Coeff rule on x1: x1 >= [1.3404213]
+
+Concept relevance scores for this run:
+ [[0.25488263 0.74511737]] 
+
+
+
+#D#Running with seed = 6
+model_dirname= repr_SMGNNGIN_3l_sumpool_0.0dp_mitig_backboneNone_mitig_samplingfeatgchannelsimple_concept2temperaturenormnoneavgedgeattnmean
+595 6
+{'acc_givenR': False,
+ 'argv': None,
+ 'average_edge_attn': 'mean',
+ 'ckpt_dir': None,
+ 'ckpt_root': None,
+ 'clean_save': None,
+ 'config_path': '/home/azzolin/sedignn/global_local_sedignn/configs/final_configs/TopoFeature/basis/no_shift/SMGNN.yaml',
+ 'dataset': DatasetArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'debias': False,
+ 'device': None,
+ 'exp_round': 6,
+ 'expval_budget': None,
+ 'feat_int_alpha': None,
+ 'fidelity_alpha_2': None,
+ 'global_side_channel': 'simple_concept2temperature',
+ 'gpu_idx': 0,
+ 'id_test_ckpt': None,
+ 'intervention_distrib': 'model_dependent',
+ 'log_file': None,
+ 'log_id': '',
+ 'log_path': None,
+ 'mask': False,
+ 'metric': None,
+ 'metrics': '',
+ 'mitigation_backbone': None,
+ 'mitigation_expl_scores': 'default',
+ 'mitigation_expl_scores_topk': -1,
+ 'mitigation_readout': None,
+ 'mitigation_sampling': 'feat',
+ 'mitigation_virtual': None,
+ 'model': ModelArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'nec_alpha_1': None,
+ 'nec_marg_alpha': True,
+ 'nec_number_samples': 'prop_G_dataset',
+ 'num_workers': None,
+ 'numsamples_budget': None,
+ 'ood': OODArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'other_saved': None,
+ 'pipeline': None,
+ 'process_args_manual': <bound method CommonArgs.process_args_manual of CommonArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)>,
+ 'pytest': None,
+ 'random_expl': False,
+ 'random_seed': 6,
+ 'ratios': '',
+ 'samplingtype': 'deconfounded',
+ 'save_metrics': False,
+ 'save_tag': None,
+ 'seeds': '1/2/3/4/5/6/7/8/9/10',
+ 'splits': '',
+ 'task': 'test',
+ 'tensorboard_logdir': None,
+ 'test_ckpt': None,
+ 'train': TrainArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'use_norm': 'none',
+ 'wandb': False}
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Sun Oct 20 18:23:29 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset TopoFeature
+[0mTopoFeature
+loading:  /home/azzolin/sedignn/global_local_sedignn/storage/datasets/TopoFeature/basis/processed/data_BA_numgraphs5000_min8_max80_redmax4_requiredred2_shiftno_shift.pt
+loading:  /home/azzolin/sedignn/global_local_sedignn/storage/datasets/TopoFeature/basis/processed/data_BA_numgraphs5000_min150_max250_redmax4_requiredred2_shiftsize.pt
+loading:  /home/azzolin/sedignn/global_local_sedignn/storage/datasets/TopoFeature/basis/processed/data_ER_numgraphs5000_min8_max80_redmax4_requiredred2_shiftER.pt
+[1;34mDEBUG[0m: 10/20/2024 06:23:30 PM : [1mDataset: {'train': TopoFeature(4000), 'id_val': TopoFeature(500), 'id_test': TopoFeature(500), 'metric': 'Accuracy', 'task': 'Binary classification', 'val': TopoFeature(5000), 'test': TopoFeature(5000)}
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:30 PM : [1m Data(x=[78, 3], edge_index=[2, 296], y=[1, 1], pattern=[1], node_gt=[78], edge_gt=[296])
+[0mData(x=[57, 3], edge_index=[2, 212], y=[1, 1], pattern=[1], node_gt=[57], edge_gt=[212])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:30 PM : [1mInit GINFeatExtractor
+[0mUsing no_bn in BasicEncoder
+[1;34mDEBUG[0m: 10/20/2024 06:23:30 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:30 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:30 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:30 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:30 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:30 PM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 10/20/2024 06:23:30 PM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 86 in /home/azzolin/sedignn/global_local_sedignn/storage/checkpoints/round6/TopoFeature_basis_no_shift/repr_SMGNNGIN_3l_sumpool_0.0dp_mitig_backboneNone_mitig_samplingfeatgchannelsimple_concept2temperaturenormnoneavgedgeattnmean/0.001lr_0.0wd/SMGNN_0.001_True_10_0.01/id_best.ckpt
+[0m[1;37mINFO[0m: [1mCheckpoint 86: 
+-----------------------------------
+Train ACCURACY: 1.0000
+Train Loss: 0.0036
+ID Validation ACCURACY: 1.0000
+ID Validation Loss: 0.0036
+ID Test ACCURACY: 1.0000
+ID Test Loss: 0.0037
+OOD Validation ACCURACY: 1.0000
+OOD Validation Loss: 0.0036
+OOD Test ACCURACY: 1.0000
+OOD Test Loss: 0.0037
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 86...
+[0m[1;37mINFO[0m: [1mCheckpoint 86: 
+-----------------------------------
+Train ACCURACY: 1.0000
+Train Loss: 0.0036
+ID Validation ACCURACY: 1.0000
+ID Validation Loss: 0.0036
+ID Test ACCURACY: 1.0000
+ID Test Loss: 0.0037
+OOD Validation ACCURACY: 1.0000
+OOD Validation Loss: 0.0036
+OOD Test ACCURACY: 1.0000
+OOD Test Loss: 0.0037
+
+[0m[1;37mINFO[0m: [1mChartInfo 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000[0mTrain ACCURACY: 1.0000 	Train Loss: 0.0036 	Train WIoU: 0.795 	
+Id_val ACCURACY: 1.0000 	Id_val Loss: 0.0036 	Id_val WIoU: 0.792 	
+Id_test ACCURACY: 1.0000 	Id_test Loss: 0.0037 	Id_test WIoU: 0.798 	
+Val ACCURACY: 0.9696 	Val Loss: 0.0629 	Val WIoU: 0.756 	
+Test ACCURACY: 0.9832 	Test Loss: 0.0978 	Test WIoU: 0.884 	
+
+Weight vector of global side channel:
+W: [[ 9.5841372e-01 -4.9171563e-42 -3.0733333e-03]] b:[-1.1176778]
+
+Coeff rule on x1: x1 >= [1.1661747]
+
+Concept relevance scores for this run:
+ [[0.426651   0.57334906]] 
+
+
+
+#D#Running with seed = 7
+model_dirname= repr_SMGNNGIN_3l_sumpool_0.0dp_mitig_backboneNone_mitig_samplingfeatgchannelsimple_concept2temperaturenormnoneavgedgeattnmean
+692 7
+{'acc_givenR': False,
+ 'argv': None,
+ 'average_edge_attn': 'mean',
+ 'ckpt_dir': None,
+ 'ckpt_root': None,
+ 'clean_save': None,
+ 'config_path': '/home/azzolin/sedignn/global_local_sedignn/configs/final_configs/TopoFeature/basis/no_shift/SMGNN.yaml',
+ 'dataset': DatasetArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'debias': False,
+ 'device': None,
+ 'exp_round': 7,
+ 'expval_budget': None,
+ 'feat_int_alpha': None,
+ 'fidelity_alpha_2': None,
+ 'global_side_channel': 'simple_concept2temperature',
+ 'gpu_idx': 0,
+ 'id_test_ckpt': None,
+ 'intervention_distrib': 'model_dependent',
+ 'log_file': None,
+ 'log_id': '',
+ 'log_path': None,
+ 'mask': False,
+ 'metric': None,
+ 'metrics': '',
+ 'mitigation_backbone': None,
+ 'mitigation_expl_scores': 'default',
+ 'mitigation_expl_scores_topk': -1,
+ 'mitigation_readout': None,
+ 'mitigation_sampling': 'feat',
+ 'mitigation_virtual': None,
+ 'model': ModelArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'nec_alpha_1': None,
+ 'nec_marg_alpha': True,
+ 'nec_number_samples': 'prop_G_dataset',
+ 'num_workers': None,
+ 'numsamples_budget': None,
+ 'ood': OODArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'other_saved': None,
+ 'pipeline': None,
+ 'process_args_manual': <bound method CommonArgs.process_args_manual of CommonArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)>,
+ 'pytest': None,
+ 'random_expl': False,
+ 'random_seed': 7,
+ 'ratios': '',
+ 'samplingtype': 'deconfounded',
+ 'save_metrics': False,
+ 'save_tag': None,
+ 'seeds': '1/2/3/4/5/6/7/8/9/10',
+ 'splits': '',
+ 'task': 'test',
+ 'tensorboard_logdir': None,
+ 'test_ckpt': None,
+ 'train': TrainArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'use_norm': 'none',
+ 'wandb': False}
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Sun Oct 20 18:23:31 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset TopoFeature
+[0mTopoFeature
+loading:  /home/azzolin/sedignn/global_local_sedignn/storage/datasets/TopoFeature/basis/processed/data_BA_numgraphs5000_min8_max80_redmax4_requiredred2_shiftno_shift.pt
+loading:  /home/azzolin/sedignn/global_local_sedignn/storage/datasets/TopoFeature/basis/processed/data_BA_numgraphs5000_min150_max250_redmax4_requiredred2_shiftsize.pt
+loading:  /home/azzolin/sedignn/global_local_sedignn/storage/datasets/TopoFeature/basis/processed/data_ER_numgraphs5000_min8_max80_redmax4_requiredred2_shiftER.pt
+[1;34mDEBUG[0m: 10/20/2024 06:23:31 PM : [1mDataset: {'train': TopoFeature(4000), 'id_val': TopoFeature(500), 'id_test': TopoFeature(500), 'metric': 'Accuracy', 'task': 'Binary classification', 'val': TopoFeature(5000), 'test': TopoFeature(5000)}
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:31 PM : [1m Data(x=[78, 3], edge_index=[2, 296], y=[1, 1], pattern=[1], node_gt=[78], edge_gt=[296])
+[0mData(x=[57, 3], edge_index=[2, 212], y=[1, 1], pattern=[1], node_gt=[57], edge_gt=[212])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:31 PM : [1mInit GINFeatExtractor
+[0mUsing no_bn in BasicEncoder
+[1;34mDEBUG[0m: 10/20/2024 06:23:31 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:31 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:31 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:31 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:31 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:31 PM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 10/20/2024 06:23:31 PM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 67 in /home/azzolin/sedignn/global_local_sedignn/storage/checkpoints/round7/TopoFeature_basis_no_shift/repr_SMGNNGIN_3l_sumpool_0.0dp_mitig_backboneNone_mitig_samplingfeatgchannelsimple_concept2temperaturenormnoneavgedgeattnmean/0.001lr_0.0wd/SMGNN_0.001_True_10_0.01/id_best.ckpt
+[0m[1;37mINFO[0m: [1mCheckpoint 67: 
+-----------------------------------
+Train ACCURACY: 1.0000
+Train Loss: 0.0028
+ID Validation ACCURACY: 1.0000
+ID Validation Loss: 0.0028
+ID Test ACCURACY: 1.0000
+ID Test Loss: 0.0029
+OOD Validation ACCURACY: 1.0000
+OOD Validation Loss: 0.0028
+OOD Test ACCURACY: 1.0000
+OOD Test Loss: 0.0029
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 67...
+[0m[1;37mINFO[0m: [1mCheckpoint 67: 
+-----------------------------------
+Train ACCURACY: 1.0000
+Train Loss: 0.0028
+ID Validation ACCURACY: 1.0000
+ID Validation Loss: 0.0028
+ID Test ACCURACY: 1.0000
+ID Test Loss: 0.0029
+OOD Validation ACCURACY: 1.0000
+OOD Validation Loss: 0.0028
+OOD Test ACCURACY: 1.0000
+OOD Test Loss: 0.0029
+
+[0m[1;37mINFO[0m: [1mChartInfo 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000[0mTrain ACCURACY: 1.0000 	Train Loss: 0.0028 	Train WIoU: 0.914 	
+Id_val ACCURACY: 1.0000 	Id_val Loss: 0.0028 	Id_val WIoU: 0.910 	
+Id_test ACCURACY: 1.0000 	Id_test Loss: 0.0029 	Id_test WIoU: 0.916 	
+Val ACCURACY: 1.0000 	Val Loss: 0.0265 	Val WIoU: 0.926 	
+Test ACCURACY: 0.9800 	Test Loss: 0.1111 	Test WIoU: 0.920 	
+
+Weight vector of global side channel:
+W: [[ 7.8300726e-01  4.9339719e-42 -1.9726229e-03]] b:[-1.0755597]
+
+Coeff rule on x1: x1 >= [1.3736267]
+
+Concept relevance scores for this run:
+ [[0.19723237 0.80276763]] 
+
+
+
+#D#Running with seed = 8
+model_dirname= repr_SMGNNGIN_3l_sumpool_0.0dp_mitig_backboneNone_mitig_samplingfeatgchannelsimple_concept2temperaturenormnoneavgedgeattnmean
+789 8
+{'acc_givenR': False,
+ 'argv': None,
+ 'average_edge_attn': 'mean',
+ 'ckpt_dir': None,
+ 'ckpt_root': None,
+ 'clean_save': None,
+ 'config_path': '/home/azzolin/sedignn/global_local_sedignn/configs/final_configs/TopoFeature/basis/no_shift/SMGNN.yaml',
+ 'dataset': DatasetArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'debias': False,
+ 'device': None,
+ 'exp_round': 8,
+ 'expval_budget': None,
+ 'feat_int_alpha': None,
+ 'fidelity_alpha_2': None,
+ 'global_side_channel': 'simple_concept2temperature',
+ 'gpu_idx': 0,
+ 'id_test_ckpt': None,
+ 'intervention_distrib': 'model_dependent',
+ 'log_file': None,
+ 'log_id': '',
+ 'log_path': None,
+ 'mask': False,
+ 'metric': None,
+ 'metrics': '',
+ 'mitigation_backbone': None,
+ 'mitigation_expl_scores': 'default',
+ 'mitigation_expl_scores_topk': -1,
+ 'mitigation_readout': None,
+ 'mitigation_sampling': 'feat',
+ 'mitigation_virtual': None,
+ 'model': ModelArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'nec_alpha_1': None,
+ 'nec_marg_alpha': True,
+ 'nec_number_samples': 'prop_G_dataset',
+ 'num_workers': None,
+ 'numsamples_budget': None,
+ 'ood': OODArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'other_saved': None,
+ 'pipeline': None,
+ 'process_args_manual': <bound method CommonArgs.process_args_manual of CommonArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)>,
+ 'pytest': None,
+ 'random_expl': False,
+ 'random_seed': 8,
+ 'ratios': '',
+ 'samplingtype': 'deconfounded',
+ 'save_metrics': False,
+ 'save_tag': None,
+ 'seeds': '1/2/3/4/5/6/7/8/9/10',
+ 'splits': '',
+ 'task': 'test',
+ 'tensorboard_logdir': None,
+ 'test_ckpt': None,
+ 'train': TrainArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'use_norm': 'none',
+ 'wandb': False}
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Sun Oct 20 18:23:33 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset TopoFeature
+[0mTopoFeature
+loading:  /home/azzolin/sedignn/global_local_sedignn/storage/datasets/TopoFeature/basis/processed/data_BA_numgraphs5000_min8_max80_redmax4_requiredred2_shiftno_shift.pt
+loading:  /home/azzolin/sedignn/global_local_sedignn/storage/datasets/TopoFeature/basis/processed/data_BA_numgraphs5000_min150_max250_redmax4_requiredred2_shiftsize.pt
+loading:  /home/azzolin/sedignn/global_local_sedignn/storage/datasets/TopoFeature/basis/processed/data_ER_numgraphs5000_min8_max80_redmax4_requiredred2_shiftER.pt
+[1;34mDEBUG[0m: 10/20/2024 06:23:33 PM : [1mDataset: {'train': TopoFeature(4000), 'id_val': TopoFeature(500), 'id_test': TopoFeature(500), 'metric': 'Accuracy', 'task': 'Binary classification', 'val': TopoFeature(5000), 'test': TopoFeature(5000)}
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:33 PM : [1m Data(x=[78, 3], edge_index=[2, 296], y=[1, 1], pattern=[1], node_gt=[78], edge_gt=[296])
+[0mData(x=[57, 3], edge_index=[2, 212], y=[1, 1], pattern=[1], node_gt=[57], edge_gt=[212])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:33 PM : [1mInit GINFeatExtractor
+[0mUsing no_bn in BasicEncoder
+[1;34mDEBUG[0m: 10/20/2024 06:23:33 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:33 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:33 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:33 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:33 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:33 PM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 10/20/2024 06:23:33 PM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 72 in /home/azzolin/sedignn/global_local_sedignn/storage/checkpoints/round8/TopoFeature_basis_no_shift/repr_SMGNNGIN_3l_sumpool_0.0dp_mitig_backboneNone_mitig_samplingfeatgchannelsimple_concept2temperaturenormnoneavgedgeattnmean/0.001lr_0.0wd/SMGNN_0.001_True_10_0.01/id_best.ckpt
+[0m[1;37mINFO[0m: [1mCheckpoint 72: 
+-----------------------------------
+Train ACCURACY: 1.0000
+Train Loss: 0.0145
+ID Validation ACCURACY: 1.0000
+ID Validation Loss: 0.0144
+ID Test ACCURACY: 1.0000
+ID Test Loss: 0.0147
+OOD Validation ACCURACY: 1.0000
+OOD Validation Loss: 0.0144
+OOD Test ACCURACY: 1.0000
+OOD Test Loss: 0.0147
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 72...
+[0m[1;37mINFO[0m: [1mCheckpoint 72: 
+-----------------------------------
+Train ACCURACY: 1.0000
+Train Loss: 0.0145
+ID Validation ACCURACY: 1.0000
+ID Validation Loss: 0.0144
+ID Test ACCURACY: 1.0000
+ID Test Loss: 0.0147
+OOD Validation ACCURACY: 1.0000
+OOD Validation Loss: 0.0144
+OOD Test ACCURACY: 1.0000
+OOD Test Loss: 0.0147
+
+[0m[1;37mINFO[0m: [1mChartInfo 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000[0mTrain ACCURACY: 1.0000 	Train Loss: 0.0145 	Train WIoU: 0.682 	
+Id_val ACCURACY: 1.0000 	Id_val Loss: 0.0144 	Id_val WIoU: 0.682 	
+Id_test ACCURACY: 1.0000 	Id_test Loss: 0.0147 	Id_test WIoU: 0.687 	
+Val ACCURACY: 0.8176 	Val Loss: 0.8188 	Val WIoU: 0.484 	
+Test ACCURACY: 0.9840 	Test Loss: 0.0931 	Test WIoU: 0.869 	
+
+Weight vector of global side channel:
+W: [[ 8.164527e-01 -5.651437e-42 -5.831241e-03]] b:[-0.80029756]
+
+Coeff rule on x1: x1 >= [0.98021305]
+
+Concept relevance scores for this run:
+ [[0.23759918 0.76240087]] 
+
+
+
+#D#Running with seed = 9
+model_dirname= repr_SMGNNGIN_3l_sumpool_0.0dp_mitig_backboneNone_mitig_samplingfeatgchannelsimple_concept2temperaturenormnoneavgedgeattnmean
+886 9
+{'acc_givenR': False,
+ 'argv': None,
+ 'average_edge_attn': 'mean',
+ 'ckpt_dir': None,
+ 'ckpt_root': None,
+ 'clean_save': None,
+ 'config_path': '/home/azzolin/sedignn/global_local_sedignn/configs/final_configs/TopoFeature/basis/no_shift/SMGNN.yaml',
+ 'dataset': DatasetArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'debias': False,
+ 'device': None,
+ 'exp_round': 9,
+ 'expval_budget': None,
+ 'feat_int_alpha': None,
+ 'fidelity_alpha_2': None,
+ 'global_side_channel': 'simple_concept2temperature',
+ 'gpu_idx': 0,
+ 'id_test_ckpt': None,
+ 'intervention_distrib': 'model_dependent',
+ 'log_file': None,
+ 'log_id': '',
+ 'log_path': None,
+ 'mask': False,
+ 'metric': None,
+ 'metrics': '',
+ 'mitigation_backbone': None,
+ 'mitigation_expl_scores': 'default',
+ 'mitigation_expl_scores_topk': -1,
+ 'mitigation_readout': None,
+ 'mitigation_sampling': 'feat',
+ 'mitigation_virtual': None,
+ 'model': ModelArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'nec_alpha_1': None,
+ 'nec_marg_alpha': True,
+ 'nec_number_samples': 'prop_G_dataset',
+ 'num_workers': None,
+ 'numsamples_budget': None,
+ 'ood': OODArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'other_saved': None,
+ 'pipeline': None,
+ 'process_args_manual': <bound method CommonArgs.process_args_manual of CommonArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)>,
+ 'pytest': None,
+ 'random_expl': False,
+ 'random_seed': 9,
+ 'ratios': '',
+ 'samplingtype': 'deconfounded',
+ 'save_metrics': False,
+ 'save_tag': None,
+ 'seeds': '1/2/3/4/5/6/7/8/9/10',
+ 'splits': '',
+ 'task': 'test',
+ 'tensorboard_logdir': None,
+ 'test_ckpt': None,
+ 'train': TrainArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'use_norm': 'none',
+ 'wandb': False}
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Sun Oct 20 18:23:34 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset TopoFeature
+[0mTopoFeature
+loading:  /home/azzolin/sedignn/global_local_sedignn/storage/datasets/TopoFeature/basis/processed/data_BA_numgraphs5000_min8_max80_redmax4_requiredred2_shiftno_shift.pt
+loading:  /home/azzolin/sedignn/global_local_sedignn/storage/datasets/TopoFeature/basis/processed/data_BA_numgraphs5000_min150_max250_redmax4_requiredred2_shiftsize.pt
+loading:  /home/azzolin/sedignn/global_local_sedignn/storage/datasets/TopoFeature/basis/processed/data_ER_numgraphs5000_min8_max80_redmax4_requiredred2_shiftER.pt
+[1;34mDEBUG[0m: 10/20/2024 06:23:35 PM : [1mDataset: {'train': TopoFeature(4000), 'id_val': TopoFeature(500), 'id_test': TopoFeature(500), 'metric': 'Accuracy', 'task': 'Binary classification', 'val': TopoFeature(5000), 'test': TopoFeature(5000)}
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:35 PM : [1m Data(x=[78, 3], edge_index=[2, 296], y=[1, 1], pattern=[1], node_gt=[78], edge_gt=[296])
+[0mData(x=[57, 3], edge_index=[2, 212], y=[1, 1], pattern=[1], node_gt=[57], edge_gt=[212])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:35 PM : [1mInit GINFeatExtractor
+[0mUsing no_bn in BasicEncoder
+[1;34mDEBUG[0m: 10/20/2024 06:23:35 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:35 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:35 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:35 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:35 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:35 PM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 10/20/2024 06:23:35 PM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 98 in /home/azzolin/sedignn/global_local_sedignn/storage/checkpoints/round9/TopoFeature_basis_no_shift/repr_SMGNNGIN_3l_sumpool_0.0dp_mitig_backboneNone_mitig_samplingfeatgchannelsimple_concept2temperaturenormnoneavgedgeattnmean/0.001lr_0.0wd/SMGNN_0.001_True_10_0.01/id_best.ckpt
+[0m[1;37mINFO[0m: [1mCheckpoint 98: 
+-----------------------------------
+Train ACCURACY: 0.7520
+Train Loss: 0.4977
+ID Validation ACCURACY: 0.7860
+ID Validation Loss: 0.4752
+ID Test ACCURACY: 0.7420
+ID Test Loss: 0.5129
+OOD Validation ACCURACY: 0.7860
+OOD Validation Loss: 0.4752
+OOD Test ACCURACY: 0.7420
+OOD Test Loss: 0.5129
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 98...
+[0m[1;37mINFO[0m: [1mCheckpoint 98: 
+-----------------------------------
+Train ACCURACY: 0.7520
+Train Loss: 0.4977
+ID Validation ACCURACY: 0.7860
+ID Validation Loss: 0.4752
+ID Test ACCURACY: 0.7420
+ID Test Loss: 0.5129
+OOD Validation ACCURACY: 0.7860
+OOD Validation Loss: 0.4752
+OOD Test ACCURACY: 0.7420
+OOD Test Loss: 0.5129
+
+[0m[1;37mINFO[0m: [1mChartInfo 0.7420 0.7420 0.7420 0.7420 0.7860 0.7860[0mTrain ACCURACY: 0.7520 	Train Loss: 0.4977 	Train WIoU: 0.106 	
+Id_val ACCURACY: 0.7860 	Id_val Loss: 0.4752 	Id_val WIoU: 0.105 	
+Id_test ACCURACY: 0.7420 	Id_test Loss: 0.5129 	Id_test WIoU: 0.110 	
+Val ACCURACY: 0.6402 	Val Loss: 0.8828 	Val WIoU: 0.013 	
+Test ACCURACY: 0.7394 	Test Loss: 0.5103 	Test WIoU: 0.112 	
+
+Weight vector of global side channel:
+W: [[ 7.5614303e-01  5.3683744e-42 -6.0363472e-03]] b:[-0.50280863]
+
+Coeff rule on x1: x1 >= [0.664965]
+
+Concept relevance scores for this run:
+ [[0.00490082 0.9950992 ]] 
+
+
+
+#D#Running with seed = 10
+model_dirname= repr_SMGNNGIN_3l_sumpool_0.0dp_mitig_backboneNone_mitig_samplingfeatgchannelsimple_concept2temperaturenormnoneavgedgeattnmean
+983 10
+{'acc_givenR': False,
+ 'argv': None,
+ 'average_edge_attn': 'mean',
+ 'ckpt_dir': None,
+ 'ckpt_root': None,
+ 'clean_save': None,
+ 'config_path': '/home/azzolin/sedignn/global_local_sedignn/configs/final_configs/TopoFeature/basis/no_shift/SMGNN.yaml',
+ 'dataset': DatasetArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'debias': False,
+ 'device': None,
+ 'exp_round': 10,
+ 'expval_budget': None,
+ 'feat_int_alpha': None,
+ 'fidelity_alpha_2': None,
+ 'global_side_channel': 'simple_concept2temperature',
+ 'gpu_idx': 0,
+ 'id_test_ckpt': None,
+ 'intervention_distrib': 'model_dependent',
+ 'log_file': None,
+ 'log_id': '',
+ 'log_path': None,
+ 'mask': False,
+ 'metric': None,
+ 'metrics': '',
+ 'mitigation_backbone': None,
+ 'mitigation_expl_scores': 'default',
+ 'mitigation_expl_scores_topk': -1,
+ 'mitigation_readout': None,
+ 'mitigation_sampling': 'feat',
+ 'mitigation_virtual': None,
+ 'model': ModelArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'nec_alpha_1': None,
+ 'nec_marg_alpha': True,
+ 'nec_number_samples': 'prop_G_dataset',
+ 'num_workers': None,
+ 'numsamples_budget': None,
+ 'ood': OODArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'other_saved': None,
+ 'pipeline': None,
+ 'process_args_manual': <bound method CommonArgs.process_args_manual of CommonArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)>,
+ 'pytest': None,
+ 'random_expl': False,
+ 'random_seed': 10,
+ 'ratios': '',
+ 'samplingtype': 'deconfounded',
+ 'save_metrics': False,
+ 'save_tag': None,
+ 'seeds': '1/2/3/4/5/6/7/8/9/10',
+ 'splits': '',
+ 'task': 'test',
+ 'tensorboard_logdir': None,
+ 'test_ckpt': None,
+ 'train': TrainArgs(prog='goodtg', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True),
+ 'use_norm': 'none',
+ 'wandb': False}
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: test
+Sun Oct 20 18:23:36 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset TopoFeature
+[0mTopoFeature
+loading:  /home/azzolin/sedignn/global_local_sedignn/storage/datasets/TopoFeature/basis/processed/data_BA_numgraphs5000_min8_max80_redmax4_requiredred2_shiftno_shift.pt
+loading:  /home/azzolin/sedignn/global_local_sedignn/storage/datasets/TopoFeature/basis/processed/data_BA_numgraphs5000_min150_max250_redmax4_requiredred2_shiftsize.pt
+loading:  /home/azzolin/sedignn/global_local_sedignn/storage/datasets/TopoFeature/basis/processed/data_ER_numgraphs5000_min8_max80_redmax4_requiredred2_shiftER.pt
+[1;34mDEBUG[0m: 10/20/2024 06:23:36 PM : [1mDataset: {'train': TopoFeature(4000), 'id_val': TopoFeature(500), 'id_test': TopoFeature(500), 'metric': 'Accuracy', 'task': 'Binary classification', 'val': TopoFeature(5000), 'test': TopoFeature(5000)}
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:36 PM : [1m Data(x=[78, 3], edge_index=[2, 296], y=[1, 1], pattern=[1], node_gt=[78], edge_gt=[296])
+[0mData(x=[57, 3], edge_index=[2, 212], y=[1, 1], pattern=[1], node_gt=[57], edge_gt=[212])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:36 PM : [1mInit GINFeatExtractor
+[0mUsing no_bn in BasicEncoder
+[1;34mDEBUG[0m: 10/20/2024 06:23:36 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:36 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:36 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:36 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:36 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 10/20/2024 06:23:36 PM : [1mUsing no mitigation (None)
+[0mUsing mitigation_expl_scores: default
+[1;34mDEBUG[0m: 10/20/2024 06:23:36 PM : [1mConfig model and output the best checkpoint info...
+[0m[1;37mINFO[0m: [1mLoading best In-Domain Checkpoint 99 in /home/azzolin/sedignn/global_local_sedignn/storage/checkpoints/round10/TopoFeature_basis_no_shift/repr_SMGNNGIN_3l_sumpool_0.0dp_mitig_backboneNone_mitig_samplingfeatgchannelsimple_concept2temperaturenormnoneavgedgeattnmean/0.001lr_0.0wd/SMGNN_0.001_True_10_0.01/id_best.ckpt
+[0m[1;37mINFO[0m: [1mCheckpoint 99: 
+-----------------------------------
+Train ACCURACY: 1.0000
+Train Loss: 0.0011
+ID Validation ACCURACY: 1.0000
+ID Validation Loss: 0.0010
+ID Test ACCURACY: 1.0000
+ID Test Loss: 0.0011
+OOD Validation ACCURACY: 1.0000
+OOD Validation Loss: 0.0010
+OOD Test ACCURACY: 1.0000
+OOD Test Loss: 0.0011
+
+[0m[1;37mINFO[0m: [1mLoading best Out-of-Domain Checkpoint 99...
+[0m[1;37mINFO[0m: [1mCheckpoint 99: 
+-----------------------------------
+Train ACCURACY: 1.0000
+Train Loss: 0.0011
+ID Validation ACCURACY: 1.0000
+ID Validation Loss: 0.0010
+ID Test ACCURACY: 1.0000
+ID Test Loss: 0.0011
+OOD Validation ACCURACY: 1.0000
+OOD Validation Loss: 0.0010
+OOD Test ACCURACY: 1.0000
+OOD Test Loss: 0.0011
+
+[0m[1;37mINFO[0m: [1mChartInfo 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000[0mTrain ACCURACY: 1.0000 	Train Loss: 0.0011 	Train WIoU: 0.808 	
+Id_val ACCURACY: 1.0000 	Id_val Loss: 0.0010 	Id_val WIoU: 0.813 	
+Id_test ACCURACY: 1.0000 	Id_test Loss: 0.0011 	Id_test WIoU: 0.812 	
+Val ACCURACY: 0.8832 	Val Loss: 0.4307 	Val WIoU: 0.515 	
+Test ACCURACY: 0.9694 	Test Loss: 0.1794 	Test WIoU: 0.904 	
+
+Weight vector of global side channel:
+W: [[ 9.0084773e-01 -4.9395771e-42 -2.1442987e-03]] b:[-1.2988492]
+
+Coeff rule on x1: x1 >= [1.4418077]
+
+Concept relevance scores for this run:
+ [[0.2809641 0.7190359]] 
+
+
+
+Final accuracies: 
+TRAIN      = 0.975 +- 0.074
+ID_VAL     = 0.979 +- 0.064
+ID_TEST    = 0.974 +- 0.077
+VAL        = 0.907 +- 0.106
+TEST       = 0.958 +- 0.073
+
+
+Final accuracies (model with id_val acc above 0.0% - 10 runs): 
+TRAIN      = 0.975 +- 0.074
+ID_VAL     = 0.979 +- 0.064
+ID_TEST    = 0.974 +- 0.077
+VAL        = 0.907 +- 0.106
+TEST       = 0.958 +- 0.073
+
+
+Averaged channel relevance scores (model with id_val acc above 0.0% - 10 runs): 
+[0.28576216 0.71423787] +- [0.14057575 0.14057575]
+
+
+Final Test WIoUs (model with id_val acc above 0.0% - 10 runs):
+TRAIN      = 0.763 +- 0.232
+ID_VAL     = 0.761 +- 0.232
+ID_TEST    = 0.767 +- 0.233
+VAL        = 0.674 +- 0.268
+TEST       = 0.822 +- 0.237
+
+
+Global side channel coefficient wrt x1 (model with id_val acc above 0.0% - 10 runs):
+[1.1860907] +- [0.23736586]
+
+
+Average global channel weights (model with id_val acc above 0.0% - 10 runs):
+[ 8.5264409e-01 -1.9045330e-15 -3.2681986e-03] +- [9.6117675e-02 5.7135993e-15 1.4732566e-03]
+
+
+Final losses: 
+TRAIN      = 0.0540 +- 0.1480
+ID_VAL     = 0.0518 +- 0.1412
+ID_TEST    = 0.0556 +- 0.1525
+VAL        = 0.2706 +- 0.3141
+TEST       = 0.1417 +- 0.1264
+Diff id_val-test  = 0.0899 
