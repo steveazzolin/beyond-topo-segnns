@@ -122,7 +122,7 @@ class BaseOODAlg(ABC):
         
         # Penalize uncertain values of beta
         if self.config.global_side_channel in ("simple", "simple_filternode", "dt"):
-            assert False
+            assert False, self.config.global_side_channel
             p = self.model.beta.sigmoid()
             self.side_channel_loss = config.train.channel_int * (
                     - (p * torch.log(p + 1e-10) 

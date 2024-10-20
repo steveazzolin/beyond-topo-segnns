@@ -42,7 +42,7 @@ class SMGNNGIN(GNNBasic):
         self.edge_mask = None
         print("Using mitigation_expl_scores:", config.mitigation_expl_scores)
 
-        if config.global_side_channel in ("simple", "simple_filternode"):
+        if config.global_side_channel in ("simple", "simple_filternode", "simple_product", "simple_productscaled", "simple_godel"):
             self.global_side_channel = SimpleGlobalChannel(config)
             self.beta = torch.nn.Parameter(data=torch.tensor(0.0), requires_grad=True)
             self.combinator = nn.Linear(config.dataset.num_classes*2, config.dataset.num_classes, bias=True) # not in use
@@ -51,6 +51,10 @@ class SMGNNGIN(GNNBasic):
             self.beta = torch.tensor(torch.nan)
             self.combinator = ConceptClassifier(config)
         elif config.global_side_channel == "simple_concept2":
+            self.global_side_channel = SimpleGlobalChannel(config)
+            self.beta = torch.tensor(torch.nan)
+            self.combinator = ConceptClassifier(config, method=2)
+        elif config.global_side_channel == "simple_concept2discrete":
             self.global_side_channel = SimpleGlobalChannel(config)
             self.beta = torch.tensor(torch.nan)
             self.combinator = ConceptClassifier(config, method=2)
@@ -137,17 +141,79 @@ class SMGNNGIN(GNNBasic):
             
             if "simple_concept" in self.config.global_side_channel:
                 # mask_channel = torch.zeros_like(logits_side_channel)
-                logits = self.combinator(torch.cat((logits_gnn, logits_side_channel), dim=1))
+
+                if self.config.global_side_channel == "simple_concept2discrete":
+                    # discrrete reparametrization trick
+                    if logits_gnn.shape[1] > 1:
+                        index = logits_gnn.max(-1, keepdim=True)[1]
+                        logits_gnn_hard = torch.zeros_like(logits_gnn).scatter_(-1, index, 1.0)    
+                        index = logits_side_channel.max(-1, keepdim=True)[1]
+                        logits_side_channel_hard = torch.zeros_like(logits_side_channel).scatter_(-1, index, 1.0)    
+                    else:
+                        logits_gnn_hard = (logits_gnn >= 0.).to(torch.float)
+                        logits_side_channel_hard = (logits_side_channel >= 0.).to(torch.float)
+                    
+                    channel_gnn = logits_gnn_hard - logits_gnn.detach() + logits_gnn
+                    channel_global = logits_side_channel_hard - logits_side_channel.detach() + logits_side_channel
+                elif self.config.global_side_channel == "simple_concept2temperature":
+                    # TODO: implement temperature annealing
+                    # def get_temp(decay_interval, decay_r, current_epoch, init_r, final_r):
+                    #     r = init_r - current_epoch // decay_interval * decay_r
+                    #     if r < final_r:
+                    #         r = final_r
+                    #     return r
+                    
+                    # if logits_gnn.shape[1] > 1:
+                    #     channel_gnn = torch.softmax(logits_gnn / get_temp(), -1)
+                    #     channel_global = torch.softmax(logits_side_channel / temp, -1)
+                    # else:
+                    #     channel_gnn = torch.sigmoid(logits_gnn / temp, -1)
+                    #     channel_global = torch.sigmoid(logits_side_channel / temp, -1)
+                    exit("TODO")
+                else:
+                    channel_gnn = logits_gnn
+                    channel_global = logits_side_channel
+                        
+                logits = self.combinator(torch.cat((channel_gnn, channel_global), dim=1))
+            elif self.config.global_side_channel == "simple_product":
+                # logits = logits_gnn.sigmoid() * logits_side_channel.sigmoid()
+                # logits = torch.log(logits / (1 - logits + 1e-6)) # Revert Sigmoid
+                logits_gnn = torch.clip(logits_gnn, min=-50, max=50)
+                logits_side_channel = torch.clip(logits_side_channel, min=-50, max=50)
+                # logits_gnn = torch.full_like(logits_side_channel, 50) # masking one of the two channels setting to TRUE
+                logits = -torch.log(torch.exp(-logits_gnn) + torch.exp(-logits_side_channel) + torch.exp(-logits_gnn-logits_side_channel) + 1e-6) # Invert product of sigmoids in log space
+            elif self.config.global_side_channel == "simple_productscaled":
+                logits_gnn = torch.clip(logits_gnn, min=-20, max=20)
+                logits_side_channel = torch.clip(logits_side_channel, min=-20, max=20)
+                # logits_gnn = torch.full_like(logits_side_channel, 20) # masking one of the two channels setting to TRUE
+                logits = -torch.log(torch.exp(-logits_gnn/0.5) + torch.exp(-logits_side_channel/0.5) + torch.exp(-logits_gnn/0.5-logits_side_channel/0.5) + 1e-6) # Invert product of sigmoids in log space
+            elif self.config.global_side_channel == "simple_godel":
+                logits_gnn = torch.clip(logits_gnn, min=-50, max=50)
+                logits_side_channel = torch.clip(logits_side_channel, min=-50, max=50)
+                # logits_gnn = logits_side_channel # masking one of the two channels
+                logits = torch.min(torch.cat((logits_gnn.sigmoid(), logits_side_channel.sigmoid()), dim=1), dim=1, keepdim=True).values
+                logits = torch.log(logits / (1 - logits + 1e-6)) # Revert Sigmoid to logit space
             else:
                 # logits = self.beta.sigmoid() * logits_gnn + (1-self.beta.sigmoid()) * logits_side_channel
-                logits = self.beta.sigmoid() * logits_gnn.sigmoid() +  (1 - self.beta.sigmoid().detach()) * logits_side_channel.sigmoid().detach() # Combine them in probability space, and revert to logit for compliance with other code
-                logits = torch.log(logits / (1 - logits + 1e-10)) # Revert Sigmoid
+                # logits = self.beta.sigmoid() * logits_gnn.sigmoid() +  (1 - self.beta.sigmoid().detach()) * logits_side_channel.sigmoid().detach() # Combine them in probability space, and revert to logit for compliance with other code
+                # logits = torch.log(logits / (1 - logits + 1e-10)) # Revert Sigmoid
                 # Min(A,B)
-                # logits = torch.min(torch.cat((logits_gnn, logits_side_channel.detach()), dim=1), dim=1, keepdim=True).values
+                # logits = torch.min(torch.cat((logits_gnn, logits_side_channel), dim=1), dim=1, keepdim=True).values
                 # Linear commbination
                 # logits = self.combinator(torch.cat((logits_gnn.sigmoid(), logits_side_channel.sigmoid()), dim=1))
-                # A*B
-                # logits = logits_gnn.sigmoid() * logits_side_channel.sigmoid().round().detach()
+                exit("Not implemented")
+            
+            if torch.any(torch.isinf(logits)):
+                print("Inf detected")
+                # print(torch.exp(-logits_gnn)[:5].flatten(), torch.exp(-logits_side_channel)[:5].flatten(), torch.exp(-logits_gnn-logits_side_channel)[:5].flatten())
+                idx = torch.isinf(logits)
+                print(logits_gnn[idx].flatten(), logits_side_channel[idx].flatten())
+                print(torch.exp(-logits_gnn)[idx].flatten(), torch.exp(-logits_side_channel)[idx].flatten(), torch.exp(-logits_gnn-logits_side_channel)[idx].flatten())
+            if torch.any(torch.isnan(logits)):
+                print("NaN detected")
+                print(logits_gnn[:5])
+                print(edge_att[:5])
+                exit("AIA")
 
             return logits, att_log_logits, att_log_logits.sigmoid(), filter_attn, (logits_gnn, logits_side_channel) # WARNING: I replaced edge_attn with att_log_logits.sigmoid()
         else:

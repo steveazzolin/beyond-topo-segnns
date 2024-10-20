@@ -925,14 +925,15 @@ def main():
             #     test_losses["ood_" + s].append(sa['loss'].item())
             # print(f"Printing obtained and stored scores: {sa['score']} !=? {test_score}")
 
+            w = model.global_side_channel.classifier.classifier[0].weight.detach().cpu().numpy()
+            b = model.global_side_channel.classifier.classifier[0].bias.detach().cpu().numpy()
+            global_coeffs.append(-b / w[0][0])
+            print(f"\nWeight vector of global side channel:\nW: {w} b:{b}")
+            print(f"\nCoeff rule on x1: x1 >= {global_coeffs[-1]}")
             if config.global_side_channel and "simple_concept" in config.global_side_channel:
                 channel_relevances.append(model.combinator.classifier[0].alpha_norm.cpu().numpy())
                 print("\nConcept relevance scores for this run:\n", channel_relevances[-1], "\n")
-                w = model.global_side_channel.classifier.classifier[0].weight.detach().cpu().numpy()
-                b = model.global_side_channel.classifier.classifier[0].bias.detach().cpu().numpy()
-                global_coeffs.append(-b / w[0][0])
-                print(f"\nWeight vector of global side channel:\nW: {w} b:{b}")
-                print(f"\nCoeff rule on x1: x1 >= {global_coeffs[-1]}")
+                
     
     if config.save_metrics:
         with open(f"storage/metric_results/acc_plaus.json", "r") as jsonFile:
@@ -942,31 +943,35 @@ def main():
     for s in test_scores.keys():
         print(f"{s.upper():<10} = {np.mean(test_scores[s]):.3f} +- {np.std(test_scores[s]):.3f}")
 
-    if config.global_side_channel and "simple_concept" in config.global_side_channel and config.model.model_name != "GIN" and len(channel_relevances) > 0:
-        threshold = 0.9
+    if config.global_side_channel and config.model.model_name != "GIN":
+        # threshold = 0.9
+        threshold = 0.0
         id_val_accs = np.array(test_scores["id_val"])
-        channel_relevances = np.concatenate(channel_relevances, axis=0)
 
         print(f"\n\nFinal accuracies (model with id_val acc above {threshold}% - {sum(id_val_accs >= threshold)} runs): ")
         for s in test_scores.keys():
             tmp = np.array(test_scores[s])[id_val_accs >= threshold]
             print(f"{s.upper():<10} = {np.mean(tmp):.3f} +- {np.std(tmp):.3f}")
 
-        print(f"\n\nAveraged channel relevance scores (model with id_val acc above {threshold}% - {sum(id_val_accs >= threshold)} runs): ")
-        print(f"{channel_relevances[id_val_accs >= threshold].mean(0)} +- {channel_relevances[id_val_accs >= threshold].std(0)}")
+        if "simple_concept" in config.global_side_channel:
+            channel_relevances = np.concatenate(channel_relevances, axis=0)
+            print(f"\n\nAveraged channel relevance scores (model with id_val acc above {threshold}% - {sum(id_val_accs >= threshold)} runs): ")
+            print(f"{channel_relevances[id_val_accs >= threshold].mean(0)} +- {channel_relevances[id_val_accs >= threshold].std(0)}")
 
         print(f"\n\nFinal Test WIoUs (model with id_val acc above {threshold}% - {sum(id_val_accs >= threshold)} runs):")
         for s in test_wious.keys():
             tmp = np.array(test_wious[s])[id_val_accs >= threshold]
             print(f"{s.upper():<10} = {np.mean(tmp):.3f} +- {np.std(tmp):.3f}")
 
+        
         print(f"\n\nGlobal side channel coefficient wrt x1 (model with id_val acc above {threshold}% - {sum(id_val_accs >= threshold)} runs):")
         tmp = np.array(global_coeffs)[id_val_accs >= threshold]
         print(f"{tmp.mean(0)} +- {tmp.std(0)}")
 
-        print(f"\n\nCorrelation local channel importance-OOD Test Acc")
-        print(pearsonr(test_scores["test"], channel_relevances[:, 0]))
-        
+        # print(f"\n\nCorrelation local channel importance-OOD Test Acc")
+        # print(pearsonr(test_scores["test"], channel_relevances[:, 0]))   
+
+
 
     print("\n\nFinal losses: ")
     for s in test_losses.keys():
