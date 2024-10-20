@@ -159,7 +159,7 @@ class Pipeline:
         model_output = self.model(data=data, edge_weight=edge_weight, ood_algorithm=self.ood_algorithm)
         raw_pred = self.ood_algorithm.output_postprocess(model_output)
 
-        if "simple_concept" in self.config.global_side_channel and self.config.dataset.dataset_name != "BAColor" and epoch < 20: 
+        if self.config.global_side_channel and self.config.dataset.dataset_name != "BAColor" and epoch < 20: 
             # Little pre-train of individual channels
             loss_global = self.ood_algorithm.loss_calculate(self.ood_algorithm.logit_global, targets, mask, node_norm, self.config, batch=data.batch)
             loss_global = loss_global.mean()
@@ -1610,14 +1610,14 @@ class Pipeline:
 
         if mode == 'test':
             try:
-                ckpt = torch.load(self.config.test_ckpt, map_location=self.config.device, weights_only=False)
+                ckpt = torch.load(self.config.test_ckpt, map_location=self.config.device)
             except FileNotFoundError:
                 print(f'#E#Checkpoint not found at {os.path.abspath(self.config.test_ckpt)}')
                 exit(1)
             if os.path.exists(self.config.id_test_ckpt):
                 id_ckpt = torch.load(self.config.id_test_ckpt, map_location=self.config.device)
                 # model.load_state_dict(id_ckpt['state_dict'])
-                print(f'#IN#Loading best In-Domain Checkpoint {id_ckpt["epoch"]}...')
+                print(f'#IN#Loading best In-Domain Checkpoint {id_ckpt["epoch"]} in {self.config.id_test_ckpt}')
                 print(f'#IN#Checkpoint {id_ckpt["epoch"]}: \n-----------------------------------\n'
                       f'Train {self.config.metric.score_name}: {id_ckpt["train_score"]:.4f}\n'
                       f'Train Loss: {id_ckpt["train_loss"].item():.4f}\n'
