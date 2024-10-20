@@ -844,7 +844,7 @@ def main():
     run = None
     test_scores, test_losses = defaultdict(list), defaultdict(list)
     test_likelihoods_avg, test_likelihoods_prod, test_likelihoods_logprod, test_wious = defaultdict(list), defaultdict(list), defaultdict(list), defaultdict(list)
-    channel_relevances, global_coeffs = [], []
+    channel_relevances, global_coeffs, global_weights = [], [], []
     for i, seed in enumerate(args.seeds.split("/")):
         seed = int(seed)
         print(f"\n\n#D#Running with seed = {seed}")
@@ -928,6 +928,7 @@ def main():
             w = model.global_side_channel.classifier.classifier[0].weight.detach().cpu().numpy()
             b = model.global_side_channel.classifier.classifier[0].bias.detach().cpu().numpy()
             global_coeffs.append(-b / w[0][0])
+            global_weights.append(w[0])
             print(f"\nWeight vector of global side channel:\nW: {w} b:{b}")
             print(f"\nCoeff rule on x1: x1 >= {global_coeffs[-1]}")
             if config.global_side_channel and "simple_concept" in config.global_side_channel:
@@ -966,6 +967,10 @@ def main():
         
         print(f"\n\nGlobal side channel coefficient wrt x1 (model with id_val acc above {threshold}% - {sum(id_val_accs >= threshold)} runs):")
         tmp = np.array(global_coeffs)[id_val_accs >= threshold]
+        print(f"{tmp.mean(0)} +- {tmp.std(0)}")
+
+        print(f"\n\nAverage global channel weights (model with id_val acc above {threshold}% - {sum(id_val_accs >= threshold)} runs):")
+        tmp = np.array(global_weights)[id_val_accs >= threshold]
         print(f"{tmp.mean(0)} +- {tmp.std(0)}")
 
         # print(f"\n\nCorrelation local channel importance-OOD Test Acc")

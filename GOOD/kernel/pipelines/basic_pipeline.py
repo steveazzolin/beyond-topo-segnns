@@ -156,7 +156,13 @@ class Pipeline:
                                                                              self.config)
         edge_weight = data.get('edge_norm') if self.config.model.model_level == 'node' else None
 
-        model_output = self.model(data=data, edge_weight=edge_weight, ood_algorithm=self.ood_algorithm)
+        model_output = self.model(
+            data=data,
+            edge_weight=edge_weight,
+            ood_algorithm=self.ood_algorithm,
+            max_num_epoch=self.config.train.max_epoch,
+            curr_epoch=epoch
+        )
         raw_pred = self.ood_algorithm.output_postprocess(model_output)
 
         if self.config.global_side_channel and self.config.dataset.dataset_name != "BAColor" and epoch < 20: 
