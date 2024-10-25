@@ -39,6 +39,8 @@ wandb: False  # Added by Steve
 train:
   channel_int: 2 # Added by Steve
   channel_weight_decay: 0.0 # Added by Steve
+  combinator_weight_decay: 0.0 # Added by Steve
+  end_temp: 0.3 # Added by Steve
   weight_decay: 0.
   save_gap: 10
   tr_ctn: False

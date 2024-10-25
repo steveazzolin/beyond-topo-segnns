@@ -196,7 +196,7 @@ class BaseOODAlg(ABC):
             self.optimizer = torch.optim.Adam(
                 [
                     {'params': model.global_side_channel.parameters(), "lr": config.train.lr_filternode, 'weight_decay': config.train.channel_weight_decay},
-                    {'params': model.combinator.parameters(), "lr": config.train.lr_filternode},
+                    {'params': model.combinator.parameters(), "lr": config.train.lr_filternode, 'weight_decay': config.train.combinator_weight_decay},
                     {'params': [p for name, p in model.named_parameters() if ('global_side_channel' not in name) and ('combinator' not in name)]}
                 ],
                 lr=config.train.lr,

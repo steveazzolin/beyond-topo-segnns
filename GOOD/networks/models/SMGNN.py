@@ -31,6 +31,7 @@ class SMGNNGIN(GNNBasic):
 
         if config.mitigation_sampling == "raw":
             config.mitigation_backbone = None
+            config.model.model_layer = 1
             self.gnn_clf = GINFeatExtractor(config)
         else:
             self.gnn_clf = None
@@ -163,7 +164,7 @@ class SMGNNGIN(GNNBasic):
                             return start_temp
                         return start_temp - (start_temp - end_temp) / max_num_epoch * curr_epoch
 
-                    temp = get_temp(start_temp=1, end_temp=0.3, max_num_epoch=kwargs.get('max_num_epoch'), curr_epoch=kwargs.get('curr_epoch'))
+                    temp = get_temp(start_temp=1, end_temp=self.config.train.end_temp, max_num_epoch=kwargs.get('max_num_epoch'), curr_epoch=kwargs.get('curr_epoch'))
                     channel_gnn = torch.sigmoid(logits_gnn / temp)
                     channel_global = torch.sigmoid(logits_side_channel / temp)
                 else:
@@ -176,17 +177,16 @@ class SMGNNGIN(GNNBasic):
                 # logits = torch.log(logits / (1 - logits + 1e-6)) # Revert Sigmoid
                 logits_gnn = torch.clip(logits_gnn, min=-50, max=50)
                 logits_side_channel = torch.clip(logits_side_channel, min=-50, max=50)
-                # logits_gnn = torch.full_like(logits_side_channel, 50) # masking one of the two channels setting to TRUE
+                # logits_side_channel = torch.full_like(logits_side_channel, -50) # masking one of the two channels setting to TRUE
                 logits = -torch.log(torch.exp(-logits_gnn) + torch.exp(-logits_side_channel) + torch.exp(-logits_gnn-logits_side_channel) + 1e-6) # Invert product of sigmoids in log space
             elif self.config.global_side_channel == "simple_productscaled":
                 logits_gnn = torch.clip(logits_gnn, min=-20, max=20)
                 logits_side_channel = torch.clip(logits_side_channel, min=-20, max=20)
-                # logits_side_channel = torch.full_like(logits_side_channel, 20) # masking one of the two channels setting to TRUE
+                # logits_gnn = torch.full_like(logits_side_channel, 20) # masking one of the two channels setting to TRUE
                 logits = -torch.log(torch.exp(-logits_gnn/0.5) + torch.exp(-logits_side_channel/0.5) + torch.exp(-logits_gnn/0.5-logits_side_channel/0.5) + 1e-6) # Invert product of sigmoids in log space
             elif self.config.global_side_channel == "simple_godel":
                 logits_gnn = torch.clip(logits_gnn, min=-50, max=50)
                 logits_side_channel = torch.clip(logits_side_channel, min=-50, max=50)
-                logits_side_channel = logits_gnn # masking one of the two channels
                 # logits = torch.min(torch.cat((logits_gnn.sigmoid(), logits_side_channel.sigmoid()), dim=1), dim=1, keepdim=True).values
                 logits = torch.min(logits_gnn.sigmoid(), logits_side_channel.sigmoid())
                 logits = torch.log(logits / (1 - logits + 1e-6)) # Revert Sigmoid to logit space
@@ -206,6 +206,7 @@ class SMGNNGIN(GNNBasic):
                 idx = torch.isinf(logits)
                 print(logits_gnn[idx].flatten(), logits_side_channel[idx].flatten())
                 print(torch.exp(-logits_gnn)[idx].flatten(), torch.exp(-logits_side_channel)[idx].flatten(), torch.exp(-logits_gnn-logits_side_channel)[idx].flatten())
+                exit("AIA")
             if torch.any(torch.isnan(logits)):
                 print("NaN detected")
                 print(logits_gnn[:5])
@@ -214,8 +215,7 @@ class SMGNNGIN(GNNBasic):
 
             return logits, att_log_logits, att_log_logits.sigmoid(), filter_attn, (logits_gnn, logits_side_channel) # WARNING: I replaced edge_attn with att_log_logits.sigmoid()
         else:
-            return logits, att, att_log_logits.sigmoid() # WARNING: I replaced edge_attn with att_log_logits.sigmoid()
-            # return logits, att, edge_att
+            return logits, att_log_logits, att_log_logits.sigmoid() # WARNING: I replaced attn with att_log_logits
 
     def sampling(self, att_log_logits, training, mitigation_expl_scores):
         if mitigation_expl_scores == "anneal":
@@ -348,6 +348,7 @@ class SMGNNvGIN(SMGNNGIN):
 
         if config.mitigation_sampling == "raw":
             config.mitigation_backbone = None
+            config.model.model_layer = 1
             self.gnn_clf = vGINFeatExtractor(config)
         else:
             self.gnn_clf = None
