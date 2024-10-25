@@ -20,10 +20,15 @@ class Classifier(torch.nn.Module):
     def __init__(self, config: Union[CommonArgs, Munch], output_dim:int = None):
 
         super(Classifier, self).__init__()
-        # self.classifier = nn.Sequential(*(
-        #         [nn.Linear(config.model.dim_hidden, 2 * config.model.dim_ffn), nn.BatchNorm1d(2 * config.model.dim_ffn)] +
-        #         [nn.ReLU(), nn.Linear(2 * config.model.dim_ffn, config.dataset.num_classes)]
-        # ))
+        # if config.global_side_channel in ("simple_concept2discrete", "simple_concept2discrete", "simple_concept2temperature") and config.dataset.dataset_name == "GOODTwitter":
+        #     self.classifier = nn.Sequential(*(
+        #             [nn.Linear(config.model.dim_hidden, config.model.dim_hidden)] +
+        #             [nn.ReLU(), nn.Dropout(0.5), nn.Linear(config.model.dim_hidden, config.dataset.num_classes if output_dim is None else output_dim)]
+        #     ))
+        # else:
+        #     self.classifier = nn.Sequential(*(
+        #         [nn.Linear(config.model.dim_hidden, config.dataset.num_classes if output_dim is None else output_dim)]
+        #     ))
         self.classifier = nn.Sequential(*(
             [nn.Linear(config.model.dim_hidden, config.dataset.num_classes if output_dim is None else output_dim)]
         ))

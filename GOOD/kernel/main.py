@@ -925,15 +925,17 @@ def main():
             #     test_losses["ood_" + s].append(sa['loss'].item())
             # print(f"Printing obtained and stored scores: {sa['score']} !=? {test_score}")
 
-            w = model.global_side_channel.classifier.classifier[0].weight.detach().cpu().numpy()
-            b = model.global_side_channel.classifier.classifier[0].bias.detach().cpu().numpy()
-            global_coeffs.append(-b / w[0][0])
-            global_weights.append(w[0])
-            print(f"\nWeight vector of global side channel:\nW: {w} b:{b}")
-            print(f"\nCoeff rule on x1: x1 >= {global_coeffs[-1]}")
-            if config.global_side_channel and "simple_concept" in config.global_side_channel:
-                channel_relevances.append(model.combinator.classifier[0].alpha_norm.cpu().numpy())
-                print("\nConcept relevance scores for this run:\n", channel_relevances[-1], "\n")
+            if config.global_side_channel:
+                w = model.global_side_channel.classifier.classifier[0].weight.detach().cpu().numpy()
+                b = model.global_side_channel.classifier.classifier[0].bias.detach().cpu().numpy()
+                global_coeffs.append(-b / w[0][0])
+                global_weights.append(w[0])
+                if config.dataset.dataset_name in ("BAColor", "TopoFeature"):
+                    print(f"\nWeight vector of global side channel:\nW: {w} b:{b}")
+                    print(f"\nCoeff rule on x1: x1 >= {global_coeffs[-1]}")
+                if "simple_concept" in config.global_side_channel:
+                    channel_relevances.append(model.combinator.classifier[0].alpha_norm.cpu().numpy())
+                    print("\nConcept relevance scores for this run:\n", channel_relevances[-1], "\n")
                 
     
     if config.save_metrics:
@@ -964,14 +966,14 @@ def main():
             tmp = np.array(test_wious[s])[id_val_accs >= threshold]
             print(f"{s.upper():<10} = {np.mean(tmp):.3f} +- {np.std(tmp):.3f}")
 
-        
-        print(f"\n\nGlobal side channel coefficient wrt x1 (model with id_val acc above {threshold}% - {sum(id_val_accs >= threshold)} runs):")
-        tmp = np.array(global_coeffs)[id_val_accs >= threshold]
-        print(f"{tmp.mean(0)} +- {tmp.std(0)}")
+        if config.dataset.dataset_name in ("BAColor", "TopoFeature"):
+            print(f"\n\nGlobal side channel coefficient wrt x1 (model with id_val acc above {threshold}% - {sum(id_val_accs >= threshold)} runs):")
+            tmp = np.array(global_coeffs)[id_val_accs >= threshold]
+            print(f"{tmp.mean(0)} +- {tmp.std(0)}")
 
-        print(f"\n\nAverage global channel weights (model with id_val acc above {threshold}% - {sum(id_val_accs >= threshold)} runs):")
-        tmp = np.array(global_weights)[id_val_accs >= threshold]
-        print(f"{tmp.mean(0)} +- {tmp.std(0)}")
+            print(f"\n\nAverage global channel weights (model with id_val acc above {threshold}% - {sum(id_val_accs >= threshold)} runs):")
+            tmp = np.array(global_weights)[id_val_accs >= threshold]
+            print(f"{tmp.mean(0)} +- {tmp.std(0)}")
 
         # print(f"\n\nCorrelation local channel importance-OOD Test Acc")
         # print(pearsonr(test_scores["test"], channel_relevances[:, 0]))   

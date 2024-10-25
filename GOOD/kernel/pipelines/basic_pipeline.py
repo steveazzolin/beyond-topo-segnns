@@ -282,7 +282,9 @@ class Pipeline:
 
                 mean_loss = (mean_loss * index + self.ood_algorithm.mean_loss) / (index + 1)
 
-                edge_scores.append(self.ood_algorithm.edge_att.detach().cpu()) # TODO: move inside config.wandb
+                if self.config.model.model_name != "GIN":
+                    edge_scores.append(self.ood_algorithm.edge_att.detach().cpu())
+
                 if self.config.wandb:                    
                     for l in ("mean_loss", "spec_loss", "entropy_filternode_loss", "side_channel_loss"):
                         loss_per_batch_dict[l].append(getattr(self.ood_algorithm, l, np.nan))
@@ -362,9 +364,10 @@ class Pipeline:
                         print("Concept relevance scores:\n", self.model.combinator.classifier[0].alpha_norm.cpu().numpy())
                         # print("Gamma difference: \n", self.model.combinator.classifier[0].gamma.cpu().diff().item())
 
-                w = self.model.global_side_channel.classifier.classifier[0].weight.detach().cpu().numpy()
-                b = self.model.global_side_channel.classifier.classifier[0].bias.detach().cpu().numpy()
-                print(f"\nWeight vector of global side channel:\nW: {w} b:{b}")
+                if self.config.dataset.dataset_name in ("BAColor", "TopoFeature"):
+                    w = self.model.global_side_channel.classifier.classifier[0].weight.detach().cpu().numpy()
+                    b = self.model.global_side_channel.classifier.classifier[0].bias.detach().cpu().numpy()
+                    print(f"\nWeight vector of global side channel:\nW: {w} b:{b}")
             
             if self.config.dataset.shift_type == "no_shift":
                 val_stat = id_val_stat
@@ -375,7 +378,8 @@ class Pipeline:
                 val_stat = id_val_stat
                 test_stat = id_test_stat
 
-            print("edge_weight: ", torch.cat(edge_scores, dim=0).min(), torch.cat(edge_scores, dim=0).max(), torch.cat(edge_scores, dim=0).mean())
+            if self.config.model.model_name != "GIN":
+                print("edge_weight: ", torch.cat(edge_scores, dim=0).min(), torch.cat(edge_scores, dim=0).max(), torch.cat(edge_scores, dim=0).mean())
 
             if self.config.wandb:
                 edge_scores = torch.cat(edge_scores, dim=0)
