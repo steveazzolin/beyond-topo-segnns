@@ -4,7 +4,7 @@ dataset:
   domain: length
 train:
   max_epoch: 200
-  train_bs: 32
-  val_bs: 256
-  test_bs: 256
-  weight_decay: 0.
+  train_bs: 64
+  val_bs: 512
+  test_bs: 512
+  weight_decay: 0.1

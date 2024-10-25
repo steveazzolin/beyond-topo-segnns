@@ -1,27 +1,30 @@
 includes:
   - base.yaml
 model:
-  model_name: GSATGIN
+  model_name: SMGNNGIN
   global_pool: mean
   dim_hidden: 300
   dim_ffn: 300
   model_layer: 3
   dropout_rate: 0.5
 ood:
-  ood_alg: GSAT
-  ood_param: 1.0
+  ood_alg: SMGNN
+  ood_param: 0.001
   extra_param:
     - true
     - 10
-    - 0.7
+    - 0.01
 train:
   train_bs: 64
   val_bs: 512
   test_bs: 512
   max_epoch: 200
-  lr: 0.0001
+  lr: 0.001
   lr_filternode: 0.001
-  weight_decay: 0.0001
-  pre_train: 5
+  weight_decay: 0.1  # Default was 0.0
+  channel_int: null
+  channel_weight_decay: 0.1
+  combinator_weight_decay: 0.5
+  end_temp: 0.5
 log_file: exp_0
 clean_save: true

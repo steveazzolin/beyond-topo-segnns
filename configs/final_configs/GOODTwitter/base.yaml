@@ -4,7 +4,8 @@ dataset:
   dataset_name: GOODTwitter
 model:
   model_layer: 3
-  global_pool: mean
+  global_pool: sum
 train:
   num_steps: 10
   mile_stones: [150]
+  lr_filternode: 0.0
