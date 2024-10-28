@@ -21,7 +21,7 @@ train:
   max_epoch: 200
   lr: 0.001
   lr_filternode: 0.001
-  weight_decay: 0.0  # Default was 0.0
+  weight_decay: 0.0
   channel_int: null
   channel_weight_decay: 0.0
   combinator_weight_decay: 0.0
