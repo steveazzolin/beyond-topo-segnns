@@ -33,4 +33,7 @@ goodtg --config_path final_configs/GOODTwitter/length/covariate/GSAT.yaml --seed
 
 # SST2 (GSAT)
 goodtg --config_path final_configs/GOODSST2/length/covariate/GSAT.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --gpu_idx 0  --use_norm none --mitigation_sampling raw
+
+# AIDS (SMGNN)
+goodtg --config_path final_configs/AIDS/length/covariate/SMGNN.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --gpu_idx 0 --global_side_channel simple_concept2temperature  --use_norm none 
 ```

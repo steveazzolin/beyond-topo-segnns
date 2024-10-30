@@ -63,12 +63,12 @@ class CustomDataset(InMemoryDataset):
                 data = Data(ori_x=G.ori_x.clone(), edge_index=G.edge_index.clone())
                 
                 # Comment for FAITH (TODO: fix this)
-                # if hasattr(G, "edge_gt"): # added for stability of detector analysis
-                #     data.edge_gt = G.edge_gt
-                # elif add_fake_edge_gt:
-                #     data.edge_gt = torch.zeros((data.edge_index.shape[1]), dtype=torch.long, device=data.edge_index.device)
-                # if hasattr(G, "node_gt"): # added for stability of detector analysis
-                #     data.node_gt = G.node_gt
+                if hasattr(G, "edge_gt"): # added for stability of detector analysis
+                    data.edge_gt = G.edge_gt
+                elif add_fake_edge_gt:
+                    data.edge_gt = torch.zeros((data.edge_index.shape[1]), dtype=torch.long, device=data.edge_index.device)
+                if hasattr(G, "node_gt"): # added for stability of detector analysis
+                    data.node_gt = G.node_gt
                 # if hasattr(G, "causal_mask"): # added for stability of detector analysis
                 #     data.causal_mask = G.causal_mask
                 # if hasattr(G, "edge_attr"):
@@ -163,6 +163,7 @@ class Pipeline:
             max_num_epoch=self.config.train.max_epoch,
             curr_epoch=epoch
         )
+
         raw_pred = self.ood_algorithm.output_postprocess(model_output)
 
         if self.config.global_side_channel and self.config.dataset.dataset_name != "BAColor" and epoch < 20: 
@@ -182,13 +183,16 @@ class Pipeline:
         else:
             loss_clf_global_side_channel = torch.tensor(0.)
 
+        if self.config.global_side_channel and self.config.dataset.dataset_name == "AIDSC1":
+            loss += 0.01 * self.model.global_side_channel.classifier.classifier[0].weight.abs().sum()
+
         self.ood_algorithm.backward(loss)
         
         pred, target = eval_data_preprocess(data.y, raw_pred, mask, self.config)
 
         return {
             'loss': loss.detach(),
-            'score': eval_score([pred], [target], self.config), 
+            'score': eval_score([pred], [target], self.config, pos_class=self.loader["train"].dataset.minority_class), 
             'clf_loss': self.ood_algorithm.clf_loss,
             'clf_global_side_loss': loss_clf_global_side_channel.item(),
             'l_norm_loss': self.ood_algorithm.l_norm_loss.item(),
@@ -346,8 +350,8 @@ class Pipeline:
                 # print(f"GNN only Acc: {gnn_only_score:.3f}")
                 # print(f"Global only Acc: {global_only_score:.3f}")
                 
-                global_only_score = eval_score(raw_global_only, raw_targets, self.config)
-                gnn_only_score = eval_score(raw_gnn_only, raw_targets, self.config)
+                global_only_score = eval_score(raw_global_only, raw_targets, self.config, pos_class=self.loader["train"].dataset.minority_class)
+                gnn_only_score = eval_score(raw_gnn_only, raw_targets, self.config, pos_class=self.loader["train"].dataset.minority_class)
                 print(f"Global only Acc: {global_only_score:.3f}")
                 print(f"GNN only Acc: {gnn_only_score:.3f}")
 
@@ -3051,7 +3055,7 @@ class Pipeline:
                     g,
                     subfolder=f"plots_of_explanation_examples/{self.config.ood_dirname}/{self.config.dataset.dataset_name}_{self.config.dataset.domain}",
                     name=f"graph_{reference[i]}",
-                    thrs=0.90,
+                    thrs=0.05,
                     title=f"Class {data.y}"
                 )
                 print(f"graph_{reference[i]} is of class {labels_ori[reference[i]]}")
