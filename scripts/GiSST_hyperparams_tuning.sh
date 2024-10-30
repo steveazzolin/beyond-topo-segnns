@@ -19,7 +19,7 @@ for MODEL in GiSST; do # GSAT SMGNN
                                         --extra_param True ${EDGE_L1} ${EDGE_ENTR} ${FEAT_L1} ${FEAT_ENTR}\
                                         --weight_decay ${WD}\
                                         --use_norm ${NORM}
-                                echo "DONE ${DATASET} ${OOD_PARAM};True 10 ${EXTRA_PARAM};${WD};${NORM}"
+                                echo "DONE ${DATASET} ${OOD_PARAM};True ${EDGE_L1};${EDGE_ENTR};${FEAT_L1};${FEAT_ENTR};${WD};${NORM}"
                             done
                         done
                     done
