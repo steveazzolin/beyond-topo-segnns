@@ -1,7 +1,7 @@
 import torch
 from torch_geometric.utils import degree, cumsum, scatter, softmax
 
-def split_graph(data, edge_score, ratio, debug=False, return_batch=False, compensate_edge_removal=None):
+def split_graph(data, edge_score, ratio, debug=False, return_batch=False, compensate_edge_removal=None, is_weight=False):
     # if debug:
     #     print("\nstarting")
     #     for i in range(6):
@@ -22,8 +22,12 @@ def split_graph(data, edge_score, ratio, debug=False, return_batch=False, compen
     else:
         index = data.batch[data.edge_index[0]]
     
-    # new_idx_reserve, new_idx_drop, _, perm, mask = sparse_topk(edge_score, data.batch[data.edge_index[0]], ratio, descending=True, debug=debug)
-    new_idx_reserve, new_idx_drop, perm, mask = topK(edge_score, ratio, index, min_score=None, debug=debug, compensate_edge_removal=compensate_edge_removal)
+
+    if is_weight:
+        new_idx_reserve, new_idx_drop, _, _ = topK(edge_score, ratio, index, min_score=ratio, debug=debug)
+    else:
+        # new_idx_reserve, new_idx_drop, _, perm, mask = sparse_topk(edge_score, data.batch[data.edge_index[0]], ratio, descending=True, debug=debug)
+        new_idx_reserve, new_idx_drop, perm, mask = topK(edge_score, ratio, index, min_score=None, debug=debug, compensate_edge_removal=compensate_edge_removal)
     
     if debug:
         index = data.batch[data.edge_index[0]]
@@ -131,8 +135,9 @@ def topK(x, ratio, batch, min_score, tol=1e-7, debug=False, compensate_edge_remo
         scores_max = scatter(x, batch, reduce='max')[batch] - tol
         scores_min = scores_max.clamp(max=min_score)
 
-        perm = (x > scores_min).nonzero().view(-1)
-        return perm
+        to_keep = (x >= scores_min).nonzero().view(-1)
+        to_drop = (x < scores_min).nonzero().view(-1)
+        return to_keep, to_drop, None, None
 
     if ratio >= 1.:
         return torch.arange(x.shape[0], device=x.device), torch.tensor([], dtype=torch.long), None, None
