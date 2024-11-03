@@ -827,7 +827,20 @@ def print_faith(args):
 
                 if "faith" in metric and random_expl == True:
                     ratio_values = [ f"{float(results[True][split_metric][f'values_{metric}'][k]) / float(results[False][split_metric][f'values_{metric}'][k]):.2f}" for k in range(len(data[dataset][model][split_metric][metric]))]
-                    ratio_stds = [ f"0.00" for _ in range(len(data[dataset][model][split_metric][metric]))]
+                    
+                    # ratio_stds = [ f"0.00" for _ in range(len(data[dataset][model][split_metric][metric]))]
+                    # Z = Y/X = Rnd/Orig
+                    # Computed using the Delta method (assuming R.V. asymptotically Gaussian and X and Y independent)
+                    # https://stats.stackexchange.com/questions/291594/estimation-of-population-ratio-using-delta-method
+                    # http://www.senns.uk/Stats_Notes/Variance_of_a_ratio.pdf
+                    ratio_vars = [
+                            float(results[True][split_metric][f'stds_{metric}'][k])**2 / float(results[False][split_metric][f'values_{metric}'][k])**2 + \
+                                (float(results[True][split_metric][f'values_{metric}'][k])**2 * float(results[False][split_metric][f'stds_{metric}'][k])**2 / float(results[False][split_metric][f'values_{metric}'][k])**4)
+                        for k in range(len(data[dataset][model][split_metric][metric]))
+                    ]
+                    ratio_stds = [ f"{d**0.5:.2f}" for d in ratio_vars]
+
+
                     row = "; ".join([f"{v} +- {s}" for v,s in zip(ratio_values, ratio_stds)])
                     
                     print(f"\t{metric + ' ratio':<25}:\t{row}")
