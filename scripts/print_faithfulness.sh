@@ -26,7 +26,29 @@ for DATASET in TopoFeature/basis/no_shift; do #GOODMotif/basis GOODMotif/size GO
 
     #    exit 1
               
-       RATIOS="0.01/0.1/0.25/0.6" #WEIGHTS for is_weight experiment SMGNN temp TopoFeature
+       # RATIOS="0.01/0.1/0.25/0.6" #WEIGHTS for is_weight experiment SMGNN temp TopoFeature
+       # goodtg --config_path final_configs/${DATASET}/SMGNN.yaml \
+       #        --seeds ${SEEDS} \
+       #        --task print_faith \
+       #        --metrics "suff_simple/nec" \
+       #        --splits ${SPLITS} \
+       #        --ratios ${RATIOS} \
+       #        --samplingtype deconfounded \
+       #        --nec_number_samples prop_G_dataset \
+       #        --log_id isweight \
+       #        --nec_alpha_1 ${NECALPHA} \
+       #        --numsamples_budget ${NUMSAMPLES_BUDGET} \
+       #        --average_edge_attn mean \
+       #        --global_pool sum \
+       #        --gpu_idx 0 \
+       #        --global_side_channel simple_concept2temperature \
+       #        --extra_param True 10 0.01 \
+       #        --ood_param 0.001 \
+       #        --lr_filternode 0.001 \
+       #        --lr 0.001 \
+       #        --use_norm none
+       # echo "DONE SMGNN ${DATASET}"
+
        goodtg --config_path final_configs/${DATASET}/SMGNN.yaml \
               --seeds ${SEEDS} \
               --task print_faith \
@@ -35,17 +57,12 @@ for DATASET in TopoFeature/basis/no_shift; do #GOODMotif/basis GOODMotif/size GO
               --ratios ${RATIOS} \
               --samplingtype deconfounded \
               --nec_number_samples prop_G_dataset \
-              --log_id isweight \
+              --log_id class1 \
               --nec_alpha_1 ${NECALPHA} \
               --numsamples_budget ${NUMSAMPLES_BUDGET} \
               --average_edge_attn mean \
               --global_pool sum \
               --gpu_idx 0 \
-              --global_side_channel simple_concept2temperature \
-              --extra_param True 10 0.01 \
-              --ood_param 0.001 \
-              --lr_filternode 0.001 \
-              --lr 0.001 \
               --use_norm none
        echo "DONE SMGNN ${DATASET}"
 done
