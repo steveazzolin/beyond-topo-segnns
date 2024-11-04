@@ -15,16 +15,16 @@ ood:
     - 10
     - 0.01
 train:
-  train_bs: 256
-  val_bs: 1024
-  test_bs: 1024
+  train_bs: 512
+  val_bs: 2048
+  test_bs: 2048
   max_epoch: 200
   lr: 0.001
   lr_filternode: 0.001
-  weight_decay: 0.1  # Default was 0.0
+  weight_decay: 0.05  # Default was 0.0 # Model trained was 0.1
   channel_int: null
-  channel_weight_decay: 0.1
-  combinator_weight_decay: 0.5
-  end_temp: 0.5
+  channel_weight_decay: 0.05 # Model trained was 0.1
+  combinator_weight_decay: 0.05 # Model trained was 0.5
+  end_temp: 0.6 # Model trained was 0.5
 log_file: exp_0
 clean_save: true
