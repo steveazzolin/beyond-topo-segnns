@@ -26,3 +26,4 @@ docs/build
 *.pyc
 *.png
 *.pdf
+outputs/GiSST_hyperparams_tuning.txt
