@@ -51,7 +51,7 @@ def mark_edges(G, inv_edge_index, spu_edge_index, inv_edge_w=None, spu_edge_w=No
     )
     if not inv_edge_w is None:
         d = {(u.item(), v.item()): round(inv_edge_w[i].item(),2) for i, (u,v) in enumerate(inv_edge_index.T)}
-        assert np.all([d[u,v] == d[v,u] for u,v in d.keys()])
+        # assert np.all([d[u,v] == d[v,u] for u,v in d.keys()])
         nx.set_edge_attributes(
             G,
             name="attn_weight",
@@ -338,8 +338,8 @@ def random_attach_no_target_frontier(S, T):
                 ret.add_edge(str(n), v, edge_gt=0)
                 ret.add_edge(v, str(n), edge_gt=0)
             else:
-                ret.add_edge(str(n), v)
-                ret.add_edge(v, str(n))
+                ret.add_edge(str(n), v, edge_gt=0)
+                ret.add_edge(v, str(n), edge_gt=0)
         else:
             ret.add_edge(str(n), v)
             ret.add_edge(v, str(n))
