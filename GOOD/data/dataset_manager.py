@@ -122,8 +122,7 @@ def domain_pair_dataloader(dataset, config: Union[CommonArgs, Munch]):
                   'eval_train': DataLoader(dataset['train'], batch_size=config.train.val_bs, shuffle=False),
                   'id_val': DataLoader(dataset['id_val'], batch_size=config.train.val_bs, shuffle=False) if dataset.get(
                       'id_val') else None,
-                  'id_test': DataLoader(dataset['id_test'], batch_size=config.train.test_bs,
-                                        shuffle=False) if dataset.get(
+                  'id_test': DataLoader(dataset['id_test'], batch_size=config.train.test_bs, shuffle=False) if dataset.get(
                       'id_test') else None,
                   'val': DataLoader(dataset['val'], batch_size=config.train.val_bs, shuffle=False),
                   'test': DataLoader(dataset['test'], batch_size=config.train.test_bs, shuffle=False)}
