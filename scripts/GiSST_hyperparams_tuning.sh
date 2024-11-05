@@ -13,7 +13,7 @@ for MODEL in GiSST; do # GSAT SMGNN
                             for DATASET in TopoFeature/basis BAColor/basis; do #GOODMotif/basis GOODMotif/size GOODMotif2/basis GOODSST2/length GOODTwitter/length GOODHIV/scaffold GOODCMNIST/color LBAPcore/assay   
                                 goodtg --config_path final_configs/${DATASET}/no_shift/${MODEL}.yaml \
                                         --seeds "1/2/3/4/5/6/7/8/9/10" \
-                                        --task train \
+                                        --task test \
                                         --average_edge_attn mean \
                                         --gpu_idx 0 \
                                         --extra_param True ${EDGE_L1} ${EDGE_ENTR} ${FEAT_L1} ${FEAT_ENTR}\
