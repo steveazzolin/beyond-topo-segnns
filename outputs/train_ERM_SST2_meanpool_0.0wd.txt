@@ -1,0 +1,1551 @@
+nohup: ignoring input
+
+[1;37mINFO[0m: [1m-----------------------------------
+    Task: train
+Tue Nov  5 14:34:51 2024
+[0m[1;37mINFO[0m: [1mLoad Dataset GOODSST2
+[0m[1;34mDEBUG[0m: 11/05/2024 02:34:52 PM : [1mDataset: {'train': GOODSST2(24744), 'id_val': GOODSST2(5301), 'id_test': GOODSST2(5301), 'val': GOODSST2(17206), 'test': GOODSST2(17490), 'task': 'Binary classification', 'metric': 'Accuracy'}
+[0m[1;34mDEBUG[0m: 11/05/2024 02:34:52 PM : [1m Data(x=[6, 768], edge_index=[2, 10], y=[1, 1], idx=[1], sentence_tokens=[6], length=[1], domain_id=[1], env_id=[1])
+[0mData(x=[3, 768], edge_index=[2, 4], y=[1, 1], idx=[1], sentence_tokens=[3], length=[1], domain_id=[1], env_id=[1])
+[1;37mINFO[0m: [1mLoading model...
+[0m[1;34mDEBUG[0m: 11/05/2024 02:34:52 PM : [1mInit GINFeatExtractor
+[0mUsing no_bn in BasicEncoder
+mitigation_readout =  None
+[1;34mDEBUG[0m: 11/05/2024 02:34:52 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 11/05/2024 02:34:52 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 11/05/2024 02:34:52 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 11/05/2024 02:34:52 PM : [1mUsing no mitigation (None)
+[0m[1;34mDEBUG[0m: 11/05/2024 02:34:52 PM : [1mUsing the fixed _explain_ functionality
+[0m[1;34mDEBUG[0m: 11/05/2024 02:34:52 PM : [1mUsing no mitigation (None)
+[0mConfig model
+Load training utils
+Before training:
+Eval_train ACCURACY: 0.4122 	Eval_train Loss: 0.6951 	
+Id_val ACCURACY: 0.4056 	Id_val Loss: 0.6952 	
+Id_test ACCURACY: 0.4167 	Id_test Loss: 0.6950 	
+
+Epoch 0:
+Evaluating...
+Clf loss:  0.41505976533095557
+Approximated average training loss 0.4151
+Eval_train ACCURACY: 0.8590 	Eval_train Loss: 0.3383 	
+Id_val ACCURACY: 0.8470 	Id_val Loss: 0.3478 	
+Id_test ACCURACY: 0.8495 	Id_test Loss: 0.3528 	
+[1;33mWARNING[0m: utils.py - line 52 : [1mDirectory does not exists. Have built it automatically.
+/home/azzolin/sedignn/global_local_sedignn/storage/checkpoints/round1/GOODSST2_length_covariate/repr_GIN_3l_meanpool_0.5dp_mitig_backboneNone_mitig_samplingfeatnormnoneavgedgeattndefault/0.001lr_0.0wd/ERM_no_param
+[0m[1;36mIMPORTANT[0m: 11/05/2024 02:35:02 PM : [1mSaved a new best In-Domain checkpoint.
+[0m[1;36mIMPORTANT[0m: 11/05/2024 02:35:02 PM : [1mSaved a new best checkpoint.
+[0m
+Epoch 1:
+Evaluating...
+Clf loss:  0.33469844922751074
+Approximated average training loss 0.3347
+Eval_train ACCURACY: 0.8709 	Eval_train Loss: 0.3085 	
+Id_val ACCURACY: 0.8563 	Id_val Loss: 0.3309 	
+Id_test ACCURACY: 0.8532 	Id_test Loss: 0.3398 	
+[1;36mIMPORTANT[0m: 11/05/2024 02:35:08 PM : [1mSaved a new best In-Domain checkpoint.
+[0m[1;36mIMPORTANT[0m: 11/05/2024 02:35:08 PM : [1mSaved a new best checkpoint.
+[0m
+Epoch 2:
+Evaluating...
+Clf loss:  0.3058620624408068
+Approximated average training loss 0.3059
+Eval_train ACCURACY: 0.8836 	Eval_train Loss: 0.2834 	
+Id_val ACCURACY: 0.8604 	Id_val Loss: 0.3202 	
+Id_test ACCURACY: 0.8610 	Id_test Loss: 0.3272 	
+[1;36mIMPORTANT[0m: 11/05/2024 02:35:13 PM : [1mSaved a new best In-Domain checkpoint.
+[0m[1;36mIMPORTANT[0m: 11/05/2024 02:35:13 PM : [1mSaved a new best checkpoint.
+[0m
+Epoch 3:
+Evaluating...
+Clf loss:  0.28603040405764774
+Approximated average training loss 0.2860
+Eval_train ACCURACY: 0.9028 	Eval_train Loss: 0.2555 	
+Id_val ACCURACY: 0.8696 	Id_val Loss: 0.3108 	
+Id_test ACCURACY: 0.8740 	Id_test Loss: 0.3137 	
+[1;36mIMPORTANT[0m: 11/05/2024 02:35:19 PM : [1mSaved a new best In-Domain checkpoint.
+[0m[1;36mIMPORTANT[0m: 11/05/2024 02:35:19 PM : [1mSaved a new best checkpoint.
+[0m
+Epoch 4:
+Evaluating...
+Clf loss:  0.25991287176891253
+Approximated average training loss 0.2599
+Eval_train ACCURACY: 0.8839 	Eval_train Loss: 0.2689 	
+Id_val ACCURACY: 0.8576 	Id_val Loss: 0.3474 	
+Id_test ACCURACY: 0.8504 	Id_test Loss: 0.3425 	
+
+Epoch 5:
+Evaluating...
+Clf loss:  0.2331341127581885
+Approximated average training loss 0.2331
+Eval_train ACCURACY: 0.9295 	Eval_train Loss: 0.1854 	
+Id_val ACCURACY: 0.8821 	Id_val Loss: 0.2913 	
+Id_test ACCURACY: 0.8798 	Id_test Loss: 0.3179 	
+[1;36mIMPORTANT[0m: 11/05/2024 02:35:30 PM : [1mSaved a new best In-Domain checkpoint.
+[0m[1;36mIMPORTANT[0m: 11/05/2024 02:35:30 PM : [1mSaved a new best checkpoint.
+[0m
+Epoch 6:
+Evaluating...
+Clf loss:  0.21276138929161031
+Approximated average training loss 0.2128
+Eval_train ACCURACY: 0.9384 	Eval_train Loss: 0.1643 	
+Id_val ACCURACY: 0.8810 	Id_val Loss: 0.2955 	
+Id_test ACCURACY: 0.8810 	Id_test Loss: 0.3166 	
+
+Epoch 7:
+Evaluating...
+Clf loss:  0.18910199466895164
+Approximated average training loss 0.1891
+Eval_train ACCURACY: 0.9431 	Eval_train Loss: 0.1487 	
+Id_val ACCURACY: 0.8804 	Id_val Loss: 0.3062 	
+Id_test ACCURACY: 0.8757 	Id_test Loss: 0.3334 	
+
+Epoch 8:
+Evaluating...
+Clf loss:  0.1733525267996154
+Approximated average training loss 0.1734
+Eval_train ACCURACY: 0.9317 	Eval_train Loss: 0.1711 	
+Id_val ACCURACY: 0.8744 	Id_val Loss: 0.3936 	
+Id_test ACCURACY: 0.8717 	Id_test Loss: 0.4181 	
+
+Epoch 9:
+Evaluating...
+Clf loss:  0.15646040288401336
+Approximated average training loss 0.1565
+Eval_train ACCURACY: 0.9472 	Eval_train Loss: 0.1299 	
+Id_val ACCURACY: 0.8836 	Id_val Loss: 0.4349 	
+Id_test ACCURACY: 0.8813 	Id_test Loss: 0.4867 	
+
+Epoch 10:
+Evaluating...
+Clf loss:  0.1395472905840749
+Approximated average training loss 0.1395
+Eval_train ACCURACY: 0.9553 	Eval_train Loss: 0.1070 	
+Id_val ACCURACY: 0.8796 	Id_val Loss: 0.3925 	
+Id_test ACCURACY: 0.8753 	Id_test Loss: 0.4586 	
+
+Epoch 11:
+Evaluating...
+Clf loss:  0.1308798207256842
+Approximated average training loss 0.1309
+Eval_train ACCURACY: 0.9628 	Eval_train Loss: 0.0961 	
+Id_val ACCURACY: 0.8798 	Id_val Loss: 0.4028 	
+Id_test ACCURACY: 0.8783 	Id_test Loss: 0.4590 	
+
+Epoch 12:
+Evaluating...
+Clf loss:  0.11698441973551241
+Approximated average training loss 0.1170
+Eval_train ACCURACY: 0.9716 	Eval_train Loss: 0.0760 	
+Id_val ACCURACY: 0.8881 	Id_val Loss: 0.4667 	
+Id_test ACCURACY: 0.8785 	Id_test Loss: 0.5245 	
+
+Epoch 13:
+Evaluating...
+Clf loss:  0.11639118087833403
+Approximated average training loss 0.1164
+Eval_train ACCURACY: 0.9737 	Eval_train Loss: 0.0697 	
+Id_val ACCURACY: 0.8864 	Id_val Loss: 0.4509 	
+Id_test ACCURACY: 0.8847 	Id_test Loss: 0.5376 	
+
+Epoch 14:
+Evaluating...
+Clf loss:  0.10116276091171301
+Approximated average training loss 0.1012
+Eval_train ACCURACY: 0.9767 	Eval_train Loss: 0.0648 	
+Id_val ACCURACY: 0.8857 	Id_val Loss: 0.5450 	
+Id_test ACCURACY: 0.8834 	Id_test Loss: 0.7348 	
+
+Epoch 15:
+Evaluating...
+Clf loss:  0.09506555512802914
+Approximated average training loss 0.0951
+Eval_train ACCURACY: 0.9743 	Eval_train Loss: 0.0775 	
+Id_val ACCURACY: 0.8847 	Id_val Loss: 0.5292 	
+Id_test ACCURACY: 0.8823 	Id_test Loss: 0.6298 	
+
+Epoch 16:
+Evaluating...
+Clf loss:  0.09161476333578589
+Approximated average training loss 0.0916
+Eval_train ACCURACY: 0.9757 	Eval_train Loss: 0.0642 	
+Id_val ACCURACY: 0.8810 	Id_val Loss: 0.5354 	
+Id_test ACCURACY: 0.8772 	Id_test Loss: 0.6809 	
+
+Epoch 17:
+Evaluating...
+Clf loss:  0.08847874603157424
+Approximated average training loss 0.0885
+Eval_train ACCURACY: 0.9793 	Eval_train Loss: 0.0629 	
+Id_val ACCURACY: 0.8813 	Id_val Loss: 0.4643 	
+Id_test ACCURACY: 0.8815 	Id_test Loss: 0.5932 	
+
+Epoch 18:
+Evaluating...
+Clf loss:  0.08411304166254059
+Approximated average training loss 0.0841
+Eval_train ACCURACY: 0.9696 	Eval_train Loss: 0.0951 	
+Id_val ACCURACY: 0.8813 	Id_val Loss: 1.1720 	
+Id_test ACCURACY: 0.8761 	Id_test Loss: 1.5515 	
+
+Epoch 19:
+Evaluating...
+Clf loss:  0.07316799077313342
+Approximated average training loss 0.0732
+Eval_train ACCURACY: 0.9802 	Eval_train Loss: 0.0507 	
+Id_val ACCURACY: 0.8800 	Id_val Loss: 0.6680 	
+Id_test ACCURACY: 0.8821 	Id_test Loss: 0.8792 	
+
+Epoch 20:
+Evaluating...
+Clf loss:  0.06612384429088608
+Approximated average training loss 0.0661
+Eval_train ACCURACY: 0.9804 	Eval_train Loss: 0.0524 	
+Id_val ACCURACY: 0.8851 	Id_val Loss: 0.7357 	
+Id_test ACCURACY: 0.8823 	Id_test Loss: 0.8976 	
+
+Epoch 21:
+Evaluating...
+Clf loss:  0.06425832124443301
+Approximated average training loss 0.0643
+Eval_train ACCURACY: 0.9781 	Eval_train Loss: 0.0789 	
+Id_val ACCURACY: 0.8832 	Id_val Loss: 0.4869 	
+Id_test ACCURACY: 0.8772 	Id_test Loss: 0.5846 	
+
+Epoch 22:
+Evaluating...
+Clf loss:  0.06600054546020187
+Approximated average training loss 0.0660
+Eval_train ACCURACY: 0.9794 	Eval_train Loss: 0.0564 	
+Id_val ACCURACY: 0.8859 	Id_val Loss: 0.7190 	
+Id_test ACCURACY: 0.8819 	Id_test Loss: 0.9737 	
+
+Epoch 23:
+Evaluating...
+Clf loss:  0.07546465584733716
+Approximated average training loss 0.0755
+Eval_train ACCURACY: 0.9680 	Eval_train Loss: 0.0815 	
+Id_val ACCURACY: 0.8732 	Id_val Loss: 0.6155 	
+Id_test ACCURACY: 0.8725 	Id_test Loss: 0.7818 	
+
+Epoch 24:
+Evaluating...
+Clf loss:  0.06839153450238193
+Approximated average training loss 0.0684
+Eval_train ACCURACY: 0.9848 	Eval_train Loss: 0.0459 	
+Id_val ACCURACY: 0.8796 	Id_val Loss: 1.0558 	
+Id_test ACCURACY: 0.8772 	Id_test Loss: 1.2876 	
+
+Epoch 25:
+Evaluating...
+Clf loss:  0.0780131745475292
+Approximated average training loss 0.0780
+Eval_train ACCURACY: 0.9897 	Eval_train Loss: 0.0380 	
+Id_val ACCURACY: 0.8825 	Id_val Loss: 0.6352 	
+Id_test ACCURACY: 0.8781 	Id_test Loss: 0.8110 	
+
+Epoch 26:
+Evaluating...
+Clf loss:  0.05480996036957059
+Approximated average training loss 0.0548
+Eval_train ACCURACY: 0.9901 	Eval_train Loss: 0.0298 	
+Id_val ACCURACY: 0.8881 	Id_val Loss: 0.8082 	
+Id_test ACCURACY: 0.8832 	Id_test Loss: 1.1374 	
+
+Epoch 27:
+Evaluating...
+Clf loss:  0.051745959465933924
+Approximated average training loss 0.0517
+Eval_train ACCURACY: 0.9865 	Eval_train Loss: 0.0471 	
+Id_val ACCURACY: 0.8859 	Id_val Loss: 1.7988 	
+Id_test ACCURACY: 0.8787 	Id_test Loss: 2.7945 	
+
+Epoch 28:
+Evaluating...
+Clf loss:  0.11488815315781922
+Approximated average training loss 0.1149
+Eval_train ACCURACY: 0.9718 	Eval_train Loss: 0.1186 	
+Id_val ACCURACY: 0.8734 	Id_val Loss: 0.5517 	
+Id_test ACCURACY: 0.8766 	Id_test Loss: 0.6679 	
+
+Epoch 29:
+Evaluating...
+Clf loss:  0.07165847964098045
+Approximated average training loss 0.0717
+Eval_train ACCURACY: 0.9692 	Eval_train Loss: 0.0751 	
+Id_val ACCURACY: 0.8695 	Id_val Loss: 0.7492 	
+Id_test ACCURACY: 0.8570 	Id_test Loss: 1.1124 	
+
+Epoch 30:
+Evaluating...
+Clf loss:  0.054215918529650346
+Approximated average training loss 0.0542
+Eval_train ACCURACY: 0.9926 	Eval_train Loss: 0.0236 	
+Id_val ACCURACY: 0.8829 	Id_val Loss: 0.8447 	
+Id_test ACCURACY: 0.8861 	Id_test Loss: 1.1751 	
+
+Epoch 31:
+Evaluating...
+Clf loss:  0.05167773981354072
+Approximated average training loss 0.0517
+Eval_train ACCURACY: 0.9903 	Eval_train Loss: 0.0289 	
+Id_val ACCURACY: 0.8812 	Id_val Loss: 0.7885 	
+Id_test ACCURACY: 0.8812 	Id_test Loss: 1.0466 	
+
+Epoch 32:
+Evaluating...
+Clf loss:  0.043762647771128246
+Approximated average training loss 0.0438
+Eval_train ACCURACY: 0.9926 	Eval_train Loss: 0.0308 	
+Id_val ACCURACY: 0.8849 	Id_val Loss: 0.5949 	
+Id_test ACCURACY: 0.8861 	Id_test Loss: 0.7122 	
+
+Epoch 33:
+Evaluating...
+Clf loss:  0.03984713912059382
+Approximated average training loss 0.0398
+Eval_train ACCURACY: 0.9909 	Eval_train Loss: 0.0294 	
+Id_val ACCURACY: 0.8823 	Id_val Loss: 1.0781 	
+Id_test ACCURACY: 0.8838 	Id_test Loss: 1.5903 	
+
+Epoch 34:
+Evaluating...
+Clf loss:  0.0491354596659434
+Approximated average training loss 0.0491
+Eval_train ACCURACY: 0.9695 	Eval_train Loss: 0.1187 	
+Id_val ACCURACY: 0.8659 	Id_val Loss: 0.7119 	
+Id_test ACCURACY: 0.8663 	Id_test Loss: 0.8313 	
+
+Epoch 35:
+Evaluating...
+Clf loss:  0.05738198714118999
+Approximated average training loss 0.0574
+Eval_train ACCURACY: 0.9877 	Eval_train Loss: 0.0385 	
+Id_val ACCURACY: 0.8806 	Id_val Loss: 0.9610 	
+Id_test ACCURACY: 0.8810 	Id_test Loss: 1.0949 	
+
+Epoch 36:
+Evaluating...
+Clf loss:  0.043754237180278314
+Approximated average training loss 0.0438
+Eval_train ACCURACY: 0.9891 	Eval_train Loss: 0.0412 	
+Id_val ACCURACY: 0.8840 	Id_val Loss: 0.7339 	
+Id_test ACCURACY: 0.8823 	Id_test Loss: 0.8502 	
+
+Epoch 37:
+Evaluating...
+Clf loss:  0.04147252275503521
+Approximated average training loss 0.0415
+Eval_train ACCURACY: 0.9935 	Eval_train Loss: 0.0187 	
+Id_val ACCURACY: 0.8855 	Id_val Loss: 1.9469 	
+Id_test ACCURACY: 0.8862 	Id_test Loss: 2.3504 	
+
+Epoch 38:
+Evaluating...
+Clf loss:  0.04682535717882474
+Approximated average training loss 0.0468
+Eval_train ACCURACY: 0.9878 	Eval_train Loss: 0.0368 	
+Id_val ACCURACY: 0.8812 	Id_val Loss: 0.9307 	
+Id_test ACCURACY: 0.8819 	Id_test Loss: 1.1675 	
+
+Epoch 39:
+Evaluating...
+Clf loss:  0.06023252093054178
+Approximated average training loss 0.0602
+Eval_train ACCURACY: 0.9520 	Eval_train Loss: 0.1136 	
+Id_val ACCURACY: 0.8572 	Id_val Loss: 0.5195 	
+Id_test ACCURACY: 0.8542 	Id_test Loss: 0.7878 	
+
+Epoch 40:
+Evaluating...
+Clf loss:  0.06868423149352064
+Approximated average training loss 0.0687
+Eval_train ACCURACY: 0.9891 	Eval_train Loss: 0.0455 	
+Id_val ACCURACY: 0.8827 	Id_val Loss: 0.6017 	
+Id_test ACCURACY: 0.8789 	Id_test Loss: 0.7628 	
+
+Epoch 41:
+Evaluating...
+Clf loss:  0.08086291801050972
+Approximated average training loss 0.0809
+Eval_train ACCURACY: 0.9876 	Eval_train Loss: 0.0510 	
+Id_val ACCURACY: 0.8857 	Id_val Loss: 0.5240 	
+Id_test ACCURACY: 0.8802 	Id_test Loss: 0.7400 	
+
+Epoch 42:
+Evaluating...
+Clf loss:  0.04705120810662945
+Approximated average training loss 0.0471
+Eval_train ACCURACY: 0.9939 	Eval_train Loss: 0.0322 	
+Id_val ACCURACY: 0.8874 	Id_val Loss: 0.7802 	
+Id_test ACCURACY: 0.8857 	Id_test Loss: 1.0140 	
+
+Epoch 43:
+Evaluating...
+Clf loss:  0.034791809668228445
+Approximated average training loss 0.0348
+Eval_train ACCURACY: 0.9946 	Eval_train Loss: 0.0169 	
+Id_val ACCURACY: 0.8902 	Id_val Loss: 1.1673 	
+Id_test ACCURACY: 0.8844 	Id_test Loss: 1.7671 	
+
+Epoch 44:
+Evaluating...
+Clf loss:  0.03358590573956383
+Approximated average training loss 0.0336
+Eval_train ACCURACY: 0.9940 	Eval_train Loss: 0.0203 	
+Id_val ACCURACY: 0.8834 	Id_val Loss: 2.7336 	
+Id_test ACCURACY: 0.8817 	Id_test Loss: 4.0427 	
+
+Epoch 45:
+Evaluating...
+Clf loss:  0.07563618087783314
+Approximated average training loss 0.0756
+Eval_train ACCURACY: 0.9917 	Eval_train Loss: 0.0258 	
+Id_val ACCURACY: 0.8870 	Id_val Loss: 1.1032 	
+Id_test ACCURACY: 0.8838 	Id_test Loss: 1.6336 	
+
+Epoch 46:
+Evaluating...
+Clf loss:  0.03492694420494516
+Approximated average training loss 0.0349
+Eval_train ACCURACY: 0.9897 	Eval_train Loss: 0.0457 	
+Id_val ACCURACY: 0.8804 	Id_val Loss: 0.6018 	
+Id_test ACCURACY: 0.8740 	Id_test Loss: 1.0237 	
+
+Epoch 47:
+Evaluating...
+Clf loss:  0.0426746341129565
+Approximated average training loss 0.0427
+Eval_train ACCURACY: 0.9808 	Eval_train Loss: 0.0939 	
+Id_val ACCURACY: 0.8759 	Id_val Loss: 0.8248 	
+Id_test ACCURACY: 0.8768 	Id_test Loss: 1.2069 	
+
+Epoch 48:
+Evaluating...
+Clf loss:  0.029820685708066612
+Approximated average training loss 0.0298
+Eval_train ACCURACY: 0.9962 	Eval_train Loss: 0.0199 	
+Id_val ACCURACY: 0.8872 	Id_val Loss: 1.2879 	
+Id_test ACCURACY: 0.8857 	Id_test Loss: 2.5842 	
+
+Epoch 49:
+Evaluating...
+Clf loss:  0.08638345817610572
+Approximated average training loss 0.0864
+Eval_train ACCURACY: 0.9850 	Eval_train Loss: 0.1216 	
+Id_val ACCURACY: 0.8727 	Id_val Loss: 0.3948 	
+Id_test ACCURACY: 0.8687 	Id_test Loss: 0.4710 	
+
+Epoch 50:
+Evaluating...
+Clf loss:  0.06339668092739903
+Approximated average training loss 0.0634
+Eval_train ACCURACY: 0.9955 	Eval_train Loss: 0.0234 	
+Id_val ACCURACY: 0.8842 	Id_val Loss: 0.6626 	
+Id_test ACCURACY: 0.8793 	Id_test Loss: 0.9615 	
+
+Epoch 51:
+Evaluating...
+Clf loss:  0.04549001342947066
+Approximated average training loss 0.0455
+Eval_train ACCURACY: 0.9968 	Eval_train Loss: 0.0153 	
+Id_val ACCURACY: 0.8855 	Id_val Loss: 1.2955 	
+Id_test ACCURACY: 0.8757 	Id_test Loss: 2.5083 	
+
+Epoch 52:
+Evaluating...
+Clf loss:  0.029242469700983504
+Approximated average training loss 0.0292
+Eval_train ACCURACY: 0.9936 	Eval_train Loss: 0.0243 	
+Id_val ACCURACY: 0.8842 	Id_val Loss: 0.8551 	
+Id_test ACCURACY: 0.8800 	Id_test Loss: 1.7866 	
+
+Epoch 53:
+Evaluating...
+Clf loss:  0.04835817043035358
+Approximated average training loss 0.0484
+Eval_train ACCURACY: 0.9974 	Eval_train Loss: 0.0157 	
+Id_val ACCURACY: 0.8861 	Id_val Loss: 0.8033 	
+Id_test ACCURACY: 0.8813 	Id_test Loss: 1.9876 	
+
+Epoch 54:
+Evaluating...
+Clf loss:  0.029364716279889565
+Approximated average training loss 0.0294
+Eval_train ACCURACY: 0.9940 	Eval_train Loss: 0.0264 	
+Id_val ACCURACY: 0.8815 	Id_val Loss: 2.1463 	
+Id_test ACCURACY: 0.8759 	Id_test Loss: 4.8500 	
+
+Epoch 55:
+Evaluating...
+Clf loss:  0.06117663104447759
+Approximated average training loss 0.0612
+Eval_train ACCURACY: 0.9877 	Eval_train Loss: 0.0579 	
+Id_val ACCURACY: 0.8806 	Id_val Loss: 0.4459 	
+Id_test ACCURACY: 0.8842 	Id_test Loss: 1.3165 	
+
+Epoch 56:
+Evaluating...
+Clf loss:  0.05325295612650802
+Approximated average training loss 0.0533
+Eval_train ACCURACY: 0.9959 	Eval_train Loss: 0.0148 	
+Id_val ACCURACY: 0.8855 	Id_val Loss: 0.7138 	
+Id_test ACCURACY: 0.8842 	Id_test Loss: 1.2255 	
+
+Epoch 57:
+Evaluating...
+Clf loss:  0.027642869040119363
+Approximated average training loss 0.0276
+Eval_train ACCURACY: 0.9983 	Eval_train Loss: 0.0083 	
+Id_val ACCURACY: 0.8876 	Id_val Loss: 0.8654 	
+Id_test ACCURACY: 0.8883 	Id_test Loss: 1.5285 	
+
+Epoch 58:
+Evaluating...
+Clf loss:  0.025541089938673763
+Approximated average training loss 0.0255
+Eval_train ACCURACY: 0.9962 	Eval_train Loss: 0.0130 	
+Id_val ACCURACY: 0.8861 	Id_val Loss: 0.8936 	
+Id_test ACCURACY: 0.8855 	Id_test Loss: 1.5999 	
+
+Epoch 59:
+Evaluating...
+Clf loss:  0.03761031968854179
+Approximated average training loss 0.0376
+Eval_train ACCURACY: 0.9937 	Eval_train Loss: 0.0338 	
+Id_val ACCURACY: 0.8866 	Id_val Loss: 0.5521 	
+Id_test ACCURACY: 0.8827 	Id_test Loss: 1.3777 	
+
+Epoch 60:
+Evaluating...
+Clf loss:  0.028121783847084077
+Approximated average training loss 0.0281
+Eval_train ACCURACY: 0.9931 	Eval_train Loss: 0.0250 	
+Id_val ACCURACY: 0.8804 	Id_val Loss: 1.2767 	
+Id_test ACCURACY: 0.8796 	Id_test Loss: 2.5518 	
+
+Epoch 61:
+Evaluating...
+Clf loss:  0.05602057249913766
+Approximated average training loss 0.0560
+Eval_train ACCURACY: 0.9918 	Eval_train Loss: 0.0379 	
+Id_val ACCURACY: 0.8823 	Id_val Loss: 1.1712 	
+Id_test ACCURACY: 0.8772 	Id_test Loss: 2.5611 	
+
+Epoch 62:
+Evaluating...
+Clf loss:  0.08584758805932244
+Approximated average training loss 0.0858
+Eval_train ACCURACY: 0.9911 	Eval_train Loss: 0.0286 	
+Id_val ACCURACY: 0.8847 	Id_val Loss: 0.7480 	
+Id_test ACCURACY: 0.8810 	Id_test Loss: 2.9766 	
+
+Epoch 63:
+Evaluating...
+Clf loss:  0.02980193402416883
+Approximated average training loss 0.0298
+Eval_train ACCURACY: 0.9922 	Eval_train Loss: 0.0659 	
+Id_val ACCURACY: 0.8779 	Id_val Loss: 0.5283 	
+Id_test ACCURACY: 0.8751 	Id_test Loss: 2.2563 	
+
+Epoch 64:
+Evaluating...
+Clf loss:  0.044794882282216446
+Approximated average training loss 0.0448
+Eval_train ACCURACY: 0.9770 	Eval_train Loss: 0.0492 	
+Id_val ACCURACY: 0.8721 	Id_val Loss: 0.9537 	
+Id_test ACCURACY: 0.8721 	Id_test Loss: 3.1325 	
+
+Epoch 65:
+Evaluating...
+Clf loss:  0.043434920439331566
+Approximated average training loss 0.0434
+Eval_train ACCURACY: 0.9850 	Eval_train Loss: 0.0468 	
+Id_val ACCURACY: 0.8734 	Id_val Loss: 1.1032 	
+Id_test ACCURACY: 0.8730 	Id_test Loss: 1.9347 	
+
+Epoch 66:
+Evaluating...
+Clf loss:  0.033771313881652
+Approximated average training loss 0.0338
+Eval_train ACCURACY: 0.9957 	Eval_train Loss: 0.0178 	
+Id_val ACCURACY: 0.8862 	Id_val Loss: 0.7342 	
+Id_test ACCURACY: 0.8783 	Id_test Loss: 2.7978 	
+
+Epoch 67:
+Evaluating...
+Clf loss:  0.030722857756739056
+Approximated average training loss 0.0307
+Eval_train ACCURACY: 0.9934 	Eval_train Loss: 0.0582 	
+Id_val ACCURACY: 0.8861 	Id_val Loss: 0.4917 	
+Id_test ACCURACY: 0.8830 	Id_test Loss: 1.7109 	
+
+Epoch 68:
+Evaluating...
+Clf loss:  0.030150584821500483
+Approximated average training loss 0.0302
+Eval_train ACCURACY: 0.9941 	Eval_train Loss: 0.0264 	
+Id_val ACCURACY: 0.8808 	Id_val Loss: 1.2295 	
+Id_test ACCURACY: 0.8795 	Id_test Loss: 4.2655 	
+
+Epoch 69:
+Evaluating...
+Clf loss:  0.03637608196217337
+Approximated average training loss 0.0364
+Eval_train ACCURACY: 0.9761 	Eval_train Loss: 0.0989 	
+Id_val ACCURACY: 0.8721 	Id_val Loss: 0.6854 	
+Id_test ACCURACY: 0.8695 	Id_test Loss: 1.8754 	
+
+Epoch 70:
+Evaluating...
+Clf loss:  0.028448084527981615
+Approximated average training loss 0.0284
+Eval_train ACCURACY: 0.9920 	Eval_train Loss: 0.0263 	
+Id_val ACCURACY: 0.8755 	Id_val Loss: 1.0175 	
+Id_test ACCURACY: 0.8772 	Id_test Loss: 4.8789 	
+
+Epoch 71:
+Evaluating...
+Clf loss:  0.04207384656335454
+Approximated average training loss 0.0421
+Eval_train ACCURACY: 0.9901 	Eval_train Loss: 0.0367 	
+Id_val ACCURACY: 0.8855 	Id_val Loss: 0.8310 	
+Id_test ACCURACY: 0.8800 	Id_test Loss: 2.4067 	
+
+Epoch 72:
+Evaluating...
+Clf loss:  0.03503915291680336
+Approximated average training loss 0.0350
+Eval_train ACCURACY: 0.9933 	Eval_train Loss: 0.0204 	
+Id_val ACCURACY: 0.8825 	Id_val Loss: 0.8858 	
+Id_test ACCURACY: 0.8740 	Id_test Loss: 1.6293 	
+
+Epoch 73:
+Evaluating...
+Clf loss:  0.047132092636496245
+Approximated average training loss 0.0471
+Eval_train ACCURACY: 0.9879 	Eval_train Loss: 0.0574 	
+Id_val ACCURACY: 0.8808 	Id_val Loss: 0.7515 	
+Id_test ACCURACY: 0.8708 	Id_test Loss: 2.2042 	
+
+Epoch 74:
+Evaluating...
+Clf loss:  0.057384642538350634
+Approximated average training loss 0.0574
+Eval_train ACCURACY: 0.9918 	Eval_train Loss: 0.0329 	
+Id_val ACCURACY: 0.8868 	Id_val Loss: 0.5549 	
+Id_test ACCURACY: 0.8774 	Id_test Loss: 1.3582 	
+
+Epoch 75:
+Evaluating...
+Clf loss:  0.0385005524373385
+Approximated average training loss 0.0385
+Eval_train ACCURACY: 0.9924 	Eval_train Loss: 0.0258 	
+Id_val ACCURACY: 0.8813 	Id_val Loss: 0.8657 	
+Id_test ACCURACY: 0.8719 	Id_test Loss: 1.9908 	
+
+Epoch 76:
+Evaluating...
+Clf loss:  0.026486401008577867
+Approximated average training loss 0.0265
+Eval_train ACCURACY: 0.9970 	Eval_train Loss: 0.0155 	
+Id_val ACCURACY: 0.8885 	Id_val Loss: 0.7660 	
+Id_test ACCURACY: 0.8834 	Id_test Loss: 1.9595 	
+
+Epoch 77:
+Evaluating...
+Clf loss:  0.02290191759461989
+Approximated average training loss 0.0229
+Eval_train ACCURACY: 0.9972 	Eval_train Loss: 0.0136 	
+Id_val ACCURACY: 0.8900 	Id_val Loss: 1.2689 	
+Id_test ACCURACY: 0.8832 	Id_test Loss: 2.9881 	
+
+Epoch 78:
+Evaluating...
+Clf loss:  0.04285227090415043
+Approximated average training loss 0.0429
+Eval_train ACCURACY: 0.9958 	Eval_train Loss: 0.0127 	
+Id_val ACCURACY: 0.8857 	Id_val Loss: 1.0851 	
+Id_test ACCURACY: 0.8804 	Id_test Loss: 1.8301 	
+
+Epoch 79:
+Evaluating...
+Clf loss:  0.02415150847528947
+Approximated average training loss 0.0242
+Eval_train ACCURACY: 0.9935 	Eval_train Loss: 0.0242 	
+Id_val ACCURACY: 0.8840 	Id_val Loss: 0.9637 	
+Id_test ACCURACY: 0.8781 	Id_test Loss: 1.7824 	
+
+Epoch 80:
+Evaluating...
+Clf loss:  0.0217161790727496
+Approximated average training loss 0.0217
+Eval_train ACCURACY: 0.9948 	Eval_train Loss: 0.0194 	
+Id_val ACCURACY: 0.8857 	Id_val Loss: 1.9501 	
+Id_test ACCURACY: 0.8802 	Id_test Loss: 3.1797 	
+
+Epoch 81:
+Evaluating...
+Clf loss:  0.05684234153742778
+Approximated average training loss 0.0568
+Eval_train ACCURACY: 0.9866 	Eval_train Loss: 0.0651 	
+Id_val ACCURACY: 0.8802 	Id_val Loss: 0.5485 	
+Id_test ACCURACY: 0.8751 	Id_test Loss: 2.8364 	
+
+Epoch 82:
+Evaluating...
+Clf loss:  0.038371973345681175
+Approximated average training loss 0.0384
+Eval_train ACCURACY: 0.9981 	Eval_train Loss: 0.0131 	
+Id_val ACCURACY: 0.8895 	Id_val Loss: 0.9350 	
+Id_test ACCURACY: 0.8800 	Id_test Loss: 1.8139 	
+
+Epoch 83:
+Evaluating...
+Clf loss:  0.023601578278387145
+Approximated average training loss 0.0236
+Eval_train ACCURACY: 0.9897 	Eval_train Loss: 0.0418 	
+Id_val ACCURACY: 0.8815 	Id_val Loss: 1.2356 	
+Id_test ACCURACY: 0.8753 	Id_test Loss: 2.5872 	
+
+Epoch 84:
+Evaluating...
+Clf loss:  0.023404918140503213
+Approximated average training loss 0.0234
+Eval_train ACCURACY: 0.9974 	Eval_train Loss: 0.0130 	
+Id_val ACCURACY: 0.8881 	Id_val Loss: 1.5225 	
+Id_test ACCURACY: 0.8779 	Id_test Loss: 3.5884 	
+
+Epoch 85:
+Evaluating...
+Clf loss:  0.02633094160821009
+Approximated average training loss 0.0263
+Eval_train ACCURACY: 0.9978 	Eval_train Loss: 0.0238 	
+Id_val ACCURACY: 0.8955 	Id_val Loss: 0.9616 	
+Id_test ACCURACY: 0.8825 	Id_test Loss: 2.7202 	
+
+Epoch 86:
+Evaluating...
+Clf loss:  0.20051862654421956
+Approximated average training loss 0.2005
+Eval_train ACCURACY: 0.9916 	Eval_train Loss: 0.0287 	
+Id_val ACCURACY: 0.8879 	Id_val Loss: 0.6799 	
+Id_test ACCURACY: 0.8787 	Id_test Loss: 2.5001 	
+
+Epoch 87:
+Evaluating...
+Clf loss:  0.03381557804949487
+Approximated average training loss 0.0338
+Eval_train ACCURACY: 0.9780 	Eval_train Loss: 0.0661 	
+Id_val ACCURACY: 0.8778 	Id_val Loss: 1.1894 	
+Id_test ACCURACY: 0.8706 	Id_test Loss: 3.4556 	
+
+Epoch 88:
+Evaluating...
+Clf loss:  0.02958673765038647
+Approximated average training loss 0.0296
+Eval_train ACCURACY: 0.9973 	Eval_train Loss: 0.0155 	
+Id_val ACCURACY: 0.8917 	Id_val Loss: 1.2350 	
+Id_test ACCURACY: 0.8819 	Id_test Loss: 4.7148 	
+
+Epoch 89:
+Evaluating...
+Clf loss:  0.02814181277856048
+Approximated average training loss 0.0281
+Eval_train ACCURACY: 0.9970 	Eval_train Loss: 0.0140 	
+Id_val ACCURACY: 0.8889 	Id_val Loss: 1.6673 	
+Id_test ACCURACY: 0.8806 	Id_test Loss: 6.5373 	
+
+Epoch 90:
+Evaluating...
+Clf loss:  0.018027373127022992
+Approximated average training loss 0.0180
+Eval_train ACCURACY: 0.9837 	Eval_train Loss: 0.0511 	
+Id_val ACCURACY: 0.8838 	Id_val Loss: 2.0571 	
+Id_test ACCURACY: 0.8759 	Id_test Loss: 9.1108 	
+
+Epoch 91:
+Evaluating...
+Clf loss:  0.021681789828512443
+Approximated average training loss 0.0217
+Eval_train ACCURACY: 0.9941 	Eval_train Loss: 0.0263 	
+Id_val ACCURACY: 0.8815 	Id_val Loss: 2.3142 	
+Id_test ACCURACY: 0.8770 	Id_test Loss: 8.8487 	
+
+Epoch 92:
+Evaluating...
+Clf loss:  0.04456201350602629
+Approximated average training loss 0.0446
+Eval_train ACCURACY: 0.9963 	Eval_train Loss: 0.0153 	
+Id_val ACCURACY: 0.8853 	Id_val Loss: 2.0202 	
+Id_test ACCURACY: 0.8829 	Id_test Loss: 8.9028 	
+
+Epoch 93:
+Evaluating...
+Clf loss:  0.045259863261784744
+Approximated average training loss 0.0453
+Eval_train ACCURACY: 0.9923 	Eval_train Loss: 0.0655 	
+Id_val ACCURACY: 0.8849 	Id_val Loss: 1.9425 	
+Id_test ACCURACY: 0.8762 	Id_test Loss: 4.4551 	
+
+Epoch 94:
+Evaluating...
+Clf loss:  0.039533762583421735
+Approximated average training loss 0.0395
+Eval_train ACCURACY: 0.9974 	Eval_train Loss: 0.0197 	
+Id_val ACCURACY: 0.8855 	Id_val Loss: 1.3637 	
+Id_test ACCURACY: 0.8789 	Id_test Loss: 5.4096 	
+
+Epoch 95:
+Evaluating...
+Clf loss:  0.043597923593128106
+Approximated average training loss 0.0436
+Eval_train ACCURACY: 0.9971 	Eval_train Loss: 0.0143 	
+Id_val ACCURACY: 0.8898 	Id_val Loss: 2.4422 	
+Id_test ACCURACY: 0.8821 	Id_test Loss: 10.5005 	
+
+Epoch 96:
+Evaluating...
+Clf loss:  0.025499743818453553
+Approximated average training loss 0.0255
+Eval_train ACCURACY: 0.9982 	Eval_train Loss: 0.0240 	
+Id_val ACCURACY: 0.8870 	Id_val Loss: 1.6140 	
+Id_test ACCURACY: 0.8830 	Id_test Loss: 7.6520 	
+
+Epoch 97:
+Evaluating...
+Clf loss:  0.14270164145956457
+Approximated average training loss 0.1427
+Eval_train ACCURACY: 0.9863 	Eval_train Loss: 0.0728 	
+Id_val ACCURACY: 0.8800 	Id_val Loss: 1.1352 	
+Id_test ACCURACY: 0.8734 	Id_test Loss: 3.6285 	
+
+Epoch 98:
+Evaluating...
+Clf loss:  0.06294939978645944
+Approximated average training loss 0.0629
+Eval_train ACCURACY: 0.9647 	Eval_train Loss: 0.0918 	
+Id_val ACCURACY: 0.8727 	Id_val Loss: 0.8706 	
+Id_test ACCURACY: 0.8700 	Id_test Loss: 1.7237 	
+
+Epoch 99:
+Evaluating...
+Clf loss:  0.055076306126337835
+Approximated average training loss 0.0551
+Eval_train ACCURACY: 0.9962 	Eval_train Loss: 0.0182 	
+Id_val ACCURACY: 0.8889 	Id_val Loss: 0.6180 	
+Id_test ACCURACY: 0.8770 	Id_test Loss: 1.4513 	
+
+Epoch 100:
+Evaluating...
+Clf loss:  0.02215953467801482
+Approximated average training loss 0.0222
+Eval_train ACCURACY: 0.9983 	Eval_train Loss: 0.0196 	
+Id_val ACCURACY: 0.8921 	Id_val Loss: 0.5270 	
+Id_test ACCURACY: 0.8829 	Id_test Loss: 2.5680 	
+
+Epoch 101:
+Evaluating...
+Clf loss:  0.03102160293233924
+Approximated average training loss 0.0310
+Eval_train ACCURACY: 0.9909 	Eval_train Loss: 0.0307 	
+Id_val ACCURACY: 0.8859 	Id_val Loss: 0.9607 	
+Id_test ACCURACY: 0.8830 	Id_test Loss: 2.9722 	
+
+Epoch 102:
+Evaluating...
+Clf loss:  0.021432723777113145
+Approximated average training loss 0.0214
+Eval_train ACCURACY: 0.9956 	Eval_train Loss: 0.0328 	
+Id_val ACCURACY: 0.8849 	Id_val Loss: 1.9233 	
+Id_test ACCURACY: 0.8810 	Id_test Loss: 8.3597 	
+
+Epoch 103:
+Evaluating...
+Clf loss:  0.04530770051155359
+Approximated average training loss 0.0453
+Eval_train ACCURACY: 0.9931 	Eval_train Loss: 0.0262 	
+Id_val ACCURACY: 0.8819 	Id_val Loss: 0.9554 	
+Id_test ACCURACY: 0.8761 	Id_test Loss: 2.3488 	
+
+Epoch 104:
+Evaluating...
+Clf loss:  0.03109951686989456
+Approximated average training loss 0.0311
+Eval_train ACCURACY: 0.9918 	Eval_train Loss: 0.0271 	
+Id_val ACCURACY: 0.8817 	Id_val Loss: 3.2591 	
+Id_test ACCURACY: 0.8740 	Id_test Loss: 8.1687 	
+
+Epoch 105:
+Evaluating...
+Clf loss:  0.09281251765820418
+Approximated average training loss 0.0928
+Eval_train ACCURACY: 0.9840 	Eval_train Loss: 0.0586 	
+Id_val ACCURACY: 0.8853 	Id_val Loss: 1.6454 	
+Id_test ACCURACY: 0.8789 	Id_test Loss: 3.1679 	
+
+Epoch 106:
+Evaluating...
+Clf loss:  0.04634056362149668
+Approximated average training loss 0.0463
+Eval_train ACCURACY: 0.9969 	Eval_train Loss: 0.0167 	
+Id_val ACCURACY: 0.8859 	Id_val Loss: 1.2515 	
+Id_test ACCURACY: 0.8853 	Id_test Loss: 5.1584 	
+
+Epoch 107:
+Evaluating...
+Clf loss:  0.017863431936170227
+Approximated average training loss 0.0179
+Eval_train ACCURACY: 0.9978 	Eval_train Loss: 0.0107 	
+Id_val ACCURACY: 0.8906 	Id_val Loss: 2.3217 	
+Id_test ACCURACY: 0.8864 	Id_test Loss: 10.9563 	
+
+Epoch 108:
+Evaluating...
+Clf loss:  0.44994075920004395
+Approximated average training loss 0.4499
+Eval_train ACCURACY: 0.9848 	Eval_train Loss: 0.0409 	
+Id_val ACCURACY: 0.8808 	Id_val Loss: 1.7045 	
+Id_test ACCURACY: 0.8791 	Id_test Loss: 4.8985 	
+
+Epoch 109:
+Evaluating...
+Clf loss:  0.042164124877995264
+Approximated average training loss 0.0422
+Eval_train ACCURACY: 0.9966 	Eval_train Loss: 0.0273 	
+Id_val ACCURACY: 0.8866 	Id_val Loss: 1.4752 	
+Id_test ACCURACY: 0.8802 	Id_test Loss: 3.3387 	
+
+Epoch 110:
+Evaluating...
+Clf loss:  0.038443533243117806
+Approximated average training loss 0.0384
+Eval_train ACCURACY: 0.9924 	Eval_train Loss: 0.0315 	
+Id_val ACCURACY: 0.8872 	Id_val Loss: 4.0547 	
+Id_test ACCURACY: 0.8806 	Id_test Loss: 2.9999 	
+
+Epoch 111:
+Evaluating...
+Clf loss:  0.05318847030074348
+Approximated average training loss 0.0532
+Eval_train ACCURACY: 0.9928 	Eval_train Loss: 0.0289 	
+Id_val ACCURACY: 0.8842 	Id_val Loss: 1.1637 	
+Id_test ACCURACY: 0.8787 	Id_test Loss: 1.6426 	
+
+Epoch 112:
+Evaluating...
+Clf loss:  0.022698001096884194
+Approximated average training loss 0.0227
+Eval_train ACCURACY: 0.9989 	Eval_train Loss: 0.0077 	
+Id_val ACCURACY: 0.8915 	Id_val Loss: 2.3034 	
+Id_test ACCURACY: 0.8878 	Id_test Loss: 2.4912 	
+
+Epoch 113:
+Evaluating...
+Clf loss:  0.023968991487895816
+Approximated average training loss 0.0240
+Eval_train ACCURACY: 0.9929 	Eval_train Loss: 0.0279 	
+Id_val ACCURACY: 0.8810 	Id_val Loss: 1.6660 	
+Id_test ACCURACY: 0.8753 	Id_test Loss: 4.0209 	
+
+Epoch 114:
+Evaluating...
+Clf loss:  0.025521543081739873
+Approximated average training loss 0.0255
+Eval_train ACCURACY: 0.9926 	Eval_train Loss: 0.0382 	
+Id_val ACCURACY: 0.8842 	Id_val Loss: 1.4281 	
+Id_test ACCURACY: 0.8849 	Id_test Loss: 3.8840 	
+
+Epoch 115:
+Evaluating...
+Clf loss:  0.02896488070952864
+Approximated average training loss 0.0290
+Eval_train ACCURACY: 0.9982 	Eval_train Loss: 0.0116 	
+Id_val ACCURACY: 0.8893 	Id_val Loss: 2.1959 	
+Id_test ACCURACY: 0.8906 	Id_test Loss: 5.8598 	
+
+Epoch 116:
+Evaluating...
+Clf loss:  0.04820434006445444
+Approximated average training loss 0.0482
+Eval_train ACCURACY: 0.9745 	Eval_train Loss: 0.0999 	
+Id_val ACCURACY: 0.8666 	Id_val Loss: 0.4374 	
+Id_test ACCURACY: 0.8653 	Id_test Loss: 1.2220 	
+
+Epoch 117:
+Evaluating...
+Clf loss:  0.9698402366950369
+Approximated average training loss 0.9698
+Eval_train ACCURACY: 0.9832 	Eval_train Loss: 0.0755 	
+Id_val ACCURACY: 0.8774 	Id_val Loss: 0.4247 	
+Id_test ACCURACY: 0.8749 	Id_test Loss: 0.5062 	
+
+Epoch 118:
+Evaluating...
+Clf loss:  0.052365378341288155
+Approximated average training loss 0.0524
+Eval_train ACCURACY: 0.9935 	Eval_train Loss: 0.0260 	
+Id_val ACCURACY: 0.8846 	Id_val Loss: 1.0037 	
+Id_test ACCURACY: 0.8798 	Id_test Loss: 3.0222 	
+
+Epoch 119:
+Evaluating...
+Clf loss:  0.03759014568937701
+Approximated average training loss 0.0376
+Eval_train ACCURACY: 0.9972 	Eval_train Loss: 0.0235 	
+Id_val ACCURACY: 0.8842 	Id_val Loss: 1.6882 	
+Id_test ACCURACY: 0.8834 	Id_test Loss: 5.0922 	
+
+Epoch 120:
+Evaluating...
+Clf loss:  0.03777558654607122
+Approximated average training loss 0.0378
+Eval_train ACCURACY: 0.9974 	Eval_train Loss: 0.0141 	
+Id_val ACCURACY: 0.8855 	Id_val Loss: 1.1201 	
+Id_test ACCURACY: 0.8829 	Id_test Loss: 4.0104 	
+
+Epoch 121:
+Evaluating...
+Clf loss:  0.02748428665010354
+Approximated average training loss 0.0275
+Eval_train ACCURACY: 0.9983 	Eval_train Loss: 0.0098 	
+Id_val ACCURACY: 0.8851 	Id_val Loss: 1.8834 	
+Id_test ACCURACY: 0.8812 	Id_test Loss: 5.1579 	
+
+Epoch 122:
+Evaluating...
+Clf loss:  0.0211859375997401
+Approximated average training loss 0.0212
+Eval_train ACCURACY: 0.9966 	Eval_train Loss: 0.0175 	
+Id_val ACCURACY: 0.8870 	Id_val Loss: 3.8167 	
+Id_test ACCURACY: 0.8838 	Id_test Loss: 11.8453 	
+
+Epoch 123:
+Evaluating...
+Clf loss:  0.0426612553637274
+Approximated average training loss 0.0427
+Eval_train ACCURACY: 0.9882 	Eval_train Loss: 0.0420 	
+Id_val ACCURACY: 0.8825 	Id_val Loss: 2.9002 	
+Id_test ACCURACY: 0.8785 	Id_test Loss: 8.4488 	
+
+Epoch 124:
+Evaluating...
+Clf loss:  0.06597316237741349
+Approximated average training loss 0.0660
+Eval_train ACCURACY: 0.9961 	Eval_train Loss: 0.0204 	
+Id_val ACCURACY: 0.8925 	Id_val Loss: 3.7821 	
+Id_test ACCURACY: 0.8796 	Id_test Loss: 6.8163 	
+
+Epoch 125:
+Evaluating...
+Clf loss:  0.04052787407517814
+Approximated average training loss 0.0405
+Eval_train ACCURACY: 0.9973 	Eval_train Loss: 0.0226 	
+Id_val ACCURACY: 0.8879 	Id_val Loss: 0.8404 	
+Id_test ACCURACY: 0.8840 	Id_test Loss: 5.2387 	
+
+Epoch 126:
+Evaluating...
+Clf loss:  0.1247996154304912
+Approximated average training loss 0.1248
+Eval_train ACCURACY: 0.9725 	Eval_train Loss: 0.1100 	
+Id_val ACCURACY: 0.8687 	Id_val Loss: 9.2943 	
+Id_test ACCURACY: 0.8700 	Id_test Loss: 0.5944 	
+
+Epoch 127:
+Evaluating...
+Clf loss:  0.06437985831864099
+Approximated average training loss 0.0644
+Eval_train ACCURACY: 0.9957 	Eval_train Loss: 0.0177 	
+Id_val ACCURACY: 0.8883 	Id_val Loss: 1.2968 	
+Id_test ACCURACY: 0.8846 	Id_test Loss: 0.7988 	
+
+Epoch 128:
+Evaluating...
+Clf loss:  0.03181791607691898
+Approximated average training loss 0.0318
+Eval_train ACCURACY: 0.9974 	Eval_train Loss: 0.0151 	
+Id_val ACCURACY: 0.8898 	Id_val Loss: 2.0350 	
+Id_test ACCURACY: 0.8904 	Id_test Loss: 0.8589 	
+
+Epoch 129:
+Evaluating...
+Clf loss:  0.3377291320444362
+Approximated average training loss 0.3377
+Eval_train ACCURACY: 0.9818 	Eval_train Loss: 0.0650 	
+Id_val ACCURACY: 0.8808 	Id_val Loss: 0.5327 	
+Id_test ACCURACY: 0.8738 	Id_test Loss: 0.9272 	
+
+Epoch 130:
+Evaluating...
+Clf loss:  0.04217379351739815
+Approximated average training loss 0.0422
+Eval_train ACCURACY: 0.9944 	Eval_train Loss: 0.0231 	
+Id_val ACCURACY: 0.8876 	Id_val Loss: 0.7063 	
+Id_test ACCURACY: 0.8836 	Id_test Loss: 2.1535 	
+
+Epoch 131:
+Evaluating...
+Clf loss:  0.02396382065027493
+Approximated average training loss 0.0240
+Eval_train ACCURACY: 0.9969 	Eval_train Loss: 0.0164 	
+Id_val ACCURACY: 0.8872 	Id_val Loss: 0.8142 	
+Id_test ACCURACY: 0.8862 	Id_test Loss: 3.1655 	
+
+Epoch 132:
+Evaluating...
+Clf loss:  0.020478437222940564
+Approximated average training loss 0.0205
+Eval_train ACCURACY: 0.9961 	Eval_train Loss: 0.0212 	
+Id_val ACCURACY: 0.8902 	Id_val Loss: 1.5460 	
+Id_test ACCURACY: 0.8838 	Id_test Loss: 1.2658 	
+
+Epoch 133:
+Evaluating...
+Clf loss:  0.030172906403413084
+Approximated average training loss 0.0302
+Eval_train ACCURACY: 0.9975 	Eval_train Loss: 0.0110 	
+Id_val ACCURACY: 0.8870 	Id_val Loss: 1.7152 	
+Id_test ACCURACY: 0.8832 	Id_test Loss: 4.4630 	
+
+Epoch 134:
+Evaluating...
+Clf loss:  0.05524125457272032
+Approximated average training loss 0.0552
+Eval_train ACCURACY: 0.9930 	Eval_train Loss: 0.0357 	
+Id_val ACCURACY: 0.8819 	Id_val Loss: 1.3821 	
+Id_test ACCURACY: 0.8849 	Id_test Loss: 1.8596 	
+
+Epoch 135:
+Evaluating...
+Clf loss:  0.21293327850228083
+Approximated average training loss 0.2129
+Eval_train ACCURACY: 0.9136 	Eval_train Loss: 0.2108 	
+Id_val ACCURACY: 0.8329 	Id_val Loss: 1.9140 	
+Id_test ACCURACY: 0.8327 	Id_test Loss: 1.5304 	
+
+Epoch 136:
+Evaluating...
+Clf loss:  0.14883398981685095
+Approximated average training loss 0.1488
+Eval_train ACCURACY: 0.9875 	Eval_train Loss: 0.0366 	
+Id_val ACCURACY: 0.8795 	Id_val Loss: 0.5392 	
+Id_test ACCURACY: 0.8755 	Id_test Loss: 1.2377 	
+
+Epoch 137:
+Evaluating...
+Clf loss:  0.03619469949927568
+Approximated average training loss 0.0362
+Eval_train ACCURACY: 0.9971 	Eval_train Loss: 0.0097 	
+Id_val ACCURACY: 0.8887 	Id_val Loss: 0.7803 	
+Id_test ACCURACY: 0.8834 	Id_test Loss: 2.7644 	
+
+Epoch 138:
+Evaluating...
+Clf loss:  0.32896797530352634
+Approximated average training loss 0.3290
+Eval_train ACCURACY: 0.9868 	Eval_train Loss: 0.0310 	
+Id_val ACCURACY: 0.8836 	Id_val Loss: 0.6391 	
+Id_test ACCURACY: 0.8772 	Id_test Loss: 0.8947 	
+
+Epoch 139:
+Evaluating...
+Clf loss:  0.05823797277087268
+Approximated average training loss 0.0582
+Eval_train ACCURACY: 0.9917 	Eval_train Loss: 0.0333 	
+Id_val ACCURACY: 0.8861 	Id_val Loss: 0.4684 	
+Id_test ACCURACY: 0.8800 	Id_test Loss: 0.9866 	
+
+Epoch 140:
+Evaluating...
+Clf loss:  0.04150786861575273
+Approximated average training loss 0.0415
+Eval_train ACCURACY: 0.9960 	Eval_train Loss: 0.0152 	
+Id_val ACCURACY: 0.8866 	Id_val Loss: 0.7144 	
+Id_test ACCURACY: 0.8812 	Id_test Loss: 1.4089 	
+
+Epoch 141:
+Evaluating...
+Clf loss:  0.031731458198781766
+Approximated average training loss 0.0317
+Eval_train ACCURACY: 0.9966 	Eval_train Loss: 0.0157 	
+Id_val ACCURACY: 0.8910 	Id_val Loss: 1.6787 	
+Id_test ACCURACY: 0.8804 	Id_test Loss: 3.7159 	
+
+Epoch 142:
+Evaluating...
+Clf loss:  0.043530219418921795
+Approximated average training loss 0.0435
+Eval_train ACCURACY: 0.9976 	Eval_train Loss: 0.0101 	
+Id_val ACCURACY: 0.8883 	Id_val Loss: 1.1904 	
+Id_test ACCURACY: 0.8857 	Id_test Loss: 4.7758 	
+
+Epoch 143:
+Evaluating...
+Clf loss:  0.019098523859425783
+Approximated average training loss 0.0191
+Eval_train ACCURACY: 0.9984 	Eval_train Loss: 0.0127 	
+Id_val ACCURACY: 0.8878 	Id_val Loss: 3.7695 	
+Id_test ACCURACY: 0.8853 	Id_test Loss: 7.5191 	
+
+Epoch 144:
+Evaluating...
+Clf loss:  0.13010659346174042
+Approximated average training loss 0.1301
+Eval_train ACCURACY: 0.9002 	Eval_train Loss: 0.2021 	
+Id_val ACCURACY: 0.8240 	Id_val Loss: 0.5949 	
+Id_test ACCURACY: 0.8178 	Id_test Loss: 1.4079 	
+
+Epoch 145:
+Evaluating...
+Clf loss:  0.11297729629408786
+Approximated average training loss 0.1130
+Eval_train ACCURACY: 0.9911 	Eval_train Loss: 0.0331 	
+Id_val ACCURACY: 0.8861 	Id_val Loss: 0.5616 	
+Id_test ACCURACY: 0.8838 	Id_test Loss: 0.7344 	
+
+Epoch 146:
+Evaluating...
+Clf loss:  0.037336040227427904
+Approximated average training loss 0.0373
+Eval_train ACCURACY: 0.9963 	Eval_train Loss: 0.0150 	
+Id_val ACCURACY: 0.8857 	Id_val Loss: 0.7616 	
+Id_test ACCURACY: 0.8827 	Id_test Loss: 1.4602 	
+
+Epoch 147:
+Evaluating...
+Clf loss:  0.0306632949049548
+Approximated average training loss 0.0307
+Eval_train ACCURACY: 0.9975 	Eval_train Loss: 0.0117 	
+Id_val ACCURACY: 0.8868 	Id_val Loss: 1.0566 	
+Id_test ACCURACY: 0.8872 	Id_test Loss: 2.1366 	
+
+Epoch 148:
+Evaluating...
+Clf loss:  0.024377954464952372
+Approximated average training loss 0.0244
+Eval_train ACCURACY: 0.9984 	Eval_train Loss: 0.0052 	
+Id_val ACCURACY: 0.8885 	Id_val Loss: 1.1228 	
+Id_test ACCURACY: 0.8808 	Id_test Loss: 3.0614 	
+
+Epoch 149:
+Evaluating...
+Clf loss:  0.05426045214085266
+Approximated average training loss 0.0543
+Eval_train ACCURACY: 0.9957 	Eval_train Loss: 0.0151 	
+Id_val ACCURACY: 0.8889 	Id_val Loss: 0.8088 	
+Id_test ACCURACY: 0.8862 	Id_test Loss: 1.4354 	
+
+Epoch 150:
+Evaluating...
+Clf loss:  0.017515320895353823
+Approximated average training loss 0.0175
+Eval_train ACCURACY: 0.9985 	Eval_train Loss: 0.0078 	
+Id_val ACCURACY: 0.8908 	Id_val Loss: 0.7854 	
+Id_test ACCURACY: 0.8870 	Id_test Loss: 1.6683 	
+
+Epoch 151:
+Evaluating...
+Clf loss:  0.010323377545176779
+Approximated average training loss 0.0103
+Eval_train ACCURACY: 0.9992 	Eval_train Loss: 0.0045 	
+Id_val ACCURACY: 0.8945 	Id_val Loss: 0.8826 	
+Id_test ACCURACY: 0.8881 	Id_test Loss: 1.9413 	
+
+Epoch 152:
+Evaluating...
+Clf loss:  0.007891134806293937
+Approximated average training loss 0.0079
+Eval_train ACCURACY: 0.9995 	Eval_train Loss: 0.0031 	
+Id_val ACCURACY: 0.8976 	Id_val Loss: 1.0133 	
+Id_test ACCURACY: 0.8896 	Id_test Loss: 2.3534 	
+
+Epoch 153:
+Evaluating...
+Clf loss:  0.006269832094597
+Approximated average training loss 0.0063
+Eval_train ACCURACY: 0.9998 	Eval_train Loss: 0.0020 	
+Id_val ACCURACY: 0.8936 	Id_val Loss: 1.1327 	
+Id_test ACCURACY: 0.8866 	Id_test Loss: 2.8380 	
+
+Epoch 154:
+Evaluating...
+Clf loss:  0.004349444925390987
+Approximated average training loss 0.0043
+Eval_train ACCURACY: 1.0000 	Eval_train Loss: 0.0011 	
+Id_val ACCURACY: 0.8940 	Id_val Loss: 1.3144 	
+Id_test ACCURACY: 0.8883 	Id_test Loss: 3.3606 	
+
+Epoch 155:
+Evaluating...
+Clf loss:  0.004169241182466952
+Approximated average training loss 0.0042
+Eval_train ACCURACY: 1.0000 	Eval_train Loss: 0.0009 	
+Id_val ACCURACY: 0.8945 	Id_val Loss: 1.4759 	
+Id_test ACCURACY: 0.8868 	Id_test Loss: 3.8620 	
+
+Epoch 156:
+Evaluating...
+Clf loss:  0.0029420252767828644
+Approximated average training loss 0.0029
+Eval_train ACCURACY: 1.0000 	Eval_train Loss: 0.0007 	
+Id_val ACCURACY: 0.8930 	Id_val Loss: 1.7701 	
+Id_test ACCURACY: 0.8891 	Id_test Loss: 4.6703 	
+
+Epoch 157:
+Evaluating...
+Clf loss:  0.0017012950670498644
+Approximated average training loss 0.0017
+Eval_train ACCURACY: 1.0000 	Eval_train Loss: 0.0004 	
+Id_val ACCURACY: 0.8936 	Id_val Loss: 2.1686 	
+Id_test ACCURACY: 0.8866 	Id_test Loss: 5.5663 	
+
+Epoch 158:
+Evaluating...
+Clf loss:  0.004558657979154636
+Approximated average training loss 0.0046
+Eval_train ACCURACY: 1.0000 	Eval_train Loss: 0.0007 	
+Id_val ACCURACY: 0.8944 	Id_val Loss: 2.4409 	
+Id_test ACCURACY: 0.8889 	Id_test Loss: 6.1353 	
+
+Epoch 159:
+Evaluating...
+Clf loss:  0.0015148270366380262
+Approximated average training loss 0.0015
+Eval_train ACCURACY: 1.0000 	Eval_train Loss: 0.0004 	
+Id_val ACCURACY: 0.8942 	Id_val Loss: 2.8964 	
+Id_test ACCURACY: 0.8866 	Id_test Loss: 7.3391 	
+
+Epoch 160:
+Evaluating...
+Clf loss:  0.0026276311671837305
+Approximated average training loss 0.0026
+Eval_train ACCURACY: 1.0000 	Eval_train Loss: 0.0004 	
+Id_val ACCURACY: 0.8938 	Id_val Loss: 3.0210 	
+Id_test ACCURACY: 0.8868 	Id_test Loss: 7.5018 	
+
+Epoch 161:
+Evaluating...
+Clf loss:  0.002204023898823317
+Approximated average training loss 0.0022
+Eval_train ACCURACY: 1.0000 	Eval_train Loss: 0.0003 	
+Id_val ACCURACY: 0.8947 	Id_val Loss: 4.1395 	
+Id_test ACCURACY: 0.8868 	Id_test Loss: 8.5856 	
+
+Epoch 162:
+Evaluating...
+Clf loss:  0.001827067141034442
+Approximated average training loss 0.0018
+Eval_train ACCURACY: 1.0000 	Eval_train Loss: 0.0003 	
+Id_val ACCURACY: 0.8942 	Id_val Loss: 5.0987 	
+Id_test ACCURACY: 0.8876 	Id_test Loss: 10.8339 	
+
+Epoch 163:
+Evaluating...
+Clf loss:  0.0019902947782485985
+Approximated average training loss 0.0020
+Eval_train ACCURACY: 0.9999 	Eval_train Loss: 0.0003 	
+Id_val ACCURACY: 0.8944 	Id_val Loss: 5.9134 	
+Id_test ACCURACY: 0.8874 	Id_test Loss: 10.6758 	
+
+Epoch 164:
+Evaluating...
+Clf loss:  0.0009102843137942245
+Approximated average training loss 0.0009
+Eval_train ACCURACY: 1.0000 	Eval_train Loss: 0.0002 	
+Id_val ACCURACY: 0.8942 	Id_val Loss: 5.8647 	
+Id_test ACCURACY: 0.8879 	Id_test Loss: 10.8362 	
+
+Epoch 165:
+Evaluating...
+Clf loss:  0.0015070562861740542
+Approximated average training loss 0.0015
+Eval_train ACCURACY: 1.0000 	Eval_train Loss: 0.0002 	
+Id_val ACCURACY: 0.8932 	Id_val Loss: 5.8348 	
+Id_test ACCURACY: 0.8878 	Id_test Loss: 10.7651 	
+
+Epoch 166:
+Evaluating...
+Clf loss:  0.0011937288752691948
+Approximated average training loss 0.0012
+Eval_train ACCURACY: 0.9998 	Eval_train Loss: 0.0014 	
+Id_val ACCURACY: 0.8923 	Id_val Loss: 6.4961 	
+Id_test ACCURACY: 0.8855 	Id_test Loss: 11.8213 	
+
+Epoch 167:
+Evaluating...
+Clf loss:  0.001465364219085882
+Approximated average training loss 0.0015
+Eval_train ACCURACY: 1.0000 	Eval_train Loss: 0.0002 	
+Id_val ACCURACY: 0.8944 	Id_val Loss: 6.8347 	
+Id_test ACCURACY: 0.8891 	Id_test Loss: 13.4422 	
+
+Epoch 168:
+Evaluating...
+Clf loss:  0.001055863085268834
+Approximated average training loss 0.0011
+Eval_train ACCURACY: 1.0000 	Eval_train Loss: 0.0002 	
+Id_val ACCURACY: 0.8964 	Id_val Loss: 7.3048 	
+Id_test ACCURACY: 0.8889 	Id_test Loss: 14.3257 	
+
+Epoch 169:
+Evaluating...
+Clf loss:  0.0010396075787233359
+Approximated average training loss 0.0010
+Eval_train ACCURACY: 0.9999 	Eval_train Loss: 0.0003 	
+Id_val ACCURACY: 0.8947 	Id_val Loss: 8.0879 	
+Id_test ACCURACY: 0.8893 	Id_test Loss: 15.6539 	
+
+Epoch 170:
+Evaluating...
+Clf loss:  0.0021024180857491864
+Approximated average training loss 0.0021
+Eval_train ACCURACY: 1.0000 	Eval_train Loss: 0.0002 	
+Id_val ACCURACY: 0.8938 	Id_val Loss: 6.4686 	
+Id_test ACCURACY: 0.8870 	Id_test Loss: 14.9481 	
+
+Epoch 171:
+Evaluating...
+Clf loss:  0.0007582205491087447
+Approximated average training loss 0.0008
+Eval_train ACCURACY: 1.0000 	Eval_train Loss: 0.0001 	
+Id_val ACCURACY: 0.8944 	Id_val Loss: 7.6553 	
+Id_test ACCURACY: 0.8898 	Id_test Loss: 15.5275 	
+
+Epoch 172:
+Evaluating...
+Clf loss:  0.0006326878133976967
+Approximated average training loss 0.0006
+Eval_train ACCURACY: 1.0000 	Eval_train Loss: 0.0001 	
+Id_val ACCURACY: 0.8945 	Id_val Loss: 9.5460 	
+Id_test ACCURACY: 0.8895 	Id_test Loss: 18.4584 	
+
+Epoch 173:
+Evaluating...
+Clf loss:  0.0004810986145656706
+Approximated average training loss 0.0005
+Eval_train ACCURACY: 1.0000 	Eval_train Loss: 0.0002 	
+Id_val ACCURACY: 0.8927 	Id_val Loss: 9.8475 	
+Id_test ACCURACY: 0.8876 	Id_test Loss: 21.0297 	
+
+Epoch 174:
+Evaluating...
+Clf loss:  0.0009639699498918614
+Approximated average training loss 0.0010
+Eval_train ACCURACY: 1.0000 	Eval_train Loss: 0.0001 	
+Id_val ACCURACY: 0.8934 	Id_val Loss: 9.6495 	
+Id_test ACCURACY: 0.8883 	Id_test Loss: 20.6834 	
+
+Epoch 175:
+Evaluating...
+Clf loss:  0.0007691355200069914
+Approximated average training loss 0.0008
+Eval_train ACCURACY: 1.0000 	Eval_train Loss: 0.0001 	
+Id_val ACCURACY: 0.8936 	Id_val Loss: 10.5977 	
+Id_test ACCURACY: 0.8915 	Id_test Loss: 22.1261 	
+
+Epoch 176:
+Evaluating...
+Clf loss:  0.0006770232790855725
+Approximated average training loss 0.0007
+Eval_train ACCURACY: 1.0000 	Eval_train Loss: 0.0001 	
+Id_val ACCURACY: 0.8921 	Id_val Loss: 16.0727 	
+Id_test ACCURACY: 0.8887 	Id_test Loss: 30.5865 	
+
+Epoch 177:
+Evaluating...
+Clf loss:  0.020349274175752597
+Approximated average training loss 0.0203
+Eval_train ACCURACY: 0.9999 	Eval_train Loss: 0.0004 	
+Id_val ACCURACY: 0.8917 	Id_val Loss: 18.5596 	
+Id_test ACCURACY: 0.8912 	Id_test Loss: 35.7782 	
+
+Epoch 178:
+Evaluating...
+Clf loss:  0.0013236494222338667
+Approximated average training loss 0.0013
+Eval_train ACCURACY: 1.0000 	Eval_train Loss: 0.0001 	
+Id_val ACCURACY: 0.8912 	Id_val Loss: 15.6637 	
+Id_test ACCURACY: 0.8891 	Id_test Loss: 32.8632 	
+
+Epoch 179:
+Evaluating...
+Clf loss:  0.0014937312463254263
+Approximated average training loss 0.0015
+Eval_train ACCURACY: 1.0000 	Eval_train Loss: 0.0001 	
+Id_val ACCURACY: 0.8929 	Id_val Loss: 16.4762 	
+Id_test ACCURACY: 0.8868 	Id_test Loss: 36.8024 	
+
+Epoch 180:
+Evaluating...
+Clf loss:  0.0011844181053802792
+Approximated average training loss 0.0012
+Eval_train ACCURACY: 0.9999 	Eval_train Loss: 0.0004 	
+Id_val ACCURACY: 0.8904 	Id_val Loss: 18.1717 	
+Id_test ACCURACY: 0.8896 	Id_test Loss: 36.9358 	
+
+Epoch 181:
+Evaluating...
+Clf loss:  0.0010777308724626243
+Approximated average training loss 0.0011
+Eval_train ACCURACY: 0.9999 	Eval_train Loss: 0.0003 	
+Id_val ACCURACY: 0.8921 	Id_val Loss: 20.9163 	
+Id_test ACCURACY: 0.8883 	Id_test Loss: 40.0046 	
+
+Epoch 182:
+Evaluating...
+Clf loss:  0.0013191528434385244
+Approximated average training loss 0.0013
+Eval_train ACCURACY: 1.0000 	Eval_train Loss: 0.0001 	
+Id_val ACCURACY: 0.8929 	Id_val Loss: 20.8442 	
+Id_test ACCURACY: 0.8887 	Id_test Loss: 40.7411 	
+
+Epoch 183:
+Evaluating...
+Clf loss:  0.0017163769027759655
+Approximated average training loss 0.0017
+Eval_train ACCURACY: 1.0000 	Eval_train Loss: 0.0001 	
+Id_val ACCURACY: 0.8925 	Id_val Loss: 20.9407 	
+Id_test ACCURACY: 0.8885 	Id_test Loss: 40.9095 	
+
+Epoch 184:
+Evaluating...
+Clf loss:  0.0005690488570435353
+Approximated average training loss 0.0006
+Eval_train ACCURACY: 1.0000 	Eval_train Loss: 0.0001 	
+Id_val ACCURACY: 0.8951 	Id_val Loss: 23.7076 	
+Id_test ACCURACY: 0.8895 	Id_test Loss: 43.2404 	
+
+Epoch 185:
+Evaluating...
+Clf loss:  0.0004892387340687632
+Approximated average training loss 0.0005
+Eval_train ACCURACY: 1.0000 	Eval_train Loss: 0.0001 	
+Id_val ACCURACY: 0.8944 	Id_val Loss: 25.5328 	
+Id_test ACCURACY: 0.8900 	Id_test Loss: 46.7081 	
+
+Epoch 186:
+Evaluating...
+Clf loss:  0.000410054672809044
+Approximated average training loss 0.0004
+Eval_train ACCURACY: 1.0000 	Eval_train Loss: 0.0001 	
+Id_val ACCURACY: 0.8940 	Id_val Loss: 27.9853 	
+Id_test ACCURACY: 0.8896 	Id_test Loss: 50.2962 	
+
+Epoch 187:
+Evaluating...
+Clf loss:  0.0002302820105533427
+Approximated average training loss 0.0002
+Eval_train ACCURACY: 1.0000 	Eval_train Loss: 0.0001 	
+Id_val ACCURACY: 0.8949 	Id_val Loss: 28.8953 	
+Id_test ACCURACY: 0.8904 	Id_test Loss: 51.6082 	
+
+Epoch 188:
+Evaluating...
+Clf loss:  0.00029013295413297214
+Approximated average training loss 0.0003
+Eval_train ACCURACY: 1.0000 	Eval_train Loss: 0.0002 	
+Id_val ACCURACY: 0.8951 	Id_val Loss: 32.9184 	
+Id_test ACCURACY: 0.8910 	Id_test Loss: 58.7780 	
+
+Epoch 189:
