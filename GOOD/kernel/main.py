@@ -961,6 +961,10 @@ def main():
             for s in ["id_val", "id_test", "val", "test"]:
                 sa = pipeline.evaluate(s, compute_suff=False)
                 test_scores[s].append(sa['score'])
+            
+            if config.global_side_channel and "simple_concept" in config.global_side_channel:
+                    channel_relevances.append(model.combinator.classifier[0].alpha_norm.cpu().numpy())
+                    print("\nConcept relevance scores for this run:\n", channel_relevances[-1], "\n")
         elif config.task == 'test':
             test_score, test_loss = pipeline.load_task(load_param=True, load_split="id")
             
