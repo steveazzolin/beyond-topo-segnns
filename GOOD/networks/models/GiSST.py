@@ -72,10 +72,10 @@ class GiSSTGIN(GNNBasic):
         x_prob = self.prob_mask()
         x_prob.requires_grad_()
         x_prob.retain_grad()
-        x = data.x * x_prob
+        data.x = data.x * x_prob
 
         # edge topological explanation
-        edge_prob = self.extractor(x, data.edge_index)
+        edge_prob = self.extractor(data.x, data.edge_index)
         edge_prob.requires_grad_()
         edge_prob.retain_grad()
 
@@ -95,7 +95,7 @@ class GiSSTGIN(GNNBasic):
         if kwargs.get('weight', None):
             if kwargs.get('is_ratio'):
                 (causal_edge_index, causal_edge_attr, causal_edge_weight), _ = split_graph(data, edge_att, kwargs.get('weight'))
-                causal_x, causal_edge_index, causal_batch, _ = relabel(x, causal_edge_index, data.batch)
+                causal_x, causal_edge_index, causal_batch, _ = relabel(data.x, causal_edge_index, data.batch)
                 data.x = causal_x
                 data.batch = causal_batch
                 data.edge_index = causal_edge_index
@@ -112,7 +112,7 @@ class GiSSTGIN(GNNBasic):
             (causal_edge_index, causal_edge_attr, edge_att), \
                 _ = split_graph(data, edge_att, self.config.mitigation_expl_scores_topk)
            
-            causal_x, causal_edge_index, causal_batch, _ = relabel(x, causal_edge_index, data.batch)
+            causal_x, causal_edge_index, causal_batch, _ = relabel(data.x, causal_edge_index, data.batch)
 
             data_topk = Data(x=causal_x, edge_index=causal_edge_index, edge_attr=causal_edge_attr, batch=causal_batch)
             kwargs['data'] = data_topk
@@ -124,6 +124,85 @@ class GiSSTGIN(GNNBasic):
         clear_masks(self)
         self.edge_mask = edge_att
         return logits, x_prob, edge_prob
+    
+    @torch.no_grad()
+    def probs(self, *args, **kwargs):
+        # nodes x classes
+        logits, _, _ = self(*args, **kwargs)
+
+        if logits.shape[-1] > 1:
+            return logits.softmax(dim=1)
+        else:
+            return logits.sigmoid()
+        
+    @torch.no_grad()
+    def log_probs(self, eval_kl=False, *args, **kwargs):
+        # nodes x classes
+        logits, _, _ = self(*args, **kwargs)
+            
+        if logits.shape[-1] > 1:
+            return logits.log_softmax(dim=1)
+        else:
+            if eval_kl: # make the single logit a proper distribution summing to 1 to compute KL
+                logits = logits.sigmoid()
+                new_logits = torch.zeros((logits.shape[0], logits.shape[1]+1), device=logits.device)
+                new_logits[:, 1] = new_logits[:, 1] + logits.squeeze(1)
+                new_logits[:, 0] = 1 - new_logits[:, 1]
+                new_logits[new_logits == 0.] = 1e-10
+                return new_logits.log()
+            else:
+                return logits.sigmoid().log()
+            
+    @torch.no_grad()
+    def predict_from_subgraph(self, edge_att=False, log=None, eval_kl=None,  *args, **kwargs):
+        # node feature explanation
+        x_prob = self.prob_mask()
+        x_prob.requires_grad_()
+        x_prob.retain_grad()
+        kwargs['data'].x = kwargs['data'].x * x_prob
+
+        set_masks(edge_att, self)
+        logits = self.classifier(self.gnn_clf(*args, **kwargs))
+        clear_masks(self)
+
+        if self.config.global_side_channel == "simple_concept2temperature":
+            logits_side_channel, filter_attn = self.global_side_channel(**kwargs)
+            logits_gnn = logits           
+                
+            def get_temp(start_temp, end_temp, max_num_epoch, curr_epoch):
+                if max_num_epoch is None:
+                    return end_temp
+                if curr_epoch <= 20:
+                    return start_temp
+                return start_temp - (start_temp - end_temp) / max_num_epoch * curr_epoch
+
+            temp = get_temp(start_temp=1, end_temp=self.config.train.end_temp, max_num_epoch=kwargs.get('max_num_epoch'), curr_epoch=kwargs.get('curr_epoch'))
+            channel_gnn = torch.sigmoid(logits_gnn / temp)
+            channel_global = torch.sigmoid(logits_side_channel / temp)
+                
+            lc_logits = self.combinator(torch.cat((channel_gnn, channel_global), dim=1))
+        else:
+            raise NotImplementedError("FIX ME")
+
+        if log is None:
+            if lc_logits.shape[-1] > 1:
+                return lc_logits.argmax(-1)
+            else:
+                return lc_logits.sigmoid()
+        else:
+            assert not (eval_kl is None)
+            if lc_logits.shape[-1] > 1:
+                return lc_logits.log_softmax(dim=1)
+            else:
+                if eval_kl: # make the single logit a proper distribution summing to 1 to compute KL
+                    lc_logits = lc_logits.sigmoid()
+                    new_logits = torch.zeros((lc_logits.shape[0], lc_logits.shape[1]+1), device=lc_logits.device)
+                    new_logits[:, 1] = new_logits[:, 1] + lc_logits.squeeze(1)
+                    new_logits[:, 0] = 1 - new_logits[:, 1]
+                    new_logits[new_logits == 0.] = 1e-10
+                    return new_logits.log()
+                else:
+                    return lc_logits.sigmoid().log()
         
 class ProbMask(torch.nn.Module):
     """
