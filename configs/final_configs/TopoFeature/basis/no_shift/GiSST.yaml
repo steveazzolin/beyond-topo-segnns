@@ -8,9 +8,9 @@ ood:
   ood_param: null
   extra_param:
     - true
+    - 0.1
     - 0.01
-    - 0.1
-    - 0.1
+    - 0.01
     - 0.01
 train:
   pre_train: 0
@@ -19,8 +19,8 @@ train:
   mile_stones:
     - 150
   weight_decay: 0.0
-  channel_int: 0.1
-  channel_weight_decay: 0.00
+  channel_int: null
+  channel_weight_decay: null
 log_file: exp_0
 clean_save: true
 use_norm: bn

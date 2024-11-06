@@ -11,15 +11,15 @@ ood:
     - 0.01
     - 0.1
     - 1
-    - 0.01
+    - 0.1
 train:
   max_epoch: 100
   lr: 0.001
   mile_stones:
     - 150
   weight_decay: 0.0
-  channel_int: 2
-  channel_weight_decay: 0.001
+  channel_int: null
+  channel_weight_decay: null
 log_file: exp_0
 clean_save: true
 use_norm:	bn
