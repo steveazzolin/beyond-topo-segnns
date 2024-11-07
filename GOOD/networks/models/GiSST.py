@@ -162,27 +162,8 @@ class GiSSTGIN(GNNBasic):
         kwargs['data'].x = kwargs['data'].x * x_prob
 
         set_masks(edge_att, self)
-        logits = self.classifier(self.gnn_clf(*args, **kwargs))
+        lc_logits = self.classifier(self.gnn_clf(*args, **kwargs))
         clear_masks(self)
-
-        if self.config.global_side_channel == "simple_concept2temperature":
-            logits_side_channel, filter_attn = self.global_side_channel(**kwargs)
-            logits_gnn = logits           
-                
-            def get_temp(start_temp, end_temp, max_num_epoch, curr_epoch):
-                if max_num_epoch is None:
-                    return end_temp
-                if curr_epoch <= 20:
-                    return start_temp
-                return start_temp - (start_temp - end_temp) / max_num_epoch * curr_epoch
-
-            temp = get_temp(start_temp=1, end_temp=self.config.train.end_temp, max_num_epoch=kwargs.get('max_num_epoch'), curr_epoch=kwargs.get('curr_epoch'))
-            channel_gnn = torch.sigmoid(logits_gnn / temp)
-            channel_global = torch.sigmoid(logits_side_channel / temp)
-                
-            lc_logits = self.combinator(torch.cat((channel_gnn, channel_global), dim=1))
-        else:
-            raise NotImplementedError("FIX ME")
 
         if log is None:
             if lc_logits.shape[-1] > 1:
@@ -203,6 +184,48 @@ class GiSSTGIN(GNNBasic):
                     return new_logits.log()
                 else:
                     return lc_logits.sigmoid().log()
+
+    @torch.no_grad()         
+    def get_subgraph(self, ratio=None, *args, **kwargs):
+        data = kwargs.get('data') or None
+        data.ori_x = data.x
+
+        # node feature explanation
+        x_prob = self.prob_mask()
+        data.x = data.x * x_prob
+
+        # edge topological explanation
+        att = self.extractor(data.x, data.edge_index)
+
+        
+        if is_undirected(data.edge_index):
+            if self.config.average_edge_attn == "default":
+                raise NotImplementedError("average_edge_attn='default' not implemented")
+            else:
+                data.ori_edge_index = data.edge_index.detach().clone() #for backup and debug
+
+                if not data.edge_attr is None:
+                    edge_index_sorted, edge_attr_sorted = coalesce(data.ori_edge_index, data.edge_attr, is_sorted=False)
+                    data.edge_attr = edge_attr_sorted   
+                if hasattr(data, "edge_gt") and not data.edge_gt is None:
+                    edge_index_sorted, edge_gt_sorted = coalesce(data.ori_edge_index, data.edge_gt, is_sorted=False)
+                    data.edge_gt = edge_gt_sorted
+                if hasattr(data, "causal_mask") and not data.causal_mask is None:
+                    _, data.causal_mask = coalesce(data.edge_index, data.causal_mask, is_sorted=False)
+
+                data.edge_index, edge_att = to_undirected(data.edge_index, att.squeeze(-1), reduce="mean")
+        else:
+            edge_att = att
+        
+
+        if kwargs.get('return_attn', False):
+            self.attn_distrib = self.gnn.encoder.get_attn_distrib()
+            self.gnn.encoder.reset_attn_distrib()
+
+        edge_att = edge_att.view(-1)
+        if ratio is None:
+            return edge_att        
+        assert False
         
 class ProbMask(torch.nn.Module):
     """
