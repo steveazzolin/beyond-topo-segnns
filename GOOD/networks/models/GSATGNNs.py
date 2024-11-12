@@ -46,17 +46,10 @@ class GSATGIN(GNNBasic):
         self.edge_mask = None
         print("Using mitigation_expl_scores:", config.mitigation_expl_scores)
 
-        if config.global_side_channel in ("simple", "simple_filternode"):
-            self.global_side_channel = SimpleGlobalChannel(config)
-            self.beta = torch.nn.Parameter(data=torch.tensor(0.0), requires_grad=True)
-            self.combinator = nn.Linear(config.dataset.num_classes*2, config.dataset.num_classes, bias=True) # not in use
-        elif config.global_side_channel == "simple_concept":
+        if config.global_side_channel in ("simple_concept2discrete", "simple_concept2temperature"):
             self.global_side_channel = SimpleGlobalChannel(config)
             self.beta = torch.tensor(torch.nan)
-            self.combinator = ConceptClassifier(config)
-        elif config.global_side_channel == "dt":
-            self.global_side_channel = DecisionTreeGlobalChannel(config)
-            self.beta = torch.nn.Parameter(data=torch.tensor(0.0), requires_grad=True)
+            self.combinator = ConceptClassifier(config, method=2)
         
 
     def forward(self, *args, **kwargs):
@@ -134,25 +127,28 @@ class GSATGIN(GNNBasic):
         self.edge_mask = edge_att
 
         if self.config.global_side_channel and not kwargs.get('exclude_global', False):
-            assert False
             logits_side_channel, filter_attn = self.global_side_channel(**kwargs)
             logits_gnn = logits
             
-            if self.config.global_side_channel == "simple_concept":
-                # LEN-like
-                logits = self.combinator(torch.cat((logits_gnn, logits_side_channel), dim=1))
-            else:
-                # logits = self.beta.sigmoid() * logits_gnn + (1-self.beta.sigmoid()) * logits_side_channel
-                logits = self.beta.sigmoid() * logits_gnn.sigmoid() +  (1 - self.beta.sigmoid().detach()) * logits_side_channel.sigmoid().detach() # Combine them in probability space, and revert to logit for compliance with other code
-                logits = torch.log(logits / (1 - logits + 1e-10)) # Revert Sigmoid
-                # Min(A,B)
-                # logits = torch.min(torch.cat((logits_gnn, logits_side_channel.detach()), dim=1), dim=1, keepdim=True).values
-                # Linear commbination
-                # logits = self.combinator(torch.cat((logits_gnn.sigmoid(), logits_side_channel.sigmoid()), dim=1))
-                # A*B
-                # logits = logits_gnn.sigmoid() * logits_side_channel.sigmoid().round().detach()
+            if "simple_concept" in self.config.global_side_channel:
+                # mask_channel = torch.zeros_like(logits_side_channel)
+                
+                if self.config.global_side_channel == "simple_concept2temperature":
+                    def get_temp(start_temp, end_temp, max_num_epoch, curr_epoch):
+                        if max_num_epoch is None:
+                            return end_temp
+                        if curr_epoch <= 20:
+                            return start_temp
+                        return start_temp - (start_temp - end_temp) / max_num_epoch * curr_epoch
 
-            return logits, att, att_log_logits.sigmoid(), filter_attn, (logits_gnn, logits_side_channel) # WARNING: I replaced edge_attn with att_log_logits.sigmoid()
+                    temp = get_temp(start_temp=1, end_temp=self.config.train.end_temp, max_num_epoch=kwargs.get('max_num_epoch'), curr_epoch=kwargs.get('curr_epoch'))
+                    channel_gnn = torch.sigmoid(logits_gnn / temp)
+                    channel_global = torch.sigmoid(logits_side_channel / temp)
+                else:
+                    assert False
+                        
+                logits = self.combinator(torch.cat((channel_gnn, channel_global), dim=1))
+                return logits, att, edge_att, filter_attn, (logits_gnn, logits_side_channel)
         else:
             # return logits, att, att_log_logits.sigmoid() # WARNING: I replaced edge_attn with att_log_logits.sigmoid()
             return logits, att, edge_att
@@ -187,7 +183,13 @@ class GSATGIN(GNNBasic):
     @torch.no_grad()
     def probs(self, *args, **kwargs):
         # nodes x classes
-        logits, att, edge_att = self(*args, **kwargs)
+        out = self(*args, **kwargs)
+
+        if len(out) == 5:
+            logits, att, edge_att, _, _ = out
+        else:
+            logits, att, edge_att = out
+            
         if logits.shape[-1] > 1:
             return logits.softmax(dim=1)
         else:
@@ -196,7 +198,13 @@ class GSATGIN(GNNBasic):
     @torch.no_grad()
     def log_probs(self, eval_kl=False, *args, **kwargs):
         # nodes x classes
-        logits, att, edge_att = self(*args, **kwargs)
+        out = self(*args, **kwargs)
+        
+        if len(out) == 5:
+            logits, att, edge_att, _, _ = out
+        else:
+            logits, att, edge_att = out
+
         if logits.shape[-1] > 1:
             return logits.log_softmax(dim=1)
         else:
