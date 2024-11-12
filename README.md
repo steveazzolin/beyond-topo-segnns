@@ -43,6 +43,9 @@ goodtg --config_path final_configs/GOODMotif/basis/covariate/GiSST.yaml --seeds 
 # Motif (GSAT)
 goodtg --config_path final_configs/GOODMotif/basis/covariate/GSAT.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --gpu_idx 1 --use_norm bn
 
+# Motif (GL-GSAT temperature)
+goodtg --config_path final_configs/GOODMotif/basis/covariate/GSAT.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --gpu_idx 1 --use_norm bn --global_side_channel simple_concept2temperature
+
 # Twitter (SMGNN)
 goodtg --config_path final_configs/GOODTwitter/length/covariate/SMGNN.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --global_pool mean --gpu_idx 0 --extra_param True 10 0.01 --ood_param 0.001 --lr_filternode 0.001 --lr 0.001 --use_norm none --mitigation_sampling raw
 
