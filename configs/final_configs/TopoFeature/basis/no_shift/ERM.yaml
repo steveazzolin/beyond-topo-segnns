@@ -2,6 +2,7 @@ includes:
   - base.yaml
 model:
   model_name: GIN
+  global_pool: sum
 ood:
   ood_alg: ERM
   ood_param: -1.0

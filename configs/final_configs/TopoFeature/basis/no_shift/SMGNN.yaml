@@ -2,9 +2,10 @@ includes:
   - base.yaml
 model:
   model_name: SMGNNGIN
+  global_pool: sum
 ood:
   ood_alg: SMGNN
-  ood_param: 1
+  ood_param: 0.001
   extra_param:
     - true
     - 10

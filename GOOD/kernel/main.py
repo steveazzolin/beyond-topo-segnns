@@ -711,6 +711,8 @@ def evaluate_metric(args):
                         metrics_score[load_split][split][metric][i][f"all_{div}"] for i in range(len(metrics_score[load_split][split][metric]))
                     ]
                     print_metric(metric + f" class all_{div}", s, results_aggregated, key=[config.dataset.dataset_name + " " + config.dataset.domain, config.complete_dirname, split, metric+f"_{div}"])
+                print(metrics_score[load_split][split][metric + "_acc_int"])
+                print(s)
                 print_metric(metric + "_acc_int", metrics_score[load_split][split][metric + "_acc_int"], results_aggregated, key=[config.dataset.dataset_name+" "+config.dataset.domain, config.complete_dirname, split, metric+"_acc_int"])
                 
         if "acc" in args.metrics.split("/"):
@@ -963,8 +965,8 @@ def main():
                 test_scores[s].append(sa['score'])
             
             if config.global_side_channel and "simple_concept" in config.global_side_channel:
-                    channel_relevances.append(model.combinator.classifier[0].alpha_norm.cpu().numpy())
-                    print("\nConcept relevance scores for this run:\n", channel_relevances[-1], "\n")
+                channel_relevances.append(model.combinator.classifier[0].alpha_norm.cpu().numpy())
+                print("\nConcept relevance scores for this run:\n", channel_relevances[-1], "\n")
         elif config.task == 'test':
             test_score, test_loss = pipeline.load_task(load_param=True, load_split="id")
             
@@ -1017,6 +1019,9 @@ def main():
                 if "simple_concept" in config.global_side_channel:
                     channel_relevances.append(model.combinator.classifier[0].alpha_norm.cpu().numpy())
                     print("\nConcept relevance scores for this run:\n", channel_relevances[-1], "\n")
+            elif "GiSST" in config.model.model_name and config.dataset.dataset_name in ("BAColor", "TopoFeature", "AIDS", "AIDSC1"):
+                print("\nFeature explanation coeff. for this run:\n", model.prob_mask())
+            
                 
     
     if config.save_metrics:

@@ -200,12 +200,17 @@ def process_configs(config: Union[CommonArgs, Munch], args=None):
     dataset_dirname = config.dataset.dataset_name + '_' + config.dataset.domain
     if config.dataset.shift_type:
         dataset_dirname += '_' + config.dataset.shift_type
+
     model_dirname = f'repr_{config.model.model_name}_' \
                     f'{config.model.model_layer}l_' \
                     f'{config.model.global_pool}pool_' \
                     f'{config.model.dropout_rate}dp_' \
                     f'mitig_backbone{args.mitigation_backbone}_' \
                     f'mitig_sampling{args.mitigation_sampling}'
+    
+    # TODO: remove
+    if "Twitter" in config.dataset.dataset_name:
+        model_dirname = "tuning_" + model_dirname
     
     if not config.mitigation_readout is None:
         model_dirname = model_dirname + f'mitig_readout{args.mitigation_readout}'
@@ -236,6 +241,7 @@ def process_configs(config: Union[CommonArgs, Munch], args=None):
             ood_dirname += f'_{param}'
     
     config.ood_dirname = ood_dirname # Added by Steve
+    config.complete_dirname = opj(model_dirname, train_dirname, ood_dirname) # Added by Steve
 
     # --- Log setting ---
     log_dir_root = opj(STORAGE_DIR, 'log', 'round' + str(config.exp_round))

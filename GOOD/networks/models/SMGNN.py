@@ -177,7 +177,7 @@ class SMGNNGIN(GNNBasic):
                 # logits = torch.log(logits / (1 - logits + 1e-6)) # Revert Sigmoid
                 logits_gnn = torch.clip(logits_gnn, min=-50, max=50)
                 logits_side_channel = torch.clip(logits_side_channel, min=-50, max=50)
-                # logits_side_channel = torch.full_like(logits_side_channel, -50) # masking one of the two channels setting to TRUE
+                # logits_gnn = torch.full_like(logits_side_channel, 50) # masking one of the two channels setting to TRUE
                 logits = -torch.log(torch.exp(-logits_gnn) + torch.exp(-logits_side_channel) + torch.exp(-logits_gnn-logits_side_channel) + 1e-6) # Invert product of sigmoids in log space
             elif self.config.global_side_channel == "simple_productscaled":
                 logits_gnn = torch.clip(logits_gnn, min=-20, max=20)
@@ -187,6 +187,7 @@ class SMGNNGIN(GNNBasic):
             elif self.config.global_side_channel == "simple_godel":
                 logits_gnn = torch.clip(logits_gnn, min=-50, max=50)
                 logits_side_channel = torch.clip(logits_side_channel, min=-50, max=50)
+                # logits_gnn = logits_side_channel # masking one channel
                 # logits = torch.min(torch.cat((logits_gnn.sigmoid(), logits_side_channel.sigmoid()), dim=1), dim=1, keepdim=True).values
                 logits = torch.min(logits_gnn.sigmoid(), logits_side_channel.sigmoid())
                 logits = torch.log(logits / (1 - logits + 1e-6)) # Revert Sigmoid to logit space
@@ -247,7 +248,13 @@ class SMGNNGIN(GNNBasic):
     @torch.no_grad()
     def probs(self, *args, **kwargs):
         # nodes x classes
-        logits, att, edge_att = self(*args, **kwargs)
+        out = self(*args, **kwargs)
+        
+        if len(out) == 5:
+            logits, att, edge_att, _, _ = out
+        else:
+            logits, att, edge_att = out
+
         if logits.shape[-1] > 1:
             return logits.softmax(dim=1)
         else:
@@ -256,7 +263,13 @@ class SMGNNGIN(GNNBasic):
     @torch.no_grad()
     def log_probs(self, eval_kl=False, *args, **kwargs):
         # nodes x classes
-        logits, att, edge_att = self(*args, **kwargs)
+        out = self(*args, **kwargs)
+
+        if len(out) == 5:
+            logits, att, edge_att, _, _ = out
+        else:
+            logits, att, edge_att = out
+            
         if logits.shape[-1] > 1:
             return logits.log_softmax(dim=1)
         else:
@@ -273,8 +286,30 @@ class SMGNNGIN(GNNBasic):
     @torch.no_grad()
     def predict_from_subgraph(self, edge_att=False, log=None, eval_kl=None,  *args, **kwargs):
         set_masks(edge_att, self)
-        lc_logits = self.classifier(self.gnn(*args, **kwargs))
+        if self.gnn_clf:
+            logits = self.classifier(self.gnn_clf(*args, **kwargs))
+        else:
+            logits = self.classifier(self.gnn(*args, **kwargs))
         clear_masks(self)
+
+        if self.config.global_side_channel == "simple_concept2temperature":
+            logits_side_channel, filter_attn = self.global_side_channel(**kwargs)
+            logits_gnn = logits           
+                
+            def get_temp(start_temp, end_temp, max_num_epoch, curr_epoch):
+                if max_num_epoch is None:
+                    return end_temp
+                if curr_epoch <= 20:
+                    return start_temp
+                return start_temp - (start_temp - end_temp) / max_num_epoch * curr_epoch
+
+            temp = get_temp(start_temp=1, end_temp=self.config.train.end_temp, max_num_epoch=kwargs.get('max_num_epoch'), curr_epoch=kwargs.get('curr_epoch'))
+            channel_gnn = torch.sigmoid(logits_gnn / temp)
+            channel_global = torch.sigmoid(logits_side_channel / temp)
+                
+            lc_logits = self.combinator(torch.cat((channel_gnn, channel_global), dim=1))
+        else:
+            raise NotImplementedError("FIX ME")
 
         if log is None:
             if lc_logits.shape[-1] > 1:
@@ -302,7 +337,7 @@ class SMGNNGIN(GNNBasic):
 
         emb = self.gnn(*args, without_readout=True, **kwargs)
         att_log_logits = self.extractor(emb, data.edge_index, data.batch)
-        att = self.sampling(att_log_logits, self.training, self.config.mitigation_expl_scores)
+        att = self.sampling(att_log_logits, False, self.config.mitigation_expl_scores)
 
         if self.learn_edge_att:
             if is_undirected(data.edge_index):
@@ -311,14 +346,16 @@ class SMGNNGIN(GNNBasic):
                     edge_att = (att + transpose(data.edge_index, att, nodesize, nodesize, coalesced=False)[1]) / 2
                 else:
                     data.ori_edge_index = data.edge_index.detach().clone() #for backup and debug
-                    data.edge_index, edge_att = to_undirected(data.edge_index, att.squeeze(-1), reduce="mean")
-
                     if not data.edge_attr is None:
                         edge_index_sorted, edge_attr_sorted = coalesce(data.ori_edge_index, data.edge_attr, is_sorted=False)
                         data.edge_attr = edge_attr_sorted   
                     if hasattr(data, "edge_gt") and not data.edge_gt is None:
                         edge_index_sorted, edge_gt_sorted = coalesce(data.ori_edge_index, data.edge_gt, is_sorted=False)
-                        data.edge_gt = edge_gt_sorted 
+                        data.edge_gt = edge_gt_sorted
+                    if hasattr(data, "causal_mask") and not data.causal_mask is None:
+                        _, data.causal_mask = coalesce(data.edge_index, data.causal_mask, is_sorted=False)
+
+                    data.edge_index, edge_att = to_undirected(data.edge_index, att.squeeze(-1), reduce="mean")
             else:
                 edge_att = att
         else:

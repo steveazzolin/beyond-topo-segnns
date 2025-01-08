@@ -1,14 +1,19 @@
 includes:
   - base.yaml
 model:
-  model_name: vGIN
+  model_name: GIN
+  global_pool: sum
+  dim_hidden: 300
+  dim_ffn: 300
+  model_layer: 3
+  dropout_rate: 0.5
 ood:
   ood_alg: ERM
   ood_param: -1.0
 train:
   max_epoch: 200
-  lr: 0.0001
-  weight_decay: 0.0001
+  lr: 0.001
+  weight_decay: 0.1
   pre_train: 5
 log_file: exp_0
 clean_save: true
