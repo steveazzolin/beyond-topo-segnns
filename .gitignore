@@ -27,3 +27,4 @@ docs/build
 *.png
 *.pdf
 outputs/GiSST_hyperparams_tuning.txt
+outputs/SMGNN_Twitter_hyperparams_tuning.txt
