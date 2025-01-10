@@ -166,7 +166,7 @@ class Pipeline:
 
         raw_pred = self.ood_algorithm.output_postprocess(model_output)
 
-        if self.config.global_side_channel and self.config.dataset.dataset_name != "BAColor" and epoch < 20: 
+        if self.config.global_side_channel and self.config.dataset.dataset_name != "BAColor" and epoch < 20:
             # Little pre-train of individual channels
             loss_global = self.ood_algorithm.loss_calculate(self.ood_algorithm.logit_global, targets, mask, node_norm, self.config, batch=data.batch)
             loss_global = loss_global.mean()

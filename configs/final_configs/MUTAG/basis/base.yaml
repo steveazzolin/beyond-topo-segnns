@@ -2,9 +2,3 @@ includes:
   - ../base.yaml
 dataset:
   domain: basis
-train:
-  max_epoch: 100
-  train_bs: 128
-  val_bs: 256
-  test_bs: 256
-  weight_decay: 0.

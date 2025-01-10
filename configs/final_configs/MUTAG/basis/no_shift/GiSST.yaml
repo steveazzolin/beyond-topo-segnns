@@ -1,14 +1,16 @@
 includes:
   - base.yaml
 model:
-  model_name: GSATGIN
+  model_name: GiSSTGIN
 ood:
-  ood_alg: GSAT
-  ood_param: 1
+  ood_alg: GiSST
+  ood_param: null
   extra_param:
     - true
-    - 10
-    - 0.5
+    - 0.01
+    - 0.01
+    - 0.01
+    - 0.01
 train:
   mile_stones:
     - 150
