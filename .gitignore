@@ -4,6 +4,7 @@ storage/checkpoint_backup03022024/
 storage/checkpoints_backup25032024/
 storage/checkpoints*/
 storage/checkpoints/
+storage/ckpts/
 storage/log/
 storage/datasets/
 storage/tensorboard/
