@@ -9,8 +9,8 @@ from torch_geometric import __version__ as pyg_v
 from GOOD import register
 from GOOD.utils.config_reader import Union, CommonArgs, Munch
 from .BaseGNN import GNNBasic
-from .Classifiers import Classifier
-from .GINs import GINFeatExtractor
+from .Classifiers import Classifier, ConceptClassifier
+from .GINs import GINFeatExtractor, SimpleGlobalChannel, DecisionTreeGlobalChannel
 import copy
 from GOOD.utils.splitting import split_graph, relabel
 
@@ -19,16 +19,6 @@ from GOOD.utils.splitting import split_graph, relabel
 class GiSSTGIN(GNNBasic):
 
     def __init__(self, config: Union[CommonArgs, Munch]):
-        
-        # input_size,
-        # output_size,
-        # hidden_conv_sizes, 
-        # hidden_dropout_probs, 
-        # activation=F.relu,
-        # classify_graph=False,
-        # lin_dropout_prob=None,
-        # **kwargs
-
         super(GiSSTGIN, self).__init__(config)
 
         config = copy.deepcopy(config)
@@ -47,6 +37,28 @@ class GiSSTGIN(GNNBasic):
         self.config = config
         self.edge_mask = None
         print("Using mitigation_expl_scores:", config.mitigation_expl_scores)
+
+
+        if config.global_side_channel in ("simple", "simple_filternode", "simple_product", "simple_productscaled", "simple_godel"):
+            self.global_side_channel = SimpleGlobalChannel(config)
+            self.beta = torch.nn.Parameter(data=torch.tensor(0.0), requires_grad=True)
+            self.combinator = nn.Linear(config.dataset.num_classes*2, config.dataset.num_classes, bias=True) # not in use
+        elif config.global_side_channel == "simple_concept":
+            self.global_side_channel = SimpleGlobalChannel(config)
+            self.beta = torch.tensor(torch.nan)
+            self.combinator = ConceptClassifier(config)
+        elif config.global_side_channel == "simple_concept2":
+            self.global_side_channel = SimpleGlobalChannel(config)
+            self.beta = torch.tensor(torch.nan)
+            self.combinator = ConceptClassifier(config, method=2)
+        elif config.global_side_channel in ("simple_concept2discrete", "simple_concept2temperature"):
+            self.global_side_channel = SimpleGlobalChannel(config)
+            self.beta = torch.tensor(torch.nan)
+            self.combinator = ConceptClassifier(config, method=2)
+        elif config.global_side_channel == "dt":
+            self.global_side_channel = DecisionTreeGlobalChannel(config)
+            self.beta = torch.nn.Parameter(data=torch.tensor(0.0), requires_grad=True)
+
     
     def forward(self, *args, **kwargs):
         """
@@ -75,7 +87,10 @@ class GiSSTGIN(GNNBasic):
         data.x = data.x * x_prob
 
         # edge topological explanation
-        edge_prob = self.extractor(data.x, data.edge_index)
+        edge_log_prob = self.extractor(data.x, data.edge_index)
+        
+        edge_prob = torch.sigmoid(edge_log_prob)
+        edge_prob = torch.clamp(edge_prob, self.extractor.clamp_min, self.extractor.clamp_max)
         edge_prob.requires_grad_()
         edge_prob.retain_grad()
 
@@ -123,12 +138,91 @@ class GiSSTGIN(GNNBasic):
         logits = self.classifier(self.gnn_clf(*args, **kwargs))
         clear_masks(self)
         self.edge_mask = edge_att
-        return logits, x_prob, edge_prob
+
+        if self.config.global_side_channel and not kwargs.get('exclude_global', False):
+            logits_side_channel, filter_attn = self.global_side_channel(**kwargs)
+            logits_gnn = logits
+            
+            if "simple_concept" in self.config.global_side_channel:
+                # mask_channel = torch.zeros_like(logits_side_channel)
+
+                if self.config.global_side_channel == "simple_concept2discrete":
+                    # discrete reparametrization trick
+                    if logits_gnn.shape[1] > 1:
+                        index = logits_gnn.max(-1, keepdim=True)[1]
+                        logits_gnn_hard = torch.zeros_like(logits_gnn).scatter_(-1, index, 1.0)    
+                        index = logits_side_channel.max(-1, keepdim=True)[1]
+                        logits_side_channel_hard = torch.zeros_like(logits_side_channel).scatter_(-1, index, 1.0)    
+                    else:
+                        logits_gnn_hard = (logits_gnn >= 0.).to(torch.float)
+                        logits_side_channel_hard = (logits_side_channel >= 0.).to(torch.float)
+                    
+                    channel_gnn = logits_gnn_hard - logits_gnn.detach() + logits_gnn
+                    channel_global = logits_side_channel_hard - logits_side_channel.detach() + logits_side_channel
+                elif self.config.global_side_channel == "simple_concept2temperature":
+                    def get_temp(start_temp, end_temp, max_num_epoch, curr_epoch):
+                        if max_num_epoch is None:
+                            return end_temp
+                        if curr_epoch <= 20:
+                            return start_temp
+                        return start_temp - (start_temp - end_temp) / max_num_epoch * curr_epoch
+
+                    temp = get_temp(start_temp=1, end_temp=self.config.train.end_temp, max_num_epoch=kwargs.get('max_num_epoch'), curr_epoch=kwargs.get('curr_epoch'))
+                    channel_gnn = torch.sigmoid(logits_gnn / temp)
+                    channel_global = torch.sigmoid(logits_side_channel / temp)
+                else:
+                    channel_gnn = logits_gnn
+                    channel_global = logits_side_channel
+                        
+                logits = self.combinator(torch.cat((channel_gnn, channel_global), dim=1))
+            elif self.config.global_side_channel == "simple_product":
+                # logits = logits_gnn.sigmoid() * logits_side_channel.sigmoid()
+                # logits = torch.log(logits / (1 - logits + 1e-6)) # Revert Sigmoid
+                logits_gnn = torch.clip(logits_gnn, min=-50, max=50)
+                logits_side_channel = torch.clip(logits_side_channel, min=-50, max=50)
+                # logits_gnn = torch.full_like(logits_side_channel, 50) # masking one of the two channels setting to TRUE
+                logits = -torch.log(torch.exp(-logits_gnn) + torch.exp(-logits_side_channel) + torch.exp(-logits_gnn-logits_side_channel) + 1e-6) # Invert product of sigmoids in log space
+            elif self.config.global_side_channel == "simple_productscaled":
+                logits_gnn = torch.clip(logits_gnn, min=-20, max=20)
+                logits_side_channel = torch.clip(logits_side_channel, min=-20, max=20)
+                # logits_gnn = torch.full_like(logits_side_channel, 20) # masking one of the two channels setting to TRUE
+                logits = -torch.log(torch.exp(-logits_gnn/0.5) + torch.exp(-logits_side_channel/0.5) + torch.exp(-logits_gnn/0.5-logits_side_channel/0.5) + 1e-6) # Invert product of sigmoids in log space
+            elif self.config.global_side_channel == "simple_godel":
+                logits_gnn = torch.clip(logits_gnn, min=-50, max=50)
+                logits_side_channel = torch.clip(logits_side_channel, min=-50, max=50)
+                # logits_gnn = logits_side_channel # masking one channel
+                # logits = torch.min(torch.cat((logits_gnn.sigmoid(), logits_side_channel.sigmoid()), dim=1), dim=1, keepdim=True).values
+                logits = torch.min(logits_gnn.sigmoid(), logits_side_channel.sigmoid())
+                logits = torch.log(logits / (1 - logits + 1e-6)) # Revert Sigmoid to logit space
+            else:
+                exit("Not implemented")
+            
+            if torch.any(torch.isinf(logits)):
+                print("Inf detected")
+                idx = torch.isinf(logits)
+                print(logits_gnn[idx].flatten(), logits_side_channel[idx].flatten())
+                print(torch.exp(-logits_gnn)[idx].flatten(), torch.exp(-logits_side_channel)[idx].flatten(), torch.exp(-logits_gnn-logits_side_channel)[idx].flatten())
+                exit("AIA")
+            if torch.any(torch.isnan(logits)):
+                print("NaN detected")
+                print(logits_gnn[:5])
+                print(edge_att[:5])
+                exit("AIA2")
+
+            return logits, x_prob, edge_prob, filter_attn, (logits_gnn, logits_side_channel)
+        else:
+            return logits, x_prob, edge_prob
+        # return logits, x_prob, edge_prob # Original return from GiSST
     
     @torch.no_grad()
     def probs(self, *args, **kwargs):
         # nodes x classes
-        logits, _, _ = self(*args, **kwargs)
+        out = self(*args, **kwargs)
+        
+        if len(out) == 5:
+            logits, att, edge_att, _, _ = out
+        else:
+            logits, att, edge_att = out
 
         if logits.shape[-1] > 1:
             return logits.softmax(dim=1)
@@ -138,7 +232,12 @@ class GiSSTGIN(GNNBasic):
     @torch.no_grad()
     def log_probs(self, eval_kl=False, *args, **kwargs):
         # nodes x classes
-        logits, _, _ = self(*args, **kwargs)
+        out = self(*args, **kwargs)
+        
+        if len(out) == 5:
+            logits, att, edge_att, _, _ = out
+        else:
+            logits, att, edge_att = out
             
         if logits.shape[-1] > 1:
             return logits.log_softmax(dim=1)
@@ -162,8 +261,27 @@ class GiSSTGIN(GNNBasic):
         kwargs['data'].x = kwargs['data'].x * x_prob
 
         set_masks(edge_att, self)
-        lc_logits = self.classifier(self.gnn_clf(*args, **kwargs))
+        logits = self.classifier(self.gnn_clf(*args, **kwargs))
         clear_masks(self)
+
+        if self.config.global_side_channel == "simple_concept2temperature":
+            logits_side_channel, filter_attn = self.global_side_channel(**kwargs)
+            logits_gnn = logits           
+                
+            def get_temp(start_temp, end_temp, max_num_epoch, curr_epoch):
+                if max_num_epoch is None:
+                    return end_temp
+                if curr_epoch <= 20:
+                    return start_temp
+                return start_temp - (start_temp - end_temp) / max_num_epoch * curr_epoch
+
+            temp = get_temp(start_temp=1, end_temp=self.config.train.end_temp, max_num_epoch=kwargs.get('max_num_epoch'), curr_epoch=kwargs.get('curr_epoch'))
+            channel_gnn = torch.sigmoid(logits_gnn / temp)
+            channel_global = torch.sigmoid(logits_side_channel / temp)
+                
+            lc_logits = self.combinator(torch.cat((channel_gnn, channel_global), dim=1))
+        else:
+            raise NotImplementedError("FIX ME")
 
         if log is None:
             if lc_logits.shape[-1] > 1:
@@ -196,7 +314,9 @@ class GiSSTGIN(GNNBasic):
 
         # edge topological explanation
         att = self.extractor(data.x, data.edge_index)
-
+        att_log_prob = self.extractor(data.x, data.edge_index)
+        att = torch.sigmoid(att_log_prob)
+        att = torch.clamp(att, self.extractor.clamp_min, self.extractor.clamp_max)
         
         if is_undirected(data.edge_index):
             if self.config.average_edge_attn == "default":
@@ -306,8 +426,6 @@ class AttentionProb(torch.nn.Module):
             ), 
             self.att_weight
         )
-        att = torch.sigmoid(att)
-        att = torch.clamp(att, self.clamp_min, self.clamp_max)
         return att
     
 def set_masks(mask: Tensor, model: nn.Module):
