@@ -1,0 +1,13 @@
+includes:
+  - base.yaml
+model:
+  model_name: SMGNNGIN
+ood:
+  ood_alg: SMGNN
+  ood_param: 0.001
+  extra_param:
+    - true
+    - 10
+    - 0.01
+log_file: exp_0
+clean_save: true

@@ -23,6 +23,9 @@ from GOOD.utils.synthetic_data.BA3_loc import *
 from GOOD.utils.synthetic_data import synthetic_structsim
 
 
+from ogb.graphproppred import PygGraphPropPredDataset
+
+
 @register.dataset_register
 class BBBP(InMemoryDataset):
     r"""
@@ -56,7 +59,7 @@ class BBBP(InMemoryDataset):
         for e in dataset:
             ndata = e.clone()
             ndata.x = ndata.x #.float()
-            ndata.y = ndata.y[0,0].long()
+            ndata.y = ndata.y.float()
             if ndata.x.size()[0] > 0:
                 datalist.append(ndata)             
         newDataset = MoleculeFix(dataset_root, datalist, name)
@@ -84,26 +87,17 @@ class BBBP(InMemoryDataset):
         meta_info.dataset_type = 'mol'
         meta_info.model_level = 'graph'
 
-        dataset = MoleculeNet(dataset_root, name="bbbp")
+        # dataset = MoleculeNet(dataset_root + "/bbbp", name="bbbp")
+        # dataset = BBBP.fixMoleculeNet(dataset, "bbbp", dataset_root)
+
+        dataset = PygGraphPropPredDataset(root=dataset_root, name="ogbg-molbbbp")
+        split_idx = dataset.get_idx_split()
         dataset = BBBP.fixMoleculeNet(dataset, "bbbp", dataset_root)
         # dataset._data.edge_attr = None # remove edge attributes for fair comparison with other baselines
 
-        
-
-        index_train, index_val_test = train_test_split(
-            torch.arange(len(dataset)), 
-            train_size=0.8,
-            stratify=dataset.y
-        )
-        index_val, index_test = train_test_split(
-            torch.arange(len(dataset[index_val_test])), 
-            train_size=0.5,
-            stratify=dataset[index_val_test].y
-        )
-
-        train_dataset = dataset[index_train]
-        id_val_dataset = dataset[index_val]
-        id_test_dataset = dataset[index_test]
+        train_dataset = dataset[split_idx["train"]]
+        id_val_dataset = dataset[split_idx["valid"]]
+        id_test_dataset = dataset[split_idx["test"]]
 
         meta_info.dim_node = train_dataset.num_node_features
         meta_info.dim_edge = train_dataset.num_edge_features
@@ -111,7 +105,7 @@ class BBBP(InMemoryDataset):
         meta_info.edge_feat_dims = dataset._data.edge_attr.max(0).values - dataset._data.edge_attr.min(0).values + 2
 
         meta_info.num_envs = 1
-        meta_info.num_classes = 2
+        meta_info.num_classes = 1
 
         train_dataset.minority_class = None
         id_val_dataset.minority_class = None
@@ -127,7 +121,7 @@ class BBBP(InMemoryDataset):
             id_test_dataset._data_list = None
 
         return {'train': train_dataset, 'id_val': id_val_dataset, 'id_test': id_test_dataset,
-                'metric': 'Accuracy', 'task': 'Multi-label classification',
+                'metric': 'ROC-AUC', 'task': 'Binary classification',
                 'val': id_val_dataset, 'test': id_test_dataset}, meta_info
                 
 
