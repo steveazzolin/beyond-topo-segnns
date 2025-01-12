@@ -84,10 +84,16 @@ class GiSSTGIN(GNNBasic):
         x_prob = self.prob_mask()
         x_prob.requires_grad_()
         x_prob.retain_grad()
-        data.x = data.x * x_prob
+
+        if self.config.dataset.dataset_type == 'mol':
+            # if node features are needed to compute AtomEmbedding, apply attention later only to extract edge scores
+            scaled_x = data.x * x_prob
+        else:
+            data.x = data.x * x_prob
+            scaled_x = data.x
 
         # edge topological explanation
-        edge_log_prob = self.extractor(data.x, data.edge_index)
+        edge_log_prob = self.extractor(scaled_x, data.edge_index)
         
         edge_prob = torch.sigmoid(edge_log_prob)
         edge_prob = torch.clamp(edge_prob, self.extractor.clamp_min, self.extractor.clamp_max)
@@ -415,7 +421,7 @@ class AttentionProb(torch.nn.Module):
 
         Return:
             att (tensor): Edge attention probability with shape [num_edges].
-        """
+        """        
         att = torch.matmul(
             torch.cat(
                 (
