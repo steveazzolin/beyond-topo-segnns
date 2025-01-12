@@ -11,7 +11,7 @@ from torch_geometric import __version__ as pyg_v
 from GOOD import register
 from GOOD.utils.config_reader import Union, CommonArgs, Munch
 from .BaseGNN import GNNBasic
-from .Classifiers import Classifier, ConceptClassifier
+from .Classifiers import Classifier, ConceptClassifier, EntropyLinear
 from .GINs import GINFeatExtractor, SimpleGlobalChannel, DecisionTreeGlobalChannel
 from .GINvirtualnode import vGINFeatExtractor
 import copy
@@ -62,6 +62,22 @@ class SMGNNGIN(GNNBasic):
         elif config.global_side_channel == "dt":
             self.global_side_channel = DecisionTreeGlobalChannel(config)
             self.beta = torch.nn.Parameter(data=torch.tensor(0.0), requires_grad=True)
+
+        if self.config.dataset.dataset_name == "MNIST":
+            self.global_norm = InstanceNorm(config.dataset.num_classes * 2) #nn.functional.normalize #nn.BatchNorm1d(config.dataset.num_classes)
+
+            # hidden_dim = 64
+            # self.test = nn.Sequential(*(
+            #     [
+            #         # nn.Linear(config.dataset.num_classes * 2, hidden_dim, bias=False),
+            #         EntropyLinear(config.dataset.num_classes * 2, hidden_dim, config.dataset.num_classes, bias=False, method=2, temperature=1.8),
+            #         torch.nn.LeakyReLU(),
+            #         nn.Linear(hidden_dim, hidden_dim),
+            #         torch.nn.LeakyReLU(),
+            #         # nn.Linear(hidden_dim, 1)
+            #         nn.Linear(hidden_dim, config.dataset.num_classes) # WARNING: experimenting for Motif
+            #     ]
+            # ))
         
 
     def forward(self, *args, **kwargs):
@@ -164,14 +180,23 @@ class SMGNNGIN(GNNBasic):
                             return start_temp
                         return start_temp - (start_temp - end_temp) / max_num_epoch * curr_epoch
 
-                    temp = get_temp(start_temp=1, end_temp=self.config.train.end_temp, max_num_epoch=kwargs.get('max_num_epoch'), curr_epoch=kwargs.get('curr_epoch'))
+                    temp = get_temp(start_temp=1, end_temp=self.config.train.end_temp, max_num_epoch=kwargs.get('max_num_epoch'), curr_epoch=kwargs.get('curr_epoch')) #if self.config.dataset.dataset_name != "MNIST" else 1
                     channel_gnn = torch.sigmoid(logits_gnn / temp)
                     channel_global = torch.sigmoid(logits_side_channel / temp)
                 else:
                     channel_gnn = logits_gnn
                     channel_global = logits_side_channel
                         
-                logits = self.combinator(torch.cat((channel_gnn, channel_global), dim=1))
+                input = torch.cat((channel_gnn, channel_global), dim=1)
+                if self.config.dataset.dataset_name == "MNIST":
+                    # input = torch.cat((channel_gnn, channel_global), dim=1)
+                    # input = torch.cat((self.global_norm(channel_gnn), self.global_norm(channel_global)), dim=1)
+                    # logits = self.test(input)
+                    # print(self.test[0].weight.norm(dim=1, p=1)[0])
+                    # print(self.test[0].alpha_norm)
+                    input = self.global_norm(input)
+                
+                logits = self.combinator(input)                
             elif self.config.global_side_channel == "simple_product":
                 # logits = logits_gnn.sigmoid() * logits_side_channel.sigmoid()
                 # logits = torch.log(logits / (1 - logits + 1e-6)) # Revert Sigmoid
