@@ -292,7 +292,9 @@ class GINMolEncoder(BasicEncoder):
     def __init__(self, config: Union[CommonArgs, Munch], **kwargs):
         super(GINMolEncoder, self).__init__(config, **kwargs)
         self.without_readout = kwargs.get('without_readout')
+        self.config = config
         num_layer = config.model.model_layer
+        print(f"Initing GINMolEncoder for {num_layer} layers")
         if kwargs.get('without_embed'):
             self.atom_encoder = Identity()
         else:
@@ -354,6 +356,7 @@ class GINMolEncoder(BasicEncoder):
         """
 
         layer_feat = [self.atom_encoder(x)]
+
         for i, (conv, batch_norm, relu, dropout) in enumerate(
                 zip(self.convs, self.batch_norms, self.relus, self.dropouts)):
             tmp = conv(layer_feat[-1], edge_index, edge_attr)
@@ -556,6 +559,10 @@ class SimpleGlobalChannel(torch.nn.Module):
 
         """
         out_readout, attn = self.encode(**kwargs)
+
+        if out_readout.dtype == torch.long:
+            out_readout = out_readout.float()
+
         out = self.classifier(out_readout)
 
         # out = torch.where(out_readout[:, 0] >= 5, 10, -10).reshape(out.shape)
