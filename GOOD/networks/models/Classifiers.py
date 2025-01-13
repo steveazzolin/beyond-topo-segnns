@@ -120,6 +120,7 @@ class ConceptClassifier(torch.nn.Module):
         super(ConceptClassifier, self).__init__()
 
         hidden_dim = config.dataset.num_classes * 2 * 5
+        # hidden_dim = 64 # MUTAG BBBP
         self.classifier = nn.Sequential(*(
             [
                 EntropyLinear(config.dataset.num_classes * 2, hidden_dim, config.dataset.num_classes, bias=False, method=method),
