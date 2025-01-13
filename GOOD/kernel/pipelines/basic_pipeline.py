@@ -185,7 +185,6 @@ class Pipeline:
             loss_clf_global_side_channel = torch.tensor(0.)
 
         if self.config.global_side_channel and self.config.dataset.dataset_name == "AIDSC1":
-            assert False
             loss += 0.01 * self.model.global_side_channel.classifier.classifier[0].weight.abs().sum()
 
         self.ood_algorithm.backward(loss)
