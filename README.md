@@ -60,6 +60,16 @@ goodtg --config_path final_configs/GOODSST2/length/covariate/ERM.yaml --seeds "1
 
 
 # AIDS (GL-SMGNN)
+# AIDS (ERM)
+goodtg --config_path final_configs/AIDS/basis/no_shift/ERM.yaml --seeds "1" --task test --use_norm none
+# AIDS (GSAT)
+goodtg --config_path final_configs/AIDS/basis/no_shift/GSAT.yaml --seeds "1" --task test --use_norm none --average_edge_attn mean
+# AIDS (SMGNN)
+goodtg --config_path final_configs/AIDS/length/covariate/SMGNN.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --gpu_idx 0 --global_side_channel simple_concept2temperature  --use_norm none 
+# AIDS (GL-)
+# AIDS (GL-GSAT)
+goodtg --config_path final_configs/AIDS/basis/no_shift/GSAT.yaml --seeds "1" --task test --use_norm none --average_edge_attn mean --global_side_channel simple_concept2temperature
+# AIDS (GL-SMGNN)
 goodtg --config_path final_configs/AIDS/length/covariate/SMGNN.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --gpu_idx 0 --global_side_channel simple_concept2temperature  --use_norm none 
 
 

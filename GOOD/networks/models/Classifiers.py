@@ -118,9 +118,11 @@ class ConceptClassifier(torch.nn.Module):
     def __init__(self, config: Union[CommonArgs, Munch], method=None):
 
         super(ConceptClassifier, self).__init__()
-        
+       
         if config.dataset.dataset_name in ("MNIST"):
             hidden_dim = 350
+        elif config.dataset.dataset_name in ("MUTAG", "BBBP"):
+            hidden_dim = 64
         else:
             hidden_dim = config.dataset.num_classes * 2 * 5
         
