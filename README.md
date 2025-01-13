@@ -97,8 +97,15 @@ goodtg --config_path final_configs/BBBP/basis/no_shift/SMGNN.yaml --task test --
 # MNIST (ERM)
 goodtg --config_path final_configs/MNIST/basis/no_shift/ERM.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --use_norm bn --gpu_idx 0
 # MNIST (GiSST)
+goodtg --config_path final_configs/MNIST/basis/no_shift/GiSST.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --use_norm none --average_edge_attn mean --gpu_idx 1
 # MNIST (GSAT)
-goodtg --config_path final_configs/MNIST/basis/no_shift/GSAT.yaml --task train --seeds "1" --use_norm bn --gpu_idx 0 --average_edge_attn mean
+goodtg --config_path final_configs/MNIST/basis/no_shift/GSAT.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --use_norm bn --average_edge_attn mean --gpu_idx 1
 # MNIST (SMGNN)
-goodtg --config_path final_configs/MNIST/basis/no_shift/SMGNN.yaml --task test --seeds "1" --use_norm none --gpu_idx 1 --average_edge_attn mean
+goodtg --config_path final_configs/MNIST/basis/no_shift/SMGNN.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --use_norm none --gpu_idx 1 --average_edge_attn mean
+# MNIST (GL-GiSST)
+goodtg --config_path final_configs/MNIST/basis/no_shift/GiSST.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --use_norm none --average_edge_attn mean --gpu_idx 1 --global_side_channel simple_concept2temperature
+# MNIST (GL-GSAT)
+goodtg --config_path final_configs/MNIST/basis/no_shift/GSAT.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --use_norm bn --average_edge_attn mean --gpu_idx 1 --global_side_channel simple_concept2temperature
+# MNIST (GL-SMGNN)
+goodtg --config_path final_configs/MNIST/basis/no_shift/SMGNN.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --use_norm none --average_edge_attn mean --gpu_idx 1 --global_side_channel simple_concept2temperature
 ```
