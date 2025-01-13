@@ -37,6 +37,7 @@ class TrainArgs(Tap):
     channel_weight_decay: float = 0.001 # Added by Steve
     combinator_weight_decay: float = 0.0 # Added by Steve
     end_temp: float = 0.3 # Added by Steve
+    combinator_temp: float = None # Added by Steve
 
     alpha = None  #: A parameter for DANN.
 

@@ -53,7 +53,7 @@ class EntropyLinear(nn.Module):
         induced by parameter weight
     """
 
-    def __init__(self, in_features: int, out_features: int, n_classes: int, temperature: float = 0.6,
+    def __init__(self, in_features: int, out_features: int, n_classes: int, temperature: float,
                  bias: bool = True, remove_attention: bool = False, method=None) -> None:
         super(EntropyLinear, self).__init__()
         self.in_features = in_features
@@ -118,12 +118,17 @@ class ConceptClassifier(torch.nn.Module):
     def __init__(self, config: Union[CommonArgs, Munch], method=None):
 
         super(ConceptClassifier, self).__init__()
-
-        hidden_dim = config.dataset.num_classes * 2 * 5
-        # hidden_dim = 64 # MUTAG BBBP
+       
+        if config.dataset.dataset_name in ("MNIST"):
+            hidden_dim = 350
+        elif config.dataset.dataset_name in ("MUTAG", "BBBP"):
+            hidden_dim = 64
+        else:
+            hidden_dim = config.dataset.num_classes * 2 * 5
+        
         self.classifier = nn.Sequential(*(
             [
-                EntropyLinear(config.dataset.num_classes * 2, hidden_dim, config.dataset.num_classes, bias=False, method=method),
+                EntropyLinear(config.dataset.num_classes * 2, hidden_dim, config.dataset.num_classes, bias=False, method=method, temperature=config.train.combinator_temp),
                 torch.nn.LeakyReLU(),
                 nn.Linear(hidden_dim, hidden_dim),
                 torch.nn.LeakyReLU(),

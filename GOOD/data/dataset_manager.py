@@ -113,7 +113,8 @@ def domain_pair_dataloader(dataset, config: Union[CommonArgs, Munch]):
         graph = dataset[0]
         loader = GraphSAINTRandomWalkSampler(graph, batch_size=config.train.train_bs,
                                              walk_length=config.model.model_layer,
-                                             num_steps=config.train.num_steps, sample_coverage=100,
+                                             num_steps=config.train.num_steps,
+                                             sample_coverage=100,
                                              save_dir=dataset.processed_dir)
         loader = {'train': loader, 'eval_train': [graph], 'id_val': [graph], 'id_test': [graph], 'val': [graph],
                   'test': [graph]}

@@ -113,7 +113,6 @@ def load_config(path: str, previous_includes: list = [], skip_include=False) -> 
     # Duplicates between included and main file causes warnings
     config, merge_dup_warning = merge_dicts(config, direct_config)
     duplicates_warning += merge_dup_warning
-
     return config, duplicates_warning, duplicates_error
 
 
