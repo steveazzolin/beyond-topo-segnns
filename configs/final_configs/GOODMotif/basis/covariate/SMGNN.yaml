@@ -10,16 +10,7 @@ ood:
     - 10
     - 0.01
 train:
-  max_epoch: 100
   lr: 0.005
-  lr_filternode: 0.005
-  mile_stones:
-    - 150
-  weight_decay: 0.0
-  channel_weight_decay: 0.0
-  train_bs: 64
-  val_bs: 512
-  test_bs: 512
 log_file: exp_0
 clean_save: true
 use_norm: bn
