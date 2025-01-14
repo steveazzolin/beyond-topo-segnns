@@ -35,6 +35,7 @@ class GSATGIN(GNNBasic):
 
         if config.mitigation_sampling == "raw":
             config.mitigation_backbone = None
+            config.model.model_layer = 1
             self.gnn_clf = GINFeatExtractor(config)
         else:
             self.gnn_clf = None
