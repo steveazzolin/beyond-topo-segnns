@@ -3,10 +3,6 @@ includes:
 model:
   model_name: SMGNNGIN
   global_pool: mean
-  dim_hidden: 300
-  dim_ffn: 300
-  model_layer: 3
-  dropout_rate: 0.5
 ood:
   ood_alg: SMGNN
   ood_param: 0.001
@@ -15,13 +11,8 @@ ood:
     - 10
     - 0.01
 train:
-  train_bs: 512
-  val_bs: 2048
-  test_bs: 2048
-  max_epoch: 200
-  lr: 0.001
   lr_filternode: 0.001
-  weight_decay: 0.05  # Default was 0.0 # Model trained was 0.1
+  weight_decay: 0.05
   channel_int: null
   channel_weight_decay: 0.05 # Model trained was 0.1
   combinator_weight_decay: 0.05 # Model trained was 0.5

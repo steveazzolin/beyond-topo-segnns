@@ -200,7 +200,13 @@ def process_configs(config: Union[CommonArgs, Munch], args=None):
     if config.dataset.shift_type:
         dataset_dirname += '_' + config.dataset.shift_type
 
-    model_dirname = f'repr_{config.model.model_name}_' \
+    tmp = ""
+    if config.dataset.dataset_name == "MNIST":
+        tmp = "200epochs"
+    if config.dataset.dataset_name == "GOODSST2" and config.model.model_name == "GSATGIN" and not config.global_side_channel:
+        tmp = "1lraw_"
+
+    model_dirname = f'repr_{tmp}{config.model.model_name}_' \
                     f'{config.model.model_layer}l_' \
                     f'{config.model.global_pool}pool_' \
                     f'{config.model.dropout_rate}dp_' \

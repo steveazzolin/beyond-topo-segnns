@@ -1,15 +1,17 @@
 includes:
   - base.yaml
 model:
-  model_name: GSATGIN
+  model_name: GiSSTGIN
   global_pool: mean
 ood:
-  ood_alg: GSAT
-  ood_param: 1.0
+  ood_alg: GiSST
+  ood_param: null
   extra_param:
     - true
-    - 20
-    - 0.7
+    - 0.01
+    - 0.01
+    - 0.01
+    - 0.01
 train:
   train_bs: 512
   max_epoch: 100
@@ -20,3 +22,4 @@ train:
   combinator_weight_decay: 0.0
   end_temp: 0.6
 log_file: exp_0
+clean_save: true

@@ -3,9 +3,3 @@ includes:
 dataset:
   dataset_name: GOODSST2
   domain: length
-train:
-  max_epoch: 200
-  train_bs: 32
-  val_bs: 256
-  test_bs: 256
-  weight_decay: 0.

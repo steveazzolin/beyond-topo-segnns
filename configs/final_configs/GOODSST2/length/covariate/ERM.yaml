@@ -3,11 +3,10 @@ includes:
 model:
   model_name: GIN
   global_pool: sum
+  model_layer: 1 # to account for mitigation_raw in SEGNNs
 ood:
   ood_alg: ERM
   ood_param: -1.0
 train:
-  max_epoch: 200
-  lr: 0.001
-  weight_decay: 0.0
+  weight_decay: 0.05
 log_file: exp_0
