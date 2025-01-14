@@ -43,7 +43,7 @@ class SMGNNGIN(GNNBasic):
         self.edge_mask = None
         print("Using mitigation_expl_scores:", config.mitigation_expl_scores)
 
-        if config.global_side_channel in ("simple", "simple_filternode", "simple_product", "simple_productscaled", "simple_godel"):
+        if config.global_side_channel in ("simple", "simple_filternode", "simple_product", "simple_productscaled", "simple_godel", "simple_linear"):
             self.global_side_channel = SimpleGlobalChannel(config)
             self.beta = torch.nn.Parameter(data=torch.tensor(0.0), requires_grad=True)
             self.combinator = nn.Linear(config.dataset.num_classes*2, config.dataset.num_classes, bias=True) # not in use
@@ -59,6 +59,18 @@ class SMGNNGIN(GNNBasic):
             self.global_side_channel = SimpleGlobalChannel(config)
             self.beta = torch.tensor(torch.nan)
             self.combinator = ConceptClassifier(config, method=2)
+        elif config.global_side_channel == "simple_mlp":
+            self.global_side_channel = SimpleGlobalChannel(config)
+            self.beta = torch.nn.Parameter(data=torch.tensor(0.0), requires_grad=True)
+            self.combinator = nn.Sequential(*(
+                [
+                    nn.Linear(config.dataset.num_classes * 2, 64, bias=False),
+                    torch.nn.LeakyReLU(),
+                    nn.Linear(64, 64),
+                    torch.nn.LeakyReLU(),
+                    nn.Linear(64, config.dataset.num_classes)
+                ]
+            ))
         elif config.global_side_channel == "dt":
             self.global_side_channel = DecisionTreeGlobalChannel(config)
             self.beta = torch.nn.Parameter(data=torch.tensor(0.0), requires_grad=True)
@@ -189,11 +201,6 @@ class SMGNNGIN(GNNBasic):
                         
                 input = torch.cat((channel_gnn, channel_global), dim=1)
                 if self.config.dataset.dataset_name == "MNIST":
-                    # input = torch.cat((channel_gnn, channel_global), dim=1)
-                    # input = torch.cat((self.global_norm(channel_gnn), self.global_norm(channel_global)), dim=1)
-                    # logits = self.test(input)
-                    # print(self.test[0].weight.norm(dim=1, p=1)[0])
-                    # print(self.test[0].alpha_norm)
                     input = self.global_norm(input)
                 
                 logits = self.combinator(input)                
@@ -216,6 +223,8 @@ class SMGNNGIN(GNNBasic):
                 # logits = torch.min(torch.cat((logits_gnn.sigmoid(), logits_side_channel.sigmoid()), dim=1), dim=1, keepdim=True).values
                 logits = torch.min(logits_gnn.sigmoid(), logits_side_channel.sigmoid())
                 logits = torch.log(logits / (1 - logits + 1e-6)) # Revert Sigmoid to logit space
+            elif self.config.global_side_channel == "simple_linear" or self.config.global_side_channel == "simple_mlp":
+                logits = self.combinator(torch.cat((logits_gnn.sigmoid(), logits_side_channel.sigmoid()), dim=1))
             else:
                 # logits = self.beta.sigmoid() * logits_gnn + (1-self.beta.sigmoid()) * logits_side_channel
                 # logits = self.beta.sigmoid() * logits_gnn.sigmoid() +  (1 - self.beta.sigmoid().detach()) * logits_side_channel.sigmoid().detach() # Combine them in probability space, and revert to logit for compliance with other code

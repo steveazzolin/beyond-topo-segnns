@@ -67,12 +67,15 @@ class EntropyLinear(nn.Module):
 
         n_classes = 1 # WARNING: experimenting for Motif
         self.weight = nn.Parameter(torch.Tensor(n_classes, out_features, in_features))
+        
         if method is None:
             self.gamma = nn.Parameter(torch.randn((n_classes, in_features)))
+        
         if bias:
             self.bias = nn.Parameter(torch.Tensor(n_classes, 1, out_features))
         else:
             self.register_parameter('bias', None)
+
         self.reset_parameters()
 
     def reset_parameters(self) -> None:
@@ -89,6 +92,7 @@ class EntropyLinear(nn.Module):
         # compute concept-awareness scores
         if self.method == 2:
             self.gamma = self.weight.norm(dim=1, p=1)
+            
         self.alpha = torch.exp(self.gamma/self.temperature) / torch.sum(torch.exp(self.gamma/self.temperature), dim=1, keepdim=True)
 
         if self.method == 2:

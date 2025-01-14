@@ -30,8 +30,8 @@ import matplotlib.pyplot as plt
 import wandb
 from scipy.stats import pearsonr
 
-if pyg_v == "2.4.0":
-    torch.set_num_threads(6)
+# if pyg_v == "2.4.0":
+#     torch.set_num_threads(6)
 
 # os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 warnings.simplefilter(action='ignore', category=FutureWarning)
@@ -1020,7 +1020,12 @@ def main():
                 if "simple_concept" in config.global_side_channel:
                     channel_relevances.append(model.combinator.classifier[0].alpha_norm.cpu().numpy())
                     print("\nConcept relevance scores for this run:\n", channel_relevances[-1], "\n")
-            elif "GiSST" in config.model.model_name and config.dataset.dataset_name in ("BAColor", "TopoFeature", "AIDS", "AIDSC1"):
+
+                if "simple_linear" in config.global_side_channel:
+                    channel_relevances.append(model.combinator.weight.detach().cpu().numpy())
+                    print("\nConcept relevance scores for this run:\n", channel_relevances[-1], "\n")
+            
+            if "GiSST" in config.model.model_name and config.dataset.dataset_name in ("BAColor", "TopoFeature", "AIDS", "AIDSC1"):
                 print("\nFeature explanation coeff. for this run:\n", model.prob_mask())
             
                 
