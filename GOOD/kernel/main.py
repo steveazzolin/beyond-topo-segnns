@@ -1009,7 +1009,7 @@ def main():
             if config.global_side_channel:
                 w = model.global_side_channel.classifier.classifier[0].weight.detach().cpu().numpy()
                 b = model.global_side_channel.classifier.classifier[0].bias.detach().cpu().numpy()
-                global_coeffs.append(-b / w[0][-1])
+                global_coeffs.append(-b / w[0][0])
                 global_weights.append(w[0])
                 if config.dataset.dataset_name in ("BAColor", "TopoFeature", "AIDS", "AIDSC1"):
                     print(f"\nWeight vector of global side channel:\nW: {w} b:{b}")
@@ -1017,6 +1017,7 @@ def main():
                         print(f"\nCoeff rule on x1: num_elements >= {-b / w[0][-1]}")
                     else:
                         print(f"\nCoeff rule on x1: x1 >= {global_coeffs[-1]}")
+
                 if "simple_concept" in config.global_side_channel:
                     channel_relevances.append(model.combinator.classifier[0].alpha_norm.cpu().numpy())
                     print("\nConcept relevance scores for this run:\n", channel_relevances[-1], "\n")
