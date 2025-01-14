@@ -22,7 +22,9 @@ goodtg --config_path final_configs/TopoFeature/basis/no_shift/GSAT.yaml --seeds 
 # TopoFeature (SMGNN)
 goodtg --config_path final_configs/TopoFeature/basis/no_shift/SMGNN.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --global_pool sum --gpu_idx 0 --extra_param True 10 0.01 --ood_param 0.001 --lr_filternode 0.001 --lr 0.001 --use_norm none
 # TopoFeature (GL-GiSST)
+goodtg --config_path final_configs/TopoFeature/basis/no_shift/GiSST.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --gpu_idx 1 --use_norm bn --global_side_channel simple_concept2temperature
 # TopoFeature (GL-GSAT)
+goodtg --config_path final_configs/TopoFeature/basis/no_shift/GSAT.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --gpu_idx 1 --use_norm none --global_side_channel simple_concept2temperature
 # TopoFeature (GL-SMGNN)
 goodtg --config_path final_configs/TopoFeature/basis/no_shift/SMGNN.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --global_pool sum --gpu_idx 0 --global_side_channel simple_concept2temperature --extra_param True 10 0.01 --ood_param 0.001 --lr_filternode 0.001 --lr 0.001 --use_norm none
 # TopoFeature (GL-SMGNN Linear)
@@ -30,24 +32,36 @@ goodtg --config_path final_configs/TopoFeature/basis/no_shift/SMGNN.yaml --seeds
 # TopoFeature (GL-SMGNN MLP)
 goodtg --config_path final_configs/TopoFeature/basis/no_shift/SMGNN.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --global_pool sum --gpu_idx 1 --global_side_channel simple_mlp --extra_param True 10 0.01 --ood_param 0.001 --lr_filternode 0.001 --lr 0.001 --use_norm none
 
-# BAColor (SMGNN)
-goodtg --config_path final_configs/BAColor/basis/no_shift/SMGNN.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --global_pool sum --gpu_idx 0 --global_side_channel simple_concept2temperature --extra_param True 10 0.001 --ood_param 0.001 --lr_filternode 0.001 --lr 0.001 --use_norm none
-# BAColor (GSAT)
-goodtg --config_path final_configs/BAColor/basis/no_shift/GSAT.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --gpu_idx 0 --use_norm none
-# BAColor (GiSST)
-goodtg --config_path final_configs/BAColor/basis/no_shift/GiSST.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --gpu_idx 0 --use_norm bn
+
 # BAColor (ERM)
 goodtg --config_path final_configs/BAColor/basis/no_shift/ERM.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --gpu_idx 0
+# BAColor (GiSST)
+goodtg --config_path final_configs/BAColor/basis/no_shift/GiSST.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --gpu_idx 0 --use_norm bn
+# BAColor (GSAT)
+goodtg --config_path final_configs/BAColor/basis/no_shift/GSAT.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --gpu_idx 0 --use_norm none
+# BAColor (SMGNN)
+goodtg --config_path final_configs/BAColor/basis/no_shift/SMGNN.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --global_pool sum --gpu_idx 1 --extra_param True 10 0.001 --ood_param 0.001 --lr_filternode 0.001 --lr 0.001 --use_norm none
+# BAColor (GL-GiSST)
+goodtg --config_path final_configs/BAColor/basis/no_shift/GiSST.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --gpu_idx 1 --global_side_channel simple_concept2temperature --lr_filternode 0.01 --lr 0.001 --use_norm bn --weight_decay 0.01 --channel_weight_decay 0.01
+# BAColor (GL-GSAT)
+goodtg --config_path final_configs/BAColor/basis/no_shift/GSAT.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --gpu_idx 1 --global_side_channel simple_concept2temperature --lr_filternode 0.001 --lr 0.001 --use_norm none
+# BAColor (GL-SMGNN)
+goodtg --config_path final_configs/BAColor/basis/no_shift/SMGNN.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --global_pool sum --gpu_idx 0 --global_side_channel simple_concept2temperature --extra_param True 10 0.001 --ood_param 0.001 --lr_filternode 0.001 --lr 0.001 --use_norm none
 
 
-# Motif (SMGNN)
-goodtg --config_path final_configs/GOODMotif/basis/covariate/SMGNN.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --gpu_idx 1 --global_side_channel simple_concept2temperature
+# Motif (ERM)
+goodtg --config_path final_configs/GOODMotif/basis/covariate/ERM.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --gpu_idx 1 --use_norm none --average_edge_attn mean
 # Motif (GiSST)
 goodtg --config_path final_configs/GOODMotif/basis/covariate/GiSST.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --gpu_idx 1 --use_norm bn
 # Motif (GSAT)
 goodtg --config_path final_configs/GOODMotif/basis/covariate/GSAT.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --gpu_idx 1 --use_norm bn
-# Motif (GL-GSAT temperature)
+# Motif (SMGNN)
+goodtg --config_path final_configs/GOODMotif/basis/covariate/SMGNN.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --gpu_idx 1 --use_norm bn
+# Motif (GL-GiSST)
+# Motif (GL-GSAT)
 goodtg --config_path final_configs/GOODMotif/basis/covariate/GSAT.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --gpu_idx 1 --use_norm bn --global_side_channel simple_concept2temperature
+# Motif (GL-SMGNN)
+goodtg --config_path final_configs/GOODMotif/basis/covariate/SMGNN.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --gpu_idx 1 --global_side_channel simple_concept2temperature
 
 
 # Twitter (SMGNN)
