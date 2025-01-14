@@ -2,7 +2,6 @@ includes:
   - base.yaml
 model:
   model_name: GSATGIN
-  global_pool: sum
 ood:
   ood_alg: GSAT
   ood_param: 1.0
@@ -11,11 +10,7 @@ ood:
     - 10
     - 0.5
 train:
-  pre_train: 0
-  max_epoch: 100
-  lr: 0.001
-  weight_decay: 0.0
-  mile_stones: [150]
+  weight_decay: 0.01
 log_file: exp_0
 clean_save: true
 use_norm: none

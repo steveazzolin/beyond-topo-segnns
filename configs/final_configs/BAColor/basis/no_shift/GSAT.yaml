@@ -2,6 +2,7 @@ includes:
   - base.yaml
 model:
   model_name: GSATGIN
+  global_pool: sum
 ood:
   ood_alg: GSAT
   ood_param: 0.1
