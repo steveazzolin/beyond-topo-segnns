@@ -2,15 +2,22 @@ includes:
   - ../base.yaml
 model:
   model_layer: 3
-  global_pool: mean
+  global_pool: sum
   dim_hidden: 100
   dim_ffn: 100
   dropout_rate: 0.0
 train:
+  train_bs: 16
+  val_bs: 128
+  test_bs: 128
   num_steps: 10
   max_epoch: 100
-  weight_decay: 0.
+  lr: 0.001
   lr_filternode: 0.005
+  weight_decay: 0.0
+  channel_int: null
+  channel_weight_decay: 0.0
+  combinator_weight_decay: 0.0
 dataset:
   dataset_name: AIDS
   domain: basis
