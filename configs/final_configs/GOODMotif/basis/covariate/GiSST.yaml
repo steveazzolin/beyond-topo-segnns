@@ -7,9 +7,9 @@ ood:
   ood_param: null
   extra_param:
     - true
-    - 0.01
     - 0.1
-    - 1
+    - 0.1
+    - 0.1
     - 0.1
 log_file: exp_0
 clean_save: true
