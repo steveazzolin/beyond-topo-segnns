@@ -67,8 +67,8 @@ class CustomDataset(InMemoryDataset):
                     data.edge_gt = G.edge_gt
                 elif add_fake_edge_gt:
                     data.edge_gt = torch.zeros((data.edge_index.shape[1]), dtype=torch.long, device=data.edge_index.device)
-                # if hasattr(G, "node_gt"): # added for stability of detector analysis
-                #     data.node_gt = G.node_gt
+                if hasattr(G, "node_gt"): # added for stability of detector analysis
+                    data.node_gt = G.node_gt
                 # if hasattr(G, "causal_mask"): # added for stability of detector analysis
                 #     data.causal_mask = G.causal_mask
                 # if hasattr(G, "edge_attr"):
@@ -1879,7 +1879,7 @@ class Pipeline:
             # print(f"Acc ({split}) =  ({acc:.3f}%)")
             dataset = self.get_local_dataset(split)
 
-            loader = DataLoader(dataset, batch_size=256, shuffle=False, num_workers=2)
+            loader = DataLoader(dataset, batch_size=512, shuffle=False, num_workers=2)
             edge_scores, effective_ratios = [], []
             for data in loader:
                 data: Batch = data.to(self.config.device)   
@@ -1895,6 +1895,7 @@ class Pipeline:
                     edge_scores.append(edge_score[data.batch[data.edge_index[0]] == j].detach().cpu().numpy().tolist())
                     if g.edge_index.shape[1] > 0:
                         effective_ratios.append(float((g.edge_gt.sum() if hasattr(g, "edge_gt") and not g.edge_gt is None else 0.) / (g.edge_index.shape[1])))
+            
             if "CIGA" in self.config.model.model_name:
                 edge_scores = [np.abs(np.array(e)) for e in edge_scores]
                 edge_scores = [(e - e.min()) / (e.max() - e.min() + 1e-7) for e in edge_scores if len(e) > 0]
@@ -1944,11 +1945,13 @@ class Pipeline:
 
             ax.hist(np.concatenate(edge_scores_seed[j]), density=True, log=False, bins=100)
             ax.set_title(f"seed {j+1}", fontsize=15)
+            ax.set_yticks([])
             ax.tick_params(axis='y', labelsize=12)
             ax.tick_params(axis='x', labelsize=12)
             ax.set_xlim((0.0,1.0))
         fig.supxlabel('explanation relevance scores', fontsize=18)
         fig.supylabel('density', fontsize=18)
+        fig.suptitle(self.config.model.model_name.replace("GIN", ""), fontsize=22)
         
         path = f'GOOD/kernel/pipelines/plots/panels/{self.config.ood_dirname}/'
         if not os.path.exists(path):
@@ -1957,16 +1960,19 @@ class Pipeline:
         plt.tight_layout(rect=[0, 0.03, 1, 0.95])
         path += f"{self.config.load_split}_{self.config.dataset.dataset_name}_{self.config.dataset.domain}_{self.config.util_model_dirname}_allseeds"
         plt.savefig(path + ".png")
-        plt.savefig(f'GOOD/kernel/pipelines/plots/panels/pdfs/{self.config.load_split}_{self.config.dataset.dataset_name}_{self.config.dataset.domain}_{self.config.util_model_dirname}_allseeds.pdf')
+        plt.savefig(f'GOOD/kernel/pipelines/plots/panels/pdfs_new/{self.config.load_split}_{self.config.dataset.dataset_name}_{self.config.dataset.domain}_{self.config.util_model_dirname}_allseeds.pdf')
         print("\n Saved plot ", path, "\n")
         plt.close()
 
     @torch.no_grad()
     def generate_global_explanation(self):
         self.model.eval()
-        splits = ["train", "id_val", "id_test"] #, "test"
+        splits = ["id_val"]
         n_row = 1
-        fig, axs = plt.subplots(n_row, len(splits), figsize=(9,4))
+        fig, axs = plt.subplots(n_row, len(splits), figsize=(4*len(splits),4))
+
+        if len(splits) == 1:
+            axs = [axs]
         
         w = self.model.global_side_channel.classifier.classifier[0].weight.cpu().numpy()
         b = self.model.global_side_channel.classifier.classifier[0].bias.cpu().numpy()
@@ -1999,9 +2005,14 @@ class Pipeline:
             preds_gnn_only = torch.tensor(preds_gnn_only).reshape(-1)
             labels = dataset.y.reshape(-1)
 
-            axs[int(i/n_row)].scatter(samples[preds_global_only == 0, 0], samples[preds_global_only == 0, 1], c="yellow", alpha=0.2, label="pred. class 0")
-            axs[int(i/n_row)].scatter(samples[preds_global_only == 1, 0], samples[preds_global_only == 1, 1], c="violet", alpha=0.2, label="pred. class 1")
-            axs[int(i/n_row)].scatter(samples[preds_global_only != labels, 0], samples[preds_global_only != labels, 1], c="red", alpha=0.8, marker="x")
+            # Plot based on GT label
+            axs[int(i/n_row)].scatter(samples[labels == 0, 2], samples[labels == 0, 0], c="orange", alpha=0.4, label="y=0")
+            axs[int(i/n_row)].scatter(samples[labels == 1, 2], samples[labels == 1, 0], c="blue", alpha=0.4, label="y=1")
+
+            # Plot based on predicted label
+            # axs[int(i/n_row)].scatter(samples[preds_global_only == 0, 0], samples[preds_global_only == 0, 1], c="orange", alpha=0.4, label="y=0")
+            # axs[int(i/n_row)].scatter(samples[preds_global_only == 1, 0], samples[preds_global_only == 1, 1], c="blue", alpha=0.4, label="y=1")
+            # axs[int(i/n_row)].scatter(samples[preds_global_only != labels, 0], samples[preds_global_only != labels, 1], c="red", alpha=0.8, marker="x")
             
             acc = self.evaluate(split, compute_suff=False)["score"]
             print(f"Score overall model ({split}) =  {acc:.3f}%")
@@ -2010,21 +2021,18 @@ class Pipeline:
             acc_gnn = self.config.metric.score_func(labels, preds_gnn_only, pos_class=1)
             print(f"Score GNN only ({split}) =  {acc_gnn:.3f}%\n")
 
-
-            # TODO: Print general info also in plot_panel function
-            # Add a simple rule and train a DT
-            # Try BA2Color with DT and see if it uses just local explanations
-
             # Plot classifier decision boundary
-            x_min, x_max = samples[:, 0].min() - 0.5, samples[:, 0].max() + 0.5
-            x_vals = np.linspace(x_min, x_max, 100)
+            x_min, x_max = samples[:, 0].min() - 0.5, samples[:, 2].max() + 0.5
+            x_vals = np.linspace(-1, x_max, 100)
             for c in range(w.shape[0]):
                 w_c = w[c]
                 b_c = b[c]
-                y_vals = -(w_c[0] * x_vals + b_c) / w_c[1]
-                axs[int(i/n_row)].plot(x_vals, y_vals, color='black', label=f'Boundary {c}')
+                y_vals = -(w_c[2] * x_vals + b_c) / w_c[0]
+                axs[int(i/n_row)].plot(x_vals, y_vals, color='black', label=f'Dec. Bound.', alpha=0.6)
 
-            fig.supxlabel('global side channel decision boundary', fontsize=13)
+            # fig.supxlabel('global side channel decision boundary', fontsize=13)
+            axs[0].set_xlabel('num uncolored nodes', fontsize=13)
+            axs[0].set_ylabel('num red nodes', fontsize=13)
 
             # axs[n_row - int(i/n_row) -1, n_row - int(i%n_row) -1].fill_between(np.arange(len(means)), means - stds, means + stds, alpha=0.5)
             # axs[n_row - int(i/n_row) -1, n_row - int(i%n_row) -1].set_title(f"Per sample attn. variability - {split}")
@@ -2038,6 +2046,7 @@ class Pipeline:
 
         path += f"{self.config.load_split}_{self.config.util_model_dirname}_{self.config.random_seed}"
         plt.savefig(path + ".png")
+        # plt.savefig(path + ".pdf")
         # plt.savefig(f'GOOD/kernel/pipelines/plots/panels/pdfs/{self.config.load_split}_{self.config.dataset.dataset_name}_{self.config.dataset.domain}_{self.config.util_model_dirname}_{self.config.random_seed}.pdf')
         print("\n Saved plot ", path, "\n")
         plt.close()
@@ -2967,6 +2976,8 @@ class Pipeline:
                 labels_ori.append(labels[i])
                 # expl_acc_ori.append(expl_accs_r[ratio][i])
 
+                continue # Added before ICML to just plot clean samples
+
                 if metric in ("nec", "nec++") or len(empty_idx) == len(graphs) or intervention_distrib in ("fixed", "bank"):
                     assert False, "Computing NEC interventions"
                     if metric in ("suff", "suff++", "suff_simple") and intervention_distrib in ("fixed", "bank") and i == 0:
@@ -3039,21 +3050,42 @@ class Pipeline:
             int_dataset = CustomDataset("", eval_samples, belonging)
             loader = DataLoader(int_dataset, batch_size=512, shuffle=False)
 
+            # thrs = 0.05
+            if self.config.model.model_name == "GSATGIN":
+                if self.config.dataset.dataset_name == "TopoFeature":
+                    thrs = 0.8
+                if self.config.dataset.dataset_name == "AIDSC1":
+                    thrs = 0.7
+                if self.config.dataset.dataset_name == "AIDS":
+                    thrs = 0.8
+                if self.config.dataset.dataset_name == "BAColor":
+                    thrs = 0.7
+            elif self.config.model.model_name == "SMGNNGIN":
+                if self.config.dataset.dataset_name == "TopoFeature":
+                    if self.config.global_side_channel == "simple_concept2temperature":
+                        thrs = 0.20
+                if self.config.dataset.dataset_name == "BAColor":
+                    thrs = 0.2
+
             # PLOT EXAMPLES OF EXPLANATIONS (ORIGINAL SAMPLES)
             print(len(edge_scores), len(graphs), len(int_dataset), self.config.expval_budget, avg_graph_size)
-            for i in range(15):
-                if i > 15:
+            for i in range(25):
+                if i > 25:
                     break
                 data = int_dataset[reference[i]]
-                g = to_networkx(data, node_attrs=["node_gt", "x"], to_undirected=True)
-                xai_utils.mark_edges(g, data.edge_index, data.edge_index[:, data.edge_gt == 1], inv_edge_w=edge_scores[i])
+                # g = to_networkx(data, node_attrs=["node_gt", "x"], to_undirected=True) # when node_gt present
+                g = to_networkx(data, node_attrs=["x"], to_undirected=True)
+                # xai_utils.mark_edges(g, data.edge_index, data.edge_index[:, data.edge_gt == 1], inv_edge_w=edge_scores[i])
+                xai_utils.mark_edges(g, data.edge_index, torch.tensor([[]]), inv_edge_w=edge_scores[i])
                 xai_utils.draw_colored(
                     self.config,
                     g,
                     subfolder=f"plots_of_explanation_examples/{self.config.ood_dirname}/{self.config.dataset.dataset_name}_{self.config.dataset.domain}",
                     name=f"graph_{reference[i]}",
-                    thrs=0.05,
-                    title=f"Class {data.y}"
+                    thrs=thrs,
+                    title=f"Idx: {i} Class {labels_ori[reference[i]].long().item()}",
+                    with_labels=False,
+                    figsize=(12,10) if "AIDS" in self.config.dataset.dataset_name else (6.4, 4.8)
                 )
                 print(f"graph_{reference[i]} is of class {labels_ori[reference[i]]}")
 
