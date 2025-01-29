@@ -1011,7 +1011,23 @@ def main():
                 b = model.global_side_channel.classifier.classifier[0].bias.detach().cpu().numpy()
                 global_coeffs.append(-b / w[0][0])
                 global_weights.append(w[0])
+                
                 if config.dataset.dataset_name in ("BAColor", "TopoFeature", "AIDS", "AIDSC1"):
+                    
+                    # formatted = ",".join([f"{x:.1e}" for x in w[0]])
+                    out = ""
+                    for i, e in enumerate(w[0]):
+                        if i > 0 and i % 5 == 0:
+                            out += "\\\ \n"
+                        elif i > 0:
+                            out += " & "
+                        
+                        out += f"{e:.1e}"
+
+                    out += ""
+
+                    print(out)
+
                     print(f"\nWeight vector of global side channel:\nW: {w} b:{b}")
                     if config.dataset.dataset_name in ("AIDS", "AIDSC1"):
                         print(f"\nCoeff rule on x1: num_elements >= {-b / w[0][-1]}")
@@ -1049,7 +1065,7 @@ def main():
             tmp = np.array(test_scores[s])[id_val_accs >= threshold]
             print(f"{s.upper():<10} = {np.mean(tmp):.3f} +- {np.std(tmp):.3f}")
 
-        if "simple_concept" in config.global_side_channel:
+        if "simple_concept" in config.global_side_channel or config.global_side_channel == "simple_linear":
             channel_relevances = np.concatenate(channel_relevances, axis=0)
             print(f"\n\nAveraged channel relevance scores (model with id_val acc above {threshold}% - {sum(id_val_accs >= threshold)} runs): ")
             print(f"{channel_relevances[id_val_accs >= threshold].mean(0)} +- {channel_relevances[id_val_accs >= threshold].std(0)}")
