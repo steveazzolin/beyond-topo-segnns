@@ -9,7 +9,7 @@ from torch_geometric.datasets import TUDataset
 #   READ DATASET
 ##
 dataset = TUDataset(
-    "/mnt/cimec-storage6/users/steve.azzolin/sedignn/leci_private_fork/storage/datasets",
+    "storage/datasets",
     name="AIDS"
 )
 dataset._data.y = dataset.y.unsqueeze(1).float()
@@ -73,8 +73,7 @@ X_train, X_test, y_train, y_test = train_test_split(
     random_state=42
 )
 
-for cutoff in [12,13,14]:
+for cutoff in range(50):
     y_pred = np.array(X_test[:, -1] < cutoff, dtype=float)
-    accuracy = f1_score(y_test, y_pred)
+    accuracy = round(f1_score(y_test, y_pred), 2)
     print(f"Manual Test F1 (>= {cutoff}): ", accuracy)
-    print()
