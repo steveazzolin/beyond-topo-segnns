@@ -238,7 +238,7 @@ def draw_gt(config, G, name, gt, edge_index, subfolder="", pos=None):
     plt.close()
     return pos
 
-def draw_colored(config, G, name, subfolder="", pos=None, save=True, figsize=(6.4, 4.8), nodesize=350, with_labels=True, title=None, ax=None, thrs=0.9):
+def draw_colored(config, G, name, thrs, subfolder="", pos=None, save=True, figsize=(6.4, 4.8), nodesize=150, with_labels=True, title=None, ax=None):
     plt.figure(figsize=figsize)
 
     if pos is None:
@@ -248,11 +248,15 @@ def draw_colored(config, G, name, subfolder="", pos=None, save=True, figsize=(6.
     node_attr = list(nx.get_node_attributes(G, "x").values())
     
     node_colors = []
-    for i in range(len(node_gt)):
-        if node_gt[i]:
+    for i in range(len(node_attr)):
+        if len(node_gt) > 0 and node_gt[i]:
             node_colors.append("orange") # "lightgreen"
         elif node_attr[i] == [1.0, 0., 0.]:
             node_colors.append("red")
+        elif node_attr[i] == [1.0, 0.]:
+            node_colors.append("red")
+        elif node_attr[i] == [0., 1.]:
+            node_colors.append("blue")
         else:
             node_colors.append("orange")
     
@@ -270,10 +274,16 @@ def draw_colored(config, G, name, subfolder="", pos=None, save=True, figsize=(6.
     )
 
     # Annotate with edge scores
-    if nx.get_edge_attributes(G, 'attn_weight') != {}:
-        nx.draw_networkx_edge_labels(G, pos, edge_labels=nx.get_edge_attributes(G, 'attn_weight'), font_size=6, alpha=0.8)
+    # if nx.get_edge_attributes(G, 'attn_weight') != {}:
+    #     nx.draw_networkx_edge_labels(
+    #         G,
+    #         pos,
+    #         edge_labels=nx.get_edge_attributes(G, 'attn_weight'),
+    #         font_size=6,
+    #         alpha=0.8
+    #     )
     
-    plt.title(title)
+    plt.suptitle(title)
 
     if save:
         path = f'GOOD/kernel/pipelines/plots/{subfolder}/{config.load_split}_{config.util_model_dirname}_{config.random_seed}/'
@@ -283,7 +293,7 @@ def draw_colored(config, G, name, subfolder="", pos=None, save=True, figsize=(6.
             except Exception as e:
                 print(e)
                 exit(e)
-        plt.savefig(f'{path}/{name}.png')
+        plt.savefig(f'{path}/{name}.pdf')
     else:
         plt.show()
 
