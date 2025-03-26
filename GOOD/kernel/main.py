@@ -852,6 +852,71 @@ def print_faith(args):
     print("\n\nPrinting big rows:\n")
     for split_metric in split_metrics:
         print(f"{split_metric}: {big_rows[split_metric]}\n\n")
+
+
+def evaluate_plaus(args):
+    load_splits = ["id"]
+    for l, load_split in enumerate(load_splits):
+        print("\n\n" + "-"*50)
+
+        aurocs_seed = []
+        ratios = [0.3, 0.6, 0.9]
+        f1s_seed = {k: [] for k in ratios}
+        for i, seed in enumerate(args.seeds.split("/")):
+            print(f"COMPUTING PLAUSIBILITY FOR LOAD SPLIT = {load_split} AND SEED {seed}\n\n")
+            seed = int(seed)
+            args.random_seed = seed
+            args.exp_round = seed
+            
+            config = config_summoner(args)
+            config["task"] = "test"
+            config["load_split"] = load_split
+            config["mitigation_backbone"] = args.mitigation_backbone
+            config["mitigation_sampling"] = args.mitigation_sampling
+            if l == 0 and i == 0:
+                load_logger(config)
+            
+            model, loader = initialize_model_dataset(config)
+            ood_algorithm = load_ood_alg(config.ood.ood_alg, config)
+            pipeline = load_pipeline(config.pipeline, config.task, model, loader, ood_algorithm, config)
+            pipeline.load_task(load_param=True, load_split=load_split) 
+
+            # GET EXPLANATIONS
+            ret = pipeline.get_node_explanations()
+
+            from torch_geometric.explain.metric import groundtruth_metrics
+
+            aurocs = []
+            f1s = defaultdict(list)
+            for i in range(len(ret["id_val"]["scores"])):
+                auc = groundtruth_metrics(
+                    pred_mask=ret["id_val"]["scores"][i],
+                    target_mask=ret["id_val"]["samples"][i].edge_gt.cpu(),
+                    metrics="auroc"
+                )
+                aurocs.append(auc)
+
+                for ratio in ratios:
+                    f1 = groundtruth_metrics(
+                        pred_mask=ret["id_val"]["scores"][i],
+                        target_mask=ret["id_val"]["samples"][i].edge_gt.cpu(),
+                        metrics="f1_score",
+                        threshold=ratio
+                    )
+                    f1s[ratio].append(f1)
+
+            
+            aurocs_seed.append(np.mean(aurocs))
+            print(f"AUROC on id_val (seed {seed}) = {aurocs_seed[-1]:.2f}")
+            for ratio in ratios:
+                f1s_seed[ratio].append(np.mean(f1s[ratio]))
+                print(f"F1 with ratio {ratio} on id_val (seed {seed}) = {f1s_seed[ratio][-1]:.2f}")
+            
+        print("\n\n")
+        print(f"Final AUROC on id_val = {np.mean([a for a in aurocs_seed]):.2f} +- {np.std([a for a in aurocs_seed]):.2f}")
+        for ratio in ratios:
+            print(f"Final F1 with ratio {ratio} on id_val = {np.mean([a for a in f1s_seed[ratio]]):.2f} +- {np.std([a for a in f1s_seed[ratio]]):.2f}")
+
                     
 def gmean(a,b):
     return (a*b).sqrt()
@@ -915,6 +980,9 @@ def main():
         exit(0)
     if args.task == 'print_faith':
         print_faith(args)
+        exit(0)
+    if args.task == 'plaus':
+        evaluate_plaus(args)
         exit(0)
         
 

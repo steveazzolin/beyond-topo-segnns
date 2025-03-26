@@ -3108,3 +3108,43 @@ class Pipeline:
             #     xai_utils.draw(self.config, g, subfolder="plots_of_gt_stability_det", name=f"expl_{i}", title=wiou)
         return 
     
+
+    @torch.no_grad()
+    def get_node_explanations(self):
+        self.model.eval()
+
+        splits = ["id_val"]
+        ret = {
+            split: {
+                "scores": [],
+                "samples": [],
+                "pred": []
+            } for split in splits
+        }
+                
+        for i, split in enumerate(splits):
+            dataset = self.get_local_dataset(split)
+
+            loader = DataLoader(dataset, batch_size=512, shuffle=False, num_workers=2)
+            for data in loader:
+                data: Batch = data.to(self.config.device)   
+                edge_scores = self.model.get_subgraph(
+                    data=data,
+                    edge_weight=None,
+                    ood_algorithm=self.ood_algorithm,
+                    do_relabel=False,
+                    return_attn=False,
+                    ratio=None
+                )
+
+                for j, g in enumerate(data.to_data_list()):
+                    edge_expl = edge_scores[data.batch[data.edge_index[0]] == j].detach().cpu()
+
+                    # tmp = {}
+                    # for i, (u,v) in enumerate(g.edge_index.T):
+                    #     tmp[(u.item(), v.item())] = edge_expl[i].item()
+
+                    ret[split]["scores"].append(edge_expl)
+                    ret[split]["samples"].append(g)
+        return ret
+    
