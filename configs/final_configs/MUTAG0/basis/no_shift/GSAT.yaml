@@ -8,7 +8,7 @@ ood:
   extra_param:
     - true
     - 10
-    - 0.7
+    - 0.5
 train:
   mile_stones:
     - 150

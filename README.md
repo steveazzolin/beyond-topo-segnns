@@ -147,7 +147,7 @@ goodtg --config_path final_configs/MUTAG/basis/no_shift/GSAT.yaml --task test --
 goodtg --config_path final_configs/MUTAG/basis/no_shift/SMGNN.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --average_edge_attn mean --use_norm none --global_side_channel simple_concept2temperature
 
 # MUTAG0 (ERM)
-goodtg --config_path final_configs/MUTAG/basis/no_shift/ERM.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --use_norm none --gpu_idx 1
+goodtg --config_path final_configs/MUTAG0/basis/no_shift/ERM.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --use_norm none --gpu_idx 1
 # MUTAG0 (GiSST)
 goodtg --config_path final_configs/MUTAG0/basis/no_shift/GiSST.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --average_edge_attn mean --use_norm none
 # MUTAG0 (GSAT)
@@ -157,8 +157,9 @@ goodtg --config_path final_configs/MUTAG0/basis/no_shift/GSAT.yaml --task test -
 # MUTAG0 (GL-GiSST)
 goodtg --config_path final_configs/MUTAG0/basis/no_shift/GiSST.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --use_norm none --average_edge_attn mean --global_side_channel simple_concept2temperature
 # MUTAG0 (GL-GSAT)
+goodtg --config_path final_configs/MUTAG0/basis/no_shift/GSAT.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --use_norm none --average_edge_attn mean --global_side_channel simple_concept2temperature
 # MUTAG0 (GL-SMGNN)
-goodtg --config_path final_configs/MUTAG/basis/no_shift/SMGNN.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --average_edge_attn mean --use_norm none --global_side_channel simple_concept2temperature
+goodtg --config_path final_configs/MUTAG0/basis/no_shift/SMGNN.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --average_edge_attn mean --use_norm none --global_side_channel simple_concept2temperature
 
 
 # BBBP (ERM)
