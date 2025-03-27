@@ -1004,7 +1004,7 @@ def main():
         print(args)
         if i == 0:
             load_logger(config)
-        
+       
         model, loader = initialize_model_dataset(config)
         ood_algorithm = load_ood_alg(config.ood.ood_alg, config)
 
@@ -1080,7 +1080,7 @@ def main():
                 global_coeffs.append(-b / w[0][0])
                 global_weights.append(w[0])
                 
-                if config.dataset.dataset_name in ("BAColor", "TopoFeature", "AIDS", "AIDSC1"):
+                if config.dataset.dataset_name in ("BAColor", "TopoFeature", "AIDS", "AIDSC1", "MUTAG0"):
                     
                     # formatted = ",".join([f"{x:.1e}" for x in w[0]])
                     out = ""
