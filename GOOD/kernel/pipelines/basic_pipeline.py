@@ -274,8 +274,8 @@ class Pipeline:
                     continue
 
                 # Parameter for DANN
-                p = (index / len(self.loader['train']) + epoch) / self.config.train.max_epoch
-                self.config.train.alpha = 2. / (1. + np.exp(-10 * p)) - 1
+                # p = (index / len(self.loader['train']) + epoch) / self.config.train.max_epoch
+                # self.config.train.alpha = 2. / (1. + np.exp(-10 * p)) - 1
 
                 # train a batch
                 train_stat = self.train_batch(data, pbar, epoch)
