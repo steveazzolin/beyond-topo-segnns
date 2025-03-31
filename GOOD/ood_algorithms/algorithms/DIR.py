@@ -55,15 +55,17 @@ class DIR(BaseOODAlg):
             model raw predictions.
 
         """
-        if isinstance(model_output, tuple):
-            self.rep_out, self.causal_out, self.conf_out = model_output
+        if len(model_output) == 5:
+            self.rep_out, self.causal_out, self.conf_out, self.edge_att, (self.logit_gnn, self.logit_global) = model_output
+        elif len(model_output) == 4:
+            self.rep_out, self.causal_out, self.conf_out, self.edge_att = model_output
         else:
-            self.causal_out = model_output
+            self.causal_out, self.edge_att = model_output
             self.rep_out, self.conf_out = None, None
         return self.causal_out
 
     def loss_calculate(self, raw_pred: Tensor, targets: Tensor, mask: Tensor, node_norm: Tensor,
-                       config: Union[CommonArgs, Munch]) -> Tensor:
+                       config: Union[CommonArgs, Munch], batch: Tensor = None) -> Tensor:
         r"""
         Calculate loss based on DIR algorithm
 
@@ -90,26 +92,38 @@ class DIR(BaseOODAlg):
             causal_loss = (config.metric.loss_func(raw_pred, targets, reduction='none') * mask).sum() / mask.sum()
             conf_loss = (config.metric.loss_func(self.conf_out, targets, reduction='none') * mask).sum() / mask.sum()
 
-            env_loss = torch.tensor([]).to(config.device)
-            for rep in self.rep_out:
-                tmp = (config.metric.loss_func(rep, targets, reduction='none') * mask).sum() / mask.sum()
-                env_loss = torch.cat([env_loss, (tmp.sum() / mask.sum()).unsqueeze(0)])
-            causal_loss += config.train.alpha * env_loss.mean()
-            env_loss = config.train.alpha * torch.var(env_loss * self.rep_out.size(0))
+            # env_loss = torch.tensor([]).to(config.device)
+            # for rep in self.rep_out:
+            #     tmp = (config.metric.loss_func(rep, targets, reduction='none') * mask).sum() / mask.sum()
+            #     env_loss = torch.cat([env_loss, (tmp.sum() / mask.sum()).unsqueeze(0)])
+            # causal_loss += config.train.alpha * env_loss.mean()
+            # env_loss = config.train.alpha * torch.var(env_loss * self.rep_out.size(0))
 
-            loss = causal_loss + env_loss + conf_loss
+            tmp = config.metric.loss_func(
+                self.rep_out.reshape(self.rep_out.shape[0] * self.rep_out.shape[0], self.rep_out.shape[-1]),
+                targets.repeat(targets.shape[0]),
+                reduction='none'
+            ) * mask.repeat(targets.shape[0])
+            tmp = tmp.reshape(self.rep_out.shape[0], self.rep_out.shape[0])
+            tmp = tmp.mean(-1)
+
+            env_loss_mean = tmp.mean()
+            env_loss_var =  torch.var(tmp)
+
+            loss = causal_loss + config.train.alpha * env_loss_mean + config.train.alpha * env_loss_var + conf_loss
             self.mean_loss = causal_loss
-            self.spec_loss = env_loss + conf_loss
+            self.spec_loss = config.train.alpha * env_loss_mean + config.train.alpha * env_loss_var + conf_loss
         else:
             causal_loss = (config.metric.loss_func(raw_pred, targets, reduction='none') * mask).sum() / mask.sum()
 
             loss = causal_loss
             self.mean_loss = causal_loss
 
+        self.clf_loss = causal_loss.detach().mean().item()
         return loss
 
     def loss_postprocess(self, loss: Tensor, data: Batch, mask: Tensor, config: Union[CommonArgs, Munch],
-                         **kwargs) -> Tensor:
+                         epoch:int,**kwargs) -> Tensor:
         r"""
         Process loss based on DIR algorithm
 

@@ -10,15 +10,18 @@ import torch.nn as nn
 from torch import Tensor
 from torch_geometric.data import Data
 from torch_geometric.nn.conv import MessagePassing
-from torch_geometric.utils import degree
+from torch_geometric.utils import is_undirected, to_undirected, degree, coalesce
+from torch_geometric import __version__ as pyg_v
 
 from GOOD import register
 from GOOD.utils.config_reader import Union, CommonArgs, Munch
+
 from .BaseGNN import GNNBasic
 from .GINvirtualnode import vGINFeatExtractor
 from .GINs import GINFeatExtractor
-from torch_geometric.utils.loop import add_self_loops, remove_self_loops
 
+from .Classifiers import ConceptClassifier
+from .GINs import GINFeatExtractor, SimpleGlobalChannel
 
 
 @register.model_register
@@ -26,15 +29,34 @@ class DIRGIN(GNNBasic):
 
     def __init__(self, config: Union[CommonArgs, Munch]):
         super(DIRGIN, self).__init__(config)
+
         self.att_net = CausalAttNet(config.ood.ood_param, config)
+
         config_fe = copy.deepcopy(config)
         config_fe.model.model_layer = config.model.model_layer - 2
+        config_fe.mitigation_readout = config.mitigation_readout
+        
         self.feat_encoder = GINFeatExtractor(config_fe, without_embed=True)
 
+        if config.dataset.num_classes > 2:
+            output_dim = config.dataset.num_classes
+        else:
+            output_dim = 2
+
+        self.causal_lin = torch.nn.Linear(config.model.dim_hidden, output_dim)
+        self.conf_lin = torch.nn.Linear(config.model.dim_hidden, output_dim)
+        
         self.num_tasks = config.dataset.num_classes
-        self.causal_lin = torch.nn.Linear(config.model.dim_hidden, self.num_tasks)
-        self.conf_lin = torch.nn.Linear(config.model.dim_hidden, self.num_tasks)
         self.edge_mask = None
+        self.config = config
+
+        if config.global_side_channel in ("simple_concept2discrete", "simple_concept2temperature"):
+            # If dataset is BAColor, make sure to have only 1 formula by imposing 1 output class (as the other Binary clf datasets)
+            # DIR requires causal_lin and conf_lin to output 2 logits also for Binary tasks, which other model don't
+            self.global_side_channel = SimpleGlobalChannel(config, output_dim=1 if self.config.dataset.dataset_name == "BAColor" else None)
+            self.beta = torch.tensor(torch.nan)
+            self.combinator = ConceptClassifier(config, method=2, input_dim=1 if self.config.dataset.dataset_name == "BAColor" else None)
+
 
     def forward(self, *args, **kwargs):
         r"""
@@ -50,13 +72,10 @@ class DIRGIN(GNNBasic):
         """
         data = kwargs.get('data')
         batch_size = data.batch[-1].item() + 1
-        # data.edge_index, data.edge_attr = add_self_loops(*remove_self_loops(data.edge_index, data.edge_attr), num_nodes=data.x.shape[0])
 
         (causal_x, causal_edge_index, causal_edge_attr, causal_edge_weight, causal_batch), \
         (conf_x, conf_edge_index, conf_edge_attr, conf_edge_weight, conf_batch), \
         pred_edge_weight = self.att_net(*args, **kwargs)
-
-
 
         # --- Causal repr ---
         set_masks(causal_edge_weight, self)
@@ -70,27 +89,76 @@ class DIRGIN(GNNBasic):
         self.edge_mask = causal_edge_index
 
 
-        if self.training:
-            # --- Conf repr ---
-            set_masks(conf_edge_weight, self)
-            conf_rep = self.get_graph_rep(
-                data=Data(x=conf_x, edge_index=conf_edge_index,
-                          edge_attr=conf_edge_attr, batch=conf_batch),
-                batch_size=batch_size
-            ).detach()
-            conf_out = self.get_conf_pred(conf_rep)
-            clear_masks(self)
+        if self.config.global_side_channel and not kwargs.get('exclude_global', False):
+            logits_side_channel, filter_attn = self.global_side_channel(**kwargs)
+            logits_gnn = causal_out
 
-            # --- combine to causal phase (detach the conf phase) ---
-            rep_out = []
-            for conf in conf_rep:
-                rep_out.append(self.get_comb_pred(causal_rep, conf))
-            rep_out = torch.stack(rep_out, dim=0)
+            if self.config.dataset.dataset_name == "BAColor":
+                logits_gnn = (logits_gnn[:, 1] - logits_gnn[:, 0]).reshape(-1, 1)            
+            
+            if "simple_concept" in self.config.global_side_channel:
+                # mask_channel = torch.zeros_like(logits_side_channel)
+                
+                if self.config.global_side_channel == "simple_concept2temperature":
+                    def get_temp(start_temp, end_temp, max_num_epoch, curr_epoch):
+                        if max_num_epoch is None:
+                            return end_temp
+                        if curr_epoch <= 20:
+                            return start_temp
+                        return start_temp - (start_temp - end_temp) / max_num_epoch * curr_epoch
 
-            return rep_out, causal_out, conf_out
+                    temp = get_temp(start_temp=1, end_temp=self.config.train.end_temp, max_num_epoch=kwargs.get('max_num_epoch'), curr_epoch=kwargs.get('curr_epoch'))
+                    channel_gnn = torch.sigmoid(logits_gnn / temp)
+                    channel_global = torch.sigmoid(logits_side_channel / temp)
+                else:
+                    assert False
+                
+                logits = self.combinator(torch.cat((channel_gnn, channel_global), dim=1))
+
+                if self.training:
+                    # --- Conf repr ---
+                    set_masks(conf_edge_weight, self)
+                    conf_rep = self.get_graph_rep(
+                        data=Data(x=conf_x, edge_index=conf_edge_index,
+                                edge_attr=conf_edge_attr, batch=conf_batch),
+                        batch_size=batch_size
+                    ).detach()
+                    conf_out = self.get_conf_pred(conf_rep)
+                    clear_masks(self)
+
+                    # --- combine to causal phase (detach the conf phase) ---
+                    # rep_out = []
+                    # for conf in conf_rep:
+                    #     rep_out.append(self.get_comb_pred(causal_rep, conf))
+                    # rep_out = torch.stack(rep_out, dim=0)
+                    rep_out = torch.transpose(
+                        self.get_comb_pred_eff(causal_rep, conf_rep),
+                        0,
+                        1
+                    )
+                    return rep_out, logits, conf_out, pred_edge_weight, (logits_gnn, logits_side_channel)
+                else:
+                    return causal_out, pred_edge_weight
         else:
+            if self.training:
+                # --- Conf repr ---
+                set_masks(conf_edge_weight, self)
+                conf_rep = self.get_graph_rep(
+                    data=Data(x=conf_x, edge_index=conf_edge_index,
+                            edge_attr=conf_edge_attr, batch=conf_batch),
+                    batch_size=batch_size
+                ).detach()
+                conf_out = self.get_conf_pred(conf_rep)
+                clear_masks(self)
 
-            return causal_out
+                rep_out = torch.transpose(
+                    self.get_comb_pred_eff(causal_rep, conf_rep),
+                    0,
+                    1
+                )
+                return rep_out, causal_out, conf_out, pred_edge_weight
+            else:
+                return causal_out, pred_edge_weight
 
     def get_graph_rep(self, *args, **kwargs):
         return self.feat_encoder(*args, **kwargs)
@@ -105,6 +173,11 @@ class DIRGIN(GNNBasic):
         causal_pred = self.causal_lin(causal_graph_x)
         conf_pred = self.conf_lin(conf_graph_x).detach()
         return torch.sigmoid(conf_pred) * causal_pred
+    
+    def get_comb_pred_eff(self, causal_graph_x, conf_graph_x):
+        causal_pred = self.causal_lin(causal_graph_x)
+        conf_pred = self.conf_lin(conf_graph_x).detach()
+        return torch.sigmoid(conf_pred).unsqueeze(0) * causal_pred.unsqueeze(1)
 
 @register.model_register
 class DIRvGIN(DIRGIN):
@@ -118,6 +191,7 @@ class DIRvGIN(DIRGIN):
         config_fe = copy.deepcopy(config)
         config_fe.model.model_layer = config.model.model_layer - 2
         self.feat_encoder = vGINFeatExtractor(config_fe, without_embed=True)
+        assert False
 
 @register.model_register
 class DIRvGINNB(DIRGIN):
@@ -131,6 +205,7 @@ class DIRvGINNB(DIRGIN):
         config_fe = copy.deepcopy(config)
         config_fe.model.model_layer = config.model.model_layer - 2
         self.feat_encoder = vGINFeatExtractor(config_fe, without_embed=True)
+        assert False
 
 
 class CausalAttNet(nn.Module):
@@ -143,12 +218,16 @@ class CausalAttNet(nn.Module):
         config_catt = copy.deepcopy(config)
         config_catt.model.model_layer = 2
         config_catt.model.dropout_rate = 0
+        
         if kwargs.get('virtual_node'):
+            assert False
             self.gnn_node = vGINFeatExtractor(config_catt, without_readout=True, **kwargs)
         else:
             self.gnn_node = GINFeatExtractor(config_catt, without_readout=True, **kwargs)
+
         self.linear = nn.Linear(config_catt.model.dim_hidden * 2, 1)
         self.ratio = causal_ratio
+        self.config = config
 
     def forward(self, *args, **kwargs):
         data = kwargs.get('data') or None
@@ -159,6 +238,18 @@ class CausalAttNet(nn.Module):
         row, col = data.edge_index
         edge_rep = torch.cat([x[row], x[col]], dim=-1)
         edge_score = self.linear(edge_rep).view(-1)
+
+        # make edge scores undirected
+        if is_undirected(data.edge_index):
+            if self.config.average_edge_attn == "mean":
+                data.ori_edge_index = data.edge_index.detach().clone() #for backup and debug
+                data.edge_index, edge_score = to_undirected(data.edge_index, edge_score, reduce="mean")
+
+                if not data.edge_attr is None:
+                    edge_index_sorted, edge_attr_sorted = coalesce(data.ori_edge_index, data.edge_attr, is_sorted=False)
+                    data.edge_attr = edge_attr_sorted
+            else:
+                assert False    
 
         if data.edge_index.shape[1] != 0:
             (causal_edge_index, causal_edge_attr, causal_edge_weight), \
@@ -184,8 +275,12 @@ def set_masks(mask: Tensor, model: nn.Module):
     """
     for module in model.modules():
         if isinstance(module, MessagePassing):
-            module.__explain__ = True
-            module._explain = True
+            if pyg_v == "2.4.0":
+                module._fixed_explain = True
+            else:
+                module.__explain__ = True
+                module._explain = True
+            module._apply_sigmoid = False    
             module.__edge_mask__ = mask
             module._edge_mask = mask
 
@@ -196,8 +291,11 @@ def clear_masks(model: nn.Module):
     """
     for module in model.modules():
         if isinstance(module, MessagePassing):
-            module.__explain__ = False
-            module._explain = False
+            if pyg_v == "2.4.0":
+                module._fixed_explain = False
+            else:
+                module.__explain__ = False
+                module._explain = False
             module.__edge_mask__ = None
             module._edge_mask = None
 

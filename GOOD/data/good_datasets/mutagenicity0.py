@@ -43,7 +43,7 @@ class MUTAG0(InMemoryDataset):
         return osp.join(self.root)
 
     @staticmethod
-    def load(dataset_root: str, domain: str, shift: str = 'no_shift', generate: bool = False, debias: bool =False):
+    def load(dataset_root: str, domain: str, shift: str = 'no_shift', generate: bool = False, debias: bool =False, model_name:str=None):
         r"""
         A staticmethod for dataset loading. This method instantiates dataset class, constructing train, id_val, id_test,
         ood_val (val), and ood_test (test) splits. Besides, it collects several dataset meta information for further
@@ -73,6 +73,9 @@ class MUTAG0(InMemoryDataset):
         print(np.mean([dataset[i].x.shape[0] for i in range(len(dataset))]))
         print(np.mean([dataset[i].edge_index.shape[1] for i in range(len(dataset))]))
 
+        if "DIR" in model_name:
+            dataset._data.y = dataset._data.y.squeeze(-1).long()
+
         idx = np.arange(len(dataset))
         np.random.shuffle(idx)
         
@@ -100,6 +103,12 @@ class MUTAG0(InMemoryDataset):
         id_val_dataset.metric = 'Accuracy'
         id_test_dataset.metric = 'Accuracy'
 
+        if "DIR" in model_name:
+            task = 'Multi-label classification'
+            meta_info.num_classes = torch.unique(train_dataset._data.y).shape[0]
+        else:
+            task = 'Binary classification'
+
         # --- clear buffer dataset._data_list ---        
         train_dataset._data_list = None
         if id_val_dataset:
@@ -107,7 +116,7 @@ class MUTAG0(InMemoryDataset):
             id_test_dataset._data_list = None
 
         return {'train': train_dataset, 'id_val': id_val_dataset, 'id_test': id_test_dataset,
-                'metric': 'Accuracy', 'task': 'Binary classification',
+                'metric': 'Accuracy', 'task': task,
                 'val': id_val_dataset, 'test': id_test_dataset}, meta_info
 
 class Mutagenicity0(InMemoryDataset):

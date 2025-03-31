@@ -49,7 +49,9 @@ def load_dataset(name: str, config: Union[CommonArgs, Munch]) -> dir:
                                                           domain=config.dataset.domain,
                                                           shift=config.dataset.shift_type,
                                                           generate=config.dataset.generate,
-                                                          debias=config.debias)
+                                                          debias=config.debias,
+                                                          model_name=config.model.model_name
+                                                        )
     except KeyError as e:
         print('Dataset not found.')
         raise e

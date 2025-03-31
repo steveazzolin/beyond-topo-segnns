@@ -162,7 +162,7 @@ class BAColor(InMemoryDataset):
         return [f'data_{self.graph_distribution}_numgraphs{self.num_graphs}_min{self.num_nodes_min}_max{self.num_nodes_max}_shift{self.shift}.pt']
     
     @staticmethod
-    def load(dataset_root: str, domain: str= 'basis', shift: str = 'no_shift', generate: bool = False, debias: bool =False):
+    def load(dataset_root: str, domain: str= 'basis', shift: str = 'no_shift', generate: bool = False, debias: bool =False, model_name:str=None):
         r"""
         A staticmethod for dataset loading. This method instantiates dataset class, constructing train, id_val, id_test,
         ood_val (val), and ood_test (test) splits. Besides, it collects several dataset meta information for further
@@ -196,6 +196,11 @@ class BAColor(InMemoryDataset):
             ood1_dataset = dataset #BAColor(dataset_root, domain=domain, shift="size")
             ood2_dataset = dataset #BAColor(dataset_root, domain=domain, shift="color")
 
+        if "DIR" in model_name:
+            dataset._data.y = dataset._data.y.squeeze(-1).long()
+            ood1_dataset._data.y = ood1_dataset._data.y.squeeze(-1).long()
+            ood2_dataset._data.y = ood2_dataset._data.y.squeeze(-1).long()
+
         index_train, index_val_test = train_test_split(
             torch.arange(len(dataset)), 
             train_size=0.8,
@@ -221,13 +226,13 @@ class BAColor(InMemoryDataset):
         meta_info.edge_feat_dims = 0
         meta_info.num_envs = 1
 
-        # Define networks' output shape.
-        if train_dataset.task == 'Binary classification':
-            meta_info.num_classes = train_dataset._data.y.shape[1]
-        elif train_dataset.task == 'Regression':
-            meta_info.num_classes = 1
-        elif train_dataset.task == 'Multi-label classification':
+        # Define networks' output shape.        
+        if "DIR" in model_name:
+            task = 'Multi-label classification'
             meta_info.num_classes = torch.unique(train_dataset._data.y).shape[0]
+        else:
+            task = 'Binary classification'
+            meta_info.num_classes = train_dataset._data.y.shape[1]
 
         train_dataset.minority_class = None
         id_val_dataset.minority_class = None
@@ -249,5 +254,5 @@ class BAColor(InMemoryDataset):
             test_dataset._data_list = None
 
         return {'train': train_dataset, 'id_val': id_val_dataset, 'id_test': id_test_dataset,
-                'metric': 'Accuracy', 'task': dataset.task,
+                'metric': 'Accuracy', 'task': task,
                 'val': val_dataset, 'test': test_dataset}, meta_info

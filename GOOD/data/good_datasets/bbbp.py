@@ -66,7 +66,7 @@ class BBBP(InMemoryDataset):
         return newDataset
 
     @staticmethod
-    def load(dataset_root: str, domain: str, shift: str = 'no_shift', generate: bool = False, debias: bool =False):
+    def load(dataset_root: str, domain: str, shift: str = 'no_shift', generate: bool = False, debias: bool =False, model_name:str=None):
         r"""
         A staticmethod for dataset loading. This method instantiates dataset class, constructing train, id_val, id_test,
         ood_val (val), and ood_test (test) splits. Besides, it collects several dataset meta information for further
@@ -95,6 +95,9 @@ class BBBP(InMemoryDataset):
         dataset = BBBP.fixMoleculeNet(dataset, "bbbp", dataset_root)
         # dataset._data.edge_attr = None # remove edge attributes for fair comparison with other baselines
 
+        if "DIR" in model_name:
+            dataset._data.y = dataset._data.y.squeeze(-1).long()
+
         train_dataset = dataset[split_idx["train"]]
         id_val_dataset = dataset[split_idx["valid"]]
         id_test_dataset = dataset[split_idx["test"]]
@@ -106,6 +109,12 @@ class BBBP(InMemoryDataset):
 
         meta_info.num_envs = 1
         meta_info.num_classes = 1
+
+        if "DIR" in model_name:
+            task = 'Multi-label classification'
+            meta_info.num_classes = torch.unique(train_dataset._data.y).shape[0]
+        else:
+            task = 'Binary classification'
 
         train_dataset.minority_class = None
         id_val_dataset.minority_class = None
@@ -121,7 +130,7 @@ class BBBP(InMemoryDataset):
             id_test_dataset._data_list = None
 
         return {'train': train_dataset, 'id_val': id_val_dataset, 'id_test': id_test_dataset,
-                'metric': 'ROC-AUC', 'task': 'Binary classification',
+                'metric': 'ROC-AUC', 'task': task,
                 'val': id_val_dataset, 'test': id_test_dataset}, meta_info
                 
 
