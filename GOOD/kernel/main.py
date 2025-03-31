@@ -30,8 +30,8 @@ import matplotlib.pyplot as plt
 import wandb
 from scipy.stats import pearsonr
 
-# if pyg_v == "2.4.0":
-#     torch.set_num_threads(6)
+if pyg_v == "2.4.0":
+    torch.set_num_threads(4)
 
 # os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 warnings.simplefilter(action='ignore', category=FutureWarning)
@@ -990,6 +990,7 @@ def main():
     test_scores, test_losses = defaultdict(list), defaultdict(list)
     test_likelihoods_avg, test_likelihoods_prod, test_likelihoods_logprod, test_wious = defaultdict(list), defaultdict(list), defaultdict(list), defaultdict(list)
     channel_relevances, global_coeffs, global_weights = [], [], []
+    elapsed_time_seed = []
     for i, seed in enumerate(args.seeds.split("/")):
         seed = int(seed)
         print(f"\n\n#D#Running with seed = {seed}")
@@ -1022,8 +1023,9 @@ def main():
                 wandb.watch(pipeline.model, log="all", log_freq=10)
 
             # Train model
-            pipeline.load_task()            
-            print(f'\nTraining end ({datetime.now() - startTrainTime}).\n')
+            pipeline.load_task()     
+            elapsed_time_seed.append((datetime.now() - startTrainTime).total_seconds())
+            print(f'\nTraining end ({elapsed_time_seed[-1]}).\n')
 
             # Eval model
             pipeline.task = 'test'
@@ -1114,7 +1116,8 @@ def main():
                 print("\nFeature explanation coeff. for this run:\n", model.prob_mask())
             
                 
-    
+    print(f"Average time elapsed = {np.mean(elapsed_time_seed):.2f} +- {np.std(elapsed_time_seed):.2f}")
+
     if config.save_metrics:
         with open(f"storage/metric_results/acc_plaus.json", "r") as jsonFile:
             results_aggregated = json.load(jsonFile)
