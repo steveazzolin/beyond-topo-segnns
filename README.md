@@ -81,6 +81,14 @@ goodtg --config_path final_configs/GOODMotif/basis/covariate/GSAT.yaml --seeds "
 goodtg --config_path final_configs/GOODMotif/basis/covariate/SMGNN.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --gpu_idx 1 --global_side_channel simple_concept2temperature
 
 
+# REBUTTAL HYPER-TUNING MOTIF
+# Motif GL-GSAT hidden size of (B)LEN: 15hiddenblen | 64hiddenblen
+# Motif GL-GSAT r parameter of GSAT: rebuttal_0.1end_temp_ | rebuttal_0.5end_temp_
+# Motif GL-GSAT r parameter of GSAT: rebuttal_r0.5 | rebuttal_r0.9
+# Motif GL-GSAT r parameter of GSAT: rebuttal_1blenlayer | rebuttal_3blenlayer
+goodtg --config_path final_configs/GOODMotif/basis/covariate/GSAT.yaml --seeds "1/2/3/4/5" --task train --average_edge_attn mean --gpu_idx 0 --use_norm bn --global_side_channel simple_concept2temperature --train_bs 256 --extra_param True 20 0.9
+
+
 # Twitter (SMGNN)
 # goodtg --config_path final_configs/GOODTwitter/length/covariate/SMGNN.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --global_pool mean --gpu_idx 0 --extra_param True 10 0.01 --ood_param 0.001 --lr_filternode 0.001 --lr 0.001 --use_norm none --mitigation_sampling raw
 # Twitter (GSAT)
@@ -95,12 +103,16 @@ goodtg --config_path final_configs/GOODSST2/length/covariate/GiSST.yaml --seeds 
 goodtg --config_path final_configs/GOODSST2/length/covariate/GSAT.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --gpu_idx 0  --use_norm none --mitigation_sampling raw
 # SST2 (SMGNN)
 goodtg --config_path final_configs/GOODSST2/length/covariate/SMGNN.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --gpu_idx 1  --use_norm none --mitigation_sampling raw
+# SST2 (DIR)
+goodtg --config_path final_configs/GOODSST2/length/covariate/DIR.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --use_norm none --gpu_idx 0 --average_edge_attn mean
 # SST2 (GL_GiSST)
 goodtg --config_path final_configs/GOODSST2/length/covariate/GiSST.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --gpu_idx 1  --use_norm none --mitigation_sampling raw --global_side_channel simple_concept2temperature
 # SST2 (GL_GSAT)
 goodtg --config_path final_configs/GOODSST2/length/covariate/GSAT.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --gpu_idx 1  --use_norm none --mitigation_sampling raw --global_side_channel simple_concept2temperature
 # SST2 (GL-SMGNN)
 goodtg --config_path final_configs/GOODSST2/length/covariate/SMGNN.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --gpu_idx 1  --use_norm none --mitigation_sampling raw --global_side_channel simple_concept2temperature
+# SST2 (GL-DIR)
+goodtg --config_path final_configs/GOODSST2/length/covariate/DIR.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --use_norm none --gpu_idx 0 --average_edge_attn mean  --global_side_channel simple_concept2temperature
 
 
 # AIDS (ERM)
@@ -203,10 +215,14 @@ goodtg --config_path final_configs/MNIST/basis/no_shift/GiSST.yaml --task test -
 goodtg --config_path final_configs/MNIST/basis/no_shift/GSAT.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --use_norm bn --average_edge_attn mean --gpu_idx 1
 # MNIST (SMGNN)
 goodtg --config_path final_configs/MNIST/basis/no_shift/SMGNN.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --use_norm none --gpu_idx 1 --average_edge_attn mean
+# MNIST (DIR)
+goodtg --config_path final_configs/MNIST/basis/no_shift/DIR.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --use_norm none --gpu_idx 0 --average_edge_attn mean
 # MNIST (GL-GiSST)
 goodtg --config_path final_configs/MNIST/basis/no_shift/GiSST.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --use_norm none --average_edge_attn mean --gpu_idx 1 --global_side_channel simple_concept2temperature
 # MNIST (GL-GSAT)
 goodtg --config_path final_configs/MNIST/basis/no_shift/GSAT.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --use_norm bn --average_edge_attn mean --gpu_idx 1 --global_side_channel simple_concept2temperature
 # MNIST (GL-SMGNN)
 goodtg --config_path final_configs/MNIST/basis/no_shift/SMGNN.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --use_norm none --average_edge_attn mean --gpu_idx 1 --global_side_channel simple_concept2temperature
+# MNIST (GL-DIR)
+goodtg --config_path final_configs/MNIST/basis/no_shift/DIR.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --use_norm none --gpu_idx 0 --average_edge_attn mean  --global_side_channel simple_concept2temperature
 ```
