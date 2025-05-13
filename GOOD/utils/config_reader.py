@@ -200,7 +200,8 @@ def process_configs(config: Union[CommonArgs, Munch], args=None):
     if config.dataset.shift_type:
         dataset_dirname += '_' + config.dataset.shift_type
 
-    tmp = ""
+    # tmp = ""
+    tmp = "" # WARNING: ADDED FOR REBUTTAL ONLY
     if config.dataset.dataset_name == "MNIST":
         tmp = "200epochs"
     if config.dataset.dataset_name == "GOODSST2" and config.model.model_name == "GSATGIN" and not config.global_side_channel:
