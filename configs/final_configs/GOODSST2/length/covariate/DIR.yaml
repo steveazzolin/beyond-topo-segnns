@@ -1,15 +1,19 @@
 includes:
   - base.yaml
 model:
-  model_name: DIRvGIN
+  model_name: DIRGIN
+  global_pool: mean
 ood:
   ood_alg: DIR
   ood_param: 0.8
   extra_param:
     - 10.0
 train:
-  max_epoch: 200
-  lr: 0.001
-  weight_decay: 0.0
+  lr_filternode: 0.001
+  weight_decay: 0.05
+  channel_int: null
+  channel_weight_decay: 0.05 # Model trained was 0.1
+  combinator_weight_decay: 0.05 # Model trained was 0.5
+  end_temp: 0.6 # Model trained was 0.5
 log_file: exp_0
 clean_save: true

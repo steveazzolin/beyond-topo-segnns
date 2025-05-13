@@ -1,0 +1,12 @@
+includes:
+  - base.yaml
+model:
+  model_name: DIRGIN
+  global_pool: mean
+ood:
+  ood_alg: DIR
+  ood_param: 0.4
+  extra_param:
+    - 0.01
+log_file: exp_0
+clean_save: true

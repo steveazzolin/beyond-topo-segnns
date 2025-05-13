@@ -417,7 +417,7 @@ class GOODMotif(InMemoryDataset):
             torch.save((data, slices), self.processed_paths[i])
 
     @staticmethod
-    def load(dataset_root: str, domain: str, shift: str = 'no_shift', generate: bool = False, debias: bool =False):
+    def load(dataset_root: str, domain: str, shift: str = 'no_shift', generate: bool = False, debias: bool =False, model_name:str=None):
         r"""
         A staticmethod for dataset loading. This method instantiates dataset class, constructing train, id_val, id_test,
         ood_val (val), and ood_test (test) splits. Besides, it collects several dataset meta information for further
@@ -447,6 +447,13 @@ class GOODMotif(InMemoryDataset):
                                 domain=domain, shift=shift, subset='val', generate=generate, debias=debias)
         test_dataset = GOODMotif(root=dataset_root,
                                  domain=domain, shift=shift, subset='test', generate=generate, debias=debias)
+        
+        if "DIR" in model_name:
+            train_dataset._data.y = train_dataset._data.y.squeeze(-1).long()
+            id_val_dataset._data.y = id_val_dataset._data.y.squeeze(-1).long()
+            id_test_dataset._data.y = id_test_dataset._data.y.squeeze(-1).long()
+            val_dataset._data.y = val_dataset._data.y.squeeze(-1).long()
+            test_dataset._data.y = test_dataset._data.y.squeeze(-1).long()
 
         meta_info.dim_node = train_dataset.num_node_features
         meta_info.dim_edge = train_dataset.num_edge_features

@@ -381,19 +381,33 @@ class GOODSST2(InMemoryDataset):
                                domain=domain, shift=shift, subset='val', generate=generate)
         test_dataset = GOODSST2(root=dataset_root,
                                 domain=domain, shift=shift, subset='test', generate=generate)
+        
+        if "DIR" in model_name:
+            train_dataset._data.y = train_dataset._data.y.squeeze(-1).long()
+            id_val_dataset._data.y = id_val_dataset._data.y.squeeze(-1).long()
+            id_test_dataset._data.y = id_test_dataset._data.y.squeeze(-1).long()
+            val_dataset._data.y = val_dataset._data.y.squeeze(-1).long()
+            test_dataset._data.y = test_dataset._data.y.squeeze(-1).long()
 
         meta_info.dim_node = train_dataset.num_node_features
         meta_info.dim_edge = train_dataset.num_edge_features
 
         meta_info.num_envs = torch.unique(train_dataset._data.env_id).shape[0]
 
-        # Define networks' output shape.
-        if train_dataset.task == 'Binary classification':
-            meta_info.num_classes = train_dataset._data.y.shape[1]
-        elif train_dataset.task == 'Regression':
-            meta_info.num_classes = 1
-        elif train_dataset.task == 'Multi-label classification':
+        if "DIR" in model_name:
+            task = 'Multi-label classification'
             meta_info.num_classes = torch.unique(train_dataset._data.y).shape[0]
+        else:
+            task = 'Binary classification'
+            meta_info.num_classes = train_dataset._data.y.shape[1]
+
+        # Define networks' output shape.
+        # if train_dataset.task == 'Binary classification':
+        #     meta_info.num_classes = train_dataset._data.y.shape[1]
+        # elif train_dataset.task == 'Regression':
+        #     meta_info.num_classes = 1
+        # elif train_dataset.task == 'Multi-label classification':
+        #     meta_info.num_classes = torch.unique(train_dataset._data.y).shape[0]
 
         # --- clear buffer dataset._data_list ---
         train_dataset._data_list = None
@@ -404,5 +418,5 @@ class GOODSST2(InMemoryDataset):
         test_dataset._data_list = None
 
         return {'train': train_dataset, 'id_val': id_val_dataset, 'id_test': id_test_dataset,
-                'val': val_dataset, 'test': test_dataset, 'task': train_dataset.task,
+                'val': val_dataset, 'test': test_dataset, 'task': task,
                 'metric': train_dataset.metric}, meta_info
