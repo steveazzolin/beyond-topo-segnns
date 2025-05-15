@@ -2,7 +2,6 @@ includes:
   - base.yaml
 model:
   model_name: DIRGIN
-  global_pool: sum
 ood:
   ood_alg: DIR
   ood_param: 0.8
