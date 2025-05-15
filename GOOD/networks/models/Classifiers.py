@@ -119,7 +119,7 @@ class EntropyLinear(nn.Module):
 class ConceptClassifier(torch.nn.Module):
     r"""
     """
-    def __init__(self, config: Union[CommonArgs, Munch], method=None):
+    def __init__(self, config: Union[CommonArgs, Munch], method=None, input_dim=None):
 
         super(ConceptClassifier, self).__init__()
        
@@ -129,14 +129,20 @@ class ConceptClassifier(torch.nn.Module):
             hidden_dim = 64
         else:
             hidden_dim = config.dataset.num_classes * 2 * 5
+
+        if input_dim is None:
+            input_dim = config.dataset.num_classes
         
         self.classifier = nn.Sequential(*(
             [
-                EntropyLinear(config.dataset.num_classes * 2, hidden_dim, config.dataset.num_classes, bias=False, method=method, temperature=config.train.combinator_temp),
+                EntropyLinear(input_dim * 2, hidden_dim, config.dataset.num_classes, bias=False, method=method, temperature=config.train.combinator_temp),
                 torch.nn.LeakyReLU(),
                 nn.Linear(hidden_dim, hidden_dim),
                 torch.nn.LeakyReLU(),
-                # nn.Linear(hidden_dim, 1)
+                # nn.Linear(hidden_dim, hidden_dim), # usef only for rebuttal_3blenlayer ablation study
+                # torch.nn.LeakyReLU(),
+                # nn.Linear(hidden_dim, hidden_dim), # usef only for rebuttal_4blenlayer ablation study
+                # torch.nn.LeakyReLU(),
                 nn.Linear(hidden_dim, config.dataset.num_classes) # WARNING: experimenting for Motif
             ]
         ))
