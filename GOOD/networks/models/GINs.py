@@ -522,7 +522,7 @@ class SimpleGlobalChannel(torch.nn.Module):
         config (Union[CommonArgs, Munch]): munchified dictionary of args (:obj:`config.model.dim_hidden`, :obj:`config.model.model_layer`, :obj:`config.dataset.dim_node`, :obj:`config.dataset.num_classes`, :obj:`config.dataset.dataset_type`)
     """
 
-    def __init__(self, config: Union[CommonArgs, Munch]):
+    def __init__(self, config: Union[CommonArgs, Munch], output_dim=None):
 
         super().__init__()
         self.config = config
@@ -531,7 +531,7 @@ class SimpleGlobalChannel(torch.nn.Module):
         clf_config = copy.deepcopy(config)
         clf_config.model.dim_hidden = clf_config.dataset.dim_node
 
-        self.classifier = Classifier(clf_config)
+        self.classifier = Classifier(clf_config, output_dim=output_dim)
 
         if config.global_side_channel == "simple_filternode":
             self.node_filter = nn.Sequential(*[
