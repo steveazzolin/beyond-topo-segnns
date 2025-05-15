@@ -203,7 +203,8 @@ def process_configs(config: Union[CommonArgs, Munch], args=None):
     # tmp = ""
     tmp = "" # WARNING: ADDED FOR REBUTTAL ONLY
     if config.dataset.dataset_name == "MNIST":
-        tmp = "200epochs"
+        # tmp = "200epochs"
+        tmp = ""
     if config.dataset.dataset_name == "GOODSST2" and config.model.model_name == "GSATGIN" and not config.global_side_channel:
         tmp = "1lraw_"
 
