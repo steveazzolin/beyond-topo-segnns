@@ -1,4 +1,0 @@
-includes:
-  - ../base.yaml
-dataset:
-  shift_type: no_shift

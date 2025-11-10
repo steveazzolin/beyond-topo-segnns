@@ -335,7 +335,7 @@ class Pipeline:
 
             epoch_train_stat = self.evaluate(
                 'eval_train',
-                compute_wiou=(self.config.dataset.dataset_name == "TopoFeature" or self.config.dataset.dataset_name == "SimpleMotif" or self.config.dataset.dataset_name == "GOODMotif") 
+                compute_wiou=(self.config.dataset.dataset_name == "TopoFeature" or self.config.dataset.dataset_name == "GOODMotif") 
                                 and 
                              self.config.model.model_name != "GIN"
             )
@@ -848,10 +848,7 @@ class Pipeline:
                 reset_random_seed(self.config)
                 causal_subgraphs_r[SPLIT][ratio], spu_subgraphs_r[SPLIT][ratio], expl_accs_r[SPLIT][ratio], causal_masks[SPLIT][ratio] = self.get_subragphs_ratio(graphs[SPLIT], ratio, edge_scores[SPLIT], is_weight=is_weight)
                 if log:
-                    if self.config.dataset.dataset_name == "SimpleMotif":
-                        mask = labels[SPLIT] == 1
-                    else:
-                        mask = torch.ones_like(labels[SPLIT], dtype=torch.bool)
+                    mask = torch.ones_like(labels[SPLIT], dtype=torch.bool)
                     print(f"F1 for r={ratio} = {np.mean([e[1] for e in expl_accs_r[SPLIT][ratio]]):.3f}")
                     print(f"WIoU for r={ratio} = {np.mean([e[0] for e in expl_accs_r[SPLIT][ratio]]):.3f}")
         return (edge_scores, graphs, graphs_nx, labels, \
@@ -1514,7 +1511,7 @@ class Pipeline:
             # ------------- WIOU ------------------
             if compute_wiou:
                 wious_mask = torch.ones(data.batch.max() + 1, dtype=torch.bool)
-                if self.config.dataset.dataset_name == "TopoFeature" or self.config.dataset.dataset_name == "SimpleMotif":
+                if self.config.dataset.dataset_name == "TopoFeature":
                     wious_mask[data.pattern == 0] = False # Mask out examples without the motif
                 
                 _, explanation = to_undirected(data.edge_index, self.ood_algorithm.edge_att.squeeze(-1), reduce="mean")

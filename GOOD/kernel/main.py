@@ -962,18 +962,8 @@ def main():
     if args.task == 'plot_global':
         generate_global_explanation(args)
         exit(0)
-    if args.task == 'test_motif':
-        test_motif(args)
-        exit(0)
-    if args.task == 'permute_attention':
-        permute_attention_scores(args)
-        exit(0)
     if args.task == 'plot_sampling':
         generate_plot_sampling(args)
-        exit(0)
-    if args.task == 'stability_detector':
-        # stability_detector_rebuttal(args)
-        stability_detector_extended(args)
         exit(0)
     if args.task == 'plot_explanations':
         plot_explanation_examples(args)
@@ -1058,7 +1048,7 @@ def main():
                 sa = pipeline.evaluate(
                     s,
                     compute_suff=False, 
-                    compute_wiou=(config.dataset.dataset_name == "TopoFeature" or config.dataset.dataset_name == "SimpleMotif" or config.dataset.dataset_name == "GOODMotif")
+                    compute_wiou=(config.dataset.dataset_name == "TopoFeature" or config.dataset.dataset_name == "GOODMotif")
                                     and 
                                  config.model.model_name != "GIN"
                 )
