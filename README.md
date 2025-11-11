@@ -23,7 +23,7 @@ In this work, only the following models are considered:
 
 ## Configurations files
 
-Configuration files and hyper-parameter details for each experiment are available in `configs/final_configs`.
+Configuration files and hyper-parameter details for each experiment are available in `configs/final_configs/`.
 
 ## Datasets
 
@@ -31,7 +31,7 @@ Dataset implementations are provided in `GOOD\data\good_datasets`.
 
 For generating MNIST75sp the MNIST dataset, please refer to the [original paper](https://github.com/bknyaz/graph_attention_pool/tree/master/scripts). We included in our codebase the file `scripts\extract_mnist_superpixels.py` for ease of reproduction.
 
-Explicit datasets are not included as they exceed the size limit. When downloading raw datasets, please place them in `storage/datasets`.
+Full datasets can be downloaded [here](https://drive.google.com/file/d/1ZBPRnpwMTs1bpADATgC_LljtxwrqnT0D/view?usp=sharing), and stored in `storage/datasets`.
 
 ## Checkpoints
 
@@ -39,7 +39,7 @@ Checkpoints will be made available as a separata DRIVE folder, as they exceed th
 
 ## Reproducing the Experiments
 
-We report in the following the explicit commands used to reproduce our experiments. The `--task` parameter regulates the behaviour of the code, and can be set as follows:
+We report in `reproducing_commands.md` the explicit commands used to reproduce our experiments. The `--task` parameter regulates the behaviour of the code, and can be set as follows:
 
 - `test`: Evaluate the model
 - `train`: Train the model
@@ -57,146 +57,23 @@ Also, the Dual-Channel variant of each SEGNN is trained by specifiying the `--gl
 - `simple_product`: Product T-norm
 - `simple_godel`: Godel T-norm
 
-```shell
-# TopoFeature (GIN)
-goodtg --config_path final_configs/TopoFeature/basis/no_shift/ERM.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --use_norm none
-# TopoFeature (GSAT)
-goodtg --config_path final_configs/TopoFeature/basis/no_shift/GSAT.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --gpu_idx 0 --use_norm none
-# TopoFeature (SMGNN)
-goodtg --config_path final_configs/TopoFeature/basis/no_shift/SMGNN.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --global_pool sum --gpu_idx 0 --extra_param True 10 0.01 --ood_param 0.001 --lr_filternode 0.001 --lr 0.001 --use_norm none
-# TopoFeature (DC-GSAT)
-goodtg --config_path final_configs/TopoFeature/basis/no_shift/GSAT.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --gpu_idx 1 --use_norm none --global_side_channel simple_concept2temperature
-# TopoFeature (DC-SMGNN)
-goodtg --config_path final_configs/TopoFeature/basis/no_shift/SMGNN.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --global_pool sum --gpu_idx 0 --global_side_channel simple_concept2temperature --extra_param True 10 0.01 --ood_param 0.001 --lr_filternode 0.001 --lr 0.001 --use_norm none
-# TopoFeature (DC-SMGNN Discrete Gumbel)
-goodtg --config_path final_configs/TopoFeature/basis/no_shift/SMGNN.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --global_pool sum --gpu_idx 1 --global_side_channel simple_concept2discrete --extra_param True 10 0.01 --ood_param 0.001 --lr_filternode 0.001 --lr 0.001 --use_norm none
-# TopoFeature (DC-SMGNN Linear)
-goodtg --config_path final_configs/TopoFeature/basis/no_shift/SMGNN.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --global_pool sum --gpu_idx 1 --global_side_channel simple_linear --extra_param True 10 0.01 --ood_param 0.001 --lr_filternode 0.001 --lr 0.001 --use_norm none
-# TopoFeature (DC-SMGNN MLP)
-goodtg --config_path final_configs/TopoFeature/basis/no_shift/SMGNN.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --global_pool sum --gpu_idx 1 --global_side_channel simple_mlp --extra_param True 10 0.01 --ood_param 0.001 --lr_filternode 0.001 --lr 0.001 --use_norm none
 
-
-# BAColor (GIN)
-goodtg --config_path final_configs/BAColor/basis/no_shift/ERM.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --gpu_idx 0
-# BAColor (GSAT)
-goodtg --config_path final_configs/BAColor/basis/no_shift/GSAT.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --gpu_idx 0 --use_norm none
-# BAColor (SMGNN)
-goodtg --config_path final_configs/BAColor/basis/no_shift/SMGNN.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --global_pool sum --gpu_idx 1 --extra_param True 10 0.001 --ood_param 0.001 --lr_filternode 0.001 --lr 0.001 --use_norm none
-# BAColor (DC-GSAT)
-goodtg --config_path final_configs/BAColor/basis/no_shift/GSAT.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --gpu_idx 1 --global_side_channel simple_concept2temperature --lr_filternode 0.001 --lr 0.001 --use_norm none
-# BAColor (DC-SMGNN)
-goodtg --config_path final_configs/BAColor/basis/no_shift/SMGNN.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --global_pool sum --gpu_idx 0 --global_side_channel simple_concept2temperature --extra_param True 10 0.001 --ood_param 0.001 --lr_filternode 0.001 --lr 0.001 --use_norm none
-
-
-# Motif (GIN)
-goodtg --config_path final_configs/GOODMotif/basis/covariate/ERM.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --gpu_idx 1 --use_norm none --average_edge_attn mean
-goodtg --config_path final_configs/GOODMotif/basis/covariate/ERM.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --gpu_idx 1 --use_norm bn --average_edge_attn mean
-# Motif (GSAT)
-goodtg --config_path final_configs/GOODMotif/basis/covariate/GSAT.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --gpu_idx 1 --use_norm bn
-# Motif (SMGNN)
-goodtg --config_path final_configs/GOODMotif/basis/covariate/SMGNN.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --gpu_idx 1 --use_norm bn
-# Motif (DC-GSAT)
-goodtg --config_path final_configs/GOODMotif/basis/covariate/GSAT.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --gpu_idx 1 --use_norm bn --global_side_channel simple_concept2temperature
-# Motif (DC-SMGNN)
-goodtg --config_path final_configs/GOODMotif/basis/covariate/SMGNN.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --gpu_idx 1 --global_side_channel simple_concept2temperature
-
-
-# SST2 (GIN)
-goodtg --config_path final_configs/GOODSST2/length/covariate/ERM.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --gpu_idx 1  --use_norm none
-# SST2 (GiSST)
-goodtg --config_path final_configs/GOODSST2/length/covariate/GiSST.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --gpu_idx 1  --use_norm none --mitigation_sampling raw
-# SST2 (GSAT)
-goodtg --config_path final_configs/GOODSST2/length/covariate/GSAT.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --gpu_idx 0  --use_norm none --mitigation_sampling raw
-# SST2 (SMGNN)
-goodtg --config_path final_configs/GOODSST2/length/covariate/SMGNN.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --gpu_idx 1  --use_norm none --mitigation_sampling raw
-# SST2 (DC_GiSST)
-goodtg --config_path final_configs/GOODSST2/length/covariate/GiSST.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --gpu_idx 1  --use_norm none --mitigation_sampling raw --global_side_channel simple_concept2temperature
-# SST2 (DC_GSAT)
-goodtg --config_path final_configs/GOODSST2/length/covariate/GSAT.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --gpu_idx 1  --use_norm none --mitigation_sampling raw --global_side_channel simple_concept2temperature
-# SST2 (DC-SMGNN)
-goodtg --config_path final_configs/GOODSST2/length/covariate/SMGNN.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --gpu_idx 1  --use_norm none --mitigation_sampling raw --global_side_channel simple_concept2temperature
-
-
-# AIDS (GIN)
-goodtg --config_path final_configs/AIDS/basis/no_shift/ERM.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --use_norm none
-# AIDS (GiSST)
-goodtg --config_path final_configs/AIDS/basis/no_shift/GiSST.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --use_norm none --average_edge_attn mean --weight_decay 0.001 --channel_weight_decay 0.001 --combinator_weight_decay 0.001
-# AIDS (GSAT)
-goodtg --config_path final_configs/AIDS/basis/no_shift/GSAT.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --use_norm none --average_edge_attn mean
-# AIDS (SMGNN)
-goodtg --config_path final_configs/AIDS/basis/no_shift/SMGNN.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --use_norm none --average_edge_attn mean
-# AIDS (DC-GiSST)
-goodtg --config_path final_configs/AIDS/basis/no_shift/GiSST.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --use_norm none --average_edge_attn mean --global_side_channel simple_concept2temperature
-# AIDS (DC-GSAT)
-goodtg --config_path final_configs/AIDS/basis/no_shift/GSAT.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --use_norm none --average_edge_attn mean --global_side_channel simple_concept2temperature
-# AIDS (DC-SMGNN)
-goodtg --config_path final_configs/AIDS/basis/no_shift/SMGNN.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test --average_edge_attn mean --gpu_idx 0 --global_side_channel simple_concept2temperature  --use_norm none 
-
-
-# AIDSC1 (GIN)
-goodtg --config_path final_configs/AIDSC1/basis/no_shift/ERM.yaml --seeds "1/2/3/4/5/6/7/8/9/10" --task test
-# AIDSC1 (GiSST)
-goodtg --config_path final_configs/AIDSC1/basis/no_shift/GiSST.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --use_norm none --average_edge_attn mean
-# AIDSC1 (GSAT)
-goodtg --config_path final_configs/AIDSC1/basis/no_shift/GSAT.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --use_norm none --average_edge_attn mean --gpu_idx 0
-# AIDSC1 (SMGNN)
-goodtg --config_path final_configs/AIDSC1/basis/no_shift/SMGNN.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --use_norm none --average_edge_attn mean --gpu_idx 0
-# AIDSC1 (DC-GiSST)
-goodtg --config_path final_configs/AIDSC1/basis/no_shift/GiSST.yaml --task test --seeds "1/3/4/5/6/7/8/9/10" --use_norm none --average_edge_attn mean --gpu_idx 1 --global_side_channel simple_concept2temperature
-# AIDSC1 (DC-GSAT)
-goodtg --config_path final_configs/AIDSC1/basis/no_shift/GSAT.yaml --task test --seeds "1/2/3/5/6/7/8/9" --use_norm none --average_edge_attn mean --gpu_idx 1 --global_side_channel simple_concept2temperature
-# AIDSC1 (DC-SMGNN)
-goodtg --config_path final_configs/AIDSC1/basis/no_shift/SMGNN.yaml --seeds "1/2/3/4/5/6/7/8/9" --task test --average_edge_attn mean --gpu_idx 0 --global_side_channel simple_concept2temperature  --use_norm none 
-
-
-# MUTAG (GIN)
-goodtg --config_path final_configs/MUTAG/basis/no_shift/ERM.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --use_norm none --gpu_idx 1
-# MUTAG (GiSST)
-goodtg --config_path final_configs/MUTAG/basis/no_shift/GiSST.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --gpu_idx 1 --use_norm none --average_edge_attn mean
-# MUTAG (GSAT)
-goodtg --config_path final_configs/MUTAG/basis/no_shift/GSAT.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --average_edge_attn mean --use_norm none
-# MUTAG (SMGNN)
-goodtg --config_path final_configs/MUTAG/basis/no_shift/SMGNN.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --average_edge_attn mean --use_norm none
-# MUTAG (DC-GiSST)
-goodtg --config_path final_configs/MUTAG/basis/no_shift/GiSST.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --gpu_idx 1 --use_norm none --average_edge_attn mean --global_side_channel simple_concept2temperature
-# MUTAG (DC-GSAT)
-goodtg --config_path final_configs/MUTAG/basis/no_shift/GSAT.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --average_edge_attn mean --use_norm none --global_side_channel simple_concept2temperature --gpu_idx 1
-# MUTAG (DC-SMGNN)
-goodtg --config_path final_configs/MUTAG/basis/no_shift/SMGNN.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --average_edge_attn mean --use_norm none --global_side_channel simple_concept2temperature
-
-
-# BBBP (GIN)
-goodtg --config_path final_configs/BBBP/basis/no_shift/ERM.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --use_norm bn --gpu_idx 0 --global_pool mean
-# BBBP (GiSST)
-goodtg --config_path final_configs/BBBP/basis/no_shift/GiSST.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --use_norm bn --gpu_idx 2 --average_edge_attn mean
-# BBBP (GSAT)
-goodtg --config_path final_configs/BBBP/basis/no_shift/GSAT.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --use_norm bn --gpu_idx 1 --average_edge_attn mean
-# BBBP (SMGNN)
-goodtg --config_path final_configs/BBBP/basis/no_shift/SMGNN.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --use_norm bn --gpu_idx 0 --average_edge_attn mean
-# BBBP (DC-GiSST)
-goodtg --config_path final_configs/BBBP/basis/no_shift/GiSST.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --use_norm bn --gpu_idx 2 --average_edge_attn mean --global_side_channel simple_concept2temperature
-# BBBP (DC-GSAT)
-goodtg --config_path final_configs/BBBP/basis/no_shift/GSAT.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --use_norm bn --average_edge_attn mean --global_side_channel simple_concept2temperature
-# BBBP (DC-SMGNN)
-goodtg --config_path final_configs/BBBP/basis/no_shift/SMGNN.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --use_norm bn --gpu_idx 0 --average_edge_attn mean --global_side_channel simple_concept2temperature
-
-# MNIST (GIN)
-goodtg --config_path final_configs/MNIST/basis/no_shift/ERM.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --use_norm bn --gpu_idx 0
-# MNIST (GiSST)
-goodtg --config_path final_configs/MNIST/basis/no_shift/GiSST.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --use_norm none --average_edge_attn mean --gpu_idx 1
-# MNIST (GSAT)
-goodtg --config_path final_configs/MNIST/basis/no_shift/GSAT.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --use_norm bn --average_edge_attn mean --gpu_idx 1
-# MNIST (SMGNN)
-goodtg --config_path final_configs/MNIST/basis/no_shift/SMGNN.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --use_norm none --gpu_idx 1 --average_edge_attn mean
-# MNIST (DC-GiSST)
-goodtg --config_path final_configs/MNIST/basis/no_shift/GiSST.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --use_norm none --average_edge_attn mean --gpu_idx 1 --global_side_channel simple_concept2temperature
-# MNIST (DC-GSAT)
-goodtg --config_path final_configs/MNIST/basis/no_shift/GSAT.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --use_norm bn --average_edge_attn mean --gpu_idx 1 --global_side_channel simple_concept2temperature
-# MNIST (DC-SMGNN)
-goodtg --config_path final_configs/MNIST/basis/no_shift/SMGNN.yaml --task test --seeds "1/2/3/4/5/6/7/8/9/10" --use_norm none --average_edge_attn mean --gpu_idx 1 --global_side_channel simple_concept2temperature
-```
 
 ## Computing FAITH 
 
 To compute the faithfulness score refer to `scripts\faithfulness_topofeature.sh` and `scripts\faithfulness_motif.sh`.
-Files will be saved in `storage\metric_values`. To easily visialize them, swicth the `--task` parameter to `print_faith`.
+Files will be saved in `storage\metric_values`. 
+
+To easily print the final faithfulness values, switch the `--task` parameter to `print_faith`. We provide in `scripts\print_faithfulness_{dataset}.sh` a utility script to showcase this. The final results will be printed for each budget `b` (aka `NECALPHA` in the code) independently as follows:
+
+```
+    suff_simple_L1        :      0.77 +- 0.07; 0.78 +- 0.07; 0.80 +- 0.04; 0.84 +- 0.04; 0.97 +- 0.04
+    suff_simple_L1 Rnd    :      0.77 +- 0.06; 0.78 +- 0.05; 0.79 +- 0.04; 0.80 +- 0.04; 0.89 +- 0.04
+    nec_L1                :      0.30 +- 0.09; 0.35 +- 0.13; 0.26 +- 0.12; 0.19 +- 0.06; 0.16 +- 0.04
+    nec_L1 Rnd            :      0.01 +- 0.01; 0.04 +- 0.02; 0.09 +- 0.04; 0.13 +- 0.04; 0.15 +- 0.04
+    faith_armon_L1        :      0.42 +- 0.08; 0.47 +- 0.11; 0.38 +- 0.13; 0.30 +- 0.08; 0.27 +- 0.06
+    faith_armon_L1 Rnd    :      0.02 +- 0.02; 0.07 +- 0.04; 0.16 +- 0.06; 0.23 +- 0.05; 0.25 +- 0.05
+    faith_armon_L1 ratio  :      0.05 +- 0.05; 0.15 +- 0.09; 0.42 +- 0.21; 0.77 +- 0.26; 0.93 +- 0.28
+```
+
+where each column corresponds to the value computed for a different value of explanation-cutting ratio `k` (aka `RATIOS` in the code). To replicate the results in *Table 11* of the paper, please collect, for a desired value of `k`, the values of `faith_armon_L1 ratio` for $\text{NECALPHA} \in [0.01, 0.05, 0.1]$ and then average these value toghether. In the paper, we picked as an heuristics the best `k` as the one achieving the highest `faith_armon_L1`.
