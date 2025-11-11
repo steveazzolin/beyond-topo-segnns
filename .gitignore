@@ -1,14 +1,10 @@
 .idea/**
 wandb/*
-storage/checkpoint_backup03022024/
-storage/checkpoints_backup25032024/
-storage/checkpoints*/
 storage/checkpoints/
 storage/ckpts/
 storage/log/
 storage/datasets/
 storage/tensorboard/
-GOODCMNIST/
 docs/build
 /docs/source/_autosummary/
 **/__pycace__/
@@ -27,5 +23,3 @@ docs/build
 *.pyc
 *.png
 *.pdf
-outputs/GiSST_hyperparams_tuning.txt
-outputs/SMGNN_Twitter_hyperparams_tuning.txt
