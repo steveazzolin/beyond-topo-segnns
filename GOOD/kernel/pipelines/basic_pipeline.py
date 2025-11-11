@@ -43,14 +43,7 @@ pbar_setting["disable"] = True
 
 class CustomDataset(InMemoryDataset):
     def __init__(self, root, samples, belonging, add_fake_edge_gt=False, dataset_name=None, transform=None, pre_transform=None, pre_filter=None):
-        super().__init__(root, transform, pre_transform, pre_filter)
-        self.edge_types = {
-            "inv": 0,
-            "spu": 1,
-            "added": 2,
-            "BA": 3
-        }
-        
+        super().__init__(root, transform, pre_transform, pre_filter)        
         data_list = []
         for i , G in enumerate(samples):
             if type(G) is nx.classes.digraph.DiGraph:
@@ -487,10 +480,6 @@ class Pipeline:
             for ratio in ratios:
                 reset_random_seed(self.config)
                 causal_subgraphs_r[SPLIT][ratio], spu_subgraphs_r[SPLIT][ratio], expl_accs_r[SPLIT][ratio], causal_masks[SPLIT][ratio] = self.get_subragphs_ratio(graphs[SPLIT], ratio, edge_scores[SPLIT], is_weight=is_weight)
-                if log:
-                    mask = torch.ones_like(labels[SPLIT], dtype=torch.bool)
-                    print(f"F1 for r={ratio} = {np.mean([e[1] for e in expl_accs_r[SPLIT][ratio]]):.3f}")
-                    print(f"WIoU for r={ratio} = {np.mean([e[0] for e in expl_accs_r[SPLIT][ratio]]):.3f}")
         return (edge_scores, graphs, graphs_nx, labels, \
                 avg_graph_size, causal_subgraphs_r, spu_subgraphs_r,  expl_accs_r, causal_masks)
 
@@ -638,18 +627,6 @@ class Pipeline:
                     print(f"{metric.upper()} for r={ratio} all {m} = {scores[f'all_{m}'][-1]} +- {aggr[f'{m}'].std():.3f} (in-sample avg dev_std = {(aggr_std**2).mean().sqrt():.3f})")
         return scores, acc_ints, results
 
-
-    def normalize_belonging(self, belonging):
-        ret = []
-        i = -1
-        for j , elem in enumerate(belonging):
-            if len(ret) > 0 and elem == belonging[j-1]:
-                ret.append(i)
-            else:
-                i += 1
-                ret.append(i)
-        return ret
-
     def get_aggregated_metric(self, metric, preds_ori, preds_eval, preds_ori_ori, labels_ori, belonging, results, ratio):
         ret = {"KL": None, "L1": None}
         belonging = torch.tensor(self.normalize_belonging(belonging))
@@ -668,6 +645,17 @@ class Pipeline:
         else:
             raise ValueError(metric)
         return ret, aggr_std
+    
+    def normalize_belonging(self, belonging):
+        ret = []
+        i = -1
+        for j , elem in enumerate(belonging):
+            if len(ret) > 0 and elem == belonging[j-1]:
+                ret.append(i)
+            else:
+                i += 1
+                ret.append(i)
+        return ret
 
     def get_local_dataset(self, split, log=True):
         if torch_geometric.__version__ == "2.4.0" and log:
@@ -746,7 +734,6 @@ class Pipeline:
             f'{split.capitalize()} {self.config.metric.score_name}: {stat["score"]:.4f} \t' + 
             f'{split.capitalize()} Loss: {stat["loss"]:.4f} \t'
         )
-
 
         if was_training:
             self.model.train()
@@ -905,7 +892,6 @@ class Pipeline:
         if epoch < config.train.pre_train:
             return
 
-        # WARNING: Original reference metric is 'score'
         reference_metric = "loss"
         lower_better = 1 if reference_metric == "loss" else -1
 
@@ -1190,7 +1176,6 @@ class Pipeline:
                     return_attn=False,
                     ratio=None
                 )
-
                 for j, g in enumerate(data.to_data_list()):
                     edge_expl = edge_scores[data.batch[data.edge_index[0]] == j].detach().cpu()
                     ret[split]["scores"].append(edge_expl)
