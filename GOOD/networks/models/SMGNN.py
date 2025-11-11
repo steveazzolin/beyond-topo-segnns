@@ -41,7 +41,6 @@ class SMGNNGIN(GNNBasic):
         self.config = config
 
         self.edge_mask = None
-        print("Using mitigation_expl_scores:", config.mitigation_expl_scores)
 
         if config.global_side_channel in ("simple", "simple_filternode", "simple_product", "simple_productscaled", "simple_godel", "simple_linear"):
             self.global_side_channel = SimpleGlobalChannel(config)
@@ -108,8 +107,7 @@ class SMGNNGIN(GNNBasic):
         
         emb = self.gnn(*args, without_readout=True, **kwargs)        
         att_log_logits = self.extractor(emb, data.edge_index, data.batch)
-        # att = self.sampling(att_log_logits, self.training, self.config.mitigation_expl_scores)
-        att = self.sampling(att_log_logits, False, self.config.mitigation_expl_scores)
+        att = self.sampling(att_log_logits, False)
 
         if self.learn_edge_att:
             if is_undirected(data.edge_index):
@@ -142,26 +140,15 @@ class SMGNNGIN(GNNBasic):
                 data.edge_index = (data.edge_index.T[edge_att >= kwargs.get('weight')]).T
                 if not data.edge_attr is None:
                     data.edge_attr = data.edge_attr[edge_att >= kwargs.get('weight')]
-                edge_att = edge_att[edge_att >= kwargs.get('weight')]
-
-        if self.config.mitigation_expl_scores == "topK" or self.config.mitigation_expl_scores == "topk":
-            (causal_edge_index, causal_edge_attr, edge_att), \
-                _ = split_graph(data, edge_att, self.config.mitigation_expl_scores_topk)
-           
-            causal_x, causal_edge_index, causal_batch, _ = relabel(data.x, causal_edge_index, data.batch)
-
-            data_topk = Data(x=causal_x, edge_index=causal_edge_index, edge_attr=causal_edge_attr, batch=causal_batch)
-            kwargs['data'] = data_topk
-            kwargs["batch_size"] =  data.batch[-1].item() + 1
+                edge_att = edge_att[edge_att >= kwargs.get('weight')]        
 
         set_masks(edge_att, self)
-
         if self.gnn_clf:
             logits = self.classifier(self.gnn_clf(*args, **kwargs))
         else:
-            logits = self.classifier(self.gnn(*args, **kwargs))
-        
+            logits = self.classifier(self.gnn(*args, **kwargs))        
         clear_masks(self)
+
         self.edge_mask = edge_att
 
         if self.config.global_side_channel and not kwargs.get('exclude_global', False):
@@ -252,14 +239,8 @@ class SMGNNGIN(GNNBasic):
         else:
             return logits, att_log_logits, att_log_logits.sigmoid() # WARNING: I replaced attn with att_log_logits
 
-    def sampling(self, att_log_logits, training, mitigation_expl_scores):
-        if mitigation_expl_scores == "anneal":
-            temp = (self.config.train.epoch * 0.1 + (200 - self.config.train.epoch) * 5) / 200
-
+    def sampling(self, att_log_logits, training):
         att = self.concrete_sample(att_log_logits, temp=1, training=training)
-        if mitigation_expl_scores == "hard":
-            att_hard = (att > 0.5).float()
-            att = att_hard - att.detach() + att
         return att
 
     @staticmethod
@@ -371,7 +352,7 @@ class SMGNNGIN(GNNBasic):
 
         emb = self.gnn(*args, without_readout=True, **kwargs)
         att_log_logits = self.extractor(emb, data.edge_index, data.batch)
-        att = self.sampling(att_log_logits, False, self.config.mitigation_expl_scores)
+        att = self.sampling(att_log_logits, False)
 
         if self.learn_edge_att:
             if is_undirected(data.edge_index):

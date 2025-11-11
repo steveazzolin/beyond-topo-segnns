@@ -45,7 +45,6 @@ class GSATGIN(GNNBasic):
         self.config = config
 
         self.edge_mask = None
-        print("Using mitigation_expl_scores:", config.mitigation_expl_scores)
 
         if config.global_side_channel in ("simple_concept2discrete", "simple_concept2temperature"):
             self.global_side_channel = SimpleGlobalChannel(config)
@@ -69,7 +68,7 @@ class GSATGIN(GNNBasic):
         
         emb = self.gnn(*args, without_readout=True, **kwargs)        
         att_log_logits = self.extractor(emb, data.edge_index, data.batch)
-        att = self.sampling(att_log_logits, self.training, self.config.mitigation_expl_scores) # WARNING: Original GSAT
+        att = self.sampling(att_log_logits, self.training)
 
         if self.learn_edge_att:
             if is_undirected(data.edge_index):
@@ -81,11 +80,7 @@ class GSATGIN(GNNBasic):
                     data.edge_index, edge_att = to_undirected(data.edge_index, att.squeeze(-1), reduce="mean")
 
                     if not data.edge_attr is None:
-                        edge_index_sorted, edge_attr_sorted = coalesce(data.ori_edge_index, data.edge_attr, is_sorted=False)                    
-                        # assert torch.all(
-                        #     torch.tensor([edge_index_sorted.T[i][0] == data.edge_index.T[i][0] and edge_index_sorted.T[i][1] == data.edge_index.T[i][1] 
-                        #                 for i in range(len(data.edge_index.T))])
-                        # )
+                        edge_index_sorted, edge_attr_sorted = coalesce(data.ori_edge_index, data.edge_attr, is_sorted=False)
                         data.edge_attr = edge_attr_sorted    
             else:
                 edge_att = att
@@ -108,18 +103,7 @@ class GSATGIN(GNNBasic):
                     data.edge_attr = data.edge_attr[edge_att >= kwargs.get('weight')]
                 edge_att = edge_att[edge_att >= kwargs.get('weight')]
 
-        if self.config.mitigation_expl_scores == "topK" or self.config.mitigation_expl_scores == "topk":
-            (causal_edge_index, causal_edge_attr, edge_att), \
-                _ = split_graph(data, edge_att, self.config.mitigation_expl_scores_topk)
-           
-            causal_x, causal_edge_index, causal_batch, _ = relabel(data.x, causal_edge_index, data.batch)
-
-            data_topk = Data(x=causal_x, edge_index=causal_edge_index, edge_attr=causal_edge_attr, batch=causal_batch)
-            kwargs['data'] = data_topk
-            kwargs["batch_size"] =  data.batch[-1].item() + 1
-
         set_masks(edge_att, self)
-        # logits = self.classifier(self.gnn(*args, **kwargs))
         if self.gnn_clf:
             logits = self.classifier(self.gnn_clf(*args, **kwargs))
         else:
@@ -154,14 +138,8 @@ class GSATGIN(GNNBasic):
             # return logits, att, att_log_logits.sigmoid() # WARNING: I replaced edge_attn with att_log_logits.sigmoid()
             return logits, att, edge_att
 
-    def sampling(self, att_log_logits, training, mitigation_expl_scores):
-        if mitigation_expl_scores == "anneal":
-            temp = (self.config.train.epoch * 0.1 + (200 - self.config.train.epoch) * 5) / 200
-
+    def sampling(self, att_log_logits, training):
         att = self.concrete_sample(att_log_logits, temp=1, training=training)
-        if mitigation_expl_scores == "hard":
-            att_hard = (att > 0.5).float()
-            att = att_hard - att.detach() + att
         return att
 
     @staticmethod
@@ -251,7 +229,7 @@ class GSATGIN(GNNBasic):
 
         emb = self.gnn(*args, without_readout=True, **kwargs)
         att_log_logits = self.extractor(emb, data.edge_index, data.batch)
-        att = self.sampling(att_log_logits, self.training, self.config.mitigation_expl_scores)
+        att = self.sampling(att_log_logits, self.training)
 
         if self.learn_edge_att:
             if is_undirected(data.edge_index):

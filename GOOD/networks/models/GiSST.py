@@ -36,8 +36,6 @@ class GiSSTGIN(GNNBasic):
 
         self.config = config
         self.edge_mask = None
-        print("Using mitigation_expl_scores:", config.mitigation_expl_scores)
-
 
         if config.global_side_channel in ("simple", "simple_filternode", "simple_product", "simple_productscaled", "simple_godel"):
             self.global_side_channel = SimpleGlobalChannel(config)
@@ -128,17 +126,6 @@ class GiSSTGIN(GNNBasic):
                 if not data.edge_attr is None:
                     data.edge_attr = data.edge_attr[edge_att >= kwargs.get('weight')]
                 edge_att = edge_att[edge_att >= kwargs.get('weight')]
-
-        if self.config.mitigation_expl_scores == "topK" or self.config.mitigation_expl_scores == "topk":
-            (causal_edge_index, causal_edge_attr, edge_att), \
-                _ = split_graph(data, edge_att, self.config.mitigation_expl_scores_topk)
-           
-            causal_x, causal_edge_index, causal_batch, _ = relabel(data.x, causal_edge_index, data.batch)
-
-            data_topk = Data(x=causal_x, edge_index=causal_edge_index, edge_attr=causal_edge_attr, batch=causal_batch)
-            kwargs['data'] = data_topk
-            kwargs["batch_size"] =  data.batch[-1].item() + 1
-        
         
         set_masks(edge_att, self)
         logits = self.classifier(self.gnn_clf(*args, **kwargs))
