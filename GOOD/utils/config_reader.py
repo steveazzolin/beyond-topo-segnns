@@ -201,10 +201,9 @@ def process_configs(config: Union[CommonArgs, Munch], args=None):
         dataset_dirname += '_' + config.dataset.shift_type
 
     # tmp = ""
-    tmp = "" # WARNING: ADDED FOR REBUTTAL ONLY
+    tmp = ""
     if config.dataset.dataset_name == "MNIST":
-        # tmp = "200epochs"
-        tmp = ""
+        tmp = "200epochs"
     if config.dataset.dataset_name == "GOODSST2" and config.model.model_name == "GSATGIN" and not config.global_side_channel:
         tmp = "1lraw_"
 
@@ -214,11 +213,7 @@ def process_configs(config: Union[CommonArgs, Munch], args=None):
                     f'{config.model.dropout_rate}dp_' \
                     f'mitig_backbone{args.mitigation_backbone}_' \
                     f'mitig_sampling{args.mitigation_sampling}'
-    
-    # TODO: remove
-    if "Twitter" in config.dataset.dataset_name:
-        model_dirname = "tuning_" + model_dirname
-    
+        
     if not config.mitigation_readout is None:
         model_dirname = model_dirname + f'mitig_readout{args.mitigation_readout}'
     if not config.mitigation_virtual is None:
