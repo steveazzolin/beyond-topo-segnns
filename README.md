@@ -4,6 +4,11 @@ Official supplemental material containing the sourcecode for the ICML2025 paper 
 
 This codebase is build on top of the one provided by [GOOD](https://github.com/divelab/GOOD).
 
+## Installation
+
+We provide in `requirements.txt` the list of packages currently in use in our *venv*. For info regarding the installation of the library -- which is required in order to run the code with the `goodtg` functionality -- please refer to [GOOD](https://github.com/divelab/GOOD). 
+
+
 ## Model Implementations
 
 Models implementation can be found here `GOOD\networks\models`.
