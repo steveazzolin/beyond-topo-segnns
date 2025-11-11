@@ -130,12 +130,11 @@ class GSATGIN(GNNBasic):
                     channel_gnn = torch.sigmoid(logits_gnn / temp)
                     channel_global = torch.sigmoid(logits_side_channel / temp)
                 else:
-                    assert False
+                    raise NotImplementedError("Not implemented for GSAT")
                         
                 logits = self.combinator(torch.cat((channel_gnn, channel_global), dim=1))
                 return logits, att, edge_att, filter_attn, (logits_gnn, logits_side_channel)
         else:
-            # return logits, att, att_log_logits.sigmoid() # WARNING: I replaced edge_attn with att_log_logits.sigmoid()
             return logits, att, edge_att
 
     def sampling(self, att_log_logits, training):

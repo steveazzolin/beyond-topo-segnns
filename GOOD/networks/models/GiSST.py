@@ -137,8 +137,6 @@ class GiSSTGIN(GNNBasic):
             logits_gnn = logits
             
             if "simple_concept" in self.config.global_side_channel:
-                # mask_channel = torch.zeros_like(logits_side_channel)
-
                 if self.config.global_side_channel == "simple_concept2discrete":
                     # discrete reparametrization trick
                     if logits_gnn.shape[1] > 1:
@@ -169,8 +167,6 @@ class GiSSTGIN(GNNBasic):
                         
                 logits = self.combinator(torch.cat((channel_gnn, channel_global), dim=1))
             elif self.config.global_side_channel == "simple_product":
-                # logits = logits_gnn.sigmoid() * logits_side_channel.sigmoid()
-                # logits = torch.log(logits / (1 - logits + 1e-6)) # Revert Sigmoid
                 logits_gnn = torch.clip(logits_gnn, min=-50, max=50)
                 logits_side_channel = torch.clip(logits_side_channel, min=-50, max=50)
                 # logits_gnn = torch.full_like(logits_side_channel, 50) # masking one of the two channels setting to TRUE
@@ -184,28 +180,13 @@ class GiSSTGIN(GNNBasic):
                 logits_gnn = torch.clip(logits_gnn, min=-50, max=50)
                 logits_side_channel = torch.clip(logits_side_channel, min=-50, max=50)
                 # logits_gnn = logits_side_channel # masking one channel
-                # logits = torch.min(torch.cat((logits_gnn.sigmoid(), logits_side_channel.sigmoid()), dim=1), dim=1, keepdim=True).values
                 logits = torch.min(logits_gnn.sigmoid(), logits_side_channel.sigmoid())
-                logits = torch.log(logits / (1 - logits + 1e-6)) # Revert Sigmoid to logit space
+                logits = torch.log(logits / (1 - logits + 1e-6))
             else:
-                exit("Not implemented")
-            
-            if torch.any(torch.isinf(logits)):
-                print("Inf detected")
-                idx = torch.isinf(logits)
-                print(logits_gnn[idx].flatten(), logits_side_channel[idx].flatten())
-                print(torch.exp(-logits_gnn)[idx].flatten(), torch.exp(-logits_side_channel)[idx].flatten(), torch.exp(-logits_gnn-logits_side_channel)[idx].flatten())
-                exit("AIA")
-            if torch.any(torch.isnan(logits)):
-                print("NaN detected")
-                print(logits_gnn[:5])
-                print(edge_att[:5])
-                exit("AIA2")
-
+                raise NotImplementedError(f"{self.config.global_side_channel} not implemented for SMGNN")
             return logits, x_prob, edge_prob, filter_attn, (logits_gnn, logits_side_channel)
         else:
             return logits, x_prob, edge_prob
-        # return logits, x_prob, edge_prob # Original return from GiSST
     
     @torch.no_grad()
     def probs(self, *args, **kwargs):

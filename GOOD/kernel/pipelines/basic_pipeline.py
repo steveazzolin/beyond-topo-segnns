@@ -62,7 +62,7 @@ class CustomDataset(InMemoryDataset):
                     raise ValueError("Empty intervened graph")
                 data = Data(ori_x=G.ori_x.clone(), edge_index=G.edge_index.clone())
                 
-                # Comment for FAITH (TODO: fix this)
+                # Comment for FAITH
                 # if hasattr(G, "edge_gt"): # added for stability of detector analysis
                     # data.edge_gt = G.edge_gt
                 # elif add_fake_edge_gt:

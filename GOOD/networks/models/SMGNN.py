@@ -192,8 +192,6 @@ class SMGNNGIN(GNNBasic):
                 
                 logits = self.combinator(input)                
             elif self.config.global_side_channel == "simple_product":
-                # logits = logits_gnn.sigmoid() * logits_side_channel.sigmoid()
-                # logits = torch.log(logits / (1 - logits + 1e-6)) # Revert Sigmoid
                 logits_gnn = torch.clip(logits_gnn, min=-50, max=50)
                 logits_side_channel = torch.clip(logits_side_channel, min=-50, max=50)
                 # logits_gnn = torch.full_like(logits_side_channel, 50) # masking one of the two channels setting to TRUE
@@ -207,37 +205,15 @@ class SMGNNGIN(GNNBasic):
                 logits_gnn = torch.clip(logits_gnn, min=-50, max=50)
                 logits_side_channel = torch.clip(logits_side_channel, min=-50, max=50)
                 # logits_gnn = logits_side_channel # masking one channel
-                # logits = torch.min(torch.cat((logits_gnn.sigmoid(), logits_side_channel.sigmoid()), dim=1), dim=1, keepdim=True).values
                 logits = torch.min(logits_gnn.sigmoid(), logits_side_channel.sigmoid())
                 logits = torch.log(logits / (1 - logits + 1e-6)) # Revert Sigmoid to logit space
             elif self.config.global_side_channel == "simple_linear" or self.config.global_side_channel == "simple_mlp":
                 logits = self.combinator(torch.cat((logits_gnn.sigmoid(), logits_side_channel.sigmoid()), dim=1))
             else:
-                # logits = self.beta.sigmoid() * logits_gnn + (1-self.beta.sigmoid()) * logits_side_channel
-                # logits = self.beta.sigmoid() * logits_gnn.sigmoid() +  (1 - self.beta.sigmoid().detach()) * logits_side_channel.sigmoid().detach() # Combine them in probability space, and revert to logit for compliance with other code
-                # logits = torch.log(logits / (1 - logits + 1e-10)) # Revert Sigmoid
-                # Min(A,B)
-                # logits = torch.min(torch.cat((logits_gnn, logits_side_channel), dim=1), dim=1, keepdim=True).values
-                # Linear commbination
-                # logits = self.combinator(torch.cat((logits_gnn.sigmoid(), logits_side_channel.sigmoid()), dim=1))
-                exit("Not implemented")
-            
-            if torch.any(torch.isinf(logits)):
-                print("Inf detected")
-                # print(torch.exp(-logits_gnn)[:5].flatten(), torch.exp(-logits_side_channel)[:5].flatten(), torch.exp(-logits_gnn-logits_side_channel)[:5].flatten())
-                idx = torch.isinf(logits)
-                print(logits_gnn[idx].flatten(), logits_side_channel[idx].flatten())
-                print(torch.exp(-logits_gnn)[idx].flatten(), torch.exp(-logits_side_channel)[idx].flatten(), torch.exp(-logits_gnn-logits_side_channel)[idx].flatten())
-                exit("AIA")
-            if torch.any(torch.isnan(logits)):
-                print("NaN detected")
-                print(logits_gnn[:5])
-                print(edge_att[:5])
-                exit("AIA")
-
-            return logits, att_log_logits, att_log_logits.sigmoid(), filter_attn, (logits_gnn, logits_side_channel) # WARNING: I replaced edge_attn with att_log_logits.sigmoid()
+                raise NotImplementedError(f"{self.config.global_side_channel} not implemented for SMGNN")
+            return logits, att_log_logits, att_log_logits.sigmoid(), filter_attn, (logits_gnn, logits_side_channel)
         else:
-            return logits, att_log_logits, att_log_logits.sigmoid() # WARNING: I replaced attn with att_log_logits
+            return logits, att_log_logits, att_log_logits.sigmoid()
 
     def sampling(self, att_log_logits, training):
         att = self.concrete_sample(att_log_logits, temp=1, training=training)
@@ -447,14 +423,11 @@ class MLP(BatchSequential):
             m.append(nn.Linear(channels[i - 1], channels[i], bias))
 
             if i < len(channels) - 1:
-                # m.append(InstanceNorm(channels[i])) # WARNING: Original GSAT was using this
-                # m.append(nn.BatchNorm1d(channels[i]))
-                m.append(nn.ReLU()) # WARNING: Original GSAT and first working GL-GSAT for best global channel was using ReLU
+                m.append(nn.ReLU())
                 m.append(nn.Dropout(dropout))
 
         super(MLP, self).__init__(*m)
 
-#  goodtg --config_path final_configs/GOODMotif/basis/covariate/SMGNN.yaml --seeds "99" --task train --average_edge_attn mean --global_pool sum --gpu_idx 0 --global_side_channel "" --extra_param True 10 0.1 --ood_param 0.001 --lr_filternode 0.001 --lr 0.1 --train_bs 256
 
 def set_masks(mask: Tensor, model: nn.Module):
     r"""

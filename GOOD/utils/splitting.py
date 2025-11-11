@@ -2,19 +2,6 @@ import torch
 from torch_geometric.utils import degree, cumsum, scatter, softmax
 
 def split_graph(data, edge_score, ratio, debug=False, return_batch=False, compensate_edge_removal=None, is_weight=False):
-    # if debug:
-    #     print("\nstarting")
-    #     for i in range(6):
-    #         print(data.edge_index[:, data.batch[data.edge_index[0]] == i])
-    #         print(edge_score[data.batch[data.edge_index[0]] == i])
-    #         sa,re = sparse_sort(
-    #             edge_score[data.batch[data.edge_index[0]] == i],
-    #             torch.zeros_like(edge_score[data.batch[data.edge_index[0]] == i], dtype=torch.long), descending=True)
-    #         print(sa)
-    #         print(re)
-    #         print()
-    #         print()
-
     has_edge_attr = hasattr(data, 'edge_attr') and getattr(data, 'edge_attr') is not None
 
     if data.batch is None:
@@ -79,39 +66,15 @@ def sparse_sort(src: torch.Tensor, index: torch.Tensor, dim=0, descending=False,
 
 
 def sparse_topk(src: torch.Tensor, index: torch.Tensor, ratio: float, dim=0, descending=False, eps=1e-12, debug=False):
-    # print("\nsparse_topk")
-    # print(index.unique(return_counts=True))
     rank, perm = sparse_sort(src, index, dim, descending, eps)
     num_nodes = degree(index, dtype=torch.long)
-    # print(num_nodes)
     k = (ratio * num_nodes.to(float)).ceil().to(torch.long)
-    # print(k)
     start_indices = torch.cat([torch.zeros((1, ), device=src.device, dtype=torch.long), num_nodes.cumsum(0)])
     mask = [torch.arange(k[i], dtype=torch.long, device=src.device) + start_indices[i] for i in range(len(num_nodes))]
     mask = torch.cat(mask, dim=0)
-    # print(mask)
     mask = torch.zeros_like(index, device=index.device).index_fill(0, mask, 1).bool()
-    # print(mask)
     topk_perm = perm[mask] #topk edges selected
     exc_perm = perm[~mask]
-
-    if debug:
-        # print(src[index == 0])
-        # print(src[index == 1])
-        # print(src[index == 20])
-        # print()
-        # print(perm[index == 0])
-        # print(perm[index == 1])
-        # print(perm[index == 20])
-        print()
-        print(perm[index == 0][mask[index == 0]])
-        print(perm[index == 1][mask[index == 1]])
-        print(perm[index == 2][mask[index == 2]])
-        print(perm[index == 3][mask[index == 3]])
-        print(perm[index == 4][mask[index == 4]])
-        print(perm[index == 5][mask[index == 5]])
-        print(perm[index == 6][mask[index == 6]])
-        # print(mask[index == 20])
 
     return topk_perm, exc_perm, rank, perm, mask
 
