@@ -223,16 +223,6 @@ def evaluate_metric(args):
 
             for metric in args.metrics.split("/"):
                 print(f"\n\nEvaluating {metric.upper()} for seed {seed} with load_split {load_split}\n")
-
-                if metric == "acc":
-                    assert not (config.acc_givenR and config.mask)
-                    if not config.acc_givenR:
-                        for split in splits + (["test"] if not "test" in splits else []):
-                            pipeline.compute_accuracy_binarizing(split, givenR=False, metric_collector=metrics_score[load_split][split])
-                    print("\n\nComputing now with givenR...\n")
-                    pipeline.compute_accuracy_binarizing("test", givenR=True, metric_collector=metrics_score[load_split]["test_R"])
-                    continue                
-
                 for split in splits:
                     score, acc_int, results = pipeline.compute_metric_ratio(
                         ratios,
@@ -469,9 +459,9 @@ def main():
             startTrainTime = datetime.now()
             if config.wandb:
                 run = wandb.init(
-                    project="global-local-modular-gnn",
+                    project="your_name",
                     config=config,
-                    entity="mcstewe",
+                    entity="your_name",
                     name=f'{config.dataset.dataset_name}_{config.dataset.domain}{config.ood_dirname}_{config.util_model_dirname}_{config.random_seed}'
                 )
                 wandb.watch(pipeline.model, log="all", log_freq=10)

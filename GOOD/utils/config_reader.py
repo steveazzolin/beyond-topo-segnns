@@ -218,11 +218,6 @@ def process_configs(config: Union[CommonArgs, Munch], args=None):
         model_dirname = model_dirname + f'mitig_readout{args.mitigation_readout}'
     if not config.mitigation_virtual is None:
         model_dirname = model_dirname + f'mitig_virtual{args.mitigation_virtual}'
-    if config.mitigation_expl_scores != "default":
-        model_dirname = model_dirname + f'mitig_explscores{args.mitigation_expl_scores.lower()}'
-        if config.mitigation_expl_scores.lower() == "topk":
-            assert config.mitigation_expl_scores_topk >= 0
-            model_dirname += f'{args.mitigation_expl_scores_topk}'
     if config.global_side_channel:
         model_dirname += f"gchannel{config.global_side_channel}"
     if config.use_norm != "bn":

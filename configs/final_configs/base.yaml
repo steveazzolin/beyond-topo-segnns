@@ -13,35 +13,29 @@ pipeline: Pipeline
 num_workers: 0
 mitigation_readout: null
 mitigation_virtual: null
-mitigation_expl_scores: default
-mitigation_expl_scores_topk: -1
-expval_budget: 8 # Added by Steve
-numsamples_budget: 800 # Added by Steve
-fidelity_alpha_2: 0.9 # Added by Steve
-nec_alpha_1: 0.05 # Added by Steve
-feat_int_alpha: 0.2 # Added by Steve
-average_edge_attn: default # Added by Steve
-save_metrics: False # Added by Steve
-intervention_distrib: model_dependent # Added by Steve
-acc_givenR: False # Added by Steve
-mask: False # Added by Steve
-metrics: "" # Added by Steve
-debias: True # Added by Steve
-random_expl: False # Added by Steve
-samplingtype: deconfounded # Added by Steve
-nec_number_samples: prop_G_dataset # Added by Steve
-global_side_channel: null # Added by Steve
-use_norm: bn # Added by Steve
+expval_budget: 8 
+numsamples_budget: 800 
+nec_alpha_1: 0.05 
+average_edge_attn: default 
+save_metrics: False 
+mask: False 
+metrics: "" 
+debias: True 
+random_expl: False 
+samplingtype: deconfounded 
+nec_number_samples: prop_G_dataset 
+global_side_channel: null 
+use_norm: bn 
 log_id: ""
 splits: ""
 ratios: ""
-wandb: False  # Added by Steve
+wandb: False  
 train:
-  channel_int: 2 # Added by Steve
-  channel_weight_decay: 0.0 # Added by Steve
-  combinator_weight_decay: 0.0 # Added by Steve
-  end_temp: 0.3 # Added by Steve
-  combinator_temp: 0.6 # Added by Steve
+  channel_int: 2 
+  channel_weight_decay: 0.0 
+  combinator_weight_decay: 0.0 
+  end_temp: 0.3 
+  combinator_temp: 0.6 
   weight_decay: 0.
   save_gap: 10
   tr_ctn: False
