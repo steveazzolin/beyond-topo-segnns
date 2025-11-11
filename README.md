@@ -1,15 +1,13 @@
 # Beyond Topological Self-Explainable GNNs: A Formal Explainability Perspective
 
-Official supplemental material containing the sourcecode for the ICML2025 submission *Beyond Topological Self-Explainable GNNs: A Formal Explainability Perspective*.
+Official supplemental material containing the sourcecode for the ICML2025 paper [Beyond Topological Self-Explainable GNNs: A Formal Explainability Perspective](https://openreview.net/pdf?id=mkqcUWBykZ).
 
 This codebase is build on top of the one provided by [GOOD](https://github.com/divelab/GOOD).
 
-The structure is as follows.
-
 ## Model Implementations
 
-Modle implementations can be found here `GOOD\networks\models`.
-Basic implementations of classifiers, shared modules, and Logic Explained Networks (referred to as *ConceptClassifier* in the sourcecode) are available in `GOOD\networks\models\Classifiers.py`.
+Models implementation can be found here `GOOD\networks\models`.
+Basic implementations of classifiers, shared modules, and Logic Explained Networks (referred to as *ConceptClassifier* in the source code) are available in `GOOD\networks\models\Classifiers.py`.
 
 ## Training Details
 
@@ -35,7 +33,7 @@ Full datasets can be downloaded [here](https://drive.google.com/file/d/1ZBPRnpwM
 
 ## Checkpoints
 
-Checkpoints will be made available as a separata DRIVE folder, as they exceed the ICML size limit. By default, checkpoints are saved in `storage/checkpoints`.
+Checkpoints are available in [this GDrive folder](https://drive.google.com/file/d/1hGIHmbgCVFxuemUQU6AbFwW-AdPyiGz-/view?usp=drive_link). Checkpoints shall be placed in `storage/checkpoints`. Beware that the same folder is also the default location where checkpoints will be stored.
 
 ## Reproducing the Experiments
 
@@ -56,7 +54,6 @@ Also, the Dual-Channel variant of each SEGNN is trained by specifiying the `--gl
 - `simple_mlp`: MLP
 - `simple_product`: Product T-norm
 - `simple_godel`: Godel T-norm
-
 
 
 ## Computing FAITH 
